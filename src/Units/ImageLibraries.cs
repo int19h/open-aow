@@ -15,7 +15,7 @@ public static class ImageLibraries
     {
         for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
         {
-            if (AClasses[I].ClassID != 0 && Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(AClasses[I].ClassID) == null)
+            if (AClasses[I].ClassID != 0 && LibraryCatalog.FindLibraryImageClass(AClasses[I].ClassID) == null)
             {
                 LibraryImageClasses.Add(AClasses[I]);
             }

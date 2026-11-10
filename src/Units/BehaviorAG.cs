@@ -129,7 +129,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 5:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -146,8 +146,8 @@ namespace Aow.Game.Ai.Groups
                         FGroup.DeleteUnit(FGroup.FTransporter);
                     }
 
-                    var randomGroupBehavior = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
-                    Group = Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, 0, randomGroupBehavior);
+                    var randomGroupBehavior = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
+                    Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, 0, randomGroupBehavior);
                     Group.AddUnits(FGroup);
                     Group.Release();
                     Done();
@@ -297,7 +297,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -462,7 +462,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -625,7 +625,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -791,7 +791,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -956,7 +956,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -1000,7 +1000,7 @@ namespace Aow.Game.Ai.Groups
         {
             if (Sender == AoWHSMap.Current)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([Aow.Game.Ai.Groups.AIGroupClass.Of<DefenderAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<AggressorAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<ExpanderAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<ScorcherAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<NormalAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<SkirmishAG>()]);
+                AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<DefenderAG>(), AIGroupClass.Of<AggressorAG>(), AIGroupClass.Of<ExpanderAG>(), AIGroupClass.Of<ScorcherAG>(), AIGroupClass.Of<NormalAG>(), AIGroupClass.Of<SkirmishAG>()]);
             }
         }
 
@@ -1011,7 +1011,7 @@ namespace Aow.Game.Ai.Groups
 
         internal static void SubscribeMapLoaded()
         {
-            if (Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine())
+            if (GameTables.ValidateAoWEngine())
                 GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
         }
 

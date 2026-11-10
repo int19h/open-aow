@@ -33,7 +33,7 @@ public partial class CombatFire : SingleHS
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537006081)
         {
-            if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 NewTurn();
             }
@@ -126,14 +126,14 @@ public partial class CombatFire : SingleHS
                 Msg.Result = -1;
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
+                AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
                 for (int I = 1; I <= 6; I++)
                 {
                     var yhx2 = GetYhx();
-                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(GetXhx(), yhx2, I, ref Xhx, ref Yhx);
+                    HexGeometry.CenterHNtoHX(GetXhx(), yhx2, I, ref Xhx, ref Yhx);
                     if (Xhx > 0 && Yhx > 0)
                     {
-                        Aow.Game.Draw.EffectPaths.CreateFire(true, 50, Xhx, Yhx);
+                        EffectPaths.CreateFire(true, 50, Xhx, Yhx);
                     }
                 }
 
@@ -149,10 +149,10 @@ public partial class CombatFire : SingleHS
         int ImageIndex;
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         XhpSurf = Xhp - XhpSurf;
         YhpSurf = Yhp - YhpSurf;
-        Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.GetImageSequence(60);
+        Sequence = AoWHSSet.Current.FImageSequences.GetImageSequence(60);
         if (Sequence != null)
         {
             do

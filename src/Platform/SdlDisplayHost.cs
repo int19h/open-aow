@@ -104,7 +104,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public IReadOnlyList<(int Width, int Height)> FullscreenSizes
     {
-        get { var desktop = DesktopSize; return Aow.Game.Draw.PixelFormats.IntegerScaleSizes(desktop.Width, desktop.Height); }
+        get { var desktop = DesktopSize; return PixelFormats.IntegerScaleSizes(desktop.Width, desktop.Height); }
     }
 
     public void ResizeImage(int newWidth, int newHeight)

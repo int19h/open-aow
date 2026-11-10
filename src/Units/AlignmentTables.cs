@@ -38,23 +38,23 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class AlignmentTables
 {
-    internal static Status dAlignmentToStatus(Alignment A, Alignment B) => Aow.Game.Session.Race.StatusValueToStatus(dAlignmentToStatusValue[(int)A][(int)B]);
+    internal static Status dAlignmentToStatus(Alignment A, Alignment B) => Race.StatusValueToStatus(dAlignmentToStatusValue[(int)A][(int)B]);
 
     internal static sbyte AlignmentToIR(Alignment Alignment)
     {
         sbyte Result;
         switch (Alignment)
         {
-            case Engine.Alignment.PureGood:
-            case Engine.Alignment.Good:
+            case Alignment.PureGood:
+            case Alignment.Good:
                 Result = -2;
                 break;
-            case Engine.Alignment.Evil:
-            case Engine.Alignment.PureEvil:
+            case Alignment.Evil:
+            case Alignment.PureEvil:
                 Result = -4;
                 break;
-            case Engine.Alignment.PureNeutral:
-            case Engine.Alignment.Neutral:
+            case Alignment.PureNeutral:
+            case Alignment.Neutral:
                 Result = -3;
                 break;
             default:
@@ -131,15 +131,15 @@ internal static class AlignmentTables
         DiplomaticRelation Result;
         switch (Status)
         {
-            case Engine.Status.Polite:
-            case Engine.Status.Friendly:
+            case Status.Polite:
+            case Status.Friendly:
                 Result = DiplomaticRelation.Peace;
                 break;
-            case Engine.Status.Neutral:
+            case Status.Neutral:
                 Result = DiplomaticRelation.Unknown;
                 break;
-            case Engine.Status.Hostile:
-            case Engine.Status.Wary:
+            case Status.Hostile:
+            case Status.Wary:
                 Result = DiplomaticRelation.War;
                 break;
             default:

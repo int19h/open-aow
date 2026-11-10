@@ -388,7 +388,7 @@ public partial class Surface : IDisposable
 
                     S = SSD.View(SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch);
                     D = DSD.View(X * DSD.BitCount / 8 + Y * DSD.Pitch);
-                    Aow.Game.Draw.BlitRects.BltRect(S, D, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
+                    BlitRects.BltRect(S, D, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
                     Unlock();
                     Result = PixelFormats.GFXE_OK;
                 }
@@ -522,7 +522,7 @@ public partial class Surface : IDisposable
 
                     S = SSD.View(SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch);
                     D = DSD.View(X * DSD.BitCount / 8 + Y * DSD.Pitch);
-                    Aow.Game.Draw.BlitRects.BltColorKey16(S, D, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
+                    BlitRects.BltColorKey16(S, D, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
                     Result = PixelFormats.GFXE_OK;
                     Unlock();
                 }
@@ -822,7 +822,7 @@ public partial class DataSurface : Surface
                     SetPalette(SD.Palette);
                     FX = R.Value.Left;
                     FY = R.Value.Top;
-                    Aow.Game.Draw.BlitRects.BltRect(SD.View(FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)), new SurfaceView(FMem, 0, FPitch), (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
+                    BlitRects.BltRect(SD.View(FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)), new SurfaceView(FMem, 0, FPitch), (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
                 }
             }
             catch
@@ -913,7 +913,7 @@ public partial class DIBSurface : Surface
     {
         SurfaceDesc SD = default;
         Lock(ref SD);
-        Aow.Game.Draw.DIBSurface.SaveSurfaceDescToBMP24(SD, SD.ClipRect, FileName);
+        SaveSurfaceDescToBMP24(SD, SD.ClipRect, FileName);
         Unlock();
     }
 
@@ -1743,13 +1743,13 @@ public partial class BMPImageFile : ImageFile, IImageFileClass
     public static new string Description => "Bitmap files (*.bmp)";
 
     // GFXE.pas:9053
-    public static new int GetPixelFormatID(string FileName) => Aow.Game.Draw.BMPImageFile.GetBMPPixelFormat(FileName);
+    public static new int GetPixelFormatID(string FileName) => GetBMPPixelFormat(FileName);
 
     // GFXE.pas:9058
-    public static new Surface CreateSurface(string FileName) => Aow.Game.Draw.BMPImageFile.CreateSurfaceFromBMP(FileName);
+    public static new Surface CreateSurface(string FileName) => CreateSurfaceFromBMP(FileName);
 
     // GFXE.pas:9063
-    public static new int LoadToSurfaceDesc(string FileName, ref SurfaceDesc SD, int X, int Y) => Aow.Game.Draw.BMPImageFile.LoadBMP(FileName, ref SD, X, Y);
+    public static new int LoadToSurfaceDesc(string FileName, ref SurfaceDesc SD, int X, int Y) => LoadBMP(FileName, ref SD, X, Y);
 
     private static int LoadBMP(string FileName, ref SurfaceDesc SD, int X, int Y)
     {

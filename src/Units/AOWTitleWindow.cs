@@ -33,9 +33,9 @@ public partial class TitleWindow : DataModule
     // AOWTitleWindow.pas:73
     public void InitializeSplash()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
-        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
+        DialogHosts.VideoDialog.SetSceneSize(640, 480);
+        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
+        DialogHosts.VideoDialog.ApplyMode();
         TitleWin.Visible = true;
         TitlePnl.Visible = false;
         SplashPnl.ILTexture = DemoIL;
@@ -65,9 +65,9 @@ public partial class TitleWindow : DataModule
     public void ShowSplash()
     {
         InitializeSplash();
-        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
-        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
-        Aow.Game.Audio.AudioHost.SongPlayer.Play(0);
+        Audio.AudioHost.SongPlayer.Songs.Clear();
+        Audio.AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
+        Audio.AudioHost.SongPlayer.Play(0);
         SplashPnl.ILIndexTexture = 0;
         FSplashTimer = 450;
     }
@@ -114,7 +114,7 @@ public partial class TitleWindow : DataModule
         if (Key == 27)
         {
             HideSplash();
-            Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(DialogHosts.TitleScene, false);
+            WindowActions.ShowTitleScene(DialogHosts.TitleScene, false);
         }
         else
         {
@@ -133,7 +133,7 @@ public partial class TitleWindow : DataModule
 
     internal static void ShowExitSplash(TitleWindow Dialog)
     {
-        Aow.Game.Ui.Dialogs.TitleWindow.ShowSplash(Dialog);
+        ShowSplash(Dialog);
         Dialog.SplashPnl.ILIndexTexture = 2;
         Dialog.FSplashStage = 10;
         Dialog.FSplashTimer = 300;
@@ -141,9 +141,9 @@ public partial class TitleWindow : DataModule
 
     internal static void ShowSplash(TitleWindow Dialog)
     {
-        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoSize(DialogHosts.VideoDialog, 640, 480);
-        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
-        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyBtnClick();
+        VideoDialog.SetVideoSize(DialogHosts.VideoDialog, 640, 480);
+        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
+        DialogHosts.VideoDialog.ApplyBtnClick();
         Dialog.TitleWin.Visible = true;
         Dialog.TitlePnl.Visible = false;
         Dialog.SplashPnl.ILTexture = Dialog.DemoIL;

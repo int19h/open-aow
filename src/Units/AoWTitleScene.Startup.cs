@@ -22,9 +22,9 @@ public partial class TitleScene
         }
         DialogHosts.General.Manager.OverlayPriority = 0;
         TitleSceneIL.LoadDiscardableImageData();
-        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
-        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
+        DialogHosts.VideoDialog.SetSceneSize(640, 480);
+        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
+        DialogHosts.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.SetFrameRate(30);
         GameHost.MainForm.DXDC.UseVerticalBlank = true;
         FRedrawBackground = true;
@@ -55,36 +55,36 @@ public partial class TitleScene
             {
                 case 0:
                     Window.Visible = false;
-                    Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-                    Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.Execute("");
+                    DialogHosts.General.PlayButtonSound(0);
+                    DialogHosts.MultiWindow.Execute("");
                     break;
                 case 1:
                     if (!GameTables.AoWEngine.FDemo)
                     {
                         Window.Visible = false;
-                        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-                        Aow.Game.Ui.Dialogs.TitleScene.ShowFactionSelection(DialogHosts.SelFactionWin);
+                        DialogHosts.General.PlayButtonSound(0);
+                        ShowFactionSelection(DialogHosts.SelFactionWin);
                     }
-                    else Aow.Game.Ui.Dialogs.MessageDlg.ShowDemoMessage();
+                    else MessageDlg.ShowDemoMessage();
                     break;
                 case 2:
-                    Aow.Game.Ui.Dialogs.TitleScene.LoadGame(DialogHosts.General, FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
+                    LoadGame(DialogHosts.General, FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
                     if (World.Map.AoWHSMap.Current is { } map)
                     {
                         map.FFixedLeaders = true;
-                        Aow.Game.Ui.Dialogs.TitleScene.StartGame(DialogHosts.General);
+                        StartGame(DialogHosts.General);
                         Window.Visible = false;
                     }
                     break;
                 case 3:
-                    Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+                    DialogHosts.General.PlayButtonSound(0);
                     DialogHosts.FileDlgWindow.FMode = 0;
                     DialogHosts.FileDlgWindow.FileDialog.Visible = true;
                     break;
                 case 4:
                     Window.Visible = false;
-                    Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-                    if (GameTables.AoWEngine.FDemo) Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.ShowExitSplash();
+                    DialogHosts.General.PlayButtonSound(0);
+                    if (GameTables.AoWEngine.FDemo) DialogHosts.TitleWindow.ShowExitSplash();
                     else GameHost.MainForm.CloseRequested();
                     break;
             }

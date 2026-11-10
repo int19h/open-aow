@@ -43,7 +43,7 @@ public sealed class MapNetSoundConstructionTests
     [MemberData(nameof(EngineCases))]
     public void DirectMetaAndSavedIdKeepExactTypeOwnerAndState(Type type, bool owned)
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         var owner = new MapOwner();
         ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : owner : null!;

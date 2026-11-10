@@ -60,7 +60,7 @@ namespace Aow.Game.World.Structures
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             Xhp -= XhpSurf;
             Yhp -= YhpSurf;
             FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
@@ -75,7 +75,7 @@ namespace Aow.Game.World.Structures
             for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
             {
                 AUnit = ArmyHS.FArmy.GetUnit(I);
-                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(168).Expand(AUnit);
+                AoWHSSet.Current.FAbilityControl.GetAbility(168).Expand(AUnit);
             }
 
             bool condition = ArmyHS.FArmy.FPlayer == Map.AoWHSMap.Current.FSeatedPlayer;
@@ -84,18 +84,18 @@ namespace Aow.Game.World.Structures
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+                condition = Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
             {
-                Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+                Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
             }
 
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             var xhx2 = GetXhx();
-            if (Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
+            if (Map.AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
             {
                 Anim = new BloodShrineAnimation(null);
                 R = new Rect(-16, -8, 32, 40);
@@ -105,7 +105,7 @@ namespace Aow.Game.World.Structures
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
+                Map.AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Aow.Game.World.Structures
             // BloodShrine.pas:36
 
             // BloodShrine.pas:119
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BloodShrineRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(BloodShrineRStr);
 
             private static readonly string BloodShrineRStr = "Blood Shrine";
 

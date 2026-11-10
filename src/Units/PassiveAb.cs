@@ -32,19 +32,19 @@ public partial class VisionAbility : MultiLevelAbility
         switch (Level)
         {
             case 0:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(VisionRStr);
+                Result = AbilityRules.TranslateRStr(VisionRStr);
                 break;
             case 1:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(VisionRStr) + " I";
+                Result = AbilityRules.TranslateRStr(VisionRStr) + " I";
                 break;
             case 2:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(VisionRStr) + " II";
+                Result = AbilityRules.TranslateRStr(VisionRStr) + " II";
                 break;
             case 3:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(VisionRStr) + " III";
+                Result = AbilityRules.TranslateRStr(VisionRStr) + " III";
                 break;
             case 4:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(VisionRStr) + " IV";
+                Result = AbilityRules.TranslateRStr(VisionRStr) + " IV";
                 break;
         }
 
@@ -60,7 +60,7 @@ public partial class HolyChampionAbility : EnhancementAbility
     // PassiveAb.pas:484
     public HolyChampionAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.HolyChampionRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.HolyChampionRStr);
         FAbilityID = 146;
         FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
     }
@@ -71,7 +71,7 @@ public partial class HolyChampionAbility : EnhancementAbility
         bool Result = base.CanExpand(owner);
         if (Result && owner is AbstractUnit)
         {
-            Result = Aow.Game.Magic.Abilities.AlignmentTables.alsPureGood.Contains(((AbstractUnit)owner).GetAlignment());
+            Result = AlignmentTables.alsPureGood.Contains(((AbstractUnit)owner).GetAlignment());
         }
 
         return Result;
@@ -84,7 +84,7 @@ public partial class UnholyChampionAbility : EnhancementAbility
     // PassiveAb.pas:499
     public UnholyChampionAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.UnholyChampionRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.UnholyChampionRStr);
         FAbilityID = 147;
         FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
     }
@@ -95,7 +95,7 @@ public partial class UnholyChampionAbility : EnhancementAbility
         bool Result = base.CanExpand(owner);
         if (Result && owner is AbstractUnit)
         {
-            Result = Aow.Game.Magic.Abilities.AlignmentTables.alsPureEvil.Contains(((AbstractUnit)owner).GetAlignment());
+            Result = AlignmentTables.alsPureEvil.Contains(((AbstractUnit)owner).GetAlignment());
         }
 
         return Result;
@@ -108,7 +108,7 @@ public partial class NaturesBlessingAbility : DurationAbility
     // PassiveAb.pas:514
     public NaturesBlessingAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NaturesBlessingRStr);
+        FAbilityName = AbilityRules.TranslateRStr(NaturesBlessingRStr);
         FAbilityID = 99;
         FAbilityType = AbilityType.Enchantment;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
@@ -146,7 +146,7 @@ public partial class HighPrayerBlessingAbility : DurationAbility
     // PassiveAb.pas:1267
     public HighPrayerBlessingAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HighPrayerBlessingRStr);
+        FAbilityName = AbilityRules.TranslateRStr(HighPrayerBlessingRStr);
         FAbilityID = 100;
         FAbilityType = AbilityType.Enhancement;
         FDurationMode = DurationMode.EntireCombat;
@@ -169,7 +169,7 @@ public partial class CrusaderAbility : DurationAbility
     // PassiveAb.pas:703
     public CrusaderAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CrusaderRStr);
+        FAbilityName = AbilityRules.TranslateRStr(CrusaderRStr);
         FAbilityID = 101;
         FAbilityType = AbilityType.Handicap;
         FDurationMode = DurationMode.Day;
@@ -214,7 +214,7 @@ public partial class BloodlustAbility : DurationAbility
     // PassiveAb.pas:546
     public BloodlustAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BloodlustRStr);
+        FAbilityName = AbilityRules.TranslateRStr(BloodlustRStr);
         FAbilityID = 168;
         FAbilityType = AbilityType.Enchantment;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
@@ -239,7 +239,7 @@ public partial class PoisonedAbility : DurationAbility
     // PassiveAb.pas:571
     public PoisonedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PoisonedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(PoisonedRStr);
         FAbilityID = 96;
         FAbilityType = AbilityType.Handicap;
         FDurationMode = DurationMode.Day;
@@ -267,7 +267,7 @@ public partial class DecayAbility : DurationAbility
     // PassiveAb.pas:844
     public DecayAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DecayRStr);
+        FAbilityName = AbilityRules.TranslateRStr(DecayRStr);
         FAbilityID = 131;
         FAbilityType = AbilityType.Handicap;
         FDurationMode = DurationMode.EntireCombat;
@@ -303,7 +303,7 @@ public partial class WebbedAbility : DurationAbility
     // PassiveAb.pas:736
     public WebbedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WebbedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(WebbedRStr);
         FAbilityID = 97;
         FAbilityType = AbilityType.Handicap;
         FDurationMode = DurationMode.CombatTurn;
@@ -325,7 +325,7 @@ public partial class StunnedAbility : DurationAbility
     // PassiveAb.pas:793
     public StunnedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(StunnedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(StunnedRStr);
         FAbilityID = 92;
         FAbilityType = AbilityType.Handicap;
         FDurationMode = DurationMode.CombatTurn;
@@ -347,7 +347,7 @@ public partial class BurningAbility : DurationAbility
     // PassiveAb.pas:756
     public BurningAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BurningRStr);
+        FAbilityName = AbilityRules.TranslateRStr(BurningRStr);
         FAbilityID = 127;
         FAbilityType = AbilityType.Handicap;
         FDurationMode = DurationMode.CombatTurn;
@@ -371,7 +371,7 @@ public partial class BurningAbility : DurationAbility
 
                 if (CombatObject.GetAbilityOwner() is AbstractUnit unit)
                 {
-                    if (Aow.Game.Magic.Abilities.HitChance.HitRole(4 - unit.GetResistance()))
+                    if (HitChance.HitRole(4 - unit.GetResistance()))
                     {
                         CombatObject.ExecuteDamage(1);
                     }
@@ -396,7 +396,7 @@ public partial class VertigoAbility : DurationAbility
     // PassiveAb.pas:952
     public VertigoAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(VertigoRStr);
+        FAbilityName = AbilityRules.TranslateRStr(VertigoRStr);
         FAbilityID = 98;
         FAbilityType = AbilityType.Handicap;
         FDurationMode = DurationMode.Day;
@@ -421,7 +421,7 @@ public partial class CursedAbility : DurationAbility
     // PassiveAb.pas:981
     public CursedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CursedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(CursedRStr);
         FAbilityID = 93;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
         FDurationMode = DurationMode.Day;
@@ -441,7 +441,7 @@ public partial class CursedAbility : DurationAbility
         Data = (DurationAbilityData)Owner.GetAbilityData(FAbilityID);
         if (Data != null && Data.FSource == 1)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DeathMasteryRStr);
+            Result = AbilityRules.TranslateRStr(GameText.DeathMasteryRStr);
         }
         else
         {
@@ -463,7 +463,7 @@ public partial class HolyFear : DurationAbility
     // PassiveAb.pas:816
     public HolyFear(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HolyFearRStr);
+        FAbilityName = AbilityRules.TranslateRStr(HolyFearRStr);
         FAbilityID = 53;
         FAbilityType = AbilityType.Handicap;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
@@ -478,7 +478,7 @@ public partial class HolyFear : DurationAbility
         var durationAbilityData = (DurationAbilityData)Owner.GetAbilityData(FAbilityID);
         if (durationAbilityData.FSource == 1)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LifeMasteryRStr);
+            Result = AbilityRules.TranslateRStr(GameText.LifeMasteryRStr);
         }
         else
         {
@@ -500,7 +500,7 @@ public partial class PanickedAbility : DurationAbility
     // PassiveAb.pas:874
     public PanickedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PanickedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(PanickedRStr);
         FAbilityID = 108;
         FAbilityType = AbilityType.Handicap;
         FDurationMode = DurationMode.EntireCombat;
@@ -528,7 +528,7 @@ public partial class WallClimbingAbility : AdjustableAbility
     // PassiveAb.pas:922
     public WallClimbingAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WallClimbingRStr);
+        FAbilityName = AbilityRules.TranslateRStr(WallClimbingRStr);
         FAbilityID = 36;
         FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
     }
@@ -545,7 +545,7 @@ public partial class PassWallAbility : AdjustableAbility
     // PassiveAb.pas:937
     public PassWallAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PassWallRStr);
+        FAbilityName = AbilityRules.TranslateRStr(PassWallRStr);
         FAbilityID = 66;
         FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem);
     }
@@ -562,7 +562,7 @@ public partial class ResurrectedAbility : AdjustableAbility
     // PassiveAb.pas:892
     public ResurrectedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ResurrectedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.ResurrectedRStr);
         FAbilityID = 128;
         FAbilityType = AbilityType.Handicap;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
@@ -575,7 +575,7 @@ public partial class AnimatedAbility : AdjustableAbility
     // PassiveAb.pas:902
     public AnimatedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AnimatedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(AnimatedRStr);
         FAbilityID = 129;
         FAbilityType = AbilityType.Handicap;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
@@ -590,7 +590,7 @@ public partial class CombatResurrectedAbility : AdjustableAbility
     // PassiveAb.pas:912
     public CombatResurrectedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ResurrectedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.ResurrectedRStr);
         FAbilityID = 130;
         FAbilityType = AbilityType.Handicap;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
@@ -603,7 +603,7 @@ public partial class MarksmanshipAbility : MultiLevelAbility
     // PassiveAb.pas:1384
     public MarksmanshipAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MarksmanshipRStr);
+        FAbilityName = AbilityRules.TranslateRStr(MarksmanshipRStr);
         FAbilityType = AbilityType.Enhancement;
         FAbilityID = 32;
         FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
@@ -621,19 +621,19 @@ public partial class MarksmanshipAbility : MultiLevelAbility
         switch (Level)
         {
             case 0:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MarksmanshipRStr);
+                Result = AbilityRules.TranslateRStr(MarksmanshipRStr);
                 break;
             case 1:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MarksmanshipRStr) + " I";
+                Result = AbilityRules.TranslateRStr(MarksmanshipRStr) + " I";
                 break;
             case 2:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MarksmanshipRStr) + " II";
+                Result = AbilityRules.TranslateRStr(MarksmanshipRStr) + " II";
                 break;
             case 3:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MarksmanshipRStr) + " III";
+                Result = AbilityRules.TranslateRStr(MarksmanshipRStr) + " III";
                 break;
             case 4:
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MarksmanshipRStr) + " IV";
+                Result = AbilityRules.TranslateRStr(MarksmanshipRStr) + " IV";
                 break;
         }
 
@@ -730,7 +730,7 @@ public partial class EntangledAbility : UnitEnchantmentAbility
     // PassiveAb.pas:620
     public EntangledAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(EntangledRStr);
+        FAbilityName = AbilityRules.TranslateRStr(EntangledRStr);
         FAbilityID = 94;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
     }
@@ -761,7 +761,7 @@ public partial class FrozenAbility : UnitEnchantmentAbility
     // PassiveAb.pas:649
     public FrozenAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FrozenRStr);
+        FAbilityName = AbilityRules.TranslateRStr(FrozenRStr);
         FAbilityID = 95;
         FAbilityType = AbilityType.Enchantment;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
@@ -793,7 +793,7 @@ public partial class TurnedUndeadAbility : UnitEnchantmentAbility
     // PassiveAb.pas:679
     public TurnedUndeadAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TurnedUndeadRStr);
+        FAbilityName = AbilityRules.TranslateRStr(TurnedUndeadRStr);
         FAbilityID = 34;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
     }
@@ -821,7 +821,7 @@ public partial class HasteAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1021
     public HasteAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.HasteRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.HasteRStr);
         FAbilityID = 152;
     }
 }
@@ -832,7 +832,7 @@ public partial class StoneSkinAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1029
     public StoneSkinAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.StoneSkinRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.StoneSkinRStr);
         FAbilityID = 153;
     }
 
@@ -847,7 +847,7 @@ public partial class StoneSkinAbility : UnitEnchantmentAbility
         var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
         if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.EarthMasteryRStr);
+            Result = AbilityRules.TranslateRStr(GameText.EarthMasteryRStr);
         }
         else
         {
@@ -864,7 +864,7 @@ public partial class EnchantedWeaponAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1073
     public EnchantedWeaponAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(EnchantedWeaponRStr);
+        FAbilityName = AbilityRules.TranslateRStr(EnchantedWeaponRStr);
         FAbilityID = 154;
     }
 
@@ -900,7 +900,7 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1100
     public SummonedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SummonedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(SummonedRStr);
         FAbilityID = 155;
     }
 
@@ -986,7 +986,7 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     public int UnitIndexToAIUpkeepPriority(int UnitIndex)
     {
         int Result;
-        switch (Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex).FLevel)
+        switch (AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex).FLevel)
         {
             case 1:
                 Result = 250;
@@ -1017,7 +1017,7 @@ public partial class FuryAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1160
     public FuryAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FuryRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.FuryRStr);
         FAbilityID = 156;
     }
 
@@ -1051,7 +1051,7 @@ public partial class FreeMovementAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1187
     public FreeMovementAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FreeMovementRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.FreeMovementRStr);
         FAbilityID = 157;
     }
 }
@@ -1062,7 +1062,7 @@ public partial class HolyChampionEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1195
     public HolyChampionEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.HolyChampionRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.HolyChampionRStr);
         FAbilityID = 160;
     }
 }
@@ -1073,7 +1073,7 @@ public partial class UnholyChampionEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1203
     public UnholyChampionEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.UnholyChampionRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.UnholyChampionRStr);
         FAbilityID = 161;
     }
 }
@@ -1084,7 +1084,7 @@ public partial class ConcealmentEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1287
     public ConcealmentEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ConcealmentRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.ConcealmentRStr);
         FAbilityID = 162;
     }
 }
@@ -1095,7 +1095,7 @@ public partial class FireAuraEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1294
     public FireAuraEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FireAuraRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.FireAuraRStr);
         FAbilityID = 163;
     }
 
@@ -1111,7 +1111,7 @@ public partial class FireAuraEnchantment : UnitEnchantmentAbility
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
-                var mapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+                var mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }
@@ -1126,7 +1126,7 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1315
     public WaterWalkingEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WaterWalkingRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.WaterWalkingRStr);
         FAbilityID = 164;
     }
 
@@ -1142,7 +1142,7 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
-                var mapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+                var mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }
@@ -1157,7 +1157,7 @@ public partial class WindWalkingEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1336
     public WindWalkingEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WindWalkingRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.WindWalkingRStr);
         FAbilityID = 165;
     }
 
@@ -1173,7 +1173,7 @@ public partial class WindWalkingEnchantment : UnitEnchantmentAbility
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
-                var mapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+                var mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }
@@ -1188,7 +1188,7 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1357
     public LiquidFormEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LiquidFormRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.LiquidFormRStr);
         FAbilityID = 166;
     }
 
@@ -1204,7 +1204,7 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
-                var mapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+                var mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }
@@ -1236,7 +1236,7 @@ public partial class BlessedEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1211
     public BlessedEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BlessedRStr);
+        FAbilityName = AbilityRules.TranslateRStr(BlessedRStr);
         FAbilityID = 158;
     }
 
@@ -1254,7 +1254,7 @@ public partial class BlessedEnchantment : UnitEnchantmentAbility
         var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
         if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LifeMasteryRStr);
+            Result = AbilityRules.TranslateRStr(GameText.LifeMasteryRStr);
         }
         else
         {
@@ -1290,7 +1290,7 @@ public partial class DarkGiftEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1249
     public DarkGiftEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DarkGiftRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.DarkGiftRStr);
         FAbilityID = 169;
     }
 
@@ -1321,7 +1321,7 @@ public partial class FireProtectionEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1054
     public FireProtectionEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FireProtectionRStr);
+        FAbilityName = AbilityRules.TranslateRStr(FireProtectionRStr);
         FAbilityID = 167;
     }
 
@@ -1333,7 +1333,7 @@ public partial class FireProtectionEnchantment : UnitEnchantmentAbility
         var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
         if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FireMasteryRStr);
+            Result = AbilityRules.TranslateRStr(GameText.FireMasteryRStr);
         }
         else
         {
@@ -1352,7 +1352,7 @@ public partial class SlowEnchantmentAbility : UnitEnchantmentAbility
     // PassiveAb.pas:601
     public SlowEnchantmentAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.SlowRStr);
+        FAbilityName = AbilityRules.TranslateRStr(GameText.SlowRStr);
         FAbilityID = 132;
         FSelectionTypes = Set<AbilitySelectionType>.Of();
     }

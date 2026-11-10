@@ -16,7 +16,7 @@ public partial class MultiWindow
             songs.Songs.Add("SONGS\\TITLE.IT");
             songs.Play(0);
         }
-        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
+        DialogHosts.VideoDialog.SetSceneSize(640, 480);
         FPendingMap = mapName;
         var dplay = DialogHosts.SetupEvents.DPlay;
         if (dplay.Connected) dplay.DisConnect();

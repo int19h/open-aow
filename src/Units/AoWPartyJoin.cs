@@ -154,10 +154,10 @@ public partial class PartyJoinDlg : DataModule
         string Reason = "";
         if (ValidateJoin())
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+            DialogHosts.General.PlayButtonSound(0);
             if (!FJoinEvent.Accept(ref Reason))
             {
-                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                AoWHSMap.Current.ShowWarning(Reason);
             }
             else
             {
@@ -172,10 +172,10 @@ public partial class PartyJoinDlg : DataModule
         string Reason = "";
         if (ValidateJoin())
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+            DialogHosts.General.PlayButtonSound(0);
             if (!FJoinEvent.Reject(ref Reason))
             {
-                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                AoWHSMap.Current.ShowWarning(Reason);
             }
             else
             {
@@ -189,7 +189,7 @@ public partial class PartyJoinDlg : DataModule
     {
         if (ValidateJoin())
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+            DialogHosts.General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
     }
@@ -199,7 +199,7 @@ public partial class PartyJoinDlg : DataModule
     {
         if (ValidateJoin())
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+            DialogHosts.General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
     }
@@ -252,7 +252,7 @@ public partial class PartyJoinDlg : DataModule
                 if (Button == MouseButton.Left)
                 {
                     FDetailsOpen = true;
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+                    DialogHosts.UnitWindow.ShowUnit();
                     DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
                 }
             }
@@ -279,7 +279,7 @@ public partial class PartyJoinDlg : DataModule
         Dialog.LeftBtn.Visible = true;
         Dialog.MiddleBtn.Visible = true;
         Dialog.RightBtn.Visible = true;
-        var partyJoin = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.PartyJoinRStr);
+        var partyJoin = AbilityRules.TranslateRStr(ScenarioText.PartyJoinRStr);
         Dialog.Title.Text = partyJoin;
     }
 
@@ -288,7 +288,7 @@ public partial class PartyJoinDlg : DataModule
         if (Dialog.ValidateJoin())
         {
             Dialog.FUnits.Clear();
-            Dialog.FFaceUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
+            Dialog.FFaceUnit = AoWHSMap.Current.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
             Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
             var text = Dialog.FJoinEvent.FJoinMessage.Text;
             Dialog.JoinMemo.Items.Text = text;
@@ -297,36 +297,36 @@ public partial class PartyJoinDlg : DataModule
 
     internal static void ShowPartyJoin(PartyJoinDlg Dialog, NegotiateRequestEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.PartyJoinDlg.ResetPartyJoin(Dialog);
+        ResetPartyJoin(Dialog);
         Dialog.Dlg.Visible = true;
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
         Dialog.FDone = Done;
-        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AcceptRStr);
+        var accept = AbilityRules.TranslateRStr(GameText.AcceptRStr);
         Dialog.LeftBtn.Text = accept;
-        var attack = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AttackRStr);
+        var attack = AbilityRules.TranslateRStr(GameText.AttackRStr);
         Dialog.MiddleBtn.Text = attack;
-        var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CancelRStr);
+        var cancel = AbilityRules.TranslateRStr(GameText.CancelRStr);
         Dialog.RightBtn.Text = cancel;
-        Aow.Game.Ui.Dialogs.PartyJoinDlg.UpdatePartyJoin(Dialog);
-        Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(70, true, true);
+        UpdatePartyJoin(Dialog);
+        AoWHSMap.Current.FTutorialControl.ShowMessage(70, true, true);
     }
 
     internal static void ShowPrisonersJoin(PartyJoinDlg Dialog, PrisonersJoinEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.PartyJoinDlg.ResetPartyJoin(Dialog);
+        ResetPartyJoin(Dialog);
         Dialog.Dlg.Visible = true;
-        var prisonerLiberation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Dungeon.PrisonerLiberationRStr);
+        var prisonerLiberation = AbilityRules.TranslateRStr(Dungeon.PrisonerLiberationRStr);
         Dialog.Title.Text = prisonerLiberation;
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
         Dialog.FDone = Done;
-        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AcceptRStr);
+        var accept = AbilityRules.TranslateRStr(GameText.AcceptRStr);
         Dialog.LeftBtn.Text = accept;
         Dialog.MiddleBtn.Visible = false;
-        var reject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.RejectRStr);
+        var reject = AbilityRules.TranslateRStr(GameText.RejectRStr);
         Dialog.RightBtn.Text = reject;
-        Aow.Game.Ui.Dialogs.PartyJoinDlg.UpdatePartyJoin(Dialog);
+        UpdatePartyJoin(Dialog);
     }
 
 }

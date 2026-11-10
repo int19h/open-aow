@@ -24,8 +24,8 @@ public class SdlSoundSystem : SoundSystem
     {
         muted = mute || Environment.GetEnvironmentVariable("AOW_MUTE") == "1";
         useOutput = audioOutput;
-        if (Aow.Game.Audio.AudioHost.SoundSystems.Find("SDL") is null) Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(Descriptor);
-        if (Aow.Game.Audio.AudioHost.SoundSystems.Find("Galaxy") is null) Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(Galaxy);
+        if (AudioHost.SoundSystems.Find("SDL") is null) NullSoundSystem.RegisterSoundSystem(Descriptor);
+        if (AudioHost.SoundSystems.Find("Galaxy") is null) NullSoundSystem.RegisterSoundSystem(Galaxy);
     }
 
     public static string Name => "SDL";

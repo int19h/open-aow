@@ -18,7 +18,7 @@ public sealed class UnitSelectionDrawTests
     [Fact]
     public void UnitSlotsDrawThroughTheirOwnComponentType()
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
         Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
         var dialog = new UnitSelectionDlg(null!);

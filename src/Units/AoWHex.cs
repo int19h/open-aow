@@ -26,12 +26,12 @@ public partial class AoWHexagon : Hexagon
         if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
         {
             var classID = FResource.EClass.ClassID;
-            R = Aow.Game.Engine.AoWHSSet.Current.HexagonControl.GetRndResource(Msg.TerrainType, classID);
+            R = AoWHSSet.Current.HexagonControl.GetRndResource(Msg.TerrainType, classID);
             if (R != null)
             {
                 SetResource(R);
                 UpdateTransitions();
-                Aow.Game.World.Map.AoWHSMap.Current.InvalidateStaticScene(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx);
+                AoWHSMap.Current.InvalidateStaticScene(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx);
             }
             else
             {
@@ -100,8 +100,8 @@ public partial class AoWHexagon : Hexagon
         FTransitions[Side] = 255;
         FTransitionSides = (byte)(FTransitionSides & SideClear[Side]);
         MapLevel = (MapLevel)Owner.Owner;
-        Aow.Game.World.Map.HexGeometry.HNtoHX(SideHN[Side], ref NXhx, ref NYhx);
-        Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, NXhx, NYhx, ref NXhx, ref NYhx);
+        HexGeometry.HNtoHX(SideHN[Side], ref NXhx, ref NYhx);
+        HexGeometry.TranslateHX(0, 0, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, NXhx, NYhx, ref NXhx, ref NYhx);
         if (NXhx >= 0 && NYhx >= 0 && MapLevel.Width > NXhx && MapLevel.Height > NYhx)
         {
             NeighbourTerrain = MapLevel.GetField(NXhx, NYhx).TerrainType;
@@ -240,8 +240,8 @@ public partial class AoWHexagon : Hexagon
         }
     }
 
-    private static FixedArray_byte_3 SideHN = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
-    private static FixedArray_byte_3 SideClear = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 246, 237, 219 });
+    private static FixedArray_byte_3 SideHN = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
+    private static FixedArray_byte_3 SideClear = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 246, 237, 219 });
 
     public new partial class Resource : HexagonResource
     {
@@ -305,7 +305,7 @@ public partial class AoWWaterHexagon : LowerIsometricHexagon
     {
         var field = (MapField)Owner;
         int x = 0, y = 0;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(field.Xhx, field.Yhx, ref x, ref y);
+        HexGeometry.HXtoHP(field.Xhx, field.Yhx, ref x, ref y);
         x -= xSurface + 8;
         y -= ySurface;
         var library = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -339,7 +339,7 @@ public partial class AoWWaterHexagon : LowerIsometricHexagon
         // AoWHex.pas:58
 
         // AoWHex.pas:455
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WaterHexagonRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(WaterHexagonRStr);
 
         private static readonly string WaterHexagonRStr = "Water/Ice Hexagon";
 

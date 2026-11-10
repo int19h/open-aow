@@ -13,15 +13,15 @@ public sealed class SmallClassTargetTests
     public void MapLoadedHandlersRemoveByStaticMethodIdentity()
     {
         var events = new EventStore<HSMap>();
-        events.Add(Aow.Game.Ai.Groups.BehaviorRegistrator.MapLoaded);
-        events.Add(Aow.Game.World.Structures.CityRegistrator.MapLoaded);
-        events.Add(Aow.Game.Ai.Groups.IndependentRegistrator.MapLoaded);
-        events.Add(Aow.Game.Ai.Groups.MainRegistrator.MapLoaded);
+        events.Add(BehaviorRegistrator.MapLoaded);
+        events.Add(Game.World.Structures.CityRegistrator.MapLoaded);
+        events.Add(IndependentRegistrator.MapLoaded);
+        events.Add(MainRegistrator.MapLoaded);
         Assert.Equal(4, events.Count);
-        events.Remove(Aow.Game.Ai.Groups.BehaviorRegistrator.MapLoaded);
-        events.Remove(Aow.Game.World.Structures.CityRegistrator.MapLoaded);
-        events.Remove(Aow.Game.Ai.Groups.IndependentRegistrator.MapLoaded);
-        events.Remove(Aow.Game.Ai.Groups.MainRegistrator.MapLoaded);
+        events.Remove(BehaviorRegistrator.MapLoaded);
+        events.Remove(Game.World.Structures.CityRegistrator.MapLoaded);
+        events.Remove(IndependentRegistrator.MapLoaded);
+        events.Remove(MainRegistrator.MapLoaded);
         Assert.Equal(0, events.Count);
     }
 

@@ -237,7 +237,7 @@ namespace Aow.Game.World.Structures
                 }
                 else
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                    Map.AoWHSMap.Current.ShowWarning(Reason);
                 }
             }
             else

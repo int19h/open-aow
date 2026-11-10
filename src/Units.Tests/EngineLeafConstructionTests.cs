@@ -35,7 +35,7 @@ public sealed class EngineLeafConstructionTests
 
     private static Engine CreateEngine()
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         return engine;
     }

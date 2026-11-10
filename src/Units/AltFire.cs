@@ -37,7 +37,7 @@ public partial class AltarOfFire : Altar
         // AltFire.pas:27
 
         // AltFire.pas:55
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AltarOfFireRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AltarOfFireRStr);
 
         private static readonly string AltarOfFireRStr = "Altar of Fire";
 

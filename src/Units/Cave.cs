@@ -46,7 +46,7 @@ namespace Aow.Game.World.Structures
                 {
                     if (OldEntrance == Entrance.Up)
                     {
-                        Partner = (Cave)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, ((MapField)Owner).Lhx - 1).FindOwnedChild(131966);
+                        Partner = (Cave)AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, ((MapField)Owner).Lhx - 1).FindOwnedChild(131966);
                         if (Partner != null && Partner.FEntrance == Entrance.Down)
                         {
                             Partner.Dispose();
@@ -54,7 +54,7 @@ namespace Aow.Game.World.Structures
                     }
                     else
                     {
-                        Partner = (Cave)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, ((MapField)Owner).Lhx + 1).FindOwnedChild(131966);
+                        Partner = (Cave)AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, ((MapField)Owner).Lhx + 1).FindOwnedChild(131966);
                         if (Partner != null && Partner.FEntrance == Entrance.Up)
                         {
                             Partner.Dispose();
@@ -96,10 +96,10 @@ namespace Aow.Game.World.Structures
                 switch (FEntrance)
                 {
                     case Entrance.Up:
-                        Field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, ((MapField)Owner).Lhx - 1);
+                        Field = AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, ((MapField)Owner).Lhx - 1);
                         break;
                     case Entrance.Down:
-                        Field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, ((MapField)Owner).Lhx + 1);
+                        Field = AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, ((MapField)Owner).Lhx + 1);
                         break;
                     default:
                         Field = null;
@@ -311,7 +311,7 @@ namespace Aow.Game.World.Structures
                 var visibilityRange = ArmyHS.FArmy.VisibilityRange();
                 var yhx = ArmyHS.GetYhx();
                 var xhx = ArmyHS.GetXhx();
-                ((AoWMapLevel)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(L)).ExploreArea(xhx, yhx, ArmyHS.FArmy.FPlayer, visibilityRange);
+                ((AoWMapLevel)AoWHSMap.Current.MapContainer.GetMapLevel(L)).ExploreArea(xhx, yhx, ArmyHS.FArmy.FPlayer, visibilityRange);
             }
         }
 
@@ -331,7 +331,7 @@ namespace Aow.Game.World.Structures
 
             var yhx = GetYhx();
             var xhx = GetXhx();
-            Field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, L);
+            Field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, L);
             return (sbyte)Army.MoveOnMovePoints(Selection, Field.TerrainType, Field.OverlayType);
         }
 
@@ -352,7 +352,7 @@ namespace Aow.Game.World.Structures
 
             var yhx = GetYhx();
             var xhx = GetXhx();
-            Field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, L);
+            Field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, L);
             byte Result = 0;
             for (int I = 0, last = Units.Count - 1; I <= last; I++)
             {
@@ -410,12 +410,12 @@ namespace Aow.Game.World.Structures
                 Path.AddXYL(GetXhx(), yhx2, lhx);
                 var yhx3 = GetYhx();
                 var xhx = GetXhx();
-                Field = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx3, L);
+                Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(xhx, yhx3, L);
                 bool condition = Field.GetMoveAction(ArmyHS.FArmy.FPlayer) != MoveAction.Attack || Field.GetPlayer() <= 0;
                 if (!condition)
                 {
                     var player = Field.GetPlayer();
-                    var diplomaticRelation = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(ArmyHS.FArmy.FPlayer, player);
+                    var diplomaticRelation = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(ArmyHS.FArmy.FPlayer, player);
                     condition = Set<byte>.WithBounds(0, 255).With(1).With(3).Contains((byte)(int)diplomaticRelation);
                 }
 
@@ -423,13 +423,13 @@ namespace Aow.Game.World.Structures
                 {
                     if (Field.GetPlayer() > -1 && Field.GetPlayer() != ArmyHS.FArmy.FPlayer)
                     {
-                        if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
+                        if (!AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
                         {
                             // { Original passes action before mode. }
-                            Event = global::Aow.Game.Draw.ArmyHS.CreateArmyMoveTE(ArmyHS, Selection, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                            Event = Draw.ArmyHS.CreateArmyMoveTE(ArmyHS, Selection, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                             if (Event != null)
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer).AddEvent(Event);
+                                AoWHSMap.Current.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer).AddEvent(Event);
                                 Event.Release();
                                 Result = true;
                             }
@@ -445,13 +445,13 @@ namespace Aow.Game.World.Structures
                     }
                     else
                     {
-                        Result = global::Aow.Game.Draw.ArmyHS.MoveArmyEx(ArmyHS, Selection, Path, Set<ArmyMoveModeElement>.Of(), false);
+                        Result = Draw.ArmyHS.MoveArmyEx(ArmyHS, Selection, Path, Set<ArmyMoveModeElement>.Of(), false);
                     }
 
                     if (Result && (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)
                     {
-                        Aow.Game.World.Map.AoWHSMap.Current.ViewLevel(L);
-                        Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.Select(ArmyHS);
+                        AoWHSMap.Current.ViewLevel(L);
+                        AoWHSMap.Current.FSelectedArmy.Select(ArmyHS);
                     }
                 }
                 else
@@ -460,10 +460,10 @@ namespace Aow.Game.World.Structures
                     if (ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                     {
                         var player = Field.GetPlayer();
-                        var playerPlayerRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player);
-                        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-                        MessageText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
-                        Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(MessageText);
+                        var playerPlayerRace = AoWHSMap.Current.FPlayers.GetPlayers(player);
+                        var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
+                        MessageText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
+                        AoWHSMap.Current.ShowMessage(MessageText);
                     }
 
                     Result = false;
@@ -493,7 +493,7 @@ namespace Aow.Game.World.Structures
                 {
                     Log = new EnterCaveEventLog(null);
                     Log.FCave = this;
-                    var splitOnEnterCaveWarning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SplitOnEnterCaveWarningRStr);
+                    var splitOnEnterCaveWarning = AbilityRules.TranslateRStr(SplitOnEnterCaveWarningRStr);
                     Log.FMessage.Text = splitOnEnterCaveWarning;
                     Log.FButtons = MessageEventLog.Buttons.YesNo;
                     Log.Execute(true, ExecuteTrigger.User, null);
@@ -534,7 +534,7 @@ namespace Aow.Game.World.Structures
             // Cave.pas:49
 
             // Cave.pas:433
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CaveRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(CaveRStr);
 
             private static readonly string CaveRStr = "Cave";
 

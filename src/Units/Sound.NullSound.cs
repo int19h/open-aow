@@ -11,8 +11,8 @@ public sealed class NullSoundSystem : SoundSystem
 
     public static void Install()
     {
-        Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(Descriptor);
-        Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", default);
+        RegisterSoundSystem(Descriptor);
+        AudioPlayback.InitializeSoundSystem("Galaxy", default);
     }
 
     public static string Name => "Galaxy";
@@ -70,7 +70,7 @@ public sealed class NullSoundSystem : SoundSystem
             AudioHost.SoundSystems = new SoundSystemList();
         }
         string name = AClass.Name;
-        if (global::Aow.Game.Audio.AudioHost.SoundSystems.Find(name) == null)
+        if (AudioHost.SoundSystems.Find(name) == null)
         {
             ((DelphiList)AudioHost.SoundSystems).Add((object)AClass);
             return;

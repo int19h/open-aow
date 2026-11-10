@@ -237,7 +237,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             (new(), new(), new(), new(), new());
         try
         {
-            Aow.Game.Draw.GfxState.InitBlendTables(5, 31);
+            GfxState.InitBlendTables(5, 31);
             body();
         }
         finally
@@ -271,8 +271,8 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         var tally = new Tally();
         try
         {
-            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>()]);
-            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
+            ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>()]);
+            ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
                 LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
                 LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
@@ -280,7 +280,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
         finally
         {
-            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Dispose();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
 

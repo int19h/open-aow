@@ -40,10 +40,10 @@ public partial class NewTurnDlg : DataModule
         DialogHosts.General.Manager.OverlayPriority = 0;
         if (FNewTurn == null)
         {
-            Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer(World.Map.AoWHSMap.Current.FCurrentPlayer);
+            World.Map.AoWHSMap.Current.SetSeatedPlayer(World.Map.AoWHSMap.Current.FCurrentPlayer);
             if (World.Map.AoWHSMap.Current.FSeatedPlayer > -1)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.UpdateEvents();
+                DialogHosts.PInfoW.UpdateEvents();
             }
         }
 
@@ -80,12 +80,12 @@ public partial class NewTurnDlg : DataModule
                 FNewTurn = Event;
                 FNewTurn.AddRef();
                 TurnMsg.Text = Event.FText;
-                var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer).GetName();
+                var name = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer).GetName();
                 PlayerName.Text = name;
                 if (Event.FTurnPlayer != 0)
                 {
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer);
-                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
+                    var player = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer);
+                    var raceNamesPlural = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
                     PlayerRace.Text = raceNamesPlural;
                 }
                 else
@@ -102,9 +102,9 @@ public partial class NewTurnDlg : DataModule
                     Day = 1;
                 }
 
-                var day = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.DayRStr);
+                var day = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.DayRStr);
                 Turn.Text = day + " " + IntToStr(Day);
-                Race = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer).FPlayerRace;
+                Race = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer).FPlayerRace;
                 if (Race == -1)
                 {
                     Race = 12;
@@ -116,12 +116,12 @@ public partial class NewTurnDlg : DataModule
                 NewTDlg.Visible = true;
                 if (FNewTurn.FDialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
                 {
-                    var clickToBegin = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ClickToBeginRStr);
+                    var clickToBegin = Magic.Abilities.AbilityRules.TranslateRStr(ClickToBeginRStr);
                     ClickMsg.Text = clickToBegin;
                 }
                 else
                 {
-                    var hiddenmovementPleaseWait = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HiddenmovementPleaseWaitRStr);
+                    var hiddenmovementPleaseWait = Magic.Abilities.AbilityRules.TranslateRStr(HiddenmovementPleaseWaitRStr);
                     ClickMsg.Text = hiddenmovementPleaseWait;
                 }
 
@@ -156,18 +156,18 @@ public partial class NewTurnDlg : DataModule
         Rect R;
         if (Combat.AoWCombatMap.Current != null)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Combat.AoWCombatMap.Current.FSeatedPlayer).FLeader != null)
+            if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Combat.AoWCombatMap.Current.FSeatedPlayer).FLeader != null)
             {
                 R = new Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Combat.AoWCombatMap.Current.FSeatedPlayer).FLeader.ShowFace(R, Surface);
+                World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Combat.AoWCombatMap.Current.FSeatedPlayer).FLeader.ShowFace(R, Surface);
             }
         }
         else
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader != null)
+            if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader != null)
             {
                 R = new Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader.ShowFace(R, Surface);
+                World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader.ShowFace(R, Surface);
             }
         }
     }

@@ -34,7 +34,7 @@ public sealed partial class EngineFixture : IDisposable
     {
         Runtime.InstallHost(host);
         services = host;
-        Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine();
+        Game.Magic.Abilities.GameTables.ValidateAoWEngine();
         Engine = Game.Magic.Abilities.GameTables.AoWEngine;
         GameSet = AoWHSSet.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)

@@ -65,7 +65,7 @@ namespace Aow.Game.World.Hexes
             CustomImageLibrary IL;
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -209,7 +209,7 @@ namespace Aow.Game.World.Hexes
             int Yhp = default;
             if (FDynamic == null)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+                HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
                 Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf;
                 IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;

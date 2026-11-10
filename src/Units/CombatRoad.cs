@@ -36,7 +36,7 @@ public partial class CombatRoad : AbstractRoad
         CustomImageLibrary Images;
         int X = default;
         int Y = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
         X = X - XhpSurf - 8;
         Y = Y - YhpSurf;
         Images = FResource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -109,7 +109,7 @@ public partial class CombatRoad : AbstractRoad
         int X = default;
         int Y = default;
         MapLevel = (MapLevel)Owner.Owner;
-        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, HN, ref X, ref Y);
+        HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, HN, ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
         {
             Overlay = MapLevel.GetField(X, Y).OverlayType;

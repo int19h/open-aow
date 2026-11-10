@@ -33,7 +33,7 @@ public partial class ItemBanner : DataModule
         Item Item;
         int X;
         int Y;
-        Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(ItemID);
+        Item = World.Map.AoWHSMap.Current.FItemControl.FindItem(ItemID);
         if (Item != null)
         {
             ItemNameLbl.Text = Item.FOwnerName;
@@ -127,7 +127,7 @@ public partial class ItemBanner : DataModule
             {
                 if (Item.GetAbEnabled(X))
                 {
-                    var name = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(X).GetName(Item);
+                    var name = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(X).GetName(Item);
                     AbLB.Items.AddObject(name, IntToObject(X));
                 }
             }
@@ -146,7 +146,7 @@ public partial class ItemBanner : DataModule
     {
         if (Button == 1)
         {
-            IBannerPopup.Visible = false;
+            DialogHosts.ItemBanner.IBannerPopup.Visible = false;
         }
     }
 
@@ -154,7 +154,7 @@ public partial class ItemBanner : DataModule
     public void DrawBoxPreDraw(SurfaceDesc SurfDesc)
     {
         Item Item;
-        Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(ItemID);
+        Item = World.Map.AoWHSMap.Current.FItemControl.FindItem(ItemID);
         if (Item != null)
         {
             Item.Show(DrawBox.WinLeft, DrawBox.WinTop, SurfDesc);

@@ -25,12 +25,12 @@ internal static class FrameFixtureChecks
             checks++;
         }
         // The fixture host replays native scripts, so the game writes original names under it.
-        Check(!RtlUnit.WritesOwnExtensions && Aow.Game.Saves.FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
-            && Aow.Game.Saves.FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save) == ".asg", "fixture host writes original extensions");
+        Check(!RtlUnit.WritesOwnExtensions && Game.Saves.FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
+            && Game.Saves.FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save) == ".asg", "fixture host writes original extensions");
         var instance = new object();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
         Check(!new GDPlay().Connected && new GDPlay().ConnectionType == ConnectionType.None, "offline connection queries");
-        Check(Aow.Game.Ui.Dialogs.ControlWin.UnitMoveText(32) == "   32", "native unit movement label spacing");
+        Check(ControlWin.UnitMoveText(32) == "   32", "native unit movement label spacing");
         FrameFixtureInputs.AddressAnimationPhase = 0;
         Check(FrameFixtureInputs.AnimationOffset(instance) == 0, "capture phase");
         FrameFixtureInputs.AddressAnimationPhase = null;
@@ -60,9 +60,9 @@ internal static class FrameFixtureChecks
             manager.FChildren.Add(menu);
             manager.FChildren.Add(hidden);
             var controller = new General(null) { Manager = manager };
-            Check(!Aow.Game.Ui.Dialogs.General.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
+            Check(!General.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
             menu.FModal = true;
-            Check(Aow.Game.Ui.Dialogs.General.HasModalWindow(controller), "modal sibling menu blocks input");
+            Check(General.HasModalWindow(controller), "modal sibling menu blocks input");
             controller.HideTransientWindows();
             Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
 
@@ -89,7 +89,7 @@ internal static class FrameFixtureChecks
 
             RtlUnit.Settings = new MemorySettingsStore();
             Game.Magic.Abilities.GameTables.AoWEngine = oldEngine;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetMovementSpeed(AoWRegistry.MovementSpeed.Normal);
+            Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetMovementSpeed(AoWRegistry.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
             var world = new MWindow(null) { MapWindow = mapWindow };
             world.MapWindowUpdate();
@@ -99,12 +99,12 @@ internal static class FrameFixtureChecks
             Check(army.FMoveSteps == 4, "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
             {
-                Aow.Game.World.Map.AoWHSMap.Current.UpdateFPS(fps);
+                AoWHSMap.Current.UpdateFPS(fps);
                 army.FMoveStep = -1;
                 army.MoveFirst(1, false);
                 Check(army.FMoveSteps == 4, "positive FPS below 15 preserves the captured movement tier: " + fps);
             }
-            Aow.Game.World.Map.AoWHSMap.Current.UpdateFPS(30);
+            AoWHSMap.Current.UpdateFPS(30);
             army.FMoveStep = -1;
             army.MoveFirst(1, false);
             Check(army.FMoveSteps == 8, "normal measured FPS retains the eight-step animation");
@@ -136,14 +136,14 @@ internal static class FrameFixtureChecks
         {
             Directory.CreateDirectory(scratch);
             RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, scratch, [], clock, null));
-            Aow.Game.Engine.Startup.InitializeAll();
-            Aow.Game.Audio.NullSoundSystem.Install();
-            Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine();
+            Startup.InitializeAll();
+            Game.Audio.NullSoundSystem.Install();
+            Game.Magic.Abilities.GameTables.ValidateAoWEngine();
         }
 
         public void Dispose()
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.Dispose();
+            Game.Magic.Abilities.GameTables.AoWEngine.Dispose();
             RtlUnit.Files = files;
             RtlUnit.Settings = settings;
             RtlUnit.Dialogs = dialogs;

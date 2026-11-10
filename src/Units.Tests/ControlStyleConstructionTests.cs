@@ -45,7 +45,7 @@ public sealed class ControlStyleConstructionTests
         {
             Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassID);
             Assert.Equal(kind == 0 ? 12 : kind == 1 ? 16 : 20, meta.InstanceSize);
-            Assert.Same(meta, Aow.Game.Engine.EClass.Of(type));
+            Assert.Same(meta, EClass.Of(type));
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);
@@ -344,7 +344,7 @@ public sealed class ControlStyleConstructionTests
 
     private static ReadEngine CreateEngine()
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new ReadEngine();
         return engine;
     }

@@ -159,7 +159,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:280
     public bool ValidateHero()
     {
-        FHero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FReferencedHero.FUnitID);
+        FHero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FReferencedHero.FUnitID);
         bool Result = FHero != null;
         if (!Result)
         {
@@ -219,16 +219,16 @@ public partial class HeroUpgradeDlg : DataModule
         switch (FSelectedSort)
         {
             case 0:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
                 break;
             case 1:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
                 break;
             case 2:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
                 break;
             case 3:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
                 break;
         }
     }
@@ -239,16 +239,16 @@ public partial class HeroUpgradeDlg : DataModule
         switch (FAvailableSort)
         {
             case 0:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
                 break;
             case 1:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
                 break;
             case 2:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
                 break;
             case 3:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
                 break;
         }
     }
@@ -261,9 +261,9 @@ public partial class HeroUpgradeDlg : DataModule
         Ability Ability;
         AvailableAbilities.Items.Clear();
         AvailableAbilitiesCost.Items.Clear();
-        for (int I = 1, last = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetCount() - 1; I <= last; I++)
+        for (int I = 1, last = AoWHSSet.Current.FAbilityControl.GetCount() - 1; I <= last; I++)
         {
-            Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I);
+            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
             if (Ability != null && Ability.CanExpand(FEditedHero) && Ability.FSelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 var expandName = Ability.ExpandName(FEditedHero);
@@ -279,11 +279,11 @@ public partial class HeroUpgradeDlg : DataModule
         {
             if (FEditedHero.GetInherentAbility(I))
             {
-                Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I);
+                Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
                 Name = Ability.GetName(FEditedHero);
                 if (FHero.GetAbEnabled(I) && FHero.GetInherentAbilityLevel(I) == FEditedHero.GetInherentAbilityLevel(I))
                 {
-                    Name = Name + " (" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FixedRStr) + ")";
+                    Name = Name + " (" + AbilityRules.TranslateRStr(GameText.FixedRStr) + ")";
                     Cost = "-";
                 }
                 else
@@ -322,7 +322,7 @@ public partial class HeroUpgradeDlg : DataModule
     public bool CanAddAbility(int AbilityID)
     {
         bool Result;
-        if (!Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).CanExpand(FEditedHero) || Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ExpandCost(FEditedHero) > FEditedHero.GetSkillPoints())
+        if (!AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).CanExpand(FEditedHero) || AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ExpandCost(FEditedHero) > FEditedHero.GetSkillPoints())
         {
             Result = false;
         }
@@ -337,7 +337,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:302
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -357,7 +357,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:323
     public void AttUpClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FEditedHero.SetUnitAttack((sbyte)(FEditedHero.FUnitAttack + 1));
         RefreshStatistics();
     }
@@ -365,7 +365,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:330
     public void AttDnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEditedHero.FUnitAttack != FHero.FUnitAttack)
         {
             FEditedHero.SetUnitAttack((sbyte)(FEditedHero.FUnitAttack - 1));
@@ -377,7 +377,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:338
     public void DefUpClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FEditedHero.SetUnitDefense((sbyte)(FEditedHero.FUnitDefense + 1));
         RefreshStatistics();
     }
@@ -385,7 +385,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:345
     public void DefDnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEditedHero.FUnitDefense != FHero.FUnitDefense)
         {
             FEditedHero.SetUnitDefense((sbyte)(FEditedHero.FUnitDefense - 1));
@@ -397,7 +397,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:353
     public void DamUpClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FEditedHero.SetUnitDamage((sbyte)(FEditedHero.FUnitDamage + 1));
         RefreshStatistics();
     }
@@ -405,7 +405,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:360
     public void DamDnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEditedHero.FUnitDamage != FHero.FUnitDamage)
         {
             FEditedHero.SetUnitDamage((sbyte)(FEditedHero.FUnitDamage - 1));
@@ -417,7 +417,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:368
     public void ResUpClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FEditedHero.SetUnitResistance((sbyte)(FEditedHero.FUnitResistance + 1));
         RefreshStatistics();
     }
@@ -425,7 +425,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:375
     public void ResDnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEditedHero.FUnitResistance != FHero.FUnitResistance)
         {
             FEditedHero.SetUnitResistance((sbyte)(FEditedHero.FUnitResistance - 1));
@@ -437,7 +437,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:383
     public void HitUpClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FEditedHero.SetUnitHits((sbyte)(FEditedHero.FUnitHits + 1));
         RefreshStatistics();
     }
@@ -445,7 +445,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:390
     public void HitDnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEditedHero.FUnitHits != FHero.FUnitHits)
         {
             FEditedHero.SetUnitHits((sbyte)(FEditedHero.FUnitHits - 1));
@@ -457,7 +457,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:398
     public void MovUpClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FEditedHero.SetUnitMoves((sbyte)(FEditedHero.FUnitMoves + 1));
         RefreshStatistics();
     }
@@ -465,7 +465,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:405
     public void MovDnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEditedHero.FUnitMoves != FHero.FUnitMoves)
         {
             FEditedHero.SetUnitMoves((sbyte)(FEditedHero.FUnitMoves - 1));
@@ -518,7 +518,7 @@ public partial class HeroUpgradeDlg : DataModule
         AOWListBox List;
         int Index;
         int AbilityID;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         List = AvailableAbilities;
         Index = List.Selected;
         if (Index != -1)
@@ -539,7 +539,7 @@ public partial class HeroUpgradeDlg : DataModule
         AOWListBox List;
         int Index;
         int AbilityID;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         List = SelectedAbilities;
         Index = List.Selected;
         if (Index != -1)
@@ -562,7 +562,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:485
     public void SelectedAbilitiesSortClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FSelectedSort == 0)
         {
             FSelectedSort = 1;
@@ -578,7 +578,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:493
     public void SelectedAbilitiesCostSortClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FSelectedSort == 2)
         {
             FSelectedSort = 3;
@@ -594,7 +594,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:501
     public void AvailableAbilitiesSortClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FAvailableSort == 0)
         {
             FAvailableSort = 1;
@@ -610,7 +610,7 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:509
     public void AvailableAbilityCostSortClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FAvailableSort == 2)
         {
             FAvailableSort = 3;
@@ -629,7 +629,7 @@ public partial class HeroUpgradeDlg : DataModule
         HeroUpgradeTE Event;
         if (ValidateHero())
         {
-            if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FHero.FPlayer).GetBusy())
+            if (!AoWHSMap.Current.FPlayers.GetPlayers(FHero.FPlayer).GetBusy())
             {
                 Event = new HeroUpgradeTE(null);
                 Event.Setup(FHero);
@@ -640,7 +640,7 @@ public partial class HeroUpgradeDlg : DataModule
                 Event.FHits = (sbyte)(FEditedHero.FUnitHits - FHero.FUnitHits);
                 Event.FMoves = (sbyte)(FEditedHero.FUnitMoves - FHero.FUnitMoves);
                 Event.FAbilities.AssignAb(FEditedHero);
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FHero.FPlayer).AddEvent(Event);
+                AoWHSMap.Current.FTokenManager.GetTokenControl(FHero.FPlayer).AddEvent(Event);
                 Event.Release();
                 Dlg.Visible = false;
             }
@@ -660,11 +660,11 @@ public partial class HeroUpgradeDlg : DataModule
         if (Button == MouseButton.Right && AvailableAbilities.Selected != -1)
         {
             var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-            Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
+                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
@@ -676,11 +676,11 @@ public partial class HeroUpgradeDlg : DataModule
         if (Button == MouseButton.Right && SelectedAbilities.Selected != -1)
         {
             var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-            Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
+                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
@@ -706,16 +706,16 @@ public partial class HeroUpgradeDlg : DataModule
             Dialog.RefreshAbilities();
             Dialog.UnitName.Text = Dialog.FHero.FHeroName;
             var level = Dialog.FHero.GetLevel();
-            var levelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LevelRStr);
+            var levelText = AbilityRules.TranslateRStr(GameText.LevelRStr);
             Dialog.LevelLbl.Text = levelText + " " + IntToStr(level);
             if (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel > 1)
             {
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
+                var format = AbilityRules.Format(AbilityRules.TranslateRStr(ScenarioText.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
                 Dialog.HeaderLbl.Text = format + "!";
             }
             else
             {
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateRStr(ScenarioText.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
                 Dialog.HeaderLbl.Text = format + "!";
             }
 

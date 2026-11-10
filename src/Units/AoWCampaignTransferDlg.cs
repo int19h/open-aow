@@ -205,20 +205,20 @@ public partial class CampaignTransferDlg : DataModule
     public void BookStartClick()
     {
         TransBookWin.Visible = false;
-        Aow.Game.Audio.AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
-        var campaign = Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign();
+        Audio.AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
+        var campaign = DialogHosts.WorldMap.GetCampaign();
         campaign.FState += 1;
-        Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.UpdateCampaignState();
+        DialogHosts.WorldMap.UpdateCampaignState();
     }
 
     // AoWCampaignTransferDlg.pas:181
     public void CancelClick()
     {
         TransBookWin.Visible = false;
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.ResetNextScenario();
-        Aow.Game.Audio.AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
-        Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign().FState = 1;
-        Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.UpdateCampaignState();
+        GameTables.AoWEngine.FCampaign.ResetNextScenario();
+        Audio.AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
+        DialogHosts.WorldMap.GetCampaign().FState = 1;
+        DialogHosts.WorldMap.UpdateCampaignState();
     }
 
     // AoWCampaignTransferDlg.pas:190
@@ -412,7 +412,7 @@ public partial class CampaignTransferDlg : DataModule
             DialogHosts.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
             DialogHosts.FontModule.Age8.Color = 16777215;
             var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-            Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+            DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
         }
     }
 
@@ -443,7 +443,7 @@ public partial class CampaignTransferDlg : DataModule
                 DialogHosts.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
                 DialogHosts.FontModule.Age8.Color = 16777215;
                 var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+                DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
             }
         }
     }
@@ -485,7 +485,7 @@ public partial class CampaignTransferDlg : DataModule
                 DialogHosts.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
                 DialogHosts.FontModule.Age8.Color = 16777215;
                 var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+                DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
             }
         }
     }
@@ -522,7 +522,7 @@ public partial class CampaignTransferDlg : DataModule
                 DialogHosts.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
                 DialogHosts.FontModule.Age8.Color = 16777215;
                 var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+                DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
             }
         }
     }
@@ -555,7 +555,7 @@ public partial class CampaignTransferDlg : DataModule
             DialogHosts.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
             DialogHosts.FontModule.Age8.Color = 16777215;
             var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-            Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+            DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
         }
     }
 
@@ -585,7 +585,7 @@ public partial class CampaignTransferDlg : DataModule
                 DialogHosts.IntGfxMod.CampaignTrans[31].Show(R.Left + 10, R.Top + 55, SurfDesc);
                 DialogHosts.FontModule.Age8.Color = 16777215;
                 var campaignTransferPoints = Obj.GetCampaignTransferPoints();
-                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
+                DialogHosts.FontModule.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), SurfDesc);
             }
         }
     }
@@ -802,7 +802,7 @@ public partial class CampaignTransferDlg : DataModule
     // AoWCampaignTransferDlg.pas:674
     public void AutoBtnClick()
     {
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings.AutoSelect();
+        GameTables.AoWEngine.FCampaign.FTransferSettings.AutoSelect();
         UpdateControls();
         TransBookWin.FDrawn = false;
     }

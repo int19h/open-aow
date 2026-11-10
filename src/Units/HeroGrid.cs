@@ -116,10 +116,10 @@ public partial class HeroGrid : CustomImageDrawGrid
         switch (FSort)
         {
             case 0:
-                FIndices.SortStable(global::Aow.Game.Ui.Grids.HeroGrid.HeroGridCompareName);
+                FIndices.SortStable(HeroGridCompareName);
                 break;
             case 1:
-                FIndices.SortStable(global::Aow.Game.Ui.Grids.HeroGrid.HeroGridCompareLevel);
+                FIndices.SortStable(HeroGridCompareLevel);
                 break;
         }
 

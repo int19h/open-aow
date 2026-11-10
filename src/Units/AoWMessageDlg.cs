@@ -138,10 +138,10 @@ public partial class MessageDlg : DataModule
 
     internal static void ShowDemoMessage()
     {
-        Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(DialogHosts.MessageDlg);
-        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-        var demoVersionMessage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DemoVersionMessageRStr);
-        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
+        ResetMessageDialog(DialogHosts.MessageDlg);
+        DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+        var demoVersionMessage = AbilityRules.TranslateRStr(GameText.DemoVersionMessageRStr);
+        DialogHosts.MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
         DialogHosts.MessageDlg.OKPnl.Visible = true;
         DialogHosts.MessageDlg.Dlg.Visible = true;
     }
@@ -155,14 +155,14 @@ public partial class MessageDlg : DataModule
         Dialog.MessageMemo.Items.Clear();
         Dialog.MemoPnl.Visible = true;
         Dialog.HeaderMemoPnl.Visible = false;
-        var message = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.MessageRStr);
+        var message = AbilityRules.TranslateRStr(GameText.MessageRStr);
         Dialog.TitleLbl.Text = message;
     }
 
     internal static void ShowMessageEvent(MessageDlg Dialog, MessageEventLog Event, ExecuteDoneEvent Done)
     {
         MessageEventLog Log;
-        Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Dialog);
+        ResetMessageDialog(Dialog);
         Dialog.FDone = Done;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();

@@ -63,54 +63,54 @@ public partial class CombatStructure : CombatFixedILTerrain
             switch (Msg.MsgID)
             {
                 case 200704:
-                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(65).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FAbilityControl.GetAbility(65).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense = GetDefense();
-                    var executeDamageRole = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense);
+                    var executeDamageRole = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense);
                     SetHitPoints(FHitPoints - executeDamageRole);
                     break;
                 case 200705:
-                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(24).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FAbilityControl.GetAbility(24).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense2 = GetDefense();
-                    var executeDamageRole2 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense2);
+                    var executeDamageRole2 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense2);
                     SetHitPoints(FHitPoints - executeDamageRole2);
                     break;
                 case 200706:
-                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(44).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FAbilityControl.GetAbility(44).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense3 = GetDefense();
-                    var executeDamageRole3 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense3);
+                    var executeDamageRole3 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense3);
                     SetHitPoints(FHitPoints - executeDamageRole3);
                     break;
                 case 200707:
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(117).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FSpellControl.GetSpell(117).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense4 = GetDefense();
-                    var executeDamageRole4 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense4);
+                    var executeDamageRole4 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense4);
                     SetHitPoints(FHitPoints - executeDamageRole4);
                     break;
                 case 200714:
-                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(31).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FAbilityControl.GetAbility(31).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense5 = GetDefense();
-                    var executeDamageRole5 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense5);
+                    var executeDamageRole5 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense5);
                     SetHitPoints(FHitPoints - executeDamageRole5);
                     break;
                 case 200715:
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(113).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FSpellControl.GetSpell(113).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense6 = GetDefense();
-                    var executeDamageRole6 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense6);
+                    var executeDamageRole6 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense6);
                     SetHitPoints(FHitPoints - executeDamageRole6);
                     break;
                 case 200722:
                     if (Msg.Param[1].Int == 30 || Msg.Param[1].Int == 86)
                     {
-                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                        Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                        RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense7 = GetDefense();
-                        var executeDamageRole7 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense7);
+                        var executeDamageRole7 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense7);
                         SetHitPoints(FHitPoints - executeDamageRole7);
                     }
 
@@ -118,48 +118,48 @@ public partial class CombatStructure : CombatFixedILTerrain
                 case 200723:
                     if (Msg.Param[1].Int == 114)
                     {
-                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                        Engine.AoWHSSet.Current.FSpellControl.GetSpell(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense7 = GetDefense();
-                        var executeDamageRole7 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense7);
+                        var executeDamageRole7 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense7);
                         SetHitPoints(FHitPoints - executeDamageRole7);
                     }
 
                     break;
                 case 200710:
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(116).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FSpellControl.GetSpell(116).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense8 = GetDefense();
-                    var executeDamageRole8 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense8);
+                    var executeDamageRole8 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense8);
                     SetHitPoints(FHitPoints - executeDamageRole8);
                     break;
                 case 200717:
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(127).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FSpellControl.GetSpell(127).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense9 = GetDefense();
-                    var executeDamageRole9 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense9);
+                    var executeDamageRole9 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense9);
                     SetHitPoints(FHitPoints - executeDamageRole9);
                     break;
                 case 200718:
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(128).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FSpellControl.GetSpell(128).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense10 = GetDefense();
-                    var executeDamageRole10 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense10);
+                    var executeDamageRole10 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense10);
                     SetHitPoints(FHitPoints - executeDamageRole10);
                     break;
                 case 200708:
                     FPlaySound = Msg.Param[1].Int == 0;
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    Engine.AoWHSSet.Current.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense11 = GetDefense();
-                    var executeDamageRole11 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense11);
+                    var executeDamageRole11 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense11);
                     SetHitPoints(FHitPoints - executeDamageRole11);
                     Msg.Param[1] = 1;
                     break;
                 case 200711:
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense12 = GetDefense();
-                    var executeDamageRole12 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(TacticalTables.TCDamage[1], TacticalTables.TCAttack[1] - defense12);
+                    var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TCDamage[1], TacticalTables.TCAttack[1] - defense12);
                     SetHitPoints(FHitPoints - executeDamageRole12);
                     break;
             }
@@ -197,11 +197,11 @@ public partial class CombatStructure : CombatFixedILTerrain
         PlayerStructure Structure;
         bool Razed;
         base.Activate();
-        if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
             FPlaySound = true;
             Razed = false;
-            Structure = (PlayerStructure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
+            Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
             if (Structure != null)
             {
                 Razed = Structure.GetRazed();
@@ -285,13 +285,13 @@ public partial class CombatStructure : CombatFixedILTerrain
             {
                 if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
                 {
-                    Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
+                    Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.WallSmoke);
+                Effect = AoWCombatMap.Current.AddEffect(TfxType.WallSmoke);
                 Point = new XYZ();
                 Effect.FPath.Add(Point);
-                Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Point.X, ref Point.Y);
+                HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Point.X, ref Point.Y);
                 Point.X = Random(20) + Point.X + 6;
                 Point.Y = Random(20) + Point.Y - 20;
             }
@@ -299,7 +299,7 @@ public partial class CombatStructure : CombatFixedILTerrain
             {
                 if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
                 {
-                    Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
+                    Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
             }
         }

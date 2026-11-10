@@ -123,14 +123,14 @@ public partial class ArmyInfoDlg : DataModule
     // AoWArmyInfoDlg.pas:109
     public void CloseBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
     // AoWArmyInfoDlg.pas:115
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -145,7 +145,7 @@ public partial class ArmyInfoDlg : DataModule
             if (Button == MouseButton.Left)
             {
                 FUnitInfoShown = true;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+                DialogHosts.UnitWindow.ShowUnit();
                 DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
         }

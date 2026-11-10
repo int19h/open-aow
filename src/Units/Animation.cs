@@ -149,7 +149,7 @@ namespace Aow.Game.Draw.Animation
         {
             int X = default;
             int Y = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
             return (FAnimationLevel << 26) + ((Y + FDimensions.Bottom) << 13) + X;
         }
 
@@ -160,7 +160,7 @@ namespace Aow.Game.Draw.Animation
             int Y = default;
             if (!FState.Contains(StateElement.Placed))
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+                HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
                 if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
                 {
                     PlaceOnMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
@@ -181,7 +181,7 @@ namespace Aow.Game.Draw.Animation
             int Y = default;
             if (FState.Contains(StateElement.Placed))
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+                HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
                 if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
                 {
                     RemoveFromMapEx(X + FDimensions.Left, Y + FDimensions.Top, X + FDimensions.Right, Y + FDimensions.Bottom);
@@ -209,7 +209,7 @@ namespace Aow.Game.Draw.Animation
         {
             int X = default;
             int Y = default;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref X, ref Y);
+            HexGeometry.HPtoHX(Xhp, Yhp, ref X, ref Y);
             return PlaceHX(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
         }
 
@@ -518,7 +518,7 @@ namespace Aow.Game.Draw.Animation
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             if (GetLhx() == FAnimationMap.ViewL)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+                HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
                 XhpSurf = X - XhpSurf + 16 + FXhpOffset;
                 YhpSurf = Y - YhpSurf + 16 + FYhpOffset;
                 if (!FLooped)
@@ -666,7 +666,7 @@ namespace Aow.Game.Draw.Animation
             int Angle;
             int Index;
             OldSeed = RandSeed;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf + 16;
             YhpSurf = Y - YhpSurf + 16;
             var xhx = GetXhx();
@@ -699,7 +699,7 @@ namespace Aow.Game.Draw.Animation
                         Angle += FFrameCounter * 4;
                     }
 
-                    Aow.Game.Magic.Abilities.AbilityRules.DegreesRadToCo(Angle, Radius, ref DX, ref DY);
+                    Magic.Abilities.AbilityRules.DegreesRadToCo(Angle, Radius, ref DX, ref DY);
                     Sequence = FImageSequence;
                     while (Sequence != null)
                     {

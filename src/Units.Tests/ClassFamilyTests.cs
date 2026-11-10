@@ -149,7 +149,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         using var engine = new Engine(null!);
         var mapObjectEditor = EditorClass.Of<AoWMapObjectEditor>();
         Assert.Same(mapObjectEditor, EditorClass.Of(typeof(AoWMapObjectEditor)));

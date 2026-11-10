@@ -35,7 +35,7 @@ public sealed class UiConstructionTests
 
         internal Fixture()
         {
-            if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            if (EngineHost.Engines is null) EngineHost.Initialize();
             Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
             loaded = Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore;
             closed = Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore;

@@ -56,7 +56,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (negotiateRequestEventLog.FObject == NegotiateObject.City) return "CityNegotiation";
             if (negotiateRequestEventLog.FObject == NegotiateObject.Army)
             {
-                var ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
+                var ArmyHS = (ArmyHS)AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
@@ -88,7 +88,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         if (Event is PrisonersJoinEventLog)
         {
-            var UnitObject = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(((PrisonersJoinEventLog)Event).FFirstUnitID);
+            var UnitObject = AoWHSMap.Current.FUnitControl.FindUnit(((PrisonersJoinEventLog)Event).FFirstUnitID);
             return UnitObject != null && UnitObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
         if (Event is EnterWizardsTowerEventLog) return "WizardsTower";

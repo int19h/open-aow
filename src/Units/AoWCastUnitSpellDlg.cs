@@ -103,7 +103,7 @@ public partial class CastUnitSpellDlg : DataModule
     // AoWCastUnitSpellDlg.pas:111
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -111,7 +111,7 @@ public partial class CastUnitSpellDlg : DataModule
     public void CastButClick()
     {
         string Reason = "";
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FCaster.CanCast(ref Reason))
         {
             FCaster.Cast();
@@ -119,7 +119,7 @@ public partial class CastUnitSpellDlg : DataModule
         }
         else
         {
-            Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(Reason);
+            World.Map.AoWHSMap.Current.ShowMessage(Reason);
         }
     }
 
@@ -128,7 +128,7 @@ public partial class CastUnitSpellDlg : DataModule
     {
         AbstractUnit U;
         Rect R = default;
-        U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FCasterSourceID);
+        U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FCasterSourceID);
         if (U != null)
         {
             if (U.GetFace() != null)
@@ -155,7 +155,7 @@ public partial class CastUnitSpellDlg : DataModule
         Rect R = default;
         if (FCaster != null)
         {
-            Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FCaster.FCasterSpellID);
+            Spell = AoWHSSet.Current.FSpellControl.GetSpell(FCaster.FCasterSpellID);
             if (Spell != null)
             {
                 R.Left = this.SpellFr.WinLeft + TopPnl.WinLeft;
@@ -199,7 +199,7 @@ public partial class CastUnitSpellDlg : DataModule
         var checks = new[] { U1, U2, U3, U4, U5, U6, U7, U8 };
         for (int i = 0; i < checks.Length; i++) checks[i].Checked = (FCaster.FSelectionMask & (1 << i)) != 0;
         if (FCaster.FSelectionMask != oldSelection)
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
+            DialogHosts.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
         if (FCaster.FSelectionMask == 0)
         {
             SelectionInfoLbl.Text = "";
@@ -208,7 +208,7 @@ public partial class CastUnitSpellDlg : DataModule
         string reason = "";
         SelectionInfoLbl.TextColor = FCaster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
-        SelectionInfoLbl.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RequiredManaRStr) +
+        SelectionInfoLbl.Text = AbilityRules.TranslateRStr(RequiredManaRStr) +
             ": " + IntToStr(FCaster.GetRequiredMana());
     }
 

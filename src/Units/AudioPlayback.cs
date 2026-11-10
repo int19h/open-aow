@@ -15,10 +15,10 @@ public static class AudioPlayback
         SampleData D;
         if (AudioHost.SoundSystem != null)
         {
-            D = Aow.Game.Audio.AudioHost.SampleDataList.Find(Name);
+            D = AudioHost.SampleDataList.Find(Name);
             if (D == null)
             {
-                Aow.Game.Audio.AudioHost.SoundSystem.SampleDataClass().Create(Name);
+                AudioHost.SoundSystem.SampleDataClass().Create(Name);
             }
             else
             {
@@ -30,7 +30,7 @@ public static class AudioPlayback
     public static void UnlockSampleData(string Name)
     {
         SampleData D;
-        D = Aow.Game.Audio.AudioHost.SampleDataList.Find(Name);
+        D = AudioHost.SampleDataList.Find(Name);
         if (D != null)
         {
             D.Release();
@@ -58,18 +58,18 @@ public static class AudioPlayback
         }
         else
         {
-            C = Aow.Game.Audio.AudioHost.SoundSystems.Find(Name);
+            C = AudioHost.SoundSystems.Find(Name);
         }
 
         if (C != null)
         {
             if (AudioHost.SoundSystem != null)
             {
-                Aow.Game.Audio.AudioPlayback.ReleaseSoundSystem();
+                ReleaseSoundSystem();
             }
 
             AudioHost.SoundSystem = C.Create();
-            if (!Aow.Game.Audio.AudioHost.SoundSystem.Activate(Settings))
+            if (!AudioHost.SoundSystem.Activate(Settings))
             {
                 AudioHost.SoundSystem?.Dispose();
                 AudioHost.SoundSystem = null;
@@ -90,15 +90,15 @@ public static class AudioPlayback
         {
             if (AudioHost.SongPlayer != null)
             {
-                Aow.Game.Audio.AudioHost.SongPlayer.Stop(true);
+                AudioHost.SongPlayer.Stop(true);
             }
 
             if (AudioHost.SampleList != null)
             {
-                Aow.Game.Audio.AudioHost.SampleList.Clear();
+                AudioHost.SampleList.Clear();
             }
 
-            Aow.Game.Audio.AudioHost.SoundSystem.Release();
+            AudioHost.SoundSystem.Release();
             AudioHost.SoundSystem = null;
         }
     }
@@ -107,7 +107,7 @@ public static class AudioPlayback
     {
         if (AudioHost.SoundSystem != null)
         {
-            Aow.Game.Audio.AudioHost.SoundSystem.FadeMusicVolume(Volume, Speed);
+            AudioHost.SoundSystem.FadeMusicVolume(Volume, Speed);
         }
     }
 
@@ -115,7 +115,7 @@ public static class AudioPlayback
     {
         if (AudioHost.SoundSystem != null)
         {
-            Aow.Game.Audio.AudioHost.SoundSystem.SetSFXVolume(Volume);
+            AudioHost.SoundSystem.SetSFXVolume(Volume);
         }
     }
 
@@ -124,7 +124,7 @@ public static class AudioPlayback
         int Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.GetSFXVolume();
+            Result = AudioHost.SoundSystem.GetSFXVolume();
         }
         else
         {
@@ -139,7 +139,7 @@ public static class AudioPlayback
         bool Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.GetSFXEnabled();
+            Result = AudioHost.SoundSystem.GetSFXEnabled();
         }
         else
         {
@@ -154,7 +154,7 @@ public static class AudioPlayback
         SoundSettings Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.GetSoundSettings();
+            Result = AudioHost.SoundSystem.GetSoundSettings();
         }
         else
         {
@@ -169,7 +169,7 @@ public static class AudioPlayback
         SongStatus Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.BackupSongStatus();
+            Result = AudioHost.SoundSystem.BackupSongStatus();
         }
         else
         {
@@ -235,12 +235,12 @@ public static class AudioPlayback
 
         if (AudioHost.SongPlayer != null)
         {
-            Aow.Game.Audio.AudioHost.SongPlayer.Update();
+            AudioHost.SongPlayer.Update();
         }
 
         if (AudioHost.SoundSystem != null)
         {
-            Aow.Game.Audio.AudioHost.SoundSystem.Process();
+            AudioHost.SoundSystem.Process();
         }
     }
 
@@ -248,7 +248,7 @@ public static class AudioPlayback
     {
         if (AudioHost.SoundSystem != null)
         {
-            Aow.Game.Audio.AudioHost.SoundSystem.SetMusicVolume(Volume);
+            AudioHost.SoundSystem.SetMusicVolume(Volume);
         }
     }
 
@@ -257,7 +257,7 @@ public static class AudioPlayback
         int Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.GetMusicVolume();
+            Result = AudioHost.SoundSystem.GetMusicVolume();
         }
         else
         {
@@ -272,7 +272,7 @@ public static class AudioPlayback
         bool Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.GetMusicEnabled();
+            Result = AudioHost.SoundSystem.GetMusicEnabled();
         }
         else
         {
@@ -290,16 +290,16 @@ public static class AudioPlayback
         {
             try
             {
-                D = Aow.Game.Audio.AudioHost.SampleDataList.Find(Name);
+                D = AudioHost.SampleDataList.Find(Name);
                 if (D == null)
                 {
-                    D = Aow.Game.Audio.AudioHost.SoundSystem.SampleDataClass().Create(Name);
-                    Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleClass().Create(D);
+                    D = AudioHost.SoundSystem.SampleDataClass().Create(Name);
+                    Result = AudioHost.SoundSystem.SampleClass().Create(D);
                     D.Release();
                 }
                 else
                 {
-                    Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleClass().Create(D);
+                    Result = AudioHost.SoundSystem.SampleClass().Create(D);
                 }
 
                 Result.Execute();
@@ -325,16 +325,16 @@ public static class AudioPlayback
         {
             try
             {
-                D = Aow.Game.Audio.AudioHost.SampleDataList.Find(Name);
+                D = AudioHost.SampleDataList.Find(Name);
                 if (D == null)
                 {
-                    D = Aow.Game.Audio.AudioHost.SoundSystem.SampleDataClass().Create(Name);
-                    Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleClass().Create(D);
+                    D = AudioHost.SoundSystem.SampleDataClass().Create(Name);
+                    Result = AudioHost.SoundSystem.SampleClass().Create(D);
                     D.Release();
                 }
                 else
                 {
-                    Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleClass().Create(D);
+                    Result = AudioHost.SoundSystem.SampleClass().Create(D);
                 }
 
                 Result.Looped = Looped;
@@ -362,7 +362,7 @@ public static class AudioPlayback
         bool Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.PlaySong(FileName);
+            Result = AudioHost.SoundSystem.PlaySong(FileName);
         }
         else
         {
@@ -377,7 +377,7 @@ public static class AudioPlayback
         bool Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.PlaySongEx(FileName, FadeOut, FadeIn, Loop);
+            Result = AudioHost.SoundSystem.PlaySongEx(FileName, FadeOut, FadeIn, Loop);
         }
         else
         {
@@ -392,7 +392,7 @@ public static class AudioPlayback
         SampleData Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleDataClass().Create(Name);
+            Result = AudioHost.SoundSystem.SampleDataClass().Create(Name);
         }
         else
         {
@@ -407,7 +407,7 @@ public static class AudioPlayback
         SampleData Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleDataClass().CreateEx(Format[0], Data, Size);
+            Result = AudioHost.SoundSystem.SampleDataClass().CreateEx(Format[0], Data, Size);
         }
         else
         {

@@ -95,7 +95,7 @@ public partial class ILTerrainMO : MultiHexMO
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
         if (this.FResource.ImageSequenceList == null)
         {
             this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((MultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((MultiHexMOR)this.FResource).dYImage, SurfaceDesc);
@@ -142,7 +142,7 @@ public partial class ILTerrainMO : MultiHexMO
         CanPlaceHere = true;
         Count = FResource.TerrainList.Count;
         FTerrainType = GetValidTerrainType(MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
-        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (CanPlaceHere && Walk.HN < Count)
         {
             TerrainType = GetTerrain(Walk.HN);
@@ -153,7 +153,7 @@ public partial class ILTerrainMO : MultiHexMO
                 CanPlaceHere = HS == null || CanPlaceOnHS(HS);
             }
 
-            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+            HNWalkData.WalkToNextHN(ref Walk);
         }
 
         if (CanPlaceHere)

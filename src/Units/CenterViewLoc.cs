@@ -18,7 +18,7 @@ public partial class CenterViewLocation : MapObject
     // CenterViewLoc.pas:80
     public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
-        if (Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }

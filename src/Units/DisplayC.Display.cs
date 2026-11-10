@@ -30,12 +30,12 @@ public partial class CustomDisplay
         Width = Height = 100;
         FOptions = Set<DisplayOptionsElement>.Of(AutoResizeBackSurface, AutoSwapDC,
             AutoStartUpdateFrameLoop, AutoActivatePrimaryDC, RestoreSurfacesOnSwap, BltOnWMPAINT);
-        FBufferingScheme = Draw.BufferingScheme.Double;
-        FBackSurfaceControlMode = Draw.BackSurfaceControlMode.BltSurface;
+        FBufferingScheme = BufferingScheme.Double;
+        FBackSurfaceControlMode = BackSurfaceControlMode.BltSurface;
         FBackSurfaceWidth = 640;
         FBackSurfaceHeight = 480;
         FSurfaceIndex = 1;
-        FUpdateFrameMode = Draw.UpdateFrameMode.Synchrone;
+        FUpdateFrameMode = UpdateFrameMode.Synchrone;
         SetFrameRate(30);
     }
 
@@ -73,7 +73,7 @@ public partial class CustomDisplay
     public virtual void StartUpdateFrameLoop()
     {
         if (FStatus.Contains(FrameLoopActive)) return;
-        if (FUpdateFrameMode != Draw.UpdateFrameMode.Synchrone) throw new NotSupportedException("Asynchronous display loop");
+        if (FUpdateFrameMode != UpdateFrameMode.Synchrone) throw new NotSupportedException("Asynchronous display loop");
         FStatus = FStatus.With(FrameLoopActive);
         try
         {
@@ -91,7 +91,7 @@ public partial class CustomDisplay
 
     public virtual void UpdateFrame()
     {
-        if (FBufferingScheme == Draw.BufferingScheme.Tripple) FSurfaceIndex = FSurfaceIndex == 1 ? 2 : 1;
+        if (FBufferingScheme == BufferingScheme.Tripple) FSurfaceIndex = FSurfaceIndex == 1 ? 2 : 1;
         int x = -1, y = -1;
         GetMousePos(ref x, ref y);
         if (FMouseAboveSurface && x == -1 && GetMouseButton() == 0) EventSink.MouseMove(default, -1, -1);
@@ -131,7 +131,7 @@ public partial class CustomDisplay
             if (FActiveDC is null) return result;
             Resize();
             for (int i = 1; i <= (int)FBufferingScheme; i++)
-                if (saved[i] is not null) Aow.Game.Draw.CustomDisplay.RemapSurface(saved[i], FActiveDC.GetSurface(i));
+                if (saved[i] is not null) RemapSurface(saved[i], FActiveDC.GetSurface(i));
             FOnActivateDC?.Invoke(this, FActiveDC);
             return result;
         }

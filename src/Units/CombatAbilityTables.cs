@@ -78,13 +78,13 @@ internal static class CombatAbilityTables
                 {
                     if (Player == 0)
                     {
-                        if (Attacker != 0 && Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) == DiplomaticRelation.Peace && Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) != DiplomaticRelation.Peace)
+                        if (Attacker != 0 && AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) != DiplomaticRelation.Peace)
                         {
                             Result = CombatSideIndex.Attacker;
                         }
                         else
                         {
-                            if (Defender != 0 && Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) == DiplomaticRelation.Peace && Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) != DiplomaticRelation.Peace)
+                            if (Defender != 0 && AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) != DiplomaticRelation.Peace)
                             {
                                 Result = CombatSideIndex.Defender;
                             }
@@ -96,13 +96,13 @@ internal static class CombatAbilityTables
                     }
                     else
                     {
-                        if (Attacker != 0 && Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) == DiplomaticRelation.Alliance && Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) != DiplomaticRelation.Alliance)
+                        if (Attacker != 0 && AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) != DiplomaticRelation.Alliance)
                         {
                             Result = CombatSideIndex.Attacker;
                         }
                         else
                         {
-                            if (Defender != 0 && Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) == DiplomaticRelation.Alliance && Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) != DiplomaticRelation.Alliance)
+                            if (Defender != 0 && AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) != DiplomaticRelation.Alliance)
                             {
                                 Result = CombatSideIndex.Defender;
                             }

@@ -94,7 +94,7 @@ public sealed partial class SpellConstructionTests
 
     private static Engine RegisteredEngine(Type type)
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         try { engine.RegisterEClasses([EClass.Of(type)]); }
         catch { engine.Dispose(); throw; }
@@ -160,7 +160,7 @@ public sealed partial class SpellConstructionTests
                     allocated.Add(value);
                     Assert.IsType(type, value);
                     Assert.Same(argument, value.Owner);
-                    Assert.Same(Aow.Game.Engine.EClass.Of(type), value.EClass);
+                    Assert.Same(EClass.Of(type), value.EClass);
                     ConstructionSnapshot.Check("SpellConstruction", name, SuccessSnapshot(value), "State");
                     if (owned) ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
                     if (value is Spell spell)

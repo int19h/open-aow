@@ -142,7 +142,7 @@ public partial class AoWBookWindow : AOWWindow
             R = new Rect(0, 0, FWinWidth, FWinHeight);
             FBackSurface.Lock(ref Source);
             FPageSurface.Lock(ref Dest);
-            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(Source, R, Dest, 0, 0);
+            SurfaceDesc.BltSDRectClipped(Source, R, Dest, 0, 0);
             FPageSurface.Unlock();
             FBackSurface.Unlock();
             FPageTurn.SetPageDimensions(271, 368);

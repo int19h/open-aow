@@ -149,7 +149,7 @@ internal sealed class FrameFixture
                 if (AoWHSMap.Current?.FCombatMap is not AoWCombatMap combat) return;
                 combat.FPlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
-                Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.MinClick();
+                DialogHosts.ChatWindow.MinClick();
                 tacticalReady = true;
             };
             bool AtTarget()
@@ -193,7 +193,7 @@ internal sealed class FrameFixture
                 if (pendingSnapshot is { } snapshot)
                 {
                     diagnostics?.Snapshot(snapshot.Name);
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayerControl.AutoSave();
+                    AoWHSMap.Current.FPlayerControl.AutoSave();
                     File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "snapshot-" + snapshot.Name + ".asg"), true);
                     capturedSnapshots.Add(snapshot.Name);
                     pendingSnapshot = null;
@@ -225,7 +225,7 @@ internal sealed class FrameFixture
                         if (click.Hx is int hx && click.Hy is int hy)
                         {
                             var mapWindow = DialogHosts.MWindow;
-                            Aow.Game.World.Map.HexGeometry.HXtoHP(hx, hy, ref inputX, ref inputY);
+                            HexGeometry.HXtoHP(hx, hy, ref inputX, ref inputY);
                             inputX += 28 + mapWindow.MapWindow.WinLeft - mapWindow.MapViewer.SceneX;
                             inputY += 28 + mapWindow.MapWindow.WinTop - mapWindow.MapViewer.SceneY;
                             if (!mapWindow.InsideMap(inputX, inputY)) throw new InvalidOperationException($"Script hex {hx},{hy} is outside the map view at {inputX},{inputY}");
@@ -335,7 +335,7 @@ internal sealed class FrameFixture
                     if (data.GetObjects(i) is TacticalCombatUnit unit && unit.FUnitHS is { } sprite)
                     {
                         int x = 0, y = 0;
-                        Aow.Game.World.Map.HexGeometry.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);
+                        HexGeometry.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);
                         units.Add(new
                         {
                             unit.FID,
@@ -373,7 +373,7 @@ internal sealed class FrameFixture
                 if (fixture.values.GetValueOrDefault("save_world") == "true")
                 {
                     saveName = "paths-world.asg";
-                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + saveName, null!, Aow.Formats.GameProfile.WorldMap);
+                    GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + saveName, null!, Aow.Formats.GameProfile.WorldMap);
                 }
                 else map.FPlayerControl.AutoSave();
                 File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);

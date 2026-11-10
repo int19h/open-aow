@@ -119,12 +119,12 @@ public partial class AoWRegistry : Registry
                     if (ValueExists(Name))
                     {
                         S = ReadString(Name);
-                        Value = Aow.Game.Engine.AoWRegistry.StringToRect(S);
+                        Value = StringToRect(S);
                     }
 
                     break;
                 case ReadWriteMode.Write:
-                    S = Aow.Game.Engine.AoWRegistry.RectToString(Value);
+                    S = RectToString(Value);
                     WriteString(Name, S);
                     break;
             }
@@ -714,14 +714,14 @@ public partial class AoWRegistry : Registry
         string Result;
         Result = "";
         rwString("Email", "POP3 Password", ref Result, ReadWriteMode.Read);
-        Result = Aow.Game.Engine.AoWRegistry.TransformPassword(Result, true);
+        Result = TransformPassword(Result, true);
         return Result;
     }
 
     // AoWReg.pas:728
     public void SetPOP3Password(string Value)
     {
-        Value = Aow.Game.Engine.AoWRegistry.TransformPassword(Value, true);
+        Value = TransformPassword(Value, true);
         rwString("Email", "POP3 Password", ref Value, ReadWriteMode.Write);
     }
 
@@ -780,7 +780,7 @@ public partial class AoWRegistry : Registry
                     S = Copy(S, 1, P - 1);
                     if (!IsEmpty(S))
                     {
-                        Result = Aow.Game.Engine.AoWRegistry.HexToInt(S);
+                        Result = HexToInt(S);
                     }
                 }
             }

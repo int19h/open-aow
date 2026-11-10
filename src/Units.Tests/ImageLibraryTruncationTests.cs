@@ -37,7 +37,7 @@ public sealed class ImageLibraryTruncationTests
         var library = new ImageLibrary(null!);
         var previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = new DelphiList();
-        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
+        ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
             stream.WriteBuffer(contents);
@@ -51,7 +51,7 @@ public sealed class ImageLibraryTruncationTests
         {
             library.Dispose();
             stream.Dispose();
-            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Dispose();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }

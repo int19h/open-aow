@@ -18,14 +18,14 @@ internal static class ItemColumns
 
     internal static int ItemControlCompareName(int A, int B)
     {
-        var itemControl = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.GetItem(B);
-        return CompareText(Aow.Game.World.Map.AoWHSMap.Current.FItemControl.GetItem(A).FOwnerName, itemControl.FOwnerName);
+        var itemControl = AoWHSMap.Current.FItemControl.GetItem(B);
+        return CompareText(AoWHSMap.Current.FItemControl.GetItem(A).FOwnerName, itemControl.FOwnerName);
     }
 
     internal static int ItemControlCompareType(int A, int B)
     {
-        var itemControl = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.GetItem(A);
-        var itemControlItemType = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.GetItem(B);
+        var itemControl = AoWHSMap.Current.FItemControl.GetItem(A);
+        var itemControlItemType = AoWHSMap.Current.FItemControl.GetItem(B);
         return itemControl.FItemType - itemControlItemType.FItemType;
     }
 

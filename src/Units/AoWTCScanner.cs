@@ -46,7 +46,7 @@ public partial class CombatScanner : DataModule
     // AoWTCScanner.pas:60
     public void SMinIconClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         TCScannerWin.Visible = false;
     }
 }

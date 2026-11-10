@@ -74,10 +74,10 @@ public partial class POP3Dlg : DataModule
     public void ShowDialog()
     {
         ResetSearch();
-        var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+        var localEmailAddress = Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
-        var attachmentDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AttachmentDirectoryXRStr), [attachmentDirectory]);
+        var attachmentDirectory = Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
+        var format = Magic.Abilities.AbilityRules.Format(Magic.Abilities.AbilityRules.TranslateRStr(AttachmentDirectoryXRStr), [attachmentDirectory]);
         AttachmentDirectoryLbl.Text = "(" + format + ")";
         Dlg.Visible = true;
     }
@@ -94,7 +94,7 @@ public partial class POP3Dlg : DataModule
         FCheckDelay -= 1;
         if (FCheckDelay < 0)
         {
-            FCheckDelay = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCheckEmailFrequency() * 30 * 60;
+            FCheckDelay = Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCheckEmailFrequency() * 30 * 60;
             if (FCheckDelay < 30)
             {
                 FCheckDelay = 30;
@@ -130,8 +130,8 @@ public partial class POP3Dlg : DataModule
         if (FoundEmailGames.Selected != -1)
         {
             var item = FoundEmailGames.Items[FoundEmailGames.Selected];
-            Aow.Game.Ui.Dialogs.General.LoadGame(DialogHosts.General, Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + item);
-            Aow.Game.Ui.Dialogs.General.StartGame(DialogHosts.General);
+            General.LoadGame(DialogHosts.General, Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + item);
+            General.StartGame(DialogHosts.General);
         }
     }
 

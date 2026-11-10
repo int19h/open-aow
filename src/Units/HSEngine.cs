@@ -378,7 +378,7 @@ namespace Aow.Game.World.Map
             bool Done;
             int I;
             int Level;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             I = FCount - 1;
             // { Preserve the original stack slot. }
             Done = false;
@@ -453,10 +453,10 @@ namespace Aow.Game.World.Map
             Info.MapField = this;
             Info.TerrainType = FTerrainType;
             Info.OverlayType = FOverlayType;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             for (int I = 1; I <= 6; I++)
             {
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
                 if (Walk.X >= 0 && Walk.X < ((MapLevel)Owner).FWidth && Walk.Y >= 0 && ((MapLevel)Owner).FHeight > Walk.Y)
                 {
                     Info.HN = (sbyte)OppositeHTTable[I - 1];
@@ -509,7 +509,7 @@ namespace Aow.Game.World.Map
             }
         }
 
-        private static FixedArray_byte_6 OppositeHTTable = global::Aow.Game.Engine.Buffers.FixedArray_byte_6.From((ReadOnlySpan<byte>)new byte[6] { 4, 5, 6, 1, 2, 3 });
+        private static FixedArray_byte_6 OppositeHTTable = FixedArray_byte_6.From((ReadOnlySpan<byte>)new byte[6] { 4, 5, 6, 1, 2, 3 });
         private static FixedArray_Aow_Units_HSEngine_THexagonSprite_256 SendMsgList;
         private static FixedArray_Aow_Units_HSEngine_THexagonSprite_256 LoadedList;
     }
@@ -869,7 +869,7 @@ namespace Aow.Game.World.Map
             FDynamicVisibleHS.QuickClear();
             FStaticFixedVisibleHS.QuickClear();
             FDynamicFixedVisibleHS.QuickClear();
-            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 536936471, this);
+            EMsg.InitMsg(ref Msg, 536936471, this);
             SendMsg(ref Msg, this);
             FNewFrameEventsStore.Clear();
             base.Dispose();
@@ -1080,7 +1080,7 @@ namespace Aow.Game.World.Map
         // HSMAP.PAS:579
         public virtual void GetViewCenter(ref int Xhx, ref int Yhx, ref int Lhx)
         {
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FViewXhp + (int)(((uint)FViewWidth) >> 1), FViewYhp + (int)(((uint)FViewHeight) >> 1), ref Xhx, ref Yhx);
+            HexGeometry.HPtoHX(FViewXhp + (int)(((uint)FViewWidth) >> 1), FViewYhp + (int)(((uint)FViewHeight) >> 1), ref Xhx, ref Yhx);
             Lhx = FViewL;
         }
 
@@ -1133,7 +1133,7 @@ namespace Aow.Game.World.Map
             List = new ShortIntList();
             MapLevel = FMapContainer.GetMapLevel(L);
             Count = 0;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1143,10 +1143,10 @@ namespace Aow.Game.World.Map
                     MapF.FTerrainType = (sbyte)TerrainType;
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1159,10 +1159,10 @@ namespace Aow.Game.World.Map
                     }
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (List[Walk.HN] != -127 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1172,7 +1172,7 @@ namespace Aow.Game.World.Map
                     Count += 1;
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
             UnlockTerrainChangedEvent();
@@ -1231,7 +1231,7 @@ namespace Aow.Game.World.Map
                 Changed = new BitList();
                 MapLevel = FMapContainer.GetMapLevel(L);
                 Count = 0;
-                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1248,10 +1248,10 @@ namespace Aow.Game.World.Map
                         NewList[Walk.HN * 2 + 1] = OverlayType;
                     }
 
-                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                    HNWalkData.WalkToNextHN(ref Walk);
                 }
 
-                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1269,10 +1269,10 @@ namespace Aow.Game.World.Map
                         }
                     }
 
-                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                    HNWalkData.WalkToNextHN(ref Walk);
                 }
 
-                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1295,7 +1295,7 @@ namespace Aow.Game.World.Map
                         }
                     }
 
-                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                    HNWalkData.WalkToNextHN(ref Walk);
                 }
 
                 UnlockTerrainChangedEvent();
@@ -1480,7 +1480,7 @@ namespace Aow.Game.World.Map
         {
             if (FTerrainChangedLockCounter == 0)
             {
-                Aow.Game.World.Map.HexGeometry.OriginalAssert("Invalid TerrainChangedLockCounter", "D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", 5989);
+                HexGeometry.OriginalAssert("Invalid TerrainChangedLockCounter", "D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", 5989);
             }
 
             FTerrainChangedLockCounter -= 1;
@@ -1503,7 +1503,7 @@ namespace Aow.Game.World.Map
         {
             int X = default;
             int Y = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(this.FMapContainer.FWidth - 1, this.FMapContainer.FHeight - 1, ref X, ref Y);
+            HexGeometry.HXtoHP(this.FMapContainer.FWidth - 1, this.FMapContainer.FHeight - 1, ref X, ref Y);
 
             X += 40;
             return X;
@@ -1516,11 +1516,11 @@ namespace Aow.Game.World.Map
             int X = default;
             if (this.FMapContainer.FHeight > 1)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(1, this.FMapContainer.FHeight - 1, ref X, ref Y);
+                HexGeometry.HXtoHP(1, this.FMapContainer.FHeight - 1, ref X, ref Y);
             }
             else
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(0, this.FMapContainer.FHeight - 1, ref X, ref Y);
+                HexGeometry.HXtoHP(0, this.FMapContainer.FHeight - 1, ref X, ref Y);
             }
 
             Y += 32;
@@ -1543,7 +1543,7 @@ namespace Aow.Game.World.Map
             Rect R = default;
             LockTerrainChangedEvent();
             MapLevel = FMapContainer.GetMapLevel(L);
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             Msg.MsgID = 16;
             while (Walk.Radius <= Radius)
             {
@@ -1552,7 +1552,7 @@ namespace Aow.Game.World.Map
                     MapLevel.GetField(Walk.X, Walk.Y).SendMapFieldMsg(ref Msg);
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
             if (TerrainType != -1)
@@ -1593,7 +1593,7 @@ namespace Aow.Game.World.Map
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             return HS.MainPlace(FMapContainer, Xhp, Yhp, L);
         }
 
@@ -1622,8 +1622,8 @@ namespace Aow.Game.World.Map
                 FViewWidth = Width;
                 FViewYhp = Yhp;
                 FViewHeight = Height;
-                Aow.Game.World.Map.HexGeometry.HPtoHX(FViewXhp - 8, FViewYhp - 16, ref X1, ref Y1);
-                Aow.Game.World.Map.HexGeometry.HPtoHX(FViewXhp + Width - 1 + 8, FViewYhp + Height - 1 + 16, ref X2, ref Y2);
+                HexGeometry.HPtoHX(FViewXhp - 8, FViewYhp - 16, ref X1, ref Y1);
+                HexGeometry.HPtoHX(FViewXhp + Width - 1 + 8, FViewYhp + Height - 1 + 16, ref X2, ref Y2);
                 if (X2 >= FMapContainer.FWidth)
                 {
                     X2 = FMapContainer.FWidth - 1;
@@ -2115,7 +2115,7 @@ namespace Aow.Game.World.Map
             FHSSet.Clear();
             FHSSFileName = ExpandFileName(FileName);
             FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSS);
-            Mem = global::Aow.Game.Engine.Engine.ImageStream(Image);
+            Mem = ImageStream(Image);
             try
             {
                 Mem.Read(Bytes.Of(ref Header, 52));
@@ -2126,7 +2126,7 @@ namespace Aow.Game.World.Map
                 if (!condition)
                 {
                     var memSize = (int)Mem.Length;
-                    condition = CRC != Aow.Game.Engine.Nodes.EngineServices.GetCRC32(Mem.GetBuffer(), memSize - 4);
+                    condition = CRC != EngineServices.GetCRC32(Mem.GetBuffer(), memSize - 4);
                 }
 
                 if (condition)
@@ -2136,7 +2136,7 @@ namespace Aow.Game.World.Map
 
                 ReadEObject(Mem, FHSSet, AProgress);
                 ActivateEObject(FHSSet);
-                Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 65556, this);
+                EMsg.InitMsg(ref Msg, 65556, this);
                 FHSSet.MsgProc(ref Msg, this);
                 ControlNode.MsgProc(ref Msg, this);
                 FOnHSSLoadedStore.Raise(this);
@@ -2167,7 +2167,7 @@ namespace Aow.Game.World.Map
                     Mem.Write(Bytes.Of(ref Header, 52));
                     WriteEObject(Mem, FHSSet, AProgress);
                     var size = (int)Mem.Length;
-                    CRC = Aow.Game.Engine.Nodes.EngineServices.GetCRC32(Mem.GetBuffer(), size);
+                    CRC = EngineServices.GetCRC32(Mem.GetBuffer(), size);
                     Mem.Write(Bytes.Of(ref CRC, 4));
                     FileBoundary.Save(FHSSFileName, Profile, Mem.GetBuffer().AsSpan(0, (int)Mem.Length).ToArray());
                 }
@@ -2393,7 +2393,7 @@ namespace Aow.Game.World.Map
             }
             else
             {
-                Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 65557, this);
+                EMsg.InitMsg(ref Msg, 65557, this);
                 FHSSet.MsgProc(ref Msg, this);
             }
         }
@@ -2448,7 +2448,7 @@ namespace Aow.Game.World.Map
         public static HSEngine Create(ECustomNode owner) =>
             ConstructionContext.Create(owner, static (context, owner) => new HSEngine(context, owner));
 
-        private static FixedArray_byte_4 HSMID = global::Aow.Game.Engine.Buffers.FixedArray_byte_4.From("HSM\0"u8);
+        private static FixedArray_byte_4 HSMID = FixedArray_byte_4.From("HSM\0"u8);
         internal static int HSEngineDID;
 
     }
@@ -2725,8 +2725,8 @@ namespace Aow.Game.Draw
             int YmaxOdd = default;
             int YmaxEven;
             MapLevel MapL;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+            HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -2738,8 +2738,8 @@ namespace Aow.Game.Draw
             }
 
             Y = Yhp + Height - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -2857,8 +2857,8 @@ namespace Aow.Game.Draw
             int YmaxEven;
             MapLevel MapL;
             MapL = (MapLevel)FOwner.Owner;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+            HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -2870,8 +2870,8 @@ namespace Aow.Game.Draw
             }
 
             Y = Yhp + Height - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -2970,8 +2970,8 @@ namespace Aow.Game.Draw
             int YmaxOdd = default;
             int YmaxEven;
             MapLevel MapL;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+            HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -2983,8 +2983,8 @@ namespace Aow.Game.Draw
             }
 
             Y = Yhp + Height - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -3090,8 +3090,8 @@ namespace Aow.Game.Draw
             int YmaxEven;
             MapLevel MapL;
             MapL = Map.GetMapLevel(Lhx);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+            HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -3103,8 +3103,8 @@ namespace Aow.Game.Draw
             }
 
             Y = Yhp + Height - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -3201,8 +3201,8 @@ namespace Aow.Game.Draw
             int YmaxEven;
             MapLevel MapL;
             MapL = Map.GetMapLevel(Lhx);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
+            HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
+            HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
             {
                 YminEven = YminOdd;
@@ -3214,8 +3214,8 @@ namespace Aow.Game.Draw
             }
 
             Y = Yhp + Height - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
+            HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
             if (!((Xmax & 1) != 0))
             {
                 YmaxEven = YmaxOdd;
@@ -3464,7 +3464,7 @@ namespace Aow.Game.World
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
             return FResource.FShowPriorityOffset + (Yhp << 13) + Xhp;
         }
 
@@ -3486,7 +3486,7 @@ namespace Aow.Game.World
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
             if (FResource.FImageSequenceList == null)
             {
                 FResource.FImageLibrary.Get(0).Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
@@ -3562,7 +3562,7 @@ namespace Aow.Game.World
             int Yhx = default;
             if (!FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
-                Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+                HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
                 if (GetEditMode() || CanPlace(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx))
                 {
                     Result = PlaceHX(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
@@ -3612,7 +3612,7 @@ namespace Aow.Game.World
         {
             int Xhx = default;
             int Yhx = default;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             return PlaceHX(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
         }
 
@@ -3953,11 +3953,11 @@ namespace Aow.Game.World
                     }
                 }
 
-                Aow.Game.World.MapObjectResource.BltImageSequenceEx(Canvas, Sequence, 0, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
+                BltImageSequenceEx(Canvas, Sequence, 0, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
             }
             else
             {
-                Aow.Game.Draw.Images.LibraryDrawing.BltLibraryImage(Canvas, Image, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
+                LibraryDrawing.BltLibraryImage(Canvas, Image, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
             }
         }
 
@@ -3974,7 +3974,7 @@ namespace Aow.Game.World
             int Xhp = default;
             int Yhp = default;
             MapObject Result = (MapObject)CreateResourceUser();
-            Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             Xhp += 16;
             Yhp += 16;
             if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
@@ -4027,7 +4027,7 @@ namespace Aow.Game.World
             {
                 if (FTerrainList.GetTerrain(I) >= 0)
                 {
-                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, I, ref Xhx, ref Yhx);
+                    HexGeometry.CenterHNtoHX(X, Y, I, ref Xhx, ref Yhx);
                     FEngine.FHSMap.ClearTerrain(Xhx, Yhx, Lhx, 0, -1);
                 }
             }
@@ -4050,9 +4050,9 @@ namespace Aow.Game.World
             MapLevel = Msg.Param[0].As<MapLevel>();
             Lhx = Msg.Data[1];
             Rad = Msg.Param[1].Int;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
+            HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
             Clear = Msg.Param[2].Int == 1;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.Radius <= Rad)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -4065,7 +4065,7 @@ namespace Aow.Game.World
                     Placed = Placed && PlaceResourceUser(FEngine.FHSMap, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)Lhx) != null;
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
             if (Placed)
@@ -4464,11 +4464,11 @@ namespace Aow.Game.World.Map
             {
                 if (GetTerrain(I) >= 0)
                 {
-                    Aow.Game.World.Map.HexGeometry.HNtoHX(I, ref Xhx, ref Yhx);
-                    Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 1);
+                    HexGeometry.HNtoHX(I, ref Xhx, ref Yhx);
+                    HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 1);
                     while (Walk.HN != 7)
                     {
-                        HN = Aow.Game.World.Map.HexGeometry.HXtoHN(Walk.X, Walk.Y);
+                        HN = HexGeometry.HXtoHN(Walk.X, Walk.Y);
                         if (HN >= FCount || HN < FCount && GetTerrain(HN) < 0)
                         {
                             if (Result.IndexOf((ushort)HN) == -1)
@@ -4477,7 +4477,7 @@ namespace Aow.Game.World.Map
                             }
                         }
 
-                        Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                        HNWalkData.WalkToNextHN(ref Walk);
                     }
                 }
             }
@@ -4884,7 +4884,7 @@ namespace Aow.Game.World.Map
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             SelectLocation(Xhp, Yhp, Lhx);
         }
 
@@ -5193,7 +5193,7 @@ namespace Aow.Game.World.Map
             int Y = default;
             if (FX != -2147483648)
             {
-                Aow.Game.World.Map.HexGeometry.HPtoHX(FHSMap.FViewXhp + FX, 0, ref Result, ref Y);
+                HexGeometry.HPtoHX(FHSMap.FViewXhp + FX, 0, ref Result, ref Y);
                 if (Result < 0 || FHSMap.FMapContainer.FWidth <= Result || FHSMap.FMapContainer.FHeight <= Result)
                 {
                     Result = -1;
@@ -5214,7 +5214,7 @@ namespace Aow.Game.World.Map
             int X = default;
             if (FY != -2147483648)
             {
-                Aow.Game.World.Map.HexGeometry.HPtoHX(FHSMap.FViewXhp + FX, FHSMap.FViewYhp + FY, ref X, ref Result);
+                HexGeometry.HPtoHX(FHSMap.FViewXhp + FX, FHSMap.FViewYhp + FY, ref X, ref Result);
                 if (Result < 0 || FHSMap.FMapContainer.FWidth <= Result || FHSMap.FMapContainer.FHeight <= Result)
                 {
                     Result = -1;
@@ -5453,7 +5453,7 @@ namespace Aow.Game.World.Map
             int Yhp = default;
             if (FHSMap != null)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+                HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
                 SetSceneX(Xhp + 16 - (int)(((uint)FSceneWidth) >> 1));
                 SetSceneY(Yhp + 16 - (int)(((uint)FSceneHeight) >> 1));
                 SetSceneL(Lhx);
@@ -5752,10 +5752,10 @@ namespace Aow.Game.World.Map
         // Port extension: fills every pixel of SD outside Inside black.
         public static void FillOutsideRect(Rect Inside, in SurfaceDesc SD)
         {
-            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, 0, SD.Width, Inside.Top), 0, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, Inside.Bottom, SD.Width, SD.Height), 0, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, Inside.Top, Inside.Left, Inside.Bottom), 0, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(Inside.Right, Inside.Top, SD.Width, Inside.Bottom), 0, SD);
+            PixelFormats.ColorFillSD(new Rect(0, 0, SD.Width, Inside.Top), 0, SD);
+            PixelFormats.ColorFillSD(new Rect(0, Inside.Bottom, SD.Width, SD.Height), 0, SD);
+            PixelFormats.ColorFillSD(new Rect(0, Inside.Top, Inside.Left, Inside.Bottom), 0, SD);
+            PixelFormats.ColorFillSD(new Rect(Inside.Right, Inside.Top, SD.Width, Inside.Bottom), 0, SD);
         }
 
         public HSMap HSMap { get => FHSMap; set => SetHSMap(value); }
@@ -6077,7 +6077,7 @@ namespace Aow.Game.World.Map
         {
             EMsg Msg = default;
             FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Destroying);
-            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66564, this);
+            EMsg.InitMsg(ref Msg, 66564, this);
             if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
             {
                 FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
@@ -6095,7 +6095,7 @@ namespace Aow.Game.World.Map
             FImageLibraryManager = null;
             FSFXManager?.Dispose();
             FSFXManager = null;
-            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66565, this);
+            EMsg.InitMsg(ref Msg, 66565, this);
             if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
             {
                 FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
@@ -6136,12 +6136,12 @@ namespace Aow.Game.World.Map
         public void Activate(bool Edit)
         {
             EMsg Msg = default;
-            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66560, this);
+            EMsg.InitMsg(ref Msg, 66560, this);
             GetEngine().ControlNode.MsgProc(ref Msg, this);
             FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Activated);
             if (Edit)
             {
-                Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66562, this);
+                EMsg.InitMsg(ref Msg, 66562, this);
                 GetEngine().ControlNode.MsgProc(ref Msg, this);
                 FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
             }
@@ -6153,12 +6153,12 @@ namespace Aow.Game.World.Map
             EMsg Msg = default;
             if (FStatus.Contains(HSSetStatusElement.Activated))
             {
-                Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66561, this);
+                EMsg.InitMsg(ref Msg, 66561, this);
                 GetEngine().ControlNode.MsgProc(ref Msg, this);
                 FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Activated);
                 if (FStatus.Contains(HSSetStatusElement.Editting))
                 {
-                    Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66563, this);
+                    EMsg.InitMsg(ref Msg, 66563, this);
                     GetEngine().ControlNode.MsgProc(ref Msg, this);
                     FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
                 }
@@ -6234,7 +6234,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5394
         public virtual void CreateEngine()
         {
-            SetHSEngine(global::Aow.Game.World.Map.HSEngine.Create(null));
+            SetHSEngine(HSEngine.Create(null));
         }
 
         // HSEngine.pas:5399
@@ -6319,7 +6319,7 @@ namespace Aow.Game.Draw
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
             return (GetLevel() << 26) + ((Yhp + 32) << 13) + (Xhp + 16);
         }
 
@@ -6339,7 +6339,7 @@ namespace Aow.Game.Draw
         {
             int Xhx = default;
             int Yhx = default;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             return PlaceHX(Map, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
         }
 
@@ -6704,7 +6704,7 @@ namespace Aow.Game.Draw
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             return Place(Map, (int)(((uint)FImage.Width) >> 2) + Xhp + 16, (int)(((uint)FImage.Height) >> 2) + Yhp + 16, Lhx);
         }
 
@@ -6716,7 +6716,7 @@ namespace Aow.Game.Draw
         {
             if (FStatus.Contains(StatusElement.PlacedOnMap))
             {
-                Aow.Game.World.Map.HexGeometry.OriginalAssert("Cannot change MapIsOwner when places on map (TLibraryImageHS)", "D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
+                HexGeometry.OriginalAssert("Cannot change MapIsOwner when places on map (TLibraryImageHS)", "D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
             }
 
             if (Value)
@@ -6866,7 +6866,7 @@ namespace Aow.Game.World
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             return FResource.FShowPriorityOffset + (Yhp << 13) + Xhp;
         }
 
@@ -6883,7 +6883,7 @@ namespace Aow.Game.World
                 FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
                 Count = GetTerrainCount();
                 MapLevel = (MapLevel)Owner.Owner;
-                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while (Walk.HN < Count)
                 {
                     if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6897,7 +6897,7 @@ namespace Aow.Game.World
                         MapField.AddHS(this, Walk.HN);
                     }
 
-                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                    HNWalkData.WalkToNextHN(ref Walk);
                 }
             }
         }
@@ -6913,7 +6913,7 @@ namespace Aow.Game.World
                 Count = GetTerrainCount();
                 MapLevel = (MapLevel)Owner.Owner;
                 FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
-                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while (Walk.HN < Count)
                 {
                     if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6921,7 +6921,7 @@ namespace Aow.Game.World
                         MapLevel.GetField(Walk.X, Walk.Y).RemoveHS(this);
                     }
 
-                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                    HNWalkData.WalkToNextHN(ref Walk);
                 }
 
                 Owner = null;
@@ -6933,7 +6933,7 @@ namespace Aow.Game.World
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             if (FResource.FImageSequenceList == null)
             {
                 FResource.FImageLibrary.Get(0).Show(Xhp - XhpSurf + ((MultiHexMOR)FResource).FdXImage, Yhp - YhpSurf + ((MultiHexMOR)FResource).FdYImage, SurfaceDesc);
@@ -6957,7 +6957,7 @@ namespace Aow.Game.World
                 MapLevel = (MapLevel)Owner.Owner;
                 if (GetLevel() <= 15)
                 {
-                    Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                    HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                     while (Walk.HN < Count)
                     {
                         if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6965,13 +6965,13 @@ namespace Aow.Game.World
                             MapLevel.FMap.InvalidateStaticScene(Walk.X, Walk.Y, ((MapField)Owner).FLhx);
                         }
 
-                        Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                        HNWalkData.WalkToNextHN(ref Walk);
                     }
                 }
 
                 if (!GetEditMode())
                 {
-                    var hNtoRad = Aow.Game.World.Map.HexGeometry.HNtoRad(Count);
+                    var hNtoRad = HexGeometry.HNtoRad(Count);
                     MapLevel.FMap.TerrainChangedRad(FXhx, FYhx, (sbyte)MapLevel.FLhx, hNtoRad);
                 }
             }
@@ -6995,7 +6995,7 @@ namespace Aow.Game.World
                 if (!MapLevel.FMap.FStatus.Contains(HSMapStatusElement.Destroying))
                 {
                     Count = GetTerrainCount();
-                    Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                    HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                     while (Walk.HN < Count)
                     {
                         TerrainType = GetTerrain(Walk.HN);
@@ -7014,10 +7014,10 @@ namespace Aow.Game.World
                             }
                         }
 
-                        Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                        HNWalkData.WalkToNextHN(ref Walk);
                     }
 
-                    var hNtoRad = Aow.Game.World.Map.HexGeometry.HNtoRad(Count);
+                    var hNtoRad = HexGeometry.HNtoRad(Count);
                     MapLevel.FMap.TerrainChangedRad(FXhx, FYhx, (sbyte)MapLevel.FLhx, hNtoRad);
                 }
             }
@@ -7032,8 +7032,8 @@ namespace Aow.Game.World
             int HN;
             if (FResource.FEngine.FHSMap.FStatus.Contains(HSMapStatusElement.Editting))
             {
-                Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-                HN = Aow.Game.World.Map.HexGeometry.dHXtoHN(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, Xhx, Yhx);
+                HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+                HN = HexGeometry.dHXtoHN(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, Xhx, Yhx);
                 Result = HN < FResource.FTerrainList.FCount && (FResource.FTerrainList.GetTerrain(HN) >= 0 || FResource.FTerrainList.GetOverlay(HN) >= 0);
             }
             else
@@ -7054,7 +7054,7 @@ namespace Aow.Game.World
             HNWalkData Walk = default;
             bool Result = true;
             Count = FResource.FTerrainList.FCount;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Result && Walk.HN < Count)
             {
                 TerrainType = GetTerrain(Walk.HN);
@@ -7065,7 +7065,7 @@ namespace Aow.Game.World
                     Result = HS == null || CanPlaceOnHS(HS);
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
             return Result && MapContainer.FMap.CanChangeTerrain(this, Xhx, Yhx, Lhx, FResource.FTerrainList);
@@ -7085,7 +7085,7 @@ namespace Aow.Game.World
             MapLevel MapLevel;
             HNWalkData Walk = default;
             MapLevel = (MapLevel)Owner.Owner;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (true)
             {
                 var terrainCount = GetTerrainCount();
@@ -7097,7 +7097,7 @@ namespace Aow.Game.World
                     MapLevel.GetField(Walk.X, Walk.Y).Sort();
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -7120,7 +7120,7 @@ namespace Aow.Game.World
             }
 
             Counts = default;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN < TerrainList.FCount)
             {
                 if ((TerrainList.GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7136,7 +7136,7 @@ namespace Aow.Game.World
                     }
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
             if (Default >= 0 && Counts[Result] == Counts[Default])
@@ -7153,7 +7153,7 @@ namespace Aow.Game.World
             int Count;
             HNWalkData Walk = default;
             Count = FResource.FTerrainList.FCount;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN != Count)
             {
                 if ((GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7161,7 +7161,7 @@ namespace Aow.Game.World
                     MapLevel.GetField(Walk.X, Walk.Y).UpdateTerrain();
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -7171,7 +7171,7 @@ namespace Aow.Game.World
             int Count;
             HNWalkData Walk = default;
             Count = FResource.FTerrainList.FCount;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN != Count)
             {
                 if ((GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7179,7 +7179,7 @@ namespace Aow.Game.World
                     MapLevel.GetField(Walk.X, Walk.Y).UpdateMapField();
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -7193,7 +7193,7 @@ namespace Aow.Game.World
             HNWalkData Walk = default;
             MapLevel = (MapLevel)Owner.Owner;
             Count = GetTerrainCount();
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7214,10 +7214,10 @@ namespace Aow.Game.World
                     }
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count)
             {
                 if (GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7226,7 +7226,7 @@ namespace Aow.Game.World
                     MapLevel.GetField(Walk.X, Walk.Y).TerrainChanged();
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
     }
@@ -7595,7 +7595,7 @@ namespace Aow.Game.World.Map
             int Xhp = default;
             int Yhp = default;
             MapObject Result = (MapObject)CreateResourceUser();
-            Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             Xhp += 16;
             Yhp += 16;
             if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
@@ -7954,7 +7954,7 @@ namespace Aow.Game.World.Map
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.World.Map.XYLList.QuickSortXYL(FList, 0, Count - 1, Compare);
+                QuickSortXYL(FList, 0, Count - 1, Compare);
             }
         }
 
@@ -8090,7 +8090,7 @@ namespace Aow.Game.World.Map
             void Connect(XYL XYL)
             {
                 HNWalkData Walk = default;
-                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, XYL.X, XYL.Y, 1);
+                HNWalkData.InitHNWalk(ref Walk, XYL.X, XYL.Y, 1);
                 while (Walk.Radius <= 1)
                 {
                     for (int I = 0, last = Locations.Count - 1; I <= last; I++)
@@ -8098,7 +8098,7 @@ namespace Aow.Game.World.Map
                         if (Locations[I].Flag == 0)
                         {
                             var item = Locations[I];
-                            var packXYL = Aow.Game.World.Map.HexGeometry.PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, XYL.L);
+                            var packXYL = HexGeometry.PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, XYL.L);
                             if (Unsafe.BitCast<XYL, int>(item) == Unsafe.BitCast<XYL, int>(packXYL))
                             {
                                 Locations.FList[I].Flag = 1;
@@ -8107,7 +8107,7 @@ namespace Aow.Game.World.Map
                         }
                     }
 
-                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                    HNWalkData.WalkToNextHN(ref Walk);
                 }
             }
 

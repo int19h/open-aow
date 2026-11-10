@@ -153,13 +153,13 @@ public partial class CustomDisplay : WinControl
 
         switch (FBufferingScheme)
         {
-            case Draw.BufferingScheme.Single:
+            case BufferingScheme.Single:
                 FSurfaceIndex = 0;
                 break;
-            case Draw.BufferingScheme.Double:
+            case BufferingScheme.Double:
                 FSurfaceIndex = 1;
                 break;
-            case Draw.BufferingScheme.Tripple:
+            case BufferingScheme.Tripple:
                 FSurfaceIndex = 2;
                 break;
         }
@@ -403,7 +403,7 @@ public partial class CustomDisplay : WinControl
     {
         FBackSurfaceWidth = AWidth;
         FBackSurfaceHeight = AHeight;
-        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && FActiveDC != null && FBufferingScheme != Draw.BufferingScheme.Single)
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && FActiveDC != null && FBufferingScheme != BufferingScheme.Single)
         {
             if (FActiveDC.GetSurface(1).Width != AWidth || FActiveDC.GetSurface(1).Height != AHeight)
             {
@@ -453,17 +453,17 @@ public partial class CustomDisplay : WinControl
                     FOnBltSurface(this);
                 }
 
-                if (FBufferingScheme != Draw.BufferingScheme.Single)
+                if (FBufferingScheme != BufferingScheme.Single)
                 {
                     switch (FBackSurfaceControlMode)
                     {
-                        case Draw.BackSurfaceControlMode.PageFlipping:
+                        case BackSurfaceControlMode.PageFlipping:
                             Result = FActiveDC.FlipSurface(FSurfaceIndex);
                             break;
-                        case Draw.BackSurfaceControlMode.BltSurface:
+                        case BackSurfaceControlMode.BltSurface:
                             Result = FActiveDC.BltSurface(FSurfaceIndex);
                             break;
-                        case Draw.BackSurfaceControlMode.BltInvalidatedSurface:
+                        case BackSurfaceControlMode.BltInvalidatedSurface:
                             Result = FActiveDC.BltInvalidatedSurface(FSurfaceIndex);
                             break;
                     }
@@ -584,7 +584,7 @@ public partial class CustomDisplay : WinControl
         SurfaceDesc SD2 = default(SurfaceDesc);
         Src.Lock(ref SD);
         Dest.Lock(ref SD2);
-        int result = global::Aow.Game.Draw.SurfaceDesc.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
+        int result = SurfaceDesc.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
         Src.Unlock();
         Dest.Unlock();
         return result;
@@ -1362,7 +1362,7 @@ public partial class DisplayCtrl : AbstractDC
         int T;
         if (FFrameCount >= 5)
         {
-            T = Aow.Game.Draw.PixelFormats.GetElapsedMilliSeconds();
+            T = PixelFormats.GetElapsedMilliSeconds();
             FDisplay.FCurrentFrameRate = Round((double)5000 / (T - FLastFrameTime + 1));
             FFrameCount = 0;
             FLastFrameTime = T;

@@ -108,7 +108,7 @@ public partial class HeroInfoDlg : DataModule
     // AoWHeroInfoDlg.pas:146
     public void CloseBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -166,7 +166,7 @@ public partial class HeroInfoDlg : DataModule
             if (Button == MouseButton.Left)
             {
                 FDetailsOpen = true;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+                DialogHosts.UnitWindow.ShowUnit();
                 DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
         }
@@ -201,7 +201,7 @@ public partial class HeroInfoDlg : DataModule
         {
             Dialog.HeroName.Text = Hero.FHeroName;
             var level = Hero.GetLevel();
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LevelXRStr), [IntToStr(level)]);
+            var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.LevelXRStr), [IntToStr(level)]);
             Dialog.HeroLevel.Text = format;
         }
         else

@@ -20,7 +20,7 @@ public static class WindowActions
     internal static void RestoreWindowLayout(object Controller)
     {
         Rect R;
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(6);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(6);
         var scanner = DialogHosts.SWindow.ScannerWindow;
         if (R.Right != 0)
         {
@@ -37,7 +37,7 @@ public static class WindowActions
             scanner.WinHeight = scanner.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(0);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(0);
         var playerInfo = DialogHosts.PInfoW.PInfoWin;
         if (R.Right != 0)
         {
@@ -54,7 +54,7 @@ public static class WindowActions
             playerInfo.WinHeight = playerInfo.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(2);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(2);
         var unitWindow = DialogHosts.UnitWindow.UnitWin;
         if (R.Right != 0)
         {
@@ -77,9 +77,9 @@ public static class WindowActions
             unitWindow.WinHeight = unitWindow.MinHeight;
         }
 
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(3);
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(4);
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(5);
+        GameTables.AoWEngine.FRegistry.GetRectangle(3);
+        GameTables.AoWEngine.FRegistry.GetRectangle(4);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(5);
         var realm = DialogHosts.RealmWin.Dlg;
         if (R.Right != 0)
         {
@@ -105,7 +105,7 @@ public static class WindowActions
             realm.WinHeight = realm.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(13);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(13);
         var magic = DialogHosts.MagicWin.Dlg;
         if (R.Right != 0)
         {
@@ -131,7 +131,7 @@ public static class WindowActions
             magic.WinHeight = magic.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(1);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(1);
         var controls = DialogHosts.ControlWin.ControlWindow;
         if (R.Right != 0)
         {
@@ -148,7 +148,7 @@ public static class WindowActions
             controls.WinHeight = controls.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(7);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(7);
         var info = DialogHosts.IWindow.InfoWin;
         if (R.Right != 0)
         {
@@ -165,7 +165,7 @@ public static class WindowActions
             info.WinHeight = info.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(8);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(8);
         var chat = DialogHosts.ChatWindow.ChatWin;
         if (R.Right != 0)
         {
@@ -189,7 +189,7 @@ public static class WindowActions
             chat.WinHeight = chat.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(12);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(12);
         var tcScanner = DialogHosts.TCScanner.TCScannerWin;
         if (R.Right != 0)
         {
@@ -206,7 +206,7 @@ public static class WindowActions
             tcScanner.WinHeight = tcScanner.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(10);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(10);
         var tcUnit = DialogHosts.TCUnit.TCUnitWin;
         if (R.Right != 0)
         {
@@ -223,7 +223,7 @@ public static class WindowActions
             tcUnit.WinHeight = tcUnit.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(11);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(11);
         if (R.Right != 0)
         {
             DialogHosts.MWindow.FMapRect = R;
@@ -238,7 +238,7 @@ public static class WindowActions
             DialogHosts.MWindow.FMapRect = rect;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(9);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(9);
         var map = DialogHosts.MWindow.MapWindow;
         if (R.Right != 0)
         {

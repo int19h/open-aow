@@ -72,7 +72,7 @@ public partial class CombatHexagon : AbstractHexagon
         CustomImageLibrary Images;
         if (((MapField)Owner).OverlayType != 4)
         {
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             Images = FResource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -117,7 +117,7 @@ public partial class CombatHexagon : AbstractHexagon
         int X = default;
         int Y = default;
         MapLevel = (MapLevel)Owner.Owner;
-        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, TransitionNeighbours[Side - 1], ref X, ref Y);
+        HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, TransitionNeighbours[Side - 1], ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
         {
             NeighbourTerrain = MapLevel.GetField(X, Y).TerrainType;
@@ -244,7 +244,7 @@ public partial class CombatHexagon : AbstractHexagon
         }
     }
 
-    private static FixedArray_byte_3 TransitionNeighbours = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
+    private static FixedArray_byte_3 TransitionNeighbours = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
 
     public new partial class Resource : AbstractHexagonResource
     {
@@ -277,7 +277,7 @@ public partial class CombatHexagon : AbstractHexagon
 
             if (Msg.MsgID == 536870920)
             {
-                FTransitionLibrary = Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TCombat\\Base_Hex\\CTransHx.ILB");
+                FTransitionLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TCombat\\Base_Hex\\CTransHx.ILB");
             }
         }
 

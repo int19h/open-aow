@@ -52,25 +52,25 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:61
     public void ClearChat()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatMemo.Items.Clear();
+        DialogHosts.ChatWindow.ChatMemo.Items.Clear();
         DialogHosts.ChatWindow.ChatEdit.Text = "";
     }
 
     // aowSetupEvents.pas:67
     public void UpdateChatPlayers()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.Clear();
-        var allPlayers = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AllPlayersRStr);
-        Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
+        DialogHosts.ChatWindow.PlayerList.Items.Clear();
+        var allPlayers = AbilityRules.TranslateRStr(AllPlayersRStr);
+        DialogHosts.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
         if (AoWHSMap.Current != null)
         {
             for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
-                if (I != AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Player.Status.Terminated && AoWHSMap.Current.FPlayerCommunicator.PCC.Players[I].ConnectionMode == ConnectionMode.Remote)
+                if (I != AoWHSMap.Current.FSeatedPlayer && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Player.Status.Terminated && AoWHSMap.Current.FPlayerCommunicator.PCC.Players[I].ConnectionMode == ConnectionMode.Remote)
                 {
                     var player = AoWHSMap.Current.FPlayerCommunicator.PCC.Players[I];
-                    var playerLeader = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
-                    Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.AddObject(playerLeader.FLeader.FHeroName, IntToObject(player.SystemID));
+                    var playerLeader = AoWHSMap.Current.FPlayers.GetPlayers(I);
+                    DialogHosts.ChatWindow.PlayerList.Items.AddObject(playerLeader.FLeader.FHeroName, IntToObject(player.SystemID));
                     DialogHosts.ChatWindow.PlayerList.Selected = 0;
                 }
             }
@@ -90,8 +90,8 @@ public partial class SetupEvents : DataModule
     public void SetupControlStart()
     {
         DialogHosts.SynchronizeDlg.Dlg.Visible = false;
-        Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.CloseSetup();
-        Aow.Game.Ui.Dialogs.General.StartGame(DialogHosts.General);
+        DialogHosts.ScenSetup.CloseSetup();
+        General.StartGame(DialogHosts.General);
         if (DPlay.Connected)
         {
             ClearChat();
@@ -137,15 +137,15 @@ public partial class SetupEvents : DataModule
     {
         if (DialogHosts.ScenSetup.ScenSetupPnl.Visible)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ChatMemo.Items.Add(Message);
+            DialogHosts.ScenSetup.ChatMemo.Items.Add(Message);
             DialogHosts.ScenSetup.FChatScrollPending = true;
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatMemo.Items.Add(Message);
+            DialogHosts.ChatWindow.ChatMemo.Items.Add(Message);
             DialogHosts.TBWindow.FChatFlash = 136;
             DialogHosts.ChatWindow.FScrollPending = true;
-            Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\CHAT.WAV");
+            AudioPlayback.PlaySample("SFX\\EVENTS\\CHAT.WAV");
         }
     }
 
@@ -161,13 +161,13 @@ public partial class SetupEvents : DataModule
     {
         if (DialogHosts.ScenSetup.ScenSetupPnl.Visible)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ExitGameClick();
-            Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(DialogHosts.MessageDlg);
-            var warning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WarningRStr);
+            DialogHosts.ScenSetup.ExitGameClick();
+            MessageDlg.ResetMessageDialog(DialogHosts.MessageDlg);
+            var warning = AbilityRules.TranslateRStr(WarningRStr);
             DialogHosts.MessageDlg.TitleLbl.Text = warning;
-            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var youWereEjectedByTheHost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(YouWereEjectedByTheHostRStr);
-            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(youWereEjectedByTheHost);
+            DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+            var youWereEjectedByTheHost = AbilityRules.TranslateRStr(YouWereEjectedByTheHostRStr);
+            DialogHosts.MessageDlg.MessageMemo.Items.Add(youWereEjectedByTheHost);
             DialogHosts.MessageDlg.OKPnl.Visible = true;
             DialogHosts.MessageDlg.Dlg.Visible = true;
         }
@@ -186,14 +186,14 @@ public partial class SetupEvents : DataModule
     public void SetupControlCustomizeLeader(SetupControl Control, CustomizeLeaderControl Leader)
     {
         DialogHosts.ScenSetup.ScenSetupPnl.Visible = false;
-        Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.Execute(Leader);
+        DialogHosts.LeaderSetupWin.Execute(Leader);
     }
 
     // aowSetupEvents.pas:195
     public void SetupControlLoadMap(SetupControl Control, string FileName)
     {
         var fileName = ExtractFileName(FileName);
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LoadingXRStr), [fileName]);
+        var format = AbilityRules.Format(AbilityRules.TranslateRStr(LoadingXRStr), [fileName]);
         DialogHosts.ProgressDialog.Title.Text = format;
         DialogHosts.ProgressDialog.StatusLbl.Text = "";
         DialogHosts.ProgressDialog.Bar.Position = 0;
@@ -202,20 +202,20 @@ public partial class SetupEvents : DataModule
         DialogHosts.General.Manager.OverlayPriority = 5000;
         if (!Control.FSettings.FCustomizeLeaders)
         {
-            Aow.Game.Audio.AudioHost.SongPlayer.Stop(false);
-            Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
-            Aow.Game.Audio.AudioPlayback.FadeMusicVolume(0, 1);
+            AudioHost.SongPlayer.Stop(false);
+            AudioHost.SongPlayer.Songs.Clear();
+            AudioPlayback.FadeMusicVolume(0, 1);
         }
 
         if (Control.FStream.Length != 0)
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSMfromStream(Control.FStream, false, (_, Message, Progression) => Aow.Game.Ui.Dialogs.DialogHosts.General.MapProgress(Message, Progression));
+            GameTables.AoWEngine.LoadHSMfromStream(Control.FStream, false, (_, Message, Progression) => DialogHosts.General.MapProgress(Message, Progression));
             var fileName2 = ExtractFileName(FileName);
             AoWHSMap.Current.FileName = GameTables.AoWEngine.StartupDirectory + "Scenario\\" + fileName2;
         }
         else
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => Aow.Game.Ui.Dialogs.DialogHosts.General.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
+            GameTables.AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => DialogHosts.General.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
         }
 
         DialogHosts.General.Manager.OverlayPriority = 0;
@@ -233,7 +233,7 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:225
     public void SetupControlSettingChanged()
     {
-        Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioSetup(DialogHosts.ScenSetup);
+        ScenSetup.UpdateScenarioSetup(DialogHosts.ScenSetup);
     }
 
     // aowSetupEvents.pas:228
@@ -251,7 +251,7 @@ public partial class SetupEvents : DataModule
             SetupControl.DataReceived(Data, Size, FromID);
         }
 
-        if (AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Activated))
+        if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Activated))
         {
             if (AoWHSMap.Current.FPlayerCommunicator.PCC is RemotePCC)
             {
@@ -300,7 +300,7 @@ public partial class SetupEvents : DataModule
     {
         if (AoWHSMap.Current != null)
         {
-            Aow.Game.World.Map.AoWHSMap.Current.PlayerConnectionLost();
+            AoWHSMap.Current.PlayerConnectionLost();
         }
     }
 
@@ -310,22 +310,22 @@ public partial class SetupEvents : DataModule
         sbyte Player;
         if (DialogHosts.ScenSetup.FSetupControl != null)
         {
-            if (Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.FSetupControl.GetHost())
+            if (DialogHosts.ScenSetup.FSetupControl.GetHost())
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.FSetupControl.hDisconnectPlayer(ID);
+                DialogHosts.ScenSetup.FSetupControl.hDisconnectPlayer(ID);
             }
         }
 
         if (AoWHSMap.Current != null && AoWHSMap.Current.FPlayerCommunicator.PCC != null)
         {
-            Player = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
+            Player = (sbyte)AoWHSMap.Current.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
             if (Player != -1)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player) != null)
+                if (AoWHSMap.Current.FPlayers.GetPlayers(Player) != null)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
                     {
-                        Aow.Game.World.Map.AoWHSMap.Current.PlayerDisconnected(Player);
+                        AoWHSMap.Current.PlayerDisconnected(Player);
                     }
 
                     UpdateChatPlayers();

@@ -106,7 +106,7 @@ public sealed class MapNetSoundDispatchTests
 
         public void Dispose()
         {
-            Aow.Game.Audio.AudioPlayback.ReleaseSoundSystem();
+            AudioPlayback.ReleaseSoundSystem();
             AudioHost.SampleList = samples;
             AudioHost.SampleDataList = data;
             AudioHost.SoundSystems = systems;
@@ -138,7 +138,7 @@ public sealed class MapNetSoundDispatchTests
             Assert.IsType<SampleData>(value);
             Assert.Equal(1, value.RefCount);
             Assert.Equal(memory ? "" : value == direct ? "direct" : "dynamic", value.Name);
-            if (!memory) Assert.Same(value, Aow.Game.Audio.AudioHost.SampleDataList.Find(value.Name));
+            if (!memory) Assert.Same(value, AudioHost.SampleDataList.Find(value.Name));
         }
         Assert.Equal(memory ? 0 : 2, AudioHost.SampleDataList.Count);
         var sample = Sample.Create(direct);
@@ -164,20 +164,20 @@ public sealed class MapNetSoundDispatchTests
     public void SoundAliasesKeepDistinctDescriptorsOverOneRuntimeType()
     {
         using var state = new SoundState();
-        var sdl = Aow.Game.Audio.AudioHost.SoundSystems.Find("SDL");
-        var galaxy = Aow.Game.Audio.AudioHost.SoundSystems.Find("Galaxy");
+        var sdl = AudioHost.SoundSystems.Find("SDL");
+        var galaxy = AudioHost.SoundSystems.Find("Galaxy");
         Assert.NotSame(sdl, galaxy);
         Assert.Equal("SDL", sdl.Name);
         Assert.Equal("Galaxy", galaxy.Name);
         Assert.Same(sdl, SdlSoundSystem.Descriptor);
         Assert.Same(galaxy, SdlSoundSystem.Galaxy);
-        Assert.Same(sdl, Aow.Game.Audio.AudioHost.SoundSystems.Find("sdl"));
-        Assert.Same(galaxy, Aow.Game.Audio.AudioHost.SoundSystems.Find("GALAXY"));
+        Assert.Same(sdl, AudioHost.SoundSystems.Find("sdl"));
+        Assert.Same(galaxy, AudioHost.SoundSystems.Find("GALAXY"));
         SdlSoundSystem.Install(mute: true, audioOutput: false);
         Assert.Equal(2, AudioHost.SoundSystems.Count);
-        Assert.Same(sdl, Aow.Game.Audio.AudioHost.SoundSystems.Find("SDL"));
-        Assert.Same(galaxy, Aow.Game.Audio.AudioHost.SoundSystems.Find("Galaxy"));
-        var error = Assert.Throws<InvalidOperationException>(() => Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(sdl));
+        Assert.Same(sdl, AudioHost.SoundSystems.Find("SDL"));
+        Assert.Same(galaxy, AudioHost.SoundSystems.Find("Galaxy"));
+        var error = Assert.Throws<InvalidOperationException>(() => NullSoundSystem.RegisterSoundSystem(sdl));
         Assert.Equal("Sound System with name: SDL already registered", error.Message);
     }
 
@@ -187,12 +187,12 @@ public sealed class MapNetSoundDispatchTests
     public void SdlFacadesCreateExactSilentTypes(string name)
     {
         using var state = new SoundState();
-        var meta = Aow.Game.Audio.AudioHost.SoundSystems.Find(name);
+        var meta = AudioHost.SoundSystems.Find(name);
         var system = meta.Create();
         Assert.IsType<SdlSoundSystem>(system);
         Assert.Equal(1, system.FRefCount);
         system.Dispose();
-        Assert.True(Aow.Game.Audio.AudioPlayback.InitializeSoundSystem(name,
+        Assert.True(AudioPlayback.InitializeSoundSystem(name,
             new SoundSettings { SampleRate = 8000, SampleVoices = 1, SFXEnabled = true }));
         var sampleDataMeta = SdlSoundSystem.SampleData;
         var data = sampleDataMeta.CreateEx(Format, new byte[] { 128 }, 1);
@@ -228,7 +228,7 @@ public sealed class MapNetSoundDispatchTests
     public void NullBackendKeepsCompletedSampleCreation()
     {
         using var state = new SoundState();
-        Aow.Game.Audio.AudioHost.SoundSystems.Clear();
+        AudioHost.SoundSystems.Clear();
         NullSoundSystem.Install();
         var system = NullSoundSystem.Descriptor.Create();
         Assert.IsType<NullSoundSystem>(system);

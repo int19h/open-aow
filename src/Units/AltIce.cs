@@ -34,7 +34,7 @@ public partial class AltarOfIce : Altar
         // AltIce.pas:26
 
         // AltIce.pas:49
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AltarOfIceRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AltarOfIceRStr);
 
         private static readonly string AltarOfIceRStr = "Altar of Ice";
 

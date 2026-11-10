@@ -14,7 +14,7 @@ public class GDPlay : Component
     public GUID AppGUID { get; set; }
     public bool Connected => false;
     public bool InSession => false;
-    public ConnectionType ConnectionType => Rtl.ConnectionType.None;
+    public ConnectionType ConnectionType => ConnectionType.None;
     public object? DPlay => null;
     public int PlayerID => 0;
     public string SessionName { get; set; } = "";
@@ -33,7 +33,7 @@ public class GDPlay : Component
         Connections.Clear();
         ConnectionItems.Clear();
         Connections.Add("Internet TCP/IP Connection For DirectPlay");
-        ConnectionItems.Add(new GDConnection { FGuid = DPSPGUID_TCPIP, FType = Rtl.ConnectionType.TCP });
+        ConnectionItems.Add(new GDConnection { FGuid = DPSPGUID_TCPIP, FType = ConnectionType.TCP });
         return 0;
     }
 

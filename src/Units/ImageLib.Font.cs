@@ -36,10 +36,10 @@ public partial class ImageLibraryFont
         {
             var palette = (LibraryImagePalette)FPaletteManager.FPalettes.List[0];
             palette.FPalette.Entries[FFontColorPaletteIndex].Value =
-                Aow.Game.Draw.PixelFormats.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
+                PixelFormats.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
             if (palette.FRemapPalette != null)
                 palette.FRemapPalette.Entries[FFontColorPaletteIndex].Value =
-                    Aow.Game.Draw.PixelFormats.Color2PixelInfo(value, palette.FRemapPalette.PixelFormatID, null);
+                    PixelFormats.Color2PixelInfo(value, palette.FRemapPalette.PixelFormatID, null);
         }
         FColor = value;
     }

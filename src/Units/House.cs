@@ -25,9 +25,9 @@ public partial class House : CombatStructure
     {
         PlayerStructure Structure;
         base.Activate();
-        if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
-            Structure = (PlayerStructure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Combat.CombatPlacement.CombatLLoc).GetField(Combat.CombatPlacement.CombatXLoc, Combat.CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
+            Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(Combat.CombatPlacement.CombatLLoc).GetField(Combat.CombatPlacement.CombatXLoc, Combat.CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
             if (Structure != null)
             {
                 if (Structure is City)
@@ -45,7 +45,7 @@ public partial class House : CombatStructure
                 }
                 else
                 {
-                    FFlagID = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
+                    FFlagID = AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
                 }
 
                 if (FFlagID == -1)
@@ -63,15 +63,15 @@ public partial class House : CombatStructure
         int Xhp = default;
         int Yhp = default;
         int TerrainOffset;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         XhpSurf = Xhp - XhpSurf;
         YhpSurf = Yhp - YhpSurf;
         if (FHitPoints == 0)
         {
-            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.GetImageSequence(50);
+            Sequence = AoWHSSet.Current.FImageSequences.GetImageSequence(50);
             var yhx = GetYhx();
             var xhx = GetXhx();
-            switch (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+            switch (Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
             {
                 case 3:
                     TerrainOffset = 1;
@@ -105,7 +105,7 @@ public partial class House : CombatStructure
         {
             var yhx = GetYhx();
             var xhx = GetXhx();
-            switch (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+            switch (Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
             {
                 case 3:
                     TerrainOffset = 20;
@@ -131,11 +131,11 @@ public partial class House : CombatStructure
                             ImageIndex = Sequence.GetFrameIndex(Combat.AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                             if (ImageIndex != -1)
                             {
-                                if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                                if (!Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
                                 {
                                     var xhx2 = GetXhx();
                                     var yhx2 = GetYhx();
-                                    Aow.Game.Engine.AoWHSSet.Current.FFlagControl.ShowStructureFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + AoWHSMap.Current.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
+                                    AoWHSSet.Current.FFlagControl.ShowStructureFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + AoWHSMap.Current.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
                                 }
                             }
 
@@ -167,7 +167,7 @@ public partial class House : CombatStructure
         int Yhp = default;
         if (FHitPoints > 0)
         {
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
             Sequence = FResource.ImageSequenceList.GetImageSequence(FRace + 60);

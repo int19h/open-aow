@@ -155,7 +155,7 @@ namespace Aow.Game.Engine.Collections
 
             if (NewCount > FCount)
             {
-                Aow.Game.Engine.Collections.IntegerList.FillInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+                FillInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
             }
 
             FCount = NewCount;
@@ -416,7 +416,7 @@ namespace Aow.Game.Engine.Collections
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.IntegerList.QuickSortInteger(FList, 0, Count - 1, Compare);
+                QuickSortInteger(FList, 0, Count - 1, Compare);
             }
         }
 
@@ -606,7 +606,7 @@ namespace Aow.Game.Engine.Collections
             while (!(I >= R));
         }
 
-        internal static void FillInteger(Span<int> buffer, int count, int value) => Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
+        internal static void FillInteger(Span<int> buffer, int count, int value) => EngineServices.Fill(buffer, count, value);
 
         internal static int FillWithRandomUnits(IntegerList Indexes, UnitList Units, int Level, int Value, Set<UnitType> Types)
         {
@@ -640,7 +640,7 @@ namespace Aow.Game.Engine.Collections
                 Index = Indexes[Random(Indexes.Count)];
                 if (Index != -1)
                 {
-                    TestUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
+                    TestUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                     if (CanUse(TestUnit))
                     {
                         if (TestUnit.GetObtainValue() + Result > Value)
@@ -653,7 +653,7 @@ namespace Aow.Game.Engine.Collections
                                 Index = Indexes[Random(Indexes.Count)];
                                 if (Index != -1 && Index != BestIndex)
                                 {
-                                    TestUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
+                                    TestUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                                     if (CanUse(TestUnit))
                                     {
                                         Delta = Math.Abs(TestUnit.GetObtainValue() - (Value - Result));
@@ -672,7 +672,7 @@ namespace Aow.Game.Engine.Collections
                         }
 
                         Unit_ = new Unit(null);
-                        Unit_.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
+                        Unit_.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                         Units.AddUnit(Unit_);
                         Result += Unit_.GetObtainValue();
                         Tries = 50;
@@ -716,7 +716,7 @@ namespace Aow.Game.Engine.Collections
                 Index = Indexes[Random(Indexes.Count)];
                 if (Index != -1)
                 {
-                    TestUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
+                    TestUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                     if (CanUse(TestUnit))
                     {
                         if (TestUnit.GetObtainValue() + Result > Value)
@@ -729,7 +729,7 @@ namespace Aow.Game.Engine.Collections
                                 Index = Indexes[Random(Indexes.Count)];
                                 if (Index != -1 && Index != BestIndex)
                                 {
-                                    TestUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
+                                    TestUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                                     if (CanUse(TestUnit))
                                     {
                                         Delta = Math.Abs(TestUnit.GetObtainValue() - (Value - Result));
@@ -748,7 +748,7 @@ namespace Aow.Game.Engine.Collections
                         }
 
                         Units.Add(Index);
-                        Result += Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FObtainValue;
+                        Result += AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FObtainValue;
                         Tries = 50;
                     }
                 }
@@ -1099,7 +1099,7 @@ namespace Aow.Game.Engine.Collections
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.ByteList.QuickSortByte(FList, 0, Count - 1, Compare);
+                QuickSortByte(FList, 0, Count - 1, Compare);
             }
         }
 
@@ -1564,7 +1564,7 @@ namespace Aow.Game.Engine.Collections
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.ShortIntList.QuickSortShortInt(FList, 0, Count - 1, Compare);
+                QuickSortShortInt(FList, 0, Count - 1, Compare);
             }
         }
 
@@ -1819,7 +1819,7 @@ namespace Aow.Game.Engine.Collections
 
             if (NewCount > FCount)
             {
-                Aow.Game.Engine.Collections.WordList.FillWord(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+                FillWord(FList.AsSpan(FCount), NewCount - FCount, FDefault);
             }
 
             FCount = NewCount;
@@ -2028,7 +2028,7 @@ namespace Aow.Game.Engine.Collections
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.WordList.QuickSortWord(FList, 0, Count - 1, Compare);
+                QuickSortWord(FList, 0, Count - 1, Compare);
             }
         }
 
@@ -2213,7 +2213,7 @@ namespace Aow.Game.Engine.Collections
 
         internal static void FillWord(Span<ushort> buffer, int count, ushort value)
         {
-            global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
+            EngineServices.Fill(buffer, count, value);
         }
 
         public delegate int WordSortCompare(ushort Item1, ushort Item2);
@@ -2980,7 +2980,7 @@ namespace Aow.Game.Engine.Collections
 
             if (NewCount > FCount)
             {
-                Aow.Game.Engine.Collections.DoubleItemList.FillLargeInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+                FillLargeInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
             }
 
             FCount = NewCount;
@@ -3240,32 +3240,32 @@ namespace Aow.Game.Engine.Collections
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.DoubleItemList.QuickSortDoubleItem(FList, 0, Count - 1, Compare);
+                QuickSortDoubleItem(FList, 0, Count - 1, Compare);
             }
         }
 
         // Engine.pas:5307
         public void SortAscendingItemA()
         {
-            Sort(Aow.Game.Engine.Collections.DoubleItemList.CompareDoubleItemAAscending);
+            Sort(CompareDoubleItemAAscending);
         }
 
         // Engine.pas:5312
         public void SortAscendingItemB()
         {
-            Sort(Aow.Game.Engine.Collections.DoubleItemList.CompareDoubleItemBAscending);
+            Sort(CompareDoubleItemBAscending);
         }
 
         // Engine.pas:5317
         public void SortDescendingItemA()
         {
-            Sort(Aow.Game.Engine.Collections.DoubleItemList.CompareDoubleItemADescending);
+            Sort(CompareDoubleItemADescending);
         }
 
         // Engine.pas:5322
         public void SortDescendingItemB()
         {
-            Sort(Aow.Game.Engine.Collections.DoubleItemList.CompareDoubleItemBDescending);
+            Sort(CompareDoubleItemBDescending);
         }
 
         // Engine.pas:5327
@@ -3503,7 +3503,7 @@ namespace Aow.Game.Engine.Collections
 
         private static void FillLargeInteger(Span<DoubleItem> buffer, int count, DoubleItem value)
         {
-            global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
+            EngineServices.Fill(buffer, count, value);
         }
 
         [StructLayout(LayoutKind.Explicit, Size = 8)]
@@ -3588,7 +3588,7 @@ namespace Aow.Game.Engine.Collections
 
             if (NewCount > FCount)
             {
-                Aow.Game.Engine.Collections.QuadItemList.FillQuadInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+                FillQuadInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
             }
 
             FCount = NewCount;
@@ -3882,56 +3882,56 @@ namespace Aow.Game.Engine.Collections
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.QuadItemList.QuickSortQuadItem(FList, 0, Count - 1, Compare);
+                QuickSortQuadItem(FList, 0, Count - 1, Compare);
             }
         }
 
         // Engine.pas:5737
         public void SortAscendingItemA()
         {
-            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemAAscending);
+            Sort(CompareQuadItemAAscending);
         }
 
         // Engine.pas:5742
         public void SortAscendingItemB()
         {
-            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemBAscending);
+            Sort(CompareQuadItemBAscending);
         }
 
         // Engine.pas:5747
         public void SortAscendingItemC()
         {
-            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemCAscending);
+            Sort(CompareQuadItemCAscending);
         }
 
         // Engine.pas:5752
         public void SortAscendingItemD()
         {
-            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemDAscending);
+            Sort(CompareQuadItemDAscending);
         }
 
         // Engine.pas:5757
         public void SortDescendingItemA()
         {
-            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemADescending);
+            Sort(CompareQuadItemADescending);
         }
 
         // Engine.pas:5762
         public void SortDescendingItemB()
         {
-            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemBDescending);
+            Sort(CompareQuadItemBDescending);
         }
 
         // Engine.pas:5767
         public void SortDescendingItemC()
         {
-            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemCDescending);
+            Sort(CompareQuadItemCDescending);
         }
 
         // Engine.pas:5772
         public void SortDescendingItemD()
         {
-            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemDDescending);
+            Sort(CompareQuadItemDDescending);
         }
 
         // Engine.pas:5777
@@ -4100,7 +4100,7 @@ namespace Aow.Game.Engine.Collections
         internal static void FillQuadInteger(Span<QuadInteger> buffer, int count, in QuadInteger value)
         {
             QuadInteger value2 = value;
-            global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value2);
+            EngineServices.Fill(buffer, count, value2);
         }
 
         [StructLayout(LayoutKind.Explicit, Size = 16)]
@@ -4804,7 +4804,7 @@ namespace Aow.Game.Engine.Nodes
         private EClass eclass;
 
         // The engine class descriptor of the instance's exact type, read once and cached.
-        public EClass EClass => eclass ??= Aow.Game.Engine.EClass.Of(GetType());
+        public EClass EClass => eclass ??= EClass.Of(GetType());
 
         // The Delphi pre-inherited statements run after capture and before any inherited body.
         private protected virtual void InitializeBeforeInherited() { }
@@ -5498,13 +5498,13 @@ namespace Aow.Game.Engine
             FDebugIDs = new StringList();
             FDebugIDs.AddObject(UserStr, IntToObject(-1));
             RegisterEClasses([EClass.Of<EControlStyleObject>(), EClass.Of<EControlStyleNode>(), EClass.Of<ECustomOwner>(), EClass.Of<EResourceEditSettings>()]);
-            Aow.Game.Engine.Nodes.EngineHost.Engines.Add(this);
+            EngineHost.Engines.Add(this);
         }
 
         // Engine.pas:8745
         public override void Dispose()
         {
-            Aow.Game.Engine.Nodes.EngineHost.Engines.Remove(this);
+            EngineHost.Engines.Remove(this);
             FDebugEventsStore.Clear();
             FDebugIDs?.Dispose();
             base.Dispose();
@@ -5592,7 +5592,7 @@ namespace Aow.Game.Engine
         public void ResetMsgCount()
         {
             EMsg Msg = default;
-            global::Aow.Game.Engine.Engine.InitMsgEx(ref Msg, 1, this, FMsgCount + 1);
+            InitMsgEx(ref Msg, 1, this, FMsgCount + 1);
             MsgProc(ref Msg, this);
             FMsgCount = 0;
         }
@@ -5662,7 +5662,7 @@ namespace Aow.Game.Engine
         public void ActivateEObject(EObject Obj)
         {
             EMsg Msg = default;
-            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 536870920, this);
+            EMsg.InitMsg(ref Msg, 536870920, this);
             Msg.Payload = this;
             Obj.MsgProc(ref Msg, this);
         }
@@ -5916,10 +5916,10 @@ namespace Aow.Game.Engine
             {
                 WriteEObject(M, Obj, AProgress);
                 var size = (int)M.Length;
-                CRC1 = Aow.Game.Engine.Nodes.EngineServices.GetCRC32(M.GetBuffer(), size);
+                CRC1 = EngineServices.GetCRC32(M.GetBuffer(), size);
                 M.Write(Bytes.Of(ref CRC1, 4));
                 var mSize = (int)M.Length;
-                CRC2 = Aow.Game.Engine.Nodes.EngineServices.GetCRC32(M.GetBuffer(), mSize);
+                CRC2 = EngineServices.GetCRC32(M.GetBuffer(), mSize);
                 F = OpenFile(FileName, 65535);
                 try
                 {
@@ -5958,11 +5958,11 @@ namespace Aow.Game.Engine
                     var size = (int)M.Length;
                     CRC2 = MemoryMarshal.Read<int>(M.GetBuffer().AsSpan(size - 4, 4));
                     var mSize = (int)M.Length;
-                    bool condition = CRC1 == Aow.Game.Engine.Nodes.EngineServices.GetCRC32(M.GetBuffer().AsSpan(4), mSize - 4);
+                    bool condition = CRC1 == EngineServices.GetCRC32(M.GetBuffer().AsSpan(4), mSize - 4);
                     if (condition)
                     {
                         var size2 = (int)M.Length;
-                        condition = CRC2 == Aow.Game.Engine.Nodes.EngineServices.GetCRC32(M.GetBuffer().AsSpan(4), size2 - 8);
+                        condition = CRC2 == EngineServices.GetCRC32(M.GetBuffer().AsSpan(4), size2 - 8);
                     }
 
                     if (condition)
@@ -6455,7 +6455,7 @@ namespace Aow.Game.Engine.Nodes
         public virtual void Draw(Canvas Canvas, Rect Rect, Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
             Rect R = default;
-            Aow.Game.Draw.Images.LibraryDrawing.BltLibraryImage(Canvas, GetCellImage(), Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
+            LibraryDrawing.BltLibraryImage(Canvas, GetCellImage(), Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
         }
 
         public ECustomNode ResourceList { get => FResourceList; set => FResourceList = value; }
@@ -6672,7 +6672,7 @@ namespace Aow.Game.Engine.Storage
             }
         }
 
-        private static FixedArray_byte_4 CompressMagic = global::Aow.Game.Engine.Buffers.FixedArray_byte_4.From("CFS\0"u8);
+        private static FixedArray_byte_4 CompressMagic = FixedArray_byte_4.From("CFS\0"u8);
 
         public enum CompressLevel : byte
         {
@@ -6699,7 +6699,7 @@ namespace Aow.Game.Engine
             CaptureAddress.Assign(this);
             FEngines = new DelphiList();
             FCounts = new IntegerList();
-            Aow.Game.Engine.PlugIn.RegisterPlugIn(this);
+            RegisterPlugIn(this);
             FRefCount = 1;
         }
 
@@ -6713,7 +6713,7 @@ namespace Aow.Game.Engine
 
             FEngines?.Dispose();
             FCounts?.Dispose();
-            Aow.Game.Engine.PlugIn.UnregisterPlugIn(this);
+            UnregisterPlugIn(this);
         }
 
         // Engine.pas:9162
@@ -6806,7 +6806,7 @@ namespace Aow.Game.Engine
             }
             if (!flag)
             {
-                global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.Add((object)PlugIn);
+                EngineHost.PlugIns.Add((object)PlugIn);
                 return;
             }
             throw new InvalidOperationException("PlugIn " + PlugIn.Name() + " already registered");
@@ -6814,9 +6814,9 @@ namespace Aow.Game.Engine
 
         private static void UnregisterPlugIn(PlugIn PlugIn)
         {
-            if (global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.IndexOf((object)PlugIn) != -1)
+            if (EngineHost.PlugIns.IndexOf((object)PlugIn) != -1)
             {
-                global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.Remove((object)PlugIn);
+                EngineHost.PlugIns.Remove((object)PlugIn);
                 return;
             }
             throw new KeyNotFoundException("PlugIn not found");
@@ -6874,7 +6874,7 @@ namespace Aow.Game.Engine
             int last = FUsedPlugIns.Count - 1;
             for (; I <= last; I += 1)
             {
-                P = Aow.Game.Engine.PlugInControl.FindPlugIn(FUsedPlugIns[I]);
+                P = FindPlugIn(FUsedPlugIns[I]);
                 if (P != null)
                 {
                     P.Initialize(FEngine);
@@ -6892,7 +6892,7 @@ namespace Aow.Game.Engine
             PlugIn P;
             for (int I = 0, last = FUsedPlugIns.Count - 1; I <= last; I++)
             {
-                P = Aow.Game.Engine.PlugInControl.FindPlugIn(FUsedPlugIns[I]);
+                P = FindPlugIn(FUsedPlugIns[I]);
                 if (P != null)
                 {
                     P.Finalize(FEngine);
@@ -9519,7 +9519,7 @@ namespace Aow.Game.Engine.Nodes
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);
-            Aow.Game.Engine.PersistSupport.LinesEx(persister, "Editors", FEditors);
+            PersistSupport.LinesEx(persister, "Editors", FEditors);
         }
 
         public StringList Editors { get => FEditors; }
@@ -9665,7 +9665,7 @@ namespace Aow.Game.Engine.Nodes
         {
             if (!FSorted && FCount > 0)
             {
-                Aow.Game.Engine.Nodes.ESortNode.SortItems(FItems, 0, FCount - 1);
+                SortItems(FItems, 0, FCount - 1);
             }
 
             FSorted = true;
@@ -9783,7 +9783,7 @@ namespace Aow.Game.Engine.Nodes
         {
             if (!FSorted && FCount > 0)
             {
-                Aow.Game.Engine.Nodes.EInverseSortNode.InverseSortItems(FItems, 0, FCount - 1);
+                InverseSortItems(FItems, 0, FCount - 1);
             }
 
             FSorted = true;
@@ -11533,7 +11533,7 @@ namespace Aow.Game.Engine.Storage
                 Value = "";
                 while (I <= Last)
                 {
-                    NewID = Aow.Game.Engine.Storage.EReadTextStorageStream.GetLineID(FText[I]);
+                    NewID = GetLineID(FText[I]);
                     if (ID != -1)
                     {
                         if (NewID != ID && NewID != -1)
@@ -11542,7 +11542,7 @@ namespace Aow.Game.Engine.Storage
                             FPropertyTable.Add(ID, count);
                             FValues.Add(Value);
                             ID = NewID;
-                            Value = Aow.Game.Engine.Storage.EReadTextStorageStream.GetLineValue(FText[I]);
+                            Value = GetLineValue(FText[I]);
                         }
                         else
                         {
@@ -11559,7 +11559,7 @@ namespace Aow.Game.Engine.Storage
                                 ID = NewID;
                             }
 
-                            Value = Aow.Game.Engine.Storage.EReadTextStorageStream.GetLineValue(FText[I]);
+                            Value = GetLineValue(FText[I]);
                         }
                     }
 
@@ -12174,7 +12174,7 @@ namespace Aow.Game.Engine.Storage
                     FStream.Position = FDataBase + Offset;
                 }
 
-                Aow.Game.Engine.Storage.EReadStorageStream.LoadStringFromStream(ref S, FStream);
+                LoadStringFromStream(ref S, FStream);
             }
             else
             {
@@ -12194,7 +12194,7 @@ namespace Aow.Game.Engine.Storage
                     FStream.Position = FDataBase + Offset;
                 }
 
-                Aow.Game.Engine.Storage.EReadStorageStream.StringsFromStream(Strings, FStream);
+                StringsFromStream(Strings, FStream);
             }
             else
             {
@@ -12214,7 +12214,7 @@ namespace Aow.Game.Engine.Storage
                     FStream.Position = FDataBase + Offset;
                 }
 
-                Aow.Game.Engine.Storage.EReadStorageStream.StringsFromStreamEx(Strings, FStream);
+                StringsFromStreamEx(Strings, FStream);
             }
             else
             {
@@ -12764,7 +12764,7 @@ namespace Aow.Game.Engine.Storage
                 if (!IsEmpty(S))
                 {
                     FPropertyTable.Add(ID, (int)(FBuffer.Position));
-                    Aow.Game.Engine.Storage.EWriteStorageStream.SaveStringToStream(S, FBuffer);
+                    SaveStringToStream(S, FBuffer);
                 }
             }
             else
@@ -12781,7 +12781,7 @@ namespace Aow.Game.Engine.Storage
                 if (Strings.Count != 0)
                 {
                     FPropertyTable.Add(ID, (int)(FBuffer.Position));
-                    Aow.Game.Engine.Storage.EWriteStorageStream.StringsToStream(Strings, FBuffer);
+                    StringsToStream(Strings, FBuffer);
                 }
             }
             else
@@ -12798,7 +12798,7 @@ namespace Aow.Game.Engine.Storage
                 if (Strings.Count != 0)
                 {
                     FPropertyTable.Add(ID, (int)(FBuffer.Position));
-                    Aow.Game.Engine.Storage.EWriteStorageStream.StringsToStreamEx(Strings, FBuffer);
+                    StringsToStreamEx(Strings, FBuffer);
                 }
             }
             else
@@ -13738,7 +13738,7 @@ namespace Aow.Game.Engine.Collections
                 while (!(I > J));
                 if (L < J)
                 {
-                    Aow.Game.Engine.Collections.SortStringsContext.QuickSortStrings(ref Ctx, L, J);
+                    QuickSortStrings(ref Ctx, L, J);
                 }
 
                 L = I;

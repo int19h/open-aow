@@ -35,7 +35,7 @@ internal static class LocalizationFrameChecks
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
             coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
         }
-        string undead = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr("Undead(plural)");
+        string undead = Game.Magic.Abilities.AbilityRules.TranslateRStr("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
         string mapCaption = DialogHosts.SWindow.STitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
@@ -109,8 +109,8 @@ internal static class LocalizationFrameChecks
                 right.Lock(ref r);
                 try
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetText(0, 0, undead, l);
-                    Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetText(0, 0, "Undead", r);
+                    DialogHosts.FontModule.Age8.SetText(0, 0, undead, l);
+                    DialogHosts.FontModule.Age8.SetText(0, 0, "Undead", r);
                     var pixels = l.Data.AsSpan(l.DataIndex, l.Pitch * 40);
                     if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                         throw new InvalidOperationException("English Undead rendering differs");

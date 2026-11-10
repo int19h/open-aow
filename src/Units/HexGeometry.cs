@@ -71,24 +71,24 @@ public static class HexGeometry
             switch (Side)
             {
                 case 0:
-                    Aow.Game.World.Map.HexGeometry.HVtoHX(R, Pos - R, ref NewXhx, ref NewYhx);
+                    HVtoHX(R, Pos - R, ref NewXhx, ref NewYhx);
                     break;
                 case 1:
                     NewXhx = R;
                     NewYhx = Pos - (R + 1) / 2;
                     break;
                 case 2:
-                    Aow.Game.World.Map.HexGeometry.HVtoHX(-Pos, R, ref NewXhx, ref NewYhx);
+                    HVtoHX(-Pos, R, ref NewXhx, ref NewYhx);
                     break;
                 case 3:
-                    Aow.Game.World.Map.HexGeometry.HVtoHX(-R, R - Pos, ref NewXhx, ref NewYhx);
+                    HVtoHX(-R, R - Pos, ref NewXhx, ref NewYhx);
                     break;
                 case 4:
                     NewXhx = -R;
                     NewYhx = -Pos + R / 2;
                     break;
                 case 5:
-                    Aow.Game.World.Map.HexGeometry.HVtoHX(Pos, -R, ref NewXhx, ref NewYhx);
+                    HVtoHX(Pos, -R, ref NewXhx, ref NewYhx);
                     break;
             }
         }
@@ -168,7 +168,7 @@ public static class HexGeometry
         while (!Found && HN != 6 && !Cancel)
         {
             HN += 1;
-            Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, HN, ref NXhx, ref NYhx);
+            CenterHNtoHX(Xhx, Yhx, HN, ref NXhx, ref NYhx);
             Found = CallBack(NXhx, NYhx, ref Cancel);
         }
 
@@ -186,7 +186,7 @@ public static class HexGeometry
 
                 do
                 {
-                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, HN, ref TXhx, ref TYhx);
+                    CenterHNtoHX(Xhx, Yhx, HN, ref TXhx, ref TYhx);
                     HN -= 1;
                     // { the original asks for NXhx, NYhx here, not for the hexagon it just stepped to }
                     Found = CallBack(NXhx, NYhx, ref Cancel);
@@ -254,24 +254,24 @@ public static class HexGeometry
             switch (Side)
             {
                 case 0:
-                    Aow.Game.World.Map.HexGeometry.HVtoHX(R, Pos - R, ref Xhx, ref Yhx);
+                    HVtoHX(R, Pos - R, ref Xhx, ref Yhx);
                     break;
                 case 1:
                     Xhx = R;
                     Yhx = Pos - (R + 1) / 2;
                     break;
                 case 2:
-                    Aow.Game.World.Map.HexGeometry.HVtoHX(-Pos, R, ref Xhx, ref Yhx);
+                    HVtoHX(-Pos, R, ref Xhx, ref Yhx);
                     break;
                 case 3:
-                    Aow.Game.World.Map.HexGeometry.HVtoHX(-R, R - Pos, ref Xhx, ref Yhx);
+                    HVtoHX(-R, R - Pos, ref Xhx, ref Yhx);
                     break;
                 case 4:
                     Xhx = -R;
                     Yhx = -Pos + R / 2;
                     break;
                 case 5:
-                    Aow.Game.World.Map.HexGeometry.HVtoHX(Pos, -R, ref Xhx, ref Yhx);
+                    HVtoHX(Pos, -R, ref Xhx, ref Yhx);
                     break;
             }
         }
@@ -279,8 +279,8 @@ public static class HexGeometry
 
     internal static void HNtoHP(int HN, ref int Xhp, ref int Yhp)
     {
-        Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhp, ref Yhp);
-        Aow.Game.World.Map.HexGeometry.HXtoHP(Xhp, Yhp, ref Xhp, ref Yhp);
+        HNtoHX(HN, ref Xhp, ref Yhp);
+        HXtoHP(Xhp, Yhp, ref Xhp, ref Yhp);
         Xhp -= 8;
     }
 
@@ -307,8 +307,8 @@ public static class HexGeometry
 
     internal static int HPtoHN(int Xhp, int Yhp)
     {
-        Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhp, ref Yhp);
-        return Aow.Game.World.Map.HexGeometry.HXtoHN(Xhp, Yhp);
+        HPtoHX(Xhp, Yhp, ref Xhp, ref Yhp);
+        return HXtoHN(Xhp, Yhp);
     }
 
     internal static int HXtoV(int x, int y) => ((x + 1) >> 1) + y;
@@ -399,8 +399,8 @@ public static class HexGeometry
 
     internal static void HXtoHV(int Xhx, int Yhx, ref int H, ref int V)
     {
-        H = Aow.Game.World.Map.HexGeometry.HXtoH(Xhx, Yhx);
-        V = Aow.Game.World.Map.HexGeometry.HXtoV(Xhx, Yhx);
+        H = HXtoH(Xhx, Yhx);
+        V = HXtoV(Xhx, Yhx);
     }
 
     internal static int HXtoHN(int Xhx, int Yhx)
@@ -411,10 +411,10 @@ public static class HexGeometry
         int Pos;
         int H = default;
         int V = default;
-        R = Aow.Game.World.Map.HexGeometry.HXtoRad(Xhx, Yhx);
+        R = HXtoRad(Xhx, Yhx);
         if (R != 0)
         {
-            Aow.Game.World.Map.HexGeometry.HXtoHV(Xhx, Yhx, ref H, ref V);
+            HXtoHV(Xhx, Yhx, ref H, ref V);
             if (R == H)
             {
                 Side = 0;
@@ -477,8 +477,8 @@ public static class HexGeometry
 
     internal static int dHXtoHN(int X1, int Y1, int X2, int Y2)
     {
-        Aow.Game.World.Map.HexGeometry.TranslateHX(X1, Y1, 0, 0, X2, Y2, ref X2, ref Y2);
-        return Aow.Game.World.Map.HexGeometry.HXtoHN(X2, Y2);
+        TranslateHX(X1, Y1, 0, 0, X2, Y2, ref X2, ref Y2);
+        return HXtoHN(X2, Y2);
     }
 
     internal static int dHXtoHNfast(int X1, int Y1, int X2, int Y2)
@@ -569,7 +569,7 @@ public static class HexGeometry
     {
         int Result;
         int H;
-        H = Aow.Game.World.Map.HexGeometry.HXtoH(Xhx, Yhx);
+        H = HXtoH(Xhx, Yhx);
         if (H > 0)
         {
             if (Xhx < 0)
@@ -578,7 +578,7 @@ public static class HexGeometry
             }
             else
             {
-                if (Aow.Game.World.Map.HexGeometry.HXtoV(Xhx, Yhx) < 0)
+                if (HXtoV(Xhx, Yhx) < 0)
                 {
                     Result = 1;
                 }
@@ -598,7 +598,7 @@ public static class HexGeometry
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.HexGeometry.HXtoV(Xhx, Yhx) > 0)
+                    if (HXtoV(Xhx, Yhx) > 0)
                     {
                         Result = 4;
                     }
@@ -640,7 +640,7 @@ public static class HexGeometry
             Y2 -= 1;
         }
 
-        return Aow.Game.World.Map.HexGeometry.HXtoHT(X2, Y2);
+        return HXtoHT(X2, Y2);
     }
 
 }

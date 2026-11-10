@@ -198,7 +198,7 @@ public partial class AOWWindowControl : AoWComponent
         else
         {
             var pixelFormatID = FBackSurface.GetPixelFormatID();
-            var color2PixelInfo = Aow.Game.Draw.PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
+            var color2PixelInfo = PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
             FBackSurface.BltAreaColorKeyClipped(Surface, R, FWinLeft, FWinTop, color2PixelInfo);
         }
 

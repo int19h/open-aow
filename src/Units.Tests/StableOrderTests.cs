@@ -62,7 +62,7 @@ public sealed class StableOrderTests
         indices.Add(0);
         indices.Add(1);
         indices.Add(2);
-        indices.SortStable(Aow.Game.Ui.Grids.HeroGrid.HeroGridCompareName);
+        indices.SortStable(HeroGrid.HeroGridCompareName);
         Assert.Equal(1, indices[0]);
         Assert.Equal(2, indices[1]);
         Assert.Equal(0, indices[2]);
@@ -83,7 +83,7 @@ public sealed class StableOrderTests
         indices.Add(0);
         indices.Add(1);
         indices.Add(2);
-        indices.SortStable(Aow.Game.Ui.Grids.HeroGrid.HeroGridCompareLevel);
+        indices.SortStable(HeroGrid.HeroGridCompareLevel);
         Assert.Equal(1, indices[0]);
         Assert.Equal(2, indices[1]);
         Assert.Equal(0, indices[2]);
@@ -97,8 +97,8 @@ public sealed class StableOrderTests
         var first = new EObject(pools);
         var second = new EObject(pools);
         var third = new EObject(pools);
-        Assert.Equal(0, Aow.Game.World.Structures.ReflectingPool.ComparePools(first, third));
-        pools.SortStable(Aow.Game.World.Structures.ReflectingPool.ComparePools);
+        Assert.Equal(0, ReflectingPool.ComparePools(first, third));
+        pools.SortStable(ReflectingPool.ComparePools);
         Assert.Same(first, pools.FChildren[0]);
         Assert.Same(second, pools.FChildren[1]);
         Assert.Same(third, pools.FChildren[2]);

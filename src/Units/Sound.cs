@@ -111,7 +111,7 @@ public partial class Sample : IDisposable
     {
         CaptureAddress.Assign(this);
         context.Capture(this);
-        Aow.Game.Audio.AudioHost.SampleList.Add(this);
+        AudioHost.SampleList.Add(this);
         FSampleData = ASampleData;
         FSampleData.AddRef();
     }
@@ -140,7 +140,7 @@ public partial class Sample : IDisposable
         }
 
         FSampleData = null;
-        Aow.Game.Audio.AudioHost.SampleList.Remove(this);
+        AudioHost.SampleList.Remove(this);
     }
 
     // Sound.pas:774
@@ -195,7 +195,7 @@ public partial class SongStatus
         bool Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.RestoreSongStatus(Status);
+            Result = AudioHost.SoundSystem.RestoreSongStatus(Status);
         }
         else
         {
@@ -258,7 +258,7 @@ public partial class SampleData : IDisposable
         CaptureAddress.Assign(this);
         context.Capture(this);
         FName = Name;
-        Aow.Game.Audio.AudioHost.SampleDataList.Add(this);
+        AudioHost.SampleDataList.Add(this);
         AddRef();
     }
 
@@ -291,7 +291,7 @@ public partial class SampleData : IDisposable
     // Sound.pas:690
     public virtual void Dispose()
     {
-        Aow.Game.Audio.AudioHost.SampleDataList.Remove(this);
+        AudioHost.SampleDataList.Remove(this);
     }
 
     public string Name { get => FName; }
@@ -311,7 +311,7 @@ public partial class SampleData : IDisposable
         Sample Result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleClass().Create(SampleData);
+            Result = AudioHost.SoundSystem.SampleClass().Create(SampleData);
         }
         else
         {
@@ -787,7 +787,7 @@ public partial class Songlist : EObject
         {
             try
             {
-                var songName = Aow.Game.Audio.AudioPlayback.GetSongName(FSongs[I]);
+                var songName = AudioPlayback.GetSongName(FSongs[I]);
                 FSongNames.Insert(0, songName);
             }
             catch
@@ -874,7 +874,7 @@ public partial class SongPlayer : IDisposable
         {
             try
             {
-                var songName = Aow.Game.Audio.AudioPlayback.GetSongName(FSongs[I]);
+                var songName = AudioPlayback.GetSongName(FSongs[I]);
                 FSongNames.Insert(0, songName);
             }
             catch
@@ -909,7 +909,7 @@ public partial class SongPlayer : IDisposable
             {
                 if (AudioHost.SoundSystem != null)
                 {
-                    Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
+                    AudioHost.SoundSystem.StopSong();
                 }
 
                 FCurrentIndex = -1;
@@ -967,7 +967,7 @@ public partial class SongPlayer : IDisposable
         {
             FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Playing);
             var item = FSongs[Index];
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
+            Result = AudioHost.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
             if (Result)
             {
                 FCurrentIndex = Index;
@@ -999,7 +999,7 @@ public partial class SongPlayer : IDisposable
         {
             FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Playing);
             var item = FSongs[Index];
-            Result = Aow.Game.Audio.AudioHost.SoundSystem.PlaySongEx(item, 2, 0, false);
+            Result = AudioHost.SoundSystem.PlaySongEx(item, 2, 0, false);
             if (Result)
             {
                 FCurrentIndex = Index;
@@ -1031,7 +1031,7 @@ public partial class SongPlayer : IDisposable
         {
             if (StopMusic)
             {
-                Result = Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
+                Result = AudioHost.SoundSystem.StopSong();
             }
             else
             {
@@ -1058,11 +1058,11 @@ public partial class SongPlayer : IDisposable
             {
             }
 
-            FBackup = Aow.Game.Audio.AudioPlayback.BackupSongStatus();
+            FBackup = AudioPlayback.BackupSongStatus();
             FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Paused);
             if (StopMusic)
             {
-                Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
+                AudioHost.SoundSystem.StopSong();
             }
         }
 
@@ -1085,7 +1085,7 @@ public partial class SongPlayer : IDisposable
                 }
                 else
                 {
-                    Aow.Game.Audio.SongStatus.RestoreSongStatus(FBackup);
+                    SongStatus.RestoreSongStatus(FBackup);
                 }
                 FBackup = null;
             }
@@ -1131,10 +1131,10 @@ public partial class SFX : EObject
     }
 
     // Sound.pas:1034
-    public Sample Play() => Aow.Game.Audio.AudioPlayback.PlaySample(FFileName);
+    public Sample Play() => AudioPlayback.PlaySample(FFileName);
 
     // Sound.pas:1039
-    public Sample PlayEx(int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack) => Aow.Game.Audio.AudioPlayback.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
+    public Sample PlayEx(int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack) => AudioPlayback.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
 
     public string FileName { get => FFileName; set => FFileName = value; }
 

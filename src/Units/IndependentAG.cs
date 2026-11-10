@@ -170,7 +170,7 @@ namespace Aow.Game.Ai.Groups
                             Settings.FArmyHS = FArmyHS;
                             Settings.FSelection = FSelection;
                             Settings.FMovePointTable = FMovePointTable;
-                            Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
+                            AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
                             for (int I = FTargets.Count - 1; I >= 0; I--)
                             {
                                 if (Settings.GetMovePointsXYL(FTargets.GetTargets(I).FLocation.Packed) == 16777215)
@@ -205,7 +205,7 @@ namespace Aow.Game.Ai.Groups
                 case 2:
                     if (((GuardAreaAG)FGroup).FGuardLocation.Packed != FLocation.Packed)
                     {
-                        MapF = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(((GuardAreaAG)FGroup).FGuardLocation.Packed);
+                        MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(((GuardAreaAG)FGroup).FGuardLocation.Packed);
                         if (MapF.GetPlayer() == -1 || MapF.GetPlayer() == FGroup.FPlayer)
                         {
                             SetupME();
@@ -306,7 +306,7 @@ namespace Aow.Game.Ai.Groups
         public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
         {
             AoWMapField MapF;
-            MapF = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(Target.FLocation.Packed);
+            MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Target.FLocation.Packed);
             if (MapF.GetPlayer() != FGroup.FPlayer)
             {
                 SetupCP(Target);
@@ -349,7 +349,7 @@ namespace Aow.Game.Ai.Groups
                     FState = 1;
                     break;
                 case 1:
-                    if (((PatrolAG)FGroup).FPatrolTo.X == -1 || ((PatrolAG)FGroup).FPatrolTo.L == FLocation.L && Aow.Game.World.Map.HexGeometry.dHXtoRad(((PatrolAG)FGroup).FPatrolTo.X, ((PatrolAG)FGroup).FPatrolTo.Y, FLocation.X, FLocation.Y) <= 2)
+                    if (((PatrolAG)FGroup).FPatrolTo.X == -1 || ((PatrolAG)FGroup).FPatrolTo.L == FLocation.L && HexGeometry.dHXtoRad(((PatrolAG)FGroup).FPatrolTo.X, ((PatrolAG)FGroup).FPatrolTo.Y, FLocation.X, FLocation.Y) <= 2)
                     {
                         ResetPatrolToLocation();
                     }
@@ -410,7 +410,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    if (Aow.Game.World.Map.AoWHSMap.Current.Random(3) != 0 && ((PatrolAG)FGroup).FPatrolTo.X != -1)
+                    if (AoWHSMap.Current.Random(3) != 0 && ((PatrolAG)FGroup).FPatrolTo.X != -1)
                     {
                         FState += 1;
                         SetupME();
@@ -433,7 +433,7 @@ namespace Aow.Game.Ai.Groups
                     Settings.FArmyHS = FArmyHS;
                     Settings.FSelection = FSelection;
                     Settings.FMovePointTable = FMovePointTable;
-                    Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
+                    AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
                     if (Settings.FPath.Count == 0)
                     {
                         ((PatrolAG)FGroup).FPatrolFrom.Packed = 16777215;
@@ -479,7 +479,7 @@ namespace Aow.Game.Ai.Groups
             Settings.FArmyHS = FArmyHS;
             Settings.FSelection = FSelection;
             Settings.FMovePointTable = FMovePointTable;
-            Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
+            AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
             Fields = Settings.FProcessedMapFields;
             for (int I = 0; I < HexDirectionSlotCount; I++)
             {
@@ -495,7 +495,7 @@ namespace Aow.Game.Ai.Groups
                 if ((I & 3) == 3)
                 {
                     MapF = (AoWMapField)Fields.List[I];
-                    Heading = Aow.Game.World.Map.HexGeometry.dHXtoHT(X, Y, MapF.Xhx, MapF.Yhx);
+                    Heading = HexGeometry.dHXtoHT(X, Y, MapF.Xhx, MapF.Yhx);
                     var movePoints = Settings.GetMovePoints(MapF.Xhx, MapF.Yhx, MapF.Lhx);
                     Lists[Heading].AddAB(MapF, movePoints);
                 }
@@ -503,7 +503,7 @@ namespace Aow.Game.Ai.Groups
 
             for (int I = 0; I < HexDirectionSlotCount; I++)
             {
-                Lists[I].Sort(Aow.Game.Ai.Groups.PatrolAGC.ComparePatrolFields);
+                Lists[I].Sort(ComparePatrolFields);
             }
 
             Msg.MsgID = 4384;
@@ -533,7 +533,7 @@ namespace Aow.Game.Ai.Groups
                 Lists[I] = NewList;
             }
 
-            MapF = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(Group.FPatrolFrom.Packed);
+            MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Group.FPatrolFrom.Packed);
             if (MapF.GetPlayer() == -1)
             {
                 Lists[0].AddAB(MapF, 0);
@@ -541,7 +541,7 @@ namespace Aow.Game.Ai.Groups
 
             if (Group.FPatrolTo.X != -1)
             {
-                LastHeading = Aow.Game.World.Map.HexGeometry.dHXtoHT(Group.FPatrolFrom.X, Group.FPatrolFrom.Y, Group.FPatrolTo.X, Group.FPatrolTo.Y);
+                LastHeading = HexGeometry.dHXtoHT(Group.FPatrolFrom.X, Group.FPatrolFrom.Y, Group.FPatrolTo.X, Group.FPatrolTo.Y);
             }
             else
             {
@@ -554,7 +554,7 @@ namespace Aow.Game.Ai.Groups
             {
                 if (Lists[I].Count != 0 && LastHeading != I && I != PreviousHeading)
                 {
-                    if (PreviousHeading == 0 || Aow.Game.Ai.Groups.PatrolAGC.PatrolHeadingDistance(I, LastHeading) > 1 || Aow.Game.Ai.Groups.PatrolAGC.PatrolHeadingDistance(I, PreviousHeading) > 1)
+                    if (PreviousHeading == 0 || PatrolHeadingDistance(I, LastHeading) > 1 || PatrolHeadingDistance(I, PreviousHeading) > 1)
                     {
                         Choices.Add((byte)I);
                     }
@@ -575,9 +575,9 @@ namespace Aow.Game.Ai.Groups
             if (Choices.Count != 0)
             {
                 Group.FPreviousHeading = (sbyte)LastHeading;
-                Heading = Choices[Aow.Game.World.Map.AoWHSMap.Current.Random(Choices.Count)];
+                Heading = Choices[AoWHSMap.Current.Random(Choices.Count)];
                 SelectedList = Lists[Heading];
-                var random = Aow.Game.World.Map.AoWHSMap.Current.Random(SelectedList.Count);
+                var random = AoWHSMap.Current.Random(SelectedList.Count);
                 MapF = SelectedList.List[random].A;
                 var xyl = MapF.GetXYL();
                 Group.FPatrolTo.Packed = xyl;
@@ -818,8 +818,8 @@ namespace Aow.Game.Ai.Groups
                     bool condition = FGroup.FPlayer != 0;
                     if (!condition)
                     {
-                        var independentAIMode = Aow.Game.World.Map.AoWHSMap.Current.GetIndependentAIMode();
-                        condition = Aow.Game.World.Map.AoWHSMap.Current.Random(3) < (int)independentAIMode;
+                        var independentAIMode = AoWHSMap.Current.GetIndependentAIMode();
+                        condition = AoWHSMap.Current.Random(3) < (int)independentAIMode;
                     }
 
                     if (condition)
@@ -882,7 +882,7 @@ namespace Aow.Game.Ai.Groups
         {
             if (Sender == AoWHSMap.Current)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([Aow.Game.Ai.Groups.AIGroupClass.Of<GuardAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<GuardAreaAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<PatrolAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<RefugeAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<RaidAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<ScoutAG>()]);
+                AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<GuardAG>(), AIGroupClass.Of<GuardAreaAG>(), AIGroupClass.Of<PatrolAG>(), AIGroupClass.Of<RefugeAG>(), AIGroupClass.Of<RaidAG>(), AIGroupClass.Of<ScoutAG>()]);
             }
         }
 
@@ -893,7 +893,7 @@ namespace Aow.Game.Ai.Groups
 
         internal static void SubscribeMapLoaded()
         {
-            if (Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine())
+            if (Magic.Abilities.GameTables.ValidateAoWEngine())
                 Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
         }
 

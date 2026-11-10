@@ -373,7 +373,7 @@ public sealed class ObjectCastCrashTests
     public void MasteryGuardianDefaultsNeedNoSummonedSpell()
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
-        Assert.Null(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(155));
+        Assert.Null(AoWHSSet.Current.FSpellControl.GetSpell(155));
         var unit = new Unit(null!);
         unit.FUnitResource = new UnitResource(null!) { FLevel = 2 };
         Assert.Equal(6, SummonedAbility.GetDefaultManaUpkeep(unit));

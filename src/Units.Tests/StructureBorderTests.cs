@@ -62,7 +62,7 @@ public sealed class StructureBorderTests
         var target = new DIB16Surface(Width, height, PixelFormats.pfRGB565);
         var previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = new DelphiList();
-        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
+        ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
             var top = Grab(library, 1, TopColor);
@@ -94,7 +94,7 @@ public sealed class StructureBorderTests
             target.Unlock();
             target.Dispose();
             library.Dispose();
-            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Dispose();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }

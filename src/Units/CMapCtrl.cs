@@ -55,7 +55,7 @@ public partial class AoWCombatMapControl : Component
     // CMapCtrl.pas:107
     public AoWCombatMapControl(Component owner) : base(owner)
     {
-        if (Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine())
+        if (GameTables.ValidateAoWEngine())
         {
             GameTables.AoWEngine.OnHSMLoaded += ActivateHSM;
             GameTables.AoWEngine.OnHSMClose += DeactivateHSM;
@@ -81,10 +81,10 @@ public partial class AoWCombatMapControl : Component
         AoWHSMap.Current.FExecuteEventLogEvents += ExecuteEventLog;
         for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
         {
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FGemsChangedEvents += GemsChanged;
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FIncomeChangedEvents += IncomeChanged;
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FUpkeepChangedEvents += UpkeepChanged;
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FLogbookChangedEvents += LogbookChanged;
+            AoWHSMap.Current.FPlayers.GetPlayers(I).FGemsChangedEvents += GemsChanged;
+            AoWHSMap.Current.FPlayers.GetPlayers(I).FIncomeChangedEvents += IncomeChanged;
+            AoWHSMap.Current.FPlayers.GetPlayers(I).FUpkeepChangedEvents += UpkeepChanged;
+            AoWHSMap.Current.FPlayers.GetPlayers(I).FLogbookChangedEvents += LogbookChanged;
         }
     }
 
@@ -107,10 +107,10 @@ public partial class AoWCombatMapControl : Component
         AoWCombatMap.Current.FCombatStartedEvents -= CastSpell;
         for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
         {
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FGemsChangedEvents -= GemsChanged;
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FIncomeChangedEvents -= IncomeChanged;
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FUpkeepChangedEvents -= UpkeepChanged;
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FLogbookChangedEvents -= LogbookChanged;
+            AoWHSMap.Current.FPlayers.GetPlayers(I).FGemsChangedEvents -= GemsChanged;
+            AoWHSMap.Current.FPlayers.GetPlayers(I).FIncomeChangedEvents -= IncomeChanged;
+            AoWHSMap.Current.FPlayers.GetPlayers(I).FUpkeepChangedEvents -= UpkeepChanged;
+            AoWHSMap.Current.FPlayers.GetPlayers(I).FLogbookChangedEvents -= LogbookChanged;
         }
     }
 
@@ -196,7 +196,7 @@ public partial class AoWCombatMapControl : Component
         {
             if (FOnUnitChanged != null)
             {
-                var tcUnitHS = Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS();
+                var tcUnitHS = AoWCombatMap.Current.FUnitSelection.GetTCUnitHS();
                 FOnUnitChanged(tcUnitHS);
             }
         }

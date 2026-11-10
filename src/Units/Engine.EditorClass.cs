@@ -33,7 +33,7 @@ public sealed class EditorClass
     public void Edit(EObject Obj, Engine AEngine, EditDoneEvent Done) => edit(Obj, AEngine, Done);
 
     public static EditorClass Register<T>() where T : EObjectEditor, IEObjectEditorClass =>
-        catalog.Add(typeof(T), new EditorClass(Aow.Game.Engine.EClass.Of<T>(), T.EditorClassID, static (obj, engine, done) => T.Edit(obj, engine, done)));
+        catalog.Add(typeof(T), new EditorClass(EClass.Of<T>(), T.EditorClassID, static (obj, engine, done) => T.Edit(obj, engine, done)));
 
     public static EditorClass Of<T>() where T : EObjectEditor, IEObjectEditorClass => catalog[typeof(T)];
     public static EditorClass Of(Type type) => catalog[type];

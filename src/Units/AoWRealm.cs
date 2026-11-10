@@ -112,59 +112,59 @@ public partial class RealmWin : DataModule
     public void UpdateIncome()
     {
         int Value;
-        var playerGems = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var playerGems = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
         Treasury.Text = IntToStr(playerGems.FGems);
-        var upkeep = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).GetUpkeep();
-        var playerIncome = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var upkeep = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).GetUpkeep();
+        var playerIncome = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
         NetInc.Text = IntToStr(playerIncome.FIncome - upkeep);
-        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var player = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
         Income.Text = IntToStr(player.FIncome);
-        var upkeep2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).GetUpkeep();
+        var upkeep2 = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).GetUpkeep();
         Upkeep.Text = IntToStr(upkeep2);
         IncomeMem.Items.Clear();
         IncomeValue.Items.Clear();
         UpkeepValue.Items.Clear();
-        Value = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FBaseIncome;
+        Value = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FBaseIncome;
         if (Value != 0)
         {
-            var externalIncome = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ExternalIncomeRStr);
+            var externalIncome = AbilityRules.TranslateRStr(ExternalIncomeRStr);
             IncomeMem.Items.Add(externalIncome);
             IncomeValue.Items.Add(IntToStr(Value));
         }
 
-        Value = Aow.Game.Ui.Dialogs.RealmWin.CityIncome(World.Map.AoWHSMap.Current.FSeatedPlayer);
+        Value = CityIncome(World.Map.AoWHSMap.Current.FSeatedPlayer);
         if (Value != 0)
         {
-            var cities = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CitiesRStr);
+            var cities = AbilityRules.TranslateRStr(CitiesRStr);
             IncomeMem.Items.Add(cities);
             IncomeValue.Items.Add(IntToStr(Value));
         }
 
-        Value = Aow.Game.Ui.Dialogs.RealmWin.FarmIncome(World.Map.AoWHSMap.Current.FSeatedPlayer);
+        Value = FarmIncome(World.Map.AoWHSMap.Current.FSeatedPlayer);
         if (Value != 0)
         {
-            var farms = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FarmsRStr);
+            var farms = AbilityRules.TranslateRStr(FarmsRStr);
             IncomeMem.Items.Add(farms);
             IncomeValue.Items.Add(IntToStr(Value));
         }
 
-        Value = Aow.Game.Ui.Dialogs.RealmWin.MineIncome(World.Map.AoWHSMap.Current.FSeatedPlayer);
+        Value = MineIncome(World.Map.AoWHSMap.Current.FSeatedPlayer);
         if (Value != 0)
         {
-            var mines = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MinesRStr);
+            var mines = AbilityRules.TranslateRStr(MinesRStr);
             IncomeMem.Items.Add(mines);
             IncomeValue.Items.Add(IntToStr(Value));
         }
 
-        Value = Aow.Game.Ui.Dialogs.RealmWin.BuildersGuildIncome(World.Map.AoWHSMap.Current.FSeatedPlayer);
+        Value = BuildersGuildIncome(World.Map.AoWHSMap.Current.FSeatedPlayer);
         if (Value != 0)
         {
-            var buildersGuilds = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BuildersGuildsRStr);
+            var buildersGuilds = AbilityRules.TranslateRStr(BuildersGuildsRStr);
             IncomeMem.Items.Add(buildersGuilds);
             IncomeValue.Items.Add(IntToStr(Value));
         }
 
-        var playerArmyUpkeep = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var playerArmyUpkeep = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
         UpkeepValue.Items.Add(IntToStr(playerArmyUpkeep.FArmyUpkeep));
     }
 
@@ -183,15 +183,15 @@ public partial class RealmWin : DataModule
         T2RelLB.Items.Clear();
         T2ActLB.Items.Clear();
         T2EncLB.Items.Clear();
-        for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1; I <= last; I++)
         {
-            Structure = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(I);
+            Structure = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(I);
             if (Structure is City)
             {
                 C = (City)Structure;
                 var name = C.GetName();
                 T2NameLB.Items.AddObject(name, C);
-                var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[C.FRace]);
+                var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[C.FRace]);
                 T2RaceLB.Items.Add(raceNamesPlural);
                 T2IncomeLB.Items.Add(IntToStr(C.FIncome));
                 T2LevelLB.Items.Add(IntToStr(C.FUpgradeLevel));
@@ -227,7 +227,7 @@ public partial class RealmWin : DataModule
                         break;
                 }
 
-                switch ((int)Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(C.FRace).GetPlayerRelation(World.Map.AoWHSMap.Current.FSeatedPlayer) & 127)
+                switch ((int)World.Map.AoWHSMap.Current.FRaces.GetRace(C.FRace).GetPlayerRelation(World.Map.AoWHSMap.Current.FSeatedPlayer) & 127)
                 {
                     case 0:
                         T2RelLB.Items.Add("0");
@@ -265,9 +265,9 @@ public partial class RealmWin : DataModule
         PlayerStructure Place;
         T3Name.Items.Clear();
         T3ActLB.Items.Clear();
-        for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1; I <= last; I++)
         {
-            Place = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(I);
+            Place = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(I);
             if (!(Place is City))
             {
                 var editName = Place.EditName();
@@ -285,14 +285,14 @@ public partial class RealmWin : DataModule
         T5Name.Items.Clear();
         T5Health.Items.Clear();
         T5Level.Items.Clear();
-        for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetCount() - 1; I <= last; I++)
         {
-            for (int J = 0, lastJ = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
+            for (int J = 0, lastJ = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
             {
-                U = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetUnit(J);
+                U = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetUnit(J);
                 if (U is Hero)
                 {
-                    var army = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I);
+                    var army = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I);
                     var name = U.GetName();
                     T5Name.Items.AddObject(name, army);
                     var hitPoints = U.GetHitPoints();
@@ -354,7 +354,7 @@ public partial class RealmWin : DataModule
     {
         AbstractUnit U;
         Rect OldClip;
-        if (Column < Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(DrawItem).GetCount())
+        if (Column < World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(DrawItem).GetCount())
         {
             OldClip = SurfDesc.ClipRect;
             SurfDesc.ClipRect.Left = DrawRect.Left + 2;
@@ -366,7 +366,7 @@ public partial class RealmWin : DataModule
                 SurfDesc.ClipRect.Bottom = DrawRect.Bottom;
             }
 
-            U = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(DrawItem).GetUnit(Column);
+            U = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(DrawItem).GetUnit(Column);
             if ((int)U.GetAlignment() < DialogHosts.IntGfxMod.UnitBGs.Count)
             {
                 var alignment = U.GetAlignment();
@@ -396,7 +396,7 @@ public partial class RealmWin : DataModule
     // AoWRealm.pas:382
     public void OWMinIconClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -426,7 +426,7 @@ public partial class RealmWin : DataModule
     // AoWRealm.pas:403
     public void HeaderTabChange()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         UpdateOverview();
     }
 
@@ -446,13 +446,13 @@ public partial class RealmWin : DataModule
     // AoWRealm.pas:421
     public void Unit1LBChange(AOWListBox ListBox, int Slot)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetCount() > 0)
+        if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetCount() > 0)
         {
             ListBox.PopupMenu = DialogHosts.UnitBanner.BannerPopup;
-            var unit = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetUnit(Slot);
+            var unit = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetUnit(Slot);
             DialogHosts.General.FSelectedUnit = unit;
-            var armyHS = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetArmyHS();
-            Aow.Game.World.Map.AoWHSMap.Current.Select(armyHS, true);
+            var armyHS = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetArmyHS();
+            World.Map.AoWHSMap.Current.Select(armyHS, true);
             Dlg.Priority = Dlg.Priority;
         }
         else
@@ -491,11 +491,11 @@ public partial class RealmWin : DataModule
             var lhx = Sprite.GetLhx();
             var yhx = Sprite.GetYhx();
             var xhx = Sprite.GetXhx();
-            Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
+            World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
             var spriteLhx = Sprite.GetLhx();
             var spriteYhx = Sprite.GetYhx();
             var spriteXhx = Sprite.GetXhx();
-            Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(spriteXhx, spriteYhx, spriteLhx);
+            World.Map.AoWHSMap.Current.PlayCenterAnimation(spriteXhx, spriteYhx, spriteLhx);
         }
     }
 
@@ -521,7 +521,7 @@ public partial class RealmWin : DataModule
         if (Sender.Selected != -1)
         {
             var city = T2NameLB.Items.Objects[Sender.Selected];
-            Aow.Game.Ui.Dialogs.DialogHosts.CityScreen.ShowCity((City)city);
+            DialogHosts.CityScreen.ShowCity((City)city);
         }
     }
 
@@ -533,12 +533,12 @@ public partial class RealmWin : DataModule
             if (T3Name.Items.Objects[Sender.Selected] is ProductionPlace)
             {
                 var productionPlace = T3Name.Items.Objects[Sender.Selected];
-                Aow.Game.Ui.Dialogs.DialogHosts.ProductionScreen.ShowPlace((ProductionPlace)productionPlace);
+                DialogHosts.ProductionScreen.ShowPlace((ProductionPlace)productionPlace);
             }
             else
             {
                 var hexagonSprite = T3Name.Items.Objects[Sender.Selected];
-                Aow.Game.World.Map.AoWHSMap.Current.Select((HexagonSprite)hexagonSprite, true);
+                World.Map.AoWHSMap.Current.Select((HexagonSprite)hexagonSprite, true);
             }
         }
     }
@@ -553,11 +553,11 @@ public partial class RealmWin : DataModule
             var lhx = Sprite.GetLhx();
             var yhx = Sprite.GetYhx();
             var xhx = Sprite.GetXhx();
-            Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
+            World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
             var spriteLhx = Sprite.GetLhx();
             var spriteYhx = Sprite.GetYhx();
             var spriteXhx = Sprite.GetXhx();
-            Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(spriteXhx, spriteYhx, spriteLhx);
+            World.Map.AoWHSMap.Current.PlayCenterAnimation(spriteXhx, spriteYhx, spriteLhx);
         }
     }
 
@@ -568,7 +568,7 @@ public partial class RealmWin : DataModule
         if (listBox.Selected != -1)
         {
             var armyHS = ((Army)T5Name.Items.Objects[listBox.Selected]).GetArmyHS();
-            Aow.Game.World.Map.AoWHSMap.Current.Select(armyHS, true);
+            World.Map.AoWHSMap.Current.Select(armyHS, true);
         }
     }
 
@@ -584,11 +584,11 @@ public partial class RealmWin : DataModule
             var lhx = Sprite.GetLhx();
             var yhx = Sprite.GetYhx();
             var xhx = Sprite.GetXhx();
-            Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
+            World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
             var spriteLhx = Sprite.GetLhx();
             var spriteYhx = Sprite.GetYhx();
             var spriteXhx = Sprite.GetXhx();
-            Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(spriteXhx, spriteYhx, spriteLhx);
+            World.Map.AoWHSMap.Current.PlayCenterAnimation(spriteXhx, spriteYhx, spriteLhx);
         }
     }
 
@@ -596,36 +596,36 @@ public partial class RealmWin : DataModule
     public void HeroInfoClick()
     {
         int Index;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Index = T5Name.Selected;
         if (Index != -1)
         {
             // { evaluate the index before the receiver chain }
             var hero = T5Health.Items.Objects[Index << 0];
             DialogHosts.General.FSelectedUnit = (Hero)hero;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+            DialogHosts.UnitWindow.ShowUnit();
         }
     }
 
     // AoWRealm.pas:549
     public void T2LevelLBDoubleClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
-        Dlg.Visible = true;
+        DialogHosts.RealmWin.UpdateOverview();
+        DialogHosts.RealmWin.Dlg.Visible = true;
     }
 
     // AoWRealm.pas:555
     public void T2WallLBDoubleClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
-        Dlg.Visible = true;
+        DialogHosts.RealmWin.UpdateOverview();
+        DialogHosts.RealmWin.Dlg.Visible = true;
     }
 
     // AoWRealm.pas:561
     public void T2RaceLBDoubleClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
-        Dlg.Visible = true;
+        DialogHosts.RealmWin.UpdateOverview();
+        DialogHosts.RealmWin.Dlg.Visible = true;
     }
 
     // AoWRealm.pas:567
@@ -644,8 +644,8 @@ public partial class RealmWin : DataModule
     // AoWRealm.pas:577
     public void T2ActLBDoubleClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
-        Dlg.Visible = true;
+        DialogHosts.RealmWin.UpdateOverview();
+        DialogHosts.RealmWin.Dlg.Visible = true;
     }
 
     // AoWRealm.pas:583
@@ -700,7 +700,7 @@ public partial class RealmWin : DataModule
     public void T2SNameClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2NameLB);
         Lists.Add(T2RaceLB);
@@ -712,14 +712,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2MorLB);
         Lists.Add(T2ActLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 0);
+        DialogHosts.General.SortLists(ref Lists, 0);
     }
 
     // AoWRealm.pas:649
     public void T2SRaceClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2RaceLB);
         Lists.Add(T2NameLB);
@@ -731,14 +731,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2MorLB);
         Lists.Add(T2ActLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 0);
+        DialogHosts.General.SortLists(ref Lists, 0);
     }
 
     // AoWRealm.pas:668
     public void T2SInClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2IncomeLB);
         Lists.Add(T2NameLB);
@@ -750,14 +750,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2MorLB);
         Lists.Add(T2ActLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 2);
+        DialogHosts.General.SortLists(ref Lists, 2);
     }
 
     // AoWRealm.pas:687
     public void T2SLvlClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2LevelLB);
         Lists.Add(T2NameLB);
@@ -769,14 +769,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2MorLB);
         Lists.Add(T2ActLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 1);
+        DialogHosts.General.SortLists(ref Lists, 1);
     }
 
     // AoWRealm.pas:706
     public void T2SWallClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2WallLB);
         Lists.Add(T2NameLB);
@@ -788,14 +788,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2MorLB);
         Lists.Add(T2ActLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 1);
+        DialogHosts.General.SortLists(ref Lists, 1);
     }
 
     // AoWRealm.pas:725
     public void T2SSizeClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2SizeLB);
         Lists.Add(T2NameLB);
@@ -807,14 +807,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2MorLB);
         Lists.Add(T2ActLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 1);
+        DialogHosts.General.SortLists(ref Lists, 1);
     }
 
     // AoWRealm.pas:744
     public void T2SRelClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2RelLB);
         Lists.Add(T2NameLB);
@@ -826,14 +826,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2MorLB);
         Lists.Add(T2ActLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 1);
+        DialogHosts.General.SortLists(ref Lists, 1);
     }
 
     // AoWRealm.pas:763
     public void T2SMorClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2MorLB);
         Lists.Add(T2NameLB);
@@ -845,14 +845,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2RelLB);
         Lists.Add(T2ActLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 1);
+        DialogHosts.General.SortLists(ref Lists, 1);
     }
 
     // AoWRealm.pas:782
     public void T2SActClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2ActLB);
         Lists.Add(T2NameLB);
@@ -864,14 +864,14 @@ public partial class RealmWin : DataModule
         Lists.Add(T2RelLB);
         Lists.Add(T2MorLB);
         Lists.Add(T2EncLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 1);
+        DialogHosts.General.SortLists(ref Lists, 1);
     }
 
     // AoWRealm.pas:801
     public void T2SEncClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T2EncLB);
         Lists.Add(T2NameLB);
@@ -883,18 +883,18 @@ public partial class RealmWin : DataModule
         Lists.Add(T2RelLB);
         Lists.Add(T2MorLB);
         Lists.Add(T2ActLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 0);
+        DialogHosts.General.SortLists(ref Lists, 0);
     }
 
     // AoWRealm.pas:820
     public void T3SNameClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T3Name);
         Lists.Add(T3ActLB);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 0);
+        DialogHosts.General.SortLists(ref Lists, 0);
     }
 
     // AoWRealm.pas:831
@@ -937,11 +937,11 @@ public partial class RealmWin : DataModule
     // AoWRealm.pas:866
     public void Unit1LBDoubleClick(AOWListBox Sender, int Slot)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(Sender.Selected).GetCount() > 0)
+        if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(Sender.Selected).GetCount() > 0)
         {
-            var unit = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(Sender.Selected).GetUnit(Slot);
+            var unit = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(Sender.Selected).GetUnit(Slot);
             DialogHosts.General.FSelectedUnit = unit;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+            DialogHosts.UnitWindow.ShowUnit();
         }
     }
 
@@ -949,53 +949,53 @@ public partial class RealmWin : DataModule
     public void T5SNameClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T5Name);
         Lists.Add(T5Health);
         Lists.Add(T5Level);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 0);
+        DialogHosts.General.SortLists(ref Lists, 0);
     }
 
     // AoWRealm.pas:887
     public void T5SHealthClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T5Health);
         Lists.Add(T5Name);
         Lists.Add(T5Level);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 1);
+        DialogHosts.General.SortLists(ref Lists, 1);
     }
 
     // AoWRealm.pas:899
     public void T5SLevelClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T5Level);
         Lists.Add(T5Name);
         Lists.Add(T5Health);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 2);
+        DialogHosts.General.SortLists(ref Lists, 2);
     }
 
     // AoWRealm.pas:911
     public void GotoButClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWRealm.pas:916
     public void T4PnlShow()
     {
-        for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetCount() - 1; I <= last; I++)
         {
-            for (int J = 0, lastJ = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
+            for (int J = 0, lastJ = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
             {
-                var unitGFXResourceIndex = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetUnit(J).GetUnitGFXResourceIndex();
-                Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex).AddRef();
+                var unitGFXResourceIndex = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetUnit(J).GetUnitGFXResourceIndex();
+                AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex).AddRef();
             }
         }
     }
@@ -1003,12 +1003,12 @@ public partial class RealmWin : DataModule
     // AoWRealm.pas:926
     public void T4PnlHide()
     {
-        for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetCount() - 1; I <= last; I++)
         {
-            for (int J = 0, lastJ = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
+            for (int J = 0, lastJ = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
             {
-                var unitGFXResourceIndex = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetUnit(J).GetUnitGFXResourceIndex();
-                Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex).Release();
+                var unitGFXResourceIndex = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FArmies.GetArmy(I).GetUnit(J).GetUnitGFXResourceIndex();
+                AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex).Release();
             }
         }
     }
@@ -1041,11 +1041,11 @@ public partial class RealmWin : DataModule
     public void T3ActivityClick(int Button)
     {
         DelphiList Lists;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Lists = new DelphiList();
         Lists.Add(T3ActLB);
         Lists.Add(T3Name);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 1);
+        DialogHosts.General.SortLists(ref Lists, 1);
     }
 
     // AoWRealm.pas:962
@@ -1057,19 +1057,19 @@ public partial class RealmWin : DataModule
     // AoWRealm.pas:967
     public void DlgShow()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.RegisterDialog(Dlg);
+        DialogHosts.General.RegisterDialog(Dlg);
     }
 
     // AoWRealm.pas:972
     public void DlgHide()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.UnregisterDialog(Dlg);
+        DialogHosts.General.UnregisterDialog(Dlg);
     }
 
     // AoWRealm.pas:977
     public void HelpClick()
     {
-        Aow.Game.Ui.Dialogs.HelpWindow.ShowHelp(505);
+        HelpWindow.ShowHelp(505);
     }
 
     private static readonly string BuildersGuildsRStr = "Builder Guilds";
@@ -1083,7 +1083,7 @@ public partial class RealmWin : DataModule
         int num;
         if (World.Map.AoWHSMap.Current != null)
         {
-            Player players = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            Player players = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
             num = 0;
             int i = 0;
             for (int num2 = players.FStructures.Count - 1; i <= num2; i++)
@@ -1107,7 +1107,7 @@ public partial class RealmWin : DataModule
         int num;
         if (World.Map.AoWHSMap.Current != null)
         {
-            Player players = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            Player players = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
             num = 0;
             int i = 0;
             for (int num2 = players.FStructures.Count - 1; i <= num2; i++)
@@ -1131,7 +1131,7 @@ public partial class RealmWin : DataModule
         int num;
         if (World.Map.AoWHSMap.Current != null)
         {
-            Player players = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            Player players = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
             num = 0;
             int i = 0;
             for (int num2 = players.FStructures.Count - 1; i <= num2; i++)
@@ -1155,7 +1155,7 @@ public partial class RealmWin : DataModule
         int num;
         if (World.Map.AoWHSMap.Current != null)
         {
-            Player players = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            Player players = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
             num = 0;
             int i = 0;
             for (int num2 = players.FStructures.Count - 1; i <= num2; i++)

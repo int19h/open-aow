@@ -107,7 +107,7 @@ namespace Aow.Game.World.Terrain
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
             FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));

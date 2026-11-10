@@ -35,7 +35,7 @@ namespace Aow.Game.World
             int Y = default;
             if (FAlpha > 0)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
+                HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
                 FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, GfxState.AlphaBlendTable.LookupTables[FAlpha]);
             }
         }
@@ -63,7 +63,7 @@ namespace Aow.Game.World
         {
             base.Activate();
             AoWCombatMap.Current.NewFrameEvents += NewFrame;
-            FHighlighted = Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting);
+            FHighlighted = AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting);
             if (FHighlighted)
             {
                 FAlpha = 50;
@@ -73,7 +73,7 @@ namespace Aow.Game.World
                 FAlpha = 0;
             }
 
-            Aow.Game.Combat.AoWCombatMap.Current.FFleeLocations.Add(this);
+            AoWCombatMap.Current.FFleeLocations.Add(this);
         }
 
         // FleeLoc.pas:65
@@ -104,7 +104,7 @@ namespace Aow.Game.World
                 if (OldHexagon != null)
                 {
                     OldHexagon?.Dispose();
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatHexagons.Place(AoWCombatMap.Current.MapContainer, Xhx, Yhx, 0, 1);
+                    AoWHSSet.Current.FCombatHexagons.Place(AoWCombatMap.Current.MapContainer, Xhx, Yhx, 0, 1);
                 }
             }
 
@@ -116,13 +116,13 @@ namespace Aow.Game.World
         {
             bool Highlight;
             Highlight = false;
-            if (Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 Highlight = true;
             }
             else
             {
-                if (Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS() != null && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == AoWCombatMap.Current.FSeatedCombatPlayer && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != AoWCombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
+                if (AoWCombatMap.Current.FUnitSelection.GetTCUnitHS() != null && AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == AoWCombatMap.Current.FSeatedCombatPlayer && AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != AoWCombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
                 {
                     Highlight = true;
                 }

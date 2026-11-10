@@ -173,10 +173,10 @@ namespace Aow.Game.World.Terrain
             int Damaged;
             AbstractUnit AUnit;
             Damaged = 0;
-            RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+            RandSeed = AoWHSMap.Current.Random(16777215);
             Log = new ArmyEventLog(null);
-            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnholyGroundDamageRStr);
-            var unholyGroundDamage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnholyGroundDamageRStr);
+            Log.FArmyText = AbilityRules.TranslateRStr(UnholyGroundDamageRStr);
+            var unholyGroundDamage = AbilityRules.TranslateRStr(UnholyGroundDamageRStr);
             Log.FArmyMessages.Add(unholyGroundDamage);
             Log.FArmyIcon = 2;
             var army = Army.FArmy;
@@ -187,7 +187,7 @@ namespace Aow.Game.World.Terrain
                 if (condition)
                 {
                     var alignment = AUnit.GetAlignment();
-                    condition = Aow.Game.Magic.Abilities.AlignmentTables.alsPureGood.Contains(alignment);
+                    condition = AlignmentTables.alsPureGood.Contains(alignment);
                 }
 
                 if (condition && !AUnit.GetAbilityEnabled(1))
@@ -224,7 +224,7 @@ namespace Aow.Game.World.Terrain
                 var yhx = GetYhx();
                 var lhx = GetLhx();
                 var xhx = GetXhx();
-                Aow.Game.Events.EventLog.DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
+                EventLog.DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
             }
 
             Log.Release();
@@ -234,7 +234,7 @@ namespace Aow.Game.World.Terrain
         // UnHolyG.pas:142
         public void ArmyPlaced(ArmyHS Army)
         {
-            if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 TriggerArmyDamage(Army);
             }
@@ -250,7 +250,7 @@ namespace Aow.Game.World.Terrain
             Dispose();
             if (Overlay > 0)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
+                AoWHSMap.Current.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
             }
         }
 
@@ -289,7 +289,7 @@ namespace Aow.Game.World.Terrain
                 if (condition)
                 {
                     var alignment = AUnit.GetAlignment();
-                    condition = Aow.Game.Magic.Abilities.AlignmentTables.alsPureGood.Contains(alignment);
+                    condition = AlignmentTables.alsPureGood.Contains(alignment);
                 }
 
                 Result = condition && !AUnit.GetAbilityEnabled(1);
@@ -305,7 +305,7 @@ namespace Aow.Game.World.Terrain
             var lhx = Anim.GetLhx();
             var yhx = Anim.GetYhx();
             var xhx = Anim.GetXhx();
-            Field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
+            Field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
             if (this == Field.FindOwnedChild(131985) && GameTables.AoWEngine.FAnimationDetail != 0 && Anim.FFrameCounter == 0)
             {
                 bool condition = AoWHSMap.Current.FSeatedPlayer == Anim.FTag;
@@ -314,12 +314,12 @@ namespace Aow.Game.World.Terrain
                     var lhx2 = GetLhx();
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    condition = Aow.Game.World.Map.AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
+                    condition = AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
                 }
 
                 if (condition)
                 {
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(14).FCastSounds.Play(0);
+                    AoWHSSet.Current.FSpellControl.GetSpell(14).FCastSounds.Play(0);
                 }
             }
         }
@@ -330,7 +330,7 @@ namespace Aow.Game.World.Terrain
             var lhx = Anim.GetLhx();
             var yhx = Anim.GetYhx();
             var xhx = Anim.GetXhx();
-            var field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
+            var field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
             if (this == field.FindOwnedChild(131985) && FrameCounter == 9)
             {
                 FMode = FMode - Set<UnholySummoning>.Of(UnholySummoning.Summoning);
@@ -351,7 +351,7 @@ namespace Aow.Game.World.Terrain
             public override int ResourceUserClassID() => 131985;
 
             // UnHolyG.pas:273
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnholyGroundRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(UnholyGroundRStr);
 
             private static readonly string UnholyGroundRStr = "Unholy Ground";
 
@@ -376,8 +376,8 @@ namespace Aow.Game.Commands
         {
             base.Process(source, value);
             CreateUnholyGround(source);
-            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
+            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
             return false;
         }
 
@@ -393,31 +393,31 @@ namespace Aow.Game.Commands
             ImageSequenceAnimation Anim = default;
             var walk = Walk;
             Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-            Resource = (UnHolyGround.Resource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindChild(131986);
+            HNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
+            Resource = (UnHolyGround.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(131986);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && walk.Y < Level.Height)
                 {
                     MapF = (AoWMapField)Level.GetField(walk.X, walk.Y);
-                    if (((GlobalTargetSpell)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(14)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
+                    if (((GlobalTargetSpell)AoWHSSet.Current.FSpellControl.GetSpell(14)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
                     {
                         MapF.RestoreTerrain();
                         Ground = (UnHolyGround)Resource.CreateResourceUser();
-                        Ground.FDuration = (sbyte)(3 + (Aow.Game.World.Map.AoWHSMap.Current.Random(11) - 5) / 5);
+                        Ground.FDuration = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
                         Ground.FPlayer = Source.FPlayer;
                         Ground.FOriginalOverlay = MapF.OverlayType;
-                        Aow.Game.World.Map.AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
-                        if (Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Ground, walk.X, walk.Y, FLocation.L))
+                        AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
+                        if (AoWHSMap.Current.PlaceHX(Ground, walk.X, walk.Y, FLocation.L))
                         {
                             Ground.FMode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
                             Anim = new ImageSequenceAnimation(null);
-                            Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(14).FCastImages.ImageSequences[0]);
+                            Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(14).FCastImages.ImageSequences[0]);
                             Anim.FOnShow = Ground.ShowSummonAnimation;
                             Anim.FOnNewFrame = Ground.NewFrameSummonAnimation;
-                            Anim.FFrameCounter = -Aow.Game.World.Map.AoWHSMap.Current.Random(15);
+                            Anim.FFrameCounter = -AoWHSMap.Current.Random(15);
                             Anim.FTag = Source.FPlayer;
-                            Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, walk.X, walk.Y, FLocation.L);
+                            AoWHSMap.Current.PlaceHX(Anim, walk.X, walk.Y, FLocation.L);
                         }
                         else
                         {
@@ -426,7 +426,7 @@ namespace Aow.Game.Commands
                     }
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -442,7 +442,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     {
         public UnholyGroundSpell(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnholyGroundsRStr);
+            FSpellName = AbilityRules.TranslateRStr(UnholyGroundsRStr);
             FSpellID = 14;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -457,7 +457,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         {
             base.SetupTargetSelection(Source, TargetSelection);
             TargetSelection.FHNs.Clear();
-            for (int I = 0, last = Aow.Game.World.Map.HexGeometry.RadToHN(2) - 1; I <= last; I++)
+            for (int I = 0, last = HexGeometry.RadToHN(2) - 1; I <= last; I++)
             {
                 TargetSelection.FHNs.Add(0);
             }
@@ -470,7 +470,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             Event = new UnholyGroundSpellTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }

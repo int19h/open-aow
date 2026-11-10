@@ -73,14 +73,14 @@ public partial class DWin : DataModule
     // AOWDialogWin.pas:60
     public void DButtonClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dialog.Visible = false;
     }
 
     // AOWDialogWin.pas:67
     public void DebugDOkBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         DebugWin.Visible = false;
     }
 
@@ -89,58 +89,58 @@ public partial class DWin : DataModule
     {
         string Reason = "";
         Structure Structure;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         switch (FAction)
         {
             case 0:
             case 1:
                 break;
             case 2:
-                Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.Loot();
+                DialogHosts.General.FCity.Loot();
                 break;
             case 3:
-                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.CanRaze(AoWHSMap.Current.FSeatedPlayer, ref Reason))
+                if (DialogHosts.General.FCity.CanRaze(AoWHSMap.Current.FSeatedPlayer, ref Reason))
                 {
-                    if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.Raze(AoWHSMap.Current.FSeatedPlayer))
+                    if (DialogHosts.General.FCity.Raze(AoWHSMap.Current.FSeatedPlayer))
                     {
                         Structure = DialogHosts.General.FStructure;
-                        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapStructureDeselected();
-                        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapStructureSelected(Structure);
+                        DialogHosts.MapEvents.TheMapStructureDeselected();
+                        DialogHosts.MapEvents.TheMapStructureSelected(Structure);
                     }
                 }
                 else
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                    AoWHSMap.Current.ShowWarning(Reason);
                 }
 
                 break;
             case 4:
-                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).Surrender();
+                AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).Surrender();
                 break;
             case 5:
                 DialogHosts.WorldMap.WorldPnl.Visible = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.General.ReturnToTitle();
+                DialogHosts.General.ReturnToTitle();
                 break;
             case 6:
                 if (Combat.AoWCombatMap.Current != null)
                 {
-                    Aow.Game.Combat.AoWCombatMap.Current.Surrender(Combat.AoWCombatMap.Current.FSeatedCombatPlayer);
+                    Combat.AoWCombatMap.Current.Surrender(Combat.AoWCombatMap.Current.FSeatedCombatPlayer);
                 }
 
                 break;
             case 7:
                 if (DialogHosts.General.FSelectedUnit != null)
                 {
-                    if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.CanDisband(ref Reason))
+                    if (DialogHosts.General.FSelectedUnit.CanDisband(ref Reason))
                     {
-                        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.Disband())
+                        if (DialogHosts.General.FSelectedUnit.Disband())
                         {
                             DialogHosts.UnitWindow.UnitWin.Visible = false;
                         }
                     }
                     else
                     {
-                        Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                        AoWHSMap.Current.ShowWarning(Reason);
                     }
                 }
 

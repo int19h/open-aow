@@ -102,12 +102,12 @@ namespace Aow.Game.World.Structures
             ArmyHS Army;
             ItemExplorationSiteEventLog Log;
             Item Item = default;
-            if (Set<CombatResult>.Of(Combat.CombatResult.Victory, Combat.CombatResult.NoDefenders).Contains(CombatResult))
+            if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(CombatResult))
             {
                 Army = (ArmyHS)Owner.FindOwnedChild(131607);
                 Log = new ItemExplorationSiteEventLog(null);
                 Log.FPlayer = Army.FArmy.FPlayer;
-                Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemsFoundRStr);
+                Log.FTitle = AbilityRules.TranslateRStr(ItemsFoundRStr);
                 var xhx = GetXhx();
                 Log.FLocation.X = xhx;
                 var yhx = GetYhx();
@@ -125,7 +125,7 @@ namespace Aow.Game.World.Structures
                 }
 
                 // { Original parses the formatted text as CSV. }
-                var itemsExplored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemsExploredRStr);
+                var itemsExplored = AbilityRules.TranslateRStr(ItemsExploredRStr);
                 var resourceEditName = FResource.ResourceEditName();
                 var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
                 Log.FMessages.CommaText = format;
@@ -141,16 +141,16 @@ namespace Aow.Game.World.Structures
             Item Item;
             if (FItemCount != 0)
             {
-                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                RandSeed = AoWHSMap.Current.Random(16777215);
                 if (FItemCount == 4)
                 {
-                    FItemCount = (byte)(Aow.Game.World.Map.AoWHSMap.Current.Random(3) + 1);
+                    FItemCount = (byte)(AoWHSMap.Current.Random(3) + 1);
                 }
 
                 FItems.Clear();
                 for (int itemOrdinal = 1, last = FItemCount; itemOrdinal <= last; itemOrdinal++)
                 {
-                    Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.GenerateItem(itAll, 0, 65535);
+                    Item = AoWHSMap.Current.FItemControl.GenerateItem(itAll, 0, 65535);
                     if (Item != null)
                     {
                         Item.Owner = FItems;

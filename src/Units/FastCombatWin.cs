@@ -261,14 +261,14 @@ public partial class FastCombatWindow : DataModule
                 if (HasWall(0, 4))
                 {
                     var hits = Wall.GetHits();
-                    var hitPointsToHitPcnt = Aow.Game.Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
-                    Aow.Game.Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 332 - 45, Surface, hitPointsToHitPcnt);
+                    var hitPointsToHitPcnt = Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
+                    Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 332 - 45, Surface, hitPointsToHitPcnt);
                 }
                 else
                 {
                     var hits = Wall.GetHits();
-                    var hitPointsToHitPcnt = Aow.Game.Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
-                    Aow.Game.Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 218 - 45, Surface, hitPointsToHitPcnt);
+                    var hitPointsToHitPcnt = Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
+                    Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 218 - 45, Surface, hitPointsToHitPcnt);
                 }
             }
         }
@@ -332,7 +332,7 @@ public partial class FastCombatWindow : DataModule
         else
         {
             var player = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
-            Left = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            Left = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
         }
 
         if (Data.FCurrentPlayer == 255 || Data.FPlayers.GetPlayers((sbyte)Data.FCurrentPlayer).FSideIndex != 0)
@@ -356,7 +356,7 @@ public partial class FastCombatWindow : DataModule
         else
         {
             var player = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-            Right = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            Right = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
         }
 
         if (Data.FCurrentPlayer == 255 || Data.FPlayers.GetPlayers((sbyte)Data.FCurrentPlayer).FSideIndex != 1)
@@ -432,7 +432,7 @@ public partial class FastCombatWindow : DataModule
     // FastCombatWin.pas:399
     public void CloseButClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FCWin.Visible = false;
     }
 
@@ -572,7 +572,7 @@ public partial class FastCombatWindow : DataModule
     public void InitialViewClick()
     {
         CombatViewer Viewer;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Viewer = FViewer;
         if (Viewer != null && Viewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
@@ -585,7 +585,7 @@ public partial class FastCombatWindow : DataModule
     public void FinalViewClick()
     {
         CombatViewer Viewer;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Viewer = FViewer;
         if (Viewer != null && Viewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
@@ -597,7 +597,7 @@ public partial class FastCombatWindow : DataModule
     // FastCombatWin.pas:492
     public void PauseBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FViewer != null && FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
             FViewer.Pause();
@@ -607,7 +607,7 @@ public partial class FastCombatWindow : DataModule
     // FastCombatWin.pas:498
     public void PlayBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FViewer != null && FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
             FViewer.Play();
@@ -684,7 +684,7 @@ public partial class FastCombatWindow : DataModule
         Dialog.FEvent.AddRef();
         Dialog.FDone = Done;
         Dialog.FLogbook = Event.FLogbook;
-        Aow.Game.Ui.Dialogs.FastCombatWindow.InitializeCombatDialog(Dialog, Dialog.FLogbook);
+        InitializeCombatDialog(Dialog, Dialog.FLogbook);
         Dialog.FCWin.Visible = true;
     }
 
@@ -739,7 +739,7 @@ public partial class FastCombatWindow : DataModule
                 PlayerIndex = Combat.FCombatData.FPlayers.GetPlayers((sbyte)Party.FPlayerIndex).FPlayer;
                 if (PlayerIndex != 0)
                 {
-                    PartyRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(PlayerIndex).FPlayerRace;
+                    PartyRace = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(PlayerIndex).FPlayerRace;
                 }
                 else
                 {
@@ -760,27 +760,27 @@ public partial class FastCombatWindow : DataModule
             // { Original refreshes both side labels inside the party loop. }
             if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer).FPlayer == 0)
             {
-                var independents = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
+                var independents = Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
                 Dialog.LSideLbl.Text = independents;
             }
             else
             {
                 var player = Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer);
-                RaceIndex = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
-                var raceResource = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
+                RaceIndex = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+                var raceResource = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
                 Dialog.LSideLbl.Text = raceResource.FRaceName;
             }
 
             if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer).FPlayer == 0)
             {
-                var independents = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
+                var independents = Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
                 Dialog.RSideLbl.Text = independents;
             }
             else
             {
                 var player = Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer);
-                RaceIndex = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
-                var raceResource = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
+                RaceIndex = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+                var raceResource = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
                 Dialog.RSideLbl.Text = raceResource.FRaceName;
             }
         }

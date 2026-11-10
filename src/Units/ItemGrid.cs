@@ -131,7 +131,7 @@ public partial class ItemGrid : CustomImageDrawGrid
         Item Item = default;
         FStream.Clear();
         Item = new Item(FItems);
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.ActivateEObject(Item);
+        GameTables.AoWEngine.ActivateEObject(Item);
         Item.Editor().Edit(Item, GameTables.AoWEngine, EditItemDone);
     }
 

@@ -216,7 +216,7 @@ public partial class TerrainMO : MultiHexMO
                 {
                     if (TerrainList.GetTerrain(I) >= 0 && I != HN)
                     {
-                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
+                        HexGeometry.CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
                         R.PlaceResourceUser(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
                     }
                 }
@@ -276,7 +276,7 @@ public partial class TerrainMO : MultiHexMO
         bool Result = true;
         Level = (MapLevel)Owner.Owner;
         Count = GetTerrainCount();
-        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count && Result)
         {
             if (Walk.HN != HN && GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -284,7 +284,7 @@ public partial class TerrainMO : MultiHexMO
                 Result = Level.GetField(Walk.X, Walk.Y).CanChangeTerrainEx(this);
             }
 
-            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+            HNWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;

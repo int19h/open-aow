@@ -71,7 +71,7 @@ public sealed class MapNetSoundFailureTests
 
         public Stream Open(string path, int mode)
         {
-            Published = Aow.Game.Audio.AudioHost.SampleDataList.Find(name);
+            Published = AudioHost.SampleDataList.Find(name);
             Assert.NotNull(Published);
             Assert.Equal(1, Published.RefCount);
             return inner.Open(path, mode);
@@ -132,9 +132,9 @@ public sealed class MapNetSoundFailureTests
             var data = SampleData.Create("reference");
             Assert.Equal(1, data.RefCount);
             Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).Create(data));
-            Assert.Empty(Aow.Game.Audio.AudioHost.SampleList.List.Take(AudioHost.SampleList.Count));
+            Assert.Empty(AudioHost.SampleList.List.Take(AudioHost.SampleList.Count));
             Assert.Equal(1, data.RefCount);
-            Assert.Same(data, Aow.Game.Audio.AudioHost.SampleDataList.Find("reference"));
+            Assert.Same(data, AudioHost.SampleDataList.Find("reference"));
             data.Release();
             Assert.Equal(0, AudioHost.SampleDataList.Count);
         }
@@ -174,7 +174,7 @@ public sealed class MapNetSoundFailureTests
                     Assert.Equal("Expected RIFF WAVE data.", error.Message);
                 }
                 else Assert.IsType<FileNotFoundException>(error);
-                Assert.Null(Aow.Game.Audio.AudioHost.SampleDataList.Find(path));
+                Assert.Null(AudioHost.SampleDataList.Find(path));
                 Assert.Equal(0, AudioHost.SampleDataList.Count);
                 Assert.Equal(0, AudioHost.SampleList.Count);
                 Assert.NotNull(files.Published);

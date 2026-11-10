@@ -38,7 +38,7 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 1) return (AbstractUnit)meta.Create(owner);
         if (route == 2)
         {
-            if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            if (EngineHost.Engines is null) EngineHost.Initialize();
             using var engine = new Engine(null!);
             engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
@@ -98,7 +98,7 @@ public sealed partial class AoWERuleConstructionTests
         AoWHSSet.Current = set;
         Type type = TypeNamed(name);
         var meta = EClass.Of(type);
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         EObject source = CreateUnit(type, null!, 0);
         EObject result = null!;

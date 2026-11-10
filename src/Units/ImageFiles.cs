@@ -30,7 +30,7 @@ internal static class ImageFiles
         int Result;
         ImageFileClass C;
         var extractFileExt = ExtractFileExt(FileName);
-        C = Aow.Game.Draw.GfxState.ImageFileClassList.FindClass(extractFileExt);
+        C = GfxState.ImageFileClassList.FindClass(extractFileExt);
         if (C != null)
         {
             Result = C.LoadToSurfaceDesc(FileName, ref SD, X, Y);
@@ -48,7 +48,7 @@ internal static class ImageFiles
         int Result;
         ImageFileClass C;
         var extractFileExt = ExtractFileExt(FileName);
-        C = Aow.Game.Draw.GfxState.ImageFileClassList.FindClass(extractFileExt);
+        C = GfxState.ImageFileClassList.FindClass(extractFileExt);
         if (C != null)
         {
             Result = C.GetPixelFormatID(FileName);

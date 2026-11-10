@@ -102,7 +102,7 @@ namespace Aow.Game.World.Terrain
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4418)
             {
-                if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                 {
                     ArmyPlaced(Msg.Param[0].As<ArmyHS>());
                     return;
@@ -173,10 +173,10 @@ namespace Aow.Game.World.Terrain
             int Damaged;
             AbstractUnit AUnit;
             Damaged = 0;
-            RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+            RandSeed = AoWHSMap.Current.Random(16777215);
             Log = new ArmyEventLog(null);
-            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HolyGroundDamageRStr);
-            var holyGroundDamage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HolyGroundDamageRStr);
+            Log.FArmyText = AbilityRules.TranslateRStr(HolyGroundDamageRStr);
+            var holyGroundDamage = AbilityRules.TranslateRStr(HolyGroundDamageRStr);
             Log.FArmyMessages.Add(holyGroundDamage);
             Log.FArmyIcon = 2;
             Log.FPlayer = Army.FArmy.FPlayer;
@@ -189,7 +189,7 @@ namespace Aow.Game.World.Terrain
                 if (condition)
                 {
                     var alignment = AUnit.GetAlignment();
-                    condition = Aow.Game.Magic.Abilities.AlignmentTables.alsPureEvil.Contains(alignment);
+                    condition = AlignmentTables.alsPureEvil.Contains(alignment);
                 }
 
                 if (condition && !AUnit.GetAbilityEnabled(1))
@@ -222,7 +222,7 @@ namespace Aow.Game.World.Terrain
                 var yhx = GetYhx();
                 var lhx = GetLhx();
                 var xhx = GetXhx();
-                Aow.Game.Events.EventLog.DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
+                EventLog.DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
             }
 
             Log.Release();
@@ -232,7 +232,7 @@ namespace Aow.Game.World.Terrain
         // HolyG.pas:139
         public void ArmyPlaced(ArmyHS Army)
         {
-            if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 TriggerArmyDamage(Army);
             }
@@ -248,7 +248,7 @@ namespace Aow.Game.World.Terrain
             Dispose();
             if (Overlay > 0)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
+                AoWHSMap.Current.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
             }
         }
 
@@ -287,7 +287,7 @@ namespace Aow.Game.World.Terrain
                 if (condition)
                 {
                     var alignment = AUnit.GetAlignment();
-                    condition = Aow.Game.Magic.Abilities.AlignmentTables.alsPureEvil.Contains(alignment);
+                    condition = AlignmentTables.alsPureEvil.Contains(alignment);
                 }
 
                 Result = condition && !AUnit.GetAbilityEnabled(1);
@@ -303,7 +303,7 @@ namespace Aow.Game.World.Terrain
             var lhx = Anim.GetLhx();
             var yhx = Anim.GetYhx();
             var xhx = Anim.GetXhx();
-            Field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
+            Field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
             if (this == Field.FindOwnedChild(131987) && GameTables.AoWEngine.FAnimationDetail != 0 && Anim.FFrameCounter == 0)
             {
                 bool condition = AoWHSMap.Current.FSeatedPlayer == Anim.FTag;
@@ -312,12 +312,12 @@ namespace Aow.Game.World.Terrain
                     var lhx2 = GetLhx();
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    condition = Aow.Game.World.Map.AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
+                    condition = AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
                 }
 
                 if (condition)
                 {
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(13).FCastSounds.Play(0);
+                    AoWHSSet.Current.FSpellControl.GetSpell(13).FCastSounds.Play(0);
                 }
             }
         }
@@ -328,7 +328,7 @@ namespace Aow.Game.World.Terrain
             var lhx = Anim.GetLhx();
             var yhx = Anim.GetYhx();
             var xhx = Anim.GetXhx();
-            var field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
+            var field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
             if (this == field.FindOwnedChild(131987) && FrameCounter == 9)
             {
                 FMode = FMode - Set<HolySummoning>.Of(HolySummoning.Summoning);
@@ -349,7 +349,7 @@ namespace Aow.Game.World.Terrain
             public override int ResourceUserClassID() => 131987;
 
             // HolyG.pas:273
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HolyGroundRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(HolyGroundRStr);
 
             private static readonly string HolyGroundRStr = "Holy Ground";
 
@@ -374,8 +374,8 @@ namespace Aow.Game.Commands
         {
             base.Process(source, value);
             CreateHolyGround(source);
-            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
+            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
             return false;
         }
 
@@ -388,34 +388,34 @@ namespace Aow.Game.Commands
             AoWMapField Field = default;
             HolyGround Ground = default;
             ImageSequenceAnimation Anim = default;
-            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(FLocation.L);
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-            Resource = (HolyGround.Resource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindChild(131988);
+            Level = AoWHSMap.Current.MapContainer.GetMapLevel(FLocation.L);
+            HNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
+            Resource = (HolyGround.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(131988);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
                     Field = (AoWMapField)Level.Field[Walk.X, Walk.Y];
-                    if (((GlobalTargetSpell)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(13)).ValidTargetMapF(Field))
+                    if (((GlobalTargetSpell)AoWHSSet.Current.FSpellControl.GetSpell(13)).ValidTargetMapF(Field))
                     {
                         if (Field.GetArmyHS() == null)
                         {
                             Field.RestoreTerrain();
                             Ground = (HolyGround)Resource.CreateResourceUser();
-                            Ground.FDuration = (sbyte)((Aow.Game.World.Map.AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+                            Ground.FDuration = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
                             Ground.FPlayer = Caster.FPlayer;
                             Ground.FOriginalOverlay = Field.OverlayType;
-                            Aow.Game.World.Map.AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, FLocation.L, 0, -1);
-                            if (Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Ground, Walk.X, Walk.Y, FLocation.L))
+                            AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, FLocation.L, 0, -1);
+                            if (AoWHSMap.Current.PlaceHX(Ground, Walk.X, Walk.Y, FLocation.L))
                             {
                                 Ground.FMode = Set<HolySummoning>.Of(HolySummoning.Summoning);
                                 Anim = new ImageSequenceAnimation(null);
-                                Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(13).FCastImages.ImageSequences[0]);
+                                Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(13).FCastImages.ImageSequences[0]);
                                 Anim.FOnShow = Ground.ShowSummonAnimation;
                                 Anim.FOnNewFrame = Ground.NewFrameSummonAnimation;
-                                Anim.FFrameCounter = -Aow.Game.World.Map.AoWHSMap.Current.Random(15);
+                                Anim.FFrameCounter = -AoWHSMap.Current.Random(15);
                                 Anim.FTag = Caster.FPlayer;
-                                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, FLocation.L);
+                                AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, FLocation.L);
                             }
                             else
                             {
@@ -425,7 +425,7 @@ namespace Aow.Game.Commands
                     }
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -441,7 +441,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     {
         public HolyGroundSpell(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HolyGroundsRStr);
+            FSpellName = AbilityRules.TranslateRStr(HolyGroundsRStr);
             FSpellID = 13;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -456,7 +456,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         {
             base.SetupTargetSelection(Source, TargetSelection);
             TargetSelection.FHNs.Clear();
-            for (int I = 0, last = Aow.Game.World.Map.HexGeometry.RadToHN(2) - 1; I <= last; I++)
+            for (int I = 0, last = HexGeometry.RadToHN(2) - 1; I <= last; I++)
             {
                 TargetSelection.FHNs.Add(0);
             }
@@ -469,7 +469,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             Event = new HolyGroundSpellTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }

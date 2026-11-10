@@ -31,7 +31,7 @@ public partial class Bridge : AbstractRoad
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         ((Resource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
     }
 
@@ -89,8 +89,8 @@ public partial class Bridge : AbstractRoad
         InShore = false;
         for (int HN = 1; HN <= 6; HN++)
         {
-            Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
-            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
+            HexGeometry.TranslateHX(0, 0, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);

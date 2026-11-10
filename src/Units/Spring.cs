@@ -66,7 +66,7 @@ namespace Aow.Game.World.Structures
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             Xhp -= XhpSurf;
             Yhp -= YhpSurf;
             FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
@@ -89,18 +89,18 @@ namespace Aow.Game.World.Structures
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+                condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
             {
-                Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+                Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
             }
 
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             var xhx2 = GetXhx();
-            if (Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
+            if (AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
             {
                 Anim = new SpringOfLifeAnimation(null);
                 R = new Rect(-16, -8, 32, 40);
@@ -110,7 +110,7 @@ namespace Aow.Game.World.Structures
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
+                AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Aow.Game.World.Structures
             // Spring.pas:37
 
             // Spring.pas:126
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpringOfLifeRStr);
+            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(SpringOfLifeRStr);
 
             private static readonly string SpringOfLifeRStr = "Spring of Life";
 

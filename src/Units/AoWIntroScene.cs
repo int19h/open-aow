@@ -23,7 +23,7 @@ public partial class IntroScene : DataModule
     {
         ReleaseSound();
         Window.Visible = false;
-        Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
+        WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
     }
 
     // AoWIntroScene.pas:192

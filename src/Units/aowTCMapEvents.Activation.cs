@@ -8,36 +8,36 @@ public partial class CombatMapEvents
 {
     public void TCMapActivateMap()
     {
-        Aow.Game.Audio.AudioHost.SongPlayer.Pause(false);
+        Audio.AudioHost.SongPlayer.Pause(false);
         if (Magic.Abilities.GameTables.AoWEngine.FDemo)
         {
-            Aow.Game.Audio.AudioPlayback.PlaySongEx("Songs\\Combat\\Defend.IT", 2, 0, true);
+            Audio.AudioPlayback.PlaySongEx("Songs\\Combat\\Defend.IT", 2, 0, true);
         }
         else
         {
             switch (Random(3))
             {
                 case 0:
-                    Aow.Game.Audio.AudioPlayback.PlaySongEx("Songs\\Combat\\Defend.IT", 2, 0, true);
+                    Audio.AudioPlayback.PlaySongEx("Songs\\Combat\\Defend.IT", 2, 0, true);
                     break;
                 case 1:
-                    Aow.Game.Audio.AudioPlayback.PlaySongEx("Songs\\Combat\\Outnum.IT", 2, 0, true);
+                    Audio.AudioPlayback.PlaySongEx("Songs\\Combat\\Outnum.IT", 2, 0, true);
                     break;
                 case 2:
-                    Aow.Game.Audio.AudioPlayback.PlaySongEx("Songs\\Combat\\Races.IT", 2, 0, true);
+                    Audio.AudioPlayback.PlaySongEx("Songs\\Combat\\Races.IT", 2, 0, true);
                     break;
             }
         }
 
         DialogHosts.MWindow.MapViewer.HSMap = AoWCombatMap.Current;
-        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetMap(AoWCombatMap.Current);
+        DialogHosts.TCScanner.Scanner.SetMap(AoWCombatMap.Current);
         DialogHosts.TCScanner.Scanner.FPreviousWidth = 0;
         DialogHosts.TCScanner.Scanner.FIncremental = false;
         DialogHosts.TCScanner.Scanner.FSized = false;
         DialogHosts.TCScanner.Scanner.FUpdateStep = -1;
 
         DialogHosts.MWindow.MapWindow.Visible = true;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.HideWindows();
+        DialogHosts.General.HideWindows();
         AoWCombatMap.Current = (AoWCombatMap)World.Map.AoWHSMap.Current.FCombatMap;
         DialogHosts.MWindow.MapWindow.Visible = AoWCombatMap.Current.FPlaySounds;
         DialogHosts.MWindow.FWorldAlignWidth = DialogHosts.MWindow.MapWindow.Alignment.AlignWidth;
@@ -73,7 +73,7 @@ public partial class CombatMapEvents
         DialogHosts.MWindow.MapWindow.FAligned = false;
         DialogHosts.TBWindow.TBWorld.Visible = false;
         DialogHosts.TBWindow.TBCombat.Visible = true;
-        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.UpdateCombatPlayerIndicator();
+        DialogHosts.TBWindow.UpdateCombatPlayerIndicator();
         DialogHosts.TBWindow.AutoBtn.Checked = false;
         DialogHosts.TBWindow.TCChatBtn.Visible = DialogHosts.TBWindow.ChatBtn.Visible;
         DialogHosts.TBWindow.TCUnitBtn.Visible = false;

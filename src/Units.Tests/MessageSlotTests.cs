@@ -108,12 +108,12 @@ public sealed class MessageSlotTests
     {
         using var engine = new Engine(null!);
         EMsg message = default;
-        Aow.Game.Engine.Nodes.EMsg.InitMsg(ref message, 0x20000008, engine);
+        EMsg.InitMsg(ref message, 0x20000008, engine);
         message.Payload = engine;
         Assert.Same(engine, message.Payload.As<Engine>());
         Assert.Throws<InvalidCastException>(() => message.Payload.Int);
         Assert.Equal(-1, message.Result);
-        Aow.Game.Engine.Nodes.EMsg.InitMsg(ref message, 0x20020002, engine);
+        EMsg.InitMsg(ref message, 0x20020002, engine);
         Assert.False(message.Payload.HasValue);
         message.Payload = 5;
         Assert.Equal(5, (sbyte)message.Payload.Int);

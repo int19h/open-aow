@@ -72,7 +72,7 @@ public partial class MoveControl
         }
         if (failed) path.Clear();
         else if (field != null && points == 0) path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
-        if (Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.FStatus.Contains(AIExecuterStatusElement.Executing)) Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.UseProcessTime(path.Count);
+        if (AoWHSMap.Current.FAIExecuter.FStatus.Contains(AIExecuterStatusElement.Executing)) AoWHSMap.Current.FAIExecuter.UseProcessTime(path.Count);
     }
 
     private AoWMapField NeighborField(AoWMapField field, int direction)

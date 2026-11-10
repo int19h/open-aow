@@ -105,7 +105,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public virtual void SetLoadMode(LoadMode Value)
     {
         FLoadMode = Value;
-        if (FLoadMode == Images.LoadMode.LoadAlways && !FDataLoaded)
+        if (FLoadMode == LoadMode.LoadAlways && !FDataLoaded)
         {
             LoadDiscardableImageData();
         }
@@ -184,7 +184,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public virtual void ReadImageData(Stream Stream)
     {
         Stream.ReadBytes(Bytes.Of(ref FVersion, 1));
-        Aow.Game.Draw.Images.LibraryDrawing.ReadStringFromStream(ref FFileName, Stream);
+        LibraryDrawing.ReadStringFromStream(ref FFileName, Stream);
         Stream.ReadBytes(Bytes.Of(ref FDataWidth, 4));
         Stream.ReadBytes(Bytes.Of(ref FDataHeight, 4));
         Stream.ReadBytes(Bytes.Of(ref FXshift, 4));
@@ -220,7 +220,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         byte V;
         V = ClassVersion();
         Stream.Write(Bytes.Of(ref V, 1));
-        Aow.Game.Draw.Images.LibraryDrawing.WriteStringToStream(FFileName, Stream);
+        LibraryDrawing.WriteStringToStream(FFileName, Stream);
         Stream.Write(Bytes.Of(ref FDataWidth, 4));
         Stream.Write(Bytes.Of(ref FDataHeight, 4));
         Stream.Write(Bytes.Of(ref FXshift, 4));
@@ -283,7 +283,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         {
             LoadDiscardableImageData();
             WriteDiscardableImageData(DataStream);
-            if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+            if (FLoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -300,7 +300,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         ReadImageData(Stream);
         if (FVersion >= 2)
         {
-            if (FLoadMode == Images.LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) || FDataPosition == -1)
+            if (FLoadMode == LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) || FDataPosition == -1)
             {
                 if (FDataPosition != -1)
                 {
@@ -354,7 +354,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     {
         FDataPosition = -1;
         FReloadingEnabled = false;
-        FLoadMode = Images.LoadMode.LoadOnDemand;
+        FLoadMode = LoadMode.LoadOnDemand;
         FShowInfo.ShowMode = ShowMode.Opaque;
         FShowInfo.BlendMode = BlendMode.Alpha;
         SetOwner(owner);
@@ -380,9 +380,9 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         Stream = new MemoryStream();
         try
         {
-            Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(this, Stream);
+            WriteImageToStream(this, Stream);
             Stream.Position = 0;
-            Result = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(Stream, FOwner);
+            Result = ImageStreams.ReadImageFromStream(Stream, FOwner);
             Result.SetOwner(null);
         }
         finally
@@ -405,7 +405,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         {
             LoadDiscardableImageData();
             WriteDiscardableImageData(Stream);
-            if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+            if (FLoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -425,7 +425,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         if (FVersion < 2)
         {
             FDataPosition = (int)(Stream.Position);
-            if (FLoadMode == Images.LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile))
+            if (FLoadMode == LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
                 ReadDiscardableImageData(Stream);
                 FReloadingEnabled = false;
@@ -438,7 +438,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         }
         else
         {
-            if (FLoadMode == Images.LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) || FDataPosition == -1)
+            if (FLoadMode == LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) || FDataPosition == -1)
             {
                 if (FDataPosition != -1)
                 {
@@ -747,7 +747,7 @@ public partial class LibraryImagePalette : Persistent
         }
         else
         {
-            Aow.Game.Draw.PixelFormats.Color2PixelInfo(0, PixelFormatID, FPalette);
+            PixelFormats.Color2PixelInfo(0, PixelFormatID, FPalette);
             if (FRemapPalette == null || PixelFormatID != FRemapPalette.PixelFormatID)
             {
                 if (FRemapPalette == null)
@@ -1205,12 +1205,12 @@ public partial class CustomImageLibrary : Component
                 while (Index != -1)
                 {
                     SubIndex = 0;
-                    Image = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(Stream, this);
+                    Image = ImageStreams.ReadImageFromStream(Stream, this);
                     while (Image != null)
                     {
                         SetSubImage(Index, SubIndex, Image);
                         SubIndex += 1;
-                        Image = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(Stream, this);
+                        Image = ImageStreams.ReadImageFromStream(Stream, this);
                     }
 
                     Stream.ReadBytes(Bytes.Of(ref Reference, 4));
@@ -1225,7 +1225,7 @@ public partial class CustomImageLibrary : Component
                     Stream.ReadBuffer(Bytes.Of(ref Index, 4));
                     while (Index != -1)
                     {
-                        var readImageFromStream = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(Stream, this);
+                        var readImageFromStream = ImageStreams.ReadImageFromStream(Stream, this);
                         SetImage(Index, readImageFromStream);
                         Stream.ReadBytes(Bytes.Of(ref Reference, 4));
                         SetImageReference(Index, Reference);
@@ -1247,7 +1247,7 @@ public partial class CustomImageLibrary : Component
                 MS.ReadBuffer(Bytes.Of(ref Index, 4));
                 while (Index != -1)
                 {
-                    var readImageFromStreamEx = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStreamEx(MS, Stream, this);
+                    var readImageFromStreamEx = ImageStreams.ReadImageFromStreamEx(MS, Stream, this);
                     SetImage(Index, readImageFromStreamEx);
                     MS.Read(Bytes.Of(ref Reference, 4));
                     SetImageReference(Index, Reference);
@@ -1300,7 +1300,7 @@ public partial class CustomImageLibrary : Component
                 if (FImages[I].Image != null || FImages[I].Reference != -1)
                 {
                     Stream.Write(Bytes.Of(ref I, 4));
-                    Aow.Game.Draw.Images.LibraryImage.WriteImageToStreamEx(FImages[I].Image, Stream, Swap);
+                    LibraryImage.WriteImageToStreamEx(FImages[I].Image, Stream, Swap);
                     Stream.Write(Bytes.Of(ref FImages[I].Reference, 4));
                 }
             }
@@ -2248,7 +2248,7 @@ public partial class GrabInfo
         Stream.ReadBytes(Bytes.Of(ref TransparentColor, 4));
         Stream.ReadBytes(Bytes.Of(ref FindRectangles, 1));
         Stream.ReadBytes(Bytes.Of(ref TransparentPixel, 4));
-        Aow.Game.Draw.Images.LibraryDrawing.ReadStringFromStream(ref FileName, Stream);
+        LibraryDrawing.ReadStringFromStream(ref FileName, Stream);
         Stream.ReadBytes(Bytes.Of(ref FileIndex, 4));
     }
 
@@ -2258,7 +2258,7 @@ public partial class GrabInfo
         Stream.Write(Bytes.Of(ref TransparentColor, 4));
         Stream.Write(Bytes.Of(ref FindRectangles, 1));
         Stream.Write(Bytes.Of(ref TransparentPixel, 4));
-        Aow.Game.Draw.Images.LibraryDrawing.WriteStringToStream(FileName, Stream);
+        LibraryDrawing.WriteStringToStream(FileName, Stream);
         Stream.Write(Bytes.Of(ref FileIndex, 4));
     }
 
@@ -2549,10 +2549,10 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
-            Aow.Game.Draw.Images.LibraryImage.WriteImageToStreamEx(FImages[I], Stream, DataStream);
+            WriteImageToStreamEx(FImages[I], Stream, DataStream);
         }
 
-        Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(null, Stream);
+        WriteImageToStream(null, Stream);
     }
 
     // ImageLib.pas:1416
@@ -2560,10 +2560,10 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
-            Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(FImages[I], Stream);
+            WriteImageToStream(FImages[I], Stream);
         }
 
-        Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(null, Stream);
+        WriteImageToStream(null, Stream);
     }
 
     // ImageLib.pas:1424
@@ -2571,11 +2571,11 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         LibraryImage Image;
         Clear();
-        Image = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(Stream, FOwner);
+        Image = ImageStreams.ReadImageFromStream(Stream, FOwner);
         while (Image != null)
         {
             Add(Image);
-            Image = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(Stream, FOwner);
+            Image = ImageStreams.ReadImageFromStream(Stream, FOwner);
         }
     }
 
@@ -2583,11 +2583,11 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     public override void LoadFromStreamEx(Stream Stream, Stream DataStream)
     {
         LibraryImage Image;
-        Image = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStreamEx(Stream, DataStream, FOwner);
+        Image = ImageStreams.ReadImageFromStreamEx(Stream, DataStream, FOwner);
         while (Image != null)
         {
             Add(Image);
-            Image = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStreamEx(Stream, DataStream, FOwner);
+            Image = ImageStreams.ReadImageFromStreamEx(Stream, DataStream, FOwner);
         }
     }
 
@@ -2956,7 +2956,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
     }
 
     // ImageLib.pas:7331
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfPAL8 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB565) && ShowMode == Images.ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfPAL8 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB565) && ShowMode == ShowMode.Opaque;
 
     // ImageLib.pas:7337
     public void AllocateDiscardableImageData(int AWidth, int AHeight)
@@ -2975,7 +2975,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
         // MMX. The alignment has no effect on pixels, so the rows start at the first byte and the
         // 7 bytes stay after the last row (graphics.md 6.8).
         Size = FPitch * AHeight + 7;
-        FBuffer = Aow.Game.Draw.MemorySurfaces.Reallocate(FBuffer, Size);
+        FBuffer = MemorySurfaces.Reallocate(FBuffer, Size);
     }
 
     // ImageLib.pas:7350
@@ -3087,18 +3087,18 @@ public partial class Picture08 : Image08, ILibraryImageClass
         var source = View.At(srcX + srcY * FPitch);
         var destination = sd.View(destX + destY * sd.Pitch);
         if (sd.PixelFormatID == PixelFormats.pfPAL8)
-            Aow.Game.Draw.BlitRects.BltRect(source, destination, width, height);
+            BlitRects.BltRect(source, destination, width, height);
         else
         {
             if (sd.PixelFormatID != FRemapPalette.PixelFormatID &&
                 RemapToPixelFormat(sd.PixelFormatID) != PixelFormats.GFXE_OK)
                 throw new NotSupportedException("Surface pixel format not supported!");
             if (sd.PixelFormatID == PixelFormats.pfRGB555)
-                Aow.Game.Draw.PixelRemap.RemapSurface08to555(source, destination, width, height, FRemapPalette);
+                PixelRemap.RemapSurface08to555(source, destination, width, height, FRemapPalette);
             else if (sd.PixelFormatID == PixelFormats.pfRGB565)
-                Aow.Game.Draw.PixelRemap.RemapSurface08to565(source, destination, width, height, FRemapPalette);
+                PixelRemap.RemapSurface08to565(source, destination, width, height, FRemapPalette);
         }
-        if (loadedHere && FLoadMode == Images.LoadMode.LoadFreeOnDemand) ReleaseDiscardableImageData();
+        if (loadedHere && FLoadMode == LoadMode.LoadFreeOnDemand) ReleaseDiscardableImageData();
     }
 }
 
@@ -3222,7 +3222,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
     public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
-        FData = Aow.Game.Draw.MemorySurfaces.Reallocate(FData, FDataSize);
+        FData = MemorySurfaces.Reallocate(FData, FDataSize);
         Stream.ReadBytes(FData.AsSpan(0, FDataSize));
     }
 
@@ -3234,7 +3234,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
     }
 
     // ImageLib.pas:7596
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB565) && ShowMode == Images.ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB565) && ShowMode == ShowMode.Opaque;
 
     // ImageLib.pas:7602
     public override void ShowOpaque(int X, int Y, in SurfaceDesc SD)
@@ -3244,7 +3244,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID == PixelFormats.pfPAL8)
             {
-                Aow.Game.Draw.Images.RLESprite08.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3257,14 +3257,14 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
                 {
                     case PixelFormats.pfRGB555:
                     case PixelFormats.pfRGB565:
-                        Aow.Game.Draw.Images.RLESprite08.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
+                        ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
                 }
             }
 
-            if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+            if (FLoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -3273,7 +3273,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
         {
             if (SD.PixelFormatID == PixelFormats.pfPAL8)
             {
-                Aow.Game.Draw.Images.RLESprite08.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3286,7 +3286,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
                 {
                     case PixelFormats.pfRGB555:
                     case PixelFormats.pfRGB565:
-                        Aow.Game.Draw.Images.RLESprite08.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
+                        ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
@@ -3324,7 +3324,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
         {
             if (FDataSize <= Pos)
             {
-                FData = Aow.Game.Draw.MemorySurfaces.Reallocate(FData, Pos + 4096);
+                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
             }
 
             FData[Pos] = B;
@@ -3363,7 +3363,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
             FlushTransparent();
             if (FDataSize <= Pos)
             {
-                FData = Aow.Game.Draw.MemorySurfaces.Reallocate(FData, Pos + 4096);
+                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
             }
 
             BinaryPrimitives.WriteUInt16LittleEndian(FData.AsSpan(LineStart, 2), (ushort)(Pos - LineStart));
@@ -3388,7 +3388,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
                     FFileIndex = GrabInfo.FileIndex;
                     Pos = 0;
                     Count = 0;
-                    Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(SD, R, FTransparentColor, ref MinRect);
+                    SurfaceDesc.MinimizeTransparentRect(SD, R, FTransparentColor, ref MinRect);
                     Left = MinRect.Left;
                     FRLELeft = Left - R.Left;
                     Top = MinRect.Top;
@@ -3418,7 +3418,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
                         EndLine();
                     }
 
-                    FData = Aow.Game.Draw.MemorySurfaces.Reallocate(FData, Pos);
+                    FData = MemorySurfaces.Reallocate(FData, Pos);
                     FDataSize = Pos;
                     CreateLibraryImagePalette(SD.Palette);
                 }
@@ -3543,7 +3543,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
         Size = FPitch * AHeight + 7;
-        FBuffer = Aow.Game.Draw.MemorySurfaces.Reallocate(FBuffer, Size);
+        FBuffer = MemorySurfaces.Reallocate(FBuffer, Size);
     }
 
     // ImageLib.pas:2174
@@ -3593,7 +3593,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:2200
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(Images.ShowMode.Opaque, Images.ShowMode.Transparent, Images.ShowMode.Blended).Contains(ShowMode);
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(ShowMode);
 
     // ImageLib.pas:2219
     public override void ReleaseDiscardableImageData()
@@ -3718,11 +3718,11 @@ public partial class Picture16 : Image16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case PixelFormats.pfRGB565:
-                    Aow.Game.Draw.PixelRemap.RemapSurface555to565(View, View, FDataWidth, FDataHeight);
+                    PixelRemap.RemapSurface555to565(View, View, FDataWidth, FDataHeight);
                     FPixelFormatID = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
-                    Aow.Game.Draw.PixelRemap.RemapSurface565to555(View, View, FDataWidth, FDataHeight);
+                    PixelRemap.RemapSurface565to555(View, View, FDataWidth, FDataHeight);
                     FPixelFormatID = PixelFormats.pfRGB555;
                     break;
                 default:
@@ -3796,7 +3796,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        Aow.Game.Draw.BlitRects.BltRect(Src, Dst, W * 2, H);
+                        BlitRects.BltRect(Src, Dst, W * 2, H);
                     }
                     else
                     {
@@ -3805,10 +3805,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        Aow.Game.Draw.BlitRects.BltRect(Src, Dst, W * 2, H);
+                        BlitRects.BltRect(Src, Dst, W * 2, H);
                     }
 
-                    if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -3819,7 +3819,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        Aow.Game.Draw.BlitRects.BltRect(Src, Dst, W * 2, H);
+                        BlitRects.BltRect(Src, Dst, W * 2, H);
                     }
                     else
                     {
@@ -3828,7 +3828,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        Aow.Game.Draw.BlitRects.BltRect(Src, Dst, W * 2, H);
+                        BlitRects.BltRect(Src, Dst, W * 2, H);
                     }
                 }
             }
@@ -3902,10 +3902,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case PixelFormats.pfRGB565:
-                                    Aow.Game.Draw.Images.Picture16.BlendSurface565(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                    BlendSurface565(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                     break;
                                 case PixelFormats.pfRGB555:
-                                    Aow.Game.Draw.Images.Picture16.BlendSurface555(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                    BlendSurface555(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3926,10 +3926,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case PixelFormats.pfRGB565:
-                                    Aow.Game.Draw.Images.Picture16.BlendSurface565(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                    BlendSurface565(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                     break;
                                 case PixelFormats.pfRGB555:
-                                    Aow.Game.Draw.Images.Picture16.BlendSurface555(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                    BlendSurface555(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3939,7 +3939,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                         }
                     }
 
-                    if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -3955,10 +3955,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case PixelFormats.pfRGB565:
-                                    Aow.Game.Draw.Images.Picture16.BlendSurface565(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                    BlendSurface565(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                     break;
                                 case PixelFormats.pfRGB555:
-                                    Aow.Game.Draw.Images.Picture16.BlendSurface555(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                    BlendSurface555(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3979,10 +3979,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case PixelFormats.pfRGB565:
-                                    Aow.Game.Draw.Images.Picture16.BlendSurface565(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                    BlendSurface565(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                     break;
                                 case PixelFormats.pfRGB555:
-                                    Aow.Game.Draw.Images.Picture16.BlendSurface555(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                    BlendSurface555(Src, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -4060,11 +4060,11 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     {
                         if (FPixelFormatID == PixelFormats.pfRGB565)
                         {
-                            Aow.Game.Draw.Images.Picture16.BltTransparent565(Src, Dst, W, H);
+                            BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            Aow.Game.Draw.Images.Picture16.BltTransparent555(Src, Dst, W, H);
+                            BltTransparent555(Src, Dst, W, H);
                         }
                     }
                     else
@@ -4076,15 +4076,15 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
                         if (FPixelFormatID == PixelFormats.pfRGB565)
                         {
-                            Aow.Game.Draw.Images.Picture16.BltTransparent565(Src, Dst, W, H);
+                            BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            Aow.Game.Draw.Images.Picture16.BltTransparent555(Src, Dst, W, H);
+                            BltTransparent555(Src, Dst, W, H);
                         }
                     }
 
-                    if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -4097,11 +4097,11 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     {
                         if (FPixelFormatID == PixelFormats.pfRGB565)
                         {
-                            Aow.Game.Draw.Images.Picture16.BltTransparent565(Src, Dst, W, H);
+                            BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            Aow.Game.Draw.Images.Picture16.BltTransparent555(Src, Dst, W, H);
+                            BltTransparent555(Src, Dst, W, H);
                         }
                     }
                     else
@@ -4113,11 +4113,11 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
                         if (FPixelFormatID == PixelFormats.pfRGB565)
                         {
-                            Aow.Game.Draw.Images.Picture16.BltTransparent565(Src, Dst, W, H);
+                            BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            Aow.Game.Draw.Images.Picture16.BltTransparent555(Src, Dst, W, H);
+                            BltTransparent555(Src, Dst, W, H);
                         }
                     }
                 }
@@ -4220,7 +4220,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
         Size = FPitch * AHeight + 7;
-        FBuffer = Aow.Game.Draw.MemorySurfaces.Reallocate(FBuffer, Size);
+        FBuffer = MemorySurfaces.Reallocate(FBuffer, Size);
     }
 
     // ImageLib.pas:4247
@@ -4351,13 +4351,13 @@ public partial class Sprite16 : Image16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case PixelFormats.pfRGB565:
-                    Aow.Game.Draw.PixelRemap.RemapSurface555to565(View, View, FSpriteWidth, FSpriteHeight);
-                    FColorKey = Aow.Game.Draw.PixelRemap.RemapPixelInfo(FColorKey, PixelFormats.pfRGB555, null, PixelFormats.pfRGB565, null);
+                    PixelRemap.RemapSurface555to565(View, View, FSpriteWidth, FSpriteHeight);
+                    FColorKey = PixelRemap.RemapPixelInfo(FColorKey, PixelFormats.pfRGB555, null, PixelFormats.pfRGB565, null);
                     FPixelFormatID = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
-                    Aow.Game.Draw.PixelRemap.RemapSurface565to555(View, View, FSpriteWidth, FSpriteHeight);
-                    FColorKey = Aow.Game.Draw.PixelRemap.RemapPixelInfo(FColorKey, PixelFormats.pfRGB565, null, PixelFormats.pfRGB555, null);
+                    PixelRemap.RemapSurface565to555(View, View, FSpriteWidth, FSpriteHeight);
+                    FColorKey = PixelRemap.RemapPixelInfo(FColorKey, PixelFormats.pfRGB565, null, PixelFormats.pfRGB555, null);
                     FPixelFormatID = PixelFormats.pfRGB555;
                     break;
                 default:
@@ -4370,7 +4370,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:4386
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(Images.ShowMode.Opaque, Images.ShowMode.Transparent, Images.ShowMode.Blended).Contains(ShowMode);
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(ShowMode);
 
     // ImageLib.pas:4392
     public override void ShowOpaque(int X, int Y, in SurfaceDesc SD)
@@ -4436,7 +4436,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        Aow.Game.Draw.BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
+                        BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
                     else
                     {
@@ -4445,10 +4445,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        Aow.Game.Draw.BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
+                        BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
 
-                    if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -4459,7 +4459,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                     Dst = SD.View((DX << 1) + SD.Pitch * DY);
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        Aow.Game.Draw.BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
+                        BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
                     else
                     {
@@ -4468,7 +4468,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        Aow.Game.Draw.BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
+                        BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
                 }
             }
@@ -4542,10 +4542,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.Sprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.Sprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4559,15 +4559,15 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.Sprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.Sprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
 
-                    if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -4581,10 +4581,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.Sprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.Sprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4598,10 +4598,10 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.Sprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.Sprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4653,12 +4653,12 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                     Surface.Lock(ref LSD);
                     var surfaceWidth = Surface.GetWidth();
                     var surfaceHeight = Surface.GetHeight();
-                    if (Aow.Game.Draw.SurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
+                    if (SurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
 
-                    FTransparentColor = Aow.Game.Draw.PixelRemap.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
+                    FTransparentColor = PixelRemap.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
                 }
                 else
                 {
@@ -4678,7 +4678,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 FStoredPixelFormatID = LSD.PixelFormatID;
                 FPixelFormatID = FStoredPixelFormatID;
                 FColorKey = FTransparentColor;
-                Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(LSD, GR, FTransparentColor, ref MR);
+                SurfaceDesc.MinimizeTransparentRect(LSD, GR, FTransparentColor, ref MR);
                 Left = MR.Left;
                 FSpriteX = Left - GR.Left;
                 Top = MR.Top;
@@ -4847,7 +4847,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
     public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
-        FData = Aow.Game.Draw.MemorySurfaces.Reallocate(FData, FDataSize);
+        FData = MemorySurfaces.Reallocate(FData, FDataSize);
         Stream.ReadBytes(FData.AsSpan(0, FDataSize));
     }
 
@@ -4867,11 +4867,11 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.RLESprite16.RemapRLE555to565(FData, FSpriteHeight, FColorKey);
+                    RemapRLE555to565(FData, FSpriteHeight, FColorKey);
                     FPixelFormatID = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.RLESprite16.RemapRLE565to555(FData, FSpriteHeight, FColorKey);
+                    RemapRLE565to555(FData, FSpriteHeight, FColorKey);
                     FPixelFormatID = PixelFormats.pfRGB555;
                     break;
                 default:
@@ -4884,7 +4884,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:3006
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(Images.ShowMode.Opaque, Images.ShowMode.Transparent).Contains(ShowMode);
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent).Contains(ShowMode);
 
     // ImageLib.pas:3012
     public override void ShowOpaque(int X, int Y, in SurfaceDesc SD)
@@ -4894,7 +4894,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                Aow.Game.Draw.Images.RLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4903,10 +4903,10 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
-                Aow.Game.Draw.Images.RLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
 
-            if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+            if (FLoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -4915,7 +4915,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
         {
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                Aow.Game.Draw.Images.RLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4924,7 +4924,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
-                Aow.Game.Draw.Images.RLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
         }
     }
@@ -4944,14 +4944,14 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.RLESprite16.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.RLESprite16.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
 
-            if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+            if (FLoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -4966,10 +4966,10 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.RLESprite16.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.RLESprite16.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
         }
@@ -5000,7 +5000,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
         {
             if (FDataSize <= Pos)
             {
-                FData = Aow.Game.Draw.MemorySurfaces.Reallocate(FData, Pos + 4096);
+                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
             }
 
             BinaryPrimitives.WriteUInt16LittleEndian(FData.AsSpan(Pos, 2), W);
@@ -5029,7 +5029,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
             FlushSkip();
             if (FDataSize <= Pos)
             {
-                FData = Aow.Game.Draw.MemorySurfaces.Reallocate(FData, Pos + 4096);
+                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
             }
 
             BinaryPrimitives.WriteUInt16LittleEndian(FData.AsSpan(RowStart, 2), (ushort)(Pos - RowStart));
@@ -5058,12 +5058,12 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
                     Surface.Lock(ref LSD);
                     var surfaceWidth = Surface.GetWidth();
                     var surfaceHeight = Surface.GetHeight();
-                    if (Aow.Game.Draw.SurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
+                    if (SurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
 
-                    FColorKey = Aow.Game.Draw.PixelRemap.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
+                    FColorKey = PixelRemap.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
                 }
                 else
                 {
@@ -5084,7 +5084,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
                 FPixelFormatID = FStoredPixelFormatID;
                 Pos = 0;
                 Skip = 0;
-                Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(LSD, GR, FColorKey, ref MR);
+                SurfaceDesc.MinimizeTransparentRect(LSD, GR, FColorKey, ref MR);
                 FSpriteX = MR.Left - GR.Left;
                 FSpriteY = MR.Top - GR.Top;
                 FSpriteWidth = MR.Right - MR.Left;
@@ -5110,7 +5110,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
                     EndRow();
                 }
 
-                FData = Aow.Game.Draw.MemorySurfaces.Reallocate(FData, Pos);
+                FData = MemorySurfaces.Reallocate(FData, Pos);
                 FDataSize = Pos;
             }
             finally
@@ -5354,11 +5354,11 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         TransparentColor = GrabInfo.TransparentPixel;
         if (!((GrabInfo)GrabInfo).Inverse)
         {
-            Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(SD, R, TransparentColor, ref MinRect);
+            SurfaceDesc.MinimizeTransparentRect(SD, R, TransparentColor, ref MinRect);
         }
         else
         {
-            Aow.Game.Draw.Images.BitMask.MinimizeInvTransparentRect(SD, R, TransparentColor, ref MinRect);
+            MinimizeInvTransparentRect(SD, R, TransparentColor, ref MinRect);
         }
 
         Left = MinRect.Left;
@@ -5376,7 +5376,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
             {
                 if (!((GrabInfo)GrabInfo).Inverse)
                 {
-                    AddBit(Aow.Game.Draw.Images.BitMask.GetPixelInfo(SD, X, Y) != TransparentColor);
+                    AddBit(GetPixelInfo(SD, X, Y) != TransparentColor);
                 }
             }
 
@@ -5402,7 +5402,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
             LoadDiscardableImageData();
         }
 
-        Aow.Game.Draw.Images.BitMask.ShowBitMask16(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+        ShowBitMask16(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
     }
 
     public void AllocateMaskData(int AWidth, int AHeight)
@@ -5410,7 +5410,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         FPitch = checked(((AWidth + 31) >> 5) * 4);
         FDataSize = checked(FPitch * FMaskHeight);
         // GrabImage flushes one extra zero dword after a full final word.
-        FMaskData = Aow.Game.Draw.MemorySurfaces.Reallocate(FMaskData, checked(FDataSize + 4));
+        FMaskData = MemorySurfaces.Reallocate(FMaskData, checked(FDataSize + 4));
     }
 
     internal static int GetPixelInfo(in SurfaceDesc SD, int X, int Y)
@@ -5576,16 +5576,16 @@ public partial class Shadow : BitMask, ILibraryImageClass
             switch (SD.PixelFormatID)
             {
                 case PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.Shadow.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 case PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.Shadow.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");
             }
 
-            if (FLoadMode == Images.LoadMode.LoadFreeOnDemand)
+            if (FLoadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -5595,10 +5595,10 @@ public partial class Shadow : BitMask, ILibraryImageClass
             switch (SD.PixelFormatID)
             {
                 case PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.Shadow.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 case PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.Shadow.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");
@@ -6611,7 +6611,7 @@ public partial class ILManagerList : StringList
         Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
-            Aow.Game.Draw.Images.LibraryDrawing.ReadStringFromStream(ref Name, Stream);
+            LibraryDrawing.ReadStringFromStream(ref Name, Stream);
             IL = new ImageLibrary(null);
             IL.LoadFromStream(Stream);
             AddILManagerObject(Name, IL);
@@ -6628,7 +6628,7 @@ public partial class ILManagerList : StringList
         int last = Count - 1;
         for (; I <= last; I += 1)
         {
-            Aow.Game.Draw.Images.LibraryDrawing.WriteStringToStream(Strings[I], Stream);
+            LibraryDrawing.WriteStringToStream(Strings[I], Stream);
             ((ILManagerObject)Objects[I]).FImageLibrary.SaveToStream(Stream);
         }
     }
@@ -7637,7 +7637,7 @@ public partial class FrameTableList : Persistent
     {
         if (FList != null && Count > 0)
         {
-            Aow.Game.Draw.Images.FrameTableList.FrameTableQuickSort(FList, 0, Count - 1, Compare);
+            FrameTableQuickSort(FList, 0, Count - 1, Compare);
         }
     }
 
@@ -7827,7 +7827,7 @@ public partial class ImageSequence : IDisposable
     // ImageLib.pas:8613
     internal void SetSequenceMode(SequenceMode Value)
     {
-        if (Set<SequenceMode>.Of(Images.SequenceMode.FrameTable, Images.SequenceMode.RndFrameTable).Contains(Value) && FFrameTable == null)
+        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RndFrameTable).Contains(Value) && FFrameTable == null)
         {
             FFrameTable = new FrameTableList();
         }
@@ -7887,7 +7887,7 @@ public partial class ImageSequence : IDisposable
                 Result = FImageLibrary.GetSafe(FFrameTable.FList[0]);
             }
 
-            if (FSequenceMode == Images.SequenceMode.None)
+            if (FSequenceMode == SequenceMode.None)
             {
                 Result = FImageLibrary.GetSafe(FImageIndex);
             }
@@ -7923,8 +7923,8 @@ public partial class ImageSequence : IDisposable
         {
             switch (FSequenceMode)
             {
-                case Images.SequenceMode.FrameTable:
-                case Images.SequenceMode.RndFrameTable:
+                case SequenceMode.FrameTable:
+                case SequenceMode.RndFrameTable:
                     {
                         for (int I = 0, last = FFrameTable.Count - 1; I <= last; I++)
                         {
@@ -7939,9 +7939,9 @@ public partial class ImageSequence : IDisposable
                     }
 
                     break;
-                case Images.SequenceMode.Up:
-                case Images.SequenceMode.UpDown:
-                case Images.SequenceMode.Random:
+                case SequenceMode.Up:
+                case SequenceMode.UpDown:
+                case SequenceMode.Random:
                     {
                         for (int I = 0, last = FImageLibrary.Count - 1; I <= last; I++)
                         {
@@ -7955,7 +7955,7 @@ public partial class ImageSequence : IDisposable
                     }
 
                     break;
-                case Images.SequenceMode.None:
+                case SequenceMode.None:
                     Image = FImageLibrary.GetSafe(FImageIndex);
                     if (Image != null)
                     {
@@ -7978,13 +7978,13 @@ public partial class ImageSequence : IDisposable
         int Result;
         switch (FSequenceMode)
         {
-            case Images.SequenceMode.FrameTable:
+            case SequenceMode.FrameTable:
                 Result = FFrameTable.Count * (FSequenceSpeed + 1);
                 break;
-            case Images.SequenceMode.Up:
+            case SequenceMode.Up:
                 Result = FImageLibrary.Count * (FSequenceSpeed + 1);
                 break;
-            case Images.SequenceMode.UpDown:
+            case SequenceMode.UpDown:
                 Result = FImageLibrary.Count * (FSequenceSpeed + 1) * 2;
                 break;
             default:
@@ -8001,11 +8001,11 @@ public partial class ImageSequence : IDisposable
         int Result;
         if (Frame >= 0)
         {
-            if (FSequenceMode != Images.SequenceMode.None)
+            if (FSequenceMode != SequenceMode.None)
             {
                 switch (FSequenceMode)
                 {
-                    case Images.SequenceMode.FrameTable:
+                    case SequenceMode.FrameTable:
                         if (Frame != FLastFrame)
                         {
                             if (FSpeedCount == 0)
@@ -8033,7 +8033,7 @@ public partial class ImageSequence : IDisposable
                         }
 
                         break;
-                    case Images.SequenceMode.Up:
+                    case SequenceMode.Up:
                         if (Frame != FLastFrame)
                         {
                             if (FSpeedCount == 0)
@@ -8052,7 +8052,7 @@ public partial class ImageSequence : IDisposable
                         Result = FFrameCounter + Offset;
                         Result = Result % FImageLibrary.Count;
                         break;
-                    case Images.SequenceMode.UpDown:
+                    case SequenceMode.UpDown:
                         if (Frame != FLastFrame)
                         {
                             if (FSpeedCount == 0)
@@ -8071,7 +8071,7 @@ public partial class ImageSequence : IDisposable
                         Result = (FFrameCounter + Offset) % ((FImageLibrary.Count - 1) * 2);
                         Result = Math.Abs(Result - (FImageLibrary.Count - 2));
                         break;
-                    case Images.SequenceMode.RndFrameTable:
+                    case SequenceMode.RndFrameTable:
                         if (Frame != FLastFrame && Frame % (FSequenceSpeed + 1) == 0)
                         {
                             FImageIndex = Random(FFrameTable.Count);
@@ -8088,7 +8088,7 @@ public partial class ImageSequence : IDisposable
                         }
 
                         break;
-                    case Images.SequenceMode.Random:
+                    case SequenceMode.Random:
                         if (Frame != FLastFrame && Frame % (FSequenceSpeed + 1) == 0)
                         {
                             FImageIndex = Random(FImageLibrary.Count);
@@ -8121,11 +8121,11 @@ public partial class ImageSequence : IDisposable
         int Result;
         if (Frame >= 0)
         {
-            if (FSequenceMode != Images.SequenceMode.None)
+            if (FSequenceMode != SequenceMode.None)
             {
                 switch (FSequenceMode)
                 {
-                    case Images.SequenceMode.FrameTable:
+                    case SequenceMode.FrameTable:
                         Result = Frame / (FSequenceSpeed + 1);
                         if (Result < FFrameTable.Count)
                         {
@@ -8137,7 +8137,7 @@ public partial class ImageSequence : IDisposable
                         }
 
                         break;
-                    case Images.SequenceMode.Up:
+                    case SequenceMode.Up:
                         Result = Frame / (FSequenceSpeed + 1);
                         if (Result >= FImageLibrary.Count)
                         {
@@ -8145,13 +8145,13 @@ public partial class ImageSequence : IDisposable
                         }
 
                         break;
-                    case Images.SequenceMode.UpDown:
+                    case SequenceMode.UpDown:
                         Result = -1;
                         break;
-                    case Images.SequenceMode.RndFrameTable:
+                    case SequenceMode.RndFrameTable:
                         Result = -1;
                         break;
-                    case Images.SequenceMode.Random:
+                    case SequenceMode.Random:
                         Result = -1;
                         break;
                     default:
@@ -8208,14 +8208,14 @@ public partial class ImageSequence : IDisposable
     public void SaveToStream(Stream Stream)
     {
         bool HasNext;
-        Aow.Game.Draw.Images.LibraryDrawing.WriteStringToStream(FImageLibraryName, Stream);
+        LibraryDrawing.WriteStringToStream(FImageLibraryName, Stream);
         Stream.Write(Bytes.Of(ref FLayer, 1));
         Stream.Write(Bytes.Of(ref FSequenceSpeed, 1));
         Stream.Write(Bytes.Of(ref FSequenceMode, 1));
         Stream.Write(Bytes.Of(ref FImageIndex, 4));
         Stream.Write(Bytes.Of(ref FdXshift, 4));
         Stream.Write(Bytes.Of(ref FdYshift, 4));
-        if (Set<SequenceMode>.Of(Images.SequenceMode.FrameTable, Images.SequenceMode.RndFrameTable).Contains(FSequenceMode))
+        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RndFrameTable).Contains(FSequenceMode))
         {
             FFrameTable.SaveToStream(Stream);
         }
@@ -8233,14 +8233,14 @@ public partial class ImageSequence : IDisposable
     {
         bool HasNext = default;
         ReleaseIL();
-        Aow.Game.Draw.Images.LibraryDrawing.ReadStringFromStream(ref FImageLibraryName, Stream);
+        LibraryDrawing.ReadStringFromStream(ref FImageLibraryName, Stream);
         Stream.ReadBytes(Bytes.Of(ref FLayer, 1));
         Stream.ReadBytes(Bytes.Of(ref FSequenceSpeed, 1));
         Stream.ReadBytes(Bytes.Of(ref FSequenceMode, 1));
         Stream.ReadBytes(Bytes.Of(ref FImageIndex, 4));
         Stream.ReadBytes(Bytes.Of(ref FdXshift, 4));
         Stream.ReadBytes(Bytes.Of(ref FdYshift, 4));
-        if (Set<SequenceMode>.Of(Images.SequenceMode.FrameTable, Images.SequenceMode.RndFrameTable).Contains(FSequenceMode))
+        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RndFrameTable).Contains(FSequenceMode))
         {
             if (FFrameTable == null)
             {

@@ -116,7 +116,7 @@ public partial class UnitSelectionDlg : DataModule
         FEventLog.AddRef();
         FEvent = Request.FUnitSelector;
         FEvent.AddRef();
-        U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+        U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
         if (U != null)
         {
             SourcePnl.Visible = true;
@@ -151,7 +151,7 @@ public partial class UnitSelectionDlg : DataModule
     // AoWUnitSelDlg.pas:101
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -159,7 +159,7 @@ public partial class UnitSelectionDlg : DataModule
     public void SelectBtnClick()
     {
         string Reason = "";
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEvent.CanSelect(ref Reason))
         {
             FEvent.Select();
@@ -167,7 +167,7 @@ public partial class UnitSelectionDlg : DataModule
         }
         else
         {
-            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+            World.Map.AoWHSMap.Current.ShowWarning(Reason);
         }
     }
 
@@ -203,11 +203,11 @@ public partial class UnitSelectionDlg : DataModule
         {
             if (Sender.Checked)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+                DialogHosts.General.PlayButtonSound(1);
             }
             else
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
+                DialogHosts.General.PlayButtonSound(2);
             }
         }
 
@@ -241,7 +241,7 @@ public partial class UnitSelectionDlg : DataModule
         AbstractUnit U;
         if (FEvent != null)
         {
-            U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+            U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
             if (U != null)
             {
                 R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;

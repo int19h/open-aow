@@ -35,7 +35,7 @@ internal static class CityText
         PlayerStructure Structure;
         if (AoWHSMap.Current != null)
         {
-            P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            P = AoWHSMap.Current.FPlayers.GetPlayers(Player);
             Result = 0;
             for (int I = 0, last = P.FStructures.Count - 1; I <= last; I++)
             {

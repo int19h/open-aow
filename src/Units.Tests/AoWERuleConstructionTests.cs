@@ -143,7 +143,7 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
-            if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            if (EngineHost.Engines is null) EngineHost.Initialize();
             using var engine = new Engine(null!);
             var meta = EClass.Of(type);
             engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
@@ -154,7 +154,7 @@ public sealed partial class AoWERuleConstructionTests
         }
         if (route == 3)
         {
-            var meta = Aow.Game.Engine.EClass.Of(type);
+            var meta = EClass.Of(type);
             return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
@@ -239,7 +239,7 @@ public sealed partial class AoWERuleConstructionTests
             var value = (EObject)Create(type, null!, route, fixture);
             Assert.IsType(type, value);
             Assert.Null(value.Owner);
-            Assert.Same(Aow.Game.Engine.EClass.Of(type), value.EClass);
+            Assert.Same(EClass.Of(type), value.EClass);
             string state = Snapshot(value);
             try { value.Dispose(); }
             catch (System.Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }

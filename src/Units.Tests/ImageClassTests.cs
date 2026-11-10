@@ -42,21 +42,21 @@ public sealed class ImageClassTests
         var stream = new MemoryStream();
         try
         {
-            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
+            ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>(),
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
                 LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
                 LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
-            Assert.Equal(baseline.Length, Aow.Game.Draw.Images.LibraryCatalog.LibraryImageClassCount());
+            Assert.Equal(baseline.Length, LibraryCatalog.LibraryImageClassCount());
             for (int i = 0; i < baseline.Length; i++)
             {
                 var expected = baseline[i];
-                var descriptor = Aow.Game.Draw.Images.LibraryCatalog.GetLibraryImageClass(i);
+                var descriptor = LibraryCatalog.GetLibraryImageClass(i);
                 Assert.Equal(expected.Type, descriptor.Type.FullName);
                 Assert.Equal(expected.ClassID, descriptor.ClassID);
                 Assert.Equal(expected.ClassVersion, descriptor.ClassVersion);
                 Assert.Equal(expected.Name, descriptor.Name);
-                Assert.Same(descriptor, Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(expected.ClassID));
+                Assert.Same(descriptor, LibraryCatalog.FindLibraryImageClass(expected.ClassID));
                 Assert.Same(descriptor, LibraryImageClass.Of(descriptor.Type));
                 var image = descriptor.Create(source);
                 image.ReadDiscardableImageData(stream);
@@ -79,18 +79,18 @@ public sealed class ImageClassTests
                 Assert.Equal(expected.ClassVersion, image.ClassVersion());
                 Assert.Equal(expected.Name, image.Name());
                 Assert.Same(loaded, image.Owner);
-                Assert.Same(Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(expected.ClassID), image.ImageClass);
+                Assert.Same(LibraryCatalog.FindLibraryImageClass(expected.ClassID), image.ImageClass);
                 Assert.Same(image.ImageClass, image.ImageClass);
             }
-            Assert.Null(Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(-1));
-            Assert.Throws<InvalidOperationException>(() => Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>()]));
+            Assert.Null(LibraryCatalog.FindLibraryImageClass(-1));
+            Assert.Throws<InvalidOperationException>(() => ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>()]));
         }
         finally
         {
             stream.Dispose();
             loaded.Dispose();
             source.Dispose();
-            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Dispose();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }
@@ -142,7 +142,7 @@ public sealed class ImageClassTests
         var surface = new DataSurface(2, 3, PixelFormats.pfRGB555, null!);
         var previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = new DelphiList();
-        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
+        ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         SurfaceDesc sd = default;
         Assert.Equal(0, surface.Lock(ref sd));
         var grab = new GrabInfo { FileName = "grab.bmp", FindRectangles = false };
@@ -160,7 +160,7 @@ public sealed class ImageClassTests
             surface.Unlock();
             surface.Dispose();
             library.Dispose();
-            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Dispose();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }

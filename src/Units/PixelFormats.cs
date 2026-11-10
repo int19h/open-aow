@@ -48,7 +48,7 @@ public static class PixelFormats
     internal static bool ValidImageFile(string FileName)
     {
         var extractFileExt = ExtractFileExt(FileName);
-        return Aow.Game.Draw.GfxState.ImageFileClassList.FindClass(extractFileExt) != null;
+        return GfxState.ImageFileClassList.FindClass(extractFileExt) != null;
     }
 
     internal static Surface CreateSurfaceFromImageFile(string FileName)
@@ -56,7 +56,7 @@ public static class PixelFormats
         Surface Result;
         ImageFileClass C;
         var extractFileExt = ExtractFileExt(FileName);
-        C = Aow.Game.Draw.GfxState.ImageFileClassList.FindClass(extractFileExt);
+        C = GfxState.ImageFileClassList.FindClass(extractFileExt);
         if (C != null)
         {
             Result = C.CreateSurface(FileName);
@@ -126,7 +126,7 @@ public static class PixelFormats
 
     internal static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
 
-    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, GFXEPalette Palette) => Aow.Game.Draw.PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, pfBGR24, null);
+    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, GFXEPalette Palette) => PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, pfBGR24, null);
 
     internal static string GetErrorMsg(int ErrorCode)
     {
@@ -215,7 +215,7 @@ public static class PixelFormats
         int left = Math.Max(R.Left, SD.ClipRect.Left), right = Math.Min(R.Right, SD.ClipRect.Right);
         int top = Math.Max(R.Top, SD.ClipRect.Top), bottom = Math.Min(R.Bottom, SD.ClipRect.Bottom);
         if (left >= right || top >= bottom) return GFXE_OK;
-        int pixel = Aow.Game.Draw.PixelFormats.Color2PixelInfo(Color, SD.PixelFormatID, null);
+        int pixel = Color2PixelInfo(Color, SD.PixelFormatID, null);
         for (int y = top; y < bottom; y++) Blit.FillWord(SD.Data.AsSpan(SD.DataIndex + y * SD.Pitch + left * 2), right - left, pixel);
         return GFXE_OK;
     }

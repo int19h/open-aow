@@ -103,7 +103,7 @@ namespace Aow.Game.Ui.Dialogs
         {
             try
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.SMTPDlg.IMSSMTP.Send();
+                DialogHosts.SMTPDlg.IMSSMTP.Send();
                 FSuccess = true;
             }
             catch
@@ -164,7 +164,7 @@ namespace Aow.Game.Ui.Dialogs
         {
             FFinished = false;
             ProgressBar.Position = 0;
-            var sendingEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SendingEmailGameRStr);
+            var sendingEmailGame = AbilityRules.TranslateRStr(SendingEmailGameRStr);
             SendingGameLbl.Text = sendingEmailGame;
             FailedPnl.Visible = false;
             SendPnl.Visible = true;
@@ -237,7 +237,7 @@ namespace Aow.Game.Ui.Dialogs
             {
                 if (FEvent.FSuccess)
                 {
-                    var gameSuccessfullySent = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameSuccessfullySentRStr);
+                    var gameSuccessfullySent = AbilityRules.TranslateRStr(GameSuccessfullySentRStr);
                     SendingGameLbl.Text = gameSuccessfullySent;
                     ExitBtn.Visible = true;
                 }
@@ -262,7 +262,7 @@ namespace Aow.Game.Ui.Dialogs
         // AoWSMTPDlg.pas:212
         public void SettingsBtnClick()
         {
-            Aow.Game.Ui.Dialogs.EmailSettingsDlg.ShowEmailSettings(DialogHosts.EmailSettingsDlg);
+            EmailSettingsDlg.ShowEmailSettings(DialogHosts.EmailSettingsDlg);
         }
 
         private static readonly string GameSuccessfullySentRStr = "Game successfully sent";
@@ -277,12 +277,12 @@ namespace Aow.Game.Ui.Dialogs
             var smtpEventLog = Dialog.FEvent;
             smtpEventLog.AddRef();
 
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.RecipientXRStr), [Event.FToAddress]);
+            var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.RecipientXRStr), [Event.FToAddress]);
             Dialog.RecipientLbl.Text = format;
             try
             {
                 Dialog.IMSSMTP.FMessage = Dialog.IMSMessage;
-                var smtpServer = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSMTPServer();
+                var smtpServer = GameTables.AoWEngine.FRegistry.GetSMTPServer();
                 Dialog.IMSSMTP.FHost = smtpServer;
                 Dialog.IMSSMTP.WinsockLoaded = true;
                 MailMessage tmsMessage = Dialog.IMSMessage;

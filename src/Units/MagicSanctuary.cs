@@ -35,7 +35,7 @@ namespace Aow.Game.Draw
             int Xhp = default;
             int Yhp = default;
             int FramesLeft;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
             Sequence = FStructure.FResource.ImageSequenceList.GetImageSequence(19);
@@ -95,7 +95,7 @@ namespace Aow.Game.World.Structures
         // MagicSanctuary.pas:117
         public override void Dispose()
         {
-            Aow.Game.World.Map.AoWHSMap.Current.DynamicVisibleHS.RemoveChild(FOverlayHS);
+            AoWHSMap.Current.DynamicVisibleHS.RemoveChild(FOverlayHS);
             FOverlayHS?.Dispose();
             base.Dispose();
         }
@@ -152,7 +152,7 @@ namespace Aow.Game.World.Structures
             // MagicSanctuary.pas:43
 
             // MagicSanctuary.pas:157
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MagicSanctuaryRStr);
+            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(MagicSanctuaryRStr);
 
             private static readonly string MagicSanctuaryRStr = "Magic Sanctuary";
 

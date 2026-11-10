@@ -147,7 +147,7 @@ sealed class MemberPersister : IPersister
             if (found is null) return;
             if (found is not SetNode node || !NameTable.Names(typeof(E), node.TypeName) || node.Width != width)
                 throw Type(name, "a set of " + typeName);
-            value = global::Aow.Rtl.Set<E>.FromMask(node.Mask);
+            value = Rtl.Set<E>.FromMask(node.Mask);
             return;
         }
         Span<byte> image = stackalloc byte[width];

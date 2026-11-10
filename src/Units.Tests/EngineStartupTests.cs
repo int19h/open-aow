@@ -74,7 +74,7 @@ public sealed class EngineStartupTests
                 };
                 if (route == "AoW")
                 {
-                    Assert.True(Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine());
+                    Assert.True(Game.Magic.Abilities.GameTables.ValidateAoWEngine());
                     Assert.Same(value, Game.Magic.Abilities.GameTables.AoWEngine);
                     result["ValidateAgain"] = true;
                     result["FinalSnapshot"] = Snapshot((AoWEngine)value!, fixture);
@@ -84,7 +84,7 @@ public sealed class EngineStartupTests
                 {
                     Assert.Null(value);
                     Assert.Same(engine, Game.Magic.Abilities.GameTables.AoWEngine);
-                    Assert.True(Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine());
+                    Assert.True(Game.Magic.Abilities.GameTables.ValidateAoWEngine());
                     result["ValidateAfterFailure"] = true;
                 }
                 if (value is not null)
@@ -92,7 +92,7 @@ public sealed class EngineStartupTests
                     events.Add(fixture.Event("Destroy.begin", value.GetType().Name));
                     value.Dispose();
                     events.Add(fixture.Event("Destroy.end", value.GetType().Name));
-                    Assert.Equal(-1, Aow.Game.Engine.Nodes.EngineHost.Engines.IndexOf(value));
+                    Assert.Equal(-1, Game.Engine.Nodes.EngineHost.Engines.IndexOf(value));
                 }
                 result["StateAfterDestruction"] = fixture.State();
                 // Failed early destructors leave partial objects. Free their independent resources

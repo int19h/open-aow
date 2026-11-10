@@ -38,7 +38,7 @@ public partial class LifeNode : ProductionPlace
         // LifeNode.pas:27
 
         // LifeNode.pas:52
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LifeNodeRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(LifeNodeRStr);
 
         private static readonly string LifeNodeRStr = "Life Node";
 

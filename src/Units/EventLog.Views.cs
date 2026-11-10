@@ -144,7 +144,7 @@ namespace Aow.Game.Events
 
             if (FObject == NegotiateObject.Army)
             {
-                var ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
+                var ArmyHS = (ArmyHS)World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(FPlayer);
@@ -238,7 +238,7 @@ namespace Aow.Game.Events
         // Prisoners whose first unit is a hero show the hero, any others the party.
         public override EventView View()
         {
-            var UnitObject = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FFirstUnitID);
+            var UnitObject = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FFirstUnitID);
             return UnitObject != null && UnitObject is Hero ? EventView.PrisonerHero : EventView.PrisonersJoin;
         }
     }

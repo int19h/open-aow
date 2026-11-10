@@ -41,10 +41,10 @@ public struct SurfaceDesc
         SurfaceView D;
         if (Src.BitCount == 16 && Dest.PixelFormatID == Src.PixelFormatID)
         {
-            Key = Aow.Game.Draw.PixelFormats.Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
+            Key = PixelFormats.Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
             S = Src.View(Src.Pitch * SrcRect.Top + SrcRect.Left * 2);
             D = Dest.View(Dest.Pitch * Y + X * 2);
-            Aow.Game.Draw.BlitRects.BltColorKey16(S, D, SrcRect.Right - SrcRect.Left, SrcRect.Bottom - SrcRect.Top, Key);
+            BlitRects.BltColorKey16(S, D, SrcRect.Right - SrcRect.Left, SrcRect.Bottom - SrcRect.Top, Key);
             Result = PixelFormats.GFXE_OK;
         }
         else
@@ -115,7 +115,7 @@ public struct SurfaceDesc
                 W = (int)(((uint)(Src.BitCount * W)) >> 3);
                 S = Src.View(Src.Pitch * SrcRect.Top + (int)(((uint)(Src.BitCount * SrcRect.Left)) >> 3));
                 D = Dest.View(Dest.Pitch * Y + (int)(((uint)(Dest.BitCount * X)) >> 3));
-                Aow.Game.Draw.BlitRects.BltRect(S, D, W, H);
+                BlitRects.BltRect(S, D, W, H);
             }
 
             Result = PixelFormats.GFXE_OK;
@@ -186,12 +186,12 @@ public struct SurfaceDesc
 
             if (W > 0 && H > 0)
             {
-                Key = Aow.Game.Draw.PixelFormats.Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
+                Key = PixelFormats.Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
                 S = Src.View(Src.Pitch * SrcRect.Top + SrcRect.Left * 2);
                 D = Dest.View(Dest.Pitch * Y);
                 X += X;
                 D = D.At(X);
-                Aow.Game.Draw.BlitRects.BltColorKey16(S, D, W, H, Key);
+                BlitRects.BltColorKey16(S, D, W, H, Key);
             }
 
             Result = PixelFormats.GFXE_OK;
@@ -378,16 +378,16 @@ public struct SurfaceDesc
                     switch (Dest.PixelFormatID)
                     {
                         case PixelFormats.pfRGB565:
-                            Aow.Game.Draw.PixelRemap.RemapSurface08to565(S, D, Width, Height, Src.Palette);
+                            PixelRemap.RemapSurface08to565(S, D, Width, Height, Src.Palette);
                             break;
                         case PixelFormats.pfRGB555:
-                            Aow.Game.Draw.PixelRemap.RemapSurface08to555(S, D, Width, Height, Src.Palette);
+                            PixelRemap.RemapSurface08to555(S, D, Width, Height, Src.Palette);
                             break;
                         case PixelFormats.pfRGB24:
-                            Aow.Game.Draw.PixelRemap.RemapSurface08to24(S, D, Width, Height, Src.Palette);
+                            PixelRemap.RemapSurface08to24(S, D, Width, Height, Src.Palette);
                             break;
                         case PixelFormats.pfPAL8:
-                            Aow.Game.Draw.BlitRects.BltRect(S, D, Width, Height);
+                            BlitRects.BltRect(S, D, Width, Height);
                             break;
                         default:
                             Result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -400,16 +400,16 @@ public struct SurfaceDesc
                     switch (Dest.PixelFormatID)
                     {
                         case PixelFormats.pfRGB24:
-                            Aow.Game.Draw.PixelRemap.RemapSurface555to24(S, D, Width, Height);
+                            PixelRemap.RemapSurface555to24(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB32:
-                            Aow.Game.Draw.PixelRemap.RemapSurface555to32(S, D, Width, Height);
+                            PixelRemap.RemapSurface555to32(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB565:
-                            Aow.Game.Draw.PixelRemap.RemapSurface555to565(S, D, Width, Height);
+                            PixelRemap.RemapSurface555to565(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB555:
-                            Aow.Game.Draw.BlitRects.BltRect(S, D, Width * 2, Height);
+                            BlitRects.BltRect(S, D, Width * 2, Height);
                             break;
                         default:
                             Result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -421,16 +421,16 @@ public struct SurfaceDesc
                     switch (Dest.PixelFormatID)
                     {
                         case PixelFormats.pfRGB24:
-                            Aow.Game.Draw.PixelRemap.RemapSurface565to24(S, D, Width, Height);
+                            PixelRemap.RemapSurface565to24(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB32:
-                            Aow.Game.Draw.PixelRemap.RemapSurface565to32(S, D, Width, Height);
+                            PixelRemap.RemapSurface565to32(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB555:
-                            Aow.Game.Draw.PixelRemap.RemapSurface565to555(S, D, Width, Height);
+                            PixelRemap.RemapSurface565to555(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB565:
-                            Aow.Game.Draw.BlitRects.BltRect(S, D, Width * 2, Height);
+                            BlitRects.BltRect(S, D, Width * 2, Height);
                             break;
                         default:
                             Result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -442,13 +442,13 @@ public struct SurfaceDesc
                     switch (Dest.PixelFormatID)
                     {
                         case PixelFormats.pfRGB565:
-                            Aow.Game.Draw.PixelRemap.RemapSurface24to565(S, D, Width, Height);
+                            PixelRemap.RemapSurface24to565(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB555:
-                            Aow.Game.Draw.PixelRemap.RemapSurface24to555(S, D, Width, Height);
+                            PixelRemap.RemapSurface24to555(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB24:
-                            Aow.Game.Draw.BlitRects.BltRect(S, D, Width * 3, Height);
+                            BlitRects.BltRect(S, D, Width * 3, Height);
                             break;
                         default:
                             Result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -460,13 +460,13 @@ public struct SurfaceDesc
                     switch (Dest.PixelFormatID)
                     {
                         case PixelFormats.pfRGB565:
-                            Aow.Game.Draw.PixelRemap.RemapSurface32to565(S, D, Width, Height);
+                            PixelRemap.RemapSurface32to565(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB555:
-                            Aow.Game.Draw.PixelRemap.RemapSurface32to555(S, D, Width, Height);
+                            PixelRemap.RemapSurface32to555(S, D, Width, Height);
                             break;
                         case PixelFormats.pfRGB32:
-                            Aow.Game.Draw.BlitRects.BltRect(S, D, Width * 4, Height);
+                            BlitRects.BltRect(S, D, Width * 4, Height);
                             break;
                         default:
                             Result = PixelFormats.GFXE_NOTSUPPORTED;

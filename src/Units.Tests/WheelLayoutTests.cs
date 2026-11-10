@@ -142,9 +142,9 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         int y = book.Dlg.FWinTop + 200;
         Set<ShiftState> shift = default;
 
-        Assert.True(Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckMouseWheel(-5, shift, x, y));
+        Assert.True(DialogHosts.General.Manager.CheckMouseWheel(-5, shift, x, y));
         Assert.Equal(1, book.FPage);
-        Assert.True(Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckMouseWheel(-1, shift, x, y));
+        Assert.True(DialogHosts.General.Manager.CheckMouseWheel(-1, shift, x, y));
         Assert.Equal(2, book.FPage);
         book.NextBtn.FVisible = false;
         Assert.False(book.Dlg.CheckMouseWheel(-1, shift, x, y));
@@ -272,7 +272,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDir);
             Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new AoWRegistry();
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
+            Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
             dialog.FMode = 2;
             dialog.FileName.Text = "valley.map";
             dialog.SFileName.Text = "stale.asg";

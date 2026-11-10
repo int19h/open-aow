@@ -18,7 +18,7 @@ internal static class MemorySurfaces
             Palette = palette,
             ClipRect = new Rect(0, 0, w, h)
         };
-        Aow.Game.Draw.MemorySurfaces.PFIDtoMASK(format, ref sd.RMask, ref sd.GMask, ref sd.BMask, ref sd.AMask);
+        PFIDtoMASK(format, ref sd.RMask, ref sd.GMask, ref sd.BMask, ref sd.AMask);
         return sd;
     }
 
@@ -223,7 +223,7 @@ public partial class Surface
         if (result < 0) return result;
         try
         {
-            int pixel = Aow.Game.Draw.PixelFormats.Color2PixelInfo(Color, sd.PixelFormatID, sd.Palette);
+            int pixel = PixelFormats.Color2PixelInfo(Color, sd.PixelFormatID, sd.Palette);
             for (int y = 0; y < sd.Height; y++)
             {
                 var row = sd.Data.AsSpan(sd.DataIndex + y * sd.Pitch);

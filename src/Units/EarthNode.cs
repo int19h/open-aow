@@ -37,7 +37,7 @@ public partial class EarthNode : ProductionPlace
         // EarthNode.pas:26
 
         // EarthNode.pas:50
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(EarthNodeRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(EarthNodeRStr);
 
         private static readonly string EarthNodeRStr = "Earth Node";
 

@@ -39,16 +39,16 @@ public partial class CampaignSettingsDlg : DataModule
         for (int levelOrdinal = (int)(AoWCampaign.CampaignDifficultyLevel)0; levelOrdinal <= (int)(AoWCampaign.CampaignDifficultyLevel)2; levelOrdinal++)
         {
             Level = (AoWCampaign.CampaignDifficultyLevel)levelOrdinal;
-            var campaignDifficultyLevel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TCampaignDifficultyLevelRStr[(int)Level]);
+            var campaignDifficultyLevel = Magic.Abilities.AbilityRules.TranslateRStr(TCampaignDifficultyLevelRStr[(int)Level]);
             DifficultyLevelCB.Items.AddObject(campaignDifficultyLevel, IntToObject((int)Level));
         }
 
         var indexOfObject = DifficultyLevelCB.Items.IndexOfObject(IntToObject((int)Magic.Abilities.GameTables.AoWEngine.FCampaign.FDifficultyLevel));
         DifficultyLevelCB.Selected = indexOfObject;
         TurnModeCB.Items.Clear();
-        var playMode = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TPlayModeRStr[(int)PlayMode.Turn]);
+        var playMode = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TPlayModeRStr[(int)PlayMode.Turn]);
         TurnModeCB.Items.AddObject(playMode, IntToObject((int)PlayMode.Turn));
-        var playModeText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TPlayModeRStr[(int)PlayMode.Simultaneous]);
+        var playModeText = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TPlayModeRStr[(int)PlayMode.Simultaneous]);
         TurnModeCB.Items.AddObject(playModeText, IntToObject((int)PlayMode.Simultaneous));
         var itemsIndexOfObject = TurnModeCB.Items.IndexOfObject(IntToObject((int)Magic.Abilities.GameTables.AoWEngine.FCampaign.FPlayMode));
         TurnModeCB.Selected = itemsIndexOfObject;
@@ -70,5 +70,5 @@ public partial class CampaignSettingsDlg : DataModule
         Dlg.Visible = false;
     }
 
-    private static Engine.Buffers.FixedArray_string_3 TCampaignDifficultyLevelRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_3.From(["Easy", "Normal", "Hard"]);
+    private static Engine.Buffers.FixedArray_string_3 TCampaignDifficultyLevelRStr = Engine.Buffers.FixedArray_string_3.From(["Easy", "Normal", "Hard"]);
 }

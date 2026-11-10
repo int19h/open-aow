@@ -115,10 +115,10 @@ internal static class Program
                 if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
             }
             Startup.InitializeAll();
-            Aow.Game.Audio.NullSoundSystem.Install();
-            Aow.Game.Combat.CombatClasses.Register(Game.Magic.Abilities.GameTables.AoWEngine);
+            Game.Audio.NullSoundSystem.Install();
+            CombatClasses.Register(Game.Magic.Abilities.GameTables.AoWEngine);
             gameplay = true;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
+            Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
             if (Game.Magic.Abilities.GameTables.AoWEngine.HSMap is not AoWHSMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             map.SetViewPort(map.ViewXhp, map.ViewYhp, map.ViewL, 0, 0);

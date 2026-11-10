@@ -25,7 +25,7 @@ public partial class Monsterlair : ItemExplorationSite
         public override int ResourceUserClassID() => 131886;
 
         // MonsterL.pas:37
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MonsterLairRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(MonsterLairRStr);
 
         private static readonly string MonsterLairRStr = "Monster Lair";
 

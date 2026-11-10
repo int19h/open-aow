@@ -77,12 +77,12 @@ namespace Aow.Game.World.Structures
                     for (int I = 0, last = ((ArenaTE)TE).FUnitIDs.Count - 1; I <= last; I++)
                     {
                         var unitID = ((ArenaTE)TE).FUnitIDs[I];
-                        AUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
+                        AUnit = Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
                         if (AUnit != null)
                         {
-                            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam);
+                            var player = Map.AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam);
                             var unitTrainCost = UnitTrainCost(AUnit);
-                            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam).SetGems(player.FGems - unitTrainCost);
+                            Map.AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam).SetGems(player.FGems - unitTrainCost);
                             ExecuteTrainUnit(AUnit);
                         }
                     }
@@ -92,13 +92,13 @@ namespace Aow.Game.World.Structures
                         var arenaTE = (ArenaTE)TE;
                         if (arenaTE.FUnitIDs.Count == 1)
                         {
-                            var oneUnitTrained = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(OneUnitTrainedRStr);
-                            Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(oneUnitTrained);
+                            var oneUnitTrained = AbilityRules.TranslateRStr(OneUnitTrainedRStr);
+                            Map.AoWHSMap.Current.ShowMessage(oneUnitTrained);
                         }
                         else
                         {
-                            var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
-                            Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
+                            var format = RtlUnit.Format(AbilityRules.TranslateRStr(XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
+                            Map.AoWHSMap.Current.ShowMessage(format);
                         }
                     }
                 }
@@ -177,7 +177,7 @@ namespace Aow.Game.World.Structures
                 {
                     I -= 1;
                     var unit = Units[I];
-                    AUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unit);
+                    AUnit = Map.AoWHSMap.Current.FUnitControl.FindUnit(unit);
                     if (AUnit != null)
                     {
                         Cost = UnitTrainCost(AUnit);
@@ -198,21 +198,21 @@ namespace Aow.Game.World.Structures
 
                 if (Result)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FGems >= Total)
+                    if (Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FGems >= Total)
                     {
                         Result = true;
                     }
                     else
                     {
                         Result = false;
-                        ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
+                        ErrorText = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
                     }
                 }
             }
             else
             {
                 Result = false;
-                ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NoUnitSelectedRStr);
+                ErrorText = AbilityRules.TranslateRStr(GameText.NoUnitSelectedRStr);
             }
 
             return Result;
@@ -224,14 +224,14 @@ namespace Aow.Game.World.Structures
             bool Result;
             ArenaTE TE;
             ErrorText = "";
-            if (CanTrainUnits(Player, Units, ref ErrorText) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
+            if (CanTrainUnits(Player, Units, ref ErrorText) && !Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
             {
                 TE = (ArenaTE)CreateTE();
                 SetupTE(TE);
                 TE.FUnitIDs.Assign(Units);
                 TE.FParam = Player;
                 TE.FAction = 1;
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(TE);
+                Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -315,7 +315,7 @@ namespace Aow.Game.World.Structures
             // Arena.pas:45
 
             // Arena.pas:250
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ArenaRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(ArenaRStr);
 
             private static readonly string ArenaRStr = "Arena";
 
@@ -358,7 +358,7 @@ namespace Aow.Game.Events
             if (Index >= 0 && Index < FUnitIDs.Count)
             {
                 var unitID = FUnitIDs[Index];
-                Result = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
+                Result = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
             }
             else
             {
@@ -422,7 +422,7 @@ namespace Aow.Game.Events
                 if (((1 << I) & FSelection) != 0)
                 {
                     var unitID = FUnitIDs[I];
-                    AUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
+                    AUnit = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
                     if (AUnit != null)
                     {
                         Total += FArena.UnitTrainCost(AUnit);
@@ -432,7 +432,7 @@ namespace Aow.Game.Events
 
             if (Total != 0)
             {
-                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TotalCostXRStr), [IntToStr(Total)]);
+                Result = RtlUnit.Format(AbilityRules.TranslateRStr(TotalCostXRStr), [IntToStr(Total)]);
             }
             else
             {

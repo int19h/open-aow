@@ -33,7 +33,7 @@ public sealed class BlitterTests
         ("FPBltRect", (s, d, w, h) => Blit.FPBltRect(V(s), V(d), w, h)),
         ("MMXBltRect", (s, d, w, h) => Blit.MMXBltRect(V(s), V(d), w, h)),
         ("RepMovsdBltRect", (s, d, w, h) => Blit.RepMovsdBltRect(V(s), V(d), w, h)),
-        ("GFXEUnit.BltRect", (s, d, w, h) => Aow.Game.Draw.BlitRects.BltRect(V(s), V(d), w, h)),
+        ("GFXEUnit.BltRect", (s, d, w, h) => BlitRects.BltRect(V(s), V(d), w, h)),
     ];
 
     private static readonly (string Name, int SourceBytes, Rectangle Call)[] Pixels =
@@ -52,9 +52,9 @@ public sealed class BlitterTests
         ("BlendSurface565", 2, (s, d, w, h) => Blit.BlendSurface565(V(s), V(d), w, h, Blend)),
         ("BlendColorKey555", 2, (s, d, w, h) => Blit.BlendColorKey555(V(s), V(d), w, h, 0x1234, Blend)),
         ("BlendColorKey565", 2, (s, d, w, h) => Blit.BlendColorKey565(V(s), V(d), w, h, 0x1234, Blend)),
-        ("RemapSurface08to24", 1, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface08to24(V(s), V(d), w, h, Palette)),
-        ("RemapSurface08to555", 1, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface08to555(V(s), V(d), w, h, Palette)),
-        ("RemapSurface08to565", 1, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface08to565(V(s), V(d), w, h, Palette)),
+        ("RemapSurface08to24", 1, (s, d, w, h) => PixelRemap.RemapSurface08to24(V(s), V(d), w, h, Palette)),
+        ("RemapSurface08to555", 1, (s, d, w, h) => PixelRemap.RemapSurface08to555(V(s), V(d), w, h, Palette)),
+        ("RemapSurface08to565", 1, (s, d, w, h) => PixelRemap.RemapSurface08to565(V(s), V(d), w, h, Palette)),
     ];
 
     // The six converters between 16-bit and 24 or 32-bit pixels. Before GP-2 each one raised
@@ -62,12 +62,12 @@ public sealed class BlitterTests
     // expectation is the Delphi source (GFXE.pas:8325 to 8448), not a recording.
     private static readonly (string Name, int SourceBytes, int DestinationBytes, Rectangle Call)[] Converters =
     [
-        ("RemapSurface24to565", 3, 2, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface24to565(V(s), V(d), w, h)),
-        ("RemapSurface24to555", 3, 2, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface24to555(V(s), V(d), w, h)),
-        ("RemapSurface555to24", 2, 3, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface555to24(V(s), V(d), w, h)),
-        ("RemapSurface565to24", 2, 3, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface565to24(V(s), V(d), w, h)),
-        ("RemapSurface32to565", 4, 2, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface32to565(V(s), V(d), w, h)),
-        ("RemapSurface32to555", 4, 2, (s, d, w, h) => Aow.Game.Draw.PixelRemap.RemapSurface32to555(V(s), V(d), w, h)),
+        ("RemapSurface24to565", 3, 2, (s, d, w, h) => PixelRemap.RemapSurface24to565(V(s), V(d), w, h)),
+        ("RemapSurface24to555", 3, 2, (s, d, w, h) => PixelRemap.RemapSurface24to555(V(s), V(d), w, h)),
+        ("RemapSurface555to24", 2, 3, (s, d, w, h) => PixelRemap.RemapSurface555to24(V(s), V(d), w, h)),
+        ("RemapSurface565to24", 2, 3, (s, d, w, h) => PixelRemap.RemapSurface565to24(V(s), V(d), w, h)),
+        ("RemapSurface32to565", 4, 2, (s, d, w, h) => PixelRemap.RemapSurface32to565(V(s), V(d), w, h)),
+        ("RemapSurface32to555", 4, 2, (s, d, w, h) => PixelRemap.RemapSurface32to555(V(s), V(d), w, h)),
     ];
 
     private static readonly (string Name, Action<Area, int[], int[], Area, int, int> Call)[] Stretches =
@@ -75,8 +75,8 @@ public sealed class BlitterTests
         ("BltStretched16", (s, rows, cols, d, w, h) => Blit.BltStretched16(V(s), rows, cols, V(d), w, h)),
         ("BlendStretched555", (s, rows, cols, d, w, h) => Blit.BlendStretched555(V(s), rows, cols, V(d), w, h, Blend)),
         ("BlendStretched565", (s, rows, cols, d, w, h) => Blit.BlendStretched565(V(s), rows, cols, V(d), w, h, Blend)),
-        ("GFXEUnit.BltStretched16", (s, rows, cols, d, w, h) => Aow.Game.Draw.Images.Picture16.BltStretched16(V(s), rows, cols, V(d), w, h)),
-        ("GFXEUnit.BlendStretched555", (s, rows, cols, d, w, h) => Aow.Game.Draw.Images.Picture16.BlendStretched555(V(s), rows, cols, V(d), w, h, Blend)),
+        ("GFXEUnit.BltStretched16", (s, rows, cols, d, w, h) => Game.Draw.Images.Picture16.BltStretched16(V(s), rows, cols, V(d), w, h)),
+        ("GFXEUnit.BlendStretched555", (s, rows, cols, d, w, h) => Game.Draw.Images.Picture16.BlendStretched555(V(s), rows, cols, V(d), w, h, Blend)),
     ];
 
     private static readonly (string Name, Sprite Call)[] Sprites16 =

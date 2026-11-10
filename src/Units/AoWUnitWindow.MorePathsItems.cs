@@ -13,14 +13,14 @@ public partial class UnitWindow
     public void Gnd1Change(AOWCheckBox check)
     {
         var hero = (Hero)DialogHosts.General.FSelectedUnit;
-        if (hero is null || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(hero.FPlayer).GetBusy() || !check.Checked) return;
+        if (hero is null || World.Map.AoWHSMap.Current.FPlayers.GetPlayers(hero.FPlayer).GetBusy() || !check.Checked) return;
         FCursorImage = null;
         var selected = SelectedItem;
         if (check != selected)
         {
             if (selected is not null)
             {
-                Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\Events\\NewEvent.Wav");
+                AudioPlayback.PlaySample("SFX\\Events\\NewEvent.Wav");
                 if (check.Tag != -1) hero.SwapItem(selected.Tag, check.Tag);
                 else
                 {

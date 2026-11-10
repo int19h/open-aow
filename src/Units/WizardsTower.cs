@@ -59,15 +59,15 @@ namespace Aow.Game.World.Structures
             ExecuteResult Result = base.ExecuteTE(TE, Executer);
             if (TE.FAction == 1 && CanBuy((sbyte)TE.FParam, ref Reason))
             {
-                Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam);
+                Player = AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam);
                 var buyCost = BuyCost();
                 Player.SetGems(Player.FGems - buyCost);
                 Player.FMagicControl.FSpells.Add(FSpellID);
                 if (AoWHSMap.Current.FSeatedPlayer == TE.FParam)
                 {
-                    var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                    var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
-                    Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
+                    var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
+                    var format = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
+                    AoWHSMap.Current.ShowMessage(format);
                 }
             }
 
@@ -95,7 +95,7 @@ namespace Aow.Game.World.Structures
             bool Found;
             int Location;
             base.ArmyPlaced(PlacedArmy);
-            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(PlacedArmy.FArmy.FPlayer);
+            var player = AoWHSMap.Current.FPlayers.GetPlayers(PlacedArmy.FArmy.FPlayer);
             if (Set<PlayerType>.Of(PlayerType.CPU1, PlayerType.CPU2, PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType) && ValidAITarget(PlacedArmy.FArmy.FPlayer))
             {
                 Army = PlacedArmy.FArmy;
@@ -105,7 +105,7 @@ namespace Aow.Game.World.Structures
                 Found = false;
                 var lhx = GetLhx();
                 var yhx = GetYhx();
-                Location = Unsafe.BitCast<XYL, int>(Aow.Game.World.Map.HexGeometry.PackXYL(GetXhx(), yhx, lhx));
+                Location = Unsafe.BitCast<XYL, int>(HexGeometry.PackXYL(GetXhx(), yhx, lhx));
                 while (!Found && I != Army.Count)
                 {
                     Group = Army.GetUnit(I).FGroup;
@@ -116,9 +116,9 @@ namespace Aow.Game.World.Structures
                 if (Found && CanBuy(Army.FPlayer, ref Reason))
                 {
                     Group.ReturnTargetExpense();
-                    var playerGems = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer);
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer).SetGems(playerGems.FGems - Cost);
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer).FMagicControl.FSpells.Add(FSpellID);
+                    var playerGems = AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer);
+                    AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer).SetGems(playerGems.FGems - Cost);
+                    AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer).FMagicControl.FSpells.Add(FSpellID);
                 }
             }
         }
@@ -133,7 +133,7 @@ namespace Aow.Game.World.Structures
                 {
                     case AITargetMode.Attack:
                         Player = ((AoWMapField)Owner).GetPlayer();
-                        if (Player != Info.Player && (Player <= 0 || Aow.Game.Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, 0, Player, 0)) && ValidAITarget(Info.Player))
+                        if (Player != Info.Player && (Player <= 0 || Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, 0, Player, 0)) && ValidAITarget(Info.Player))
                         {
                             if (Data.Priority < 10)
                             {
@@ -156,9 +156,9 @@ namespace Aow.Game.World.Structures
         public bool ValidAITarget(sbyte Player)
         {
             bool Result;
-            if (Player > 0 && !GetRazed() && FSpellID != 0 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FSpells.IndexOf(FSpellID) == -1)
+            if (Player > 0 && !GetRazed() && FSpellID != 0 && AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FSpells.IndexOf(FSpellID) == -1)
             {
-                Result = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastDuration > 0;
+                Result = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastDuration > 0;
             }
             else
             {
@@ -171,7 +171,7 @@ namespace Aow.Game.World.Structures
         // WizardsTower.pas:163
         public void GenerateSettings()
         {
-            FSpellID = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetRandomSpell(FSpellLevel, FSpellLevel, FMagicSpheres);
+            FSpellID = AoWHSSet.Current.FSpellControl.GetRandomSpell(FSpellLevel, FSpellLevel, FMagicSpheres);
         }
 
         // WizardsTower.pas:174
@@ -219,7 +219,7 @@ namespace Aow.Game.World.Structures
             int Result;
             if (FSpellID != 0)
             {
-                Result = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FResearchCost;
+                Result = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FResearchCost;
             }
             else
             {
@@ -235,9 +235,9 @@ namespace Aow.Game.World.Structures
             bool Result;
             if (FSpellID != 0)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FSpells.IndexOf(FSpellID) == -1)
+                if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FSpells.IndexOf(FSpellID) == -1)
                 {
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
                     var buyCost = BuyCost();
                     if (player.FGems >= buyCost)
                     {
@@ -246,13 +246,13 @@ namespace Aow.Game.World.Structures
                     else
                     {
                         Result = false;
-                        Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.NotEnoughGoldRStr);
+                        Reason = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.NotEnoughGoldRStr);
                     }
                 }
                 else
                 {
                     Result = false;
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellIsAlreadyResearchedRStr);
+                    Reason = Magic.Abilities.AbilityRules.TranslateRStr(SpellIsAlreadyResearchedRStr);
                 }
             }
             else
@@ -269,13 +269,13 @@ namespace Aow.Game.World.Structures
             bool Result;
             StructureTE TE;
             Reason = "";
-            if (CanBuy(Player, ref Reason) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
+            if (CanBuy(Player, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
             {
                 TE = CreateTE();
                 SetupTE(TE);
                 TE.FAction = 1;
                 TE.FParam = Player;
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(TE);
+                AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -303,7 +303,7 @@ namespace Aow.Game.World.Structures
             public override int ResourceUserClassID() => 133278;
 
             // WizardsTower.pas:260
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WizardsTowerRStr);
+            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(WizardsTowerRStr);
 
             private static readonly string WizardsTowerRStr = "Wizards Tower";
 

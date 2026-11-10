@@ -89,11 +89,11 @@ internal static class Verification
         Equal((-1, -1, false), viewport.Map(1400, 500), "right of the output is outside");
         Equal((-1, -1, false), viewport.Map(-1, 500), "left of the output is outside");
         Equal((-1, -1, false), viewport.Map(500, 1000), "below the output is outside");
-        var sizes = Aow.Game.Draw.PixelFormats.IntegerScaleSizes(3840, 2160);
+        var sizes = PixelFormats.IntegerScaleSizes(3840, 2160);
         Check(sizes.SequenceEqual(new[] { (960, 540), (1280, 720), (1920, 1080), (3840, 2160) }), "integer scale sizes of 3840x2160");
-        Check(Aow.Game.Draw.PixelFormats.IntegerScaleSizes(1920, 1200).SequenceEqual(new[] { (960, 600), (1920, 1200) }), "integer scale sizes of 1920x1200");
-        Check(Aow.Game.Draw.PixelFormats.IntegerScaleSizes(2560, 1440).SequenceEqual(new[] { (853, 480), (1280, 720), (2560, 1440) }), "uneven division rounds down");
-        Check(Aow.Game.Draw.PixelFormats.IntegerScaleSizes(640, 480).SequenceEqual(new[] { (640, 480) }), "smallest desktop");
+        Check(PixelFormats.IntegerScaleSizes(1920, 1200).SequenceEqual(new[] { (960, 600), (1920, 1200) }), "integer scale sizes of 1920x1200");
+        Check(PixelFormats.IntegerScaleSizes(2560, 1440).SequenceEqual(new[] { (853, 480), (1280, 720), (2560, 1440) }), "uneven division rounds down");
+        Check(PixelFormats.IntegerScaleSizes(640, 480).SequenceEqual(new[] { (640, 480) }), "smallest desktop");
         var fullscreen = DisplayViewport.Fit(1280, 720, 2560, 1440);
         Equal((2, 0, 0), (fullscreen.Scale, fullscreen.Left, fullscreen.Top), "a listed size fills the desktop at its scale");
         mapper.Motion(60, 20, 1, viewport, sink);

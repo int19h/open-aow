@@ -83,19 +83,19 @@ public partial class Gems : ILTerrainMO
     {
         if (FGenerateMode == GenerateMode.Random)
         {
-            FGenerateMode = (GenerateMode)(Aow.Game.World.Map.AoWHSMap.Current.Random(3) + 1);
+            FGenerateMode = (GenerateMode)(AoWHSMap.Current.Random(3) + 1);
         }
 
         switch (FGenerateMode)
         {
             case GenerateMode.Low:
-                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(25) + 25;
+                FAmount = AoWHSMap.Current.Random(25) + 25;
                 break;
             case GenerateMode.Normal:
-                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(25) + 50;
+                FAmount = AoWHSMap.Current.Random(25) + 50;
                 break;
             case GenerateMode.High:
-                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(50) + 100;
+                FAmount = AoWHSMap.Current.Random(50) + 100;
                 break;
         }
     }
@@ -132,24 +132,24 @@ public partial class Gems : ILTerrainMO
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+                condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
             {
-                Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
+                Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
-            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+            var player = AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
             player.SetGems(player.FGems + FAmount);
 
             Event = new LocationTextEventLog(null);
             Event.FPlayer = ArmyHS.FArmy.FPlayer;
-            Event.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
+            Event.FText = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             Event.SetLocation(GetXhx(), yhx2, lhx2);
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
+            AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
             Event.Release();
             Dispose();
         }
@@ -169,7 +169,7 @@ public partial class Gems : ILTerrainMO
         public override int ResourceUserClassID() => 132014;
 
         // Gems.pas:134
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GoldRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(GoldRStr);
 
         private static readonly string GoldRStr = "Gold";
 

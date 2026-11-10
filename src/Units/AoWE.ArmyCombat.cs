@@ -69,14 +69,14 @@ public partial class ArmyCombatMoveTE
         }
 
         FArmyHS.CancelMove();
-        Aow.Game.World.Map.AoWHSMap.Current.LockGameOverEvent();
+        AoWHSMap.Current.LockGameOverEvent();
         if (FCombatType == CombatType.Fast)
         {
-            Combat = Aow.Game.World.Map.AoWHSMap.Current.CreateCombat(131760);
+            Combat = AoWHSMap.Current.CreateCombat(131760);
         }
         else
         {
-            Combat = Aow.Game.World.Map.AoWHSMap.Current.CreateCombat(2228496);
+            Combat = AoWHSMap.Current.CreateCombat(2228496);
         }
 
         var yhx = FArmyHS.GetYhx();
@@ -112,15 +112,15 @@ public partial class ArmyCombatMoveTE
             Combat.Finalize();
             if (Combat is FastCombat)
             {
-                Aow.Game.Commands.ArmyCombatMoveTE.DistributeCombatEvent(Combat.FLogbook, true);
+                DistributeCombatEvent(Combat.FLogbook, true);
                 if (AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FSeatedPlayer == Defender)
                 {
                     Log = new UserEventLog(null);
                     Log.FData = this;
-                    Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, RestoreHotSeatModeCallBack);
+                    AoWHSMap.Current.TriggerExecuteEventLog(Log, false, RestoreHotSeatModeCallBack);
                     Log.Release();
-                    Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.Lock();
-                    Aow.Game.World.Map.AoWHSMap.Current.LockGameOverEvent();
+                    AoWHSMap.Current.FAIExecuter.Lock();
+                    AoWHSMap.Current.LockGameOverEvent();
                     FCombatMode = CombatMoveMode.RestoringHotseat;
                 }
             }
@@ -131,7 +131,7 @@ public partial class ArmyCombatMoveTE
                 var item3 = FPath[0];
                 var item4 = FPath[0];
                 var item5 = FPath[0];
-                condition = Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(item5.X, item4.Y, item3.L, AoWHSMap.Current.FSeatedPlayer);
+                condition = AoWHSMap.Current.VisibleForPlayer(item5.X, item4.Y, item3.L, AoWHSMap.Current.FSeatedPlayer);
             }
 
             if (condition)
@@ -141,11 +141,11 @@ public partial class ArmyCombatMoveTE
                 var item3 = FPath[0];
                 var item4 = FPath[0];
                 var item5 = FPath[0];
-                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, item5.X, item4.Y, item3.L);
+                AoWHSMap.Current.PlaceHX(Anim, item5.X, item4.Y, item3.L);
             }
 
-            Aow.Game.World.Map.AoWHSMap.Current.DestroyCombat();
-            Aow.Game.World.Map.AoWHSMap.Current.UnlockGameOverEvent();
+            AoWHSMap.Current.DestroyCombat();
+            AoWHSMap.Current.UnlockGameOverEvent();
             FArmyHS = (ArmyHS)GetMapF(FPath[FMoveIndex]).FindOwnedChild(131607);
             if (FArmyHS != null && Set<CombatResult>.Of(Game.Combat.CombatResult.CannotInflictDamage, Game.Combat.CombatResult.Undecided, Game.Combat.CombatResult.CannotBreachWall, Game.Combat.CombatResult.Fled).Contains(CombatResult))
             {
@@ -182,8 +182,8 @@ public partial class ArmyCombatMoveTE
                     ArmyHS.PlacePrivate(AoWHSMap.Current.MapContainer, item5.X, item4.Y, item3.L);
                     if (FArmyHS.GetSelected())
                     {
-                        Aow.Game.World.Map.AoWHSMap.Current.Selection.UnselectLocation();
-                        Aow.Game.World.Map.AoWHSMap.Current.Selection.SelectLocationHS(ArmyHS);
+                        AoWHSMap.Current.Selection.UnselectLocation();
+                        AoWHSMap.Current.Selection.SelectLocationHS(ArmyHS);
                     }
 
                     FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
@@ -216,7 +216,7 @@ public partial class ArmyCombatMoveTE
         }
         else
         {
-            Aow.Game.World.Map.AoWHSMap.Current.UnlockGameOverEvent();
+            AoWHSMap.Current.UnlockGameOverEvent();
             FArmyHS = null;
             FinishMove();
         }

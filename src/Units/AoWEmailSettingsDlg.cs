@@ -43,9 +43,9 @@ public partial class EmailSettingsDlg : DataModule
     // AoWEmailSettingsDlg.pas:49
     public void OKBtnClick()
     {
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetSMTPServer(SMTPServerEdit.Text);
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetAttachmentDirectory(AttachmentDirectoryEdit.Text);
+        GameTables.AoWEngine.FRegistry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);
+        GameTables.AoWEngine.FRegistry.SetSMTPServer(SMTPServerEdit.Text);
+        GameTables.AoWEngine.FRegistry.SetAttachmentDirectory(AttachmentDirectoryEdit.Text);
         Dlg.Visible = false;
     }
 
@@ -66,11 +66,11 @@ public partial class EmailSettingsDlg : DataModule
 
     internal static void ShowEmailSettings(EmailSettingsDlg Dialog)
     {
-        var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+        var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
         Dialog.LocalEmailAddressEdit.Text = localEmailAddress;
-        var smtpServer = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSMTPServer();
+        var smtpServer = GameTables.AoWEngine.FRegistry.GetSMTPServer();
         Dialog.SMTPServerEdit.Text = smtpServer;
-        var attachmentDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
+        var attachmentDirectory = GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
         Dialog.AttachmentDirectoryEdit.Text = attachmentDirectory;
         Dialog.Dlg.Visible = true;
     }

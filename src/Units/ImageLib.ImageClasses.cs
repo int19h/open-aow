@@ -58,10 +58,10 @@ public sealed class LibraryImageClass
         }
 
         Progress(10, "Analyzing Image..");
-        ImageClass = Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(ClassID);
+        ImageClass = LibraryCatalog.FindLibraryImageClass(ClassID);
         if (GrabInfo.FindRectangles)
         {
-            Rects = Aow.Game.Draw.Images.LibraryImageClass.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
+            Rects = GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
         }
         else
         {

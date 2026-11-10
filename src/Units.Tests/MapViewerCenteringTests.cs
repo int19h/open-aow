@@ -28,9 +28,9 @@ public sealed class MapViewerCenteringTests
 
         public override void DrawStaticScene(ref SurfaceDesc SD)
         {
-            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, 0, SD.Width, SD.Height), 0xFFFFFF, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(16 - FViewXhp, 0, 17 - FViewXhp, SD.Height), 0x0000FF, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, 16 - FViewYhp, SD.Width, 17 - FViewYhp), 0x0000FF, SD);
+            PixelFormats.ColorFillSD(new Rect(0, 0, SD.Width, SD.Height), 0xFFFFFF, SD);
+            PixelFormats.ColorFillSD(new Rect(16 - FViewXhp, 0, 17 - FViewXhp, SD.Height), 0x0000FF, SD);
+            PixelFormats.ColorFillSD(new Rect(0, 16 - FViewYhp, SD.Width, 17 - FViewYhp), 0x0000FF, SD);
         }
     }
 
@@ -49,7 +49,7 @@ public sealed class MapViewerCenteringTests
             Viewer.ChangeScene(100, 30, 0);
             SurfaceDesc sd = default;
             Assert.Equal(PixelFormats.GFXE_OK, Target.Lock(ref sd));
-            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, 0, sd.Width, sd.Height), 0x00FF00, sd);
+            PixelFormats.ColorFillSD(new Rect(0, 0, sd.Width, sd.Height), 0x00FF00, sd);
             Target.Unlock();
             Viewer.ShowScene(SceneLeft, SceneTop, Target);
         }

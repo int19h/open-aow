@@ -32,8 +32,8 @@ public partial class TargetSelectionDlg : DataModule
     // AoWTargetSelection.pas:45
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.Deactivate();
+        DialogHosts.General.PlayButtonSound(0);
+        World.Map.AoWHSMap.Current.FTargetSelection.Deactivate();
     }
 
     // AoWTargetSelection.pas:51

@@ -888,11 +888,11 @@ namespace Aow.Game.Ui.Windows
                             SrcR = new Rect(R.R.Left - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Top - FAOWOwner.FWinTop - FWinTop, R.R.Right - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Bottom - FAOWOwner.FWinTop - FWinTop);
                             if (FMasked)
                             {
-                                Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
+                                SurfaceDesc.BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
                             }
                             else
                             {
-                                Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top);
+                                SurfaceDesc.BltSDRectClipped(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top);
                             }
                         }
                     }
@@ -901,11 +901,11 @@ namespace Aow.Game.Ui.Windows
                         SrcR = new Rect(0, FTopItem, FWinWidth, FTopItem + FWinHeight);
                         if (FMasked)
                         {
-                            Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FMaskColor);
+                            SurfaceDesc.BltSpriteClipped16(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FMaskColor);
                         }
                         else
                         {
-                            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                            SurfaceDesc.BltSDRectClipped(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
                         }
                     }
 

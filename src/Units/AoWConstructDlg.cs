@@ -72,11 +72,11 @@ public partial class ConstructDlg : DataModule
         ConstructAbility Ability;
         ConstructionControl Control;
         Dlg.FDrawn = false;
-        U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
+        U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        Ability = (ConstructAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(125);
+        Ability = (ConstructAbility)Engine.AoWHSSet.Current.FAbilityControl.GetAbility(125);
         for (int I = 0, last = Ability.FConstructionControls.Count - 1; I <= last; I++)
         {
             Control = Ability.FConstructionControls.GetConstructionControl(I);
@@ -122,7 +122,7 @@ public partial class ConstructDlg : DataModule
     // AoWConstructDlg.pas:62
     public void CancelBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -150,7 +150,7 @@ public partial class ConstructDlg : DataModule
         string Reason = "";
         ConstructionControl Control;
         AbstractUnit U;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         bool condition = ConstructionList.Selected >= 0;
         if (condition)
         {
@@ -160,7 +160,7 @@ public partial class ConstructDlg : DataModule
 
         if (condition)
         {
-            U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
+            U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
             Control = (ConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
             if (Control.CanConstruct(U, ref Reason))
             {
@@ -171,7 +171,7 @@ public partial class ConstructDlg : DataModule
             }
             else
             {
-                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                World.Map.AoWHSMap.Current.ShowWarning(Reason);
             }
         }
     }
@@ -179,19 +179,19 @@ public partial class ConstructDlg : DataModule
     // AoWConstructDlg.pas:96
     public void SortConstructionsBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:99
     public void SortConstructionCostBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:102
     public void SortConstructionTurnsBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:105

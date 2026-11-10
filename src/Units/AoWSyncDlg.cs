@@ -36,10 +36,10 @@ public partial class SynchronizeDlg : DataModule
     {
         PlayerSetupSettings Result;
         int Index;
-        Index = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.IndexOfRemoteID(DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+        Index = DialogHosts.SetupEvents.SetupControl.FSettings.IndexOfRemoteID(DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
         if (Index != -1)
         {
-            Result = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.GetSettings(Index);
+            Result = DialogHosts.SetupEvents.SetupControl.FSettings.GetSettings(Index);
         }
         else
         {
@@ -73,10 +73,10 @@ public partial class SynchronizeDlg : DataModule
         {
             if (!DialogHosts.SetupEvents.SetupControl.FSettings.FCustomizeLeaders)
             {
-                I = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+                I = DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
                 if (I != -1)
                 {
-                    var player = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.GetPlayers(I);
+                    var player = DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.GetPlayers(I);
                     PlayerName.Text = player.FName;
                 }
                 else
@@ -89,7 +89,7 @@ public partial class SynchronizeDlg : DataModule
                 PlayerName.Text = Settings.FLeader.FHeroName;
             }
 
-            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.RaceNamesPluralRStr[Settings.FRace]);
+            var raceNamesPlural = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.RaceNamesPluralRStr[Settings.FRace]);
             PlayerRace.Text = raceNamesPlural;
             Day = World.Map.AoWHSMap.Current.FDay;
             if (Day == 0)
@@ -97,7 +97,7 @@ public partial class SynchronizeDlg : DataModule
                 Day = 1;
             }
 
-            var day = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.DayRStr);
+            var day = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.DayRStr);
             Turn.Text = day + " " + IntToStr(Day);
             LShield.CurrentImage = Settings.FRace + 26;
             RShield.CurrentImage = Settings.FRace + 26;

@@ -324,7 +324,7 @@ namespace Aow.Game.Net
         // NetworkE.pas:1056
         public void SortOnTokenCounter()
         {
-            FList.FChildren.Sort(Aow.Game.Net.TokenEventList.CompareTokenCounter);
+            FList.FChildren.Sort(CompareTokenCounter);
         }
 
         // NetworkE.pas:1061
@@ -1303,7 +1303,7 @@ namespace Aow.Game.Net
         // NetworkE.pas:446
         public PlayerCommunicationSettings(ECustomNode owner) : base(owner)
         {
-            FConnectionMode = Net.ConnectionMode.Local;
+            FConnectionMode = ConnectionMode.Local;
         }
 
         public ConnectionMode ConnectionMode { get => FConnectionMode; set => FConnectionMode = value; }

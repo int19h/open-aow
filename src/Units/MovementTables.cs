@@ -92,15 +92,15 @@ internal static class MovementTables
         Settings.FSelection = Selection;
         Settings.SetDestinationPos(X, Y, L);
         Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref Settings.FMovePointTable));
-        Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
+        AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
         if (Settings.FPath.Count != 0)
         {
-            if ((Force || Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(Player)) && Settings.FPath.Count > 1)
+            if ((Force || AoWHSMap.Current.FTokenManager.PlayerReady(Player)) && Settings.FPath.Count > 1)
             {
-                Result = Aow.Game.Draw.ArmyHS.CreateArmyMoveTE(Army, Selection, Settings.FPath, Action, Set<ArmyMoveModeElement>.Of());
+                Result = ArmyHS.CreateArmyMoveTE(Army, Selection, Settings.FPath, Action, Set<ArmyMoveModeElement>.Of());
                 if (Result != null)
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Result);
+                    AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Result);
                     // { Original returns the token-event pointer after releasing its reference. }
                     Result.Release();
                 }

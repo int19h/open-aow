@@ -133,7 +133,7 @@ public sealed class DiplomaticProposalTests
 
     private static Engine CreateEngine()
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
         engine.RegisterEClasses([EClass.Of<DiplomaticAction>(), EClass.Of<DiplomaticActionTE>(), EClass.Of<DiplomaticActionEventLog>()]);
@@ -349,8 +349,8 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:1265 GetText.
     private static string OldText(byte Kind, DiplomaticActionReaction Reaction, bool SourceSeated)
     {
-        static string T(string name) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(name);
-        static string F(string format, string arg) => Aow.Game.Magic.Abilities.AbilityRules.Format(T(format), [arg]);
+        static string T(string name) => Game.Magic.Abilities.AbilityRules.TranslateRStr(name);
+        static string F(string format, string arg) => Game.Magic.Abilities.AbilityRules.Format(T(format), [arg]);
         string Answer(string none, string subject, string accepted, string otherwise) => Reaction switch
         {
             DiplomaticActionReaction.None => none,
@@ -379,13 +379,13 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:505 GetName, for the kinds that name no other player.
     private static string OldName(byte Kind) => Kind switch
     {
-        0 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.P5DeclareWarRStr),
-        1 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(OfferPeace.P5OfferPeaceRStr),
-        2 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ProposeAlliance.P5ProposeAllianceRStr),
-        3 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SendMessage.P5SendMessageRStr),
-        4 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.ThreatenToAttack.P5ThreatenToAttackRStr),
-        5 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.MakeTribute.P5MakeTributeRStr),
-        6 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.P5BreakAllianceRStr),
+        0 => Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.P5DeclareWarRStr),
+        1 => Game.Magic.Abilities.AbilityRules.TranslateRStr(OfferPeace.P5OfferPeaceRStr),
+        2 => Game.Magic.Abilities.AbilityRules.TranslateRStr(ProposeAlliance.P5ProposeAllianceRStr),
+        3 => Game.Magic.Abilities.AbilityRules.TranslateRStr(SendMessage.P5SendMessageRStr),
+        4 => Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.ThreatenToAttack.P5ThreatenToAttackRStr),
+        5 => Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.MakeTribute.P5MakeTributeRStr),
+        6 => Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.P5BreakAllianceRStr),
         _ => "",
     };
 
@@ -397,7 +397,7 @@ public sealed class DiplomaticProposalTests
         void Get(int number, string first, string second, string? third = null)
         {
             TextControl.RetrieveText(Alignment + number, Text);
-            Text.Text = third is null ? Aow.Game.Magic.Abilities.AbilityRules.Format(Text.Text, [first, second]) : Aow.Game.Magic.Abilities.AbilityRules.Format(Text.Text, [first, second, third]);
+            Text.Text = third is null ? Game.Magic.Abilities.AbilityRules.Format(Text.Text, [first, second]) : Game.Magic.Abilities.AbilityRules.Format(Text.Text, [first, second, third]);
         }
         switch (Action)
         {
@@ -470,7 +470,7 @@ public sealed class DiplomaticProposalTests
                 checks += 5;
                 string error = "";
                 Assert.Equal(kind != 5, proposal.CanSend(new DiplomaticAction(null!) { Proposal = proposal }, ref error));
-                Assert.Equal(kind == 5 ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.MakeTribute.P5NoGoldManaSpecifiedRStr) : "", error);
+                Assert.Equal(kind == 5 ? Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.MakeTribute.P5NoGoldManaSpecifiedRStr) : "", error);
                 Assert.True(proposal.WithOffer(0, 1).CanSend(new DiplomaticAction(null!), ref error));
                 checks += 2;
                 foreach (byte reaction in new byte[] { 0, 1, 2, 3, 4 })

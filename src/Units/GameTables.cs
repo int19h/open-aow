@@ -41,7 +41,7 @@ public static class GameTables
     {
         if (AoWEngine == null && ToolServices == null)
         {
-            global::Aow.Game.Engine.AoWEngine.Create(null);
+            AoWEngine.Create(null);
         }
 
         return AoWEngine != null;

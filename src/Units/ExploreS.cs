@@ -93,9 +93,9 @@ public partial class ExplorationSite : Structure
         bool Result;
         int Xhx = default;
         int Yhx = default;
-        if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             if (((MapField)Owner).Xhx == Xhx && ((MapField)Owner).Yhx == Yhx)
             {
                 Result = base.CanSelect(Xhp, Yhp);
@@ -215,14 +215,14 @@ public partial class ExplorationSite : Structure
             Player = ArmyHS.FArmy.FPlayer;
             if (FDefenders.GetCount() == 0)
             {
-                ExecuteSearchDone(Game.Combat.CombatType.Fast, CombatResult.Victory);
+                ExecuteSearchDone(CombatType.Fast, CombatResult.Victory);
             }
             else
             {
-                if (CombatType == Game.Combat.CombatType.Fast)
+                if (CombatType == CombatType.Fast)
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.LockGameOverEvent();
-                    Combat = Aow.Game.World.Map.AoWHSMap.Current.CreateCombat(131760);
+                    AoWHSMap.Current.LockGameOverEvent();
+                    Combat = AoWHSMap.Current.CreateCombat(131760);
                     SetupCombat(Combat, ArmyHS);
                     Combat.LockExecuted();
                     Combat.Initialize();
@@ -234,20 +234,20 @@ public partial class ExplorationSite : Structure
                     Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
                     Event = new CombatEventLog(null);
                     Event.SetCombatLogbook(Combat.FLogbook);
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
-                    if (AoWHSMap.Current.FSeatedPlayer == Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+                    AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
+                    if (AoWHSMap.Current.FSeatedPlayer == Player && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
                     {
                         Event.Execute(false, ExecuteTrigger.Event, null);
                     }
 
                     Event.Release();
                     Combat.UnlockExecuted();
-                    Aow.Game.World.Map.AoWHSMap.Current.DestroyCombat();
-                    Aow.Game.World.Map.AoWHSMap.Current.UnlockGameOverEvent();
+                    AoWHSMap.Current.DestroyCombat();
+                    AoWHSMap.Current.UnlockGameOverEvent();
                 }
                 else
                 {
-                    Combat = Aow.Game.World.Map.AoWHSMap.Current.CreateCombat(2228496);
+                    Combat = AoWHSMap.Current.CreateCombat(2228496);
                     SetupCombat(Combat, ArmyHS);
                     Combat.Initialize();
                     Combat.Activate();
@@ -259,14 +259,14 @@ public partial class ExplorationSite : Structure
                         Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
                         Event = new CombatEventLog(null);
                         Event.SetCombatLogbook(Combat.FLogbook);
-                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
-                        if (AoWHSMap.Current.FSeatedPlayer == Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+                        AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
+                        if (AoWHSMap.Current.FSeatedPlayer == Player && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
                         {
                             Event.Execute(false, ExecuteTrigger.Event, null);
                         }
 
                         Event.Release();
-                        Aow.Game.World.Map.AoWHSMap.Current.DestroyCombat();
+                        AoWHSMap.Current.DestroyCombat();
                     }
                 }
             }
@@ -300,7 +300,7 @@ public partial class ExplorationSite : Structure
                 Request.SetCenterLocation((byte)GetXhx(), (byte)yhx, lhx);
                 Request.FPlayer = ArmyHS.FArmy.FPlayer;
                 Request.FDefenderPlayer = 0;
-                Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
+                AoWHSMap.Current.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
                 Request.Release();
                 Result = true;
             }
@@ -312,7 +312,7 @@ public partial class ExplorationSite : Structure
                     SetupTE(TE);
                     TE.FAction = 0;
                     TE.FParam = 1;
-                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
+                    AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
                     TE.Release();
                     Result = true;
                 }
@@ -371,7 +371,7 @@ public partial class ExplorationSite : Structure
             SetupTE(TE);
             TE.FAction = 0;
             TE.FParam = (int)combatTypeRequestEventLog.FCombatType;
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
+            AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
             TE.Release();
         }
     }
@@ -425,7 +425,7 @@ public partial class ExplorationSite : Structure
 
             try
             {
-                Aow.Game.Engine.Collections.IntegerList.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                Engine.Collections.IntegerList.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {

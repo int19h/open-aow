@@ -42,11 +42,11 @@ internal static class DurationText
         string Result;
         if (Turns == 1)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XTurnLeftRStr), [(byte)49]);
+            Result = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XTurnLeftRStr), [(byte)49]);
         }
         else
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XTurnsLeftRStr), [IntToStr(Turns)]);
+            Result = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XTurnsLeftRStr), [IntToStr(Turns)]);
         }
 
         return Result;
@@ -57,11 +57,11 @@ internal static class DurationText
         string Result;
         if (Days == 1)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XDayRStr), [(byte)49]);
+            Result = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XDayRStr), [(byte)49]);
         }
         else
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XDaysRStr), [IntToStr(Days)]);
+            Result = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XDaysRStr), [IntToStr(Days)]);
         }
 
         return Result;
@@ -72,11 +72,11 @@ internal static class DurationText
         string Result;
         if (Days == 1)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XDayLeftRStr), [(byte)49]);
+            Result = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XDayLeftRStr), [(byte)49]);
         }
         else
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XDaysLeftRStr), [IntToStr(Days)]);
+            Result = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XDaysLeftRStr), [IntToStr(Days)]);
         }
 
         return Result;

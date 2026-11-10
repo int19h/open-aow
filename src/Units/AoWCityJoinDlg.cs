@@ -72,10 +72,10 @@ public partial class CityJoinDlg : DataModule
     public void AcceptBtnClick()
     {
         string Reason = "";
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (!FEvent.Accept(ref Reason))
         {
-            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(Reason);
         }
         else
         {
@@ -87,10 +87,10 @@ public partial class CityJoinDlg : DataModule
     public void AttackBtnClick()
     {
         string Reason = "";
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (!FEvent.Reject(ref Reason))
         {
-            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(Reason);
         }
         else
         {
@@ -101,7 +101,7 @@ public partial class CityJoinDlg : DataModule
     // AoWCityJoinDlg.pas:87
     public void CancelBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -109,7 +109,7 @@ public partial class CityJoinDlg : DataModule
     public void DlgDrawBack(SurfaceDesc Surface)
     {
         LibraryImage Face;
-        Face = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).GetFace();
+        Face = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).GetFace();
         if (Face != null)
         {
             Face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, Surface);
@@ -125,7 +125,7 @@ public partial class CityJoinDlg : DataModule
     // AoWCityJoinDlg.pas:107
     public void CloseBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -149,7 +149,7 @@ public partial class CityJoinDlg : DataModule
         var text = Log.FJoinMessage.Text;
         Dialog.Memo.Items.Text = text;
         Dialog.ApproachLbl.Text = Log.FText;
-        Town = (City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(City));
+        Town = (City)AoWHSMap.Current.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(City));
         Dialog.FRace = Town.FRace;
         var topCityActionImage = Town.GetTopCityActionImage(null);
         Dialog.CityPicLine.ImageTop = topCityActionImage;
@@ -158,7 +158,7 @@ public partial class CityJoinDlg : DataModule
         var bottomCityActionImage = Town.GetBottomCityActionImage(null);
         Dialog.CityPicLine.ImageBottom = bottomCityActionImage;
         Dialog.Dlg.Visible = true;
-        Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(62, true, true);
+        AoWHSMap.Current.FTutorialControl.ShowMessage(62, true, true);
     }
 
 }

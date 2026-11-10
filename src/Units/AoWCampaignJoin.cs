@@ -67,7 +67,7 @@ public partial class CampaignJoinDlg : DataModule
                 break;
         }
 
-        Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.Execute(Control);
+        DialogHosts.LeaderSetupWin.Execute(Control);
         Control.FOnDone = LeaderCustomized;
         Control.Release();
         DialogHosts.LeaderSetupWin.LeaderPnl.ILTexture = DialogHosts.IntGfxMod.FactionWin;
@@ -82,7 +82,7 @@ public partial class CampaignJoinDlg : DataModule
         if (leaderSetupControl.FStatus == LeaderSetupControl.LeaderSetupStatus.Done)
         {
             Leader = (Leader)leaderSetupControl.FOriginalLeader.Copy(GameTables.AoWEngine);
-            Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign().FTransferSettings.SetLeader(Leader);
+            DialogHosts.WorldMap.GetCampaign().FTransferSettings.SetLeader(Leader);
             Leader.Release();
             FinishSelection();
         }
@@ -108,7 +108,7 @@ public partial class CampaignJoinDlg : DataModule
     public void FinishSelection()
     {
         CharGenPnl.Visible = false;
-        Aow.Game.Ui.Dialogs.WorldMap.ShowCampaignMap(DialogHosts.WorldMap);
+        WorldMap.ShowCampaignMap(DialogHosts.WorldMap);
     }
 
     // AoWCampaignJoin.pas:137
@@ -160,7 +160,7 @@ public partial class CampaignJoinDlg : DataModule
     // AoWCampaignJoin.pas:91
     public void DefaultBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign().FTransferSettings.SetLeader(FLeader);
+        DialogHosts.WorldMap.GetCampaign().FTransferSettings.SetLeader(FLeader);
         FinishSelection();
     }
 
@@ -201,7 +201,7 @@ public partial class CampaignJoinDlg : DataModule
         for (int I = 0, last = FScrollText.Count - 1; I <= last; I++)
         {
             var scrollText = FScrollText[I];
-            Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, scrollText, SD);
+            DialogHosts.FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, scrollText, SD);
             Y += 20;
         }
     }

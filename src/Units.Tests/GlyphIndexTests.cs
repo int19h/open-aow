@@ -36,13 +36,13 @@ public sealed class GlyphIndexTests
         var previousTables = (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable);
         (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
-        Aow.Game.Draw.GfxState.InitBlendTables(5, 31);
+        GfxState.InitBlendTables(5, 31);
         ImageLibraries.LibraryImageClasses = new DelphiList();
         // The game keeps library names relative to the install, as FontModule does with Int\Fonts.
         ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
         try
         {
-            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
+            ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>(),
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
                 LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
@@ -53,7 +53,7 @@ public sealed class GlyphIndexTests
         }
         finally
         {
-            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Dispose();
             ImageLibraries.LibraryImageClasses = previousClasses;
             ImageLibraries.BaseImageLibraryPath = previousBase;
             GfxState.AlphaBlendTable?.Dispose();

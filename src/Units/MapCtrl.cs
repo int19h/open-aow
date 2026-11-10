@@ -84,7 +84,7 @@ public partial class AoWMapControl : Component
     // MapCtrl.pas:174
     public AoWMapControl(Component owner) : base(owner)
     {
-        if (Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine())
+        if (GameTables.ValidateAoWEngine())
         {
             GameTables.AoWEngine.FOnHSMLoaded += ActivateHSM;
             GameTables.AoWEngine.FOnHSMClose += DeactivateHSM;
@@ -134,11 +134,11 @@ public partial class AoWMapControl : Component
         AoWHSMap.Current.FCombatMapDestroyedEvents += DeactivateCombatMap;
         for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
         {
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FGemsChangedEvents += GemsChanged;
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FIncomeChangedEvents += IncomeChanged;
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FUpkeepChangedEvents += UpkeepChanged;
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FLogbookChangedEvents += LogbookChanged;
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents += PlayerMagicChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FGemsChangedEvents += GemsChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FIncomeChangedEvents += IncomeChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FUpkeepChangedEvents += UpkeepChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FLogbookChangedEvents += LogbookChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents += PlayerMagicChanged;
         }
     }
 
@@ -181,11 +181,11 @@ public partial class AoWMapControl : Component
         AoWHSMap.Current.FCombatMapDestroyedEvents -= DeactivateCombatMap;
         for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
         {
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FGemsChangedEvents -= GemsChanged;
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FIncomeChangedEvents -= IncomeChanged;
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FUpkeepChangedEvents -= UpkeepChanged;
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FLogbookChangedEvents -= LogbookChanged;
-            ((Player)(object)(object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents -= PlayerMagicChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FGemsChangedEvents -= GemsChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FIncomeChangedEvents -= IncomeChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FUpkeepChangedEvents -= UpkeepChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FLogbookChangedEvents -= LogbookChanged;
+            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents -= PlayerMagicChanged;
         }
     }
 
@@ -222,7 +222,7 @@ public partial class AoWMapControl : Component
         HexagonSprite HS;
         if (FOnDblClickArmy != null)
         {
-            HS = Aow.Game.World.Map.AoWHSMap.Current.Selection.FindClass(typeof(ArmyHS));
+            HS = AoWHSMap.Current.Selection.FindClass(typeof(ArmyHS));
             if (HS is ArmyHS armyHS)
             {
                 FOnDblClickArmy(armyHS.FArmy);
@@ -231,7 +231,7 @@ public partial class AoWMapControl : Component
 
         if (FOnDblClickStructure != null)
         {
-            HS = Aow.Game.World.Map.AoWHSMap.Current.Selection.FindClass(typeof(Structure));
+            HS = AoWHSMap.Current.Selection.FindClass(typeof(Structure));
             if (HS is Structure structure)
             {
                 FOnDblClickStructure(structure);
@@ -294,7 +294,7 @@ public partial class AoWMapControl : Component
         try
         {
             Selection = AoWHSMap.Current.Selection;
-            if (FOnSelectArmy != null && Selection.EventHS is ArmyHS armyHS && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS() != null)
+            if (FOnSelectArmy != null && Selection.EventHS is ArmyHS armyHS && AoWHSMap.Current.FSelectedArmy.GetArmyHS() != null)
             {
                 FOnSelectArmy(armyHS.FArmy);
             }
@@ -398,7 +398,7 @@ public partial class AoWMapControl : Component
         {
             if (FOnEndTurn != null)
             {
-                var listed = (object)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player);
+                var listed = (object)AoWHSMap.Current.FPlayers.GetPlayers(player);
                 FOnEndTurn(player, !((Player)(object)listed).FSingleProcessCycle);
             }
         }

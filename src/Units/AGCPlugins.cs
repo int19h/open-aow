@@ -51,11 +51,11 @@ public partial class AIGroupRazeControl : AIGroupControlPlugin
         BattleFieldInfo Info = default;
         if (FState == 0)
         {
-            Structure = (Structure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<XYL, int>(ref FControl.FLocation)).FindNoneTransparentHS(typeof(Structure));
+            Structure = (Structure)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<XYL, int>(ref FControl.FLocation)).FindNoneTransparentHS(typeof(Structure));
             if (Structure != null && Structure.GetRazeable())
             {
-                Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), FDamageTypes);
-                Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(FControl.FLocation.X, FControl.FLocation.Y, FControl.FLocation.L, 15, ref Info);
+                BattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), FDamageTypes);
+                AoWHSMap.Current.RetrieveBattleFieldInfo(FControl.FLocation.X, FControl.FLocation.Y, FControl.FLocation.L, 15, ref Info);
                 if (Structure is City)
                 {
                     Result = ValidateRazeCity((City)Structure, Info);
@@ -107,7 +107,7 @@ public partial class AIGroupRazeControl : AIGroupControlPlugin
     public bool ValidateRazeCity(City City, in BattleFieldInfo Info)
     {
         bool Result;
-        switch (Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(City.FRace).GetPlayerRelation(FControl.FGroup.FPlayer))
+        switch (AoWHSMap.Current.FRaces.GetRace(City.FRace).GetPlayerRelation(FControl.FGroup.FPlayer))
         {
             case Status.Hostile:
             case Status.Wary:
@@ -281,7 +281,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupControlPlugin
         {
             Result = 0;
             I = FPathStep;
-            Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), FDamageTypes);
+            BattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), FDamageTypes);
             Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             Info.Requests = Info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
             while (I < Path.Count)
@@ -290,7 +290,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupControlPlugin
                 var pathL = Path[I];
                 var pathY = Path[I];
                 var pathX = Path[I];
-                Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.L, FBattleFieldRadius, ref Info);
+                AoWHSMap.Current.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.L, FBattleFieldRadius, ref Info);
                 if (Result < Info.Strength)
                 {
                     Result = Info.Strength;
@@ -344,7 +344,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupControlPlugin
         FSelector.FMovePointTable = Control.FMovePointTable;
         FSelector.FTargetInfo.Player = Control.FGroup.FPlayer;
         FSelector.FTargetInfo.IndependentRelation = Control.FGroup.FIndependentRelation;
-        switch (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.FGroup.FPlayer).FPlayerType)
+        switch (AoWHSMap.Current.FPlayers.GetPlayers(Control.FGroup.FPlayer).FPlayerType)
         {
             case PlayerType.CPU2:
                 FMode = FMode + Set<ModeElement>.Of(ModeElement.CalculateMovepathBFS);
@@ -428,7 +428,7 @@ public partial class AIGroupWanderControl : AIGroupControlPlugin
                     moveControlSettings.FSelection = Control.FSelection;
                     moveControlSettings.FMovePointTable = Control.FMovePointTable;
                     moveControlSettings.FMode = moveControlSettings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-                    Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.ProcessMove(FMoveSettings);
+                    AoWHSMap.Current.FMoveControl.ProcessMove(FMoveSettings);
                 }
 
                 {
@@ -481,12 +481,12 @@ public partial class AIGroupWanderControl : AIGroupControlPlugin
 
                 if (Fields.Count > 0)
                 {
-                    Fields.Sort(Aow.Game.Ai.Groups.AIGroupWanderControl.CompareWanderFields);
+                    Fields.Sort(CompareWanderFields);
                     Field = null;
                     I = 0;
                     while (Fields.Count != 0 && Field == null)
                     {
-                        I = Aow.Game.World.Map.AoWHSMap.Current.Random(Round((double)Fields.Count * 0.1) + 1);
+                        I = AoWHSMap.Current.Random(Round((double)Fields.Count * 0.1) + 1);
                         Field = Fields[I].A;
                         if (Field.GetPlayer() != -1)
                         {

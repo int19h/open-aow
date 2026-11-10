@@ -61,7 +61,7 @@ public sealed class ProductionOrderTests
 
     private static Engine CreateEngine()
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
         engine.RegisterEClasses([EClass.Of<ProductionItem>(), EClass.Of<ProductionTE>()]);
@@ -237,21 +237,21 @@ public sealed class ProductionOrderTests
     // reads no unit production.
     private static string OldName(int ID, int Parameter, bool City, MagicSphere Sphere)
     {
-        string Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameTables.UnknownRStr);
+        string Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameTables.UnknownRStr);
         if (City)
         {
             switch (OldCityAction(ID))
             {
-                case CityAction.Trade: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.ProduceMerchandiseRStr); break;
-                case CityAction.Upgrade: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.UpgradeRStr); break;
-                case CityAction.Migrate: Result = Runtime.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Migrate.MigrateToXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Parameter])]); break;
-                case CityAction.Loot: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.LootRStr); break;
-                case CityAction.Fortify: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.FortifyRStr); break;
+                case CityAction.Trade: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.ProduceMerchandiseRStr); break;
+                case CityAction.Upgrade: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.UpgradeRStr); break;
+                case CityAction.Migrate: Result = Runtime.Format(Game.Magic.Abilities.AbilityRules.TranslateRStr(Migrate.MigrateToXRStr), [Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Parameter])]); break;
+                case CityAction.Loot: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.LootRStr); break;
+                case CityAction.Fortify: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.FortifyRStr); break;
             }
         }
         else if (ID == 10)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Sphere != MagicSphere.None ? Trade.GenerateExtraPowerRStr : Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
+            Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Sphere != MagicSphere.None ? Trade.GenerateExtraPowerRStr : Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
         }
         return Result;
     }

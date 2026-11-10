@@ -24,10 +24,10 @@ public partial class CombatMapEvents : DataModule
     // aowTCMapEvents.pas:105
     public void TCMapDeActivateMap()
     {
-        Aow.Game.Ui.Dialogs.CombatMapEvents.StopSong();
-        Aow.Game.Audio.AudioHost.SongPlayer.Resume();
+        StopSong();
+        Audio.AudioHost.SongPlayer.Resume();
         DialogHosts.MWindow.MapViewer.HSMap = AoWHSMap.Current;
-        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetMap(AoWHSMap.Current);
+        DialogHosts.SWindow.Scanner.SetMap(AoWHSMap.Current);
         DialogHosts.SWindow.Scanner.FPreviousWidth = 0;
         DialogHosts.SWindow.Scanner.FIncremental = false;
         DialogHosts.SWindow.Scanner.FSized = false;
@@ -73,19 +73,19 @@ public partial class CombatMapEvents : DataModule
         DialogHosts.MWindow.MapWindow.WinHeight = DialogHosts.MWindow.FWorldRect.Bottom;
         DialogHosts.MWindow.MapWindow.Alignment.AlignWidth = DialogHosts.MWindow.FWorldAlignWidth;
         DialogHosts.MWindow.MapWindow.Alignment.AlignHeight = DialogHosts.MWindow.FWorldAlignHeight;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.ShowWindows();
+        DialogHosts.General.ShowWindows();
         DialogHosts.General.Manager.FAligned = false;
         DialogHosts.TBWindow.TBWorld.Visible = true;
         DialogHosts.TBWindow.TBCombat.Visible = false;
-        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
+        var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
         DialogHosts.TBWindow.TurnButton.FButtonChecked = player.FSingleProcessCycle;
         DialogHosts.TCScanner.TCScannerWin.Visible = false;
         DialogHosts.TCUnit.TCUnitWin.Visible = false;
-        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetMap(null);
+        DialogHosts.TCScanner.Scanner.SetMap(null);
         DialogHosts.General.Manager.OverlayPriority = 0;
-        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapGemsChanged(AoWHSMap.Current.FSeatedPlayer);
-        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapIncomeChanged(AoWHSMap.Current.FSeatedPlayer);
-        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapPlayerMagicChanged(AoWHSMap.Current.FSeatedPlayer);
+        DialogHosts.MapEvents.TheMapGemsChanged(AoWHSMap.Current.FSeatedPlayer);
+        DialogHosts.MapEvents.TheMapIncomeChanged(AoWHSMap.Current.FSeatedPlayer);
+        DialogHosts.MapEvents.TheMapPlayerMagicChanged(AoWHSMap.Current.FSeatedPlayer);
     }
 
     // aowTCMapEvents.pas:157
@@ -104,7 +104,7 @@ public partial class CombatMapEvents : DataModule
     // aowTCMapEvents.pas:169
     public void TCMapMapChanged(in MapChangedInfo R)
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
+        DialogHosts.TCScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
     }
 
     // aowTCMapEvents.pas:174
@@ -137,8 +137,8 @@ public partial class CombatMapEvents : DataModule
                     var resistance = U.GetResistance();
                     DialogHosts.TCUnit.AResistance.Text = IntToStr(resistance);
                     var moveTypes = U.GetMoveTypes();
-                    var mTtoInt = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(moveTypes);
-                    Aow.Game.Ui.Dialogs.DialogHosts.TCUnit.AMovesIcon.SetCurrent(mTtoInt);
+                    var mTtoInt = DialogHosts.General.MTtoInt(moveTypes);
+                    DialogHosts.TCUnit.AMovesIcon.SetCurrent(mTtoInt);
                     U.ListAbilities(DialogHosts.TCUnit.USelAbilLb.Items);
                 }
             }
@@ -156,13 +156,13 @@ public partial class CombatMapEvents : DataModule
         }
         else
         {
-            var player = Aow.Game.Combat.AoWCombatMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FSeatedCombatPlayer);
+            var player = AoWCombatMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FSeatedCombatPlayer);
             DialogHosts.TBWindow.AutoBtn.Checked = player.FAuto;
         }
 
-        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapGemsChanged(Player);
-        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapIncomeChanged(Player);
-        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapPlayerMagicChanged(Player);
+        DialogHosts.MapEvents.TheMapGemsChanged(Player);
+        DialogHosts.MapEvents.TheMapIncomeChanged(Player);
+        DialogHosts.MapEvents.TheMapPlayerMagicChanged(Player);
     }
 
     // aowTCMapEvents.pas:210
@@ -171,7 +171,7 @@ public partial class CombatMapEvents : DataModule
         if (HS is TacticalCombatUnitHS)
         {
             DialogHosts.General.FCombatUnit = (TacticalCombatUnitHS)HS;
-            Aow.Game.Ui.Dialogs.CombatMapEvents.RefreshCombatUnit(DialogHosts.TCUnit);
+            RefreshCombatUnit(DialogHosts.TCUnit);
         }
     }
 
@@ -187,14 +187,14 @@ public partial class CombatMapEvents : DataModule
     {
         if (HS == DialogHosts.General.FCombatUnit && HS != null)
         {
-            Aow.Game.Ui.Dialogs.CombatMapEvents.RefreshCombatUnit(DialogHosts.TCUnit);
+            RefreshCombatUnit(DialogHosts.TCUnit);
         }
     }
 
     // aowTCMapEvents.pas:230
     public void TCMapCastSpell(CombatSpellCaster Caster)
     {
-        var selectSpell = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.SelectSpell(Caster.FCombatCasterSpellID);
+        var selectSpell = DialogHosts.General.FCombatUnit.SelectSpell(Caster.FCombatCasterSpellID);
         DialogHosts.TCUnit.UAbilLB.Selected = selectSpell;
     }
 
@@ -203,14 +203,14 @@ public partial class CombatMapEvents : DataModule
     {
         if (Info.FAbilityID == 52)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.SpellBook.ShowCombatCasting(Info);
+            DialogHosts.SpellBook.ShowCombatCasting(Info);
         }
     }
 
     // aowTCMapEvents.pas:240
     public void TCMapTurnChanged()
     {
-        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FCurrentPlayer);
+        var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FCurrentPlayer);
         DialogHosts.TBWindow.TCTurnButton.FCurPlayer = player.FPlayerRace;
         if (DialogHosts.TBWindow.TCTurnButton.FCurPlayer == -1)
         {
@@ -287,9 +287,9 @@ public partial class CombatMapEvents : DataModule
                     sbyte resistance = fUnit.GetResistance();
                     Window.UResistance.Text = RtlUnit.IntToStr((int)resistance);
                     Set<World.Movement.MoveType> moveTypes = fUnit.GetMoveTypes();
-                    int current = global::Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(moveTypes);
+                    int current = DialogHosts.General.MTtoInt(moveTypes);
                     Window.UMovesIcon.SetCurrent(current);
-                    global::Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.ListAbilities((StringCollection)(object)Window.UAbilLB.Items, null, null);
+                    DialogHosts.General.FCombatUnit.ListAbilities((StringCollection)(object)Window.UAbilLB.Items, null, null);
                     Window.UAbilLB.Selected = -1;
                     Window.UAbilLB.F188 = -1;
                     Window.UAbilLB.ListOffset = 0;
@@ -299,8 +299,8 @@ public partial class CombatMapEvents : DataModule
                     Window.TCUnitPnl.Visible = false;
                     Window.TCAbilPnl.Visible = true;
                     Window.TargetSelPnl.Visible = false;
-                    global::Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(DialogHosts.General.FCombatUnit.FSelectedSpell).GetCombatInfo(DialogHosts.General.FCombatUnit.FUnit.FUnit, ref info);
-                    Magic.Spells.Spell spell = global::Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(DialogHosts.General.FCombatUnit.FSelectedSpell);
+                    AoWHSSet.Current.FSpellControl.GetSpell(DialogHosts.General.FCombatUnit.FSelectedSpell).GetCombatInfo(DialogHosts.General.FCombatUnit.FUnit.FUnit, ref info);
+                    Magic.Spells.Spell spell = AoWHSSet.Current.FSpellControl.GetSpell(DialogHosts.General.FCombatUnit.FSelectedSpell);
                     Window.AbilNameLbl.Text = spell.FSpellName;
                     if (info.Attack > 0)
                     {
@@ -321,56 +321,56 @@ public partial class CombatMapEvents : DataModule
                     ((StringCollection)Window.AbilStat.Items).Clear();
                     if (info.DamageTypes.Contains(DamageType.Fire))
                     {
-                        string text = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.FireRStr);
-                        string text2 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text = AbilityRules.TranslateRStr(GameTables.FireRStr);
+                        string text2 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text + " " + text2);
                     }
                     if (info.DamageTypes.Contains(DamageType.Cold))
                     {
-                        string text3 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ColdRStr);
-                        string text4 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text3 = AbilityRules.TranslateRStr(ColdRStr);
+                        string text4 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text3 + " " + text4);
                     }
                     if (info.DamageTypes.Contains(DamageType.Lightning))
                     {
-                        string text5 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LightningRStr);
-                        string text6 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text5 = AbilityRules.TranslateRStr(LightningRStr);
+                        string text6 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text5 + " " + text6);
                     }
                     if (info.DamageTypes.Contains(DamageType.Magic))
                     {
-                        string text7 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MagicRStr);
-                        string text8 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text7 = AbilityRules.TranslateRStr(MagicRStr);
+                        string text8 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text7 + " " + text8);
                     }
                     if (info.DamageTypes.Contains(DamageType.Poison))
                     {
-                        string text9 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PoisonRStr);
-                        string text10 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text9 = AbilityRules.TranslateRStr(PoisonRStr);
+                        string text10 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text9 + " " + text10);
                     }
                     if (info.DamageTypes.Contains(DamageType.Death))
                     {
-                        string text11 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.DeathRStr);
-                        string text12 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text11 = AbilityRules.TranslateRStr(GameTables.DeathRStr);
+                        string text12 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text11 + " " + text12);
                     }
                     if (info.DamageTypes.Contains(DamageType.Holy))
                     {
-                        string text13 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HolyRStr);
-                        string text14 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text13 = AbilityRules.TranslateRStr(HolyRStr);
+                        string text14 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text13 + " " + text14);
                     }
                     if (info.DamageTypes.Contains(DamageType.Physical))
                     {
-                        string text15 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PhysicalRStr);
-                        string text16 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text15 = AbilityRules.TranslateRStr(PhysicalRStr);
+                        string text16 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text15 + " " + text16);
                     }
                     if (info.DamageTypes.Contains(DamageType.Wall))
                     {
-                        string text17 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WallRStr);
-                        string text18 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text17 = AbilityRules.TranslateRStr(WallRStr);
+                        string text18 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text17 + " " + text18);
                     }
                 }
@@ -379,8 +379,8 @@ public partial class CombatMapEvents : DataModule
                     Window.TCUnitPnl.Visible = false;
                     Window.TCAbilPnl.Visible = true;
                     Window.TargetSelPnl.Visible = false;
-                    global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(DialogHosts.General.FCombatUnit.FSelectedAbility).GetCombatInfo(DialogHosts.General.FCombatUnit.FUnit.FUnit, ref Info);
-                    string name = global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(DialogHosts.General.FCombatUnit.FSelectedAbility).GetName(DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                    AoWHSSet.Current.FAbilityControl.GetAbility(DialogHosts.General.FCombatUnit.FSelectedAbility).GetCombatInfo(DialogHosts.General.FCombatUnit.FUnit.FUnit, ref Info);
+                    string name = AoWHSSet.Current.FAbilityControl.GetAbility(DialogHosts.General.FCombatUnit.FSelectedAbility).GetName(DialogHosts.General.FCombatUnit.FUnit.FUnit);
                     Window.AbilNameLbl.Text = name;
                     if (Info.Attack > 0)
                     {
@@ -401,56 +401,56 @@ public partial class CombatMapEvents : DataModule
                     ((StringCollection)Window.AbilStat.Items).Clear();
                     if (Info.DamageTypes.Contains(DamageType.Fire))
                     {
-                        string text19 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.FireRStr);
-                        string text20 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text19 = AbilityRules.TranslateRStr(GameTables.FireRStr);
+                        string text20 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text19 + " " + text20);
                     }
                     if (Info.DamageTypes.Contains(DamageType.Cold))
                     {
-                        string text21 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ColdRStr);
-                        string text22 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text21 = AbilityRules.TranslateRStr(ColdRStr);
+                        string text22 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text21 + " " + text22);
                     }
                     if (Info.DamageTypes.Contains(DamageType.Lightning))
                     {
-                        string text23 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LightningRStr);
-                        string text24 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text23 = AbilityRules.TranslateRStr(LightningRStr);
+                        string text24 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text23 + " " + text24);
                     }
                     if (Info.DamageTypes.Contains(DamageType.Magic))
                     {
-                        string text25 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MagicRStr);
-                        string text26 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text25 = AbilityRules.TranslateRStr(MagicRStr);
+                        string text26 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text25 + " " + text26);
                     }
                     if (Info.DamageTypes.Contains(DamageType.Poison))
                     {
-                        string text27 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PoisonRStr);
-                        string text28 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text27 = AbilityRules.TranslateRStr(PoisonRStr);
+                        string text28 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text27 + " " + text28);
                     }
                     if (Info.DamageTypes.Contains(DamageType.Death))
                     {
-                        string text29 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.DeathRStr);
-                        string text30 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text29 = AbilityRules.TranslateRStr(GameTables.DeathRStr);
+                        string text30 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text29 + " " + text30);
                     }
                     if (Info.DamageTypes.Contains(DamageType.Holy))
                     {
-                        string text31 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HolyRStr);
-                        string text32 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text31 = AbilityRules.TranslateRStr(HolyRStr);
+                        string text32 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text31 + " " + text32);
                     }
                     if (Info.DamageTypes.Contains(DamageType.Physical))
                     {
-                        string text33 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PhysicalRStr);
-                        string text34 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text33 = AbilityRules.TranslateRStr(PhysicalRStr);
+                        string text34 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text33 + " " + text34);
                     }
                     if (Info.DamageTypes.Contains(DamageType.Wall))
                     {
-                        string text35 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WallRStr);
-                        string text36 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(E1DamageRStr);
+                        string text35 = AbilityRules.TranslateRStr(WallRStr);
+                        string text36 = AbilityRules.TranslateRStr(E1DamageRStr);
                         ((StringCollection)Window.AbilStat.Items).Add(text35 + " " + text36);
                     }
                 }
@@ -470,7 +470,7 @@ public partial class CombatMapEvents : DataModule
     {
         if (Audio.AudioHost.SoundSystem != null)
         {
-            return global::Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
+            return Audio.AudioHost.SoundSystem.StopSong();
         }
         return false;
     }

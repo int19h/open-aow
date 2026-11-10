@@ -157,8 +157,8 @@ public partial class LibraryHS : HPBasedHS
         int EvenYMax;
         if (FXhp != -2147483648)
         {
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FXhp - 8 + 32, FYhp, ref I, ref J);
+            HexGeometry.HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
+            HexGeometry.HPtoHX(FXhp - 8 + 32, FYhp, ref I, ref J);
             if (!((XMin & 1) != 0))
             {
                 EvenYMin = OddYMin;
@@ -170,8 +170,8 @@ public partial class LibraryHS : HPBasedHS
             }
 
             J = FImage.Height + FYhp - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1, J, ref XMax, ref OddYMax);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FImage.Width + FXhp - 1 + 32, J, ref I, ref J);
+            HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1, J, ref XMax, ref OddYMax);
+            HexGeometry.HPtoHX(FImage.Width + FXhp - 1 + 32, J, ref I, ref J);
             if (!((XMax & 1) != 0))
             {
                 EvenYMax = OddYMax;
@@ -298,8 +298,8 @@ public partial class LibraryHS : HPBasedHS
         FMapContainer = MapContainer;
         if (Xhp != -2147483648)
         {
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FXhp - 8 + 32, FYhp, ref I, ref J);
+            HexGeometry.HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
+            HexGeometry.HPtoHX(FXhp - 8 + 32, FYhp, ref I, ref J);
             if (!((XMin & 1) != 0))
             {
                 EvenYMin = OddYMin;
@@ -311,8 +311,8 @@ public partial class LibraryHS : HPBasedHS
             }
 
             J = FImage.Height + FYhp - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1, J, ref XMax, ref OddYMax);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1 + 32, J, ref I, ref J);
+            HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1, J, ref XMax, ref OddYMax);
+            HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1 + 32, J, ref I, ref J);
             if (!((XMax & 1) != 0))
             {
                 EvenYMax = OddYMax;
@@ -392,7 +392,7 @@ public partial class LibraryHS : HPBasedHS
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         return Place(MapContainer, Xhp - 8, Yhp, Lhx);
     }
 
@@ -406,7 +406,7 @@ public partial class LibraryHS : HPBasedHS
             FLevel = (byte)Level;
         }
 
-        Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp + 16 - (int)(((uint)FImage.Width) >> 1);
         Yhp = Yhp + 16 - (int)(((uint)FImage.Height) >> 1);
         return Place(MapContainer, Xhp, Yhp, Lhx);

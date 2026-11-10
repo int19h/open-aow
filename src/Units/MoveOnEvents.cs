@@ -39,7 +39,7 @@ public partial class MoveOnEvent : MapObject
             FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
             var mapField = (MapField)Owner;
             MapLevel = (MapLevel)mapField.Owner;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, mapField.Xhx, mapField.Yhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, mapField.Xhx, mapField.Yhx, 0);
 
             ref var walk = ref Walk;
             while (walk.Radius <= FRadius)
@@ -55,7 +55,7 @@ public partial class MoveOnEvent : MapObject
                     MapField.AddHS(this, walk.HN);
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
     }
@@ -69,7 +69,7 @@ public partial class MoveOnEvent : MapObject
         {
             MapLevel = (MapLevel)Owner.Owner;
             FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, 0);
+            HNWalkData.InitHNWalk(ref Walk, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, 0);
             while (Walk.Radius <= FRadius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -77,7 +77,7 @@ public partial class MoveOnEvent : MapObject
                     MapLevel.GetField(Walk.X, Walk.Y).RemoveHS(this);
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
             FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
@@ -88,7 +88,7 @@ public partial class MoveOnEvent : MapObject
     // MoveOnEvents.pas:168
     public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -117,7 +117,7 @@ public partial class MoveOnEvent : MapObject
     }
 
     // MoveOnEvents.pas:134
-    public override bool CanSelect(int Xhp, int Yhp) => Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting);
+    public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting);
 
     // MoveOnEvents.pas:129
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -177,7 +177,7 @@ public partial class MoveOnEvent : MapObject
         sbyte player = army.FArmy.FPlayer;
         if (!GetTriggerPlayer(player)) return;
         MovedOnTrigger(player);
-        if (FTriggerPlayers == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting)) Dispose();
+        if (FTriggerPlayers == 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting)) Dispose();
     }
 }
 
@@ -229,9 +229,9 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
         // Use the map's seated player.
         if (Player == AoWHSMap.Current.FSeatedPlayer)
         {
-            if (CompareText(Aow.Game.World.Movement.ChangeSongMoveOnEvent.PlayingSongFileName(), FSongFileName) != 0)
+            if (CompareText(PlayingSongFileName(), FSongFileName) != 0)
             {
-                Aow.Game.Audio.AudioPlayback.PlaySongEx(FSongFileName, 2, 0, false);
+                Audio.AudioPlayback.PlaySongEx(FSongFileName, 2, 0, false);
             }
         }
 
@@ -242,7 +242,7 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
     {
         if (Audio.AudioHost.SoundSystem != null)
         {
-            return global::Aow.Game.Audio.AudioHost.SoundSystem.GetPlayingSongFileName();
+            return Audio.AudioHost.SoundSystem.GetPlayingSongFileName();
         }
         return "";
     }
@@ -259,7 +259,7 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132427;
 
         // MoveOnEvents.pas:295
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ChangeSongEventRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ChangeSongEventRStr);
 
         private static readonly string ChangeSongEventRStr = "Change Song Event";
 
@@ -292,7 +292,7 @@ public partial class PlaySampleMoveOnEvent : MoveOnEvent
     {
         if (Player == AoWHSMap.Current.FSeatedPlayer)
         {
-            Aow.Game.Audio.AudioPlayback.PlaySample(FSampleFileName);
+            Audio.AudioPlayback.PlaySample(FSampleFileName);
         }
 
         SetTriggerPlayer(Player, false);
@@ -310,7 +310,7 @@ public partial class PlaySampleMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132445;
 
         // MoveOnEvents.pas:322
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PlaySampleEventRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(PlaySampleEventRStr);
 
         private static readonly string PlaySampleEventRStr = "Play Sample";
 
@@ -355,7 +355,7 @@ public partial class ShowMessageMoveOnEvent : MoveOnEvent
             Log = new ShowMessageEventLog(null);
             var text = FMessage.Text;
             Log.FMessage.Text = text;
-            Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
+            AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
             Log.Release();
         }
 
@@ -374,7 +374,7 @@ public partial class ShowMessageMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132429;
 
         // MoveOnEvents.pas:369
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ShowMessageEventRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ShowMessageEventRStr);
 
         private static readonly string ShowMessageEventRStr = "Show Message Event";
 

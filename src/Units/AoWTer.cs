@@ -66,7 +66,7 @@ public partial class AoWTerrain : TerrainMO
         ECustomNode OldOwner;
         if (Owner.FindOwnedChild(132990) == null)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.Random(20) == 0)
+            if (AoWHSMap.Current.Random(20) == 0)
             {
                 R = FindCompatibleResource(((TerrainMOR)FResource).TerrainType, 1, 0);
                 if (R != null)

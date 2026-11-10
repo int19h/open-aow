@@ -58,25 +58,25 @@ internal static class RosterTables
         int Value;
         Unit Unit_;
         AdjustableUnit DefaultUnit;
-        Resource = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex);
+        Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex);
         if (Resource != null && Resource.GetTransportCapacity() == 0)
         {
             if (Player != 0)
             {
                 if (Resource.FRace != -1)
                 {
-                    Value = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(Resource.FRace).GetPlayerRelationValue(Player);
+                    Value = AoWHSMap.Current.FRaces.GetRace(Resource.FRace).GetPlayerRelationValue(Player);
                 }
                 else
                 {
-                    var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                    var alignment = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
+                    var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                    var alignment = AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
                     Value = AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)alignment];
                 }
             }
             else
             {
-                var iRtoAlignment = Aow.Game.Magic.Abilities.AbilityRules.IRtoAlignment(Relation);
+                var iRtoAlignment = AbilityRules.IRtoAlignment(Relation);
                 Value = AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)iRtoAlignment];
             }
 

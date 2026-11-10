@@ -65,7 +65,7 @@ public static class EngineServices
 
     public static int GetCRC32(ReadOnlySpan<byte> buffer, int size)
     {
-        if (EngineHost.CRC32Table.Length == 0) Aow.Game.Engine.Nodes.EngineServices.BuildCRC32Table();
+        if (EngineHost.CRC32Table.Length == 0) BuildCRC32Table();
         int crc = -1;
         foreach (byte value in buffer[..size])
             crc = EngineHost.CRC32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
@@ -163,7 +163,7 @@ public static class EngineServices
         }
     }
 
-    internal static void FillLargeInteger(Span<LargeInteger> buffer, int count, LargeInteger value) => Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
+    internal static void FillLargeInteger(Span<LargeInteger> buffer, int count, LargeInteger value) => Fill(buffer, count, value);
 
     internal static void Fill<T>(Span<T> buffer, int count, T value)
     {

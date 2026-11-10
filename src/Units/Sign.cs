@@ -61,7 +61,7 @@ namespace Aow.Game.World.Structures
         public override void Select()
         {
             base.Select();
-            if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 FTextSeen[AoWHSMap.Current.FSeatedPlayer] = true;
             }
@@ -90,14 +90,14 @@ namespace Aow.Game.World.Structures
         {
             bool Result;
             UpdateSignTE Event;
-            if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
+            if (!AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
             {
                 Event = new UpdateSignTE(null);
                 Event.FXhx = GetXhx();
                 Event.FYhx = GetYhx();
                 Event.FLhx = GetLhx();
                 Event.FText.Assign(Text);
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
+                AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -178,7 +178,7 @@ namespace Aow.Game.World.Structures
             // Sign.pas:37
 
             // Sign.pas:162
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SignRStr);
+            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(SignRStr);
 
             private static readonly string SignRStr = "Sign";
 
@@ -232,7 +232,7 @@ namespace Aow.Game.Commands
         {
             ExecuteResult Result;
             Sign Sign;
-            Sign = (Sign)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
+            Sign = (Sign)AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
             if (Sign != null)
             {
                 Sign.SetText(FText);

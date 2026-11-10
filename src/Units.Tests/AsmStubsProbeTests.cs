@@ -167,15 +167,15 @@ public sealed class AsmStubsProbeTests
                 int value = Values[j];
                 string tag = "_count" + Dec(count) + "_value" + Dec(j);
                 FillA5(ints);
-                Aow.Game.Engine.Collections.IntegerList.FillInteger(ints.AsSpan(1), count, value);
+                IntegerList.FillInteger(ints.AsSpan(1), count, value);
                 FillA5(words);
-                Aow.Game.Engine.Collections.WordList.FillWord(words.AsSpan(1), count, (ushort)value);
+                WordList.FillWord(words.AsSpan(1), count, (ushort)value);
                 var large = new DoubleItemList.DoubleItem { A = value, B = ~value };
                 FillA5(doubles);
                 FillLarge(doubles, 1, count, large);
                 quadValue = new QuadItemList.QuadInteger { A = value, B = ~value, C = value ^ 0x55AA55AA, D = -17 };
                 FillA5(quads);
-                Aow.Game.Engine.Collections.QuadItemList.FillQuadInteger(quads.AsSpan(1), count, quadValue);
+                QuadItemList.FillQuadInteger(quads.AsSpan(1), count, quadValue);
                 for (int k = 0; k < 12; k++)
                 {
                     AddHex(lines, "Engine.FillInteger" + tag + "_slot" + Dec(k), ints[k]);
@@ -194,7 +194,7 @@ public sealed class AsmStubsProbeTests
         doubles[1].B = -17;
         FillLarge(doubles, 0, 4, doubles[1]);
         quads[1] = quadValue;
-        Aow.Game.Engine.Collections.QuadItemList.FillQuadInteger(quads, 4, quads[1]);
+        QuadItemList.FillQuadInteger(quads, 4, quads[1]);
         for (int k = 0; k < 4; k++)
         {
             AddHex(lines, "Engine.FillLargeInteger_overlap_A_" + Dec(k), doubles[k].A);
@@ -397,9 +397,9 @@ public sealed class AsmStubsProbeTests
             {
                 string tag = Dec(i) + "_" + Dec(j);
                 FillA5(ints);
-                Aow.Game.World.Movement.MoveControlSettings.FillInt(MemoryMarshal.AsBytes(ints.AsSpan())[4..], Counts[i], Values[j]);
+                MoveControlSettings.FillInt(MemoryMarshal.AsBytes(ints.AsSpan())[4..], Counts[i], Values[j]);
                 FillA5(words);
-                Aow.Game.Draw.PixelFormats.FillWord(MemoryMarshal.AsBytes(words.AsSpan())[2..], Counts[i], Values[j]);
+                PixelFormats.FillWord(MemoryMarshal.AsBytes(words.AsSpan())[2..], Counts[i], Values[j]);
                 for (int k = 0; k < 12; k++)
                 {
                     AddHex(lines, "GFXE.FillInt_" + tag + "_" + Dec(k), ints[k]);
@@ -409,7 +409,7 @@ public sealed class AsmStubsProbeTests
                 if (Counts[i] > 0)
                 {
                     FillA5(quads);
-                    Aow.Game.Draw.PixelFormats.FillTrippleByte(MemoryMarshal.AsBytes(quads.AsSpan()), Counts[i], Values[j]);
+                    PixelFormats.FillTrippleByte(MemoryMarshal.AsBytes(quads.AsSpan()), Counts[i], Values[j]);
                     for (int k = 0; k < 3; k++)
                     {
                         AddHex(lines, "GFXE.FillTrippleByte_" + tag + "_" + Dec(k) + "_A", quads[k].A);
@@ -423,7 +423,7 @@ public sealed class AsmStubsProbeTests
 
         try
         {
-            Aow.Game.Draw.PixelFormats.FillTrippleByte(new byte[12], 0, 0x12345678);
+            PixelFormats.FillTrippleByte(new byte[12], 0, 0x12345678);
         }
         catch (System.Exception e)
         {
@@ -442,20 +442,20 @@ public sealed class AsmStubsProbeTests
             for (int j = -3; j <= 3; j++)
             {
                 string tag = Dec(i) + "_" + Dec(j);
-                AddNum(lines, "HSEngine.HXtoV_" + tag, Aow.Game.World.Map.HexGeometry.HXtoV(i, j));
-                AddNum(lines, "HSEngine.HXtoH_" + tag, Aow.Game.World.Map.HexGeometry.HXtoH(i, j));
+                AddNum(lines, "HSEngine.HXtoV_" + tag, HexGeometry.HXtoV(i, j));
+                AddNum(lines, "HSEngine.HXtoH_" + tag, HexGeometry.HXtoH(i, j));
                 int x = 0;
                 int y = 0;
-                Aow.Game.World.Map.HexGeometry.HVtoHX(i, j, ref x, ref y);
+                HexGeometry.HVtoHX(i, j, ref x, ref y);
                 AddNum(lines, "HSEngine.HVtoHX_X_" + tag, x);
                 AddNum(lines, "HSEngine.HVtoHX_Y_" + tag, y);
-                Aow.Game.World.Map.HexGeometry.HPtoHX(i, j, ref x, ref y);
+                HexGeometry.HPtoHX(i, j, ref x, ref y);
                 AddNum(lines, "HSEngine.HPtoHX_X_" + tag, x);
                 AddNum(lines, "HSEngine.HPtoHX_Y_" + tag, y);
                 small.AsSpan().Fill(0xA5);
                 ref sbyte sx = ref Unsafe.As<byte, sbyte>(ref small[1]);
                 ref sbyte sy = ref Unsafe.As<byte, sbyte>(ref small[7]);
-                Aow.Game.World.Map.HexGeometry.HPtoHXs(i, j, ref sx, ref sy);
+                HexGeometry.HPtoHXs(i, j, ref sx, ref sy);
                 for (int k = 0; k < 12; k++)
                 {
                     AddHex(lines, "HSEngine.HPtoHXs_" + tag + "_" + Dec(k), small[k]);
@@ -465,11 +465,11 @@ public sealed class AsmStubsProbeTests
 
         for (int i = 0; i < Values.Length; i++)
         {
-            AddNum(lines, "HSEngine.HXtoV_extreme_" + Dec(i), Aow.Game.World.Map.HexGeometry.HXtoV(Values[i], -1));
-            AddNum(lines, "HSEngine.HXtoH_extreme_" + Dec(i), Aow.Game.World.Map.HexGeometry.HXtoH(Values[i], 0));
+            AddNum(lines, "HSEngine.HXtoV_extreme_" + Dec(i), HexGeometry.HXtoV(Values[i], -1));
+            AddNum(lines, "HSEngine.HXtoH_extreme_" + Dec(i), HexGeometry.HXtoH(Values[i], 0));
             int x = 0;
             int y = 0;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Values[i], Values[i], ref x, ref y);
+            HexGeometry.HPtoHX(Values[i], Values[i], ref x, ref y);
             AddNum(lines, "HSEngine.HPtoHX_extreme_X_" + Dec(i), x);
             AddNum(lines, "HSEngine.HPtoHX_extreme_Y_" + Dec(i), y);
         }
@@ -489,7 +489,7 @@ public sealed class AsmStubsProbeTests
                 walk.CenterY = b;
                 for (int i = 0; i < 80; i++)
                 {
-                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
+                    HNWalkData.WalkToNextHN(ref walk);
                     string tag = Dec(a) + "_" + Dec(b) + "_" + Dec(i);
                     AddNum(lines, "HSEngine.WalkToNextHN_X_" + tag, walk.X);
                     AddNum(lines, "HSEngine.WalkToNextHN_Y_" + tag, walk.Y);
@@ -507,7 +507,7 @@ public sealed class AsmStubsProbeTests
     private static void FillLarge(DoubleItemList.DoubleItem[] items, int start, int count, DoubleItemList.DoubleItem value)
     {
         LargeInteger bits = Unsafe.As<DoubleItemList.DoubleItem, LargeInteger>(ref value);
-        Aow.Game.Engine.Nodes.EngineServices.FillLargeInteger(MemoryMarshal.Cast<DoubleItemList.DoubleItem, LargeInteger>(items.AsSpan(start)), count, bits);
+        EngineServices.FillLargeInteger(MemoryMarshal.Cast<DoubleItemList.DoubleItem, LargeInteger>(items.AsSpan(start)), count, bits);
     }
 
     private static void FillA5<T>(Span<T> items) where T : unmanaged => MemoryMarshal.AsBytes(items).Fill(0xA5);

@@ -214,10 +214,10 @@ public partial class Scanner : AOWControl
                 var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
                 SD.ClipRect = rect;
                 FMapSurface.Lock(ref SurfDesc);
-                Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                SurfaceDesc.BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
                 FMapSurface.Unlock();
                 FObjectSurface.Lock(ref SurfDesc);
-                Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
+                SurfaceDesc.BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
                 FObjectSurface.Unlock();
                 if (FMapWidth > 0 && FMapHeight > 0)
                 {

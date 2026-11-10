@@ -216,7 +216,7 @@ public sealed class RemainingConstructionTests
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
-            if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            if (EngineHost.Engines is null) EngineHost.Initialize();
             using var engine = new Engine(null!);
             var meta = EClass.Of(type);
             engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
@@ -227,7 +227,7 @@ public sealed class RemainingConstructionTests
         }
         if (route == 3)
         {
-            var meta = Aow.Game.Engine.EClass.Of(type);
+            var meta = EClass.Of(type);
             return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");

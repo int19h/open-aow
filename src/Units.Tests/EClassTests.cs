@@ -58,7 +58,7 @@ public sealed class EClassTests
     [Fact]
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         using var engine = new Engine(null!);
         var engines = new List<Engine> { engine };
         foreach (var other in EngineHost.Engines!.List.OfType<Engine>())

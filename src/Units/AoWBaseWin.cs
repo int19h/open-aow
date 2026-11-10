@@ -284,7 +284,7 @@ public partial class AOWBaseWindow : AOWWindowControl
                                         else
                                         {
                                             var pixelFormatID = FBackSurface.GetPixelFormatID();
-                                            var color2PixelInfo = Aow.Game.Draw.PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
+                                            var color2PixelInfo = PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
                                             FBackSurface.BltAreaColorKeyClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop, color2PixelInfo);
                                         }
 
@@ -445,11 +445,11 @@ public partial class AOWBaseWindow : AOWWindowControl
                     {
                         if (FMasked == true)
                         {
-                            Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
+                            SurfaceDesc.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
                         }
                         else
                         {
-                            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
+                            SurfaceDesc.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
                         }
                     }
                     catch

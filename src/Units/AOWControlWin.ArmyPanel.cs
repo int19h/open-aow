@@ -36,8 +36,8 @@ public partial class ControlWin
             PartyILbl.Text = "";
             readOnly = true;
             PartyActionLbl1.Visible = PartyActionLbl2.Visible = true;
-            PartyActionLbl1.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PartyActionRStr);
-            PartyActionLbl2.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(((int)army.GetBehavior(255) & 127) switch
+            PartyActionLbl1.Text = AbilityRules.TranslateRStr(PartyActionRStr);
+            PartyActionLbl2.Text = AbilityRules.TranslateRStr(((int)army.GetBehavior(255) & 127) switch
             {
                 1 => PatrollingRStr,
                 2 or 3 => GuardingRStr,
@@ -55,7 +55,7 @@ public partial class ControlWin
         {
             PartyBPnl.Visible = false;
             PartyIPnl.Visible = true;
-            PartyILbl.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PartyOwnerXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
+            PartyILbl.Text = AbilityRules.Format(AbilityRules.TranslateRStr(PartyOwnerXRStr), [AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[World.Map.AoWHSMap.Current.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
             PControlPnl.Visible = false;
         }
         else
@@ -63,9 +63,9 @@ public partial class ControlWin
             PartyBPnl.Visible = true;
             PartyIPnl.Visible = false;
             MoveIcon.Visible = true;
-            MoveIcon.CurrentImage = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(army.GetPartyMoves(255));
+            MoveIcon.CurrentImage = DialogHosts.General.MTtoInt(army.GetPartyMoves(255));
             MovesLbl.Text = RtlUnit.IntToStr(army.MovePoints(255));
-            Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.CheckEnd();
+            DialogHosts.ControlWin.CheckEnd();
             PControlPnl.Visible = true;
             PGuard.Checked = army.FUserMode.Contains(ArmyUserModeElement.Guard);
         }
@@ -74,7 +74,7 @@ public partial class ControlWin
             int index = DialogHosts.General.FSelectedUnits[i];
             if (index == -1) continue;
             byte selection = (byte)(1 << index);
-            icons[i].CurrentImage = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(army.MoveTypes(selection));
+            icons[i].CurrentImage = DialogHosts.General.MTtoInt(army.MoveTypes(selection));
             var unit = army.GetUnit(index);
             gauges[i].Max = unit.GetHits();
             gauges[i].Position = unit.GetHitPoints();

@@ -28,7 +28,7 @@ internal static class PixelRemap
         for (int Y = 0; Y <= Height - 1; Y++)
         {
             var S = Src.Row(Y, Width * 3);
-            var D = Aow.Game.Draw.PixelFormats.Words(Dst.Row(Y, Width * 2));
+            var D = PixelFormats.Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
                 int I = X * 3;
@@ -42,7 +42,7 @@ internal static class PixelRemap
         for (int Y = 0; Y <= Height - 1; Y++)
         {
             var S = Src.Row(Y, Width * 3);
-            var D = Aow.Game.Draw.PixelFormats.Words(Dst.Row(Y, Width * 2));
+            var D = PixelFormats.Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
                 int I = X * 3;
@@ -55,7 +55,7 @@ internal static class PixelRemap
     {
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            var S = Aow.Game.Draw.PixelFormats.Words(Src.Row(Y, Width * 2));
+            var S = PixelFormats.Words(Src.Row(Y, Width * 2));
             var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
@@ -71,7 +71,7 @@ internal static class PixelRemap
     {
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            var S = Aow.Game.Draw.PixelFormats.Words(Src.Row(Y, Width * 2));
+            var S = PixelFormats.Words(Src.Row(Y, Width * 2));
             var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
@@ -83,14 +83,14 @@ internal static class PixelRemap
         }
     }
 
-    internal static void RemapSurface32to565(SurfaceView Src, SurfaceView Dst, int Width, int Height) => Aow.Game.Draw.PixelRemap.RemapSurface32to555(Src, Dst, Width, Height);
+    internal static void RemapSurface32to565(SurfaceView Src, SurfaceView Dst, int Width, int Height) => RemapSurface32to555(Src, Dst, Width, Height);
 
     internal static void RemapSurface32to555(SurfaceView Src, SurfaceView Dst, int Width, int Height)
     {
         for (int Y = 0; Y <= Height - 1; Y++)
         {
             var S = Src.Row(Y, Width * 4);
-            var D = Aow.Game.Draw.PixelFormats.Words(Dst.Row(Y, Width * 2));
+            var D = PixelFormats.Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
                 int I = X * 4;
@@ -218,10 +218,10 @@ internal static class PixelRemap
     }
 
     internal static void RemapSurface08to555(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette) =>
-            Aow.Game.Draw.PixelRemap.RemapIndexedSurface(source, destination, width, height, palette, false);
+            RemapIndexedSurface(source, destination, width, height, palette, false);
 
     internal static void RemapSurface08to565(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette) =>
-            Aow.Game.Draw.PixelRemap.RemapIndexedSurface(source, destination, width, height, palette, true);
+            RemapIndexedSurface(source, destination, width, height, palette, true);
 
     internal static void RemapIndexedSurface(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette, bool rgb565)
     {

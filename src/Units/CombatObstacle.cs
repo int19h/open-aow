@@ -189,7 +189,7 @@ namespace Aow.Game.World
             {
                 if (GetVisible())
                 {
-                    Aow.Game.Combat.AoWCombatMap.Current.DynamicVisibleHS.RemoveChild(FShadow);
+                    AoWCombatMap.Current.DynamicVisibleHS.RemoveChild(FShadow);
                 }
 
                 FShadow?.Dispose();
@@ -222,7 +222,7 @@ namespace Aow.Game.World
             {
                 if (GetVisible())
                 {
-                    Aow.Game.Combat.AoWCombatMap.Current.DynamicVisibleHS.RemoveChild(FOverlay);
+                    AoWCombatMap.Current.DynamicVisibleHS.RemoveChild(FOverlay);
                 }
 
                 FOverlay?.Dispose();
@@ -235,7 +235,7 @@ namespace Aow.Game.World
         {
             int X = default;
             int Y = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf;
             YhpSurf = Y - YhpSurf;
             FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
@@ -246,7 +246,7 @@ namespace Aow.Game.World
         {
             int X = default;
             int Y = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf;
             YhpSurf = Y - YhpSurf;
             FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 41, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
@@ -264,7 +264,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 2229546;
 
             // CombatObstacle.pas:242
-            public override string ResourceEditName() => "Combat " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.ObstacleRStr);
+            public override string ResourceEditName() => "Combat " + Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.ObstacleRStr);
 
         }
 

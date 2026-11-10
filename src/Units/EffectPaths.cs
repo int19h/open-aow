@@ -96,7 +96,7 @@ internal static class EffectPaths
         int Seg;
         CX = X1;
         CY = Y1;
-        Angle = Aow.Game.Draw.EffectPaths.GetAngle(X1, Y1, X2, Y2);
+        Angle = GetAngle(X1, Y1, X2, Y2);
         A2 = Angle;
         Len = Round(Math.Sqrt((X2 - X1) * (X2 - X1) + (Y2 - Y1) * (Y2 - Y1)));
         Dist = 0;
@@ -118,7 +118,7 @@ internal static class EffectPaths
             var sin = Math.Sin(Angle);
             var mathSin = Math.Sin(A2);
             NY = Y1 - Round((double)sin * Dist) - Round((double)mathSin * Seg);
-            Aow.Game.Draw.EffectPaths.MakeLinePath(CX, CY, NX, NY, Seg, ref List);
+            MakeLinePath(CX, CY, NX, NY, Seg, ref List);
             CX = NX;
             CY = NY;
             Seg = Math.Abs(Round((double)Math.Cos((double)A2 - Angle) * Seg));
@@ -126,7 +126,7 @@ internal static class EffectPaths
             Seg = Random(15) + 5;
         }
 
-        Aow.Game.Draw.EffectPaths.MakeLinePath(CX, CY, X2, Y2, Len - Dist, ref List);
+        MakeLinePath(CX, CY, X2, Y2, Len - Dist, ref List);
         var count = List.Count;
         List[count - 1].Z = 1;
     }
@@ -220,20 +220,20 @@ internal static class EffectPaths
         bool CanBurn;
         CombatILTerrain Terrain;
         CityWall Wall;
-        if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
+        if (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
         {
-            if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
+            if (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.Random(100) < Chance)
+                if (AoWHSMap.Current.Random(100) < Chance)
                 {
                     CanBurn = false;
-                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
+                    if (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
                     {
                         CanBurn = true;
                     }
                     else
                     {
-                        Terrain = (CombatILTerrain)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
+                        Terrain = (CombatILTerrain)AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
                         if (Terrain != null)
                         {
                             if (Terrain.GetBurnValue() > 0)
@@ -242,7 +242,7 @@ internal static class EffectPaths
                             }
                         }
 
-                        Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
+                        Wall = (CityWall)AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
                         if (Wall != null)
                         {
                             if (Wall.FWallType == 1)
@@ -258,7 +258,7 @@ internal static class EffectPaths
                     if (CanBurn)
                     {
                         Fire = new CombatFire(null);
-                        if (!Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(Fire, Xhx, Yhx, 0))
+                        if (!AoWCombatMap.Current.PlaceHX(Fire, Xhx, Yhx, 0))
                         {
                             Fire?.Dispose();
                         }

@@ -66,9 +66,9 @@ internal static class OrderingRecording
             AoWHSMap.Current = null!;
             if (type != typeof(ArmyHS)) AoWHSSet.Current.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
-            if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            if (EngineHost.Engines is null) EngineHost.Initialize();
             Engine = new Engine(null!);
-            Engine.Options -= Set<EngineModeElement>.Of(Game.Engine.Engine.eoVerifyClasses);
+            Engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
             foreach (var descriptor in EClass.All.Where(x => x.Type == type))
             {
                 try { Engine.UnregisterEClasses([Engine.GetEClass(descriptor.ClassID)]); }

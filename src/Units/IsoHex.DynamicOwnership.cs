@@ -17,7 +17,7 @@ namespace Aow.Game.World.Hexes
             var field = (MapField)Owner;
             var level = (MapLevel)field.Owner;
             HNWalkData walk = default;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref walk, field.Xhx, field.Yhx, 1);
+            HNWalkData.InitHNWalk(ref walk, field.Xhx, field.Yhx, 1);
             while (walk.HN <= 6)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -34,7 +34,7 @@ namespace Aow.Game.World.Hexes
                     else if ((!water || peerFound) && neighbour.TerrainType != GetTerrain(0))
                         FSides |= (byte)(1 << (walk.HN - 1));
                 }
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
+                HNWalkData.WalkToNextHN(ref walk);
             }
             if (water || FOpenSides != 0)
             {

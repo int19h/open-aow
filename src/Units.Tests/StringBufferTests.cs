@@ -8,9 +8,9 @@ public sealed class StringBufferTests
 {
     private static void Read(int shape, ref string text, Stream stream)
     {
-        if (shape == 0) Aow.Game.Engine.AoWEngine.StringFromStream(ref text, stream);
-        else if (shape == 1) Aow.Game.Engine.Storage.EReadStorageStream.LoadStringFromStream(ref text, stream);
-        else Aow.Game.Draw.Images.LibraryDrawing.ReadStringFromStream(ref text, stream);
+        if (shape == 0) Game.Engine.AoWEngine.StringFromStream(ref text, stream);
+        else if (shape == 1) Game.Engine.Storage.EReadStorageStream.LoadStringFromStream(ref text, stream);
+        else LibraryDrawing.ReadStringFromStream(ref text, stream);
     }
 
     private static MemoryStream Input(int shape, int length, ReadOnlySpan<byte> bytes)
@@ -99,13 +99,13 @@ public sealed class StringBufferTests
         source.AddObject("\u20AC\u00FF", Runtime.IntToObject(17));
         source.AddObject("tail\0ignored", Runtime.IntToObject(-23));
         using var stream = new MemoryStream();
-        if (extended) Aow.Game.Engine.Storage.EWriteStorageStream.StringsToStreamEx(source, stream);
-        else Aow.Game.Engine.Storage.EWriteStorageStream.StringsToStream(source, stream);
+        if (extended) Game.Engine.Storage.EWriteStorageStream.StringsToStreamEx(source, stream);
+        else Game.Engine.Storage.EWriteStorageStream.StringsToStream(source, stream);
         Assert.Equal(new byte[] { 8, 0, 0, 0, 0x80, 0xFF, 13, 10, 116, 97, 105, 108 }, stream.GetBuffer()[..12]);
         stream.Position = 0;
         var result = new StringList();
-        if (extended) Aow.Game.Engine.Storage.EReadStorageStream.StringsFromStreamEx(result, stream);
-        else Aow.Game.Engine.Storage.EReadStorageStream.StringsFromStream(result, stream);
+        if (extended) Game.Engine.Storage.EReadStorageStream.StringsFromStreamEx(result, stream);
+        else Game.Engine.Storage.EReadStorageStream.StringsFromStream(result, stream);
         Assert.Equal(2, result.Count);
         Assert.Equal("\u20AC\u00FF", result[0]);
         Assert.Equal("tail", result[1]);

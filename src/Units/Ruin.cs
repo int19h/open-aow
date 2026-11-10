@@ -25,7 +25,7 @@ public partial class Ruin : ItemExplorationSite
         public override int ResourceUserClassID() => 131994;
 
         // Ruin.pas:37
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CastleRuinRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(CastleRuinRStr);
 
         private static readonly string CastleRuinRStr = "Castle Ruin";
 

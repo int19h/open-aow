@@ -69,13 +69,13 @@ public partial class WizardsTowerDlg : DataModule
             Event.Release();
         }
 
-        Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(69, true, true);
+        AoWHSMap.Current.FTutorialControl.ShowMessage(69, true, true);
     }
 
     // AoWWizardsTowerDlg.pas:67
     public void CancelBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -83,10 +83,10 @@ public partial class WizardsTowerDlg : DataModule
     public void BuyBtnClick()
     {
         string Reason = "";
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (!FEvent.FTower.Buy(AoWHSMap.Current.FSeatedPlayer, ref Reason))
         {
-            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(Reason);
         }
         else
         {
@@ -109,7 +109,7 @@ public partial class WizardsTowerDlg : DataModule
         var wizardsTower = FEvent.FTower;
         if (wizardsTower.FSpellID != 0)
         {
-            S = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(wizardsTower.FSpellID);
+            S = AoWHSSet.Current.FSpellControl.GetSpell(wizardsTower.FSpellID);
             if (S != null)
             {
                 if (S.FCastImages.GetImageSequence(10) != null)
@@ -142,15 +142,15 @@ public partial class WizardsTowerDlg : DataModule
         if (Tower.FSpellID != 0)
         {
             var buyCost = Dialog.FEvent.FTower.BuyCost();
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ForXGoldRStr), [IntToStr(buyCost)]);
+            var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.ForXGoldRStr), [IntToStr(buyCost)]);
             Dialog.PriceLbl.Text = format + ".";
-            Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Tower.FSpellID);
+            Spell = AoWHSSet.Current.FSpellControl.GetSpell(Tower.FSpellID);
             Dialog.SpellName.Text = Spell.FSpellName;
-            var magicSphere = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-            var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LevelRStr);
+            var magicSphere = AbilityRules.TranslateRStr(GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
+            var level = AbilityRules.TranslateRStr(GameText.LevelRStr);
             Dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
-            var castingCost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CastingCostRStr);
-            var mana = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ManaRStr);
+            var castingCost = AbilityRules.TranslateRStr(GameText.CastingCostRStr);
+            var mana = AbilityRules.TranslateRStr(GameText.ManaRStr);
             Dialog.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
             var text = Spell.FSpellText.Text;
             Dialog.ResearchMemo.Items.Text = text;
@@ -158,7 +158,7 @@ public partial class WizardsTowerDlg : DataModule
         else
         {
             Dialog.PriceLbl.Text = "";
-            var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.NoneRStr);
+            var none = AbilityRules.TranslateRStr(GameTables.NoneRStr);
             Dialog.SpellName.Text = none;
             Dialog.SpellClass.Text = "";
             Dialog.SpellCost.Text = "";

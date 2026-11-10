@@ -199,14 +199,14 @@ public partial class PlayerSetupSettings : EObject
     private static SetupPlayerBehavior DefaultBehavior = new SetupPlayerBehavior
     {
         PlayerType = 0,
-        Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
     private static SetupPlayerBehavior DefaultOriginalBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
-        Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
@@ -467,11 +467,11 @@ public partial class SetupControl : Component
         Stream = new MemoryStream();
         try
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.StoreEObject(Stream, Package, null);
+            GameTables.AoWEngine.StoreEObject(Stream, Package, null);
             var size = (int)Stream.Length;
             SendData(Stream.GetBuffer(), size, Recipient);
             var streamSize = (int)Stream.Length;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, "SetupPackage Send (ID:" + IntToStr(Package.FMessageID) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(Recipient));
+            GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, "SetupPackage Send (ID:" + IntToStr(Package.FMessageID) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(Recipient));
         }
         finally
         {
@@ -538,11 +538,11 @@ public partial class SetupControl : Component
         Stream.Position = 0;
         try
         {
-            Obj = Aow.Game.Magic.Abilities.GameTables.AoWEngine.RetrieveEObject(Stream, null);
+            Obj = GameTables.AoWEngine.RetrieveEObject(Stream, null);
             if (Obj is SetupPackage)
             {
                 var size = (int)Stream.Length;
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
+                GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
                 PackageReceived((SetupPackage)Obj, SenderID);
             }
 
@@ -591,8 +591,8 @@ public partial class SetupControl : Component
             }
             else
             {
-                var minorVersion = Aow.Game.Magic.Abilities.GameTables.AoWEngine.GetMinorVersion();
-                SendMessage(9, null, Aow.Game.Magic.Abilities.GameTables.AoWEngine.GetMajorVersion(), minorVersion, Player.FRemoteID);
+                var minorVersion = GameTables.AoWEngine.GetMinorVersion();
+                SendMessage(9, null, GameTables.AoWEngine.GetMajorVersion(), minorVersion, Player.FRemoteID);
             }
         }
     }
@@ -711,7 +711,7 @@ public partial class SetupControl : Component
             if (condition)
             {
                 var size = (int)FStream.Length;
-                condition = Aow.Game.Engine.Nodes.EngineServices.GetCRC32(FStream.GetBuffer(), size) == FSettings.FMapCRC;
+                condition = EngineServices.GetCRC32(FStream.GetBuffer(), size) == FSettings.FMapCRC;
             }
 
             if (condition)
@@ -896,7 +896,7 @@ public partial class SetupControl : Component
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads, for an own document as for an original (own-formats.md 4.1).
-            Stream = global::Aow.Game.Engine.Engine.ImageStream(FileBoundary.LoadOrRaise(GameTables.AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
+            Stream = Engine.Engine.ImageStream(FileBoundary.LoadOrRaise(GameTables.AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
             if (FOnSendMap != null)
             {
                 var size = (int)Stream.Length;
@@ -1125,7 +1125,7 @@ public partial class SetupControl : Component
                     break;
             }
 
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, S);
+            GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, S);
         }
     }
 
@@ -1133,9 +1133,9 @@ public partial class SetupControl : Component
     public void RemoveIndependentPlayers()
     {
         Player Player;
-        for (int I = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I >= 1; I--)
+        for (int I = AoWHSMap.Current.FPlayers.GetCount() - 1; I >= 1; I--)
         {
-            Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
+            Player = AoWHSMap.Current.FPlayers.GetPlayers(I);
             if (Player.FPlayerType == PlayerType.Independent)
             {
                 for (int J = Player.FStructures.GetCount() - 1; J >= 0; J--)
@@ -1165,12 +1165,12 @@ public partial class SetupControl : Component
         for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
         {
             var settingPlayerID = FSettings.GetSettings(I);
-            Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)settingPlayerID.FPlayerID);
+            Player = AoWHSMap.Current.FPlayers.GetPlayers((sbyte)settingPlayerID.FPlayerID);
             Player.FPlayerType = (PlayerType)FSettings.GetSettings(I).FBehavior.PlayerType;
             Player.FBehavior = (Player.Behavior)FSettings.GetSettings(I).FBehaviorMode;
             if (FSettings.FConnectionType == 2)
             {
-                var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+                var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
                 if (CompareText(FSettings.GetSettings(I).FEmailAddress, localEmailAddress) != 0)
                 {
                     var setting = FSettings.GetSettings(I);
@@ -1180,7 +1180,7 @@ public partial class SetupControl : Component
                 else
                 {
                     var setting = FSettings.GetSettings(I);
-                    var emailGame = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FEmailGames.CreateEmailGame(FSettings.FEmailGameName, setting.FEmailAddress);
+                    var emailGame = GameTables.AoWEngine.FEmailGames.CreateEmailGame(FSettings.FEmailGameName, setting.FEmailAddress);
                     Player.FPBEMSettings.SetGame(emailGame);
                 }
             }
@@ -1212,7 +1212,7 @@ public partial class SetupControl : Component
         if (GetRemote())
         {
             RemotePCC = new RemotePCC();
-            RemotePCC.Setup(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount(), FRemotePlayer.FRemoteID);
+            RemotePCC.Setup(AoWHSMap.Current.FPlayers.GetCount(), FRemotePlayer.FRemoteID);
             RemotePCC.SetConnectionMode(0, ConnectionMode.Global);
             RemotePCC.SetSystemID(0, FRemotePlayer.FRemoteID);
             for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
@@ -1238,7 +1238,7 @@ public partial class SetupControl : Component
                 }
             }
 
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(RemotePCC);
+            AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(RemotePCC);
             RemotePCC.OnSendData = FOnSendData;
             ListPCCInfo(RemotePCC);
             RemotePCC.Release();
@@ -1246,7 +1246,7 @@ public partial class SetupControl : Component
         else
         {
             LocalPCC = new LocalPCC();
-            LocalPCC.Setup(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount());
+            LocalPCC.Setup(AoWHSMap.Current.FPlayers.GetCount());
             LocalPCC.SetConnectionMode(0, ConnectionMode.Global);
             for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
             {
@@ -1260,7 +1260,7 @@ public partial class SetupControl : Component
                 }
             }
 
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(LocalPCC);
+            AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(LocalPCC);
             ListPCCInfo(LocalPCC);
             LocalPCC.Release();
         }
@@ -1270,8 +1270,8 @@ public partial class SetupControl : Component
             AoWHSMap.Current.FInitialRandomSeed = FSettings.FRandomSeed;
             AoWHSMap.Current.FFixedLeaders = FSettings.FLeadersOnMap;
             AoWHSMap.Current.FAlliedVictory = FSettings.FAlliedVictory;
-            Aow.Game.World.Map.AoWHSMap.Current.SetExplorationEnabled(FSettings.FExplorationEnabled);
-            Aow.Game.World.Map.AoWHSMap.Current.SetFogEnabled(true);
+            AoWHSMap.Current.SetExplorationEnabled(FSettings.FExplorationEnabled);
+            AoWHSMap.Current.SetFogEnabled(true);
         }
 
         AoWHSMap.Current.FDayLimit = FSettings.FDayLimit;
@@ -1280,7 +1280,7 @@ public partial class SetupControl : Component
         AoWHSMap.Current.FLeadersFixed = FSettings.FCustomizeLeaders;
         AoWHSMap.Current.FStartingGame = FSettings.FAlwaysViewTC;
         RemoveIndependentPlayers();
-        Aow.Game.World.Map.AoWHSMap.Current.SetupPlayerControl((PlayMode)FSettings.FPlayMode, (PlayerConnectionType)FSettings.FConnectionType);
+        AoWHSMap.Current.SetupPlayerControl((PlayMode)FSettings.FPlayMode, (PlayerConnectionType)FSettings.FConnectionType);
         if (FOnSetupMap != null)
         {
             try
@@ -1507,28 +1507,28 @@ public partial class SetupControl : Component
     {
         if (GetRemote())
         {
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[5]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[5]));
             for (int I = 0, last = FSettings.FRemotePlayers.Count - 1; I <= last; I++)
             {
                 List.Add(FSettings.FRemotePlayers.GetPlayers(I).FName);
             }
 
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[1]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[2]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[3]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[6]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[7]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[4]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[1]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[2]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[3]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[6]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[7]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[4]));
         }
         else
         {
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[0]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[1]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[2]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[3]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[6]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[7]));
-            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[4]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[0]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[1]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[2]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[3]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[6]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[7]));
+            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[4]));
         }
     }
 
@@ -1599,7 +1599,7 @@ public partial class SetupControl : Component
             PlayerType = 0;
             while (!Result && PlayerType <= 7)
             {
-                if (CompareText(Name, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[PlayerType])) == 0)
+                if (CompareText(Name, AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[PlayerType])) == 0)
                 {
                     Result = true;
                     Behavior.PlayerType = PlayerType;
@@ -1928,10 +1928,10 @@ public partial class SetupControl : Component
         bool FirstHuman = default;
         PlayerSetupSettings Settings = default;
         AoWHSMap Preview;
-        Preview = (AoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
+        Preview = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
         if (GetHost() && Preview != null && (!GameTables.AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != PlayerConnectionType.Email)
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.InitializeHSSet(GameTables.AoWEngine.StartupDirectory + Preview.HSSFileName, null);
+            GameTables.AoWEngine.InitializeHSSet(GameTables.AoWEngine.StartupDirectory + Preview.HSSFileName, null);
             Randomize();
             FSettings.Clear();
             FSettings.FMapName = FileName;
@@ -2136,14 +2136,14 @@ public partial class SetupControl : Component
     private static SetupPlayerBehavior CPUBehavior = new SetupPlayerBehavior
     {
         PlayerType = 1,
-        Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
     private static SetupPlayerBehavior FreeBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
-        Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 

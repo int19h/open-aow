@@ -278,7 +278,7 @@ public sealed class LeftoverConstructionTests
 
     private static EObject Saved(Type type, ECustomNode owner)
     {
-        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         using var engine = new Engine(null!);
         var descriptor = EClass.Of(type);
         engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);

@@ -29,7 +29,7 @@ public static class CombatClasses
 {
     public static void Register(Engine.Engine AEngine)
     {
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisterEClasses([EClass.Of<AoWCombatMap>(), EClass.Of<AoWCombatMapLevel>(), EClass.Of<UnitPositionHS>(), EClass.Of<TacticalCombat>()]);
+        GameTables.AoWEngine.RegisterEClasses([EClass.Of<AoWCombatMap>(), EClass.Of<AoWCombatMapLevel>(), EClass.Of<UnitPositionHS>(), EClass.Of<TacticalCombat>()]);
         (AEngine).RegisterEClasses([EClass.Of<CombatILTerrain>(), EClass.Of<CombatILTerrainResource>(), EClass.Of<CombatFixedILTerrain>(), EClass.Of<CombatFixedILTerrain.Resource>()]);
         (AEngine).RegisterEClasses([EClass.Of<CombatHexagon.Resource>(), EClass.Of<CombatHexagon>(), EClass.Of<WaterCombatHexagon>(), EClass.Of<WaterCombatHexagon.Resource>()]);
         (AEngine).RegisterEClasses([EClass.Of<CombatRoad.Resource>(), EClass.Of<CombatRoad>()]);

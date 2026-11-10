@@ -214,7 +214,7 @@ public sealed class UncheckedOwnerCastTests
         var caster = new DisjunctionSpellCaster(null!) { FCasterSourceID = 42, FEnchantmentID = 7 };
         string reason = "";
         Assert.False(caster.CanCast(ref reason));
-        Assert.Equal(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveRStr), reason);
+        Assert.Equal(AbilityRules.TranslateRStr(DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveRStr), reason);
 
         scope.Map.FGlobalMagicControl.FActiveEnchantments = Set<GlobalEnchantmentType>.Of();
         Assert.True(caster.CanCast(ref reason));
