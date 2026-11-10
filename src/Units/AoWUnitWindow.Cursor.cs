@@ -1,8 +1,7 @@
 #nullable disable
-using Aow.Platform;
-using Aow.Rtl;
+using Aow.Game.Host;
 
-namespace Aow.Units.AoWUnitWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TUnitWindow
 {

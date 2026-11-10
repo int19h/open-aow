@@ -1,13 +1,11 @@
 // Translated from AoWEdit.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWEdit;
+namespace Aow.Game.Ui.Controls;
 
 // { The AoWEdit unit of aowInt.dpl: TAOWEdit, a one-line edit box drawn from an edit library (a
 //   horizontal line of three images) with its text in AOWFont. It scrolls the text so that the

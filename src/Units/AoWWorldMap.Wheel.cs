@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWWorldMap;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TWorldMap
 {

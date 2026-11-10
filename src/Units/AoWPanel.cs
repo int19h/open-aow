@@ -1,13 +1,12 @@
 // Translated from AoWPanel.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWBaseWin;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWTabPanel;
-using Aow.Units.AoWWinControl;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWPanel;
+namespace Aow.Game.Ui.Windows;
 
 // { The AoWPanel unit of aowInt.dpl: TAOWPanel, a window inside a window (AOWWindow), drawn into
 //   its owner's surface. Its controls are positioned relative to it: while it updates, draws or

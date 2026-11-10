@@ -1,6 +1,5 @@
-using Aow.Units.AoWE;
-using Aow.Units.AoWTC;
-using Aow.Units.HSEngine;
+using Aow.Game.Combat;
+using Aow.Game.World.Map;
 
 namespace Aow.Headless;
 

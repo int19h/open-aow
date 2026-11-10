@@ -1,11 +1,10 @@
 #nullable disable
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.World.Map;
 
-namespace Aow.Units.IsoHex;
+namespace Aow.Game.World.Hexes;
 
 public partial class TUpperIsometricHexagon
 {

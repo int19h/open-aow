@@ -1,5 +1,10 @@
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Unit;
 
 namespace Aow.Units.Tests;
 
@@ -134,10 +139,10 @@ public sealed partial class SpellConstructionTests
     }
 
     [Theory]
-    [InlineData(typeof(Aow.Units.HolyG.THolyGroundSpell))]
-    [InlineData(typeof(Aow.Units.UnHolyG.TUnholyGroundSpell))]
-    [InlineData(typeof(Aow.Units.Mountain.TRaiseTerrain))]
-    [InlineData(typeof(Aow.Units.PoisonP.TPoisonPlantSpell))]
+    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.THolyGroundSpell))]
+    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.TUnholyGroundSpell))]
+    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.TRaiseTerrain))]
+    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.TPoisonPlantSpell))]
     public void ConvertedGlobalTargetDescendantsUseCompletedConstruction(Type type)
     {
         using var fixture = new Fixture();

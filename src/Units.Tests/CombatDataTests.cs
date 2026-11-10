@@ -1,5 +1,7 @@
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
+using Aow.Game.Combat;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
 
 namespace Aow.Units.Tests;
 

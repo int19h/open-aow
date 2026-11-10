@@ -2,11 +2,13 @@ using System.Collections;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Spells;
+using Aow.Game.World;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -31,27 +33,27 @@ public sealed class RemainingConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWHSSet previousSet = Game.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Game.AoWEngine;
-        private readonly TAoWHSMap previousMap = Game.AoWHSMap;
+        private readonly TAoWHSSet previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
+        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TMapObjectResourceList CombatResources = new TMapObjectResourceList(null!);
 
         internal Fixture()
         {
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
-            Game.AoWHSSet = set;
-            Game.AoWEngine = null!;
-            Game.AoWHSMap = null!;
-            Game.AoWHSSet.FUnitGFXResources = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            Game.AoWHSSet = previousSet;
-            Game.AoWEngine = previousEngine;
-            Game.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
         }
@@ -95,109 +97,109 @@ public sealed class RemainingConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Units.EList.TListObject",
-        "Aow.Units.AGCPlugins.TAIGroupRazeControl",
-        "Aow.Units.AGCPlugins.TAIGroupDefendTargetSelector",
-        "Aow.Units.AGCPlugins.TAIGroupWanderControl",
-        "Aow.Units.AoWComp.TAOWAlignment",
-        "Aow.Units.AoWComp.TaowRect",
-        "Aow.Units.aowFX.TXYZ",
-        "Aow.Units.aowFX.TXYZList",
-        "Aow.Units.AoWHTMLMemo.TChangeInfo",
-        "Aow.Units.AoWMemo.TColorChange",
-        "Aow.Units.AoWSetup.TSetupPackage",
-        "Aow.Units.AoWSetup.TRemotePlayer",
-        "Aow.Units.AoWSetup.TRemotePlayerList",
-        "Aow.Units.AoWSetup.TPlayerSetupSettings",
-        "Aow.Units.AoWSetup.TSetupSettings",
-        "Aow.Units.AoWSetup.TCustomizeLeaderControl",
-        "Aow.Units.AoWTC.TTCAbility",
-        "Aow.Units.AoWTC.TROb",
-        "Aow.Units.AoWTC.TaiMove",
-        "Aow.Units.AoWTC.TCAI",
-        "Aow.Units.AoWTC.TUnitPositionControl",
-        "Aow.Units.AoWTC.TCombatMoveControlSettings",
-        "Aow.Units.AoWTC.TTacticalCombatUnit",
-        "Aow.Units.AoWTC.TTacticalCombatPlayer",
-        "Aow.Units.AoWTC.TTacticalCombatPlayerList",
-        "Aow.Units.AoWTC.TTacticalCombat",
-        "Aow.Units.AoWTC.TRndTacHsm",
-        "Aow.Units.AoWVideoDlg.TWMCampaignScenarioPage",
-        "Aow.Units.AoWVideoDlg.TWMCampaignScenarioPageList",
-        "Aow.Units.AoWVideoDlg.TWMCampaignScenario",
-        "Aow.Units.AoWVideoDlg.TWMCampaign",
-        "Aow.Units.AoWWorldMap.TFileTime",
-        "Aow.Units.BehaviorAG.TAbstractBehaviorAG",
-        "Aow.Units.BehaviorAG.TAbstractBehaviorAGC",
-        "Aow.Units.BehaviorAG.TSkirmishAG",
-        "Aow.Units.BehaviorAG.TSkirmishAGC",
-        "Aow.Units.BehaviorAG.TNormalAG",
-        "Aow.Units.BehaviorAG.TNormalAGC",
-        "Aow.Units.BehaviorAG.TDefenderAG",
-        "Aow.Units.BehaviorAG.TDefenderAGC",
-        "Aow.Units.BehaviorAG.TAggressorAG",
-        "Aow.Units.BehaviorAG.TAggressorAGC",
-        "Aow.Units.BehaviorAG.TExpanderAG",
-        "Aow.Units.BehaviorAG.TExpanderAGC",
-        "Aow.Units.BehaviorAG.TScorcherAG",
-        "Aow.Units.BehaviorAG.TScorcherAGC",
-        "Aow.Units.City.TCityProductionControl",
-        "Aow.Units.City.TMigrationItem",
-        "Aow.Units.City.TMigrationList",
-        "Aow.Units.City.TCityEnchantment",
-        "Aow.Units.City.TAICityUpgradeBudget",
-        "Aow.Units.City.TAICityResearchBudget",
-        "Aow.Units.City.TAICityFortifyBudget",
-        "Aow.Units.City.TCityAIPA",
-        "Aow.Units.Dungeon.TPrisonersArmy",
-        "Aow.Units.EventLog.TExecuteEventLogCallBackList",
-        "Aow.Units.EventLog.TEventLogList",
-        "Aow.Units.EventLog.TEventLogbook",
-        "Aow.Units.ExploreS.TDefendersArmy",
-        "Aow.Units.HashTabU.TIntegerHashList",
-        "Aow.Units.HashTabU.TIntegerHashTable256",
-        "Aow.Units.HashTabU.TStringHashList",
-        "Aow.Units.HashTabU.TStringHashTable256",
-        "Aow.Units.IndependentAG.TGuardAG",
-        "Aow.Units.IndependentAG.TGuardAGC",
-        "Aow.Units.IndependentAG.TGuardAreaAG",
-        "Aow.Units.IndependentAG.TGuardAreaAGC",
-        "Aow.Units.IndependentAG.TPatrolAG",
-        "Aow.Units.IndependentAG.TPatrolAGC",
-        "Aow.Units.IndependentAG.TRefugeAG",
-        "Aow.Units.IndependentAG.TRefugeAGC",
-        "Aow.Units.IndependentAG.TRaidAG",
-        "Aow.Units.IndependentAG.TRaidAGC",
-        "Aow.Units.IndependentAG.TScoutAG",
-        "Aow.Units.IndependentAG.TScoutAGC",
-        "Aow.Units.ItemExpS.TExplorationSiteItemList",
-        "Aow.Units.ItemGrid.TItemListView",
-        "Aow.Units.MainAG.TPassiveAG",
-        "Aow.Units.MainAG.TPassiveAGC",
-        "Aow.Units.MainAG.TFortifyAG",
-        "Aow.Units.MainAG.TFortifyAGC",
-        "Aow.Units.MainAG.TSuicidalAG",
-        "Aow.Units.MainAG.TSuicidalAGC",
-        "Aow.Units.MainAG.TTransportAG",
-        "Aow.Units.MainAG.TTransportAGC",
-        "Aow.Units.ManaCrystals.TCrystalMagic",
-        "Aow.Units.PageTurnCtrl.TPageTurnControl",
-        "Aow.Units.PrdPlace.TProductionPlaceControl",
-        "Aow.Units.Shipyard.TShipyardConstructionControl",
-        "Aow.Units.SmokeCloud.TSmokeCloudEnchantment",
-        "Aow.Units.Storms.TStormSpell",
-        "Aow.Units.Storms.TFireStormSpell",
-        "Aow.Units.Storms.TDivineStormSpell",
-        "Aow.Units.Storms.TDeathStormSpell",
-        "Aow.Units.Storms.TIceStormSpell",
-        "Aow.Units.Storms.TLightningStormSpell",
-        "Aow.Units.Storms.TPestilenceStormSpell",
-        "Aow.Units.Tower.TTowerConstructionControl",
-        "Aow.Units.UnitIDlg.TUnitView",
+        "Aow.Game.Engine.Collections.TListObject",
+        "Aow.Game.Ai.Groups.TAIGroupRazeControl",
+        "Aow.Game.Ai.Groups.TAIGroupDefendTargetSelector",
+        "Aow.Game.Ai.Groups.TAIGroupWanderControl",
+        "Aow.Game.Ui.Controls.TAOWAlignment",
+        "Aow.Game.Ui.Controls.TaowRect",
+        "Aow.Game.Draw.TXYZ",
+        "Aow.Game.Draw.TXYZList",
+        "Aow.Game.Ui.Windows.TChangeInfo",
+        "Aow.Game.Ui.Controls.TColorChange",
+        "Aow.Game.Session.TSetupPackage",
+        "Aow.Game.Session.TRemotePlayer",
+        "Aow.Game.Session.TRemotePlayerList",
+        "Aow.Game.Session.TPlayerSetupSettings",
+        "Aow.Game.Session.TSetupSettings",
+        "Aow.Game.Session.TCustomizeLeaderControl",
+        "Aow.Game.Combat.TTCAbility",
+        "Aow.Game.Combat.TROb",
+        "Aow.Game.Combat.TaiMove",
+        "Aow.Game.Combat.TCAI",
+        "Aow.Game.Combat.TUnitPositionControl",
+        "Aow.Game.Combat.TCombatMoveControlSettings",
+        "Aow.Game.Combat.TTacticalCombatUnit",
+        "Aow.Game.Combat.TTacticalCombatPlayer",
+        "Aow.Game.Combat.TTacticalCombatPlayerList",
+        "Aow.Game.Combat.TTacticalCombat",
+        "Aow.Game.Combat.TRndTacHsm",
+        "Aow.Game.Ui.Dialogs.TWMCampaignScenarioPage",
+        "Aow.Game.Ui.Dialogs.TWMCampaignScenarioPageList",
+        "Aow.Game.Session.TWMCampaignScenario",
+        "Aow.Game.Session.TWMCampaign",
+        "Aow.Game.Ui.Controls.TFileTime",
+        "Aow.Game.Ai.Groups.TAbstractBehaviorAG",
+        "Aow.Game.Ai.Groups.TAbstractBehaviorAGC",
+        "Aow.Game.Ai.Groups.TSkirmishAG",
+        "Aow.Game.Ai.Groups.TSkirmishAGC",
+        "Aow.Game.Ai.Groups.TNormalAG",
+        "Aow.Game.Ai.Groups.TNormalAGC",
+        "Aow.Game.Ai.Groups.TDefenderAG",
+        "Aow.Game.Ai.Groups.TDefenderAGC",
+        "Aow.Game.Ai.Groups.TAggressorAG",
+        "Aow.Game.Ai.Groups.TAggressorAGC",
+        "Aow.Game.Ai.Groups.TExpanderAG",
+        "Aow.Game.Ai.Groups.TExpanderAGC",
+        "Aow.Game.Ai.Groups.TScorcherAG",
+        "Aow.Game.Ai.Groups.TScorcherAGC",
+        "Aow.Game.World.Structures.TCityProductionControl",
+        "Aow.Game.Units.TMigrationItem",
+        "Aow.Game.World.Structures.TMigrationList",
+        "Aow.Game.World.Structures.TCityEnchantment",
+        "Aow.Game.Ai.TAICityUpgradeBudget",
+        "Aow.Game.Ai.TAICityResearchBudget",
+        "Aow.Game.Ai.TAICityFortifyBudget",
+        "Aow.Game.Ai.TCityAIPA",
+        "Aow.Game.Units.TPrisonersArmy",
+        "Aow.Game.Events.TExecuteEventLogCallBackList",
+        "Aow.Game.Events.TEventLogList",
+        "Aow.Game.Events.TEventLogbook",
+        "Aow.Game.World.Structures.TDefendersArmy",
+        "Aow.Game.Engine.Hash.TIntegerHashList",
+        "Aow.Game.Engine.Hash.TIntegerHashTable256",
+        "Aow.Game.Engine.Hash.TStringHashList",
+        "Aow.Game.Engine.Hash.TStringHashTable256",
+        "Aow.Game.Ai.Groups.TGuardAG",
+        "Aow.Game.Ai.Groups.TGuardAGC",
+        "Aow.Game.Ai.Groups.TGuardAreaAG",
+        "Aow.Game.Ai.Groups.TGuardAreaAGC",
+        "Aow.Game.Ai.Groups.TPatrolAG",
+        "Aow.Game.Ai.Groups.TPatrolAGC",
+        "Aow.Game.Ai.Groups.TRefugeAG",
+        "Aow.Game.Ai.Groups.TRefugeAGC",
+        "Aow.Game.Ai.Groups.TRaidAG",
+        "Aow.Game.Ai.Groups.TRaidAGC",
+        "Aow.Game.Ai.Groups.TScoutAG",
+        "Aow.Game.Ai.Groups.TScoutAGC",
+        "Aow.Game.Units.TExplorationSiteItemList",
+        "Aow.Game.Ui.Grids.TItemListView",
+        "Aow.Game.Ai.Groups.TPassiveAG",
+        "Aow.Game.Ai.Groups.TPassiveAGC",
+        "Aow.Game.Ai.Groups.TFortifyAG",
+        "Aow.Game.Ai.Groups.TFortifyAGC",
+        "Aow.Game.Ai.Groups.TSuicidalAG",
+        "Aow.Game.Ai.Groups.TSuicidalAGC",
+        "Aow.Game.Ai.Groups.TTransportAG",
+        "Aow.Game.Ai.Groups.TTransportAGC",
+        "Aow.Game.World.Terrain.TCrystalMagic",
+        "Aow.Game.Ui.Grids.TPageTurnControl",
+        "Aow.Game.World.Structures.TProductionPlaceControl",
+        "Aow.Game.World.Structures.TShipyardConstructionControl",
+        "Aow.Game.Magic.Spells.TSmokeCloudEnchantment",
+        "Aow.Game.Magic.Spells.TStormSpell",
+        "Aow.Game.Magic.Spells.TFireStormSpell",
+        "Aow.Game.Magic.Spells.TDivineStormSpell",
+        "Aow.Game.Magic.Spells.TDeathStormSpell",
+        "Aow.Game.Magic.Spells.TIceStormSpell",
+        "Aow.Game.Magic.Spells.TLightningStormSpell",
+        "Aow.Game.Magic.Spells.TPestilenceStormSpell",
+        "Aow.Game.World.Structures.TTowerConstructionControl",
+        "Aow.Game.Magic.Abilities.TUnitView",
     ];
 
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
-    public static IEnumerable<object[]> GuardedClasses => Names.Where(name => name.StartsWith("Aow.Units.Storms.", StringComparison.Ordinal)).Select(name => new object[] { name });
+    public static IEnumerable<object[]> GuardedClasses => Names.Where(name => name.StartsWith("Aow.Game.Magic.Spells.", StringComparison.Ordinal) && name.EndsWith("StormSpell", StringComparison.Ordinal)).Select(name => new object[] { name });
 
     private static object? Invoke(Func<object?> action)
     {
@@ -225,7 +227,7 @@ public sealed class RemainingConstructionTests
         }
         if (route == 3)
         {
-            var meta = Aow.Units.Engine.EClass.Of(type);
+            var meta = Aow.Game.Engine.EClass.Of(type);
             return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
@@ -279,9 +281,9 @@ public sealed class RemainingConstructionTests
     [Fact]
     public void ListObjectMetaclassCreatesTheExactType()
     {
-        var value = new Aow.Units.EList.TListObject();
-        Assert.IsType<Aow.Units.EList.TListObject>(value);
-        Assert.Equal(Snapshot(new Aow.Units.EList.TListObject()), Snapshot(value));
+        var value = new Aow.Game.Engine.Collections.TListObject();
+        Assert.IsType<Aow.Game.Engine.Collections.TListObject>(value);
+        Assert.Equal(Snapshot(new Aow.Game.Engine.Collections.TListObject()), Snapshot(value));
         value.Dispose();
     }
 

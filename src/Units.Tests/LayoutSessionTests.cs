@@ -1,7 +1,6 @@
 using System.Reflection;
-using Aow.Layout;
-using Aow.Rtl;
-using Aow.Units.AoWLabel;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Controls;
 
 namespace Aow.Units.Tests;
 

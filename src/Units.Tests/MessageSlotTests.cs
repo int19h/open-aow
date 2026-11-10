@@ -1,7 +1,10 @@
 using System.Reflection;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 
 namespace Aow.Units.Tests;
 

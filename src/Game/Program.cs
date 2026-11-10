@@ -1,6 +1,6 @@
 using Aow.Platform;
 
-namespace Aow.Game;
+namespace Aow;
 
 internal static class Program
 {
@@ -20,7 +20,7 @@ internal static class Program
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
                 var log = fileLog = new StreamWriter(Path.GetFullPath(fileLogPath), false, new System.Text.UTF8Encoding(false));
-                Aow.Units.FileBoundary.Log = record => { log.Write(record.ToJson() + "\n"); log.Flush(); };
+                Aow.Game.Saves.FileBoundary.Log = record => { log.Write(record.ToJson() + "\n"); log.Flush(); };
             }
             string root = Value(args, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
             if (args.Contains("--verify")) return Verification.Run(root, Value(args, "--source-root"));
@@ -59,7 +59,7 @@ internal static class Program
         catch (System.Exception error) { Console.Error.WriteLine(error.ToString()); return 1; }
         finally
         {
-            Aow.Units.FileBoundary.Log = null;
+            Aow.Game.Saves.FileBoundary.Log = null;
             fileLog?.Dispose();
         }
     }

@@ -1,11 +1,12 @@
 // Translated from PageTurnCtrl.pas.
 using System.Runtime.InteropServices;
+using Aow.Game.Draw;
+using Aow.Game.Engine.Buffers;
 using Aow.Rtl;
-using Aow.Units.GFXE;
+using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.PageTurnCtrl;
+namespace Aow.Game.Ui.Grids;
 
 [LegacyObject]
 public partial class TPageTurnControl

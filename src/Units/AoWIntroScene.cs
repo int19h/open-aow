@@ -1,11 +1,11 @@
 // Translated from AoWIntroScene.pas.
+using Aow.Game.Audio;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AowUserWindow;
-using Aow.Units.E2DirectSound;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Game.Session.E2GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 
-namespace Aow.Units.AoWIntroScene;
+namespace Aow.Game.Ui.Dialogs;
 
 // sound buffer, buffer size, DirectSound, stream position
 public partial class TIntroScene : TDataModule

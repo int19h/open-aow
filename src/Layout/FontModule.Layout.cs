@@ -1,10 +1,10 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
+using Aow.Game.Draw.Images;
+using Aow.Game.Layout;
 using Aow.Rtl;
-using Aow.Units.ImageLib;
 
-namespace Aow.Units.FontMod;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TFontModule : ILayoutModule
 {

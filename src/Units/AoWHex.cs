@@ -1,19 +1,19 @@
 // Translated from AoWHex.pas.
 using System.Runtime.InteropServices;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.BorderHx;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.Hexagon;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Aow.Units.IsoHex;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.AoWHex;
+namespace Aow.Game.World.Hexes;
 
 // inherited transition images [0.2], side flags
 public partial class TAoWHexagon : THexagon
@@ -24,7 +24,7 @@ public partial class TAoWHexagon : THexagon
     // AoWHex.pas:119
     public override void ChangeTerrain(in THSTerrainInfo Msg)
     {
-        TMapObjectResource R;
+        Aow.Game.World.TMapObjectResource R;
         if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
         {
             var classID = FResource.EClass.ClassID;

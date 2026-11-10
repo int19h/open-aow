@@ -1,11 +1,13 @@
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Summon;
 
 namespace Aow.Units.Tests;
 
@@ -38,21 +40,21 @@ public sealed partial class SpellConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWHSSet previousSet = Game.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Game.AoWEngine;
+        private readonly TAoWHSSet previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
 
         internal Fixture()
         {
             var set = EngineFixture.CreateGameSet(Manager);
-            Game.AoWHSSet = set;
-            Game.AoWEngine = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = null!;
         }
 
         public void Dispose()
         {
-            Game.AoWHSSet = previousSet;
-            Game.AoWEngine = previousEngine;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
             Manager.Dispose();
         }
     }
@@ -158,7 +160,7 @@ public sealed partial class SpellConstructionTests
                     allocated.Add(value);
                     Assert.IsType(type, value);
                     Assert.Same(argument, value.Owner);
-                    Assert.Same(Aow.Units.Engine.EClass.Of(type), value.EClass);
+                    Assert.Same(Aow.Game.Engine.EClass.Of(type), value.EClass);
                     ConstructionSnapshot.Check("SpellConstruction", name, SuccessSnapshot(value), "State");
                     if (owned) ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
                     if (value is TSpell spell)
@@ -206,7 +208,7 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void InheritOnlyExclusiveActionHasItsOwnExactCreationRoutes()
     {
-        Type type = typeof(Aow.Units.CombatSpells.TExclusiveCombatSpellCA);
+        Type type = typeof(Aow.Game.Combat.Actions.TExclusiveCombatSpellCA);
         var owner = new SpellOwner();
         for (int route = 0; route < 4; route++)
         {
@@ -234,7 +236,7 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void SummonConstructionInitializesItsSpellState()
     {
-        var raw = new Aow.Units.SummonSpells.TSummonSpell(null!);
+        var raw = new Aow.Game.Magic.Spells.Summon.TSummonSpell(null!);
         Assert.NotNull(raw.FSpellText);
         Assert.NotNull(raw.FUnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null!));

@@ -2,14 +2,16 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Aow.Formats.Tree;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Session;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.EventLog;
+namespace Aow.Game.Events;
 
 public enum TSaveGameEventLogModeElement : byte
 {

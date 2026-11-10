@@ -1,19 +1,14 @@
 // Translated from E2WindowLayout.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AoWInfoWin;
-using Aow.Units.AoWPInfoWin;
-using Aow.Units.AoWRealm;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AoWTCUnit;
-using Aow.Units.AoWUnitWindow;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
 
-namespace Aow.Units.E2WindowLayout;
+namespace Aow.Game.Ui.Dialogs;
 
 public static partial class E2WindowLayoutUnit
 {

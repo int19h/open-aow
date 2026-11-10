@@ -1,11 +1,11 @@
 #nullable disable
-using Aow.Platform;
+using Aow.Game.Draw;
+using Aow.Game.Host;
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using static Aow.Units.DisplayC.TDisplayOptionsElement;
-using static Aow.Units.DisplayC.TDisplayStatusElement;
+using static Aow.Game.Draw.TDisplayOptionsElement;
+using static Aow.Game.Draw.TDisplayStatusElement;
 
-namespace Aow.Units.DisplayC;
+namespace Aow.Game.Draw;
 
 public partial class TCustomDisplay
 {

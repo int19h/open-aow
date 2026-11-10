@@ -1,12 +1,11 @@
 // Translated from AOWWinManager.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AOWWinManager;
+namespace Aow.Game.Ui.Controls;
 
 // { The AOWWinManager unit of aowInt.dpl: TAOWWinManager, the root of a screen of AoW windows. It
 //   owns the windows (its children, sorted by priority), draws the background and foreground

@@ -1,8 +1,8 @@
+using Aow.Game.Draw;
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using TPageTurnMode = Aow.Units.PageTurnCtrl.TPageTurnMode;
+using TPageTurnMode = Aow.Game.Ui.Grids.TPageTurnMode;
 
-namespace Aow.Units.AoWBookWindow;
+namespace Aow.Game.Ui.Windows;
 
 public partial class TAoWBookWindow
 {

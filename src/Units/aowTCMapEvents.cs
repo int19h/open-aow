@@ -1,23 +1,25 @@
 // Translated from aowTCMapEvents.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AoWTC;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.CMapCtrl;
-using Aow.Units.HSEngine;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.aowMapEventsUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWTCUnitUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.aowMapEvents.aowMapEventsUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.aowTCMapEvents;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TTCMapEvents : TDataModule
 {

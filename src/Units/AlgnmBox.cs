@@ -1,9 +1,9 @@
 // Translated from AlgnmBox.pas.
+using Aow.Game.Engine;
 using Aow.Rtl;
-using Aow.Units.AoWE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AlgnmBox;
+namespace Aow.Game.Ui.Controls;
 
 public partial class TAlignmentBox : TComboBox
 {

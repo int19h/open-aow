@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.EList;
+namespace Aow.Game.Engine.Collections;
 
 [LegacyObject]
 // no fields. TObjectList.LoadFromStream constructs items with their ordinary constructor. The

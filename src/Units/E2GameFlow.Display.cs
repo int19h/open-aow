@@ -1,10 +1,7 @@
-using Aow.Units.AOWMWindow;
-using Aow.Units.AoWTitleScene;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AoWWinMan;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
 
-namespace Aow.Units.E2GameFlow;
+namespace Aow.Game.Session;
 
 public static partial class E2GameFlowUnit
 {

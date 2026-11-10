@@ -1,12 +1,14 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text.Json;
+using Aow.Game.Combat;
+using Aow.Game.Engine;
+using Aow.Game.Events;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using Aow.Units;
-using Aow.Units.AoWE;
-using Aow.Units.AoWTCReg;
-using Game = Aow.Units.AoWE.AoWEUnit;
 using Shim = Aow.Rtl.RtlUnit;
 
 namespace Aow.Headless;
@@ -113,11 +115,11 @@ internal static class Program
                 if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
             }
             Startup.InitializeAll();
-            Aow.Units.Sound.NullSoundSystem.Install();
-            AoWTCRegUnit.RegisterTacticalCombat(Game.AoWEngine);
+            Aow.Game.Audio.NullSoundSystem.Install();
+            AoWTCRegUnit.RegisterTacticalCombat(Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine);
             gameplay = true;
-            Game.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
-            if (Game.AoWEngine.HSMap is not TAoWHSMap map)
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
+            if (Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.HSMap is not TAoWHSMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             map.SetViewPort(map.ViewXhp, map.ViewYhp, map.ViewL, 0, 0);
             Shim.RandSeed = seed;
@@ -130,9 +132,9 @@ internal static class Program
             map.FExecuteEventLogEvents += notification =>
             {
                 var info = notification.Info;
-                if (info.Log is Aow.Units.EventLog.TMessageEventLog message)
+                if (info.Log is Aow.Game.Events.TMessageEventLog message)
                 {
-                    bool yes = message.FButtons is Aow.Units.EventLog.TMessageEventLogButtons.mebYesNo or Aow.Units.EventLog.TMessageEventLogButtons.mebYesNoCancel;
+                    bool yes = message.FButtons is Aow.Game.Events.TMessageEventLogButtons.mebYesNo or Aow.Game.Events.TMessageEventLogButtons.mebYesNoCancel;
                     host.Show(new(message.FMessage.Text, message.FTitle, (int)message.FButtons, yes ? 6 : 1));
                     if (yes) message.Yes(); else message.OK();
                 }
@@ -168,7 +170,7 @@ internal static class Program
             CheckTodos();
             if (saves.Count == 0) Save(map.FPlayerControl);
             map.UpdateFPS(animationFps);
-            var viewer = new Aow.Units.HSEngine.THSMapViewer(null!);
+            var viewer = new Aow.Game.World.Map.THSMapViewer(null!);
             viewer.HSMap = map;
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;
@@ -184,7 +186,7 @@ internal static class Program
                     var player = map.FPlayers.GetPlayers(map.FCurrentPlayer);
                     Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.FCurrentPlayer}, busy {player.GetBusy()}, ready {map.FTokenManager.PlayerReady(map.FCurrentPlayer)}, AI locks {map.FAILockCount}/{map.FAIExecuter.FLockCount}, AI {map.FAIExecuter.FStatus.Image:X}, phase {player.FAIControl.FPhase}, actions {player.FAIControl.FActions.Count}");
                 }
-                if (randomTrace is not null && frames % 100000 == 0 && map.FCombatMap is Aow.Units.AoWTC.TAoWCombatMap tacticalMap)
+                if (randomTrace is not null && frames % 100000 == 0 && map.FCombatMap is Aow.Game.Combat.TAoWCombatMap tacticalMap)
                     Console.WriteLine($"combat frame {tacticalMap.Frame}, status {tacticalMap.Status.Image:X}, player {tacticalMap.FCurrentCombatPlayer}, end pending {tacticalMap.FEndTurnPending}, AI {tacticalMap.FAI.Status}, effects {tacticalMap.FEffects.Count}, result {tacticalMap.FCombat.FCombatResult}");
                 map.NewFrame();
                 CheckTodos();

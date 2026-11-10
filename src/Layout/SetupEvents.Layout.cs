@@ -1,10 +1,9 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
-using Aow.Rtl;
-using Aow.Units.AoWSetup;
+using Aow.Game.Layout;
+using Aow.Game.Session;
 
-namespace Aow.Units.aowSetupEvents;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TSetupEvents : ILayoutModule
 {

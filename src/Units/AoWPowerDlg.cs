@@ -1,21 +1,19 @@
 // Translated from AoWPowerDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWHScroll;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
+// Translated from AoWPowerDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.AoWPowerDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // all fields are form components, power allocation slider
 public partial class TPowerDlg : TDataModule

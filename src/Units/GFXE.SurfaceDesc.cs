@@ -1,7 +1,7 @@
 using Aow.Graphics;
 using Aow.Rtl;
 
-namespace Aow.Units.GFXE;
+namespace Aow.Game.Draw;
 
 // GFXE.pas: the description of a locked surface (graphics.md 3.1). The original record is 60
 // bytes and its assembler readers use the field offsets. No reader in the port sees it as bytes,

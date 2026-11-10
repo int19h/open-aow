@@ -1,20 +1,21 @@
 // Translated from AOWMWindow.pas.
-using Aow.Platform;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Host;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWFileDialogUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AOWMWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 // saved map rectangle, saved alignment
 public partial class TMWindow : TDataModule

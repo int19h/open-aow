@@ -1,23 +1,19 @@
 // Translated from TCFCDlg.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Events;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
+// Translated from TCFCDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.TCFCDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // combat request, completion event
 public partial class TTCFCDialog : TDataModule

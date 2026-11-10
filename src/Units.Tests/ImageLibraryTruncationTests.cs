@@ -1,5 +1,5 @@
-using Aow.Units.ImageLib;
-using Images = Aow.Units.ImageLib.ImageLibUnit;
+using Aow.Game.Draw.Images;
+using Images = Aow.Game.Draw.Images.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 

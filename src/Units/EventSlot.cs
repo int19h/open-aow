@@ -7,11 +7,11 @@
 // Invoke is an ordinary instance method of the view class. A snapshot records
 // DeclaringType.FullName + "." + Method.Name for that method. No recorded
 // constructor stores a wrapper.
+using Aow.Game.Draw;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWWinControl;
-using Aow.Units.GFXE;
 
-namespace Aow.Units.AoWComp;
+namespace Aow.Game.Ui.Controls;
 
 internal abstract class SlotView<TOwner, TEvent>(TOwner owner, TEvent typed)
     where TOwner : class

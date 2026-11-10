@@ -1,11 +1,11 @@
 // Translated from AoWHScroll.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWVScroll;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWHScroll;
+namespace Aow.Game.Ui.Controls;
 
 // { The AoWHScroll unit of aowInt.dpl: TAOWHScrollBar, the horizontal scroll bar (TAOWScrollBar of
 //   AoWVScroll with the decrement button at the left and the increment button at the right). }

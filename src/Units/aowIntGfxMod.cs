@@ -1,9 +1,8 @@
 // Translated from aowIntGfxMod.pas.
+using Aow.Game.Draw.Images;
 using Aow.Rtl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.ImageLib;
 
-namespace Aow.Units.aowIntGfxMod;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TIntGfxMod : TDataModule
 {

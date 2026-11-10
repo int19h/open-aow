@@ -1,8 +1,10 @@
-using Aow.Units.AoWE;
-using Aow.Units.AoWTC;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Combat = Aow.Units.AoWTC.AoWTCUnit;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Combat = Aow.Game.Combat.AoWTCUnit;
 
 namespace Aow.Units.Tests;
 

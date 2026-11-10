@@ -1,12 +1,13 @@
 using System.Text.RegularExpressions;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Host;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using Aow.Units.AoWReg;
-using Aow.Units.GFXE;
 using SDL;
 
-namespace Aow.Game;
+namespace Aow;
 
 /// <summary>Package-free unit and install conformance tests for brief 5.1.</summary>
 internal static class Verification

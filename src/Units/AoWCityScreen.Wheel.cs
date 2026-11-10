@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWCityScreen;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TCityScreen
 {

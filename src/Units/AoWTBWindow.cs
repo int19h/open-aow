@@ -1,35 +1,27 @@
 // Translated from AoWTBWindow.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AoWE;
-using Aow.Units.AoWEdit;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWInfoWin;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AOWMenuBar;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
-using Aow.Units.TurnButton;
+// Translated from AoWTBWindow.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E1GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.aowMapEventsUnit;
+using static Aow.Game.Ui.Dialogs.AoWPInfoWinUnit;
+using static Aow.Game.Ui.Dialogs.AoWRealmUnit;
+using static Aow.Game.Ui.Dialogs.AoWTCUnitUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E1GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.aowMapEvents.aowMapEventsUnit;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
-using static Aow.Units.AoWRealm.AoWRealmUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.E1Globals.E1GlobalsUnit;
 
-namespace Aow.Units.AoWTBWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 // indicator frame/step, world/combat clock delays, chat flash countdown
 public partial class TTBWindow : TDataModule

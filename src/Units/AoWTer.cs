@@ -1,12 +1,15 @@
 // Translated from AoWTer.pas.
 using System.Runtime.InteropServices;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.Terrain;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
+using Aow.Game.World.Terrain;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.AoWTer;
+namespace Aow.Game.World.Hexes;
 
 public partial class TAoWTerrain : TTerrainMO
 {

@@ -1,19 +1,18 @@
 // Translated from AoWDeformFaceDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
-using Aow.Units.UnitSpells;
+// Translated from AoWDeformFaceDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
-namespace Aow.Units.AoWDeformFaceDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // cosmetic-surgery caster
 public partial class TDeformFaceDlg : TDataModule

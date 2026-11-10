@@ -1,7 +1,11 @@
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Commands;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -345,29 +349,29 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:1265 GetText.
     private static string OldText(byte Kind, TDiplomaticActionReaction Reaction, bool SourceSeated)
     {
-        static string T(string name) => Game.TranslateRStr(name);
-        static string F(string format, string arg) => Game.Format(T(format), [arg]);
+        static string T(string name) => Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(name);
+        static string F(string format, string arg) => Aow.Game.Magic.Abilities.AoWEUnit.Format(T(format), [arg]);
         string Answer(string none, string subject, string accepted, string otherwise) => Reaction switch
         {
             TDiplomaticActionReaction.darNone => none,
-            TDiplomaticActionReaction.darReject => F(Game.P5XRejectedRStr, subject),
+            TDiplomaticActionReaction.darReject => F(Aow.Game.Magic.Abilities.AoWEUnit.P5XRejectedRStr, subject),
             TDiplomaticActionReaction.darAccept => accepted,
-            TDiplomaticActionReaction.darIgnore => F(Game.P5XIgnoredRStr, subject),
+            TDiplomaticActionReaction.darIgnore => F(Aow.Game.Magic.Abilities.AoWEUnit.P5XIgnoredRStr, subject),
             _ => otherwise,
         };
         return Kind switch
         {
-            0 => T(Game.P5WarRStr),
-            2 => Answer(T(Game.P5AllianceProposalRStr), T(Game.P5AllianceProposalRStr),
-                SourceSeated ? F(Game.P5XAcceptedRStr, T(Game.P5AllianceProposalRStr)) : T(Game.P5MadeAllianceRStr), T(Game.P5AllianceProposalRStr)),
-            1 => Answer(T(Game.P5PeaceOfferRStr), T(Game.P5PeaceOfferRStr),
-                SourceSeated ? F(Game.P5XAcceptedRStr, T(Game.P5PeaceOfferRStr)) : T(Game.P5PeaceRStr), ""),
-            5 => Answer(T(Game.P5TributeRStr), T(Game.P5TributeRStr), F(Game.P5XAcceptedRStr, T(Game.P5TributeRStr)), ""),
-            9 => Answer(T(Game.P5DeclareWarSuggestionRStr), T(Game.P5DeclareWarRStr), F(Game.P5XAcceptedRStr, T(Game.P5DeclareWarRStr)), ""),
-            8 => Answer(T(Game.P5BreakAllianceSuggestionRStr), T(Game.P5BreakAllianceRStr), F(Game.P5XAcceptedRStr, T(Game.P5BreakAllianceRStr)), ""),
-            6 => T(Game.P5AllianceBrokenRStr),
-            3 or 7 => T(Game.P5MessageRStr),
-            4 => T(Game.P5ThreatRStr),
+            0 => T(Aow.Game.Magic.Abilities.AoWEUnit.P5WarRStr),
+            2 => Answer(T(Aow.Game.Magic.Abilities.AoWEUnit.P5AllianceProposalRStr), T(Aow.Game.Magic.Abilities.AoWEUnit.P5AllianceProposalRStr),
+                SourceSeated ? F(Aow.Game.Magic.Abilities.AoWEUnit.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.AoWEUnit.P5AllianceProposalRStr)) : T(Aow.Game.Magic.Abilities.AoWEUnit.P5MadeAllianceRStr), T(Aow.Game.Magic.Abilities.AoWEUnit.P5AllianceProposalRStr)),
+            1 => Answer(T(Aow.Game.Magic.Abilities.AoWEUnit.P5PeaceOfferRStr), T(Aow.Game.Magic.Abilities.AoWEUnit.P5PeaceOfferRStr),
+                SourceSeated ? F(Aow.Game.Magic.Abilities.AoWEUnit.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.AoWEUnit.P5PeaceOfferRStr)) : T(Aow.Game.Magic.Abilities.AoWEUnit.P5PeaceRStr), ""),
+            5 => Answer(T(Aow.Game.Magic.Abilities.AoWEUnit.P5TributeRStr), T(Aow.Game.Magic.Abilities.AoWEUnit.P5TributeRStr), F(Aow.Game.Magic.Abilities.AoWEUnit.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.AoWEUnit.P5TributeRStr)), ""),
+            9 => Answer(T(Aow.Game.Magic.Abilities.AoWEUnit.P5DeclareWarSuggestionRStr), T(Aow.Game.Magic.Abilities.AoWEUnit.P5DeclareWarRStr), F(Aow.Game.Magic.Abilities.AoWEUnit.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.AoWEUnit.P5DeclareWarRStr)), ""),
+            8 => Answer(T(Aow.Game.Magic.Abilities.AoWEUnit.P5BreakAllianceSuggestionRStr), T(Aow.Game.Magic.Abilities.AoWEUnit.P5BreakAllianceRStr), F(Aow.Game.Magic.Abilities.AoWEUnit.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.AoWEUnit.P5BreakAllianceRStr)), ""),
+            6 => T(Aow.Game.Magic.Abilities.AoWEUnit.P5AllianceBrokenRStr),
+            3 or 7 => T(Aow.Game.Magic.Abilities.AoWEUnit.P5MessageRStr),
+            4 => T(Aow.Game.Magic.Abilities.AoWEUnit.P5ThreatRStr),
             _ => "TDiplomaticActionEventLog",
         };
     }
@@ -375,13 +379,13 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:505 GetName, for the kinds that name no other player.
     private static string OldName(byte Kind) => Kind switch
     {
-        0 => Game.TranslateRStr(Game.P5DeclareWarRStr),
-        1 => Game.TranslateRStr(Game.P5OfferPeaceRStr),
-        2 => Game.TranslateRStr(Game.P5ProposeAllianceRStr),
-        3 => Game.TranslateRStr(Game.P5SendMessageRStr),
-        4 => Game.TranslateRStr(Game.P5ThreatenToAttackRStr),
-        5 => Game.TranslateRStr(Game.P5MakeTributeRStr),
-        6 => Game.TranslateRStr(Game.P5BreakAllianceRStr),
+        0 => Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.P5DeclareWarRStr),
+        1 => Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.P5OfferPeaceRStr),
+        2 => Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.P5ProposeAllianceRStr),
+        3 => Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.P5SendMessageRStr),
+        4 => Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.P5ThreatenToAttackRStr),
+        5 => Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.P5MakeTributeRStr),
+        6 => Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.P5BreakAllianceRStr),
         _ => "",
     };
 
@@ -393,7 +397,7 @@ public sealed class DiplomaticProposalTests
         void Get(int number, string first, string second, string? third = null)
         {
             TextControl.RetrieveText(Alignment + number, Text);
-            Text.Text = third is null ? Game.Format(Text.Text, [first, second]) : Game.Format(Text.Text, [first, second, third]);
+            Text.Text = third is null ? Aow.Game.Magic.Abilities.AoWEUnit.Format(Text.Text, [first, second]) : Aow.Game.Magic.Abilities.AoWEUnit.Format(Text.Text, [first, second, third]);
         }
         switch (Action)
         {
@@ -449,8 +453,8 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void ProposalsAnswerAsTheOldSwitches()
     {
-        var previousMap = Game.AoWHSMap;
-        Game.AoWHSMap = new TAoWHSMap(null!);
+        var previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = new TAoWHSMap(null!);
         var control = TextControl();
         try
         {
@@ -466,7 +470,7 @@ public sealed class DiplomaticProposalTests
                 checks += 5;
                 string error = "";
                 Assert.Equal(kind != 5, proposal.CanSend(new TDiplomaticAction(null!) { Proposal = proposal }, ref error));
-                Assert.Equal(kind == 5 ? Game.TranslateRStr(Game.P5NoGoldManaSpecifiedRStr) : "", error);
+                Assert.Equal(kind == 5 ? Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.P5NoGoldManaSpecifiedRStr) : "", error);
                 Assert.True(proposal.WithOffer(0, 1).CanSend(new TDiplomaticAction(null!), ref error));
                 checks += 2;
                 foreach (byte reaction in new byte[] { 0, 1, 2, 3, 4 })
@@ -475,7 +479,7 @@ public sealed class DiplomaticProposalTests
                     {
                         var action = new TDiplomaticAction(null!) { FSource = source, FTarget = 2, FReaction = (TDiplomaticActionReaction)reaction, Proposal = proposal };
                         string where = proposal + " reaction " + reaction + " source " + source;
-                        Assert.True(OldText(kind, (TDiplomaticActionReaction)reaction, source == Game.AoWHSMap.FSeatedPlayer) == proposal.LogText(action), where);
+                        Assert.True(OldText(kind, (TDiplomaticActionReaction)reaction, source == Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap.FSeatedPlayer) == proposal.LogText(action), where);
                         Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), where);
                         checks += 2;
                     }
@@ -498,7 +502,7 @@ public sealed class DiplomaticProposalTests
         finally
         {
             control?.Dispose();
-            Game.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
         }
     }
 }

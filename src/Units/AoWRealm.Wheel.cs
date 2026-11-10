@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWRealm;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TRealmWin
 {

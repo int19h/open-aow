@@ -1,15 +1,18 @@
 // Translated from CMapCtrl.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWTC;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.HSEngine;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
 
-namespace Aow.Units.CMapCtrl;
+namespace Aow.Game.Ui.Grids;
 
 // event methods occupy
 public partial class TAoWCombatMapControl : TComponent

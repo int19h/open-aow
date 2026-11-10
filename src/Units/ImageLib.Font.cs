@@ -1,7 +1,7 @@
+using Aow.Game.Draw;
 using Aow.Rtl;
-using Aow.Units.GFXE;
 
-namespace Aow.Units.ImageLib;
+namespace Aow.Game.Draw.Images;
 
 public partial class TImageLibraryFont
 {
@@ -19,7 +19,7 @@ public partial class TImageLibraryFont
         return width;
     }
 
-    internal void ShowText(int x, int y, string text, in TSurfaceDesc sd)
+    internal void ShowText(int x, int y, string text, in Aow.Game.Draw.TSurfaceDesc sd)
     {
         if (RtlUnit.IsEmpty(text)) return;
         foreach (char c in text)
@@ -36,10 +36,10 @@ public partial class TImageLibraryFont
         {
             var palette = (TLibraryImagePalette)FPaletteManager.FPalettes.List[0];
             palette.FPalette.Entries[FFontColorPaletteIndex].Value =
-                GFXEUnit.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
+                Aow.Game.Draw.GFXEUnit.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
             if (palette.FRemapPalette != null)
                 palette.FRemapPalette.Entries[FFontColorPaletteIndex].Value =
-                    GFXEUnit.Color2PixelInfo(value, palette.FRemapPalette.PixelFormatID, null);
+                    Aow.Game.Draw.GFXEUnit.Color2PixelInfo(value, palette.FRemapPalette.PixelFormatID, null);
         }
         FColor = value;
     }

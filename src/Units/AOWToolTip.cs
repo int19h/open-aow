@@ -1,13 +1,12 @@
 // Translated from AOWToolTip.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AoWWinGeneric;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AOWToolTip;
+namespace Aow.Game.Ui.Windows;
 
 // { The AOWToolTip unit of aowInt.dpl: TAOWToolTip, the small window that TAOWControl shows with a
 //   control's tool tip text after the mouse rested on it for ToolTipDelay updates. }

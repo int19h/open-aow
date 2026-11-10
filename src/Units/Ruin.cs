@@ -1,10 +1,10 @@
 // Translated from Ruin.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.ItemExpS;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Structures;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.Ruin;
+namespace Aow.Game.World.Structures;
 
 public partial class TRuin : TItemExplorationSite
 {

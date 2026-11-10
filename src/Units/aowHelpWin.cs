@@ -1,16 +1,13 @@
 // Translated from aowHelpWin.pas.
+using Aow.Game.Events;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
-using static Aow.Units.AoWE.AoWEUnit;
+// Translated from aowHelpWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.aowHelpWin;
+namespace Aow.Game.Ui.Dialogs;
 
 // done callback, help event
 public partial class THelpWindow : TDataModule

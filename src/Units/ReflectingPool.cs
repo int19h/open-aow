@@ -1,12 +1,15 @@
 // Translated from ReflectingPool.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Session;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.ReflectingPool;
+namespace Aow.Game.World.Structures;
 
 // FCenterFrame (-1 when inactive)
 public partial class TReflectingPool : TPlayerStructure
@@ -118,9 +121,9 @@ public partial class TReflectingPool : TPlayerStructure
         int Range;
         int X = default;
         int Y = default;
-        if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+        if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap))
         {
-            if (FStatus.Contains(TMapObjectStatusElement.moActivated) && AoWHSMap.FSeatedPlayer != -1)
+            if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated) && AoWHSMap.FSeatedPlayer != -1)
             {
                 if (PoolVisionPlayer(AoWHSMap.FSeatedPlayer))
                 {
@@ -171,7 +174,7 @@ public partial class TReflectingPool : TPlayerStructure
     {
         int X = default;
         int Y = default;
-        if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+        if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap))
         {
             for (int P = 1, last = AoWHSMap.FPlayers.Count - 1; P <= last; P++)
             {

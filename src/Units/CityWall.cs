@@ -1,22 +1,23 @@
 // Translated from CityWall.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.aowFX;
-using Aow.Units.AoWTC;
-using Aow.Units.City;
-using Aow.Units.CombatILTer;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Aow.Units.Tower;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.CityWall;
+namespace Aow.Game.World.Terrain;
 
 public partial class TCityWall : TCombatILTerrain
 {

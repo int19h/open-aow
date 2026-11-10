@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Aow.Rtl.Localize;
 
-namespace Aow.Rtl;
+namespace Aow.Rtl.Localize;
 
 public sealed record TranslationTarget(string ClassName, string PropertyName, int Options = 0);
 

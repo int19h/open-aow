@@ -1,519 +1,547 @@
 // Translated from PoisonP.pas.
+using Aow.Game.Combat;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.GlobalTarget;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using Aow.Units.Animation;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.GlobalTargetSpells;
-using Aow.Units.HSEngine;
-using Aow.Units.ILTer;
+using static Aow.Game.Events.EventLogUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.EventLog.EventLogUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.PoisonP;
-
-public enum TPoisonPlantStatusElement : byte
+namespace Aow.Game.Magic.Spells
 {
-    ppsSummoning = 0
+
+    public enum TPoisonPlantStatusElement : byte
+    {
+        ppsSummoning = 0
+    }
 }
 
-// summoning status. caster player. remaining turns. original overlay
-public partial class TPoisonPlant : TILTerrainMO
+namespace Aow.Game.World.Terrain
 {
-    public TPoisonPlant(TECustomNode owner) : base(owner)
+
+    // summoning status. caster player. remaining turns. original overlay
+    public partial class TPoisonPlant : TILTerrainMO
     {
-        FCasterPlayer = -1;
-        FOriginalOverlay = -1;
-        FDaysRemaining = -1;
-        FPlantStatus = TSet<TPoisonPlantStatusElement>.Of();
-    }
-
-    // PoisonP.pas:87
-    public new const int ClassID = 131998;
-
-    public TSet<TPoisonPlantStatusElement> FPlantStatus;
-    public sbyte FCasterPlayer;
-    public sbyte FDaysRemaining;
-    public sbyte FOriginalOverlay;
-
-    // PoisonP.pas:97
-    public override void ReadWrite(TEStorageStream Stream)
-    {
-        base.ReadWrite(Stream);
-        Stream.rwShortintEx(ref FCasterPlayer, -1, 40);
-        Stream.rwShortintEx(ref FDaysRemaining, -1, 41);
-        Stream.rwShortintEx(ref FOriginalOverlay, -1, 42);
-    }
-
-    // PoisonP.pas:78
-
-    // PoisonP.pas:255
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
-    {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986)
+        public TPoisonPlant(TECustomNode owner) : base(owner)
         {
-            NewTurn((sbyte)Msg.Payload.Int);
-        }
-    }
-
-    // PoisonP.pas:261
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
-    {
-        if (!FPlantStatus.Contains(TPoisonPlantStatusElement.ppsSummoning))
-        {
-            base.Show(XhpSurf, YhpSurf, SurfaceDesc);
-        }
-    }
-
-    // PoisonP.pas:240
-    public override bool PlaceOnMap()
-    {
-        bool Result = base.PlaceOnMap();
-        if (Result)
-        {
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            UpdateMapFields((TMapLevel)Owner.Owner, xhx, yhx);
+            FCasterPlayer = -1;
+            FOriginalOverlay = -1;
+            FDaysRemaining = -1;
+            FPlantStatus = TSet<TPoisonPlantStatusElement>.Of();
         }
 
-        return Result;
-    }
+        // PoisonP.pas:87
+        public new const int ClassID = 131998;
 
-    // PoisonP.pas:246
-    public override void RemoveFromMap()
-    {
-        TMapLevel Level;
-        Level = (TMapLevel)Owner.Owner;
-        base.RemoveFromMap();
-        UpdateMapFields(Level, FXhx, FYhx);
-    }
+        public TSet<TPoisonPlantStatusElement> FPlantStatus;
+        public sbyte FCasterPlayer;
+        public sbyte FDaysRemaining;
+        public sbyte FOriginalOverlay;
 
-    // PoisonP.pas:218
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
-    {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 4418)
+        // PoisonP.pas:97
+        public override void ReadWrite(TEStorageStream Stream)
         {
-            if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+            base.ReadWrite(Stream);
+            Stream.rwShortintEx(ref FCasterPlayer, -1, 40);
+            Stream.rwShortintEx(ref FDaysRemaining, -1, 41);
+            Stream.rwShortintEx(ref FOriginalOverlay, -1, 42);
+        }
+
+        // PoisonP.pas:78
+
+        // PoisonP.pas:255
+        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        {
+            base.MsgProc(ref Msg, Sender);
+            if (Msg.MsgID == 537001986)
             {
-                ArmyPlaced(Msg.Param[0].As<TArmyHS>());
+                NewTurn((sbyte)Msg.Payload.Int);
             }
         }
-        else
+
+        // PoisonP.pas:261
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            if (Msg.MsgID == 4384)
+            if (!FPlantStatus.Contains(TPoisonPlantStatusElement.ppsSummoning))
             {
-                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && !Msg.Param[0].As<TArmyHS>().FArmy.ImmunityTypes(255).Contains(TDamageType.dtPoison) && PoisonPlantActive())
+                base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+            }
+        }
+
+        // PoisonP.pas:240
+        public override bool PlaceOnMap()
+        {
+            bool Result = base.PlaceOnMap();
+            if (Result)
+            {
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                UpdateMapFields((TMapLevel)Owner.Owner, xhx, yhx);
+            }
+
+            return Result;
+        }
+
+        // PoisonP.pas:246
+        public override void RemoveFromMap()
+        {
+            TMapLevel Level;
+            Level = (TMapLevel)Owner.Owner;
+            base.RemoveFromMap();
+            UpdateMapFields(Level, FXhx, FYhx);
+        }
+
+        // PoisonP.pas:218
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        {
+            base.MapFieldMsgProc(ref Msg);
+            if (Msg.MsgID == 4418)
+            {
+                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
                 {
-                    Msg.Result = 1;
+                    ArmyPlaced(Msg.Param[0].As<TArmyHS>());
                 }
             }
             else
             {
-                if (Msg.MsgID == 4402)
+                if (Msg.MsgID == 4384)
                 {
-                    // { Original excludes player zero from early restoration. }
-                    if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && FCasterPlayer > 0 && FDaysRemaining > 0)
+                    if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && !Msg.Param[0].As<TArmyHS>().FArmy.ImmunityTypes(255).Contains(TDamageType.dtPoison) && PoisonPlantActive())
                     {
-                        RestoreTerrain();
+                        Msg.Result = 1;
+                    }
+                }
+                else
+                {
+                    if (Msg.MsgID == 4402)
+                    {
+                        // { Original excludes player zero from early restoration. }
+                        if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && FCasterPlayer > 0 && FDaysRemaining > 0)
+                        {
+                            RestoreTerrain();
+                        }
                     }
                 }
             }
         }
-    }
 
-    // PoisonP.pas:209
-    public override int CanMoveOver(in THSSenderInfo Info)
-    {
-        int Result;
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0 && PoisonPlantActive())
+        // PoisonP.pas:209
+        public override int CanMoveOver(in THSSenderInfo Info)
         {
-            if (!CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits))
+            int Result;
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0 && PoisonPlantActive())
+            {
+                if (!CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits))
+                {
+                    Result = 1;
+                }
+                else
+                {
+                    Result = 0;
+                }
+            }
+            else
             {
                 Result = 1;
             }
-            else
+
+            return Result;
+        }
+
+        // PoisonP.pas:203
+        public override void UpdateMapField(in THSMapFieldInfo Info)
+        {
+            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
-                Result = 0;
+                ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 8192;
             }
         }
-        else
+
+        // PoisonP.pas:92
+        public bool PoisonPlantActive() => !TSet<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)FTerrainType);
+
+        // PoisonP.pas:105
+        public bool CanDoDamage(TUnitList Units)
         {
-            Result = 1;
-        }
-
-        return Result;
-    }
-
-    // PoisonP.pas:203
-    public override void UpdateMapField(in THSMapFieldInfo Info)
-    {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
-        {
-            ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 8192;
-        }
-    }
-
-    // PoisonP.pas:92
-    public bool PoisonPlantActive() => !TSet<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)FTerrainType);
-
-    // PoisonP.pas:105
-    public bool CanDoDamage(TUnitList Units)
-    {
-        int I;
-        TAbstractUnit U;
-        bool Result = false;
-        I = Units.Count;
-        while (!Result && I != 0)
-        {
-            I -= 1;
-            U = Units.GetUnit(I);
-            Result = !U.GetImmunityTypes().Contains(TDamageType.dtPoison) && !U.GetAbilityEnabled(1);
-        }
-
-        return Result;
-    }
-
-    // PoisonP.pas:120
-    public void TriggerArmyDamage(TArmyHS ArmyHS)
-    {
-        int Count;
-        TUnitList Units;
-        TArmyEventLog Log;
-        TAbstractUnit U;
-        int Damage;
-        Count = 0;
-        RandSeed = AoWHSMap.Random(16777215);
-        Log = new TArmyEventLog(null);
-        Log.FArmyText = TranslateRStr(PoisonPlantDamageRStr);
-        Log.FPlayer = ArmyHS.FArmy.FPlayer;
-        var poisonPlantDamage = TranslateRStr(PoisonPlantDamageRStr);
-        Log.FArmyMessages.Add(poisonPlantDamage);
-        Log.FArmyIcon = 1;
-        Log.FArmyView.Setup(ArmyHS.FArmy, 255);
-        Units = ArmyHS.FArmy;
-        for (int I = 0, last = Units.Count - 1; I <= last; I++)
-        {
-            U = Units.GetUnit(I);
-            U.AddRef();
-            if (!U.GetImmunityTypes().Contains(TDamageType.dtPoison) && !U.GetAbilityEnabled(1))
+            int I;
+            TAbstractUnit U;
+            bool Result = false;
+            I = Units.Count;
+            while (!Result && I != 0)
             {
-                Damage = U.ExecuteDamageRole(4, 3, TSet<TDamageType>.Of(TDamageType.dtPoison));
-                if (Damage > U.GetHitPoints())
-                {
-                    Damage = U.GetHitPoints();
-                }
+                I -= 1;
+                U = Units.GetUnit(I);
+                Result = !U.GetImmunityTypes().Contains(TDamageType.dtPoison) && !U.GetAbilityEnabled(1);
+            }
 
-                if (Damage != 0)
+            return Result;
+        }
+
+        // PoisonP.pas:120
+        public void TriggerArmyDamage(TArmyHS ArmyHS)
+        {
+            int Count;
+            TUnitList Units;
+            TArmyEventLog Log;
+            TAbstractUnit U;
+            int Damage;
+            Count = 0;
+            RandSeed = AoWHSMap.Random(16777215);
+            Log = new TArmyEventLog(null);
+            Log.FArmyText = TranslateRStr(PoisonPlantDamageRStr);
+            Log.FPlayer = ArmyHS.FArmy.FPlayer;
+            var poisonPlantDamage = TranslateRStr(PoisonPlantDamageRStr);
+            Log.FArmyMessages.Add(poisonPlantDamage);
+            Log.FArmyIcon = 1;
+            Log.FArmyView.Setup(ArmyHS.FArmy, 255);
+            Units = ArmyHS.FArmy;
+            for (int I = 0, last = Units.Count - 1; I <= last; I++)
+            {
+                U = Units.GetUnit(I);
+                U.AddRef();
+                if (!U.GetImmunityTypes().Contains(TDamageType.dtPoison) && !U.GetAbilityEnabled(1))
                 {
-                    U.SetHitPoints((sbyte)(U.GetHitPoints() - Damage));
-                    if (U.GetHitPoints() != 0)
+                    Damage = U.ExecuteDamageRole(4, 3, TSet<TDamageType>.Of(TDamageType.dtPoison));
+                    if (Damage > U.GetHitPoints())
                     {
-                        U.ExecuteDamageEffects(TSet<TDamageType>.Of(TDamageType.dtPoison));
+                        Damage = U.GetHitPoints();
                     }
 
-                    Count += 1;
+                    if (Damage != 0)
+                    {
+                        U.SetHitPoints((sbyte)(U.GetHitPoints() - Damage));
+                        if (U.GetHitPoints() != 0)
+                        {
+                            U.ExecuteDamageEffects(TSet<TDamageType>.Of(TDamageType.dtPoison));
+                        }
+
+                        Count += 1;
+                    }
+
+                    Log.FDamageValues.Add((byte)Damage);
+                    Log.FDamageTypes.Add((int)TDamageType.dtPoison);
+                }
+                else
+                {
+                    Log.FDamageValues.Add(0);
+                    Log.FDamageTypes.Add((int)TDamageType.dtNone);
                 }
 
-                Log.FDamageValues.Add((byte)Damage);
-                Log.FDamageTypes.Add((int)TDamageType.dtPoison);
+                U.Release();
             }
-            else
+
+            Log.ValidateGameOver();
+            if (Count != 0)
             {
-                Log.FDamageValues.Add(0);
-                Log.FDamageTypes.Add((int)TDamageType.dtNone);
+                var yhx = GetYhx();
+                var lhx = GetLhx();
+                var xhx = GetXhx();
+                DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
             }
 
-            U.Release();
+            ArmyHS.FArmy.Validate();
+            Log.Release();
         }
 
-        Log.ValidateGameOver();
-        if (Count != 0)
+        // PoisonP.pas:168
+        public void ArmyPlaced(TArmyHS ArmyHS)
         {
-            var yhx = GetYhx();
-            var lhx = GetLhx();
-            var xhx = GetXhx();
-            DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
-        }
-
-        ArmyHS.FArmy.Validate();
-        Log.Release();
-    }
-
-    // PoisonP.pas:168
-    public void ArmyPlaced(TArmyHS ArmyHS)
-    {
-        if (PoisonPlantActive() && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
-        {
-            TriggerArmyDamage(ArmyHS);
-        }
-    }
-
-    // PoisonP.pas:174
-    public void RestoreTerrain()
-    {
-        TMapField MapF;
-        sbyte OriginalOverlay;
-        MapF = (TMapField)Owner;
-        OriginalOverlay = FOriginalOverlay;
-        Dispose();
-        if (OriginalOverlay > 0)
-        {
-            AoWHSMap.PlaceTerrain(MapF.Xhx, MapF.Yhx, MapF.Lhx, MapF.TerrainType, OriginalOverlay);
-        }
-    }
-
-    // PoisonP.pas:186
-    public void NewTurn(sbyte Player)
-    {
-        TArmyHS ArmyHS;
-        if (PoisonPlantActive())
-        {
-            ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
-            if (ArmyHS != null && Player == ArmyHS.FArmy.FPlayer)
+            if (PoisonPlantActive() && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 TriggerArmyDamage(ArmyHS);
             }
         }
 
-        if (Player == FCasterPlayer && FDaysRemaining > 0)
+        // PoisonP.pas:174
+        public void RestoreTerrain()
         {
-            FDaysRemaining = (sbyte)(FDaysRemaining - 1);
-            if (FDaysRemaining == 0)
+            TMapField MapF;
+            sbyte OriginalOverlay;
+            MapF = (TMapField)Owner;
+            OriginalOverlay = FOriginalOverlay;
+            Dispose();
+            if (OriginalOverlay > 0)
             {
-                RestoreTerrain();
+                AoWHSMap.PlaceTerrain(MapF.Xhx, MapF.Yhx, MapF.Lhx, MapF.TerrainType, OriginalOverlay);
             }
         }
-    }
 
-    // PoisonP.pas:267
-    public void ShowSummonAnimation(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
-    {
-        TMapField MapF;
-        var lhx = Animation.GetLhx();
-        var yhx = Animation.GetYhx();
-        var xhx = Animation.GetXhx();
-        MapF = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == MapF.FindOwnedChild(131998) && AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
+        // PoisonP.pas:186
+        public void NewTurn(sbyte Player)
         {
-            bool condition = AoWHSMap.FSeatedPlayer == Animation.FTag;
-            if (!condition)
+            TArmyHS ArmyHS;
+            if (PoisonPlantActive())
             {
-                var lhx2 = GetLhx();
-                var yhx2 = GetYhx();
-                var xhx2 = GetXhx();
-                condition = AoWHSMap.WatchingTerrain(xhx2, yhx2, lhx2, 0);
-            }
-
-            if (condition)
-            {
-                AoWHSSet.FSpellControl.GetSpell(12).FCastSounds.Play(0);
-            }
-        }
-    }
-
-    // PoisonP.pas:279
-    public void NewFrameSummonAnimation(TAnimation Animation, int FrameCounter)
-    {
-        var lhx = Animation.GetLhx();
-        var yhx = Animation.GetYhx();
-        var xhx = Animation.GetXhx();
-        var field = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == field.FindOwnedChild(131998) && FrameCounter == 9)
-        {
-            FPlantStatus = FPlantStatus - TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
-        }
-    }
-
-    // PoisonP.pas:28
-
-}
-
-public partial class TPoisonPlantResource : TILTerrainMOR
-{
-    public TPoisonPlantResource(TECustomNode owner) : base(owner)
-    { }
-
-    // PoisonP.pas:293
-    public new const int ClassID = 131999;
-
-    // PoisonP.pas:298
-    public override int ResourceUserClassID() => 131998;
-
-    // PoisonP.pas:288
-    public override string ResourceEditName() => TranslateRStr(PoisonPlantRStr);
-
-}
-
-public partial class TPoisonPlantSpellTE : TGlobalTargetSpellTE
-{
-    public TPoisonPlantSpellTE(TECustomNode owner) : base(owner)
-    { }
-
-    // PoisonP.pas:303
-    public new const int ClassID = 135941;
-
-    // PoisonP.pas:361
-    public override bool Process(TAbstractUnit source, int value)
-    {
-        base.Process(source, value);
-        CreatePoisonPlant(source);
-        AoWHSMap.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-        AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
-        return false;
-    }
-
-    // PoisonP.pas:308
-    public void CreatePoisonPlant(TAbstractUnit Source)
-    {
-        TMapLevel Level = default;
-        THNWalkData Walk = default;
-        TPoisonPlantResource Resource = default;
-        TAoWMapField MapF = default;
-        TPoisonPlant Plant = default;
-        TImageSequenceAnimation Animation = default;
-        TTwinkleAnimation Twinkle = default;
-        ref var walk = ref Walk;
-        Level = AoWHSMap.MapContainer.MapLevels[FLocation.L];
-        InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-        Resource = (TPoisonPlantResource)AoWHSSet.MapObjectResourceList.FindChild(131999);
-        while (walk.Radius <= 1)
-        {
-            if (walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && walk.Y < Level.Height)
-            {
-                MapF = (TAoWMapField)Level.GetField(walk.X, walk.Y);
-                if (((TGlobalTargetSpell)AoWHSSet.FSpellControl.GetSpell(12)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
+                ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
+                if (ArmyHS != null && Player == ArmyHS.FArmy.FPlayer)
                 {
-                    MapF.RestoreTerrain();
-                    Plant = (TPoisonPlant)Resource.CreateResourceUser();
-                    Plant.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Random(11) - 5) / 5);
-                    Plant.FCasterPlayer = Source.FPlayer;
-                    Plant.FOriginalOverlay = MapF.OverlayType;
-                    AoWHSMap.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
-                    if (AoWHSMap.PlaceHX(Plant, walk.X, walk.Y, FLocation.L))
-                    {
-                        Plant.FPlantStatus = TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
-                        Animation = new TImageSequenceAnimation(null);
-                        Animation.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(12).FCastImages.ImageSequences[0]);
-                        Animation.FOnShow = Plant.ShowSummonAnimation;
-                        Animation.FOnNewFrame = Plant.NewFrameSummonAnimation;
-                        Animation.FFrameCounter = -AoWHSMap.Random(15);
-                        Animation.FAnimationLevel = 27;
-                        AoWHSMap.PlaceHX(Animation, walk.X, walk.Y, FLocation.L);
-                        Twinkle = new TTwinkleAnimation(null);
-                        Twinkle.Setup(AoWHSSet.FSpellControl.GetSpell(2).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(), 2, 6, Math.Abs(Animation.FFrameCounter + 5), Math.Abs(Animation.FFrameCounter + 5) / 2);
-                        AoWHSMap.PlaceHX(Twinkle, walk.X, walk.Y, FLocation.L);
-                    }
-                    else
-                    {
-                        Plant?.Dispose();
-                    }
+                    TriggerArmyDamage(ArmyHS);
                 }
             }
 
-            WalkToNextHN(ref Walk);
-        }
-    }
-
-    // NetworkE.pas:230
-
-}
-
-public partial class TPoisonPlantSpell : TGlobalTargetSpell
-{
-    public TPoisonPlantSpell(TECustomNode owner) : base(owner)
-    {
-        FSpellName = TranslateRStr(PoisonPlantsRStr);
-        FSpellID = 12;
-        FBaseManaCost = 5;
-        FSpellLevel = 2;
-        FMagicSphere = TMagicSphere.msEarth;
-        FAboveGroundOnly = false;
-    }
-
-    // PoisonP.pas:371
-
-    // PoisonP.pas:405
-    public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
-    {
-        base.SetupTargetSelection(Source, TargetSelection);
-        TargetSelection.FHNs.Clear();
-        for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
-        {
-            TargetSelection.FHNs.Add(0);
-        }
-    }
-
-    // PoisonP.pas:414
-    public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
-    {
-        TPoisonPlantSpellTE Event;
-        Event = new TPoisonPlantSpellTE(null);
-        Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-        Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-        Event.Release();
-        return true;
-    }
-
-    // PoisonP.pas:390
-    public override bool ValidTargetSelectionMapF(TMapField Field)
-    {
-        TArmyHS ArmyHS;
-        bool Result = base.ValidTargetSelectionMapF(Field) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
-        // { Original precedence also accepts these overlays without the terrain test. }
-        Result = (Result && Field.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);
-        Result = Result && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
-        if (Result)
-        {
-            ArmyHS = ((TAoWMapField)Field).GetArmyHS();
-            if (ArmyHS != null)
+            if (Player == FCasterPlayer && FDaysRemaining > 0)
             {
-                Result = !ArmyHS.VisibleForSeatedPlayer();
+                FDaysRemaining = (sbyte)(FDaysRemaining - 1);
+                if (FDaysRemaining == 0)
+                {
+                    RestoreTerrain();
+                }
             }
         }
 
-        return Result;
+        // PoisonP.pas:267
+        public void ShowSummonAnimation(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        {
+            TMapField MapF;
+            var lhx = Animation.GetLhx();
+            var yhx = Animation.GetYhx();
+            var xhx = Animation.GetXhx();
+            MapF = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+            if (this == MapF.FindOwnedChild(131998) && AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
+            {
+                bool condition = AoWHSMap.FSeatedPlayer == Animation.FTag;
+                if (!condition)
+                {
+                    var lhx2 = GetLhx();
+                    var yhx2 = GetYhx();
+                    var xhx2 = GetXhx();
+                    condition = AoWHSMap.WatchingTerrain(xhx2, yhx2, lhx2, 0);
+                }
+
+                if (condition)
+                {
+                    AoWHSSet.FSpellControl.GetSpell(12).FCastSounds.Play(0);
+                }
+            }
+        }
+
+        // PoisonP.pas:279
+        public void NewFrameSummonAnimation(TAnimation Animation, int FrameCounter)
+        {
+            var lhx = Animation.GetLhx();
+            var yhx = Animation.GetYhx();
+            var xhx = Animation.GetXhx();
+            var field = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+            if (this == field.FindOwnedChild(131998) && FrameCounter == 9)
+            {
+                FPlantStatus = FPlantStatus - TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
+            }
+        }
+
+        // PoisonP.pas:28
+
     }
 
-    // PoisonP.pas:382
-    public override bool ValidTargetMapF(TMapField Field)
+    public partial class TPoisonPlantResource : TILTerrainMOR
     {
-        bool Result = base.ValidTargetMapF(Field) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
-        // { Original precedence also accepts these overlays without the terrain test. }
-        Result = (Result && Field.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);
-        return Result && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
+        public TPoisonPlantResource(TECustomNode owner) : base(owner)
+        { }
+
+        // PoisonP.pas:293
+        public new const int ClassID = 131999;
+
+        // PoisonP.pas:298
+        public override int ResourceUserClassID() => 131998;
+
+        // PoisonP.pas:288
+        public override string ResourceEditName() => TranslateRStr(PoisonPlantRStr);
+
     }
-
-    // PoisonP.pas:66
-
 }
 
-public static partial class PoisonPUnit
+namespace Aow.Game.Commands
 {
-    // PoisonP.pas:426
-    public static void RegisterPoisonPlant(TAoWEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TPoisonPlant>(), EClass.Of<TPoisonPlantResource>(), EClass.Of<TPoisonPlantSpellTE>()]);
-        var poisonPlantSpell = new TPoisonPlantSpell(null);
-        AEngine.FGameSet.FSpellControl.RegisterSpell(poisonPlantSpell);
-    }
 
-    // PoisonP.pas:432
-    public static void UnRegisterPoisonPlant(TAoWEngine AEngine)
+    public partial class TPoisonPlantSpellTE : TGlobalTargetSpellTE
     {
-        AEngine.UnregisterEClasses([EClass.Of<TPoisonPlant>(), EClass.Of<TPoisonPlantResource>(), EClass.Of<TPoisonPlantSpellTE>()]);
-        AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
-    }
+        public TPoisonPlantSpellTE(TECustomNode owner) : base(owner)
+        { }
 
-    public static void Initialize()
-    {
-    }
+        // PoisonP.pas:303
+        public new const int ClassID = 135941;
 
-    public static void Finalize()
+        // PoisonP.pas:361
+        public override bool Process(TAbstractUnit source, int value)
+        {
+            base.Process(source, value);
+            CreatePoisonPlant(source);
+            AoWHSMap.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
+            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            return false;
+        }
+
+        // PoisonP.pas:308
+        public void CreatePoisonPlant(TAbstractUnit Source)
+        {
+            TMapLevel Level = default;
+            THNWalkData Walk = default;
+            TPoisonPlantResource Resource = default;
+            TAoWMapField MapF = default;
+            TPoisonPlant Plant = default;
+            TImageSequenceAnimation Animation = default;
+            TTwinkleAnimation Twinkle = default;
+            ref var walk = ref Walk;
+            Level = AoWHSMap.MapContainer.MapLevels[FLocation.L];
+            InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
+            Resource = (TPoisonPlantResource)AoWHSSet.MapObjectResourceList.FindChild(131999);
+            while (walk.Radius <= 1)
+            {
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && walk.Y < Level.Height)
+                {
+                    MapF = (TAoWMapField)Level.GetField(walk.X, walk.Y);
+                    if (((TGlobalTargetSpell)AoWHSSet.FSpellControl.GetSpell(12)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
+                    {
+                        MapF.RestoreTerrain();
+                        Plant = (TPoisonPlant)Resource.CreateResourceUser();
+                        Plant.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Random(11) - 5) / 5);
+                        Plant.FCasterPlayer = Source.FPlayer;
+                        Plant.FOriginalOverlay = MapF.OverlayType;
+                        AoWHSMap.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
+                        if (AoWHSMap.PlaceHX(Plant, walk.X, walk.Y, FLocation.L))
+                        {
+                            Plant.FPlantStatus = TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
+                            Animation = new TImageSequenceAnimation(null);
+                            Animation.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(12).FCastImages.ImageSequences[0]);
+                            Animation.FOnShow = Plant.ShowSummonAnimation;
+                            Animation.FOnNewFrame = Plant.NewFrameSummonAnimation;
+                            Animation.FFrameCounter = -AoWHSMap.Random(15);
+                            Animation.FAnimationLevel = 27;
+                            AoWHSMap.PlaceHX(Animation, walk.X, walk.Y, FLocation.L);
+                            Twinkle = new TTwinkleAnimation(null);
+                            Twinkle.Setup(AoWHSSet.FSpellControl.GetSpell(2).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(), 2, 6, Math.Abs(Animation.FFrameCounter + 5), Math.Abs(Animation.FFrameCounter + 5) / 2);
+                            AoWHSMap.PlaceHX(Twinkle, walk.X, walk.Y, FLocation.L);
+                        }
+                        else
+                        {
+                            Plant?.Dispose();
+                        }
+                    }
+                }
+
+                WalkToNextHN(ref Walk);
+            }
+        }
+
+        // NetworkE.pas:230
+
+    }
+}
+
+namespace Aow.Game.Magic.Spells.GlobalTarget
+{
+
+    public partial class TPoisonPlantSpell : TGlobalTargetSpell
     {
+        public TPoisonPlantSpell(TECustomNode owner) : base(owner)
+        {
+            FSpellName = TranslateRStr(PoisonPlantsRStr);
+            FSpellID = 12;
+            FBaseManaCost = 5;
+            FSpellLevel = 2;
+            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FAboveGroundOnly = false;
+        }
+
+        // PoisonP.pas:371
+
+        // PoisonP.pas:405
+        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        {
+            base.SetupTargetSelection(Source, TargetSelection);
+            TargetSelection.FHNs.Clear();
+            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
+            {
+                TargetSelection.FHNs.Add(0);
+            }
+        }
+
+        // PoisonP.pas:414
+        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        {
+            TPoisonPlantSpellTE Event;
+            Event = new TPoisonPlantSpellTE(null);
+            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
+            Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+            AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Event.Release();
+            return true;
+        }
+
+        // PoisonP.pas:390
+        public override bool ValidTargetSelectionMapF(TMapField Field)
+        {
+            TArmyHS ArmyHS;
+            bool Result = base.ValidTargetSelectionMapF(Field) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
+            // { Original precedence also accepts these overlays without the terrain test. }
+            Result = (Result && Field.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);
+            Result = Result && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
+            if (Result)
+            {
+                ArmyHS = ((TAoWMapField)Field).GetArmyHS();
+                if (ArmyHS != null)
+                {
+                    Result = !ArmyHS.VisibleForSeatedPlayer();
+                }
+            }
+
+            return Result;
+        }
+
+        // PoisonP.pas:382
+        public override bool ValidTargetMapF(TMapField Field)
+        {
+            bool Result = base.ValidTargetMapF(Field) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
+            // { Original precedence also accepts these overlays without the terrain test. }
+            Result = (Result && Field.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);
+            return Result && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
+        }
+
+        // PoisonP.pas:66
+
+    }
+}
+
+namespace Aow.Game.World.Terrain
+{
+
+    public static partial class PoisonPUnit
+    {
+        // PoisonP.pas:426
+        public static void RegisterPoisonPlant(TAoWEngine AEngine)
+        {
+            AEngine.RegisterEClasses([EClass.Of<TPoisonPlant>(), EClass.Of<TPoisonPlantResource>(), EClass.Of<TPoisonPlantSpellTE>()]);
+            var poisonPlantSpell = new TPoisonPlantSpell(null);
+            AEngine.FGameSet.FSpellControl.RegisterSpell(poisonPlantSpell);
+        }
+
+        // PoisonP.pas:432
+        public static void UnRegisterPoisonPlant(TAoWEngine AEngine)
+        {
+            AEngine.UnregisterEClasses([EClass.Of<TPoisonPlant>(), EClass.Of<TPoisonPlantResource>(), EClass.Of<TPoisonPlantSpellTE>()]);
+            AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
+        }
+
+        public static void Initialize()
+        {
+        }
+
+        public static void Finalize()
+        {
+        }
     }
 }

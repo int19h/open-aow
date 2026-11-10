@@ -5,16 +5,25 @@ using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
-using Aow.Units;
-using Aow.Units.Animation;
-using Aow.Units.AoWE;
-using Aow.Units.AoWSetup;
-using Aow.Units.City;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.GlobalEnchantmentSpells;
-using Aow.Units.HSEngine;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Combat;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells.GlobalEnchantment;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 
 namespace Aow.Units.Tests;
 
@@ -308,10 +317,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void ArmyViewCoversBothArrayWidths()
     {
-        var previous = Game.AoWHSMap;
+        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         var map = new TAoWHSMap(null!);
         map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
-        Game.AoWHSMap = map;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
         try
         {
             Check("TArmy", new TArmy(null!));
@@ -338,7 +347,7 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            Game.AoWHSMap = previous!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous!;
             map.Dispose();
         }
     }
@@ -838,17 +847,17 @@ public sealed class PersistEquivalenceTests
 
     private static void WithDestroyingMap(Action<TAoWHSMap> body)
     {
-        var previous = Game.AoWHSMap;
+        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         var map = new TAoWHSMap(null!);
         map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
-        Game.AoWHSMap = map;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
         try
         {
             body(map);
         }
         finally
         {
-            Game.AoWHSMap = previous!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous!;
             map.Dispose();
         }
     }
@@ -937,7 +946,7 @@ public sealed class PersistEquivalenceTests
     {
         var ability = new TAbility(null!);
         ability.FAbilityID = id;
-        var list = Game.AoWHSSet.FAbilityControl.FAbilities;
+        var list = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FAbilityControl.FAbilities;
         while (id >= list.Count) list.Add(null);
         list[id] = ability;
         return ability;
@@ -945,7 +954,7 @@ public sealed class PersistEquivalenceTests
 
     private static void ReleaseAbility(TAbility ability)
     {
-        var list = Game.AoWHSSet.FAbilityControl.FAbilities;
+        var list = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FAbilityControl.FAbilities;
         int id = ability.FAbilityID;
         if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability)) list[id] = null;
         ability.Dispose();

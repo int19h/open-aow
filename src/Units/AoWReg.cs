@@ -1,9 +1,9 @@
 // Translated from AoWReg.pas.
 using Aow.Rtl;
+using static Aow.Game.Engine.Nodes.EngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.Engine.EngineUnit;
 
-namespace Aow.Units.AoWReg;
+namespace Aow.Game.Engine;
 
 // { ot=1 }
 // inherited TRegistry fields

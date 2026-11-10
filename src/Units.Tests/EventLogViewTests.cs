@@ -1,19 +1,16 @@
 using System.Text;
-using Aow.Units.AoWE;
-using Aow.Units.aowMapEvents;
-using Aow.Units.Arena;
-using Aow.Units.City;
-using Aow.Units.Dungeon;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.FlagEvents;
-using Aow.Units.HSEngine;
-using Aow.Units.ItemExpS;
-using Aow.Units.PrdPlace;
-using Aow.Units.WizardsTower;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Xunit.Abstractions;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using static Aow.Game.Session.E2CampaignSupportUnit;
 
 namespace Aow.Units.Tests;
 
@@ -60,7 +57,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (negotiateRequestEventLog.FObject == TNegotiateObject.noCity) return "CityNegotiation";
             if (negotiateRequestEventLog.FObject == TNegotiateObject.noArmy)
             {
-                var ArmyHS = (TArmyHS)Game.AoWHSMap.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
+                var ArmyHS = (TArmyHS)Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
@@ -69,7 +66,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
             return "None";
         }
-        if (Event is TGameOverEventLog) return Game.AoWHSMap.FSeatedPlayer == Event.FPlayer ? "GameOver" : "ReceivedMessage";
+        if (Event is TGameOverEventLog) return Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap.FSeatedPlayer == Event.FPlayer ? "GameOver" : "ReceivedMessage";
         if (Event is TNewTurnEventLog) return "NewTurn";
         if (Event is TCombatTypeRequestEventLog) return "CombatType";
         if (Event is TShowBookEventLog) return "InformationBook";
@@ -92,7 +89,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         if (Event is TPrisonersJoinEventLog)
         {
-            var UnitObject = Game.AoWHSMap.FUnitControl.FindUnit(((TPrisonersJoinEventLog)Event).FFirstUnitID);
+            var UnitObject = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap.FUnitControl.FindUnit(((TPrisonersJoinEventLog)Event).FFirstUnitID);
             return UnitObject != null && UnitObject is THero ? "PrisonerHero" : "PrisonersJoin";
         }
         if (Event is TEnterWizardsTowerEventLog) return "WizardsTower";
@@ -253,7 +250,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly TAoWHSMap previousMap = Game.AoWHSMap;
+        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         private readonly List<TEObject> created = [];
         internal readonly TAoWHSMap Map;
         internal readonly TMapField Field;
@@ -270,7 +267,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             level.CreateMapFieldList(1, 1);
             Map.FMapContainer = container;
             Field = container.GetField(0, 0, 0);
-            Game.AoWHSMap = Map;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
         }
 
         internal TEventLog Create(Type type)
@@ -322,7 +319,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            Game.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
             foreach (var log in created) _ = Record.Exception(log.Dispose);
         }
     }

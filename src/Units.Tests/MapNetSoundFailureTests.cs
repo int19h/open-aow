@@ -1,8 +1,9 @@
+using Aow.Game.Audio;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
 using Aow.Platform;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.Sound;
-using SoundApi = Aow.Units.Sound.SoundUnit;
+using SoundApi = Aow.Game.Audio.SoundUnit;
 
 namespace Aow.Units.Tests;
 
@@ -29,7 +30,7 @@ public sealed class MapNetSoundFailureTests
         }
     }
 
-    private sealed class FailingSample : Aow.Units.Sound.TSample
+    private sealed class FailingSample : Aow.Game.Audio.TSample
     {
         private FailingSample(ConstructionContext context, TSampleData data) : base(context, data)
         {
@@ -106,7 +107,7 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void PlainWorldAndCombatLevelsKeepTheRegisteredTypeAndOwner()
     {
-        foreach (var descriptor in new[] { EClass.Of<Aow.Units.AoWE.TAoWMapLevel>(), EClass.Of<Aow.Units.AoWTC.TAoWCombatMapLevel>() })
+        foreach (var descriptor in new[] { EClass.Of<Aow.Game.World.Map.TAoWMapLevel>(), EClass.Of<Aow.Game.Combat.TAoWCombatMapLevel>() })
         {
             var owner = new SoundOwner();
             var level = Assert.IsAssignableFrom<TMapLevel>(descriptor.Create(owner));

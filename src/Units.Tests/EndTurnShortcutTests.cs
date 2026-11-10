@@ -1,14 +1,12 @@
-using Aow.Units.AoWE;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AOWMWindow;
-using Aow.Units.AoWTBWindow;
-using Aow.Units.AoWTC;
-using Aow.Units.AoWWindow;
-using Aow.Units.HSEngine;
-using Aow.Units.NetworkE;
-using Aow.Units.TurnButton;
-using Combat = Aow.Units.AoWTC.AoWTCUnit;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Combat;
+using Aow.Game.Commands;
+using Aow.Game.Net;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
+using Combat = Aow.Game.Combat.AoWTCUnit;
 
 namespace Aow.Units.Tests;
 
@@ -78,7 +76,7 @@ public sealed class EndTurnShortcutTests
 
     private sealed class Play : IDisposable
     {
-        private readonly TAoWHSMap previousMap = Game.AoWHSMap;
+        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         private readonly TAoWCombatMap previousCombat = Combat.AoWCombatMap;
         private readonly TTBWindow previousWindow = AoWExeFormsUnit.TBWindow;
         private TAoWCombatMap? combat;
@@ -90,7 +88,7 @@ public sealed class EndTurnShortcutTests
         public Play()
         {
             Map = new TAoWHSMap(null!);
-            Game.AoWHSMap = Map;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
             var pcc = new TLocalPCC();
             pcc.Setup(Map.FPlayers.Count);
             for (int i = 0; i < Map.FPlayers.Count; i++)
@@ -161,7 +159,7 @@ public sealed class EndTurnShortcutTests
             Button.Dispose();
             Bar.Dispose();
             AoWExeFormsUnit.TBWindow = previousWindow;
-            Game.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
             Map.Dispose();
         }
     }

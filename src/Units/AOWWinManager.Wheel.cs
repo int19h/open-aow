@@ -1,7 +1,7 @@
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
 
-namespace Aow.Units.AOWWinManager;
+namespace Aow.Game.Ui.Controls;
 
 public partial class TAOWWinManager
 {

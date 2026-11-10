@@ -117,7 +117,7 @@ internal sealed class RunFiles : IFileSystem
         {
             string autosave = "autosave" + extension;
             if (name.Equals(autosave, StringComparison.OrdinalIgnoreCase)) return AutoSaveTarget;
-            if (name.Equals(Aow.Units.FileBoundary.TemporaryFor(autosave), StringComparison.OrdinalIgnoreCase)) return Aow.Units.FileBoundary.TemporaryFor(AutoSaveTarget);
+            if (name.Equals(Aow.Game.Saves.FileBoundary.TemporaryFor(autosave), StringComparison.OrdinalIgnoreCase)) return Aow.Game.Saves.FileBoundary.TemporaryFor(AutoSaveTarget);
         }
         return path;
     }

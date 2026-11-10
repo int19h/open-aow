@@ -1,7 +1,7 @@
+using Aow.Game.Draw;
 using Aow.Rtl;
-using Aow.Units.GFXE;
 
-namespace Aow.Units.AoWIntroScene;
+namespace Aow.Game.Ui.Dialogs;
 
 // No video decoder is installed. This follows the original missing-codec path.
 public partial class TIntroScene

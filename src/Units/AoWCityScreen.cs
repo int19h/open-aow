@@ -1,36 +1,30 @@
 // Translated from AoWCityScreen.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AOWGauge;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWInfoBanner;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWTC;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.City;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
+// Translated from AoWCityScreen.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Draw.OverviewUnitUnit;
+using static Aow.Game.Engine.Nodes.EngineUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
+using static Aow.Game.World.Structures.CityUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.City.CityUnit;
-using static Aow.Units.Engine.EngineUnit;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using static Aow.Units.OverviewUnit.OverviewUnitUnit;
 
-namespace Aow.Units.AoWCityScreen;
+namespace Aow.Game.Ui.Dialogs;
 
 // city, preview, view, action, production, queue, mode, migrations, sort, images
 public partial class TCityScreen : TDataModule

@@ -1,6 +1,6 @@
 using Aow.Rtl;
 
-namespace Aow.Units.Sound;
+namespace Aow.Game.Audio;
 
 public sealed class NullSoundSystem : TSoundSystem
 {

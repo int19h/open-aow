@@ -1,11 +1,12 @@
 // Translated from FileSecurity.pas.
 using System.Buffers.Binary;
 using System.Runtime.InteropServices;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
 using Aow.Rtl;
-using Aow.Units.Engine;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.FileSecurity;
+namespace Aow.Game.Saves;
 
 [StructLayout(LayoutKind.Explicit, Size = 106)]
 public struct TSecurityData

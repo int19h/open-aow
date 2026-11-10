@@ -1,7 +1,7 @@
+using Aow.Game.Draw;
 using Aow.Rtl;
-using Aow.Units.GFXE;
 
-namespace Aow.Platform;
+namespace Aow.Game.Host;
 
 public interface IDisplayHost
 {

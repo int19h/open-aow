@@ -1,16 +1,11 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWExeForms;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AOWMenu;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWinMan;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 
-namespace Aow.Units.AoWInfoBanner;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TInfoBanner : ILayoutModule
 {

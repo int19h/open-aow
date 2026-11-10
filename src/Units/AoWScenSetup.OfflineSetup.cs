@@ -1,10 +1,9 @@
+using Aow.Game.Draw;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWPanel;
-using Aow.Units.GFXE;
 
-namespace Aow.Units.AoWScenSetup;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TScenSetup
 {

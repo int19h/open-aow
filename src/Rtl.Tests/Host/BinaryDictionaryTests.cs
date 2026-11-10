@@ -1,5 +1,5 @@
 using System.Text;
-using Xunit;
+using Aow.Rtl.Localize;
 
 namespace Aow.Rtl.Tests;
 

@@ -1,20 +1,22 @@
 // Translated from CombatStructure.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.aowFX;
-using Aow.Units.AoWTC;
-using Aow.Units.CombatILTer;
-using Aow.Units.CombatRoad;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.CombatStructure;
+namespace Aow.Game.World.Terrain;
 
 public partial class TCombatStructure : TCombatFixedILTerrain
 {

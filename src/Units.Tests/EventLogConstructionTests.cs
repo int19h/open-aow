@@ -1,10 +1,9 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Events;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -55,50 +54,50 @@ public sealed class EventLogConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Units.AoWE.TArmyEventLog",
-        "Aow.Units.AoWE.TArmyInfoEventLog",
-        "Aow.Units.City.TCityProductionEventLog",
-        "Aow.Units.City.TCityRebellionEventLog",
-        "Aow.Units.AoWE.TCombatEventLog",
-        "Aow.Units.AoWE.TCombatRestoreHotseatEventLog",
-        "Aow.Units.AoWE.TCombatTypeRequestEventLog",
-        "Aow.Units.AoWE.TDiplomaticActionEventLog",
-        "Aow.Units.EventLog.TEndTurnEventLog",
-        "Aow.Units.Arena.TEnterArenaEventLog",
-        "Aow.Units.Cave.TEnterCaveEventLog",
-        "Aow.Units.WizardsTower.TEnterWizardsTowerEventLog",
-        "Aow.Units.EventLog.TEventLog",
-        "Aow.Units.FlagEvents.TFlagMessageEventLog",
-        "Aow.Units.EventLog.TGameOverEventLog",
-        "Aow.Units.AoWE.TGlobalEnchantmentEventLog",
-        "Aow.Units.EventLog.THelpMessageEventLog",
-        "Aow.Units.AoWE.THeroEmergeEventLog",
-        "Aow.Units.AoWE.THeroJoinEventLog",
-        "Aow.Units.AoWE.THeroUpgradeEventLog",
-        "Aow.Units.ItemExpS.TItemExplorationSiteEventLog",
-        "Aow.Units.AoWE.TJoinEventLog",
-        "Aow.Units.EventLog.TLocationTextEventLog",
-        "Aow.Units.EventLog.TMessageEventLog",
-        "Aow.Units.AoWE.TNegotiateRequestEventLog",
-        "Aow.Units.EventLog.TNewDayEventLog",
-        "Aow.Units.AoWE.TNewTurnEventLog",
-        "Aow.Units.EventLog.TPasswordEventLog",
-        "Aow.Units.AoWE.TPlayerConnectionEventLog",
-        "Aow.Units.AoWE.TPlayerMagicEventLog",
-        "Aow.Units.Dungeon.TPrisonersJoinEventLog",
-        "Aow.Units.AoWE.TProductionEventLog",
-        "Aow.Units.PrdPlace.TProductionPlaceEventLog",
-        "Aow.Units.AoWE.TRazeStructureEventLog",
-        "Aow.Units.AoWE.TRestartGameEventLog",
-        "Aow.Units.AoWE.TSMTPEventLog",
-        "Aow.Units.EventLog.TSaveGameEventLog",
-        "Aow.Units.AoWE.TSendEmailGameEventLog",
-        "Aow.Units.EventLog.TShowBookEventLog",
-        "Aow.Units.EventLog.TShowMessageEventLog",
-        "Aow.Units.AoWE.TSpellCastEventLog",
-        "Aow.Units.EventLog.TTextEventLog",
-        "Aow.Units.EventLog.TTutorialMessageEventLog",
-        "Aow.Units.EventLog.TUserEventLog",
+        "Aow.Game.Events.TArmyEventLog",
+        "Aow.Game.Events.TArmyInfoEventLog",
+        "Aow.Game.Events.TCityProductionEventLog",
+        "Aow.Game.Events.TCityRebellionEventLog",
+        "Aow.Game.Events.TCombatEventLog",
+        "Aow.Game.Events.TCombatRestoreHotseatEventLog",
+        "Aow.Game.Events.TCombatTypeRequestEventLog",
+        "Aow.Game.Events.TDiplomaticActionEventLog",
+        "Aow.Game.Events.TEndTurnEventLog",
+        "Aow.Game.Events.TEnterArenaEventLog",
+        "Aow.Game.Events.TEnterCaveEventLog",
+        "Aow.Game.Events.TEnterWizardsTowerEventLog",
+        "Aow.Game.Events.TEventLog",
+        "Aow.Game.Events.TFlagMessageEventLog",
+        "Aow.Game.Events.TGameOverEventLog",
+        "Aow.Game.Events.TGlobalEnchantmentEventLog",
+        "Aow.Game.Events.THelpMessageEventLog",
+        "Aow.Game.Events.THeroEmergeEventLog",
+        "Aow.Game.Events.THeroJoinEventLog",
+        "Aow.Game.Events.THeroUpgradeEventLog",
+        "Aow.Game.Events.TItemExplorationSiteEventLog",
+        "Aow.Game.Events.TJoinEventLog",
+        "Aow.Game.Events.TLocationTextEventLog",
+        "Aow.Game.Events.TMessageEventLog",
+        "Aow.Game.Events.TNegotiateRequestEventLog",
+        "Aow.Game.Events.TNewDayEventLog",
+        "Aow.Game.Events.TNewTurnEventLog",
+        "Aow.Game.Events.TPasswordEventLog",
+        "Aow.Game.Events.TPlayerConnectionEventLog",
+        "Aow.Game.Events.TPlayerMagicEventLog",
+        "Aow.Game.Events.TPrisonersJoinEventLog",
+        "Aow.Game.Events.TProductionEventLog",
+        "Aow.Game.Events.TProductionPlaceEventLog",
+        "Aow.Game.Events.TRazeStructureEventLog",
+        "Aow.Game.Events.TRestartGameEventLog",
+        "Aow.Game.Events.TSMTPEventLog",
+        "Aow.Game.Events.TSaveGameEventLog",
+        "Aow.Game.Events.TSendEmailGameEventLog",
+        "Aow.Game.Events.TShowBookEventLog",
+        "Aow.Game.Events.TShowMessageEventLog",
+        "Aow.Game.Events.TSpellCastEventLog",
+        "Aow.Game.Events.TTextEventLog",
+        "Aow.Game.Events.TTutorialMessageEventLog",
+        "Aow.Game.Events.TUserEventLog",
     ];
 
     [Fact]
@@ -112,7 +111,7 @@ public sealed class EventLogConstructionTests
                     {
                         Type type = typeof(TEventLog).Assembly.GetType(name)!;
                         using var fixture = new OrderingRecording.Fixture(type);
-                        if (mapped == 1) Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FDay = 7; value.FCurrentPlayer = unchecked((sbyte)200); });
+                        if (mapped == 1) Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FDay = 7; value.FCurrentPlayer = unchecked((sbyte)200); });
                         var owner = owned == 1 ? new EventListOwner() : null;
                         TEventLog? value = null;
                         string state;
@@ -125,8 +124,8 @@ public sealed class EventLogConstructionTests
                         catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
                         Assert.NotNull(value);
                         actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.FRefCount }));
-                        Game.AoWEngine.FDictionary = fixture.Dictionary;
-                        Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msDestroying); });
+                        Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDictionary = fixture.Dictionary;
+                        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<Aow.Game.World.Map.THSMapStatusElement>.Of(Aow.Game.World.Map.THSMapStatusElement.msDestroying); });
                         if (owner is not null) value?.AddRef();
                         value?.Dispose();
                         owner?.Dispose();

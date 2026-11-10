@@ -1,13 +1,12 @@
 // Translated from AoWBookWindow.pas.
+using Aow.Game.Draw;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
+using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.AoWBookWindow;
+namespace Aow.Game.Ui.Windows;
 
 // completion event, first frame, previous surface validity, page turn, animating, saved page
 // surface, page-turn mode
@@ -16,10 +15,10 @@ public partial class TAoWBookWindow : TAOWWindow
     public TNotifyEvent<TAoWBookWindow> FOnAnimationComplete;
     public bool FFirstAnimationFrame;
     public bool FPreviousSurfaceValid;
-    public PageTurnCtrl.TPageTurnControl FPageTurn;
+    public Aow.Game.Ui.Grids.TPageTurnControl FPageTurn;
     public bool FAnimating;
     public TSurface FPageSurface;
-    public PageTurnCtrl.TPageTurnMode FPageTurnMode;
+    public Aow.Game.Ui.Grids.TPageTurnMode FPageTurnMode;
 
     // AoWBookWindow.pas:50
     public override void Dispose()
@@ -37,7 +36,7 @@ public partial class TAoWBookWindow : TAOWWindow
     // AoWBookWindow.pas:44
     public TAoWBookWindow(TComponent owner) : base(owner)
     {
-        FPageTurn = new PageTurnCtrl.TPageTurnControl();
+        FPageTurn = new Aow.Game.Ui.Grids.TPageTurnControl();
     }
 
     // AoWBookWindow.pas:78
@@ -134,7 +133,7 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     // AoWBookWindow.pas:92
-    public void StartAnim(PageTurnCtrl.TPageTurnMode Mode)
+    public void StartAnim(Aow.Game.Ui.Grids.TPageTurnMode Mode)
     {
         TSurfaceDesc Source = default;
         TSurfaceDesc Dest = default;

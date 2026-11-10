@@ -1,6 +1,6 @@
 // Translated from E1TacticalSupport.pas.
 
-namespace Aow.Units.E1TacticalSupport;
+namespace Aow.Game.Combat;
 
 public static partial class E1TacticalSupportUnit
 {

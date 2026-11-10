@@ -4,7 +4,7 @@ using System.Reflection;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.Engine;
+namespace Aow.Game.Engine;
 
 // One store serves every converted list. Add appends. Remove deletes the first
 // match from index 0 by target and method, and leaves the vacated tail slot.

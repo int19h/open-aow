@@ -1,25 +1,18 @@
 // Translated from AoWEmailGameSettingsDlg.pas.
-using Aow.Platform;
+using Aow.Game.Draw;
+using Aow.Game.Host;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWEdit;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMessageDlg;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWSetup;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
 
-namespace Aow.Units.AoWEmailGameSettingsDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // editable email address list. setup control
 public partial class TEmailGameSettingsDlg : TDataModule

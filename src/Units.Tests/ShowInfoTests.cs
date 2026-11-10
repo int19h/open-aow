@@ -1,10 +1,10 @@
 using System.Buffers.Binary;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Xunit.Abstractions;
-using G = Aow.Units.GFXE.GFXEUnit;
-using Images = Aow.Units.ImageLib.ImageLibUnit;
-using LibraryImage = Aow.Units.ImageLib.TLibraryImage;
+using G = Aow.Game.Draw.GFXEUnit;
+using Images = Aow.Game.Draw.Images.ImageLibUnit;
+using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
 
 namespace Aow.Units.Tests;
 

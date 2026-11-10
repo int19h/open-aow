@@ -1,9 +1,9 @@
 // Translated from E2CampaignSupport.pas.
+using Aow.Game.Session;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWVideoDlg;
 
-namespace Aow.Units.E2CampaignSupport;
+namespace Aow.Game.Session;
 
 public static partial class E2CampaignSupportUnit
 {

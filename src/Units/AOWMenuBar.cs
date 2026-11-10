@@ -1,14 +1,11 @@
 // Translated from AOWMenuBar.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AOWMenuBar;
+namespace Aow.Game.Ui.Controls;
 
 // { The AOWMenuBar unit of aowInt.dpl: TAOWMenuBar, a horizontal bar of buttons, one per item, in a
 //   window. Clicking an item selects it and shows the menus (TAOWMenu) that belong to the item

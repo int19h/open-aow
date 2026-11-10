@@ -1,27 +1,22 @@
 // Translated from AoWArenaDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWWindow;
-using Aow.Units.Arena;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
+// Translated from AoWArenaDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.AoWArenaDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // arena event. completion callback
 public partial class TArenaDlg : TDataModule
@@ -62,7 +57,7 @@ public partial class TArenaDlg : TDataModule
     {
         TRect SaveRect;
         TP2UnitShowInfo Info;
-        ImageLib.TLibraryImage Img;
+        Aow.Game.Draw.Images.TLibraryImage Img;
         TAbstractUnit U;
         TAlignment Alignment;
         if (Index < FEvent.GetCount())

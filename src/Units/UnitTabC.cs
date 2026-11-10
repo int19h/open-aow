@@ -1,10 +1,10 @@
 // Translated from UnitTabC.pas.
+using Aow.Game.Ui.Grids;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.UnitIGrd;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.UnitTabC;
+namespace Aow.Game.Ui.Grids;
 
 // selection control, unit index grid, selection event
 public partial class TUnitTabControl : TTabControl

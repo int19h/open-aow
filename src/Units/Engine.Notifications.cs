@@ -1,23 +1,29 @@
 using Aow.Rtl;
 
-namespace Aow.Units.Engine;
-
-[LegacyObject]
-public sealed class EngineDebugNotification
+namespace Aow.Game.Engine
 {
-    public TEngineDebugInfo Info;
 
-    public EngineDebugNotification()
+    [LegacyObject]
+    public sealed class EngineDebugNotification
     {
-        CaptureAddress.Assign(this);
+        public TEngineDebugInfo Info;
+
+        public EngineDebugNotification()
+        {
+            CaptureAddress.Assign(this);
+        }
     }
 }
 
-public static partial class EngineUnit
+namespace Aow.Game.Engine.Nodes
 {
-    internal static int CStringLength(ReadOnlySpan<byte> text)
+
+    public static partial class EngineUnit
     {
-        int end = text.IndexOf((byte)0);
-        return end < 0 ? text.Length : end;
+        internal static int CStringLength(ReadOnlySpan<byte> text)
+        {
+            int end = text.IndexOf((byte)0);
+            return end < 0 ? text.Length : end;
+        }
     }
 }

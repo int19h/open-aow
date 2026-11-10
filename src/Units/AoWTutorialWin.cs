@@ -1,12 +1,12 @@
 // Translated from AoWTutorialWin.pas.
+using Aow.Game.Events;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
+// Translated from AoWTutorialWin.pas.
+using Aow.Rtl.Localize;
 
-namespace Aow.Units.AoWTutorialWin;
+namespace Aow.Game.Ui.Dialogs;
 
 // done callback, retained event
 public partial class TTutorialWindow : TDataModule

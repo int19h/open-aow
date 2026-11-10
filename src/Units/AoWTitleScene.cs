@@ -1,18 +1,18 @@
 // Translated from AoWTitleScene.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AowUserWindow;
-using Aow.Units.E2Globals;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWFileDialogUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.AoWTitleScene;
+namespace Aow.Game.Ui.Dialogs;
 
 // frame counters, mouse button, mouse position, selected/pressed/hover button, scene rectangle,
 // redraw/credits, credits, credit page/frame, intro flag/frame, font

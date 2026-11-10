@@ -1,19 +1,18 @@
 // Translated from AoWArnoLine.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWArnoLine;
+namespace Aow.Game.Ui.Controls;
 
 // top, middle, bottom, copied line image library
 public partial class TAoWArnoLine : TAOWControl
 {
-    public ImageLib.TLibraryImage FImageTop;
-    public ImageLib.TLibraryImage FImageMiddle;
-    public ImageLib.TLibraryImage FImageBottom;
+    public Aow.Game.Draw.Images.TLibraryImage FImageTop;
+    public Aow.Game.Draw.Images.TLibraryImage FImageMiddle;
+    public Aow.Game.Draw.Images.TLibraryImage FImageBottom;
     public TInterfaceIL FLineLibrary;
 
     // AoWArnoLine.pas:47
@@ -90,7 +89,7 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     // AoWArnoLine.pas:66
-    public void SetITop(ImageLib.TLibraryImage Value)
+    public void SetITop(Aow.Game.Draw.Images.TLibraryImage Value)
     {
         if (Value != FImageTop)
         {
@@ -100,7 +99,7 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     // AoWArnoLine.pas:75
-    public void SetIMiddle(ImageLib.TLibraryImage Value)
+    public void SetIMiddle(Aow.Game.Draw.Images.TLibraryImage Value)
     {
         if (Value != FImageMiddle)
         {
@@ -110,7 +109,7 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     // AoWArnoLine.pas:84
-    public void SetIBottom(ImageLib.TLibraryImage Value)
+    public void SetIBottom(Aow.Game.Draw.Images.TLibraryImage Value)
     {
         if (Value != FImageBottom)
         {
@@ -120,13 +119,13 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     [Published]
-    public ImageLib.TLibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
+    public Aow.Game.Draw.Images.TLibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
 
     [Published]
-    public ImageLib.TLibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
+    public Aow.Game.Draw.Images.TLibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
 
     [Published]
-    public ImageLib.TLibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
+    public Aow.Game.Draw.Images.TLibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
 
     public new TNotifyEvent<TAoWArnoLine> OnChange
     {

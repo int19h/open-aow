@@ -1,8 +1,7 @@
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWVScroll;
 
-namespace Aow.Units.AoWListBox;
+namespace Aow.Game.Ui.Controls;
 
 public partial class TAOWListBox
 {

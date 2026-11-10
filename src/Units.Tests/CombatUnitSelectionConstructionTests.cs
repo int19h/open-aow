@@ -1,8 +1,8 @@
 using System.Reflection;
 using System.Text.Json;
-using Aow.Units.AoWTC;
-using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Combat;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 
 namespace Aow.Units.Tests;
 
@@ -33,8 +33,8 @@ public sealed class CombatUnitSelectionConstructionTests
             using var fixture = new OrderingRecording.Fixture();
             var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
             entry.FImageLibrary = new TImageLibrary(null!);
-            var set = Game.AoWHSSet;
-            if (fail == 1) Game.AoWHSSet = null!;
+            var set = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
+            if (fail == 1) Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = null!;
             int before = entry.RefCount;
             TCombatUnitSelectionControl? value = null;
             string state;
@@ -46,7 +46,7 @@ public sealed class CombatUnitSelectionConstructionTests
                 state = OrderingRecording.Snapshot(value);
             }
             catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
-            finally { Game.AoWHSSet = set; }
+            finally { Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set; }
             Assert.Equal(fail == 0, value is not null);
             actual.Add("fail" + fail, JsonSerializer.Serialize(new { State = state, Before = before, After = entry.RefCount }));
             value?.Dispose();

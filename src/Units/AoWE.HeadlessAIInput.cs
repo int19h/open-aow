@@ -1,6 +1,8 @@
-using Aow.Rtl;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.Ai;
 
 public partial class TAIPlayerControl
 {

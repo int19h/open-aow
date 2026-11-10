@@ -1,7 +1,9 @@
 using Aow.Formats.Tree;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Events;
+using Aow.Game.Magic;
+using Aow.Game.Units;
 
 namespace Aow.Units.Tests;
 

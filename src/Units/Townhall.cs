@@ -1,9 +1,9 @@
 // Translated from Townhall.pas.
-using Aow.Rtl;
-using Aow.Units.CombatStructure;
-using Aow.Units.Engine;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Terrain;
 
-namespace Aow.Units.Townhall;
+namespace Aow.Game.World.Terrain;
 
 public partial class TTownhall : TCombatStructure
 {

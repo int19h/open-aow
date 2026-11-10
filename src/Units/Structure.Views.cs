@@ -1,13 +1,15 @@
-using Aow.Units.AoWE;
+using Aow.Game.Combat;
+using Aow.Game.Magic;
+using Aow.Game.World.Structures;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
 
 // What each structure kind shows in the info window, opens from the info window button or a double
 // click on the map, and fights on in tactical combat. The keys name views, and each screen holds
 // the renderers of its keys, so this file names no screen. A mod structure kind overrides these
 // and registers renderers for keys of its own.
 
-namespace Aow.Units.AoWE
+namespace Aow.Game.World.Structures
 {
     // A view key. Instances are the keys, the name serves the reports.
     public sealed class StructureView(string name)
@@ -42,6 +44,10 @@ namespace Aow.Units.AoWE
         public static readonly StructureView WizardsTower = new("WizardsTower");
         public static readonly StructureView Arena = new("Arena");
     }
+}
+
+namespace Aow.Game.Combat
+{
 
     // The combat hex as the tactical map generator sees it when it picks the map file
     // (AoWTC.pas:4156). A kind reads the combat state and the neighbor fields, and reports back the
@@ -65,6 +71,10 @@ namespace Aow.Units.AoWE
 
         public void FixTag(int Direction) => FixedTags |= 1 << Direction;
     }
+}
+
+namespace Aow.Game.World.Structures
+{
 
     public partial class TStructure
     {
@@ -110,7 +120,7 @@ namespace Aow.Units.AoWE
     }
 }
 
-namespace Aow.Units.City
+namespace Aow.Game.World.Structures
 {
     public partial class TCity
     {
@@ -158,7 +168,7 @@ namespace Aow.Units.City
     }
 }
 
-namespace Aow.Units.PrdPlace
+namespace Aow.Game.World.Structures
 {
     public partial class TProductionPlace
     {
@@ -170,7 +180,7 @@ namespace Aow.Units.PrdPlace
     }
 }
 
-namespace Aow.Units.Mine
+namespace Aow.Game.World.Structures
 {
     public partial class TMine
     {
@@ -180,7 +190,7 @@ namespace Aow.Units.Mine
     }
 }
 
-namespace Aow.Units.PowerNode
+namespace Aow.Game.World.Structures
 {
     public partial class TPowerNode
     {
@@ -190,7 +200,7 @@ namespace Aow.Units.PowerNode
     }
 }
 
-namespace Aow.Units.Farm
+namespace Aow.Game.World.Structures
 {
     public partial class TFarm
     {
@@ -200,7 +210,7 @@ namespace Aow.Units.Farm
     }
 }
 
-namespace Aow.Units.Tower
+namespace Aow.Game.World.Structures
 {
     public partial class TTower
     {
@@ -210,7 +220,7 @@ namespace Aow.Units.Tower
     }
 }
 
-namespace Aow.Units.Altar
+namespace Aow.Game.World.Structures
 {
     public partial class TAltar
     {
@@ -241,7 +251,7 @@ namespace Aow.Units.Altar
     }
 }
 
-namespace Aow.Units.Sign
+namespace Aow.Game.World.Structures
 {
     public partial class TSign
     {
@@ -249,7 +259,7 @@ namespace Aow.Units.Sign
     }
 }
 
-namespace Aow.Units.Cave
+namespace Aow.Game.World.Structures
 {
     public partial class TCave
     {
@@ -265,7 +275,7 @@ namespace Aow.Units.Cave
     }
 }
 
-namespace Aow.Units.Teleport
+namespace Aow.Game.World.Structures
 {
     public partial class TTeleport
     {
@@ -288,7 +298,7 @@ namespace Aow.Units.Teleport
     }
 }
 
-namespace Aow.Units.ExploreS
+namespace Aow.Game.World.Structures
 {
     public partial class TExplorationSite
     {
@@ -321,7 +331,7 @@ namespace Aow.Units.ExploreS
     }
 }
 
-namespace Aow.Units.WizardsTower
+namespace Aow.Game.World.Structures
 {
     public partial class TWizardsTower
     {
@@ -341,7 +351,7 @@ namespace Aow.Units.WizardsTower
     }
 }
 
-namespace Aow.Units.Arena
+namespace Aow.Game.World.Structures
 {
     public partial class TArena
     {
@@ -361,7 +371,7 @@ namespace Aow.Units.Arena
     }
 }
 
-namespace Aow.Units.Spring
+namespace Aow.Game.World.Structures
 {
     public partial class TSpringOfLife
     {
@@ -369,7 +379,7 @@ namespace Aow.Units.Spring
     }
 }
 
-namespace Aow.Units.AirNode
+namespace Aow.Game.World.Structures
 {
     public partial class TAirNode
     {
@@ -377,7 +387,7 @@ namespace Aow.Units.AirNode
     }
 }
 
-namespace Aow.Units.DeathNode
+namespace Aow.Game.World.Structures
 {
     public partial class TDeathNode
     {
@@ -385,7 +395,7 @@ namespace Aow.Units.DeathNode
     }
 }
 
-namespace Aow.Units.EarthNode
+namespace Aow.Game.World.Structures
 {
     public partial class TEarthNode
     {
@@ -393,7 +403,7 @@ namespace Aow.Units.EarthNode
     }
 }
 
-namespace Aow.Units.FireNode
+namespace Aow.Game.World.Structures
 {
     public partial class TFireNode
     {
@@ -401,7 +411,7 @@ namespace Aow.Units.FireNode
     }
 }
 
-namespace Aow.Units.LifeNode
+namespace Aow.Game.World.Structures
 {
     public partial class TLifeNode
     {
@@ -409,7 +419,7 @@ namespace Aow.Units.LifeNode
     }
 }
 
-namespace Aow.Units.WaterNode
+namespace Aow.Game.World.Structures
 {
     public partial class TWaterNode
     {
@@ -417,7 +427,7 @@ namespace Aow.Units.WaterNode
     }
 }
 
-namespace Aow.Units.ReflectingPool
+namespace Aow.Game.World.Structures
 {
     public partial class TReflectingPool
     {
@@ -425,7 +435,7 @@ namespace Aow.Units.ReflectingPool
     }
 }
 
-namespace Aow.Units.BldGuild
+namespace Aow.Game.World.Structures
 {
     public partial class TBuildersGuild
     {
@@ -433,7 +443,7 @@ namespace Aow.Units.BldGuild
     }
 }
 
-namespace Aow.Units.Shipyard
+namespace Aow.Game.World.Structures
 {
     public partial class TShipyard
     {
@@ -441,7 +451,7 @@ namespace Aow.Units.Shipyard
     }
 }
 
-namespace Aow.Units.MonsterL
+namespace Aow.Game.World.Structures
 {
     public partial class TMonsterlair
     {
@@ -449,7 +459,7 @@ namespace Aow.Units.MonsterL
     }
 }
 
-namespace Aow.Units.Pyramid
+namespace Aow.Game.World.Structures
 {
     public partial class TPyramid
     {
@@ -457,7 +467,7 @@ namespace Aow.Units.Pyramid
     }
 }
 
-namespace Aow.Units.Crypt
+namespace Aow.Game.World.Structures
 {
     public partial class TCrypt
     {
@@ -465,7 +475,7 @@ namespace Aow.Units.Crypt
     }
 }
 
-namespace Aow.Units.Ruin
+namespace Aow.Game.World.Structures
 {
     public partial class TRuin
     {
@@ -473,7 +483,7 @@ namespace Aow.Units.Ruin
     }
 }
 
-namespace Aow.Units.Dungeon
+namespace Aow.Game.World.Structures
 {
     public partial class TDungeon
     {

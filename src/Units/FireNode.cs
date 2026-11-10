@@ -1,11 +1,11 @@
 // Translated from FireNode.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.PrdPlace;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic;
+using Aow.Game.World.Structures;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.FireNode;
+namespace Aow.Game.World.Structures;
 
 public partial class TFireNode : TProductionPlace
 {

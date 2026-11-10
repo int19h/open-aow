@@ -1,23 +1,13 @@
 using System.Text;
-using Aow.Units.Altar;
-using Aow.Units.AoWE;
-using Aow.Units.AoWInfoWin;
-using Aow.Units.aowMapEvents;
-using Aow.Units.Arena;
-using Aow.Units.Cave;
-using Aow.Units.City;
-using Aow.Units.Engine;
-using Aow.Units.ExploreS;
-using Aow.Units.Farm;
-using Aow.Units.Mine;
-using Aow.Units.PowerNode;
-using Aow.Units.PrdPlace;
-using Aow.Units.Sign;
-using Aow.Units.Teleport;
-using Aow.Units.Tower;
-using Aow.Units.WizardsTower;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Xunit.Abstractions;
-using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -69,7 +59,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private static void Apply(TStructure structure, State state)
     {
         if (structure is TPlayerStructure player) player.FPlayer = state.Owned ? Viewer : OtherPlayer;
-        Game.AoWEngine.FDebug = state.Debug;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDebug = state.Debug;
         structure.FBuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
         if (state.Razed) Raze(structure);
         if (structure is TCity city)
@@ -105,7 +95,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         if (Structure.GetRazed()) return "Razed";
         if (Structure is TPlayerStructure)
         {
-            if (((TPlayerStructure)Structure).FPlayer == Seated || Game.AoWEngine.FDebug)
+            if (((TPlayerStructure)Structure).FPlayer == Seated || Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDebug)
             {
                 if (Structure is TCity) return ((TCity)Structure).FMode.Contains(TCityModeElement.cmWarmode) ? "WarCity" : "City";
                 if (Structure is TProductionPlace) return ((TProductionPlace)Structure).GetMagicSphere() == TMagicSphere.msNone ? "Production" : "ProductionIncome";
@@ -216,8 +206,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly TAoWHSMap previousMap = Game.AoWHSMap;
-        private readonly bool previousDebug = Game.AoWEngine.FDebug;
+        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        private readonly bool previousDebug = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDebug;
         private readonly List<TStructure> created = [];
         internal readonly TAoWHSMap Map;
 
@@ -225,7 +215,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         {
             Map = new TAoWHSMap(null!);
             Map.FSeatedPlayer = Viewer;
-            Game.AoWHSMap = Map;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
         }
 
         internal (TStructure Structure, ArmyOwner Owner) Create(Type type)
@@ -239,8 +229,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            Game.AoWHSMap = previousMap;
-            Game.AoWEngine.FDebug = previousDebug;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDebug = previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
             foreach (var structure in created) _ = Record.Exception(structure.Dispose);
         }

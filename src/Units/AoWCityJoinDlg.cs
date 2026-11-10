@@ -1,19 +1,15 @@
 // Translated from AoWCityJoinDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Events;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWArnoLine;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+// Translated from AoWCityJoinDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AoWCityJoinDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // race, completion event, retained negotiation event
 public partial class TCityJoinDlg : TDataModule
@@ -100,7 +96,7 @@ public partial class TCityJoinDlg : TDataModule
     // AoWCityJoinDlg.pas:93
     public void DlgDrawBack(TSurfaceDesc Surface)
     {
-        ImageLib.TLibraryImage Face;
+        Aow.Game.Draw.Images.TLibraryImage Face;
         Face = AoWHSSet.FRaceResources.GetRaceResource(FRace).GetFace();
         if (Face != null)
         {

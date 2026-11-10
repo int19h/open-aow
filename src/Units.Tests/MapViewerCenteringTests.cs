@@ -1,6 +1,6 @@
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using G = Aow.Units.GFXE.GFXEUnit;
+using Aow.Game.Draw;
+using Aow.Game.World.Map;
+using G = Aow.Game.Draw.GFXEUnit;
 using RtlApi = Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.Tests;

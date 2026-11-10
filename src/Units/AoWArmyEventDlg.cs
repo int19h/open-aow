@@ -1,21 +1,21 @@
 // Translated from AoWArmyEventDlg.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
+// Translated from AoWArmyEventDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
-namespace Aow.Units.AoWArmyEventDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // completion callback. army event. frame. visible unit indices
 public partial class TArmyEventDlg : TDataModule

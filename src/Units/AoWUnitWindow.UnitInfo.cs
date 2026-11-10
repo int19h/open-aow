@@ -1,13 +1,16 @@
 #nullable disable
+using Aow.Game.Engine;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Engine.Nodes.EngineUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.Engine.EngineUnit;
-namespace Aow.Units.AoWUnitWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TUnitWindow
 {

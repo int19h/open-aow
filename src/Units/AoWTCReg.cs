@@ -1,24 +1,24 @@
 // Translated from AoWTCReg.pas.
-using Aow.Units.Engine;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.CenterViewLoc.CenterViewLocUnit;
-using static Aow.Units.CityWall.CityWallUnit;
-using static Aow.Units.CombatFire.CombatFireUnit;
-using static Aow.Units.CombatHex.CombatHexUnit;
-using static Aow.Units.CombatILTer.CombatILTerUnit;
-using static Aow.Units.CombatObstacle.CombatObstacleUnit;
-using static Aow.Units.CombatRoad.CombatRoadUnit;
-using static Aow.Units.CombatTE.CombatTEUnit;
-using static Aow.Units.CombatTerrain.CombatTerrainUnit;
-using static Aow.Units.FleeLoc.FleeLocUnit;
-using static Aow.Units.House.HouseUnit;
-using static Aow.Units.IsoCombatHex.IsoCombatHexUnit;
-using static Aow.Units.MainStructure.MainStructureUnit;
-using static Aow.Units.SingleCombatHex.SingleCombatHexUnit;
-using static Aow.Units.Townhall.TownhallUnit;
-using static Aow.Units.WorkShop.WorkShopUnit;
+using Aow.Game.Engine;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Commands.CombatTEUnit;
+using static Aow.Game.Draw.CombatFireUnit;
+using static Aow.Game.Draw.CombatObstacleUnit;
+using static Aow.Game.World.CenterViewLocUnit;
+using static Aow.Game.World.FleeLocUnit;
+using static Aow.Game.World.Hexes.CombatHexUnit;
+using static Aow.Game.World.Hexes.CombatRoadUnit;
+using static Aow.Game.World.Hexes.CombatTerrainUnit;
+using static Aow.Game.World.Hexes.IsoCombatHexUnit;
+using static Aow.Game.World.Hexes.SingleCombatHexUnit;
+using static Aow.Game.World.Terrain.CityWallUnit;
+using static Aow.Game.World.Terrain.CombatILTerUnit;
+using static Aow.Game.World.Terrain.HouseUnit;
+using static Aow.Game.World.Terrain.MainStructureUnit;
+using static Aow.Game.World.Terrain.TownhallUnit;
+using static Aow.Game.World.Terrain.WorkShopUnit;
 
-namespace Aow.Units.AoWTCReg;
+namespace Aow.Game.Combat;
 
 public static partial class AoWTCRegUnit
 {

@@ -1,18 +1,18 @@
 // Translated from AoWSelFactionWin.pas.
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
+// Translated from AoWSelFactionWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
 
-namespace Aow.Units.AoWSelFactionWin;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TSelFactionWin : TDataModule
 {

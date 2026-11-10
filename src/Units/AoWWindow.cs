@@ -1,12 +1,12 @@
 // Translated from AoWWindow.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AoWWinGeneric;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWWindow;
+namespace Aow.Game.Ui.Windows;
 
 // { The AoWWindow unit of aowInt.dpl: TAOWWindow, the ordinary window of the window manager. It
 //   draws its frame and texture, can be dragged by its title area (DragHeight) and resized by its

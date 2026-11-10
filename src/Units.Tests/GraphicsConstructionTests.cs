@@ -1,10 +1,9 @@
 using System.Reflection;
-using Aow.Rtl;
-using Aow.Units.DisplayC;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using G = Aow.Units.GFXE.GFXEUnit;
-using LibraryImage = Aow.Units.ImageLib.TLibraryImage;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Layout;
+using G = Aow.Game.Draw.GFXEUnit;
+using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
 
 namespace Aow.Units.Tests;
 
@@ -254,7 +253,7 @@ public sealed class GraphicsConstructionTests
     public void LibraryLegacyBridgeAndLayoutFlagsRunOnce()
     {
         using var owner = new TComponent(null!);
-        var session = new Aow.Layout.LayoutSession();
+        var session = new Aow.Game.Layout.LayoutSession();
         var library = new TImageLibrary(owner);
         session.BeginRead(library);
         var font = new TImageLibraryFont(owner);
@@ -266,7 +265,7 @@ public sealed class GraphicsConstructionTests
         Assert.False(library.ComponentState.Contains(TComponentState.csReading));
         Assert.True(library.ComponentState.Contains(TComponentState.csLoading));
         Assert.Equal(2, Field(font, "FCharacterDistance"));
-        var legacy = new Aow.Units.HSLib.THSLibrary(owner);
+        var legacy = new Aow.Game.Draw.THSLibrary(owner);
         Assert.NotNull(Field(legacy, "FList"));
         Assert.NotNull(Field(legacy, "FPaletteManager"));
         Assert.Equal(3, owner.ComponentCount);
@@ -370,7 +369,7 @@ public sealed class GraphicsConstructionTests
         }
     }
 
-    private sealed class NullDisplayHost : Aow.Platform.IDisplayHost
+    private sealed class NullDisplayHost : Aow.Game.Host.IDisplayHost
     {
         public (int Width, int Height) ClientSize => (640, 480);
         public bool Fullscreen { get; set; }
@@ -380,7 +379,7 @@ public sealed class GraphicsConstructionTests
 
         public (int X, int Y, bool Inside) PointerPosition() => (7, 9, true);
 
-        public void PumpEvents(Aow.Platform.IDisplayEvents sink) { }
+        public void PumpEvents(Aow.Game.Host.IDisplayEvents sink) { }
 
         public void ShowSystemCursor(bool show) { }
     }

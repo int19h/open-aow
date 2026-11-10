@@ -1,22 +1,9 @@
 // Translated from AoWExeForms.pas.
+using Aow.Game.Ui.Dialogs;
 using Aow.Rtl;
-using Aow.Units.AOWChatWin;
-using Aow.Units.AoWConstructDlg;
-using Aow.Units.AoWDisjunctionDlg;
-using Aow.Units.AoWInfoBanner;
-using Aow.Units.AoWMagic;
-using Aow.Units.AoWMessageDlg;
-using Aow.Units.AOWMultiWin;
-using Aow.Units.AoWScenSetup;
-using Aow.Units.AoWSoundDlg;
-using Aow.Units.AoWSpellBook;
-using Aow.Units.AoWTBWindow;
-using Aow.Units.AoWTCScanner;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.FontMod;
-using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.AoWExeForms;
+namespace Aow.Game.Ui.Dialogs;
 
 public static partial class AoWExeFormsUnit
 {

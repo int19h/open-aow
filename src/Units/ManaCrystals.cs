@@ -1,16 +1,21 @@
 // Translated from ManaCrystals.pas.
 using System.Runtime.InteropServices;
+using Aow.Game.Ai;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.Session;
+using Aow.Game.World.Map;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.HSEngine;
-using Aow.Units.ILTer;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.ManaCrystals;
+namespace Aow.Game.World.Terrain;
 
 // { ManaCrystals of AoWEPACK.dpl: recovered bodies and original instance layouts.
 //   Remaining inherited declaration constraints are documented at local ABI adapters. }

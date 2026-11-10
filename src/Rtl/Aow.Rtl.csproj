@@ -5,7 +5,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Delphi\names.tsv" LogicalName="Aow.Rtl.names.tsv" />
+    <EmbeddedResource Include="Delphi\names.csv" LogicalName="Aow.Rtl.names.csv" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Aow.Rtl.Tests" />

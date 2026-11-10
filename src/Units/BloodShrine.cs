@@ -1,150 +1,158 @@
 // Translated from BloodShrine.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.Animation;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.BloodShrine;
-
-public partial class TBloodShrineAnimation : TAnimation
+namespace Aow.Game.Draw.Animation
 {
-    public TBloodShrineAnimation(TECustomNode owner) : base(owner)
-    { }
 
-    // BloodShrine.pas:56
-    public override void NewFrame()
+    public partial class TBloodShrineAnimation : TAnimation
     {
-        base.NewFrame();
-        if (FFrameCounter > 20)
+        public TBloodShrineAnimation(TECustomNode owner) : base(owner)
+        { }
+
+        // BloodShrine.pas:56
+        public override void NewFrame()
         {
-            Dispose();
+            base.NewFrame();
+            if (FFrameCounter > 20)
+            {
+                Dispose();
+            }
         }
+
+        // Animation.pas:43
+
+        // BloodShrine.pas:53
+        public override TSet<TAnimationControlModeElement> AnimationControlMode() => TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amOwnedByMap);
+
     }
-
-    // Animation.pas:43
-
-    // BloodShrine.pas:53
-    public override TSet<TAnimationControlModeElement> AnimationControlMode() => TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amOwnedByMap);
-
 }
 
-public partial class TBloodShrine : TStructure
+namespace Aow.Game.World.Structures
 {
-    public TBloodShrine(TECustomNode owner) : base(owner)
+
+    public partial class TBloodShrine : TStructure
     {
-    }
-
-    // BloodShrine.pas:65
-    public new const int ClassID = 131376;
-
-    // BloodShrine.pas:62
-
-    // BloodShrine.pas:103
-    public override void ArmyPlaced(TArmyHS PlacedArmy)
-    {
-        base.ArmyPlaced(PlacedArmy);
-        ExecuteBloodlust(PlacedArmy);
-    }
-
-    // BloodShrine.pas:68
-    public void ShowBlessingAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
-    {
-        int Xhp = default;
-        int Yhp = default;
-        HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-        Xhp -= XhpSurf;
-        Yhp -= YhpSurf;
-        FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
-    }
-
-    // BloodShrine.pas:77
-    public void ExecuteBloodlust(TArmyHS ArmyHS)
-    {
-        TAbstractUnit AUnit = default;
-        TRect R = default;
-        TBloodShrineAnimation Anim = default;
-        for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
+        public TBloodShrine(TECustomNode owner) : base(owner)
         {
-            AUnit = ArmyHS.FArmy.GetUnit(I);
-            AoWHSSet.FAbilityControl.GetAbility(168).Expand(AUnit);
         }
 
-        bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
-        if (!condition)
+        // BloodShrine.pas:65
+        public new const int ClassID = 131376;
+
+        // BloodShrine.pas:62
+
+        // BloodShrine.pas:103
+        public override void ArmyPlaced(TArmyHS PlacedArmy)
         {
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
+            base.ArmyPlaced(PlacedArmy);
+            ExecuteBloodlust(PlacedArmy);
         }
 
-        if (condition)
+        // BloodShrine.pas:68
+        public void ShowBlessingAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+            int Xhp = default;
+            int Yhp = default;
+            HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            Xhp -= XhpSurf;
+            Yhp -= YhpSurf;
+            FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
         }
 
-        var lhx2 = GetLhx();
-        var yhx2 = GetYhx();
-        var xhx2 = GetXhx();
-        if (AoWHSMap.Visible(xhx2, yhx2, lhx2, 0))
+        // BloodShrine.pas:77
+        public void ExecuteBloodlust(TArmyHS ArmyHS)
         {
-            Anim = new TBloodShrineAnimation(null);
-            R = Rect(-16, -8, 32, 40);
-            Anim.SetDimensions(R);
-            Anim.FAnimationLevel = 27;
-            Anim.FOnShow = ShowBlessingAnimation;
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
+            TAbstractUnit AUnit = default;
+            TRect R = default;
+            TBloodShrineAnimation Anim = default;
+            for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
+            {
+                AUnit = ArmyHS.FArmy.GetUnit(I);
+                AoWHSSet.FAbilityControl.GetAbility(168).Expand(AUnit);
+            }
+
+            bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
+            if (!condition)
+            {
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
+            }
+
+            if (condition)
+            {
+                PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+            }
+
+            var lhx2 = GetLhx();
+            var yhx2 = GetYhx();
+            var xhx2 = GetXhx();
+            if (AoWHSMap.Visible(xhx2, yhx2, lhx2, 0))
+            {
+                Anim = new TBloodShrineAnimation(null);
+                R = Rect(-16, -8, 32, 40);
+                Anim.SetDimensions(R);
+                Anim.FAnimationLevel = 27;
+                Anim.FOnShow = ShowBlessingAnimation;
+                var lhx = GetLhx();
+                var yhx = GetYhx();
+                var xhx = GetXhx();
+                AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
+            }
         }
+
+        // BloodShrine.pas:26
+
     }
 
-    // BloodShrine.pas:26
-
-}
-
-public partial class TBloodShrineResource : TStructureResource
-{
-    public TBloodShrineResource(TECustomNode owner) : base(owner)
+    public partial class TBloodShrineResource : TStructureResource
     {
-        FTerrainBound = true;
-        FConnectRoads = false;
+        public TBloodShrineResource(TECustomNode owner) : base(owner)
+        {
+            FTerrainBound = true;
+            FConnectRoads = false;
+        }
+
+        // BloodShrine.pas:116
+        public new const int ClassID = 131377;
+
+        // BloodShrine.pas:109
+
+        // BloodShrine.pas:122
+        public override int ResourceUserClassID() => 131376;
+
+        // BloodShrine.pas:36
+
+        // BloodShrine.pas:119
+        public override string ResourceEditName() => TranslateRStr(BloodShrineRStr);
+
     }
 
-    // BloodShrine.pas:116
-    public new const int ClassID = 131377;
-
-    // BloodShrine.pas:109
-
-    // BloodShrine.pas:122
-    public override int ResourceUserClassID() => 131376;
-
-    // BloodShrine.pas:36
-
-    // BloodShrine.pas:119
-    public override string ResourceEditName() => TranslateRStr(BloodShrineRStr);
-
-}
-
-public static partial class BloodShrineUnit
-{
-    // BloodShrine.pas:125
-    public static void RegisterBloodShrine(TEngine AEngine)
+    public static partial class BloodShrineUnit
     {
-        AEngine.RegisterEClasses([EClass.Of<TBloodShrine>(), EClass.Of<TBloodShrineResource>()]);
-    }
+        // BloodShrine.pas:125
+        public static void RegisterBloodShrine(TEngine AEngine)
+        {
+            AEngine.RegisterEClasses([EClass.Of<TBloodShrine>(), EClass.Of<TBloodShrineResource>()]);
+        }
 
-    public static void Initialize()
-    {
-    }
+        public static void Initialize()
+        {
+        }
 
-    public static void Finalize()
-    {
+        public static void Finalize()
+        {
+        }
     }
 }

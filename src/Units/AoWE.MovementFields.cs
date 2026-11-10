@@ -1,7 +1,10 @@
+using Aow.Game.Ai;
+using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.HSEngine;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.World.Movement;
 
 public partial class TMoveControlSettings
 {

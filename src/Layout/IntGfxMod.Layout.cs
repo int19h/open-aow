@@ -1,10 +1,9 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.ImageLib;
+using Aow.Game.Draw.Images;
+using Aow.Game.Layout;
 
-namespace Aow.Units.aowIntGfxMod;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TIntGfxMod : ILayoutModule
 {

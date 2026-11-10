@@ -1,4 +1,6 @@
-namespace Aow.Units.AoWE;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Units;
+namespace Aow.Game.World.Structures;
 
 public partial class TProductionControl
 {

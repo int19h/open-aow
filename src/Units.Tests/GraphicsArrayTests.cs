@@ -1,8 +1,7 @@
-using Aow.Rtl;
-using Aow.Units.DisplayC;
-using Aow.Units.HashTabU;
-using Aow.Units.ImageLib;
-using LibraryImage = Aow.Units.ImageLib.TLibraryImage;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine.Hash;
+using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
 
 namespace Aow.Units.Tests;
 

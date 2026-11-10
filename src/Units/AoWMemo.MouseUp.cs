@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Aow.Rtl;
 
-namespace Aow.Units.AoWMemo;
+namespace Aow.Game.Ui.Controls;
 
 public partial class TAOWMemo
 {

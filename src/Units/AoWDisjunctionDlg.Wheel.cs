@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWDisjunctionDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TDisjunctionDlg
 {

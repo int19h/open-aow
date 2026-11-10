@@ -1,31 +1,23 @@
 // Translated from AoWFileDialog.pas.
-using Aow.Platform;
+using Aow.Game.Draw;
+using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComboBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWEdit;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.E2Globals;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
+using Aow.Rtl.Localize;
+using static Aow.Game.Engine.Nodes.EngineUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E1GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.Engine.EngineUnit;
 
-namespace Aow.Units.AoWFileDialog;
+namespace Aow.Game.Ui.Dialogs;
 
 // directory, last filename, save event, done callback, dialog mode
 public partial class TFileDlgWindow : TDataModule

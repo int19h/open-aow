@@ -1,4 +1,5 @@
-namespace Aow.Units.AoWE;
+using Aow.Game.World.Map;
+namespace Aow.Game.World.Movement;
 
 public partial class TMoveControl
 {

@@ -2,16 +2,24 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Aow.Formats.Tree;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Net;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.NetworkE;
+using static Aow.Game.Engine.Nodes.EngineUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Net.NetworkEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.Engine.EngineUnit;
-using static Aow.Units.NetworkE.NetworkEUnit;
 
-namespace Aow.Units.AoWSetup;
+namespace Aow.Game.Session;
 
 public enum TSetupStatusElement : byte
 {
@@ -877,7 +885,7 @@ public partial class TSetupControl : TComponent
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads, for an own document as for an original (own-formats.md 4.1).
-            Stream = Aow.Units.Engine.TEngine.ImageStream(FileBoundary.LoadOrRaise(AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
+            Stream = Aow.Game.Engine.TEngine.ImageStream(FileBoundary.LoadOrRaise(AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
             if (FOnSendMap != null)
             {
                 var size = (int)Stream.Length;

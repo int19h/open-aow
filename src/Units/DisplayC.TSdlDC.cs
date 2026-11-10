@@ -1,10 +1,10 @@
 #nullable disable
-using Aow.Platform;
+using Aow.Game.Draw;
+using Aow.Game.Host;
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using static Aow.Units.DisplayC.TDisplayCtrlStatusElement;
+using static Aow.Game.Draw.TDisplayCtrlStatusElement;
 
-namespace Aow.Units.DisplayC;
+namespace Aow.Game.Draw;
 
 // The primary constructor captures host before the base inserts this component.
 public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDisplayCtrl(owner)

@@ -1,6 +1,6 @@
 using Aow.Rtl;
 
-namespace Aow.Units.AoWComboBox;
+namespace Aow.Game.Ui.Controls;
 
 public partial class TAOWComboBox
 {

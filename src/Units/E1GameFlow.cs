@@ -1,34 +1,19 @@
 // Translated from E1GameFlow.pas.
-using Aow.Rtl;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AoWMagic;
-using Aow.Units.AOWMultiWin;
-using Aow.Units.AOWMWindow;
-using Aow.Units.AoWPInfoWin;
-using Aow.Units.AOWPyreScrn;
-using Aow.Units.AoWRealm;
-using Aow.Units.AoWScenSetup;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AOWTitleWindow;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.AoWWindow;
-using Aow.Units.AoWWinMan;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.E2Globals;
-using Aow.Units.EventLog;
+using Aow.Game.Events;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2CampaignSupportUnit;
+using static Aow.Game.Ui.Controls.AoWWorldMapUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWFileDialogUnit;
+using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWWorldMap.AoWWorldMapUnit;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.E1GameFlow;
+namespace Aow.Game.Session;
 
 public static partial class E1GameFlowUnit
 {
@@ -112,7 +97,7 @@ public static partial class E1GameFlowUnit
             {
                 if (General.Manager.FChildren[I] != TBWindow.TaskWindow)
                 {
-                    ((AoWComp.TAoWComponent)General.Manager.FChildren[I]).Visible = false;
+                    ((Aow.Game.Ui.Controls.TAoWComponent)General.Manager.FChildren[I]).Visible = false;
                 }
             }
         }

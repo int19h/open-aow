@@ -3,9 +3,9 @@
     "$jsonText": {
       "State": {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TArmyHS",
+          "$type": "Aow.Game.Draw.TArmyHS",
           "TArmyHS.FArmy": {
-            "$type": "Aow.Units.AoWE.TArmy",
+            "$type": "Aow.Game.Units.TArmy",
             "TArmy.FConcealedUnits": 0,
             "TArmy.FDestinationL": -1,
             "TArmy.FDestinationX": -1,
@@ -13,7 +13,7 @@
             "TArmy.FIndependentRelation": -1,
             "TArmy.FL": -1,
             "TArmy.FMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "TSet`1.a": 0,
               "TSet`1.b": 0,
               "TSet`1.bounded": false,
@@ -26,7 +26,7 @@
             "TArmy.FOnUpdate": null,
             "TArmy.FPlayer": 0,
             "TArmy.FStatus": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "TSet`1.a": 0,
               "TSet`1.b": 0,
               "TSet`1.bounded": false,
@@ -38,7 +38,7 @@
             "TArmy.FUnfogRange": 0,
             "TArmy.FUpkeep": 0,
             "TArmy.FUserMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "TSet`1.a": 0,
               "TSet`1.b": 0,
               "TSet`1.bounded": false,
@@ -51,7 +51,7 @@
             "TArmy.FX": -1,
             "TArmy.FY": -1,
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -89,9 +89,9 @@
     "$jsonText": {
       "State": {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TArmyHS",
+          "$type": "Aow.Game.Draw.TArmyHS",
           "TArmyHS.FArmy": {
-            "$type": "Aow.Units.AoWE.TArmy",
+            "$type": "Aow.Game.Units.TArmy",
             "TArmy.FConcealedUnits": 0,
             "TArmy.FDestinationL": -1,
             "TArmy.FDestinationX": -1,
@@ -99,7 +99,7 @@
             "TArmy.FIndependentRelation": -1,
             "TArmy.FL": -1,
             "TArmy.FMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "TSet`1.a": 0,
               "TSet`1.b": 0,
               "TSet`1.bounded": false,
@@ -112,7 +112,7 @@
             "TArmy.FOnUpdate": null,
             "TArmy.FPlayer": 0,
             "TArmy.FStatus": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "TSet`1.a": 0,
               "TSet`1.b": 0,
               "TSet`1.bounded": false,
@@ -124,7 +124,7 @@
             "TArmy.FUnfogRange": 0,
             "TArmy.FUpkeep": 0,
             "TArmy.FUserMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "TSet`1.a": 0,
               "TSet`1.b": 0,
               "TSet`1.bounded": false,
@@ -137,7 +137,7 @@
             "TArmy.FX": -1,
             "TArmy.FY": -1,
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -160,7 +160,7 @@
       "Events": [
         {
           "$jsonText": {
-            "$type": "Aow.Units.AoWE.TArmyHS",
+            "$type": "Aow.Game.Draw.TArmyHS",
             "TArmyHS.FArmy": null,
             "TArmyHS.FMoveSteps": 0,
             "TArmyHS.FUnitIndex": 0,

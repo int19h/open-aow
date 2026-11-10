@@ -3,8 +3,8 @@ using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
+using Aow.Game.Engine;
 using Aow.Rtl;
-using Aow.Units.Engine;
 
 namespace Aow.Formats.Tests;
 
@@ -54,9 +54,9 @@ public sealed class NameTableTests : FormatsTest
     [Fact]
     public void AnOldDocumentNameLoads()
     {
-        string table = "kind\tdelphi\tcurrent\n"
-            + "type\tOldBox\t" + NameTable.QualifiedName(typeof(OldNameBox)) + "\n"
-            + "member\tTSampleRank.oldGold\t" + NameTable.QualifiedName(typeof(TSampleRank)) + ".srGold\n";
+        string table = "kind,delphi,current\n"
+            + "type,OldBox," + NameTable.QualifiedName(typeof(OldNameBox)) + "\n"
+            + "member,TSampleRank.oldGold," + NameTable.QualifiedName(typeof(TSampleRank)) + ".srGold\n";
         var schema = FormatSchema.Load(Encoding.UTF8.GetBytes(RenamedSchema), "renamed.json");
         var holder = schema.Get("Holder");
         using (NameTable.Install(table))

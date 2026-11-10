@@ -1,19 +1,21 @@
 // Translated from ILTer.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.ILTer;
+namespace Aow.Game.World.Terrain;
 
 // { The ILTer unit of HSEPack.dpl: image library terrain, multi-hexagon objects that show one image
 //   per terrain type (TILTerrainMO, ClassID $20186; resource TILTerrainMOR, $20187), and the fixed
 //   variant that keeps its terrain type and updates the map terrain instead
 //   (TFixedILTerrainMO, $20188; TFixedILTerrainMOR, $20189). }
 // FImageIndex, FTerrainType
-public partial class TILTerrainMO : TMultiHexMO
+public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
 {
 
     public TILTerrainMO(TECustomNode owner) : base(owner)
@@ -97,7 +99,7 @@ public partial class TILTerrainMO : TMultiHexMO
         HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
         if (this.FResource.ImageSequenceList == null)
         {
-            this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((TMultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((TMultiHexMOR)this.FResource).dYImage, SurfaceDesc);
+            this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((Aow.Game.World.TMultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((Aow.Game.World.TMultiHexMOR)this.FResource).dYImage, SurfaceDesc);
         }
         else
         {
@@ -270,7 +272,7 @@ public partial class TILTerrainMO : TMultiHexMO
 
 }
 
-public partial class TILTerrainMOR : TMultiHexMOR
+public partial class TILTerrainMOR : Aow.Game.World.TMultiHexMOR
 {
     public TILTerrainMOR(TECustomNode owner) : base(owner)
     { }
@@ -279,7 +281,7 @@ public partial class TILTerrainMOR : TMultiHexMOR
     public new const int ClassID = 131463;
 
     // ILTer.pas:279
-    public override void SetCellImage(ImageLib.TLibraryImage Value)
+    public override void SetCellImage(Aow.Game.Draw.Images.TLibraryImage Value)
     {
     }
 

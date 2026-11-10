@@ -1,19 +1,16 @@
 #nullable disable
-using Aow.Platform;
+using Aow.Game.Audio;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFileDialog;
-using Aow.Units.AoWMessageDlg;
-using Aow.Units.AoWSelFactionWin;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.E2GameFlow;
-using Aow.Units.E2Globals;
-using Aow.Units.Sound;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AoWTitleScene;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TTitleScene
 {

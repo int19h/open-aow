@@ -17,8 +17,8 @@ public sealed class NameTableTests
     [Fact]
     public void OriginalFilesKeepTheDelphiName()
     {
-        string table = "kind\tdelphi\tcurrent\n"
-            + "type\tTDelphiForm\t" + NameTable.QualifiedName(typeof(TRenamedForm)) + "\n";
+        string table = "kind,delphi,current\n"
+            + "type,TDelphiForm," + NameTable.QualifiedName(typeof(TRenamedForm)) + "\n";
         string path = Path.Combine(Path.GetTempPath(), "aow-names-" + Guid.NewGuid().ToString("N"));
         try
         {

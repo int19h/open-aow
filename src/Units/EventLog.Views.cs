@@ -1,7 +1,9 @@
-using Aow.Units.AoWE;
-using Aow.Units.EventLog;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using Aow.Game.Draw;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2CampaignSupportUnit;
 
 // What the map events screen shows for each event log kind, and what an AI player does with it.
 // The keys name views, and the map events screen holds the renderer of each key, so this file
@@ -9,7 +11,7 @@ using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
 // The overrides read the state the screen cascade read (aowMapEvents.pas:198), with the same
 // queries, when the screen asks for the view.
 
-namespace Aow.Units.EventLog
+namespace Aow.Game.Events
 {
     // A view key. Instances are the keys, the name serves the reports.
     public sealed class EventView(string name)
@@ -111,7 +113,7 @@ namespace Aow.Units.EventLog
     }
 }
 
-namespace Aow.Units.AoWE
+namespace Aow.Game.Events
 {
     public partial class TCombatEventLog
     {
@@ -210,7 +212,7 @@ namespace Aow.Units.AoWE
     }
 }
 
-namespace Aow.Units.City
+namespace Aow.Game.Events
 {
     public partial class TCityRebellionEventLog
     {
@@ -223,7 +225,7 @@ namespace Aow.Units.City
     }
 }
 
-namespace Aow.Units.PrdPlace
+namespace Aow.Game.Events
 {
     public partial class TProductionPlaceEventLog
     {
@@ -231,7 +233,7 @@ namespace Aow.Units.PrdPlace
     }
 }
 
-namespace Aow.Units.Dungeon
+namespace Aow.Game.Events
 {
     public partial class TPrisonersJoinEventLog
     {
@@ -244,7 +246,7 @@ namespace Aow.Units.Dungeon
     }
 }
 
-namespace Aow.Units.WizardsTower
+namespace Aow.Game.Events
 {
     public partial class TEnterWizardsTowerEventLog
     {
@@ -252,7 +254,7 @@ namespace Aow.Units.WizardsTower
     }
 }
 
-namespace Aow.Units.Arena
+namespace Aow.Game.Events
 {
     public partial class TEnterArenaEventLog
     {
@@ -260,7 +262,7 @@ namespace Aow.Units.Arena
     }
 }
 
-namespace Aow.Units.FlagEvents
+namespace Aow.Game.Events
 {
     public partial class TFlagMessageEventLog
     {
@@ -268,7 +270,7 @@ namespace Aow.Units.FlagEvents
     }
 }
 
-namespace Aow.Units.ItemExpS
+namespace Aow.Game.Events
 {
     public partial class TItemExplorationSiteEventLog
     {

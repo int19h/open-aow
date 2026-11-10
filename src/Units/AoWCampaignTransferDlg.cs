@@ -1,25 +1,21 @@
 // Translated from AoWCampaignTransferDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWBookWindow;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWHScroll;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.GFXE;
+// Translated from AoWCampaignTransferDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.AoWCampaignTransferDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // hero scroll. unit scroll. item scroll. left selection kind/index. right selection kind/index
 public partial class TCampaignTransferDlg : TDataModule

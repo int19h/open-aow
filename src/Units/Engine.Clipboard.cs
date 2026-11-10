@@ -1,7 +1,8 @@
 #nullable enable
+using Aow.Game.Engine;
 using Aow.Rtl;
 
-namespace Aow.Units.Engine;
+namespace Aow.Game.Engine.Nodes;
 
 public static partial class EngineUnit
 {
@@ -25,7 +26,7 @@ public partial class TECopyComponent : TComponent
     public int Count => objects.Count;
     public TEObjectList EObjectList => objects;
 
-    public void CopyToClipboard(TEngine engine, string name) { }
+    public void CopyToClipboard(Aow.Game.Engine.TEngine engine, string name) { }
 
-    public void PasteFromClipboard(TEngine engine, string name) { }
+    public void PasteFromClipboard(Aow.Game.Engine.TEngine engine, string name) { }
 }

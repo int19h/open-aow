@@ -1,20 +1,18 @@
 // Translated from AOWTitleWindow.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWSelFactionWin.AoWSelFactionWinUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.Sound.SoundUnit;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Session.E2GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWSelFactionWinUnit;
+using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 
-namespace Aow.Units.AOWTitleWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 // splash timer, splash stage
 public partial class TTitleWindow : TDataModule

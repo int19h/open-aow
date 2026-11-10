@@ -1,6 +1,6 @@
-using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.AoWFileDialog;
+namespace Aow.Game.Ui.Dialogs;
 
 // The original lists files by name each time the dialog fills its list, whichever sort button the
 // player pressed last. The port remembers the last button in the settings and applies it on every

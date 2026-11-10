@@ -1,6 +1,6 @@
-using Aow.Units.AoWReg;
+using Aow.Game.Engine;
 
-namespace Aow.Units.aowSetupEvents;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TSetupEvents
 {

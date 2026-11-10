@@ -1,12 +1,13 @@
+using Aow.Game.Engine;
 using Aow.Rtl;
 
-namespace Aow.Units.Engine;
+namespace Aow.Game.Engine.Nodes;
 
 public partial class TEObjectEditor
 {
     // The popup hooks of the editor shell. No editor class overrides them yet: they join the
     // IEObjectEditorClass descriptor when the first one does.
-    public static void UpdateMultiPopupMenu(TEObject obj, TEngine engine, ref TSet<TEditModeElement> handled, TPopupMenu menu, TEObjectList objects) { }
+    public static void UpdateMultiPopupMenu(TEObject obj, Aow.Game.Engine.TEngine engine, ref TSet<TEditModeElement> handled, TPopupMenu menu, TEObjectList objects) { }
 
-    public static void UpdatePopupMenu(TEObject obj, TEngine engine, ref TSet<TEditModeElement> handled, TPopupMenu menu) { }
+    public static void UpdatePopupMenu(TEObject obj, Aow.Game.Engine.TEngine engine, ref TSet<TEditModeElement> handled, TPopupMenu menu) { }
 }

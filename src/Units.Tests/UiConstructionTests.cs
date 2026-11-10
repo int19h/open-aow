@@ -2,10 +2,11 @@ using System.Collections;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Ui.Controls;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -26,31 +27,31 @@ public sealed class UiConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWEngine previousEngine = Game.AoWEngine;
-        private readonly TAoWHSMap previousMap = Game.AoWHSMap;
-        private readonly Aow.Units.AoWTC.TAoWCombatMap previousCombat = AoWTC.AoWTCUnit.AoWCombatMap;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
+        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        private readonly Aow.Game.Combat.TAoWCombatMap previousCombat = Aow.Game.Combat.AoWTCUnit.AoWCombatMap;
         private readonly EventStore<THSMap> loaded;
         private readonly EventStore<THSMap> closed;
 
         internal Fixture()
         {
             if (EngineUnit.Engines is null) EngineUnit.Initialize();
-            Game.AoWEngine = EngineFixture.Engine;
-            loaded = Game.AoWEngine.FOnHSMLoadedStore;
-            closed = Game.AoWEngine.FOnHSMCloseStore;
-            Game.AoWEngine.FOnHSMLoadedStore = new EventStore<THSMap>();
-            Game.AoWEngine.FOnHSMCloseStore = new EventStore<THSMap>();
-            Game.AoWHSMap = null!;
-            AoWTC.AoWTCUnit.AoWCombatMap = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = EngineFixture.Engine;
+            loaded = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMLoadedStore;
+            closed = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMCloseStore;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMLoadedStore = new EventStore<THSMap>();
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMCloseStore = new EventStore<THSMap>();
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
+            Aow.Game.Combat.AoWTCUnit.AoWCombatMap = null!;
         }
 
         public void Dispose()
         {
-            Game.AoWEngine.FOnHSMLoadedStore = loaded;
-            Game.AoWEngine.FOnHSMCloseStore = closed;
-            Game.AoWEngine = previousEngine;
-            Game.AoWHSMap = previousMap;
-            AoWTC.AoWTCUnit.AoWCombatMap = previousCombat;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMLoadedStore = loaded;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMCloseStore = closed;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
+            Aow.Game.Combat.AoWTCUnit.AoWCombatMap = previousCombat;
         }
     }
 
@@ -91,129 +92,129 @@ public sealed class UiConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Units.AOWChatWin.TChatWindow",
-        "Aow.Units.AOWControlWin.TControlWin",
-        "Aow.Units.AOWDialogWin.TDWin",
-        "Aow.Units.AOWGauge.TAoWGauge",
-        "Aow.Units.AOWInterfaceImgLib.TInterfaceIL",
-        "Aow.Units.AOWMWindow.TMWindow",
-        "Aow.Units.AOWMenu.TAOWMenu",
-        "Aow.Units.AOWMenuBar.TAOWMenuBar",
-        "Aow.Units.AOWMultiWin.TMultiWindow",
-        "Aow.Units.AOWPyreScrn.TPyreScreen",
-        "Aow.Units.AOWTitleWindow.TTitleWindow",
-        "Aow.Units.AOWToolTip.TAOWToolTip",
-        "Aow.Units.AOWWinManager.TAOWWinManager",
-        "Aow.Units.AoWArenaDlg.TArenaDlg",
-        "Aow.Units.AoWArmyEventDlg.TArmyEventDlg",
-        "Aow.Units.AoWArmyInfoDlg.TArmyInfoDlg",
-        "Aow.Units.AoWArnoLine.TAoWArnoLine",
-        "Aow.Units.AoWBaseWin.TAOWBaseWindow",
-        "Aow.Units.AoWBookWindow.TAoWBookWindow",
-        "Aow.Units.AoWButton.TAOWBaseButton",
-        "Aow.Units.AoWButton.TAOWButton",
-        "Aow.Units.AoWCampaignJoin.TCampaignJoinDlg",
-        "Aow.Units.AoWCampaignSettings.TCampaignSettingsDlg",
-        "Aow.Units.AoWCampaignTransferDlg.TCampaignTransferDlg",
-        "Aow.Units.AoWCastUnitSpellDlg.TCastUnitSpellDlg",
-        "Aow.Units.AoWCheckBox.TAOWCheckBox",
-        "Aow.Units.AoWCityJoinDlg.TCityJoinDlg",
-        "Aow.Units.AoWCityRebelDlg.TCityRebelDlg",
-        "Aow.Units.AoWCityScreen.TCityScreen",
-        "Aow.Units.AoWComboBox.TAOWComboBox",
-        "Aow.Units.AoWComp.TAoWComponent",
-        "Aow.Units.AoWConstructDlg.TConstructDlg",
-        "Aow.Units.AoWControl.TAOWControl",
-        "Aow.Units.AoWDeformFaceDlg.TDeformFaceDlg",
-        "Aow.Units.AoWDisjunctionDlg.TDisjunctionDlg",
-        "Aow.Units.AoWE.TAgeOfWondersEngine",
-        "Aow.Units.AoWEdit.TAOWEdit",
-        "Aow.Units.AoWEmailGameSettingsDlg.TEmailGameSettingsDlg",
-        "Aow.Units.AoWEmailSettingsDlg.TEmailSettingsDlg",
-        "Aow.Units.AoWFileDialog.TFileDlgWindow",
-        "Aow.Units.AoWFrame.TAoWFrame",
-        "Aow.Units.AoWGamePlayDlg.TGamePlayDlg",
-        "Aow.Units.AoWHScroll.TAOWHScrollBar",
-        "Aow.Units.AoWHTMLMemo.TaowHTMLMemo",
-        "Aow.Units.AoWHeroInfoDlg.THeroInfoDlg",
-        "Aow.Units.AoWHeroJoinDlg.THeroJoinDlg",
-        "Aow.Units.AoWHeroUpgradeDlg.THeroUpgradeDlg",
-        "Aow.Units.AoWImage.TAOWImage",
-        "Aow.Units.AoWInfoBanner.TInfoBanner",
-        "Aow.Units.AoWInfoWin.TIWindow",
-        "Aow.Units.AoWIntroScene.TIntroScene",
-        "Aow.Units.AoWItemBanner.TItemBanner",
-        "Aow.Units.AoWItemsFoundDlg.TItemsFoundDlg",
-        "Aow.Units.AoWLabel.TAOWLabel",
-        "Aow.Units.AoWLeaderSetup.TLeaderSetupWin",
-        "Aow.Units.AoWListBox.TAOWListBox",
-        "Aow.Units.AoWMagic.TMagicWin",
-        "Aow.Units.AoWMemo.TAOWMemo",
-        "Aow.Units.AoWMessageDlg.TMessageDlg",
-        "Aow.Units.AoWMsgReceiveDlg.TMsgReceiveDlg",
-        "Aow.Units.AoWNewTurnDialog.TNewTurnDlg",
-        "Aow.Units.AoWPInfoWin.TPInfoW",
-        "Aow.Units.AoWPOP3Dlg.TPOP3Dlg",
-        "Aow.Units.AoWPWindows.TPopupWindows",
-        "Aow.Units.AoWPanel.TAOWPanel",
-        "Aow.Units.AoWPartyJoin.TPartyJoinDlg",
-        "Aow.Units.AoWPasswordDlg.TPasswordDlg",
-        "Aow.Units.AoWPowerDlg.TPowerDlg",
-        "Aow.Units.AoWProdScreen.TProductionScreen",
-        "Aow.Units.AoWProgressDialog.TProgressDialog",
-        "Aow.Units.AoWRealm.TRealmWin",
-        "Aow.Units.AoWRelations.TRelWindow",
-        "Aow.Units.AoWResultsWin.TResultsWin",
-        "Aow.Units.AoWSMTPDlg.TSMTPDlg",
-        "Aow.Units.AoWSMTPDlg.TmsMessage",
-        "Aow.Units.AoWSMTPDlg.TmsSMTP",
-        "Aow.Units.AoWSWindow.TSWindow",
-        "Aow.Units.AoWScenSetup.TScenSetup",
-        "Aow.Units.AoWSelFactionWin.TSelFactionWin",
-        "Aow.Units.AoWSendEmailGameDlg.TSendEmailGameDlg",
-        "Aow.Units.AoWSetup.TSetupControl",
-        "Aow.Units.AoWSoundDlg.TSoundDlg",
-        "Aow.Units.AoWSpellBook.TSpellBook",
-        "Aow.Units.AoWSyncDlg.TSynchronizeDlg",
-        "Aow.Units.AoWTBWindow.TTBWindow",
-        "Aow.Units.AoWTCScanner.TTCScanner",
-        "Aow.Units.AoWTCUnit.TTCUnit",
-        "Aow.Units.AoWTabPanel.TAOWTabPanel",
-        "Aow.Units.AoWTargetSelection.TTargetSelectionDlg",
-        "Aow.Units.AoWTitleScene.TTitleScene",
-        "Aow.Units.AoWTutorialWin.TTutorialWindow",
-        "Aow.Units.AoWUnitBanner.TUnitBanner",
-        "Aow.Units.AoWUnitSelDlg.TUnitSelectionDlg",
-        "Aow.Units.AoWUnitWindow.TUnitWindow",
-        "Aow.Units.AoWVScroll.TAOWScrollBar",
-        "Aow.Units.AoWVScroll.TAOWVScrollBar",
-        "Aow.Units.AoWVideoDlg.TVideoDialog",
-        "Aow.Units.AoWWinControl.TAOWWindowControl",
-        "Aow.Units.AoWWinGeneric.TAOWGenericWindow",
-        "Aow.Units.AoWWinMan.TGeneral",
-        "Aow.Units.AoWWindow.TAOWWindow",
-        "Aow.Units.AoWWizardsTowerDlg.TWizardsTowerDlg",
-        "Aow.Units.AoWWorldMap.TWorldMap",
-        "Aow.Units.AowUserWindow.TAoWUserWindow",
-        "Aow.Units.CMapCtrl.TAoWCombatMapControl",
-        "Aow.Units.Engine.TEComponent",
-        "Aow.Units.FastCombatWin.TFastCombatWindow",
-        "Aow.Units.FontMod.TFontModule",
-        "Aow.Units.HSEngine.THSMapViewer",
-        "Aow.Units.HSEngine.THexagonSpriteEngine",
-        "Aow.Units.HSLib.THSLibrary",
-        "Aow.Units.MapCtrl.TAoWMapControl",
-        "Aow.Units.PlugInM.TPlugInManager",
-        "Aow.Units.Scanner.TScanner",
-        "Aow.Units.StartMenu.TStartMenu",
-        "Aow.Units.TCFCDlg.TTCFCDialog",
-        "Aow.Units.TurnButton.TAOWTurnButton",
-        "Aow.Units.aowHelpWin.THelpWindow",
-        "Aow.Units.aowIntGfxMod.TIntGfxMod",
-        "Aow.Units.aowMapEvents.TMapEvents",
-        "Aow.Units.aowSetupEvents.TSetupEvents",
-        "Aow.Units.aowTCMapEvents.TTCMapEvents",
-        "Aow.Units.aowUserDrawBox.TaowUserDrawBox",
+        "Aow.Game.Ui.Dialogs.TChatWindow",
+        "Aow.Game.Ui.Dialogs.TControlWin",
+        "Aow.Game.Ui.Dialogs.TDWin",
+        "Aow.Game.Ui.Controls.TAoWGauge",
+        "Aow.Game.Draw.Images.TInterfaceIL",
+        "Aow.Game.Ui.Dialogs.TMWindow",
+        "Aow.Game.Ui.Windows.TAOWMenu",
+        "Aow.Game.Ui.Controls.TAOWMenuBar",
+        "Aow.Game.Ui.Dialogs.TMultiWindow",
+        "Aow.Game.Ui.Dialogs.TPyreScreen",
+        "Aow.Game.Ui.Dialogs.TTitleWindow",
+        "Aow.Game.Ui.Windows.TAOWToolTip",
+        "Aow.Game.Ui.Controls.TAOWWinManager",
+        "Aow.Game.Ui.Dialogs.TArenaDlg",
+        "Aow.Game.Ui.Dialogs.TArmyEventDlg",
+        "Aow.Game.Ui.Dialogs.TArmyInfoDlg",
+        "Aow.Game.Ui.Controls.TAoWArnoLine",
+        "Aow.Game.Ui.Windows.TAOWBaseWindow",
+        "Aow.Game.Ui.Windows.TAoWBookWindow",
+        "Aow.Game.Ui.Controls.TAOWBaseButton",
+        "Aow.Game.Ui.Controls.TAOWButton",
+        "Aow.Game.Ui.Dialogs.TCampaignJoinDlg",
+        "Aow.Game.Ui.Dialogs.TCampaignSettingsDlg",
+        "Aow.Game.Ui.Dialogs.TCampaignTransferDlg",
+        "Aow.Game.Ui.Dialogs.TCastUnitSpellDlg",
+        "Aow.Game.Ui.Controls.TAOWCheckBox",
+        "Aow.Game.Ui.Dialogs.TCityJoinDlg",
+        "Aow.Game.Ui.Dialogs.TCityRebelDlg",
+        "Aow.Game.Ui.Dialogs.TCityScreen",
+        "Aow.Game.Ui.Controls.TAOWComboBox",
+        "Aow.Game.Ui.Controls.TAoWComponent",
+        "Aow.Game.Ui.Dialogs.TConstructDlg",
+        "Aow.Game.Ui.Controls.TAOWControl",
+        "Aow.Game.Ui.Dialogs.TDeformFaceDlg",
+        "Aow.Game.Ui.Dialogs.TDisjunctionDlg",
+        "Aow.Game.Engine.TAgeOfWondersEngine",
+        "Aow.Game.Ui.Controls.TAOWEdit",
+        "Aow.Game.Ui.Dialogs.TEmailGameSettingsDlg",
+        "Aow.Game.Ui.Dialogs.TEmailSettingsDlg",
+        "Aow.Game.Ui.Dialogs.TFileDlgWindow",
+        "Aow.Game.Ui.Controls.TAoWFrame",
+        "Aow.Game.Ui.Dialogs.TGamePlayDlg",
+        "Aow.Game.Ui.Controls.TAOWHScrollBar",
+        "Aow.Game.Ui.Windows.TaowHTMLMemo",
+        "Aow.Game.Ui.Dialogs.THeroInfoDlg",
+        "Aow.Game.Ui.Dialogs.THeroJoinDlg",
+        "Aow.Game.Ui.Dialogs.THeroUpgradeDlg",
+        "Aow.Game.Ui.Controls.TAOWImage",
+        "Aow.Game.Ui.Dialogs.TInfoBanner",
+        "Aow.Game.Ui.Dialogs.TIWindow",
+        "Aow.Game.Ui.Dialogs.TIntroScene",
+        "Aow.Game.Ui.Dialogs.TItemBanner",
+        "Aow.Game.Ui.Dialogs.TItemsFoundDlg",
+        "Aow.Game.Ui.Controls.TAOWLabel",
+        "Aow.Game.Ui.Dialogs.TLeaderSetupWin",
+        "Aow.Game.Ui.Controls.TAOWListBox",
+        "Aow.Game.Ui.Dialogs.TMagicWin",
+        "Aow.Game.Ui.Controls.TAOWMemo",
+        "Aow.Game.Ui.Dialogs.TMessageDlg",
+        "Aow.Game.Ui.Dialogs.TMsgReceiveDlg",
+        "Aow.Game.Ui.Dialogs.TNewTurnDlg",
+        "Aow.Game.Ui.Dialogs.TPInfoW",
+        "Aow.Game.Ui.Dialogs.TPOP3Dlg",
+        "Aow.Game.Ui.Dialogs.TPopupWindows",
+        "Aow.Game.Ui.Windows.TAOWPanel",
+        "Aow.Game.Ui.Dialogs.TPartyJoinDlg",
+        "Aow.Game.Ui.Dialogs.TPasswordDlg",
+        "Aow.Game.Ui.Dialogs.TPowerDlg",
+        "Aow.Game.Ui.Dialogs.TProductionScreen",
+        "Aow.Game.Ui.Dialogs.TProgressDialog",
+        "Aow.Game.Ui.Dialogs.TRealmWin",
+        "Aow.Game.Ui.Dialogs.TRelWindow",
+        "Aow.Game.Ui.Dialogs.TResultsWin",
+        "Aow.Game.Ui.Dialogs.TSMTPDlg",
+        "Aow.Game.Net.TmsMessage",
+        "Aow.Game.Net.TmsSMTP",
+        "Aow.Game.Ui.Dialogs.TSWindow",
+        "Aow.Game.Ui.Dialogs.TScenSetup",
+        "Aow.Game.Ui.Dialogs.TSelFactionWin",
+        "Aow.Game.Ui.Dialogs.TSendEmailGameDlg",
+        "Aow.Game.Session.TSetupControl",
+        "Aow.Game.Ui.Dialogs.TSoundDlg",
+        "Aow.Game.Ui.Dialogs.TSpellBook",
+        "Aow.Game.Ui.Dialogs.TSynchronizeDlg",
+        "Aow.Game.Ui.Dialogs.TTBWindow",
+        "Aow.Game.Ui.Dialogs.TTCScanner",
+        "Aow.Game.Ui.Dialogs.TTCUnit",
+        "Aow.Game.Ui.Controls.TAOWTabPanel",
+        "Aow.Game.Ui.Dialogs.TTargetSelectionDlg",
+        "Aow.Game.Ui.Dialogs.TTitleScene",
+        "Aow.Game.Ui.Dialogs.TTutorialWindow",
+        "Aow.Game.Ui.Dialogs.TUnitBanner",
+        "Aow.Game.Ui.Dialogs.TUnitSelectionDlg",
+        "Aow.Game.Ui.Dialogs.TUnitWindow",
+        "Aow.Game.Ui.Controls.TAOWScrollBar",
+        "Aow.Game.Ui.Controls.TAOWVScrollBar",
+        "Aow.Game.Ui.Dialogs.TVideoDialog",
+        "Aow.Game.Ui.Controls.TAOWWindowControl",
+        "Aow.Game.Ui.Windows.TAOWGenericWindow",
+        "Aow.Game.Ui.Dialogs.TGeneral",
+        "Aow.Game.Ui.Windows.TAOWWindow",
+        "Aow.Game.Ui.Dialogs.TWizardsTowerDlg",
+        "Aow.Game.Ui.Dialogs.TWorldMap",
+        "Aow.Game.Ui.Windows.TAoWUserWindow",
+        "Aow.Game.Ui.Grids.TAoWCombatMapControl",
+        "Aow.Game.Engine.Nodes.TEComponent",
+        "Aow.Game.Ui.Dialogs.TFastCombatWindow",
+        "Aow.Game.Ui.Dialogs.TFontModule",
+        "Aow.Game.World.Map.THSMapViewer",
+        "Aow.Game.World.Map.THexagonSpriteEngine",
+        "Aow.Game.Draw.THSLibrary",
+        "Aow.Game.Ui.Grids.TAoWMapControl",
+        "Aow.Game.Engine.TPlugInManager",
+        "Aow.Game.Ui.Grids.TScanner",
+        "Aow.Game.Ui.Windows.TStartMenu",
+        "Aow.Game.Ui.Dialogs.TTCFCDialog",
+        "Aow.Game.Ui.Grids.TAOWTurnButton",
+        "Aow.Game.Ui.Dialogs.THelpWindow",
+        "Aow.Game.Ui.Dialogs.TIntGfxMod",
+        "Aow.Game.Ui.Dialogs.TMapEvents",
+        "Aow.Game.Ui.Dialogs.TSetupEvents",
+        "Aow.Game.Ui.Dialogs.TTCMapEvents",
+        "Aow.Game.Ui.Controls.TaowUserDrawBox",
     ];
 
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
@@ -222,7 +223,7 @@ public sealed class UiConstructionTests
     public void InheritOnlyLineHasItsOwnCompletedOwnerConstructor()
     {
         using var owner = new TComponent(null!);
-        var line = new Aow.Units.AoWLenLine.TAoWLenLine(owner);
+        var line = new Aow.Game.Ui.Controls.TAoWLenLine(owner);
         Assert.Same(owner, line.Owner);
         Assert.Same(line, owner.Components[0]);
         Assert.True(line.FVisible);
@@ -278,7 +279,7 @@ public sealed class UiConstructionTests
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            states.Add("subscriptions:" + Game.AoWEngine.FOnHSMLoadedStore.Count + ":" + Game.AoWEngine.FOnHSMCloseStore.Count);
+            states.Add("subscriptions:" + Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMLoadedStore.Count + ":" + Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMCloseStore.Count);
             string actual = string.Join("\n", states);
             string key = name + ".owner" + owned;
             ConstructionSnapshot.Check("UiConstruction", key, actual);

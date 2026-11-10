@@ -1,24 +1,25 @@
 #nullable disable
-using Aow.Layout;
+using Aow.Game.Audio;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Host;
+using Aow.Game.Layout;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.aowSetupEvents;
-using Aow.Units.AoWTCReg;
-using Aow.Units.DisplayC;
-using Aow.Units.E2WindowLayout;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using Aow.Units.Sound;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
-using static Aow.Units.AoWSWindow.AoWSWindowUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWFileDialogUnit;
+using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWSWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 
 namespace Aow.Platform;
 
@@ -29,7 +30,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     public TSdlDC WinDC { get; }
     public TSdlDC DXDC => WinDC;
     public short FCursor { get; set; }
-    public Aow.Units.ImageLib.TLibraryImage FCursorImage { get; set; }
+    public Aow.Game.Draw.Images.TLibraryImage FCursorImage { get; set; }
     public TRect FLastCursorRect { get; private set; }
     public bool FCursorChanged { get; private set; }
     public bool IsClosed { get; private set; }
@@ -56,7 +57,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     {
         GFXEUnit.DesktopSize = () => host.DesktopSize;
         GFXEUnit.FullscreenSizes = () => host.FullscreenSizes;
-        Aow.Units.Startup.InitializeAll();
+        Aow.Game.Engine.Startup.InitializeAll();
         TSdlSoundSystem.Install(mute, audioOutput);
         var layouts = new LayoutSession();
         GameLayouts.Initialize(layouts);
@@ -97,10 +98,10 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         SoundDlg.FSettings.SampleRate = SoundDlg.FSoundQuality == 1 ? 22050 : 44100;
         SoundDlg.FSettings.OutputMode = SoundDlg.FSoundQuality switch
         {
-            1 => TSet<Aow.Units.Sound.TSoundOutputModeElement>.Of(Aow.Units.Sound.TSoundOutputModeElement.omMono, Aow.Units.Sound.TSoundOutputModeElement.om8bit),
-            2 => TSet<Aow.Units.Sound.TSoundOutputModeElement>.Of(Aow.Units.Sound.TSoundOutputModeElement.omMono, Aow.Units.Sound.TSoundOutputModeElement.om16bit),
-            3 => TSet<Aow.Units.Sound.TSoundOutputModeElement>.Of(Aow.Units.Sound.TSoundOutputModeElement.omStereo, Aow.Units.Sound.TSoundOutputModeElement.om16bit),
-            _ => TSet<Aow.Units.Sound.TSoundOutputModeElement>.Of(Aow.Units.Sound.TSoundOutputModeElement.omStereo, Aow.Units.Sound.TSoundOutputModeElement.om16bit, Aow.Units.Sound.TSoundOutputModeElement.omHighQuality)
+            1 => TSet<Aow.Game.Audio.TSoundOutputModeElement>.Of(Aow.Game.Audio.TSoundOutputModeElement.omMono, Aow.Game.Audio.TSoundOutputModeElement.om8bit),
+            2 => TSet<Aow.Game.Audio.TSoundOutputModeElement>.Of(Aow.Game.Audio.TSoundOutputModeElement.omMono, Aow.Game.Audio.TSoundOutputModeElement.om16bit),
+            3 => TSet<Aow.Game.Audio.TSoundOutputModeElement>.Of(Aow.Game.Audio.TSoundOutputModeElement.omStereo, Aow.Game.Audio.TSoundOutputModeElement.om16bit),
+            _ => TSet<Aow.Game.Audio.TSoundOutputModeElement>.Of(Aow.Game.Audio.TSoundOutputModeElement.omStereo, Aow.Game.Audio.TSoundOutputModeElement.om16bit, Aow.Game.Audio.TSoundOutputModeElement.omHighQuality)
         };
         if (SoundDlg.FSoundQuality != 0)
         {
@@ -109,7 +110,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
             SoundUnit.SetSFXVolume(SoundDlg.SFXVolume.Position);
         }
         SetVideoSize(VideoDialog, AoWEngine.FRegistry.GetDisplayWidth(), AoWEngine.FRegistry.GetDisplayHeight());
-        SetVideoMode(VideoDialog, host.Fullscreen ? Aow.Units.AoWVideoDlg.TScreenMode.scmGame : Aow.Units.AoWVideoDlg.TScreenMode.scmWindowed);
+        SetVideoMode(VideoDialog, host.Fullscreen ? Aow.Game.Ui.Dialogs.TScreenMode.scmGame : Aow.Game.Ui.Dialogs.TScreenMode.scmWindowed);
         General.Manager.WinWidth = Display.BackSurfaceWidth;
         General.Manager.WinHeight = Display.BackSurfaceHeight;
         General.Manager.FAligned = false;
@@ -199,7 +200,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     {
         rect = default;
         if (x == -1) return;
-        void Include(Aow.Units.ImageLib.TLibraryImage image, int dx, int dy)
+        void Include(Aow.Game.Draw.Images.TLibraryImage image, int dx, int dy)
         {
             if (image is null) return;
             TRect bounds = default;
@@ -223,7 +224,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     public void DrawCursor(int x, int y, in TSurfaceDesc surface)
     {
         if (x == -1) return;
-        if (AoWHSMap is not null && AoWHSMap.Status.Contains(Aow.Units.HSEngine.THSMapStatusElement.msActivated))
+        if (AoWHSMap is not null && AoWHSMap.Status.Contains(Aow.Game.World.Map.THSMapStatusElement.msActivated))
         {
             FCursorImage?.Show(x - 15, y - 20, surface);
             var image = CursorIndex != 1 ? AoWHSSet.FCursorImages[CursorIndex] : null;
@@ -231,7 +232,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
             if (AoWHSMap.FSeatedPlayer != -1 && AoWHSMap.FCombatMap is null)
             {
                 var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
-                if (player.GetBusy() && player.FGameOverStatus == Aow.Units.AoWE.TGameOverStatus.goNone)
+                if (player.GetBusy() && player.FGameOverStatus == Aow.Game.Session.TGameOverStatus.goNone)
                 {
                     image.ShowBlended(x - 25, y - 25, surface, GFXEUnit.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Frame << 2) % 100 - 50) + 30));
                     FCursorChanged = true;
@@ -258,7 +259,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     {
         Display.MouseButtons = shift;
         General.Manager.CheckMouseUp(button, shift, x, y);
-        if (AoWHSMap?.Mouse is Aow.Units.AoWE.TAbstractAoWHSMapMouse mouse) mouse.ResetRectangleSelection();
+        if (AoWHSMap?.Mouse is Aow.Game.World.Map.TAbstractAoWHSMapMouse mouse) mouse.ResetRectangleSelection();
     }
 
     public void MouseMove(TSet<TShiftState> shift, int x, int y) { Display.MouseButtons = shift; General.Manager.CheckMouseMove(shift, x, y); }
@@ -269,7 +270,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     {
         if (key == 13 && shift.Contains(TShiftState.ssAlt)) { Display.SwapDC(); return; }
         General.Manager.CheckKeyDown(ref key, shift);
-        if (key == 112 && AoWHSMap is not null && AoWHSMap.FGameType == Aow.Units.AoWE.TGameType.gtTutorial) ShowTutorialMessage(TutorialWindow);
+        if (key == 112 && AoWHSMap is not null && AoWHSMap.FGameType == Aow.Game.Session.TGameType.gtTutorial) ShowTutorialMessage(TutorialWindow);
     }
 
     public void KeyPress(byte key) => General.Manager.CheckKeyPress(ref key);
@@ -285,7 +286,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         if (AoWHSMap is null) return IsClosed = true;
         if (AoWHSMap.FCombatMap is null)
         {
-            AoWHSMap.ExitGame(Aow.Units.AoWE.TExitGameMode.egmTerminate, (_, exited) => IsClosed |= exited);
+            AoWHSMap.ExitGame(Aow.Game.Session.TExitGameMode.egmTerminate, (_, exited) => IsClosed |= exited);
             return IsClosed |= AoWHSMap.FExitPending;
         }
         DialogWin.Confirm(TranslateRStr(AoWEUnit.ConfirmRStr), TranslateRStr(QuitCombatRStr), 6);

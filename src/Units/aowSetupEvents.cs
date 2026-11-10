@@ -1,22 +1,20 @@
 // Translated from aowSetupEvents.pas.
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Net;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWLeaderSetup;
-using Aow.Units.AoWSetup;
-using Aow.Units.AoWWinMan;
-using Aow.Units.E2Globals;
-using Aow.Units.HSEngine;
-using Aow.Units.NetworkE;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWMessageDlgUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.aowSetupEvents;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TSetupEvents : TDataModule
 {

@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWControl;
+namespace Aow.Game.Ui.Controls;
 
 public partial class TAOWControl
 {

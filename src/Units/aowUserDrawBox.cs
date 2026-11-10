@@ -1,11 +1,10 @@
 // Translated from aowUserDrawBox.pas.
+using Aow.Game.Draw;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.aowUserDrawBox;
+namespace Aow.Game.Ui.Controls;
 
 // { The aowUserDrawBox unit of aowInt.dpl: TaowUserDrawBox, an empty control that its owner draws
 //   in OnPreDraw and OnDraw; its mouse events get coordinates relative to the control. }

@@ -1,12 +1,15 @@
 #nullable disable
-using Aow.Units.AoWE;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
+using Aow.Game.Engine;
+#nullable disable
+using Aow.Game.Magic;
+#nullable disable
+using Aow.Game.World.Map;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
-namespace Aow.Units.AoWHex;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
+namespace Aow.Game.World.Hexes;
 
 public partial class TAoWWaterHexagon
 {

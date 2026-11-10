@@ -1,8 +1,12 @@
 using System.Runtime.CompilerServices;
-using Aow.Units.AoWE;
-using Aow.Units.aowFX;
-using Aow.Units.Engine;
-using Aow.Units.GlobalEnchantmentSpells;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.GlobalEnchantment;
 
 namespace Aow.Units.Tests;
 

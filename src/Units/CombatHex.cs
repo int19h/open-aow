@@ -1,17 +1,19 @@
 // Translated from CombatHex.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWHex;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.CombatHex;
+namespace Aow.Game.World.Hexes;
 
 public partial class TCombatHexagon : TAbstractHexagon
 {
@@ -97,7 +99,7 @@ public partial class TCombatHexagon : TAbstractHexagon
     }
 
     // CombatHex.pas:73
-    public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
     // CombatHex.pas:134
     public override void UpdateTransitions()
@@ -283,9 +285,9 @@ public partial class TCombatHexagonResource : TAbstractHexagonResource
     }
 
     // CombatHex.pas:207
-    public override ImageLib.TLibraryImage GetCellImage()
+    public override Aow.Game.Draw.Images.TLibraryImage GetCellImage()
     {
-        ImageLib.TLibraryImage Result = null;
+        Aow.Game.Draw.Images.TLibraryImage Result = null;
         if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
         {
             Result = ImageSequenceList.GetImageSequence(0).ImageLibrary[10];
@@ -319,7 +321,7 @@ public partial class TWaterCombatHexagon : TAoWWaterHexagon
     public new const int ClassID = 2229655;
 
     // CombatHex.pas:216
-    public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
 }
 

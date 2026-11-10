@@ -1,8 +1,8 @@
-using Aow.Units.AoWHTMLMemo;
-using Aow.Units.AoWMemo;
-using Aow.Units.ImageLib;
-using EngineText = Aow.Units.Engine.EngineUnit;
-using Images = Aow.Units.ImageLib.ImageLibUnit;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
+using EngineText = Aow.Game.Engine.Nodes.EngineUnit;
+using Images = Aow.Game.Draw.Images.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
@@ -155,7 +155,7 @@ public sealed class StringBufferTests
         var alignment = Assert.IsType<TChangeInfo>(memo.FChanges[3]);
         Assert.Equal(0x80FF00, color.FColor);
         Assert.Equal(3, spacing.FSpacing);
-        Assert.Equal(Aow.Units.AoWComp.TaowTextAlign.taRight, alignment.FAlign);
+        Assert.Equal(Aow.Game.Ui.Controls.TaowTextAlign.taRight, alignment.FAlign);
         Assert.Equal(0x80FF00, alignment.FColor);
     }
 

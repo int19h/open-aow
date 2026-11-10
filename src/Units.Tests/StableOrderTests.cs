@@ -1,7 +1,11 @@
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HeroGrid;
-using Aow.Units.ReflectingPool;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Units;
+using Aow.Game.World.Structures;
 
 namespace Aow.Units.Tests;
 

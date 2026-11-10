@@ -1,26 +1,22 @@
 // Translated from FastCombatWin.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Events;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWHScroll;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWWindow;
-using Aow.Units.E3Globals;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
+// Translated from FastCombatWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.FastCombatWin;
+namespace Aow.Game.Ui.Dialogs;
 
 // phase, phase frame, animation frame, and shield indices/opacities, combat viewer, completion
 // event, retained event

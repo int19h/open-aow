@@ -2,11 +2,19 @@ using System.Collections;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 
 namespace Aow.Units.Tests;
 
@@ -33,31 +41,31 @@ public sealed partial class AoWERuleConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWHSSet previousSet = Game.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Game.AoWEngine;
-        private readonly TAoWHSMap previousMap = Game.AoWHSMap;
+        private readonly TAoWHSSet previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
+        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TAoWHSMap Map;
 
         internal Fixture()
         {
-            Game.AoWEngine = EngineFixture.Engine;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = EngineFixture.Engine;
             Map = new TAoWHSMap(null!);
             var set = EngineFixture.CreateGameSet(Manager);
-            Game.AoWHSSet = set;
-            Game.AoWEngine = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = null!;
             Map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
             Map.FRaces = new TRaceList(null!);
             Map.FUnitControl = new TUnitControl(null!);
             Map.FHeroControl = new THeroControl(null!);
-            Game.AoWHSMap = Map;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
         }
 
         public void Dispose()
         {
-            Game.AoWHSSet = previousSet;
-            Game.AoWEngine = previousEngine;
-            Game.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
             Manager.Dispose();
             Map.FRaces.Dispose();
             Map.FUnitControl.Dispose();
@@ -146,7 +154,7 @@ public sealed partial class AoWERuleConstructionTests
         }
         if (route == 3)
         {
-            var meta = Aow.Units.Engine.EClass.Of(type);
+            var meta = Aow.Game.Engine.EClass.Of(type);
             return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
@@ -174,14 +182,24 @@ public sealed partial class AoWERuleConstructionTests
     }
 
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
-    public static IEnumerable<object[]> EngineClasses => Classes.Where(row => typeof(TEObject).IsAssignableFrom(typeof(TSpell).Assembly.GetType("Aow.Units.AoWE." + (string)row[0])!));
+    public static IEnumerable<object[]> EngineClasses => Classes.Where(row => typeof(TEObject).IsAssignableFrom(TypeNamed((string)row[0])));
+
+    // The AoWE unit namespace is gone. The simple name is enough while it names one type.
+    private static Type TypeNamed(string name)
+    {
+        var matches = typeof(TSpell).Assembly.GetTypes().Where(type => type.Name == name).ToArray();
+        if (matches.Length != 1)
+            throw new InvalidOperationException(name + " matches " + matches.Length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " types.");
+        return matches[0];
+    }
+
     public static IEnumerable<object[]> FormerlyGuardedClasses => new[] { "TAbility", "TAdjustableAbility", "TArmyHS", "TBoltsAbility", "TBreathAbility", "TCastingPointsReturnViewP4", "TCharmAbility", "TCharmedAbility", "TCommandAbility", "TCommandedAbility", "TConstructAbility", "TCosmeticSurgeryAbility", "TDispelMagicAbility", "TDominateAbility", "TDominatedAbility", "TDurationAbility", "TDurationReturnView", "TEnhancementAbility", "TEntangleAbility", "TFlameThrowingAbility", "THealingAbility", "TInvokeDeathAbility", "TLeadershipAbility", "TMultiLevelAbility", "TPossessAbility", "TPossessedAbility", "TRangedAttackAbility", "TRoundAttackAbility", "TSeduceAbility", "TSeducedAbility", "TSelfDestructAbility", "TSpell", "TSpellCastingAbility", "TStrikeAbility", "TStrikeEnhancementAbility", "TTouchAbility", "TTransportAbility", "TTurnUndeadAbility", "TUnitEnchantmentAbility", "TUnitSpell", "TWallCrushingAbility", "TWebAbility" }.Select(name => new object[] { name });
 
     [Theory]
     [MemberData(nameof(Classes))]
     public void ConstructorAndRegistryRoutesMatchTheBaseCommit(string name)
     {
-        Type type = typeof(TSpell).Assembly.GetType("Aow.Units.AoWE." + name)!;
+        Type type = TypeNamed(name);
         using var fixture = new Fixture();
         bool engineObject = typeof(TEObject).IsAssignableFrom(type);
         for (int route = 0; route < (engineObject ? 4 : 1); route++)
@@ -213,7 +231,7 @@ public sealed partial class AoWERuleConstructionTests
     [MemberData(nameof(EngineClasses))]
     public void NullOwnerRoutesKeepTheExactTypeAndIdenticalState(string name)
     {
-        Type type = typeof(TSpell).Assembly.GetType("Aow.Units.AoWE." + name)!;
+        Type type = TypeNamed(name);
         using var fixture = new Fixture();
         string? expected = null;
         for (int route = 0; route < 4; route++)
@@ -221,7 +239,7 @@ public sealed partial class AoWERuleConstructionTests
             var value = (TEObject)Create(type, null!, route, fixture);
             Assert.IsType(type, value);
             Assert.Null(value.Owner);
-            Assert.Same(Aow.Units.Engine.EClass.Of(type), value.EClass);
+            Assert.Same(Aow.Game.Engine.EClass.Of(type), value.EClass);
             string state = Snapshot(value);
             try { value.Dispose(); }
             catch (System.Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }
@@ -280,10 +298,10 @@ public sealed partial class AoWERuleConstructionTests
     public void TacticalSelectorConstructorKeepsVirtualSettingsOrder()
     {
         using var fixture = new Fixture();
-        var value = new Aow.Units.AoWTC.TCombatUnitSelectionControl();
+        var value = new Aow.Game.Combat.TCombatUnitSelectionControl();
         try
         {
-            Assert.IsType<Aow.Units.AoWTC.TCombatMoveControlSettings>(value.FMoveControlSettings);
+            Assert.IsType<Aow.Game.Combat.TCombatMoveControlSettings>(value.FMoveControlSettings);
             Assert.NotNull(value.FMoveControlSettings.FPath);
             Assert.NotNull(value.FMoveControlSettings.FSubMoves);
             Assert.NotNull(value.FMoveControlSettings.FUnits);
@@ -297,7 +315,7 @@ public sealed partial class AoWERuleConstructionTests
     [MemberData(nameof(FormerlyGuardedClasses))]
     public void PlainConstructorsPublishCompletedState(string name)
     {
-        Type type = typeof(TAbility).Assembly.GetType("Aow.Units.AoWE." + name)!;
+        Type type = TypeNamed(name);
         for (int route = 0; route < 4; route++)
         {
             using var fixture = new Fixture();

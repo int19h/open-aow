@@ -1,15 +1,9 @@
 using System.Runtime.CompilerServices;
-using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComboBox;
-using Aow.Units.AoWControl;
-using Aow.Units.AoWEdit;
-using Aow.Units.AoWHTMLMemo;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWTabPanel;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
+using Aow.Rtl.Localize;
 
-namespace Aow.Units.AoWLabel;
+namespace Aow.Game.Ui.Controls;
 
 internal static class LocalizationProperties
 {

@@ -1,26 +1,19 @@
 // Translated from AoWSoundDlg.pas.
+using Aow.Game.Audio;
+using Aow.Game.Draw;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWHScroll;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWTabPanel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
-using Aow.Units.Sound;
+// Translated from AoWSoundDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Engine.Nodes.EngineUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.Engine.EngineUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.AoWSoundDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // sound quality, sound settings (rate, music, DirectSound, window, SFX, voices)
 public partial class TSoundDlg : TDataModule

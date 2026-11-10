@@ -1,116 +1,37 @@
 // Translated from the Delphi units AGCPlugins, AOWChatWin, AOWControlWin, AOWDialogWin, AOWGauge, AOWInterfaceImgLib, AOWMWindow, AOWMenu, AOWMenuBar, AOWMultiWin, AOWPyreScrn, AOWTitleWindow, AOWToolTip, AOWWinManager, AirNode, AlgnmBox, AltDeath, AltFire, AltIce, AltLife, AltLight, AltPest, Altar, Animation, AoWArenaDlg, AoWArmyEventDlg, AoWArmyInfoDlg, AoWArnoLine, AoWBaseWin, AoWBookWindow, AoWButton, AoWCampaignJoin, AoWCampaignSettings, AoWCampaignTransferDlg, AoWCastUnitSpellDlg, AoWCheckBox, AoWCityJoinDlg, AoWCityRebelDlg, AoWCityScreen, AoWComboBox, AoWComp, AoWConstructDlg, AoWControl, AoWDeformFaceDlg, AoWDisjunctionDlg, AoWE, AoWEReg, AoWEdit, AoWEmailGameSettingsDlg, AoWEmailSettingsDlg, AoWExeForms, AoWFileDialog, AoWFrame, AoWGamePlayDlg, AoWHScroll, AoWHTMLMemo, AoWHeroInfoDlg, AoWHeroJoinDlg, AoWHeroUpgradeDlg, AoWHex, AoWImage, AoWInfoBanner, AoWInfoWin, AoWIntroScene, AoWItemBanner, AoWItemsFoundDlg, AoWLabel, AoWLeaderSetup, AoWLenLine, AoWListBox, AoWMagic, AoWMemo, AoWMessageDlg, AoWMsgReceiveDlg, AoWNewTurnDialog, AoWPInfoWin, AoWPOP3Dlg, AoWPWindows, AoWPanel, AoWPartyJoin, AoWPasswordDlg, AoWPowerDlg, AoWProdScreen, AoWProgressDialog, AoWRealm, AoWReg, AoWRelations, AoWResultsWin, AoWRoad, AoWSMTPDlg, AoWSWindow, AoWScenSetup, AoWSelFactionWin, AoWSendEmailGameDlg, AoWSetup, AoWSoundDlg, AoWSpellBook, AoWSyncDlg, AoWTBWindow, AoWTC, AoWTCReg, AoWTCScanner, AoWTCUnit, AoWTabPanel, AoWTargetSelection, AoWTer, AoWTitleScene, AoWTutorialWin, AoWUnitBanner, AoWUnitSelDlg, AoWUnitWindow, AoWVScroll, AoWVideoDlg, AoWWinControl, AoWWinGeneric, AoWWinMan, AoWWindow, AoWWizardsTowerDlg, AoWWorldMap, AowUserWindow, Arena, BehaviorAG, BldGuild, BloodShrine, BorderHx, Bridge, CMapCtrl, Cave, CenterViewLoc, City, CitySpells, CityWall, CombatFire, CombatHex, CombatILTer, CombatObstacle, CombatRoad, CombatSpells, CombatStructure, CombatTE, CombatTerrain, Crops, Crypt, DeathNode, DisplayC, Dungeon, E1GameFlow, E1Globals, E1Resources, E1TacticalSupport, E2CampaignSupport, E2DirectSound, E2GameFlow, E2Globals, E2WindowLayout, E3EventDialogs, E3Globals, E3IMSTypes, E3StructureInfo, EList, EarthNode, Engine, EventLog, ExploreS, FMemStr, Farm, FastCombatWin, FileSecurity, FireNode, FlagEvents, FleeLoc, FontMod, GFXE, Gems, GlobalEnchantmentSpells, GlobalSpells, GlobalTargetSpells, HSEngine, HSLib, HashTabU, HeroCtrl, HeroGrid, Hexagon, Hill, HolyG, House, HxBridge, ILTer, ImageLib, IndependentAG, IsoCombatHex, IsoHex, ItemCtrl, ItemExpS, ItemGrid, LeadrGrd, LicenseF, LifeNode, MagicSanctuary, MainAG, MainStructure, ManaCrystals, MapCtrl, Merchant, Mine, MonsterL, Mountain, MoveOnEvents, NetworkE, OverlayObject, OverviewUnit, Pad, PageTurnCtrl, PassiveAb, PlayerBox, PlugInM, PoisonC, PoisonP, PowerNode, PrdPlace, Pyramid, RaceBox, RandomNode, ReflectingPool, RndHex, Road, Ruin, Scanner, Shipyard, Sign, SingleCombatHex, SmokeCloud, Sound, Spring, StartMenu, Storms, SummonSpells, TCFCDlg, Teleport, Terrain, Tower, Townhall, TurnButton, UnHolyG, UnitGrid, UnitIDlg, UnitIGrd, UnitSpells, UnitTabC, WaterNode, WizardsTower, WorkShop, aowFX, aowHelpWin, aowIntGfxMod, aowMapEvents, aowSetupEvents, aowTCMapEvents, aowUserDrawBox.
 using System.Runtime.ExceptionServices;
-using Aow.Units.AGCPlugins;
-using Aow.Units.AirNode;
-using Aow.Units.Altar;
-using Aow.Units.AltDeath;
-using Aow.Units.AltFire;
-using Aow.Units.AltIce;
-using Aow.Units.AltLife;
-using Aow.Units.AltLight;
-using Aow.Units.AltPest;
-using Aow.Units.Animation;
-using Aow.Units.AoWArnoLine;
-using Aow.Units.AoWBookWindow;
-using Aow.Units.AoWE;
-using Aow.Units.AoWEReg;
-using Aow.Units.AoWHex;
-using Aow.Units.AoWLenLine;
-using Aow.Units.AoWReg;
-using Aow.Units.AoWRoad;
-using Aow.Units.AoWSetup;
-using Aow.Units.AoWTCReg;
-using Aow.Units.AoWTer;
-using Aow.Units.AoWTitleScene;
-using Aow.Units.AowUserWindow;
-using Aow.Units.Arena;
-using Aow.Units.BehaviorAG;
-using Aow.Units.BldGuild;
-using Aow.Units.BloodShrine;
-using Aow.Units.Cave;
-using Aow.Units.CenterViewLoc;
-using Aow.Units.City;
-using Aow.Units.CitySpells;
-using Aow.Units.CityWall;
-using Aow.Units.CMapCtrl;
-using Aow.Units.CombatFire;
-using Aow.Units.CombatHex;
-using Aow.Units.CombatILTer;
-using Aow.Units.CombatObstacle;
-using Aow.Units.CombatRoad;
-using Aow.Units.CombatSpells;
-using Aow.Units.CombatStructure;
-using Aow.Units.CombatTE;
-using Aow.Units.CombatTerrain;
-using Aow.Units.Crops;
-using Aow.Units.Crypt;
-using Aow.Units.DeathNode;
-using Aow.Units.Dungeon;
-using Aow.Units.EarthNode;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.ExploreS;
-using Aow.Units.Farm;
-using Aow.Units.FireNode;
-using Aow.Units.FlagEvents;
-using Aow.Units.FleeLoc;
-using Aow.Units.Gems;
-using Aow.Units.GFXE;
-using Aow.Units.GlobalEnchantmentSpells;
-using Aow.Units.GlobalSpells;
-using Aow.Units.GlobalTargetSpells;
-using Aow.Units.HolyG;
-using Aow.Units.House;
-using Aow.Units.HxBridge;
-using Aow.Units.ImageLib;
-using Aow.Units.IndependentAG;
-using Aow.Units.IsoCombatHex;
-using Aow.Units.ItemExpS;
-using Aow.Units.LicenseF;
-using Aow.Units.LifeNode;
-using Aow.Units.MagicSanctuary;
-using Aow.Units.MainAG;
-using Aow.Units.MainStructure;
-using Aow.Units.ManaCrystals;
-using Aow.Units.MapCtrl;
-using Aow.Units.Merchant;
-using Aow.Units.Mine;
-using Aow.Units.MonsterL;
-using Aow.Units.Mountain;
-using Aow.Units.MoveOnEvents;
-using Aow.Units.OverlayObject;
-using Aow.Units.OverviewUnit;
-using Aow.Units.Pad;
-using Aow.Units.PageTurnCtrl;
-using Aow.Units.PassiveAb;
-using Aow.Units.PoisonC;
-using Aow.Units.PoisonP;
-using Aow.Units.PowerNode;
-using Aow.Units.PrdPlace;
-using Aow.Units.Pyramid;
-using Aow.Units.ReflectingPool;
-using Aow.Units.Ruin;
-using Aow.Units.Scanner;
-using Aow.Units.Shipyard;
-using Aow.Units.Sign;
-using Aow.Units.SingleCombatHex;
-using Aow.Units.SmokeCloud;
-using Aow.Units.Sound;
-using Aow.Units.Spring;
-using Aow.Units.StartMenu;
-using Aow.Units.Storms;
-using Aow.Units.SummonSpells;
-using Aow.Units.Teleport;
-using Aow.Units.Tower;
-using Aow.Units.Townhall;
-using Aow.Units.TurnButton;
-using Aow.Units.UnHolyG;
-using Aow.Units.UnitSpells;
-using Aow.Units.WaterNode;
-using Aow.Units.WizardsTower;
-using Aow.Units.WorkShop;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Audio;
+using Aow.Game.Combat;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Abilities.Passive;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.City;
+using Aow.Game.Magic.Spells.Combat;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.GlobalEnchantment;
+using Aow.Game.Magic.Spells.GlobalTarget;
+using Aow.Game.Magic.Spells.Summon;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
 
-namespace Aow.Units;
+namespace Aow.Game.Engine;
 
 /// <summary>One unit of the program in initialization order, with its initialization and
 /// finalization sections. A unit without a section has a null delegate.</summary>
@@ -239,7 +160,7 @@ public static class Startup
         new("CombatTerrain", CombatTerrainUnit.Initialize, CombatTerrainUnit.Finalize),
         new("CombatTE", CombatTEUnit.Initialize, CombatTEUnit.Finalize),
         new("CombatHex", CombatHexUnit.Initialize, CombatHexUnit.Finalize),
-        new("AoWTC", AoWTC.AoWTCUnit.Initialize, AoWTC.AoWTCUnit.Finalize),
+        new("AoWTC", Aow.Game.Combat.AoWTCUnit.Initialize, Aow.Game.Combat.AoWTCUnit.Finalize),
         new("AoWFrame", null, null),
         new("AoWTabPanel", null, null),
         new("AoWPanel", null, null),

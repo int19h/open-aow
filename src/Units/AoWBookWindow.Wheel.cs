@@ -1,6 +1,6 @@
 using Aow.Rtl;
 
-namespace Aow.Units.AoWBookWindow;
+namespace Aow.Game.Ui.Windows;
 
 public partial class TAoWBookWindow
 {

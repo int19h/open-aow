@@ -1,16 +1,12 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
-using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWExeForms;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AOWMenu;
-using Aow.Units.AoWTBWindow;
-using Aow.Units.AoWWinMan;
-using Aow.Units.StartMenu;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Rtl.Localize;
 
-namespace Aow.Units.AoWPWindows;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TPopupWindows : ILayoutModule
 {

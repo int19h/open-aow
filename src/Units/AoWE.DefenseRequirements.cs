@@ -1,6 +1,11 @@
-using Aow.Units.HSEngine;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Combat;
+using Aow.Game.Engine;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.World.Map;
 
 public partial class TAoWMapField
 {

@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWScenSetup;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TScenSetup
 {

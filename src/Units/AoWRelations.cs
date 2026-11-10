@@ -1,30 +1,23 @@
 // Translated from AoWRelations.pas.
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWHScroll;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWPInfoWin;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
+// Translated from AoWRelations.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.AoWRelations;
+namespace Aow.Game.Ui.Dialogs;
 
 // diplomatic actions, player indices, race indices, controls
 public partial class TRelWindow : TDataModule
@@ -205,10 +198,10 @@ public partial class TRelWindow : TDataModule
             if (I <= FPlayers.Count)
             {
                 ((TAoWComponent)FControls[I + 23]).Visible = true;
-                ((AoWControl.TAOWControl)FControls[I + 23]).ToolTipText.Clear();
+                ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 23]).ToolTipText.Clear();
                 var player = FPlayers[I - 1];
                 var name = AoWHSMap.FPlayers.GetPlayers(player).GetName();
-                ((AoWControl.TAOWControl)FControls[I + 23]).ToolTipText.Add(name);
+                ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 23]).ToolTipText.Add(name);
             }
             else
             {
@@ -242,11 +235,11 @@ public partial class TRelWindow : TDataModule
             if (I < FRaces.Count)
             {
                 ((TAoWComponent)FControls[I + 36]).Visible = true;
-                ((AoWControl.TAOWControl)FControls[I + 36]).ToolTipText.Clear();
+                ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 36]).ToolTipText.Clear();
                 var race = FRaces[I];
                 var fRacesRace = AoWHSMap.FRaces.GetRace(race);
                 var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[fRacesRace.FRace]);
-                ((AoWControl.TAOWControl)FControls[I + 36]).ToolTipText.Add(raceNamesPlural);
+                ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 36]).ToolTipText.Add(raceNamesPlural);
             }
             else
             {
@@ -461,7 +454,7 @@ public partial class TRelWindow : TDataModule
             switch (((TAOWImage)FControls[I]).CurrentImage)
             {
                 case 1:
-                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Clear();
+                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
                         if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
@@ -474,7 +467,7 @@ public partial class TRelWindow : TDataModule
                                 {
                                     var player3 = FPlayers[I];
                                     var diplomaticRelation = AoWHSMap.FPlayers.GetDiplomaticRelation(FSelectedPlayer, (sbyte)player3);
-                                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Add(TDiplomaticRelationRStr[(int)diplomaticRelation]);
+                                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Add(TDiplomaticRelationRStr[(int)diplomaticRelation]);
                                 }
                             }
                         }
@@ -482,7 +475,7 @@ public partial class TRelWindow : TDataModule
 
                     break;
                 default:
-                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Clear();
+                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Clear();
                     break;
             }
         }
@@ -501,7 +494,7 @@ public partial class TRelWindow : TDataModule
             switch (((TAOWImage)FControls[I + 12]).CurrentImage)
             {
                 case 4:
-                    ((AoWControl.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
+                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
                         if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
@@ -511,13 +504,13 @@ public partial class TRelWindow : TDataModule
                             var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
                             var race2 = FRaces[I];
                             var playerRelationValue = AoWHSMap.FRaces.GetRace(race2).GetPlayerRelationValue(FSelectedPlayer);
-                            ((AoWControl.TAOWControl)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                            ((Aow.Game.Ui.Controls.TAOWControl)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                         }
                     }
 
                     break;
                 default:
-                    ((AoWControl.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
+                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
                     break;
             }
         }
@@ -591,7 +584,7 @@ public partial class TRelWindow : TDataModule
             switch (((TAOWImage)FControls[I]).CurrentImage)
             {
                 case 1:
-                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Clear();
+                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Clear();
                     var player = FPlayers[I];
                     if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                     {
@@ -600,12 +593,12 @@ public partial class TRelWindow : TDataModule
                         var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
                         var player3 = FPlayers[I];
                         var playerRelationValue = AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelationValue((sbyte)player3);
-                        ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                        ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                     }
 
                     break;
                 default:
-                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Clear();
+                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Clear();
                     break;
             }
         }
@@ -613,7 +606,7 @@ public partial class TRelWindow : TDataModule
         for (int I = 0; I <= 11; I++)
         {
             ((TAOWImage)FControls[I + 12]).CurrentImage = 5;
-            ((AoWControl.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
+            ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
         }
     }
 

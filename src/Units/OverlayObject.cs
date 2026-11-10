@@ -1,10 +1,11 @@
 // Translated from OverlayObject.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.ILTer;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.World.Terrain;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.OverlayObject;
+namespace Aow.Game.World.Terrain;
 
 public partial class TOverlayObject : TFixedILTerrainMO
 {

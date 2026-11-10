@@ -1,8 +1,11 @@
 using System.Reflection;
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -53,9 +56,9 @@ public sealed partial class AoWERuleConstructionTests
     [MemberData(nameof(UnitClasses))]
     public void UnitCreationMatchesTheBaseCommitThroughEveryFacade(string name)
     {
-        Type type = typeof(TAbstractUnit).Assembly.GetType("Aow.Units.AoWE." + name)!;
-        var previous = Game.AoWHSMap;
-        Game.AoWHSMap = null!;
+        Type type = TypeNamed(name);
+        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
         try
         {
             var states = new List<string>();
@@ -81,19 +84,19 @@ public sealed partial class AoWERuleConstructionTests
             }
             ConstructionSnapshot.Check("UnitConstruction", name, string.Join("\n", states));
         }
-        finally { Game.AoWHSMap = previous; }
+        finally { Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous; }
     }
 
     [Theory]
     [MemberData(nameof(UnitClasses))]
     public void BinarySavedClassIdLoadsTheExactUnitWithOneReference(string name)
     {
-        var previousMap = Game.AoWHSMap;
-        var previousSet = Game.AoWHSSet;
-        Game.AoWHSMap = null!;
+        var previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        var previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
         var set = EngineFixture.Configure(TAoWHSSet.Create(null!), value => { value.FUnitResources = new TUnitResourceList(null!); value.FHeroResources = new THeroResourceList(null!); value.FAbilityControl = new TAbilityControl(null!); });
-        Game.AoWHSSet = set;
-        Type type = typeof(TAbstractUnit).Assembly.GetType("Aow.Units.AoWE." + name)!;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
+        Type type = TypeNamed(name);
         var meta = EClass.Of(type);
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new TEngine(null!);
@@ -134,8 +137,8 @@ public sealed partial class AoWERuleConstructionTests
             set.FUnitResources.Dispose();
             set.FHeroResources.Dispose();
             set.FAbilityControl.Dispose();
-            Game.AoWHSMap = previousMap;
-            Game.AoWHSSet = previousSet;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
         }
         Assert.Empty(owner.Members);
     }
@@ -163,8 +166,8 @@ public sealed partial class AoWERuleConstructionTests
     [InlineData(true, true)]
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
-        var previous = Game.AoWHSMap;
-        Game.AoWHSMap = null!;
+        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
         var owner = new UnitOwner(reject);
         RefcountOwner = owner;
         try
@@ -177,6 +180,6 @@ public sealed partial class AoWERuleConstructionTests
             value.Dispose();
             Assert.Empty(owner.Members);
         }
-        finally { RefcountOwner = null; Game.AoWHSMap = previous; }
+        finally { RefcountOwner = null; Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous; }
     }
 }

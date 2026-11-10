@@ -1,16 +1,13 @@
 // Translated from AoWUnitBanner.pas.
+using Aow.Game.Combat;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AOWMenu;
-using Aow.Units.AoWTC;
-using Aow.Units.AoWVScroll;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
-namespace Aow.Units.AoWUnitBanner;
+namespace Aow.Game.Ui.Dialogs;
 
 // published labels, popup and ability-list controls
 public partial class TUnitBanner : TDataModule

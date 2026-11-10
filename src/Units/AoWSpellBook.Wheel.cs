@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWSpellBook;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TSpellBook
 {

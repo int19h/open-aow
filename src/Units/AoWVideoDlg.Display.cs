@@ -1,8 +1,8 @@
 #nullable disable
-using Aow.Platform;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Host;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.AoWVideoDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TVideoDialog
 {

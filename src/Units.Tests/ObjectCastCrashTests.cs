@@ -1,31 +1,22 @@
-using Aow.Units.Animation;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWE;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWRelations;
-using Aow.Units.AoWWindow;
-using Aow.Units.AoWWinMan;
-using Aow.Units.AOWWinManager;
-using Aow.Units.Bridge;
-using Aow.Units.Engine;
-using Aow.Units.HolyG;
-using Aow.Units.HSEngine;
-using Aow.Units.HxBridge;
-using Aow.Units.Mountain;
-using Aow.Units.PassiveAb;
-using Aow.Units.PoisonP;
-using Aow.Units.Sound;
-using Aow.Units.SummonSpells;
-using Aow.Units.Terrain;
-using Aow.Units.UnHolyG;
-using Aow.Units.UnitSpells;
-using Game = Aow.Units.AoWE.AoWEUnit;
-using HolySummoning = Aow.Units.HolyG.AnonymousEnum_hgSummoning;
-using UnholySummoning = Aow.Units.UnHolyG.AnonymousEnum_hgSummoning;
+using Aow.Game.Audio;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Abilities.Passive;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Summon;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
+using Aow.Game.World.Terrain;
+using HolySummoning = Aow.Game.Magic.Spells.HolyG.AnonymousEnum_hgSummoning;
+using UnholySummoning = Aow.Game.Magic.Spells.UnHolyG.AnonymousEnum_hgSummoning;
 
 namespace Aow.Units.Tests;
 
@@ -36,7 +27,7 @@ public sealed class ObjectCastCrashTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly TAoWHSMap previous = Game.AoWHSMap;
+        private readonly TAoWHSMap previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
 
         public MapScope()
         {
@@ -47,14 +38,14 @@ public sealed class ObjectCastCrashTests
             container.FMap = Map;
             Map.FMapContainer = container;
             Field = container.GetField(0, 0, 0);
-            Game.AoWHSMap = Map;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
         }
 
         public TAoWHSMap Map { get; }
 
         public TMapField Field { get; }
 
-        public void Dispose() => Game.AoWHSMap = previous;
+        public void Dispose() => Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous;
     }
 
     private sealed class MasteryUnit : TAbstractUnit
@@ -165,7 +156,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
-        var control = Game.AoWHSSet.FSpellControl;
+        var control = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FSpellControl;
         control.RegisterSpell(new TStoneSkin(null!));
         control.RegisterSpell(new TBless(null!));
         try
@@ -382,7 +373,7 @@ public sealed class ObjectCastCrashTests
     public void MasteryGuardianDefaultsNeedNoSummonedSpell()
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
-        Assert.Null(Game.AoWHSSet.FSpellControl.GetSpell(155));
+        Assert.Null(Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FSpellControl.GetSpell(155));
         var unit = new TUnit(null!);
         unit.FUnitResource = new TUnitResource(null!) { FLevel = 2 };
         Assert.Equal(6, TSummonedAbility.GetDefaultManaUpkeep(unit));
@@ -394,7 +385,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MovingAPlacedBridgeSkipsTheLevelOverlay()
     {
-        TAoWHSMap previous = Game.AoWHSMap;
+        TAoWHSMap previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         try
         {
             var map = new TAoWHSMap(null!);
@@ -403,7 +394,7 @@ public sealed class ObjectCastCrashTests
             level.CreateMapFieldList(2, 1);
             container.FMap = map;
             map.FMapContainer = container;
-            Game.AoWHSMap = map;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
             var first = container.GetField(0, 0, 0);
             var second = container.GetField(1, 0, 0);
             var bridge = new TBridge(null!);
@@ -416,7 +407,7 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            Game.AoWHSMap = previous;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous;
         }
     }
 }

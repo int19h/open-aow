@@ -1,17 +1,18 @@
 using System.Runtime.CompilerServices;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Magic;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using Aow.Units.AoWE;
-using Aow.Units.AOWMWindow;
-using Aow.Units.AoWWindow;
-using Aow.Units.AoWWinMan;
-using Aow.Units.AOWWinManager;
-using Aow.Units.E2GameFlow;
-using Aow.Units.StartMenu;
-using GameState = Aow.Units.AoWE.AoWEUnit;
+using GameState = Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Game;
+namespace Aow;
 
 internal static class FrameFixtureChecks
 {
@@ -25,12 +26,12 @@ internal static class FrameFixtureChecks
             checks++;
         }
         // The fixture host replays native scripts, so the game writes original names under it.
-        Check(!RtlUnit.WritesOwnExtensions && Aow.Units.FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
-            && Aow.Units.FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save) == ".asg", "fixture host writes original extensions");
+        Check(!RtlUnit.WritesOwnExtensions && Aow.Game.Saves.FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
+            && Aow.Game.Saves.FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save) == ".asg", "fixture host writes original extensions");
         var instance = new object();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
         Check(!new TGDPlay().Connected && new TGDPlay().ConnectionType == TConnectionType.conNone, "offline connection queries");
-        Check(Aow.Units.AOWControlWin.TControlWin.UnitMoveText(32) == "   32", "native unit movement label spacing");
+        Check(Aow.Game.Ui.Dialogs.TControlWin.UnitMoveText(32) == "   32", "native unit movement label spacing");
         FrameFixtureInputs.AddressAnimationPhase = 0;
         Check(FrameFixtureInputs.AnimationOffset(instance) == 0, "capture phase");
         FrameFixtureInputs.AddressAnimationPhase = null;
@@ -66,13 +67,13 @@ internal static class FrameFixtureChecks
             controller.HideTransientWindows();
             Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
 
-            var players = new TPlayerList(null!) { FChildren = new Aow.Units.Engine.TEObjectList() };
+            var players = new TPlayerList(null!) { FChildren = new Aow.Game.Engine.Nodes.TEObjectList() };
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psPlaying });
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psTerminated });
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psPlaying });
             GameState.AoWHSMap = new TAoWHSMap(null!);
             GameState.AoWHSMap.FPlayers = players;
-            var bar = new Aow.Units.AoWTBWindow.TTBWindow(null)
+            var bar = new Aow.Game.Ui.Dialogs.TTBWindow(null)
             {
                 PInd = new(null) { FAligned = true },
                 TBMessEdit = new(null) { FAligned = true }
@@ -89,9 +90,9 @@ internal static class FrameFixtureChecks
 
             RtlUnit.Settings = new MemorySettingsStore();
             GameState.AoWEngine = oldEngine;
-            GameState.AoWEngine.FRegistry.SetMovementSpeed(Aow.Units.AoWReg.TMovementSpeed.mmsNormal);
+            GameState.AoWEngine.FRegistry.SetMovementSpeed(Aow.Game.Engine.TMovementSpeed.mmsNormal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
-            var world = new Aow.Units.AOWMWindow.TMWindow(null) { MapWindow = mapWindow };
+            var world = new Aow.Game.Ui.Dialogs.TMWindow(null) { MapWindow = mapWindow };
             world.MapWindowUpdate();
             Check(GameState.AoWHSMap.FFPS == 9, "captured FPS reaches the strategic movement input");
             var army = new MovementArmy { FMoveStep = -1, FUnitGFXResource = new(null) { F_UnitGFXResource_30 = 2 } };
@@ -136,8 +137,8 @@ internal static class FrameFixtureChecks
         {
             Directory.CreateDirectory(scratch);
             RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, scratch, [], clock, null));
-            Aow.Units.Startup.InitializeAll();
-            Aow.Units.Sound.NullSoundSystem.Install();
+            Aow.Game.Engine.Startup.InitializeAll();
+            Aow.Game.Audio.NullSoundSystem.Install();
             GameState.ValidateAoWEngine();
         }
 

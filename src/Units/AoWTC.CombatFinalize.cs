@@ -1,7 +1,8 @@
-using Aow.Units.AoWE;
-using Aow.Units.NetworkE;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Net;
+using Aow.Game.Session;
 
-namespace Aow.Units.AoWTC;
+namespace Aow.Game.Combat;
 
 public partial class TTacticalCombat
 {
