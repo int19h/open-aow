@@ -1,17 +1,41 @@
 // Translated from aowSetupEvents.pas.
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Audio;
+using Aow.Game.Combat;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
+using Aow.Game.Saves;
 using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World;
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Game.Audio.SoundUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Session.E2GameFlowUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.AoWMessageDlgUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
-using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
+using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -28,26 +52,26 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:61
     public void ClearChat()
     {
-        ChatWindow.ChatMemo.Items.Clear();
-        ChatWindow.ChatEdit.Text = "";
+        Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatMemo.Items.Clear();
+        Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatEdit.Text = "";
     }
 
     // aowSetupEvents.pas:67
     public void UpdateChatPlayers()
     {
-        ChatWindow.PlayerList.Items.Clear();
-        var allPlayers = TranslateRStr(AllPlayersRStr);
-        ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
-        if (AoWHSMap != null)
+        Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.Clear();
+        var allPlayers = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSetupEvents.AllPlayersRStr);
+        Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
         {
-            for (int I = 1, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
             {
-                if (I != AoWHSMap.FSeatedPlayer && AoWHSMap.FPlayers.GetPlayers(I).FStatus != TPlayerStatus.psTerminated && AoWHSMap.FPlayerCommunicator.PCC.Players[I].ConnectionMode == TConnectionMode.cmRemote)
+                if (I != Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FStatus != TPlayerStatus.psTerminated && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.Players[I].ConnectionMode == TConnectionMode.cmRemote)
                 {
-                    var player = AoWHSMap.FPlayerCommunicator.PCC.Players[I];
-                    var playerLeader = AoWHSMap.FPlayers.GetPlayers(I);
-                    ChatWindow.PlayerList.Items.AddObject(playerLeader.FLeader.FHeroName, IntToObject(player.SystemID));
-                    ChatWindow.PlayerList.Selected = 0;
+                    var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.Players[I];
+                    var playerLeader = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I);
+                    Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.AddObject(playerLeader.FLeader.FHeroName, IntToObject(player.SystemID));
+                    Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Selected = 0;
                 }
             }
         }
@@ -65,9 +89,9 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:90
     public void SetupControlStart()
     {
-        SynchronizeDlg.Dlg.Visible = false;
-        ScenSetup.CloseSetup();
-        AoWWinManUnit.StartGame(General);
+        Aow.Game.Ui.Dialogs.DialogHosts.SynchronizeDlg.Dlg.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.CloseSetup();
+        Aow.Game.Ui.Dialogs.TGeneral.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
         if (DPlay.Connected)
         {
             ClearChat();
@@ -85,10 +109,10 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:111
     public void DPlayFileStartMessage(int ID, ref string Name, int Size, ref byte Response)
     {
-        ProgressDialog.StatusLbl.Text = "0k of " + IntToStr(Size / 1000) + "k";
-        ProgressDialog.Title.Text = "Receiving File";
-        ProgressDialog.Bar.Max = Size;
-        ProgressDialog.Bar.Position = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.StatusLbl.Text = "0k of " + IntToStr(Size / 1000) + "k";
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Title.Text = "Receiving File";
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Max = Size;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Position = 0;
     }
 
     // aowSetupEvents.pas:119
@@ -101,27 +125,27 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:125
     public void DPlayFileProgressMessage(int ID, int Position, int Size)
     {
-        if (Position > ProgressDialog.Bar.Position)
+        if (Position > Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Position)
         {
-            ProgressDialog.StatusLbl.Text = IntToStr(Position / 1000) + "k of " + IntToStr(Size / 1000) + "k";
-            ProgressDialog.Bar.Position = Position;
+            Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.StatusLbl.Text = IntToStr(Position / 1000) + "k of " + IntToStr(Size / 1000) + "k";
+            Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Position = Position;
         }
     }
 
     // aowSetupEvents.pas:134
     public void DPlayChatMessage(ref string Message, ref int ToID, ref int FromID)
     {
-        if (ScenSetup.ScenSetupPnl.Visible)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ScenSetupPnl.Visible)
         {
-            ScenSetup.ChatMemo.Items.Add(Message);
-            ScenSetup.FChatScrollPending = true;
+            Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ChatMemo.Items.Add(Message);
+            Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.FChatScrollPending = true;
         }
         else
         {
-            ChatWindow.ChatMemo.Items.Add(Message);
-            TBWindow.FChatFlash = 136;
-            ChatWindow.FScrollPending = true;
-            PlaySample("SFX\\EVENTS\\CHAT.WAV");
+            Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatMemo.Items.Add(Message);
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.FChatFlash = 136;
+            Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.FScrollPending = true;
+            Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\CHAT.WAV");
         }
     }
 
@@ -135,67 +159,67 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:170
     public void DPlayEjected()
     {
-        if (ScenSetup.ScenSetupPnl.Visible)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ScenSetupPnl.Visible)
         {
-            ScenSetup.ExitGameClick();
-            ResetMessageDialog(MessageDlg);
-            var warning = TranslateRStr(E2GlobalsUnit.WarningRStr);
-            MessageDlg.TitleLbl.Text = warning;
-            MessageDlg.MessageMemo.Items.Add("");
-            var youWereEjectedByTheHost = TranslateRStr(YouWereEjectedByTheHostRStr);
-            MessageDlg.MessageMemo.Items.Add(youWereEjectedByTheHost);
-            MessageDlg.OKPnl.Visible = true;
-            MessageDlg.Dlg.Visible = true;
+            Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ExitGameClick();
+            Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+            var warning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSetupEvents.WarningRStr);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.TitleLbl.Text = warning;
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+            var youWereEjectedByTheHost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSetupEvents.YouWereEjectedByTheHostRStr);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(youWereEjectedByTheHost);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
         }
     }
 
     // aowSetupEvents.pas:184
     public void DPlayPingMessage(int PingMS, int Player)
     {
-        if (ScenSetup.ScenSetupPnl.Visible)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ScenSetupPnl.Visible)
         {
-            ScenSetup.PingList.FDrawn = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.PingList.FDrawn = false;
         }
     }
 
     // aowSetupEvents.pas:189
     public void SetupControlCustomizeLeader(TSetupControl Control, TCustomizeLeaderControl Leader)
     {
-        ScenSetup.ScenSetupPnl.Visible = false;
-        AoWLeaderSetupUnit.LeaderSetupWin.Execute(Leader);
+        Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ScenSetupPnl.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.Execute(Leader);
     }
 
     // aowSetupEvents.pas:195
     public void SetupControlLoadMap(TSetupControl Control, string FileName)
     {
         var fileName = ExtractFileName(FileName);
-        var format = AoWEUnit.Format(TranslateRStr(LoadingXRStr), [fileName]);
-        ProgressDialog.Title.Text = format;
-        ProgressDialog.StatusLbl.Text = "";
-        ProgressDialog.Bar.Position = 0;
-        ProgressDialog.Bar.Max = 100;
-        ProgressDialog.ProgDlg.Visible = true;
-        General.Manager.OverlayPriority = 5000;
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSetupEvents.LoadingXRStr), [fileName]);
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Title.Text = format;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.StatusLbl.Text = "";
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Position = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Max = 100;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.ProgDlg.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 5000;
         if (!Control.FSettings.FCustomizeLeaders)
         {
-            SongPlayer.Stop(false);
-            SongPlayer.Songs.Clear();
-            FadeMusicVolume(0, 1);
+            Aow.Game.Audio.AudioHost.SongPlayer.Stop(false);
+            Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
+            Aow.Game.Audio.AudioPlayback.FadeMusicVolume(0, 1);
         }
 
         if (Control.FStream.Length != 0)
         {
-            AoWEngine.LoadHSMfromStream(Control.FStream, false, (_, Message, Progression) => General.MapProgress(Message, Progression));
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSMfromStream(Control.FStream, false, (_, Message, Progression) => Aow.Game.Ui.Dialogs.DialogHosts.General.MapProgress(Message, Progression));
             var fileName2 = ExtractFileName(FileName);
-            AoWHSMap.FileName = AoWEngine.StartupDirectory + "Scenario\\" + fileName2;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FileName = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\" + fileName2;
         }
         else
         {
-            AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => General.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => Aow.Game.Ui.Dialogs.DialogHosts.General.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
         }
 
-        General.Manager.OverlayPriority = 0;
-        ProgressDialog.ProgDlg.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.ProgDlg.Visible = false;
         Control.MapLoaded();
     }
 
@@ -209,7 +233,7 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:225
     public void SetupControlSettingChanged()
     {
-        UpdateScenarioSetup(ScenSetup);
+        Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioSetup(Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup);
     }
 
     // aowSetupEvents.pas:228
@@ -227,11 +251,11 @@ public partial class TSetupEvents : TDataModule
             SetupControl.DataReceived(Data, Size, FromID);
         }
 
-        if (AoWHSMap != null && AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))
         {
-            if (AoWHSMap.FPlayerCommunicator.PCC is TRemotePCC)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC is TRemotePCC)
             {
-                ((TRemotePCC)AoWHSMap.FPlayerCommunicator.PCC).DataReceived(Data, Size, FromID);
+                ((TRemotePCC)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC).DataReceived(Data, Size, FromID);
             }
         }
     }
@@ -239,11 +263,11 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:239
     public void SetupControlSynchronize(TSetupControl Control)
     {
-        General.Manager.FAligned = false;
-        ScenSetup.ScenSetupPnl.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FAligned = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ScenSetupPnl.Visible = false;
         if (Control.GetRemote())
         {
-            SynchronizeDlg.Dlg.Visible = true;
+            Aow.Game.Ui.Dialogs.DialogHosts.SynchronizeDlg.Dlg.Visible = true;
         }
     }
 
@@ -264,19 +288,19 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:282
     public void SetupControlSendingMaps()
     {
-        General.Manager.OverlayPriority = 5000;
-        ProgressDialog.ProgDlg.Visible = true;
-        ProgressDialog.Title.Text = "Transferring Files...";
-        ProgressDialog.StatusLbl.Text = "Please Wait";
-        ProgressDialog.Bar.Position = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 5000;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.ProgDlg.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Title.Text = "Transferring Files...";
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.StatusLbl.Text = "Please Wait";
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Position = 0;
     }
 
     // aowSetupEvents.pas:291
     public void DPlayMessageError()
     {
-        if (AoWHSMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
         {
-            AoWHSMap.PlayerConnectionLost();
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlayerConnectionLost();
         }
     }
 
@@ -284,24 +308,24 @@ public partial class TSetupEvents : TDataModule
     public void DPlayDestroyPlayer(int ID, int NumPlayers)
     {
         sbyte Player;
-        if (ScenSetup.FSetupControl != null)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.FSetupControl != null)
         {
-            if (ScenSetup.FSetupControl.GetHost())
+            if (Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.FSetupControl.GetHost())
             {
-                ScenSetup.FSetupControl.hDisconnectPlayer(ID);
+                Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.FSetupControl.hDisconnectPlayer(ID);
             }
         }
 
-        if (AoWHSMap != null && AoWHSMap.FPlayerCommunicator.PCC != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC != null)
         {
-            Player = (sbyte)AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
+            Player = (sbyte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
             if (Player != -1)
             {
-                if (AoWHSMap.FPlayers.GetPlayers(Player) != null)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player) != null)
                 {
-                    if (AoWHSMap.FPlayers.GetPlayers(Player).FStatus == TPlayerStatus.psPlaying)
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatus == TPlayerStatus.psPlaying)
                     {
-                        AoWHSMap.PlayerDisconnected(Player);
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlayerDisconnected(Player);
                     }
 
                     UpdateChatPlayers();
@@ -309,9 +333,21 @@ public partial class TSetupEvents : TDataModule
             }
         }
     }
-}
 
-public static partial class aowSetupEventsUnit
-{
-    public static TSetupEvents SetupEvents;
+    private static readonly string AllPlayersRStr = "All players";
+
+    private static readonly string LoadingXRStr = "Loading: %s...";
+
+    private static readonly string YouWereEjectedByTheHostRStr = "You were ejected by the host.";
+
+    private static TGUID ID_AOWAPP = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
+
+    private static readonly string WarningRStr = "Warning";
+
+    internal static bool StartLobby(TSetupEvents Events)
+    {
+        /* TODO: Implement aowDPlayComp.CheckLobby in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
 }

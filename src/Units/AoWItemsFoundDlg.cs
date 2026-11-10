@@ -1,20 +1,26 @@
 // Translated from AoWItemsFoundDlg.pas.
 using System.Runtime.CompilerServices;
+using Aow.Game.Combat;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Session.E2CampaignSupportUnit;
-using static Aow.Game.Ui.Dialogs.AoWItemBannerUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -58,10 +64,10 @@ public partial class TItemsFoundDlg : TDataModule
         THero Result = null;
         if (FEvent != null)
         {
-            Army = ((TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FEvent.FLocation))).GetArmyHS();
-            if (Army != null && Army.FArmy.FPlayer == AoWHSMap.FSeatedPlayer)
+            Army = ((TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FEvent.FLocation))).GetArmyHS();
+            if (Army != null && Army.FArmy.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
             {
-                Result = Army.FArmy.Hero(255, AllHeroTypes);
+                Result = Army.FArmy.Hero(255, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
             }
         }
 
@@ -120,7 +126,7 @@ public partial class TItemsFoundDlg : TDataModule
             if (Slot + FItemOffset < Event.FItemIDs.Count)
             {
                 var itemID = FEvent.FItemIDs[Slot + FItemOffset];
-                Item = AoWHSMap.FItemControl.FindItem(itemID);
+                Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.FindItem(itemID);
                 if (Item != null)
                 {
                     Item.Show(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, SD);
@@ -137,18 +143,18 @@ public partial class TItemsFoundDlg : TDataModule
         Hero = GetHero();
         if (Hero != null)
         {
-            General.FSelectedUnit = Hero;
-            AoWUnitWindowUnit.UnitWindow.ShowUnit();
-            AoWUnitWindowUnit.UnitWindow.UnitTab.Selected = 2;
-            if (AoWHSMap.FGameType == TGameType.gtTutorial)
+            Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = Hero;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Selected = 2;
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameType == TGameType.gtTutorial)
             {
                 Event = new TTutorialMessageEventLog(null);
-                Event.FHelpFileName = TranslateRStr(TutorialRStr);
-                if (AoWHSMap.FTextControl.FindID(55) != null)
+                Event.FHelpFileName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TutorialRStr);
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTextControl.FindID(55) != null)
                 {
-                    var id = AoWHSMap.FTextControl.FindID(55);
+                    var id = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTextControl.FindID(55);
                     Event.FMessage.Assign(id.FText);
-                    AoWHSMap.TriggerExecuteEventLog(Event, true, null);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Event, true, null);
                 }
 
                 Event.Release();
@@ -170,11 +176,11 @@ public partial class TItemsFoundDlg : TDataModule
             if (FItemOffset + Slot < FEvent.FItemIDs.Count)
             {
                 var itemID = FEvent.FItemIDs[FItemOffset + Slot];
-                Item = AoWHSMap.FItemControl.FindItem(itemID);
+                Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.FindItem(itemID);
                 if (Item != null)
                 {
-                    Box.PopupMenu = ItemBanner.IBannerPopup;
-                    ItemID = Item.FItemID;
+                    Box.PopupMenu = Aow.Game.Ui.Dialogs.DialogHosts.ItemBanner.IBannerPopup;
+                    Aow.Game.Ui.Dialogs.TItemBanner.ItemID = Item.FItemID;
                 }
             }
         }
@@ -208,8 +214,32 @@ public partial class TItemsFoundDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWItemsFoundDlgUnit
-{
+    internal static void ShowItemsFound(TItemsFoundDlg Dialog, TItemExplorationSiteEventLog Event, TExecuteDoneEvent Done)
+    {
+        TItemExplorationSiteEventLog Log;
+        Dialog.Reset();
+        Dialog.FOnDone = Done;
+        Dialog.FEvent = Event;
+        Dialog.FEvent.AddRef();
+        Log = Dialog.FEvent;
+        Dialog.TitleLbl.Text = Log.FTitle;
+        var text = Log.FMessages.Text;
+        Dialog.MessageMemo.Items.Text = text;
+        Dialog.LeftBtn.Visible = Log.FItemIDs.Count > 5;
+        Dialog.RightBtn.Visible = Log.FItemIDs.Count > 5;
+        if (Dialog.GetHero() == null)
+        {
+            Dialog.OKPnl.Visible = true;
+        }
+        else
+        {
+            Dialog.PickupPnl.Visible = true;
+        }
+
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(54, true, true);
+        Dialog.Dlg.FDrawn = false;
+        Dialog.Dlg.Visible = true;
+    }
+
 }

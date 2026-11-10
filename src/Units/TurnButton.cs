@@ -278,14 +278,3 @@ public enum TButtonType : byte
     btText = 0,
     btIcon = 1
 }
-
-public static partial class TurnButtonUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

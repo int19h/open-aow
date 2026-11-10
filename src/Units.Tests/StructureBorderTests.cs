@@ -1,8 +1,6 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.World.Structures;
-using G = Aow.Game.Draw.GFXEUnit;
-using Images = Aow.Game.Draw.Images.ImageLibUnit;
 using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
 
 namespace Aow.Units.Tests;
@@ -24,13 +22,13 @@ public sealed class StructureBorderTests
 
     private static LibraryImage Grab(TImageLibrary library, int height, int color)
     {
-        var surface = new TDIB16Surface(Width, height, G.pfRGB565);
+        var surface = new TDIB16Surface(Width, height, Aow.Game.Draw.PixelFormats.pfRGB565);
         var grab = new TGrabInfo { FileName = "border.bmp", FindRectangles = false };
         TSurfaceDesc sd = default;
         try
         {
-            Assert.Equal(G.GFXE_OK, surface.Cls(color));
-            Assert.Equal(G.GFXE_OK, surface.Lock(ref sd));
+            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Cls(color));
+            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
             Assert.Equal(0, LibraryImageClass.Of<TPicture16>().GrabImages(sd, grab, library, null!));
             return library[library.Count - 1];
         }
@@ -43,7 +41,7 @@ public sealed class StructureBorderTests
 
     private static int Pixel(int color)
     {
-        var surface = new TDIB16Surface(1, 1, G.pfRGB565);
+        var surface = new TDIB16Surface(1, 1, Aow.Game.Draw.PixelFormats.pfRGB565);
         TSurfaceDesc sd = default;
         surface.Cls(color);
         surface.Lock(ref sd);
@@ -61,10 +59,10 @@ public sealed class StructureBorderTests
         // fourth tile paints rows 1 and 2, so three iterations leave them blank.
         const int height = 20;
         var library = new TImageLibrary(null!);
-        var target = new TDIB16Surface(Width, height, G.pfRGB565);
-        var previousClasses = Images.LibraryImageClasses;
-        Images.LibraryImageClasses = new TList();
-        Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
+        var target = new TDIB16Surface(Width, height, Aow.Game.Draw.PixelFormats.pfRGB565);
+        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
+        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
         try
         {
             var top = Grab(library, 1, TopColor);
@@ -72,8 +70,8 @@ public sealed class StructureBorderTests
             var bottom = Grab(library, 5, BottomColor);
             var structure = new BorderStructure(top, middle, bottom);
             TSurfaceDesc sd = default;
-            Assert.Equal(G.GFXE_OK, target.Cls(0));
-            Assert.Equal(G.GFXE_OK, target.Lock(ref sd));
+            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, target.Cls(0));
+            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, target.Lock(ref sd));
             Assert.True(structure.ShowBorderImage(sd, Runtime.Rect(0, 0, Width, height)));
             var rows = new int[height];
             for (int y = 0; y < height; y++)
@@ -96,8 +94,8 @@ public sealed class StructureBorderTests
             target.Unlock();
             target.Dispose();
             library.Dispose();
-            Images.LibraryImageClasses.Dispose();
-            Images.LibraryImageClasses = previousClasses;
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }
 }

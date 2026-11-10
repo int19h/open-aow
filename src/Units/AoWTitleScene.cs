@@ -1,15 +1,42 @@
 // Translated from AoWTitleScene.pas.
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Audio;
+using Aow.Game.Combat;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Commands;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
 using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Net;
+using Aow.Game.Saves;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWFileDialogUnit;
+using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -171,10 +198,10 @@ public partial class TTitleScene : TDataModule
             switch (Page)
             {
                 case 0:
-                    Text = TranslateRStr(CoDevelopedByRStr);
+                    Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.CoDevelopedByRStr);
                     break;
                 case 1:
-                    Text = TranslateRStr(CoPublishedByRStr);
+                    Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.CoPublishedByRStr);
                     break;
                 case 2:
                     Text = "";
@@ -215,10 +242,10 @@ public partial class TTitleScene : TDataModule
 
                     break;
                 case 1:
-                    var northAmerica = TranslateRStr(NorthAmericaRStr);
+                    var northAmerica = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.NorthAmericaRStr);
                     var titleSceneIL = TitleSceneIL[6];
                     FCreditsFont.SetTextCentered(X - 75, Y - titleSceneIL.Height / 2 - 20, northAmerica, Surface);
-                    var europe = TranslateRStr(EuropeRStr);
+                    var europe = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.EuropeRStr);
                     var titleSceneIL2 = TitleSceneIL[6];
                     FCreditsFont.SetTextCentered(X + 75 + 15, Y - titleSceneIL2.Height / 2 - 20, europe, Surface);
                     if (TitleSceneIL[6] != null)
@@ -290,7 +317,7 @@ public partial class TTitleScene : TDataModule
             R = FSceneRect;
             var titleSceneIL = TitleSceneIL[0];
             R.Top += titleSceneIL.Height;
-            ColorFillSD(R, 0, Surface);
+            Aow.Game.Draw.PixelFormats.ColorFillSD(R, 0, Surface);
         }
 
         Y = FSceneRect.Top;
@@ -326,7 +353,7 @@ public partial class TTitleScene : TDataModule
             X = (FSceneRect.Right - FSceneRect.Left - titleSceneIL.Width) / 2;
             if (Frame < 100)
             {
-                var lookupTable = AlphaBlendTable.GetLookupTables(Frame);
+                var lookupTable = Aow.Game.Draw.GfxState.AlphaBlendTable.GetLookupTables(Frame);
                 TitleSceneIL[1].ShowBlended(X, Y + 10, Surface, lookupTable);
             }
             else
@@ -359,12 +386,12 @@ public partial class TTitleScene : TDataModule
             if (I == HitTest())
             {
                 FFont.Color = 16777215;
-                var translateRStr = TranslateRStr(AoWTitleSceneUnit.TitleButtons[I]);
+                var translateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TitleCaptions.TitleButtons[I]);
                 var titleSceneIL = TitleSceneIL[10];
                 FFont.SetTextCentered(X + Spacing * I + titleSceneIL.Width / 2, Y + 445, translateRStr, Surface);
             }
 
-            if (AoWEngine.FAnimationDetail == 2)
+            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail == 2)
             {
                 TitleSceneIL[25].Show(X + Spacing * I, Y + 355, Surface);
             }
@@ -459,7 +486,7 @@ public partial class TTitleScene : TDataModule
             if (Succeeded(Surface.Lock(ref SD)))
             {
                 DrawScene(ref SD);
-                if (AoWEngine.RegisteredVersion() && !FShowCredits)
+                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisteredVersion() && !FShowCredits)
                 {
                     LegalNotice.Draw(SD);
                     StrLbl.Draw(SD);
@@ -483,74 +510,74 @@ public partial class TTitleScene : TDataModule
     {
         TStringList Lines;
         ResetScene();
-        var registeredTo = AoWEngine.RegisteredTo();
+        var registeredTo = Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisteredTo();
         NameLbl.Text = registeredTo;
-        var versionStr = AoWEngine.GetVersionStr();
-        var format = AoWEUnit.Format(TranslateRStr(VersionXRStr), [versionStr]);
+        var versionStr = Aow.Game.Magic.Abilities.GameTables.AoWEngine.GetVersionStr();
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.VersionXRStr), [versionStr]);
         Version.Text = format;
         FCredits = new TList();
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(DesignerAndDirectorRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.DesignerAndDirectorRStr));
         Lines.Add("Lennart Sas");
         Lines.Add("");
-        Lines.Add(TranslateRStr(AdditionalDesignRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.AdditionalDesignRStr));
         Lines.Add("Arno van Wingerden");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(LeadProgrammerRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.LeadProgrammerRStr));
         Lines.Add("Arno van Wingerden");
         Lines.Add("");
-        Lines.Add(TranslateRStr(ProgrammerRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.ProgrammerRStr));
         Lines.Add("Josh Farley");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(ArtistsRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.ArtistsRStr));
         Lines.Add("Lennart Sas");
         Lines.Add("Thomas Cardin");
         Lines.Add("Roy Postma");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(LeadScenarioDesignerRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.LeadScenarioDesignerRStr));
         Lines.Add("Menno Sas");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(ScenarioDesignersRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.ScenarioDesignersRStr));
         Lines.Add("Doug Gibson");
         Lines.Add("Arnout Sas");
         Lines.Add("Hugo van Wingerden");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(WriterRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.WriterRStr));
         Lines.Add("Raymond Bingham");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(MusicRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.MusicRStr));
         Lines.Add("Michiel van den Bos");
         Lines.Add("");
-        Lines.Add(TranslateRStr(SoundFXRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.SoundFXRStr));
         Lines.Add("Nando Eweg");
         FCredits.Add(Lines);
         Lines.Add("");
-        Lines.Add(TranslateRStr(IntroVoiceRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.IntroVoiceRStr));
         Lines.Add("John McGinn (English)");
         Lines.Add("Norbert Gastell (German)");
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(GalaxySoundSystemRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.GalaxySoundSystemRStr));
         Lines.Add("Carlo Vogelsang");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(InternetMailSuiteRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.InternetMailSuiteRStr));
         Lines.Add("Argo Software Design");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(QACoreRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.QACoreRStr));
         Lines.Add("Cliff Benjamin");
         Lines.Add("Ian Calderon");
         Lines.Add("Ted Stephenson");
         Lines.Add("Hugo van Wingerden");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr("Take 2 Europe"));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr("Take 2 Europe"));
         Lines.Add("");
         Lines.Add("Producer");
         Lines.Add("Ken Jordan");
@@ -577,12 +604,12 @@ public partial class TTitleScene : TDataModule
         Lines.Add("Lee Johnson");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(BizzRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.BizzRStr));
         Lines.Add("Jay Wilbur");
         Lines.Add("Mark Rein");
         FCredits.Add(Lines);
         Lines = new TStringList();
-        Lines.Add(TranslateRStr(SpecialThanksRStr));
+        Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TTitleScene.SpecialThanksRStr));
         Lines.Add("Eelco van der Snoek");
         Lines.Add("Doug Gibson");
         Lines.Add("Dietmer Tan");
@@ -606,7 +633,7 @@ public partial class TTitleScene : TDataModule
     public void WindowUpdate()
     {
         Window.FSurfaceValid = false;
-        if (!FileDlgWindow.FileDialog.Visible && !E2GlobalsUnit.ProgressDialog.ProgDlg.Visible)
+        if (!Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible && !Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.ProgDlg.Visible)
         {
             AdvanceFrame();
         }
@@ -633,23 +660,308 @@ public partial class TTitleScene : TDataModule
 
         FHoverButton = HitTest();
     }
-}
 
-public static partial class AoWTitleSceneUnit
-{
-    public static readonly string TitleNewGameRStr = "New Game";
-    public static readonly string TitleCampaignRStr = "Campaign";
-    public static readonly string TitleTutorialRStr = "Tutorial";
-    public static readonly string TitleLoadGameRStr = "Load Game";
-    public static readonly string TitleExitRStr = "Exit";
-    public static FixedArray_string_5 TitleButtons = FixedArray_string_5.From([]);
+    private static readonly string AdditionalDesignRStr = "Additional Design";
 
-    public static void Initialize()
+    private static readonly string ArtistsRStr = "Artists";
+
+    private static readonly string BizzRStr = "Bizz";
+
+    private static readonly string CampaignRStr = "Campaign";
+
+    private static readonly string CoDevelopedByRStr = "Co-developed by:";
+
+    private static readonly string CoPublishedByRStr = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+
+    private static readonly string DesignerAndDirectorRStr = "Designer & Director";
+
+    private static readonly string EuropeRStr = "\x00\x00\x00\x00\x00\x00";
+
+    private static readonly string GalaxySoundSystemRStr = "Galaxy Sound System";
+
+    private static readonly string InternetMailSuiteRStr = "Internet Mail Suite";
+
+    private static readonly string IntroVoiceRStr = "Intro Voice";
+
+    private static readonly string LeadProgrammerRStr = "Lead Programmer";
+
+    private static readonly string LeadScenarioDesignerRStr = "Lead Scenario Designer";
+
+    private static readonly string MusicRStr = "Music";
+
+    private static readonly string NorthAmericaRStr = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+
+    private static readonly string ProgrammerRStr = "Programmer";
+
+    private static readonly string QACoreRStr = "QA Core";
+
+    private static readonly string ScenarioDesignersRStr = "Scenario Designers";
+
+    private static readonly string SoundFXRStr = "Sound FX";
+
+    private static readonly string SpecialThanksRStr = "Special Thanks";
+
+    private static readonly string VersionXRStr = "Version: %s";
+
+    private static readonly string WriterRStr = "Writer";
+
+    private static void ShowFactionSelection(TSelFactionWin Dialog)
     {
-        TitleButtons[0] = TitleNewGameRStr;
-        TitleButtons[1] = TitleCampaignRStr;
-        TitleButtons[2] = TitleTutorialRStr;
-        TitleButtons[3] = TitleLoadGameRStr;
-        TitleButtons[4] = TitleExitRStr;
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.Visible = true;
+        Dialog.TopLbl.Visible = true;
+        var chooseFaction = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ChooseFactionRStr);
+        Dialog.TopLbl.Text = chooseFaction;
+        Dialog.LName.Visible = false;
+        Dialog.LText.Visible = false;
+        Dialog.LBack.Visible = false;
+        Dialog.LStart.Visible = false;
+        Dialog.LSphere.Visible = false;
+        Dialog.DName.Visible = false;
+        Dialog.DText.Visible = false;
+        Dialog.DBack.Visible = false;
+        Dialog.DStart.Visible = false;
+        Dialog.DSphere.Visible = false;
+        Dialog.FFade = -1;
+        Dialog.FactionPnl.ILIndexTexture = 0;
+        Dialog.F_SelFactionWin_8C[0] = 0;
     }
+
+    private static void HideGameWindows(TGeneral Controller)
+    {
+        if (!Controller.FWindowsHidden)
+        {
+            Controller.FWindowsHidden = true;
+            Controller.FInfoVisible = Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.PInfoWin.Visible;
+            Controller.FRealmVisible = Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible;
+            Controller.FMagicVisible = Aow.Game.Ui.Dialogs.DialogHosts.MagicWin.Dlg.Visible;
+            Controller.FUnitVisible = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Visible;
+            Controller.FTargetVisible = Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatWin.Visible;
+            Controller.FScannerVisible = Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerWindow.Visible;
+            Controller.FControlVisible = Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible;
+            Controller.FChatVisible = Aow.Game.Ui.Dialogs.DialogHosts.IWindow.InfoWin.Visible;
+            Controller.FMapVisible = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Visible;
+            for (int I = 0, last = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FChildren.Count - 1; I <= last; I++)
+            {
+                if (Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FChildren[I] != Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow)
+                {
+                    ((TAoWComponent)Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FChildren[I]).Visible = false;
+                }
+            }
+        }
+    }
+
+    private static void LoadGame(TGeneral Controller, string FileName)
+    {
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
+        {
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.CloseHSM(null);
+        }
+
+        var loading = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LoadingRStr);
+        var fileName = ExtractFileName(FileName);
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Title.Text = loading + ": " + fileName + "...";
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.StatusLbl.Text = "";
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Position = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Max = 100;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.ProgDlg.Visible = true;
+        if (!Aow.Game.Ui.Dialogs.DialogHosts.TitleScene.Window.Visible)
+        {
+            Controller.Manager.OverlayPriority = 5000;
+        }
+
+        Aow.Game.Audio.AudioHost.SongPlayer.Stop(false);
+        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
+        Aow.Game.Audio.AudioPlayback.FadeMusicVolume(0, 1);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => Controller.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
+        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo && Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowAllPlayers)
+        {
+            CloseGame(Controller);
+        }
+
+        Controller.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.ProgDlg.Visible = false;
+    }
+
+    private static void StartGame(TGeneral Controller)
+    {
+        Controller.FWindowsHidden = false;
+        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameSongs.Songs.Count != 0)
+        {
+            Aow.Game.Audio.AudioHost.SongPlayer.Songs.AddStrings(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameSongs.Songs);
+        }
+        else
+        {
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStartupSongs.Songs.Count != 0)
+            {
+                for (int I = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStartupSongs.Songs.Count - 1; I <= last; I++)
+                {
+                    var fileNotFound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FileNotFoundRStr);
+                    if (CompareText(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStartupSongs.SongNames[I], fileNotFound) != 0)
+                    {
+                        var song = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStartupSongs.Songs[I];
+                        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add(song);
+                    }
+                }
+            }
+            else
+            {
+                Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
+            }
+        }
+
+        Aow.Game.Audio.AudioHost.SongPlayer.Play(0);
+        Aow.Game.Audio.AudioPlayback.SetMusicVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.MusicVolume.Position);
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.StartMenuBar.Items.Clear();
+        var background = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BackgroundRStr);
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.StartMenuBar.Items.Add(background);
+        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+        {
+            var campaign = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CampaignRStr);
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.StartMenuBar.Items.Add(campaign);
+        }
+
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleScene.Window.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerWindow.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SetHSMap(Aow.Game.World.Map.TAoWHSMap.AoWHSMap);
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetMap(Aow.Game.World.Map.TAoWHSMap.AoWHSMap);
+        var mapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[0];
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetLevel(mapLevel);
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FButtonChecked = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.ChatBtn.Visible = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.Connected;
+        Controller.Manager.FAligned = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FPreviousWidth = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FIncremental = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FSized = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerTab.Items.Clear();
+        var surface = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SurfaceRStr);
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerTab.Items.Add(surface);
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.LevelCount > 1)
+        {
+            var caverns = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CavernsRStr);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerTab.Items.Add(caverns);
+        }
+
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.LevelCount > 2)
+        {
+            var depths = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DepthsRStr);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerTab.Items.Add(depths);
+        }
+
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerTab.Selected = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerTab.FSized = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTWidth(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTHeight(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTLeft(-1);
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTTop(-1);
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FUpdateStep = -1;
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetMap(Aow.Game.World.Map.TAoWHSMap.AoWHSMap);
+        var mapLevel2 = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[0];
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetLevel(mapLevel2);
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SetHSMap(Aow.Game.World.Map.TAoWHSMap.AoWHSMap);
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.WinWidth - 24;
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.WinHeight - 24;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Activate();
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapArmyDeselected();
+        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapStructureDeselected();
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TBWorldUpdate();
+        Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.UpdatePlayer();
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))
+        {
+            var aowTurnButton = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton;
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == -1)
+            {
+                aowTurnButton.FCurPlayer = 12;
+                aowTurnButton.FLastPlayer = 12;
+                aowTurnButton.FAnimationFrame = aowTurnButton.FCurPlayer * 7;
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.AutoBtn.Visible = false;
+            }
+            else
+            {
+                aowTurnButton.FLastPlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FPlayerRace;
+                if (aowTurnButton.FLastPlayer == -1)
+                {
+                    aowTurnButton.FLastPlayer = 12;
+                }
+
+                aowTurnButton.FCurPlayer = aowTurnButton.FLastPlayer;
+                aowTurnButton.FAnimationFrame = aowTurnButton.FLastPlayer * 7;
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.AutoBtn.Visible = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayMode == TPlayMode.pmSimultaneous;
+            }
+        }
+
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.FWorldClockDelay = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.ChatBtn.TextColor = 14;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.FChatFlash = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ChangeResolution(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.FDisplayWidth, Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.FDisplayHeight);
+    }
+
+    private static void CloseGame(TGeneral Controller)
+    {
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.CloseHSM(null);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.CloseCampaign();
+        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetMap(null);
+        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetMap(null);
+        Aow.Game.Audio.AudioHost.SongPlayer.Stop(false);
+        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
+        SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory);
+        HideGameWindows(Aow.Game.Ui.Dialogs.DialogHosts.General);
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleScene.ResetScene();
+        Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene, true);
+    }
+
+    private static readonly string LoadingRStr = "Loading";
+
+    private static readonly string FileNotFoundRStr = "File not found";
+
+    private static readonly string BackgroundRStr = "Background";
+
+    private static readonly string SurfaceRStr = "Surface";
+
+    private static readonly string CavernsRStr = "Caverns";
+
+    private static readonly string DepthsRStr = "Depths";
+
+    internal static void ShowTitleScene(TTitleScene Scene, bool Music)
+    {
+        if (Music)
+        {
+            bool condition = Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex == -1;
+            if (!condition)
+            {
+                var count = Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count;
+                condition = Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex >= count;
+            }
+
+            if (condition || Aow.Game.Audio.AudioHost.SongPlayer.Songs[Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex] != "SONGS\\TITLE.IT")
+            {
+                Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
+                Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
+                Aow.Game.Audio.AudioHost.SongPlayer.Play(0);
+            }
+        }
+
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        Scene.TitleSceneIL.LoadDiscardableImageData();
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
+        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmTitle);
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
+        GameHost.MainForm.Display.FrameRate = 30;
+        GameHost.MainForm.DXDC.UseVerticalBlank = true;
+        Scene.FRedrawBackground = true;
+        Scene.FPressedButton = -1;
+        Scene.FHoverButton = -1;
+        Scene.FFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        Scene.FCreditsFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        Scene.Window.WinManager.SetILBIndex(4);
+        Scene.Window.Visible = true;
+    }
+
 }

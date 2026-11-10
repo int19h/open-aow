@@ -8,7 +8,6 @@ using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
@@ -71,7 +70,7 @@ public partial class TFarm : TPlayerCropStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingXIncomeRStr), [IntToStr(income)]);
     }
 
     // Farm.pas:111
@@ -92,9 +91,9 @@ public partial class TFarm : TPlayerCropStructure
                         }
                         else
                         {
-                            if (ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
+                            if (Aow.Game.Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                             {
-                                Priority = 50 - AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
+                                Priority = 50 - Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                 if (Priority < 25)
                                 {
                                     Priority = 25;
@@ -136,7 +135,7 @@ public partial class TFarm : TPlayerCropStructure
             }
             else
             {
-                if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                 {
                     Count = ((TPlayerCropStructureResource)FResource).FCropLocations.Count;
                 }
@@ -180,50 +179,8 @@ public partial class TFarmResource : TPlayerCropStructureResource
     // Farm.pas:36
 
     // Farm.pas:146
-    public override string ResourceEditName() => TranslateRStr(FarmRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TFarmResource.FarmRStr);
 
-}
+    private static readonly string FarmRStr = "Farm";
 
-public static partial class FarmUnit
-{
-    // Farm.pas:161
-    public static int FarmIncome(sbyte Player)
-    {
-        int Result;
-        TPlayer P;
-        TPlayerStructure Structure;
-        if (AoWHSMap != null)
-        {
-            P = AoWHSMap.FPlayers.GetPlayers(Player);
-            Result = 0;
-            for (int I = 0, last = P.FStructures.Count - 1; I <= last; I++)
-            {
-                Structure = P.FStructures.GetStructure(I);
-                if (Structure.EClass.ClassID == 131950 && Structure.FPlayer == Player)
-                {
-                    Result += ((TPlayerCropStructure)Structure).FIncome;
-                }
-            }
-        }
-        else
-        {
-            Result = -1;
-        }
-
-        return Result;
-    }
-
-    // Farm.pas:177
-    public static void RegisterFarm(TEngine Engine)
-    {
-        Engine.RegisterEClasses([EClass.Of<TFarm>(), EClass.Of<TFarmResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

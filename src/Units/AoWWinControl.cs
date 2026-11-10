@@ -3,7 +3,6 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls;
@@ -207,7 +206,7 @@ public partial class TAOWWindowControl : TAoWComponent
         else
         {
             var pixelFormatID = FBackSurface.GetPixelFormatID();
-            var color2PixelInfo = Color2PixelInfo(FMaskColor, pixelFormatID, null);
+            var color2PixelInfo = Aow.Game.Draw.PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
             FBackSurface.BltAreaColorKeyClipped(Surface, R, FWinLeft, FWinTop, color2PixelInfo);
         }
 
@@ -299,7 +298,7 @@ public partial class TAOWWindowControl : TAoWComponent
             {
                 if (FBackSurface is TDDrawSurface && ((TDDrawSurface)FBackSurface).Lost())
                 {
-                    Result = ((TDDrawSurface)FBackSurface).Restore() == DD_OK;
+                    Result = ((TDDrawSurface)FBackSurface).Restore() == Aow.Game.Draw.PixelFormats.DD_OK;
                 }
             }
         }
@@ -372,7 +371,3 @@ public partial class TAOWWindowControl : TAoWComponent
 }
 
 public delegate void TAoWOnDrawSurface<in TSender>(TSender Sender, TSurface Surface, int Left, int Top);
-
-public static partial class AoWWinControlUnit
-{
-}

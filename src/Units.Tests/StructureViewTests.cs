@@ -59,7 +59,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private static void Apply(TStructure structure, State state)
     {
         if (structure is TPlayerStructure player) player.FPlayer = state.Owned ? Viewer : OtherPlayer;
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDebug = state.Debug;
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug = state.Debug;
         structure.FBuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
         if (state.Razed) Raze(structure);
         if (structure is TCity city)
@@ -95,7 +95,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         if (Structure.GetRazed()) return "Razed";
         if (Structure is TPlayerStructure)
         {
-            if (((TPlayerStructure)Structure).FPlayer == Seated || Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDebug)
+            if (((TPlayerStructure)Structure).FPlayer == Seated || Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
             {
                 if (Structure is TCity) return ((TCity)Structure).FMode.Contains(TCityModeElement.cmWarmode) ? "WarCity" : "City";
                 if (Structure is TProductionPlace) return ((TProductionPlace)Structure).GetMagicSphere() == TMagicSphere.msNone ? "Production" : "ProductionIncome";
@@ -206,8 +206,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
-        private readonly bool previousDebug = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDebug;
+        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        private readonly bool previousDebug = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug;
         private readonly List<TStructure> created = [];
         internal readonly TAoWHSMap Map;
 
@@ -215,7 +215,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         {
             Map = new TAoWHSMap(null!);
             Map.FSeatedPlayer = Viewer;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
         }
 
         internal (TStructure Structure, ArmyOwner Owner) Create(Type type)
@@ -229,8 +229,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FDebug = previousDebug;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug = previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
             foreach (var structure in created) _ = Record.Exception(structure.Dispose);
         }

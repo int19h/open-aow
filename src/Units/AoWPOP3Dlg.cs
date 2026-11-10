@@ -4,8 +4,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AoWPOP3Dlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -76,10 +74,10 @@ public partial class TPOP3Dlg : TDataModule
     public void ShowDialog()
     {
         ResetSearch();
-        var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+        var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
-        var attachmentDirectory = AoWEngine.FRegistry.GetAttachmentDirectory();
-        var format = Format(TranslateRStr(AttachmentDirectoryXRStr), [attachmentDirectory]);
+        var attachmentDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TPOP3Dlg.AttachmentDirectoryXRStr), [attachmentDirectory]);
         AttachmentDirectoryLbl.Text = "(" + format + ")";
         Dlg.Visible = true;
     }
@@ -96,7 +94,7 @@ public partial class TPOP3Dlg : TDataModule
         FCheckDelay -= 1;
         if (FCheckDelay < 0)
         {
-            FCheckDelay = AoWEngine.FRegistry.GetCheckEmailFrequency() * 30 * 60;
+            FCheckDelay = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCheckEmailFrequency() * 30 * 60;
             if (FCheckDelay < 30)
             {
                 FCheckDelay = 30;
@@ -132,8 +130,8 @@ public partial class TPOP3Dlg : TDataModule
         if (FoundEmailGames.Selected != -1)
         {
             var item = FoundEmailGames.Items[FoundEmailGames.Selected];
-            LoadGame(General, AoWEngine.StartupDirectory + "EmailIn\\" + item);
-            StartGame(General);
+            Aow.Game.Ui.Dialogs.TGeneral.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + item);
+            Aow.Game.Ui.Dialogs.TGeneral.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
         }
     }
 
@@ -145,8 +143,6 @@ public partial class TPOP3Dlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWPOP3DlgUnit
-{
+    private static readonly string AttachmentDirectoryXRStr = "Attachment directory: %s";
 }

@@ -1119,7 +1119,3 @@ public partial class TaowRect
         CaptureAddress.Assign(this);
     }
 }
-
-public static partial class AoWCompUnit
-{
-}

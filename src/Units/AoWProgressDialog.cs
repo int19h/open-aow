@@ -23,7 +23,3 @@ public partial class TProgressDialog : TDataModule
     public TAOWImage AOWImage2;
     public TIvTranslator Translator;
 }
-
-public static partial class AoWProgressDialogUnit
-{
-}

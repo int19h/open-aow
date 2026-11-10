@@ -3,7 +3,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -40,23 +39,8 @@ public partial class TFireNodeResource : TProductionPlaceResource
     // FireNode.pas:26
 
     // FireNode.pas:50
-    public override string ResourceEditName() => TranslateRStr(FireNodeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TFireNodeResource.FireNodeRStr);
 
-}
+    private static readonly string FireNodeRStr = "Fire Node";
 
-public static partial class FireNodeUnit
-{
-    // FireNode.pas:59
-    public static void RegisterFireNode(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TFireNode>(), EClass.Of<TFireNodeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

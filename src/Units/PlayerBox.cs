@@ -81,20 +81,3 @@ namespace Aow.Game.Ui.Grids.PlayerBox
         public bool Selectable;
     }
 }
-
-namespace Aow.Game.Ui.Grids
-{
-
-    public static partial class PlayerBoxUnit
-    {
-        public static string PlayerRStr = "Player";
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
-    }
-}

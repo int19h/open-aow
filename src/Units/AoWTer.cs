@@ -7,7 +7,6 @@ using Aow.Game.Engine.Storage;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Hexes;
 
@@ -67,7 +66,7 @@ public partial class TAoWTerrain : TTerrainMO
         TECustomNode OldOwner;
         if (Owner.FindOwnedChild(132990) == null)
         {
-            if (AoWHSMap.Random(20) == 0)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(20) == 0)
             {
                 R = FindCompatibleResource(((TTerrainMOR)FResource).TerrainType, 1, 0);
                 if (R != null)
@@ -128,21 +127,4 @@ public struct TBurnInfo
     public FixedArray_byte_30 Reserved;
     [FieldOffset(30)]
     public byte Severity;
-}
-
-public static partial class AoWTerUnit
-{
-    // AoWTer.pas:122
-    public static void RegisterAoWTerrain(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAoWTerrain>(), EClass.Of<TAoWTerrainResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

@@ -233,19 +233,3 @@ namespace Aow.Game.Ui.Dialogs
         public TAbilityOwner AbilityOwner;
     }
 }
-
-namespace Aow.Game.Magic.Abilities
-{
-
-    public static partial class UnitIDlgUnit
-    {
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
-    }
-}

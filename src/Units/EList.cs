@@ -116,7 +116,3 @@ public partial class TObjectList : TList
 
     public new TListObject this[int Index] { get => GetListObject(Index); set => SetListObject(Index, value); }
 }
-
-public static partial class EListUnit
-{
-}

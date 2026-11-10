@@ -1,13 +1,25 @@
 // Translated from AoWCityJoinDlg.pas.
+using Aow.Game.Combat;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWCityJoinDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -60,10 +72,10 @@ public partial class TCityJoinDlg : TDataModule
     public void AcceptBtnClick()
     {
         string Reason = "";
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (!FEvent.Accept(ref Reason))
         {
-            AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
         }
         else
         {
@@ -75,10 +87,10 @@ public partial class TCityJoinDlg : TDataModule
     public void AttackBtnClick()
     {
         string Reason = "";
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (!FEvent.Reject(ref Reason))
         {
-            AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
         }
         else
         {
@@ -89,7 +101,7 @@ public partial class TCityJoinDlg : TDataModule
     // AoWCityJoinDlg.pas:87
     public void CancelBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -97,7 +109,7 @@ public partial class TCityJoinDlg : TDataModule
     public void DlgDrawBack(TSurfaceDesc Surface)
     {
         Aow.Game.Draw.Images.TLibraryImage Face;
-        Face = AoWHSSet.FRaceResources.GetRaceResource(FRace).GetFace();
+        Face = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(FRace).GetFace();
         if (Face != null)
         {
             Face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, Surface);
@@ -113,7 +125,7 @@ public partial class TCityJoinDlg : TDataModule
     // AoWCityJoinDlg.pas:107
     public void CloseBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -125,8 +137,28 @@ public partial class TCityJoinDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWCityJoinDlgUnit
-{
+    internal static void ShowCityNegotiation(TCityJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
+    {
+        TNegotiateRequestEventLog Log;
+        TCity Town;
+        Dialog.FDone = Done;
+        Dialog.FEvent = Event;
+        Dialog.FEvent.AddRef();
+        Log = Dialog.FEvent;
+        var text = Log.FJoinMessage.Text;
+        Dialog.Memo.Items.Text = text;
+        Dialog.ApproachLbl.Text = Log.FText;
+        Town = (TCity)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(TCity));
+        Dialog.FRace = Town.FRace;
+        var topCityActionImage = Town.GetTopCityActionImage(null);
+        Dialog.CityPicLine.ImageTop = topCityActionImage;
+        var middleCityActionImage = Town.GetMiddleCityActionImage(null);
+        Dialog.CityPicLine.ImageMiddle = middleCityActionImage;
+        var bottomCityActionImage = Town.GetBottomCityActionImage(null);
+        Dialog.CityPicLine.ImageBottom = bottomCityActionImage;
+        Dialog.Dlg.Visible = true;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(62, true, true);
+    }
+
 }

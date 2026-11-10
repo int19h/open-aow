@@ -12,8 +12,6 @@ using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using E2 = Aow.Game.Ui.Dialogs.E2GlobalsUnit;
-using Exe = Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
 
 namespace Aow.Units.Tests;
 
@@ -26,15 +24,15 @@ public sealed class OfflineStubTests
     // The game windows the bodies reach, saved and restored around each test.
     private static readonly FieldInfo[] Globals =
     [
-        Field(typeof(aowSetupEventsUnit), nameof(aowSetupEventsUnit.SetupEvents)),
-        Field(typeof(AoWWinManUnit), nameof(AoWWinManUnit.General)),
-        Field(typeof(Exe), nameof(Exe.MultiWindow)),
-        Field(typeof(Exe), nameof(Exe.ScenSetup)),
-        Field(typeof(E2), nameof(E2.TitleWindow)),
-        Field(typeof(E2), nameof(E2.TitleScene)),
-        Field(typeof(AoWVideoDlgUnit), nameof(AoWVideoDlgUnit.VideoDialog)),
-        Field(typeof(SoundUnit), nameof(SoundUnit.SongPlayer)),
-        Field(typeof(aowHelpWinUnit), nameof(aowHelpWinUnit.HelpWindow)),
+        Field(typeof(Aow.Game.Ui.Dialogs.DialogHosts), nameof(Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents)),
+        Field(typeof(Aow.Game.Ui.Dialogs.DialogHosts), nameof(Aow.Game.Ui.Dialogs.DialogHosts.General)),
+        Field(typeof(Aow.Game.Ui.Dialogs.DialogHosts), nameof(Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow)),
+        Field(typeof(Aow.Game.Ui.Dialogs.DialogHosts), nameof(Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup)),
+        Field(typeof(Aow.Game.Ui.Dialogs.DialogHosts), nameof(Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow)),
+        Field(typeof(Aow.Game.Ui.Dialogs.DialogHosts), nameof(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene)),
+        Field(typeof(Aow.Game.Ui.Dialogs.DialogHosts), nameof(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog)),
+        Field(typeof(Aow.Game.Audio.AudioHost), nameof(Aow.Game.Audio.AudioHost.SongPlayer)),
+        Field(typeof(Aow.Game.Ui.Dialogs.DialogHosts), nameof(Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow)),
     ];
 
     private static FieldInfo Field(Type type, string name) => type.GetField(name, BindingFlags.Public | BindingFlags.Static)!;
@@ -42,16 +40,16 @@ public sealed class OfflineStubTests
     private sealed class SavedGlobals : IDisposable
     {
         private readonly object?[] values = Globals.Select(field => field.GetValue(null)).ToArray();
-        private readonly TAoWHSMap map = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
-        private readonly TTextControl text = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FTextControl;
-        private readonly THeroResourceList heroes = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FHeroResources;
+        private readonly TAoWHSMap map = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        private readonly TTextControl text = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FTextControl;
+        private readonly THeroResourceList heroes = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FHeroResources;
 
         public void Dispose()
         {
             for (int i = 0; i < Globals.Length; i++) Globals[i].SetValue(null, values[i]);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FTextControl = text;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FHeroResources = heroes;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FTextControl = text;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FHeroResources = heroes;
         }
     }
 
@@ -72,19 +70,19 @@ public sealed class OfflineStubTests
     {
         var events = new TSetupEvents(null!) { DPlay = new TGDPlay { PlayerName = "No Name" } };
         events.SetupControl = new TSetupControl(events);
-        aowSetupEventsUnit.SetupEvents = events;
+        Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents = events;
         return events;
     }
 
     private static TMultiWindow NewGameWindow()
     {
         var window = Populate(new TMultiWindow(null!));
-        Exe.MultiWindow = window;
-        E2.TitleWindow = Populate(new TTitleWindow(null!));
-        AoWVideoDlgUnit.VideoDialog = new TVideoDialog(null!);
+        Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow = window;
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow = Populate(new TTitleWindow(null!));
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog = new TVideoDialog(null!);
         var songs = new TSongPlayer();
-        SoundUnit.SongPlayer = songs;
-        AoWWinManUnit.General = new TGeneral(null!);
+        Aow.Game.Audio.AudioHost.SongPlayer = songs;
+        Aow.Game.Ui.Dialogs.DialogHosts.General = new TGeneral(null!);
         return window;
     }
 
@@ -117,7 +115,7 @@ public sealed class OfflineStubTests
         var events = OfflineSetupEvents();
         var heroes = new THeroResourceList(null!);
         new THeroResource(heroes);
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FHeroResources = heroes;
+        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FHeroResources = heroes;
         var window = Populate(new TLeaderSetupWin(null!));
         var control = new TLeaderSetupControl(null!) { FOriginalLeader = new TLeader(null!) };
         bool done = false;
@@ -160,7 +158,7 @@ public sealed class OfflineStubTests
         Assert.True(window.GamePanel.Visible);
         Assert.True(window.TCPBtn.Visible);
         Assert.False(window.IPXBtn.Visible);
-        Assert.True(E2.TitleWindow.TitleWin.Visible);
+        Assert.True(Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible);
     }
 
     // AOWMultiWin.pas:200 and 215: Find and Host connect the TCP/IP provider first. The offline
@@ -172,7 +170,7 @@ public sealed class OfflineStubTests
         var events = OfflineSetupEvents();
         var window = NewGameWindow();
         var setup = Populate(new TScenSetup(null!));
-        Exe.ScenSetup = setup;
+        Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup = setup;
         setup.ScenSetupPnl.Visible = false;
         var messages = new List<string>();
         Runtime.MessageHandler = messages.Add;
@@ -183,8 +181,8 @@ public sealed class OfflineStubTests
         window.FindClick();
         window.HostClick();
 
-        Assert.Equal([AOWMultiWinUnit.NetworkPlayNotAvailableText, AOWMultiWinUnit.NetworkPlayNotAvailableText], messages);
-        Assert.Equal("Network play is not available in this version.", AOWMultiWinUnit.NetworkPlayNotAvailableText);
+        Assert.Equal([Aow.Game.Ui.Dialogs.TMultiWindow.NetworkPlayNotAvailableText, Aow.Game.Ui.Dialogs.TMultiWindow.NetworkPlayNotAvailableText], messages);
+        Assert.Equal("Network play is not available in this version.", Aow.Game.Ui.Dialogs.TMultiWindow.NetworkPlayNotAvailableText);
         Assert.True(window.MultiPnl.Visible);
         Assert.True(window.TCPPnl.Visible);
         Assert.False(window.GamePanel.Visible);
@@ -201,7 +199,7 @@ public sealed class OfflineStubTests
         OfflineSetupEvents();
         var window = NewGameWindow();
         var setup = Populate(new TScenSetup(null!));
-        Exe.ScenSetup = setup;
+        Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup = setup;
         setup.FSetupControl = new TSetupControl(setup);
         setup.ScenSetupPnl.Visible = true;
         window.MultiPnl.Visible = false;
@@ -223,13 +221,13 @@ public sealed class OfflineStubTests
         using var saved = new SavedGlobals();
         OfflineSetupEvents();
         var window = NewGameWindow();
-        E2.TitleScene = new TTitleScene(null!);
-        E2.TitleWindow.TitleWin.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleScene = new TTitleScene(null!);
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = true;
         window.MultiPnl.Visible = true;
 
         var error = Record.Exception(window.CloseBtnClick);
 
-        Assert.False(E2.TitleWindow.TitleWin.Visible);
+        Assert.False(Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible);
         Assert.False(window.MultiPnl.Visible);
         Assert.IsNotType<NotImplementedException>(error);
         Assert.Contains(nameof(TTitleScene.ShowScene), error?.StackTrace ?? "");
@@ -248,9 +246,9 @@ public sealed class OfflineStubTests
             item.FID = id;
             item.FText.Text = header + "\r\nBody " + id;
         }
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FTextControl = text;
+        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FTextControl = text;
         var help = Populate(new THelpWindow(null!));
-        aowHelpWinUnit.HelpWindow = help;
+        Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow = help;
         var popups = new TPopupWindows(null!);
         var menu = new TAOWMenu(null!);
 
@@ -299,7 +297,7 @@ public sealed class OfflineStubTests
         SetField(map, "FMapContainer", container);
         SetField(map, "FViewWidthHX", 2);
         SetField(map, "FViewHeightHX", 3);
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
         var sequence = new TImageSequence(null!);
         SetField(sequence, "FImageLibrary", library);
         sequence.SequenceMode = TSequenceMode.smUp;

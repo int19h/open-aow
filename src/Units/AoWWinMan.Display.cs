@@ -16,21 +16,21 @@ public partial class TGeneral
 
     public void ManagerUpdate()
     {
-        var unit = AoWUnitBannerUnit.UnitBanner.BannerPopup;
+        var unit = Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner.BannerPopup;
         if (unit.FShowPending && !unit.Visible)
         {
             unit.WinLeft = unit.FMenuLeft;
             unit.WinTop = unit.FMenuTop;
             unit.Visible = true;
         }
-        var info = AoWInfoBannerUnit.InfoBanner.BannerPopup;
+        var info = Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner.BannerPopup;
         if (info.FShowPending && !info.Visible)
         {
             info.WinLeft = info.FMenuLeft;
             info.WinTop = info.FMenuTop;
             info.Visible = true;
         }
-        AOWMWindowUnit.MWindow.MapWindow.DoubleBuffered = Manager.FOverlayPriority > AOWMWindowUnit.MWindow.MapWindow.Priority;
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.DoubleBuffered = Manager.FOverlayPriority > Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Priority;
         if (GameHost.MainForm is { FCursorChanged: true } form)
         {
             var rect = form.FLastCursorRect;
@@ -40,7 +40,7 @@ public partial class TGeneral
 
     public void MapProgress(string message, int progression)
     {
-        var progress = E2GlobalsUnit.ProgressDialog;
+        var progress = Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog;
         progress.StatusLbl.Text = message;
         progress.Bar.Position = progression;
         progress.ProgDlg.FSurfaceValid = false;

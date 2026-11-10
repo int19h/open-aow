@@ -492,20 +492,20 @@ public partial class TTargetSelectionDlg : ILayoutModule
         TargetLbl.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Dlg.WinManager = AoWWinManUnit.General.Manager;
-        Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        CeltFrame.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
-        Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        SIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
-        MainBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        MainBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        DefaultMemo.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        HeaderLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        SpellMemo.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        TargetRangeLabel.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        TargetLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
+        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        Dlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        Dlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        CeltFrame.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        Close.ILIcon = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericI;
+        Title.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        SIcon.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleIcons;
+        MainBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        MainBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        DefaultMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        HeaderLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        SpellMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        TargetRangeLabel.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        TargetLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
     }
 
     private void Layout_CloseClick_0()

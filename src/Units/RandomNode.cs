@@ -2,7 +2,6 @@
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -33,23 +32,8 @@ public partial class TRandomNodeResource : TProductionPlaceResource
     // RandomNode.pas:25
 
     // RandomNode.pas:43
-    public override string ResourceEditName() => TranslateRStr(RandomNodeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TRandomNodeResource.RandomNodeRStr);
 
-}
+    private static readonly string RandomNodeRStr = "Random Node";
 
-public static partial class RandomNodeUnit
-{
-    // RandomNode.pas:52
-    public static void RegisterRandomNode(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TRandomNode>(), EClass.Of<TRandomNodeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

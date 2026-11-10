@@ -1,5 +1,4 @@
 using Aow.Game.Draw.Images;
-using Images = Aow.Game.Draw.Images.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
@@ -36,9 +35,9 @@ public sealed class ImageLibraryTruncationTests
     {
         var stream = new MemoryStream();
         var library = new TImageLibrary(null!);
-        var previousClasses = Images.LibraryImageClasses;
-        Images.LibraryImageClasses = new TList();
-        Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
+        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
+        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
         try
         {
             stream.WriteBuffer(contents);
@@ -52,8 +51,8 @@ public sealed class ImageLibraryTruncationTests
         {
             library.Dispose();
             stream.Dispose();
-            Images.LibraryImageClasses.Dispose();
-            Images.LibraryImageClasses = previousClasses;
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }
 }

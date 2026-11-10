@@ -1,7 +1,5 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-using G = Aow.Game.Draw.GFXEUnit;
-using Images = Aow.Game.Draw.Images.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
@@ -32,19 +30,19 @@ public sealed class GlyphIndexTests
         string[] files = Directory.EnumerateFiles(InstalledFontsFactAttribute.Fonts, "*.ILB")
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
         Assert.Equal(13, files.Length);
-        var previousClasses = Images.LibraryImageClasses;
-        var previousBase = Images.BaseImageLibraryPath;
+        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
+        var previousBase = Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath;
         // Shadowed fonts draw through the blend tables that GFXE.Initialize builds at game start.
-        var previousTables = (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable);
-        (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable) =
+        var previousTables = (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable);
+        (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
-        G.InitBlendTables(5, 31);
-        Images.LibraryImageClasses = new TList();
+        Aow.Game.Draw.GfxState.InitBlendTables(5, 31);
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
         // The game keeps library names relative to the install, as FontModule does with Int\Fonts.
-        Images.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
+        Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
         try
         {
-            Images.RegisterLibraryImageClasses([
+            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>(),
                 LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(),
                 LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(),
@@ -55,15 +53,15 @@ public sealed class GlyphIndexTests
         }
         finally
         {
-            Images.LibraryImageClasses.Dispose();
-            Images.LibraryImageClasses = previousClasses;
-            Images.BaseImageLibraryPath = previousBase;
-            G.AlphaBlendTable?.Dispose();
-            G.IntensityBlendTable?.Dispose();
-            G.BrightenBlendTable?.Dispose();
-            G.ShadowBlendTable?.Dispose();
-            G.LinearAlphaBlendTable?.Dispose();
-            (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable) = previousTables;
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
+            Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = previousBase;
+            Aow.Game.Draw.GfxState.AlphaBlendTable?.Dispose();
+            Aow.Game.Draw.GfxState.IntensityBlendTable?.Dispose();
+            Aow.Game.Draw.GfxState.BrightenBlendTable?.Dispose();
+            Aow.Game.Draw.GfxState.ShadowBlendTable?.Dispose();
+            Aow.Game.Draw.GfxState.LinearAlphaBlendTable?.Dispose();
+            (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) = previousTables;
         }
     }
 
@@ -106,7 +104,7 @@ public sealed class GlyphIndexTests
 
     private static byte[] Draw(int width, int height, Action<TSurfaceDesc> draw)
     {
-        using var surface = new TDIB16Surface(width, height, G.pfRGB555);
+        using var surface = new TDIB16Surface(width, height, Aow.Game.Draw.PixelFormats.pfRGB555);
         surface.Cls(0);
         TSurfaceDesc sd = default;
         surface.Lock(ref sd);

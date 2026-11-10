@@ -122,9 +122,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void FileDialogClicksReachOpenbutClick()
     {
-        var previousImagePath = ImageLibUnit.BaseImageLibraryPath;
-        ImageLibUnit.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
-        var system = SoundUnit.SoundSystem;
+        var previousImagePath = Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath;
+        Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
+        var system = Aow.Game.Audio.AudioHost.SoundSystem;
         bool muted = false;
         if (system != null && system.SFXEnabled)
         {
@@ -133,13 +133,13 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         }
 
         TFileDlgWindow dialog = null!;
-        var previousDirectories = AoWFileDialogUnit.Directories;
+        var previousDirectories = Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories;
         try
         {
             dialog = Load(new LayoutSession(), new TFileDlgWindow(null!), static module => { _ = module; });
             Assert.NotNull(dialog.Openbut.OnClick);
             Assert.NotNull(dialog.FileLB.OnDoubleClick);
-            AoWFileDialogUnit.Directories = null!;
+            Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories = null!;
             var click = Assert.Throws<NullReferenceException>(() => dialog.Openbut.OnClick(dialog.Openbut));
             var doubleClick = Assert.Throws<NullReferenceException>(() => dialog.FileLB.OnDoubleClick(dialog.FileLB));
             Assert.Contains(nameof(TFileDlgWindow.OpenbutClick), click.ToString(), StringComparison.Ordinal);
@@ -147,10 +147,10 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         }
         finally
         {
-            AoWFileDialogUnit.Directories = previousDirectories;
+            Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories = previousDirectories;
             dialog?.Dispose();
             if (muted) system!.SetSFXEnabled(true);
-            ImageLibUnit.BaseImageLibraryPath = previousImagePath;
+            Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = previousImagePath;
         }
     }
 
@@ -248,9 +248,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public sealed class Host : IDisposable
     {
         private readonly Action<string> previousMessage = Runtime.MessageHandler;
-        private readonly TIntGfxMod? previousGfx = aowIntGfxModUnit.IntGfxMod;
-        private readonly TFontModule? previousFont = AoWExeFormsUnit.FontModule;
-        private readonly TGeneral? previousGeneral = AoWWinManUnit.General;
+        private readonly TIntGfxMod? previousGfx = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod;
+        private readonly TFontModule? previousFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule;
+        private readonly TGeneral? previousGeneral = Aow.Game.Ui.Dialogs.DialogHosts.General;
         private TIntGfxMod gfx = null!;
         private TFontModule font = null!;
         private TGeneral general = null!;
@@ -258,15 +258,15 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
 
         public Host()
         {
-            var previousImagePath = ImageLibUnit.BaseImageLibraryPath;
+            var previousImagePath = Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath;
             Runtime.MessageHandler = _ => { };
-            ImageLibUnit.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
+            Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
             try
             {
                 var session = new LayoutSession();
-                gfx = Load(session, new TIntGfxMod(null!), module => aowIntGfxModUnit.IntGfxMod = module);
-                font = Load(session, new TFontModule(null!), module => AoWExeFormsUnit.FontModule = module);
-                general = Load(session, new TGeneral(null!), module => AoWWinManUnit.General = module);
+                gfx = Load(session, new TIntGfxMod(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod = module);
+                font = Load(session, new TFontModule(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.FontModule = module);
+                general = Load(session, new TGeneral(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.General = module);
                 Dialog = Load(session, new TEmailGameSettingsDlg(null!), static module => { _ = module; });
             }
             catch
@@ -276,7 +276,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             }
             finally
             {
-                ImageLibUnit.BaseImageLibraryPath = previousImagePath;
+                Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = previousImagePath;
                 Runtime.MessageHandler = previousMessage;
             }
         }
@@ -292,9 +292,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             }
             finally
             {
-                aowIntGfxModUnit.IntGfxMod = previousGfx;
-                AoWExeFormsUnit.FontModule = previousFont;
-                AoWWinManUnit.General = previousGeneral;
+                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod = previousGfx;
+                Aow.Game.Ui.Dialogs.DialogHosts.FontModule = previousFont;
+                Aow.Game.Ui.Dialogs.DialogHosts.General = previousGeneral;
             }
         }
     }

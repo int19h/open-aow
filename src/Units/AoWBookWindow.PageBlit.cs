@@ -43,7 +43,7 @@ public partial class TAoWBookWindow
             {
                 if (!FMasked) initial.BltAreaClipped(surface, area, FWinLeft, FWinTop);
                 else initial.BltAreaColorKeyClipped(surface, area, FWinLeft, FWinTop,
-                    GFXEUnit.Color2PixelInfo(FMaskColor, FBackSurface.PixelFormatID, null));
+                    Aow.Game.Draw.PixelFormats.Color2PixelInfo(FMaskColor, FBackSurface.PixelFormatID, null));
             }
             FFirstAnimationFrame = false;
         }

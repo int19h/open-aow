@@ -10,16 +10,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Ui.Dialogs;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Session.E2GameFlowUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.AoWFileDialogUnit;
-using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
-using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
-using static Aow.Game.Ui.Dialogs.AoWSWindowUnit;
-using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
-using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 
 namespace Aow.Platform;
 
@@ -55,8 +45,8 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
 
     public static TMainForm Create(IDisplayHost host, string argument = "", bool mute = true, bool audioOutput = false)
     {
-        GFXEUnit.DesktopSize = () => host.DesktopSize;
-        GFXEUnit.FullscreenSizes = () => host.FullscreenSizes;
+        Aow.Game.Ui.Dialogs.TVideoDialog.DesktopSize = () => host.DesktopSize;
+        Aow.Game.Ui.Dialogs.TVideoDialog.FullscreenSizes = () => host.FullscreenSizes;
         Aow.Game.Engine.Startup.InitializeAll();
         TSdlSoundSystem.Install(mute, audioOutput);
         var layouts = new LayoutSession();
@@ -71,8 +61,8 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     {
         Display.OnUpdateFrame = DisplayUpdateFrame;
         Display.OnResizeBackSurface = (_, w, h) => DisplayResizeBackSurface(w, h);
-        Display.OnSurfaceDataLost = (_, _) => General.Manager.FAligned = false;
-        Display.OnSwapDC = _ => { VideoDialog.FModeChanged = true; VideoDialog.ApplyMode(); };
+        Display.OnSurfaceDataLost = (_, _) => Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FAligned = false;
+        Display.OnSwapDC = _ => { Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.FModeChanged = true; Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode(); };
         Display.PrimaryDC = WinDC;
         Display.SecondaryDC = WinDC;
         FormCreate();
@@ -85,42 +75,42 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
 
     private void FormCreate()
     {
-        AoWTCRegUnit.RegisterTacticalCombat(AoWEngine);
-        AoWEngine.InitializeHSSet(AoWEngine.StartupDirectory + "RELEASE\\RELEASE.HSS", null);
-        windowState = AoWEngine.FRegistry.GetMainWindowState();
-        SoundDlg.MusicVolume.Position = AoWEngine.FRegistry.GetMusicVolume();
-        SoundDlg.SFXVolume.Position = AoWEngine.FRegistry.GetSFXVolume();
-        SoundDlg.FSettings.MusicEnabled = AoWEngine.FRegistry.GetMusicEnabled();
-        SoundDlg.FSettings.SFXEnabled = AoWEngine.FRegistry.GetSFXEnabled();
-        SoundDlg.FSettings.UseDirectSound = AoWEngine.FRegistry.GetUseDirectSound();
-        SoundDlg.FSoundQuality = AoWEngine.FRegistry.GetSoundQuality();
-        SoundDlg.FSettings.SampleVoices = 16;
-        SoundDlg.FSettings.SampleRate = SoundDlg.FSoundQuality == 1 ? 22050 : 44100;
-        SoundDlg.FSettings.OutputMode = SoundDlg.FSoundQuality switch
+        Aow.Game.Combat.CombatClasses.Register(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.InitializeHSSet(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "RELEASE\\RELEASE.HSS", null);
+        windowState = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetMainWindowState();
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.MusicVolume.Position = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetMusicVolume();
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.SFXVolume.Position = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSFXVolume();
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.MusicEnabled = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetMusicEnabled();
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.SFXEnabled = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSFXEnabled();
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.UseDirectSound = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetUseDirectSound();
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSoundQuality = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSoundQuality();
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.SampleVoices = 16;
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.SampleRate = Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSoundQuality == 1 ? 22050 : 44100;
+        Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.OutputMode = Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSoundQuality switch
         {
             1 => TSet<Aow.Game.Audio.TSoundOutputModeElement>.Of(Aow.Game.Audio.TSoundOutputModeElement.omMono, Aow.Game.Audio.TSoundOutputModeElement.om8bit),
             2 => TSet<Aow.Game.Audio.TSoundOutputModeElement>.Of(Aow.Game.Audio.TSoundOutputModeElement.omMono, Aow.Game.Audio.TSoundOutputModeElement.om16bit),
             3 => TSet<Aow.Game.Audio.TSoundOutputModeElement>.Of(Aow.Game.Audio.TSoundOutputModeElement.omStereo, Aow.Game.Audio.TSoundOutputModeElement.om16bit),
             _ => TSet<Aow.Game.Audio.TSoundOutputModeElement>.Of(Aow.Game.Audio.TSoundOutputModeElement.omStereo, Aow.Game.Audio.TSoundOutputModeElement.om16bit, Aow.Game.Audio.TSoundOutputModeElement.omHighQuality)
         };
-        if (SoundDlg.FSoundQuality != 0)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSoundQuality != 0)
         {
-            SoundUnit.InitializeSoundSystem("SDL", SoundDlg.FSettings);
-            SoundUnit.SetMusicVolume(SoundDlg.MusicVolume.Position);
-            SoundUnit.SetSFXVolume(SoundDlg.SFXVolume.Position);
+            Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("SDL", Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings);
+            Aow.Game.Audio.AudioPlayback.SetMusicVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.MusicVolume.Position);
+            Aow.Game.Audio.AudioPlayback.SetSFXVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.SFXVolume.Position);
         }
-        SetVideoSize(VideoDialog, AoWEngine.FRegistry.GetDisplayWidth(), AoWEngine.FRegistry.GetDisplayHeight());
-        SetVideoMode(VideoDialog, host.Fullscreen ? Aow.Game.Ui.Dialogs.TScreenMode.scmGame : Aow.Game.Ui.Dialogs.TScreenMode.scmWindowed);
-        General.Manager.WinWidth = Display.BackSurfaceWidth;
-        General.Manager.WinHeight = Display.BackSurfaceHeight;
-        General.Manager.FAligned = false;
-        var name = AoWEngine.FRegistry.GetString(0);
-        if (!RtlUnit.IsEmpty(name)) { MultiWindow.TCPName.Text = name; MultiWindow.IPXName.Text = name; }
-        var address = AoWEngine.FRegistry.GetString(1);
-        if (!RtlUnit.IsEmpty(address)) MultiWindow.IPEdit.Text = address;
-        E2WindowLayoutUnit.RestoreWindowLayout(General);
-        RtlUnit.SetCurrentDir(AoWEngine.StartupDirectory);
-        AoWEngine.FCombatFont = FontModule.Age8;
+        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoSize(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDisplayWidth(), Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDisplayHeight());
+        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, host.Fullscreen ? Aow.Game.Ui.Dialogs.TScreenMode.scmGame : Aow.Game.Ui.Dialogs.TScreenMode.scmWindowed);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.WinWidth = Display.BackSurfaceWidth;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.WinHeight = Display.BackSurfaceHeight;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FAligned = false;
+        var name = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetString(0);
+        if (!RtlUnit.IsEmpty(name)) { Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.TCPName.Text = name; Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.IPXName.Text = name; }
+        var address = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetString(1);
+        if (!RtlUnit.IsEmpty(address)) Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.IPEdit.Text = address;
+        Aow.Game.Ui.Dialogs.WindowActions.RestoreWindowLayout(Aow.Game.Ui.Dialogs.DialogHosts.General);
+        RtlUnit.SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
     }
 
     // A command-line save names a world or campaign save by its original or own extension (own-formats.md 2.9).
@@ -129,24 +119,24 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
 
     private void FormShow(string argument)
     {
-        SoundUnit.SongPlayer.OnSongChange = _ => SoundDlg.SongChange();
-        AoWEngine.OutputDebugStr("ParamStr: " + argument);
+        Aow.Game.Audio.AudioHost.SongPlayer.OnSongChange = _ => Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.SongChange();
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("ParamStr: " + argument);
         if (argument.Length != 0 && RtlUnit.FileExists(argument) && IsSaveName(argument))
         {
-            ShowTitleScene(TitleScene, false);
+            Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene, false);
             GameHost.DeferredSetupAction = 2;
-            FileDlgWindow.FLastFileName = argument;
+            Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FLastFileName = argument;
             return;
         }
-        if (!AoWEngine.FRegistry.GetDebugMode() && !AoWEngine.FRegistry.GetSkipIntro()) IntroScene.Execute();
-        else ShowTitleScene(TitleScene, true);
+        if (!Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDebugMode() && !Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSkipIntro()) Aow.Game.Ui.Dialogs.DialogHosts.IntroScene.Execute();
+        else Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene, true);
     }
 
     public void DisplayResizeBackSurface(int width, int height)
     {
-        General.Manager.WinWidth = Math.Max(640, Display.BackSurfaceWidth);
-        General.Manager.WinHeight = Math.Max(480, Display.BackSurfaceHeight);
-        General.ResetLayout();
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.WinWidth = Math.Max(640, Display.BackSurfaceWidth);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.WinHeight = Math.Max(480, Display.BackSurfaceHeight);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.ResetLayout();
     }
 
     public void Run(int frames = 0)
@@ -158,16 +148,16 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void DisplayUpdateFrame(object sender, TAbstractDC dc, int surfaceType)
     {
-        RtlUnit.Clock.WaitMilliseconds(AoWEngine.FRegistry.GetDebugMode() ? 1 : 0);
+        RtlUnit.Clock.WaitMilliseconds(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDebugMode() ? 1 : 0);
         switch (GameHost.DeferredSetupAction)
         {
-            case 1: GameHost.DeferredSetupAction = 0; ScenSetup.FSetupControl.hPlayerSetupDone(); break;
-            case 2: GameHost.DeferredSetupAction = 0; OpenSelectedGame(FileDlgWindow); break;
+            case 1: GameHost.DeferredSetupAction = 0; Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.FSetupControl.hPlayerSetupDone(); break;
+            case 2: GameHost.DeferredSetupAction = 0; Aow.Game.Ui.Dialogs.TFileDlgWindow.OpenSelectedGame(Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow); break;
         }
-        if (aowSetupEventsUnit.SetupEvents.DPlay.DPlay is not null)
-            aowSetupEventsUnit.SetupEvents.DPlay.CheckMessages();
-        SoundUnit.ProcessSound();
-        try { AoWHSMap?.NewFrame(); }
+        if (Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.DPlay is not null)
+            Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.CheckMessages();
+        Aow.Game.Audio.AudioPlayback.ProcessSound();
+        try { Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.NewFrame(); }
         catch (System.Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
         if (dc?.GetSurface(1) is TSurface back)
         {
@@ -175,11 +165,11 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
             Display.GetMousePos(ref x, ref y);
             TRect rect = default;
             GetCursorRect(x, y, ref rect);
-            FCursorChanged |= (AoWHSMap is not null && AoWHSMap.Mouse.CursorVisible) ||
+            FCursorChanged |= (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Mouse.CursorVisible) ||
                 FLastCursorRect.Left != rect.Left || FLastCursorRect.Top != rect.Top ||
                 FLastCursorRect.Right != rect.Right || FLastCursorRect.Bottom != rect.Bottom;
-            if (AoWHSMap is not null) ScrollMap(x, y);
-            try { General.Manager.DrawSurface(back); }
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null) ScrollMap(x, y);
+            try { Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.DrawSurface(back); }
             catch (System.Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
             TSurfaceDesc descriptor = default;
             if (x != -1 && back.Lock(ref descriptor) >= 0)
@@ -188,13 +178,13 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
                 finally { back.Unlock(); }
             }
             FLastCursorRect = rect;
-            DialogWin.FrameLbl.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
+            Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.FrameLbl.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
         }
-        if (AoWHSMap is not null && AoWHSMap.FExitPending) General.ReturnToTitle();
-        ApplyVideoSettings(VideoDialog);
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FExitPending) Aow.Game.Ui.Dialogs.DialogHosts.General.ReturnToTitle();
+        Aow.Game.Ui.Dialogs.TVideoDialog.ApplyVideoSettings(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog);
     }
 
-    private int CursorIndex => FCursor == 9999 && AoWHSMap is not null ? AoWHSMap.Mouse.Cursor : FCursor;
+    private int CursorIndex => FCursor == 9999 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null ? Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Mouse.Cursor : FCursor;
 
     public void GetCursorRect(int x, int y, ref TRect rect)
     {
@@ -210,12 +200,12 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
             RtlUnit.UnionRect(ref FCursorBounds, FCursorBounds, bounds);
         }
         FCursorBounds = default;
-        if (AoWHSMap is not null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null)
         {
             Include(FCursorImage, -15, -20);
-            if (CursorIndex != 1) Include(AoWHSSet.FCursorImages[CursorIndex], -25, -25);
+            if (CursorIndex != 1) Include(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCursorImages[CursorIndex], -25, -25);
         }
-        else if (FCursor != 1 && IntGfxMod.Cursors.ImageExist(FCursor)) Include(IntGfxMod.Cursors[FCursor], -25, -25);
+        else if (FCursor != 1 && Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Cursors.ImageExist(FCursor)) Include(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Cursors[FCursor], -25, -25);
         rect = FCursorBounds;
     }
 
@@ -224,58 +214,58 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     public void DrawCursor(int x, int y, in TSurfaceDesc surface)
     {
         if (x == -1) return;
-        if (AoWHSMap is not null && AoWHSMap.Status.Contains(Aow.Game.World.Map.THSMapStatusElement.msActivated))
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(Aow.Game.World.Map.THSMapStatusElement.msActivated))
         {
             FCursorImage?.Show(x - 15, y - 20, surface);
-            var image = CursorIndex != 1 ? AoWHSSet.FCursorImages[CursorIndex] : null;
+            var image = CursorIndex != 1 ? Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCursorImages[CursorIndex] : null;
             if (image is null) return;
-            if (AoWHSMap.FSeatedPlayer != -1 && AoWHSMap.FCombatMap is null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != -1 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap is null)
             {
-                var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
                 if (player.GetBusy() && player.FGameOverStatus == Aow.Game.Session.TGameOverStatus.goNone)
                 {
-                    image.ShowBlended(x - 25, y - 25, surface, GFXEUnit.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Frame << 2) % 100 - 50) + 30));
+                    image.ShowBlended(x - 25, y - 25, surface, Aow.Game.Draw.GfxState.AlphaBlendTable.GetLookupTables(Math.Abs((Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame << 2) % 100 - 50) + 30));
                     FCursorChanged = true;
                     return;
                 }
             }
             image.Show(x - 25, y - 25, surface);
         }
-        else if (FCursor != 1 && IntGfxMod.Cursors.ImageExist(FCursor)) IntGfxMod.Cursors[FCursor].ShowClipped(x - 25, y - 25, surface);
+        else if (FCursor != 1 && Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Cursors.ImageExist(FCursor)) Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Cursors[FCursor].ShowClipped(x - 25, y - 25, surface);
     }
 
     public void ScrollMap(int x, int y)
     {
-        if (HasModalWindow(General) || x == -1 || !host.HasFocus) return;
-        if (x <= 1) { MWindow.MapViewer.SceneX -= 16; SWindow.Scanner.SetTLeft(MWindow.MapViewer.SceneX / 32 - 6); }
-        if (x >= Display.ActiveDC.GetSurface(0).Width - 1) { MWindow.MapViewer.SceneX += 16; SWindow.Scanner.SetTLeft(MWindow.MapViewer.SceneX / 32 - 6); }
-        if (y <= 1) { MWindow.MapViewer.SceneY -= 16; SWindow.Scanner.SetTTop(MWindow.MapViewer.SceneY / 32 - 6); }
-        if (y >= Display.ActiveDC.GetSurface(0).Height - 1) { MWindow.MapViewer.SceneY += 16; SWindow.Scanner.SetTTop(MWindow.MapViewer.SceneY / 32 - 6); }
+        if (Aow.Game.Ui.Dialogs.TGeneral.HasModalWindow(Aow.Game.Ui.Dialogs.DialogHosts.General) || x == -1 || !host.HasFocus) return;
+        if (x <= 1) { Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX -= 16; Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTLeft(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX / 32 - 6); }
+        if (x >= Display.ActiveDC.GetSurface(0).Width - 1) { Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX += 16; Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTLeft(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX / 32 - 6); }
+        if (y <= 1) { Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY -= 16; Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTTop(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY / 32 - 6); }
+        if (y >= Display.ActiveDC.GetSurface(0).Height - 1) { Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY += 16; Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTTop(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY / 32 - 6); }
     }
 
-    public void MouseDown(TMouseButton button, TSet<TShiftState> shift, int x, int y) { Display.MouseButtons = shift; General.Manager.CheckMouseDown(button, shift, x, y); }
+    public void MouseDown(TMouseButton button, TSet<TShiftState> shift, int x, int y) { Display.MouseButtons = shift; Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckMouseDown(button, shift, x, y); }
 
     public void MouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y)
     {
         Display.MouseButtons = shift;
-        General.Manager.CheckMouseUp(button, shift, x, y);
-        if (AoWHSMap?.Mouse is Aow.Game.World.Map.TAbstractAoWHSMapMouse mouse) mouse.ResetRectangleSelection();
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckMouseUp(button, shift, x, y);
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.Mouse is Aow.Game.World.Map.TAbstractAoWHSMapMouse mouse) mouse.ResetRectangleSelection();
     }
 
-    public void MouseMove(TSet<TShiftState> shift, int x, int y) { Display.MouseButtons = shift; General.Manager.CheckMouseMove(shift, x, y); }
+    public void MouseMove(TSet<TShiftState> shift, int x, int y) { Display.MouseButtons = shift; Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckMouseMove(shift, x, y); }
 
-    public void MouseWheel(int steps, TSet<TShiftState> shift, int x, int y) => General.Manager.CheckMouseWheel(steps, shift, x, y);
+    public void MouseWheel(int steps, TSet<TShiftState> shift, int x, int y) => Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckMouseWheel(steps, shift, x, y);
 
     public void KeyDown(ushort key, TSet<TShiftState> shift)
     {
         if (key == 13 && shift.Contains(TShiftState.ssAlt)) { Display.SwapDC(); return; }
-        General.Manager.CheckKeyDown(ref key, shift);
-        if (key == 112 && AoWHSMap is not null && AoWHSMap.FGameType == Aow.Game.Session.TGameType.gtTutorial) ShowTutorialMessage(TutorialWindow);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckKeyDown(ref key, shift);
+        if (key == 112 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameType == Aow.Game.Session.TGameType.gtTutorial) Aow.Game.Ui.Dialogs.TTutorialWindow.ShowTutorialMessage(Aow.Game.Layout.GameLayouts.TutorialWindow);
     }
 
-    public void KeyPress(byte key) => General.Manager.CheckKeyPress(ref key);
+    public void KeyPress(byte key) => Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckKeyPress(ref key);
 
-    public void DoubleClick() { if (AoWHSMap is not null && !HasModalWindow(General)) AoWHSMap.Mouse.DblClick(); }
+    public void DoubleClick() { if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null && !Aow.Game.Ui.Dialogs.TGeneral.HasModalWindow(Aow.Game.Ui.Dialogs.DialogHosts.General)) Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Mouse.DblClick(); }
 
     public void Resize(int width, int height) => Display.Resize();
 
@@ -283,13 +273,13 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
 
     public bool CloseRequested()
     {
-        if (AoWHSMap is null) return IsClosed = true;
-        if (AoWHSMap.FCombatMap is null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is null) return IsClosed = true;
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap is null)
         {
-            AoWHSMap.ExitGame(Aow.Game.Session.TExitGameMode.egmTerminate, (_, exited) => IsClosed |= exited);
-            return IsClosed |= AoWHSMap.FExitPending;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ExitGame(Aow.Game.Session.TExitGameMode.egmTerminate, (_, exited) => IsClosed |= exited);
+            return IsClosed |= Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FExitPending;
         }
-        DialogWin.Confirm(TranslateRStr(AoWEUnit.ConfirmRStr), TranslateRStr(QuitCombatRStr), 6);
+        Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.Confirm(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TPlayerControl.ConfirmRStr), Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TPopupWindows.QuitCombatRStr), 6);
         return false;
     }
 
@@ -299,23 +289,23 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         disposed = true;
         Display?.Dispose();
         WinDC?.Dispose();
-        SoundUnit.ReleaseSoundSystem();
+        Aow.Game.Audio.AudioPlayback.ReleaseSoundSystem();
         if (created)
         {
-            General.SaveLayout();
-            var registry = AoWEngine.FRegistry;
+            Aow.Game.Ui.Dialogs.DialogHosts.General.SaveLayout();
+            var registry = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry;
             registry.SetMainWindowState(windowState);
-            registry.SetString(0, MultiWindow.TCPName.Text);
-            registry.SetString(1, MultiWindow.IPEdit.Text);
-            registry.SetDisplayWidth(VideoDialog.FDisplayWidth);
-            registry.SetDisplayHeight(VideoDialog.FDisplayHeight);
+            registry.SetString(0, Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.TCPName.Text);
+            registry.SetString(1, Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.IPEdit.Text);
+            registry.SetDisplayWidth(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.FDisplayWidth);
+            registry.SetDisplayHeight(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.FDisplayHeight);
             registry.SetDisplayMode(host.Fullscreen ? 1 : 0);
-            registry.SetUseDirectSound(SoundDlg.FSettings.UseDirectSound);
-            registry.SetSFXEnabled(SoundDlg.FSettings.SFXEnabled);
-            registry.SetMusicEnabled(SoundDlg.FSettings.MusicEnabled);
-            registry.SetSoundQuality(SoundDlg.FSoundQuality);
-            registry.SetSFXVolume(SoundDlg.SFXVolume.Position);
-            registry.SetMusicVolume(SoundDlg.MusicVolume.Position);
+            registry.SetUseDirectSound(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.UseDirectSound);
+            registry.SetSFXEnabled(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.SFXEnabled);
+            registry.SetMusicEnabled(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSettings.MusicEnabled);
+            registry.SetSoundQuality(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.FSoundQuality);
+            registry.SetSFXVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.SFXVolume.Position);
+            registry.SetMusicVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.MusicVolume.Position);
         }
         if (GameHost.MainForm == this) GameHost.MainForm = null;
     }

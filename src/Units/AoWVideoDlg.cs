@@ -1,20 +1,43 @@
 // Translated from AoWVideoDlg.pas.
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Audio;
+using Aow.Game.Combat;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Commands;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
 // Translated from AoWVideoDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs
@@ -76,14 +99,14 @@ namespace Aow.Game.Ui.Dialogs
             TDisplayModeItem Mode;
             string S;
             DisplayModesLB.Items.Clear();
-            var desktopWindow = TranslateRStr(DesktopWindowRStr);
+            var desktopWindow = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TVideoDialog.DesktopWindowRStr);
             DisplayModesLB.Items.AddObject(desktopWindow, IntToObject(-1));
             for (int I = 0, last = FDisplayModes.Count - 1; I <= last; I++)
             {
                 Mode = FDisplayModes.Items[I];
                 if (Mode.Width >= 640 && Mode.Height >= 480)
                 {
-                    var fullScreen = TranslateRStr(FullScreenRStr);
+                    var fullScreen = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TVideoDialog.FullScreenRStr);
                     DisplayModesLB.Items.AddObject(fullScreen + ":" + IntToStr(Mode.Width) + "x" + IntToStr(Mode.Height), IntToObject(I));
                 }
             }
@@ -93,7 +116,7 @@ namespace Aow.Game.Ui.Dialogs
             if (DisplayModesLB.Selected != -1)
             {
                 S = DisplayModesLB.Items[DisplayModesLB.Selected];
-                S = S + " (" + LowerCase(TranslateRStr(CurrentRStr)) + ")";
+                S = S + " (" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TVideoDialog.CurrentRStr)) + ")";
                 DisplayModesLB.Items[DisplayModesLB.Selected] = S;
             }
         }
@@ -102,7 +125,7 @@ namespace Aow.Game.Ui.Dialogs
         public void VideoDlgWindowCreate()
         {
             FDisplayModes = new TDisplayModeList();
-            ListDisplayModes(FDisplayModes, 0, 0, 16);
+            Aow.Game.Ui.Dialogs.TVideoDialog.ListDisplayModes(FDisplayModes, 0, 0, 16);
         }
 
         // AoWVideoDlg.pas:201
@@ -114,7 +137,7 @@ namespace Aow.Game.Ui.Dialogs
         // AoWVideoDlg.pas:206
         public void CloseButClick()
         {
-            General.PlayButtonSound(0);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
 
@@ -122,7 +145,7 @@ namespace Aow.Game.Ui.Dialogs
         public void ApplyBtnClick()
         {
             int I;
-            General.PlayButtonSound(0);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             if (DisplayModesLB.Selected != -1)
             {
                 I = ObjectToInt(DisplayModesLB.Items.Objects[DisplayModesLB.Selected]);
@@ -146,20 +169,20 @@ namespace Aow.Game.Ui.Dialogs
         {
             if (Sender.Checked)
             {
-                General.PlayButtonSound(1);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
             }
             else
             {
-                General.PlayButtonSound(2);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
             }
 
-            AoWEngine.FRegistry.SetAllowResolutionSwitches(ResCB.Checked);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetAllowResolutionSwitches(ResCB.Checked);
         }
 
         // AoWVideoDlg.pas:239
         public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
         {
-            General.Manager.FAligned = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FAligned = false;
             if (Key == 27)
             {
                 Dlg.Visible = false;
@@ -169,9 +192,69 @@ namespace Aow.Game.Ui.Dialogs
         // AoWVideoDlg.pas:245
         public void DlgShow()
         {
-            var allowResolutionSwitches = AoWEngine.FRegistry.GetAllowResolutionSwitches();
-            AoWVideoDlgUnit.VideoDialog.ResCB.Checked = allowResolutionSwitches;
+            var allowResolutionSwitches = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAllowResolutionSwitches();
+            Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ResCB.Checked = allowResolutionSwitches;
         }
+
+        private static readonly string CurrentRStr = "Current";
+
+        private static readonly string DesktopWindowRStr = "Desktop Window";
+
+        private static readonly string FullScreenRStr = "Full Screen";
+
+        internal static Func<(int Width, int Height)> DesktopSize { get; set; } = () => (1280, 1024);
+
+        internal static Func<IReadOnlyList<(int Width, int Height)>> FullscreenSizes { get; set; } = () => null;
+
+        private static readonly (int Width, int Height)[] FixedSizes = [(640, 480), (800, 600), (1024, 768), (1280, 1024)];
+
+        private static void ListDisplayModes(TDisplayModeList list, int width, int height, int pixelFormatID)
+        {
+            var desktop = DesktopSize();
+            var sizes = FullscreenSizes() ?? [.. FixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
+            foreach (var size in sizes)
+                if ((width == 0 || width == size.Width) && (height == 0 || height == size.Height) &&
+                    (pixelFormatID == 0 || pixelFormatID == 16 || pixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555))
+                    list.Add(size.Width, size.Height, Aow.Game.Draw.PixelFormats.pfRGB555);
+        }
+
+        internal static void SetSceneSize(TVideoDialog Dialog, int Width, int Height)
+        {
+            Dialog.FSceneWidth = Width;
+            Dialog.FSceneHeight = Height;
+            if (Dialog.FFullScreen == TScreenMode.scmTitle)
+            {
+                Dialog.FModeChanged = true;
+            }
+        }
+
+        internal static void ApplyVideoSettings(TVideoDialog dialog) => dialog.ApplyMode();
+
+        internal static void SetVideoSize(TVideoDialog Dialog, int Width, int Height)
+        {
+            Dialog.FDisplayWidth = Width;
+            Dialog.FDisplayHeight = Height;
+            if (Dialog.FFullScreen == TScreenMode.scmGame)
+            {
+                Dialog.FModeChanged = true;
+            }
+        }
+
+        internal static void ShowVideoSettings(TVideoDialog Dialog)
+        {
+            Dialog.Dlg.Visible = true;
+            Dialog.UpdateModes();
+        }
+
+        internal static void SetVideoMode(TVideoDialog Dialog, TScreenMode FullScreen)
+        {
+            if (FullScreen != Dialog.FFullScreen)
+            {
+                Dialog.FFullScreen = FullScreen;
+                Dialog.FModeChanged = true;
+            }
+        }
+
     }
 
     public enum TScreenMode : byte
@@ -333,15 +416,15 @@ namespace Aow.Game.Session
             string Result;
             if (Auto == TCampaignAutoSaveType.casScenarioFinished)
             {
-                Result = AoWHSMap.FMapName;
+                Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FMapName;
                 if (FFaction == 0)
                 {
-                    Result = Result + "_" + TranslateRStr(WonRStr);
+                    Result = Result + "_" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TWMCampaign.WonRStr);
                 }
                 else
                 {
                     // { Original uses Won for both factions. }
-                    Result = Result + "-" + TranslateRStr(WonRStr);
+                    Result = Result + "-" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TWMCampaign.WonRStr);
                 }
 
                 // The campaign autosave takes the extension the host writes (own-formats.md 4.2).
@@ -355,20 +438,9 @@ namespace Aow.Game.Session
             return Result;
         }
 
-    }
-}
+        private static readonly string WonRStr = "Won";
 
-namespace Aow.Game.Ui.Dialogs
-{
+        internal static TWMCampaignScenario GetCampaignScenario(TWMCampaign Campaign, int Index) => (TWMCampaignScenario)Campaign.FScenarios.GetScenario(Index);
 
-    public static partial class AoWVideoDlgUnit
-    {
-        public static TVideoDialog VideoDialog;
-
-        // AoWVideoDlg.pas:422
-        public static void RegisterWorldMapCampaign(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TWMCampaignScenarioPage>(), EClass.Of<TWMCampaignScenario>(), EClass.Of<TWMCampaign>()]);
-        }
     }
 }

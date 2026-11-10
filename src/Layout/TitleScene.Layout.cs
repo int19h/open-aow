@@ -225,12 +225,12 @@ public partial class TTitleScene : ILayoutModule
         Copyright.Loaded();
         Version.Loaded();
         session.Resolve(this);
-        Window.WinManager = AoWWinManUnit.General.Manager;
-        LegalNotice.AOWFont = AoWExeFormsUnit.FontModule.Age8;
-        StrLbl.AOWFont = AoWExeFormsUnit.FontModule.Age8;
-        NameLbl.AOWFont = AoWExeFormsUnit.FontModule.Age16s;
-        Copyright.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        Version.AOWFont = AoWExeFormsUnit.FontModule.Age8s;
+        Window.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        LegalNotice.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
+        StrLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
+        NameLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age16s;
+        Copyright.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        Version.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
     }

@@ -1,10 +1,25 @@
 // Translated from AoWPasswordDlg.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWPasswordDlg.pas.
 using Aow.Rtl.Localize;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -83,8 +98,20 @@ public partial class TPasswordDlg : TDataModule
             CancelBtnClick();
         }
     }
-}
 
-public static partial class AoWPasswordDlgUnit
-{
+    internal static void ShowPasswordEvent(TPasswordDlg Dialog, TPasswordEventLog Event, TExecuteDoneEvent Done)
+    {
+        TPasswordEventLog Log;
+        Dialog.Reset();
+        Dialog.FDone = Done;
+        Dialog.FPasswordEvent = Event;
+        Dialog.FPasswordEvent.AddRef();
+        Log = Dialog.FPasswordEvent;
+        Dialog.TitleLbl.Text = Log.FTitle;
+        Dialog.PasswordLbl.Text = Log.FPrompt;
+        Dialog.PasswordEdit.Text = Log.FPassword;
+        Dialog.PasswordEdit.FRedraw = true;
+        Dialog.Dlg.Visible = true;
+    }
+
 }

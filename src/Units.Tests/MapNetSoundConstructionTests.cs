@@ -6,7 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.Net;
 using Aow.Game.World;
 using Aow.Game.World.Map;
-using EngineApi = Aow.Game.Engine.Nodes.EngineUnit;
 using MovePath = Aow.Game.World.Movement.TMovepath;
 using UnitSfxManager = Aow.Game.Audio.TSFXManager;
 
@@ -44,7 +43,7 @@ public sealed class MapNetSoundConstructionTests
     [MemberData(nameof(EngineCases))]
     public void DirectMetaAndSavedIdKeepExactTypeOwnerAndState(Type type, bool owned)
     {
-        if (EngineApi.Engines is null) EngineApi.Initialize();
+        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         var engine = new TEngine(null!);
         var owner = new MapOwner();
         TECustomNode argument = owned ? type == typeof(TMapContainer) ? new THSMap(null!) : owner : null!;

@@ -6,7 +6,6 @@ using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
 using Aow.Game.World.Map;
-using Combat = Aow.Game.Combat.AoWTCUnit;
 
 namespace Aow.Units.Tests;
 
@@ -76,9 +75,9 @@ public sealed class EndTurnShortcutTests
 
     private sealed class Play : IDisposable
     {
-        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
-        private readonly TAoWCombatMap previousCombat = Combat.AoWCombatMap;
-        private readonly TTBWindow previousWindow = AoWExeFormsUnit.TBWindow;
+        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        private readonly TAoWCombatMap previousCombat = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
+        private readonly TTBWindow previousWindow = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow;
         private TAoWCombatMap? combat;
 
         internal TAoWHSMap Map { get; }
@@ -88,7 +87,7 @@ public sealed class EndTurnShortcutTests
         public Play()
         {
             Map = new TAoWHSMap(null!);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
             var pcc = new TLocalPCC();
             pcc.Setup(Map.FPlayers.Count);
             for (int i = 0; i < Map.FPlayers.Count; i++)
@@ -111,10 +110,10 @@ public sealed class EndTurnShortcutTests
             Button = new TAOWTurnButton(null!);
             bar.TurnButton = Button;
             Button.OnChange = _ => bar.TurnButtonChange();
-            AoWExeFormsUnit.TBWindow = bar;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow = bar;
         }
 
-        private TTBWindow Bar => AoWExeFormsUnit.TBWindow;
+        private TTBWindow Bar => Aow.Game.Ui.Dialogs.DialogHosts.TBWindow;
 
         public void Press(ushort key)
         {
@@ -152,14 +151,14 @@ public sealed class EndTurnShortcutTests
         public void Dispose()
         {
             combat?.Dispose();
-            Combat.AoWCombatMap = previousCombat;
+            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = previousCombat;
             Window.MapViewer.Dispose();
             Window.MapWindow.Dispose();
             Window.Dispose();
             Button.Dispose();
             Bar.Dispose();
-            AoWExeFormsUnit.TBWindow = previousWindow;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow = previousWindow;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
             Map.Dispose();
         }
     }

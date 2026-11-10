@@ -60,27 +60,10 @@ namespace Aow.Game.Magic.Abilities
             var target = command.FTarget;
             if (target.GetEnabled())
             {
-                var action = AoWEUnit.CreateDamageCA(source, target, 6, 6, TSet<TDamageType>.Of(TDamageType.dtWall));
+                var action = Aow.Game.Magic.Abilities.TWallCrushingAbility.CreateDamageCA(source, target, 6, 6, TSet<TDamageType>.Of(TDamageType.dtWall));
                 source.FCombat.ExecuteCombatAction(action);
                 action.Release();
             }
-            return true;
-        }
-    }
-
-    public static partial class AoWEUnit
-    {
-        public static bool P5DiplomaticExecute(TDiplomaticActionEventLog log, bool immediate, TExecuteTrigger trigger, object data, TExecuteDoneEvent done)
-        {
-            bool result = trigger == TExecuteTrigger.etUser;
-            if (log.FAction.FTarget == AoWHSMap.FSeatedPlayer || log.FAction.FSource == AoWHSMap.FSeatedPlayer)
-            {
-                result = result || AoWHSMap.FPlayMode == TPlayMode.pmTurn && AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(TWindowPopupEvent.wpDiplomacy) && trigger == TExecuteTrigger.etNewTurn;
-                result = result || AoWHSMap.FPlayMode == TPlayMode.pmSimultaneous && AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(TWindowPopupEvent.wpDiplomacy);
-            }
-            result = result && (trigger == TExecuteTrigger.etUser || log.FAction.FReaction != TDiplomaticActionReaction.darIgnore);
-            if (!result) return false;
-            AoWHSMap.TriggerExecuteEventLog(log, immediate, done);
             return true;
         }
     }

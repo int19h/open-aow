@@ -4,8 +4,6 @@ using Aow.Game.Draw;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.Draw;
 
@@ -54,47 +52,4 @@ public partial class TOverviewUnitHS : TUnitHS
 
     // intf_P2_03.inc:74
 
-}
-
-public static partial class OverviewUnitUnit
-{
-    // OverviewUnit.pas:57
-    public static void PlaceOverviewUnit(TAoWCombatMap Map, TAbstractUnit U, int Position, int Index)
-    {
-        TOverviewUnitHS HS;
-        sbyte Overlay;
-        TTacticalCombatUnitHS Occupant;
-        int X0;
-        int Y0;
-        int X = default;
-        int Y = default;
-        int I;
-        TXYL P;
-        HS = new TOverviewUnitHS(null);
-        HS.SetU(U);
-        P = Map.FUnitPositions.GetUnitPosition(Position, Index);
-        X0 = P.X;
-        Y0 = P.Y;
-        I = 0;
-        do
-        {
-            CenterHNtoHX(X0, Y0, I, ref X, ref Y);
-            Overlay = AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].OverlayType;
-            Occupant = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
-            I += 1;
-        }
-        while (!(Overlay != 8 && Occupant == null));
-        if (!Map.PlaceHX(HS, X, Y, 0))
-        {
-            HS?.Dispose();
-        }
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

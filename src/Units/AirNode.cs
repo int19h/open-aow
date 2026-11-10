@@ -3,7 +3,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -41,23 +40,8 @@ public partial class TAirNodeResource : TProductionPlaceResource
     // AirNode.pas:27
 
     // AirNode.pas:52
-    public override string ResourceEditName() => TranslateRStr(AirNodeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAirNodeResource.AirNodeRStr);
 
-}
+    private static readonly string AirNodeRStr = "Air Node";
 
-public static partial class AirNodeUnit
-{
-    // AirNode.pas:61
-    public static void RegisterAirNode(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAirNode>(), EClass.Of<TAirNodeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

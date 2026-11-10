@@ -3,7 +3,6 @@ using Aow.Game.Draw.Animation;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -37,23 +36,8 @@ public partial class TAltarOfLifeResource : TAltarResource
     // AltLife.pas:26
 
     // AltLife.pas:49
-    public override string ResourceEditName() => TranslateRStr(AltarOfLifeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfLifeResource.AltarOfLifeRStr);
 
-}
+    private static readonly string AltarOfLifeRStr = "Altar of Life";
 
-public static partial class AltLifeUnit
-{
-    // AltLife.pas:58
-    public static void RegisterAltarOfLife(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAltarOfLife>(), EClass.Of<TAltarOfLifeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

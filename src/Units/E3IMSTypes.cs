@@ -61,7 +61,3 @@ public partial class TmsAttList
         CaptureAddress.Assign(this);
     }
 }
-
-public static partial class E3IMSTypesUnit
-{
-}

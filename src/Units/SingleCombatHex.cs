@@ -5,8 +5,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Hexes;
 
@@ -24,7 +22,7 @@ public partial class TSingleCombatHexagon : TAbstractHexagon
         int X = default;
         int Y = default;
         TImageSequence Sequence;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
         X = X - XhpSurf - 8;
         Y = Y - YhpSurf;
         Sequence = FResource.ImageSequenceList.GetImageSequence(0);
@@ -32,7 +30,7 @@ public partial class TSingleCombatHexagon : TAbstractHexagon
     }
 
     // SingleCombatHex.pas:44
-    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
 }
 
@@ -69,21 +67,4 @@ public partial class TSingleCombatHexagonResource : TAbstractHexagonResource
     // SingleCombatHex.pas:62
     public override string ResourceEditName() => "Combat Single Hexagon";
 
-}
-
-public static partial class SingleCombatHexUnit
-{
-    // SingleCombatHex.pas:82
-    public static void RegisterSingleCombatHexagon(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TSingleCombatHexagonResource>(), EClass.Of<TSingleCombatHexagon>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

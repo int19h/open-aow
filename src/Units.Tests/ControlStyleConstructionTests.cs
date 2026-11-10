@@ -6,7 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.Engine.Storage;
 using Aow.Game.World;
 using Aow.Game.World.Map;
-using EngineUnit = Aow.Game.Engine.Nodes.EngineUnit;
 
 namespace Aow.Units.Tests;
 
@@ -55,7 +54,7 @@ public sealed class ControlStyleConstructionTests
             }
             if (direct is TEResourceEditSettings settings)
                 settings.Editors.AddObject("Editor", Runtime.IntToObject(17));
-            direct.SetControlStyle(TSet<TEControlStyleElement>.Of(EngineUnit.csStored, EngineUnit.csShared));
+            direct.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
             Assert.Null(copy.Owner);
@@ -129,11 +128,11 @@ public sealed class ControlStyleConstructionTests
         internal readonly FlagOwner Owner;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TILManagerObject Entry;
-        private readonly TAoWHSSet previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
+        private readonly TAoWHSSet previous = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
         private readonly IFileSystem previousFiles = Runtime.Files;
         private readonly string previousStartup = EngineFixture.Engine.StartupDirectory;
-        private readonly string previousSoundPath = SoundUnit.BaseSoundEnginePath;
-        private readonly string previousImagePath = ImageLibUnit.BaseImageLibraryPath;
+        private readonly string previousSoundPath = Aow.Game.Audio.AudioHost.BaseSoundEnginePath;
+        private readonly string previousImagePath = Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath;
         private readonly string previousExe = Runtime.Application.ExeName;
         private readonly string root;
         private readonly bool ownsRoot;
@@ -149,8 +148,8 @@ public sealed class ControlStyleConstructionTests
             Files = new FlagFiles(root);
             Runtime.Files = Files;
             EngineFixture.Engine.SetStartupDirectory(root + Path.DirectorySeparatorChar);
-            SoundUnit.BaseSoundEnginePath = root + Path.DirectorySeparatorChar;
-            ImageLibUnit.BaseImageLibraryPath = root + Path.DirectorySeparatorChar;
+            Aow.Game.Audio.AudioHost.BaseSoundEnginePath = root + Path.DirectorySeparatorChar;
+            Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = root + Path.DirectorySeparatorChar;
             Runtime.Application.ExeName = Path.Combine(root, "fixture.exe");
             try
             {
@@ -166,7 +165,7 @@ public sealed class ControlStyleConstructionTests
                 }
                 if (loaded)
                     Field(typeof(TILManagerObject), "FImageLibrary").SetValue(Entry, new TImageLibrary(null!));
-                Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = Owner;
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet = Owner;
                 Owner.Members.Clear();
             }
             catch
@@ -181,7 +180,7 @@ public sealed class ControlStyleConstructionTests
             try { foreach (var child in Owner.Members.ToArray()) child.Dispose(); }
             finally
             {
-                Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previous;
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet = previous;
                 try { Manager.Dispose(); }
                 finally { RestoreFiles(); }
             }
@@ -190,8 +189,8 @@ public sealed class ControlStyleConstructionTests
         private void RestoreFiles()
         {
             EngineFixture.Engine.SetStartupDirectory(previousStartup);
-            SoundUnit.BaseSoundEnginePath = previousSoundPath;
-            ImageLibUnit.BaseImageLibraryPath = previousImagePath;
+            Aow.Game.Audio.AudioHost.BaseSoundEnginePath = previousSoundPath;
+            Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = previousImagePath;
             Runtime.Application.ExeName = previousExe;
             Runtime.Files = previousFiles;
             if (ownsRoot) Directory.Delete(root, recursive: true);
@@ -291,7 +290,7 @@ public sealed class ControlStyleConstructionTests
     public void CorruptFlagFileDiscoveredByImageSearchRestoresPublication(bool imageClassesInitialized)
     {
         string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
-        var previousClasses = ImageLibUnit.LibraryImageClasses;
+        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
         var classes = imageClassesInitialized ? new TList() : null;
         Directory.CreateDirectory(directory);
         try
@@ -300,7 +299,7 @@ public sealed class ControlStyleConstructionTests
             TILBHeader header = new() { ID = "ILB", Version = 4, HeaderSize = 24, IndexEnd = 28, Size = 28 };
             string path = Path.Combine(directory, "FLAGS.ILB");
             File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
-            ImageLibUnit.LibraryImageClasses = classes!;
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = classes!;
             using var fixture = new FlagFixture(loaded: false, directory);
             using (var library = new TImageLibrary(null!)) { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
             fixture.Files.OpenedPaths.Clear();
@@ -313,7 +312,7 @@ public sealed class ControlStyleConstructionTests
         }
         finally
         {
-            ImageLibUnit.LibraryImageClasses = previousClasses;
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
             classes?.Dispose();
             Directory.Delete(directory, recursive: true);
         }
@@ -345,7 +344,7 @@ public sealed class ControlStyleConstructionTests
 
     private static ReadEngine CreateEngine()
     {
-        if (EngineUnit.Engines is null) EngineUnit.Initialize();
+        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         var engine = new ReadEngine();
         return engine;
     }

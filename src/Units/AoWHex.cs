@@ -9,8 +9,6 @@ using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
@@ -28,19 +26,19 @@ public partial class TAoWHexagon : THexagon
         if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
         {
             var classID = FResource.EClass.ClassID;
-            R = AoWHSSet.HexagonControl.GetRndResource(Msg.TerrainType, classID);
+            R = Aow.Game.Engine.TAoWHSSet.AoWHSSet.HexagonControl.GetRndResource(Msg.TerrainType, classID);
             if (R != null)
             {
                 SetResource(R);
                 UpdateTransitions();
-                AoWHSMap.InvalidateStaticScene(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.InvalidateStaticScene(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx);
             }
             else
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
+                FResource.Engine.HSSet.HexagonControl.Place(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
             }
         }
     }
@@ -55,14 +53,14 @@ public partial class TAoWHexagon : THexagon
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
+                FResource.Engine.HSSet.HexagonControl.Place(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
             }
             else
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.MapContainer, xhx, yhx, lhx, 0);
+                FResource.Engine.HSSet.HexagonControl.Place(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, xhx, yhx, lhx, 0);
             }
         }
     }
@@ -100,10 +98,10 @@ public partial class TAoWHexagon : THexagon
         int Image;
         Shifted = false;
         FTransitions[Side] = 255;
-        FTransitionSides = (byte)(FTransitionSides & AoWHexUnit.SideClear[Side]);
+        FTransitionSides = (byte)(FTransitionSides & Aow.Game.World.Hexes.TAoWHexagon.SideClear[Side]);
         MapLevel = (TMapLevel)Owner.Owner;
-        HNtoHX(AoWHexUnit.SideHN[Side], ref NXhx, ref NYhx);
-        TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, NXhx, NYhx, ref NXhx, ref NYhx);
+        Aow.Game.World.Map.HexGeometry.HNtoHX(Aow.Game.World.Hexes.TAoWHexagon.SideHN[Side], ref NXhx, ref NYhx);
+        Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, NXhx, NYhx, ref NXhx, ref NYhx);
         if (NXhx >= 0 && NYhx >= 0 && MapLevel.Width > NXhx && MapLevel.Height > NYhx)
         {
             NeighbourTerrain = MapLevel.GetField(NXhx, NYhx).TerrainType;
@@ -241,6 +239,9 @@ public partial class TAoWHexagon : THexagon
             }
         }
     }
+
+    private static global::Aow.Game.Engine.Buffers.FixedArray_byte_3 SideHN = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
+    private static global::Aow.Game.Engine.Buffers.FixedArray_byte_3 SideClear = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 246, 237, 219 });
 }
 
 public partial class TAoWHexagonResource : THexagonResource
@@ -272,7 +273,7 @@ public partial class TAoWBorderHexagon : TBorderHexagon
     // AoWHex.pas:261
     public override void UpdateMapField(in THSMapFieldInfo Info)
     {
-        if (Info.HN == 0 && AoWHSMap != null && AoWHSMap.FDay == 0)
+        if (Info.HN == 0 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 0)
         {
             ((TAoWMapField)(object)Info.MapField).FFieldFlags = ((TAoWMapField)(object)Info.MapField).FFieldFlags & -4096;
         }
@@ -304,7 +305,7 @@ public partial class TAoWWaterHexagon : TLowerIsometricHexagon
     {
         var field = (TMapField)Owner;
         int x = 0, y = 0;
-        HXtoHP(field.Xhx, field.Yhx, ref x, ref y);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(field.Xhx, field.Yhx, ref x, ref y);
         x -= xSurface + 8;
         y -= ySurface;
         var library = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -339,7 +340,9 @@ public partial class TAoWWaterHexagonResource : TLowerIsometricHexagonResource
     // AoWHex.pas:58
 
     // AoWHex.pas:455
-    public override string ResourceEditName() => TranslateRStr(WaterHexagonRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Hexes.TAoWWaterHexagonResource.WaterHexagonRStr);
+
+    private static readonly string WaterHexagonRStr = "Water/Ice Hexagon";
 
 }
 
@@ -393,27 +396,4 @@ public struct THexagonResourceFields
 {
     public FixedArray_byte_52 Reserved;
     public TCustomImageLibrary TransitionLibrary;
-}
-
-public static partial class AoWHexUnit
-{
-    // AoWHex.pas:461
-    public static void RegisterAoWHexagon(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAoWHexagon>(), EClass.Of<TAoWHexagonResource>()]);
-        AEngine.RegisterEClasses([EClass.Of<TAoWBorderHexagon>(), EClass.Of<TBorderHexagonResource>()]);
-        AEngine.RegisterEClasses([EClass.Of<TAoWWaterHexagon>(), EClass.Of<TAoWWaterHexagonResource>()]);
-        AEngine.RegisterEClasses([EClass.Of<TUpperIsometricHexagon>(), EClass.Of<TUpperIsometricHexagonResource>()]);
-    }
-
-    public static FixedArray_byte_3 SideHN = FixedArray_byte_3.From([6, 1, 2]);
-    public static FixedArray_byte_3 SideClear = FixedArray_byte_3.From([246, 237, 219]);
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

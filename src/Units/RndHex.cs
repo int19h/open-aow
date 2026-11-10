@@ -2,7 +2,6 @@
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Hexes;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Hexes;
 
@@ -34,7 +33,7 @@ public partial class TRndHexagonResource : THexagonResource
         {
             Lhx = Msg.Data[1];
             Radius = Msg.Param[1].Int;
-            HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
             var terrain = FTerrainList.GetTerrain(0);
             FEngine.HSMap.ChangeTerrain(null, Xhx, Yhx, Lhx, Radius, terrain);
             Msg.MsgID = 0;
@@ -50,13 +49,4 @@ public partial class TRndHexagonResource : THexagonResource
     // RndHex.pas:33
     public override string ResourceEditName() => "Random Hexagon";
 
-}
-
-public static partial class RndHexUnit
-{
-    // RndHex.pas:61
-    public static void RegisterRandomHexagon(TEngine Engine)
-    {
-        Engine.RegisterEClasses([EClass.Of<TRndHexagonResource>()]);
-    }
 }

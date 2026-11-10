@@ -104,7 +104,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public IReadOnlyList<(int Width, int Height)> FullscreenSizes
     {
-        get { var desktop = DesktopSize; return GFXEUnit.IntegerScaleSizes(desktop.Width, desktop.Height); }
+        get { var desktop = DesktopSize; return Aow.Game.Draw.PixelFormats.IntegerScaleSizes(desktop.Width, desktop.Height); }
     }
 
     public void ResizeImage(int newWidth, int newHeight)
@@ -242,7 +242,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     public void Present(in TSurfaceDesc backSurface)
     {
         OnThread();
-        if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatID != GFXEUnit.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
+        if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatID != Aow.Game.Draw.PixelFormats.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(backSurface));
         if (backSurface.Width != width || backSurface.Height != height)
         {

@@ -1,16 +1,11 @@
 // Translated from AOWTitleWindow.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
+using Aow.Game.Events;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using static Aow.Game.Audio.SoundUnit;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Session.E2GameFlowUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.AoWSelFactionWinUnit;
-using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
-using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -38,9 +33,9 @@ public partial class TTitleWindow : TDataModule
     // AOWTitleWindow.pas:73
     public void InitializeSplash()
     {
-        VideoDialog.SetSceneSize(640, 480);
-        SetVideoMode(VideoDialog, TScreenMode.scmTitle);
-        VideoDialog.ApplyMode();
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
+        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmTitle);
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         TitleWin.Visible = true;
         TitlePnl.Visible = false;
         SplashPnl.ILTexture = DemoIL;
@@ -70,9 +65,9 @@ public partial class TTitleWindow : TDataModule
     public void ShowSplash()
     {
         InitializeSplash();
-        SongPlayer.Songs.Clear();
-        SongPlayer.Songs.Add("SONGS\\TITLE.IT");
-        SongPlayer.Play(0);
+        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
+        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
+        Aow.Game.Audio.AudioHost.SongPlayer.Play(0);
         SplashPnl.ILIndexTexture = 0;
         FSplashTimer = 450;
     }
@@ -81,16 +76,16 @@ public partial class TTitleWindow : TDataModule
     public void TitleWinDrawSurface(TSurface Surface, int X, int Y)
     {
         TSurfaceDesc SD = default;
-        if (SelFactionWin.FactionPnl.Visible && SelFactionWin.FFade >= 0)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.Visible && Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFade >= 0)
         {
             Surface.Lock(ref SD);
-            if (SelFactionWin.FFadeDirection == 0)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFadeDirection == 0)
             {
-                aowIntGfxModUnit.IntGfxMod.FactionWin[SelFactionWin.FFadeImage].ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[100 - SelFactionWin.FFade]);
+                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin[Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFadeImage].ShowBlended(Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.WinLeft, Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.WinTop, SD, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[100 - Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFade]);
             }
             else
             {
-                aowIntGfxModUnit.IntGfxMod.FactionWin[SelFactionWin.FFadeImage].ShowBlended(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD, AlphaBlendTable.LookupTables[SelFactionWin.FFade]);
+                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin[Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFadeImage].ShowBlended(Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.WinLeft, Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.WinTop, SD, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFade]);
             }
 
             Surface.Unlock();
@@ -100,7 +95,7 @@ public partial class TTitleWindow : TDataModule
     // AOWTitleWindow.pas:61
     public void TitlePnlDrawBack(TSurfaceDesc SD)
     {
-        aowIntGfxModUnit.IntGfxMod.FactionWin[0].Show(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD);
+        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin[0].Show(Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.WinLeft, Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.WinTop, SD);
     }
 
     // AOWTitleWindow.pas:115
@@ -119,7 +114,7 @@ public partial class TTitleWindow : TDataModule
         if (Key == 27)
         {
             HideSplash();
-            ShowTitleScene(TitleScene, false);
+            Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene, false);
         }
         else
         {
@@ -135,8 +130,27 @@ public partial class TTitleWindow : TDataModule
     {
         NextSplash();
     }
-}
 
-public static partial class AOWTitleWindowUnit
-{
+    internal static void ShowExitSplash(TTitleWindow Dialog)
+    {
+        Aow.Game.Ui.Dialogs.TTitleWindow.ShowSplash(Dialog);
+        Dialog.SplashPnl.ILIndexTexture = 2;
+        Dialog.FSplashStage = 10;
+        Dialog.FSplashTimer = 300;
+    }
+
+    internal static void ShowSplash(TTitleWindow Dialog)
+    {
+        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoSize(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, 640, 480);
+        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmTitle);
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyBtnClick();
+        Dialog.TitleWin.Visible = true;
+        Dialog.TitlePnl.Visible = false;
+        Dialog.SplashPnl.ILTexture = Dialog.DemoIL;
+        Dialog.SplashPnl.ILIndexTexture = 0;
+        Dialog.SplashPnl.Visible = true;
+        Dialog.FSplashTimer = 450;
+        Dialog.FSplashStage = 0;
+    }
+
 }

@@ -9,8 +9,6 @@ using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Hexes;
 
@@ -79,14 +77,14 @@ public partial class THexagonBridge : TAbstractRoad
         THNWalkData Walk = default;
         TMapLevel Level;
         Level = (TMapLevel)Owner.Owner;
-        InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 1);
+        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 1);
         while (Walk.Radius <= 1)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
             {
                 Level.GetField(Walk.X, Walk.Y).AddHS(this, Walk.HN);
                 // { Original bug: the walk never advances when a neighbour is out of bounds. }
-                WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -99,14 +97,14 @@ public partial class THexagonBridge : TAbstractRoad
         THNWalkData Walk = default;
         TMapLevel Level;
         Level = (TMapLevel)Owner.Owner;
-        InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 1);
+        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 1);
         while (Walk.Radius <= 1)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
             {
                 Level.GetField(Walk.X, Walk.Y).RemoveHS(this);
                 // { Original bug: the walk never advances when a neighbour is out of bounds. }
-                WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -134,7 +132,7 @@ public partial class THexagonBridge : TAbstractRoad
     {
         int Xhp = default;
         int Yhp = default;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         FResource.ImageLibrary[FDirection].Show(Xhp - XhpSurf - 23, Yhp - YhpSurf - 20, SurfaceDesc);
     }
 
@@ -151,8 +149,8 @@ public partial class THexagonBridge : TAbstractRoad
                 for (int I = 0, last = FSideB.Count - 1; I <= last; I++)
                 {
                     var sideB = FSideB[I];
-                    CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, sideB, ref Xhx, ref Yhx);
-                    MapField = AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((TMapField)Owner).Lhx);
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, sideB, ref Xhx, ref Yhx);
+                    MapField = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((TMapField)Owner).Lhx);
                     ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)MapField, ((TMoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
                 }
             }
@@ -163,8 +161,8 @@ public partial class THexagonBridge : TAbstractRoad
                     for (int I = 0, last = FSideA.Count - 1; I <= last; I++)
                     {
                         var sideA = FSideA[I];
-                        CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, sideA, ref Xhx, ref Yhx);
-                        MapField = AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((TMapField)Owner).Lhx);
+                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, sideA, ref Xhx, ref Yhx);
+                        MapField = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((TMapField)Owner).Lhx);
                         ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)MapField, ((TMoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
                     }
                 }
@@ -256,7 +254,7 @@ public partial class THexagonBridge : TAbstractRoad
                     }
                     else
                     {
-                        if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                         {
                             FDirection = -1;
                         }
@@ -276,15 +274,15 @@ public partial class THexagonBridge : TAbstractRoad
         int Yhx = default;
         bool Result = false;
         Level = (TMapLevel)MapField.Owner;
-        CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 1, ref Xhx, ref Yhx);
+        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 1, ref Xhx, ref Yhx);
         if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
         {
-            if (Land(Level.GetField(Xhx, Yhx).TerrainType))
+            if (Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(Xhx, Yhx).TerrainType))
             {
-                CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 4, ref Xhx, ref Yhx);
+                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 4, ref Xhx, ref Yhx);
                 if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
                 {
-                    Result = Land(Level.GetField(Xhx, Yhx).TerrainType);
+                    Result = Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(Xhx, Yhx).TerrainType);
                 }
             }
         }
@@ -311,78 +309,78 @@ public partial class THexagonBridge : TAbstractRoad
             switch (FDirection)
             {
                 case 0:
-                    CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(2);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(3);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(5);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(6);
                     }
 
                     break;
                 case 1:
-                    CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(3);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(4);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(6);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(1);
                     }
 
                     break;
                 case 2:
-                    CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(1);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(2);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(4);
                     }
 
-                    CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
+                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(5);
                     }
@@ -391,6 +389,17 @@ public partial class THexagonBridge : TAbstractRoad
             }
         }
     }
+
+    private static bool Land(sbyte Terrain)
+    {
+        return !TSet<byte>.WithBounds(0, 255).With((byte)0).With((byte)6)
+            .With((byte)9)
+            .With((byte)10)
+            .With((byte)13)
+            .Contains((byte)Terrain);
+    }
+
+    // HxBridge.pas:25
 
     // HxBridge.pas:25
 
@@ -414,7 +423,7 @@ public partial class THexagonBridgeResource : TAbstractRoadResource
     // HxBridge.pas:49
 
     // HxBridge.pas:343
-    public override string ResourceEditName() => BridgeStr;
+    public override string ResourceEditName() => Aow.Game.World.Map.HexText.BridgeStr;
 
 }
 
@@ -425,21 +434,4 @@ public struct TBridgeMoveData
     public FixedArray_byte_49 Reserved;
     [FieldOffset(49)]
     public FixedArray_Aow_Units_FixedArray_sbyte_16_16 Costs;
-}
-
-public static partial class HxBridgeUnit
-{
-    // HxBridge.pas:353
-    public static void RegisterHexagonBridge(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<THexagonBridge>(), EClass.Of<THexagonBridgeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

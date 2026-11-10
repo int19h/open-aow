@@ -2,7 +2,6 @@
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -39,23 +38,8 @@ public partial class TMerchantResource : TStructureResource
     // Merchant.pas:25
 
     // Merchant.pas:50
-    public override string ResourceEditName() => TranslateRStr(MerchantRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMerchantResource.MerchantRStr);
 
-}
+    private static readonly string MerchantRStr = "Merchant";
 
-public static partial class MerchantUnit
-{
-    // Merchant.pas:56
-    public static void RegisterMerchant(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TMerchant>(), EClass.Of<TMerchantResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

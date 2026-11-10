@@ -2,8 +2,6 @@
 using Aow.Game.Audio;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using static Aow.Game.Session.E2GameFlowUnit;
-using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -25,7 +23,7 @@ public partial class TIntroScene : TDataModule
     {
         ReleaseSound();
         Window.Visible = false;
-        ShowTitleScene(TitleScene, true);
+        Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene, true);
     }
 
     // AoWIntroScene.pas:192
@@ -42,8 +40,4 @@ public partial class TIntroScene : TDataModule
             Finish();
         }
     }
-}
-
-public static partial class AoWIntroSceneUnit
-{
 }

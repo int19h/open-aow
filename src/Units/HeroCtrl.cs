@@ -8,7 +8,6 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Grids
@@ -266,41 +265,5 @@ namespace Aow.Game.Ui.Grids.HeroCtrl
         public byte Kind;
         public FixedArray_byte_15 Reserved35;
         public bool Hidden;
-    }
-}
-
-namespace Aow.Game.Ui.Grids
-{
-
-    public static partial class HeroCtrlUnit
-    {
-        public static readonly string GridUsedRStr = "Used";
-
-        // HeroCtrl.pas:110
-        public static int HeroControlCompareName(int A, int B)
-        {
-            var hero = AoWHSMap.FHeroControl.GetHero(B);
-            return CompareText(AoWHSMap.FHeroControl.GetHero(A).FHeroName, hero.FHeroName);
-        }
-
-        // HeroCtrl.pas:115
-        public static int HeroControlCompareLevel(int A, int B)
-        {
-            int Result = AoWHSMap.FHeroControl.GetHero(A).GetLevel() - AoWHSMap.FHeroControl.GetHero(B).GetLevel();
-            if (Result == 0)
-            {
-                Result = HeroControlCompareName(A, B);
-            }
-
-            return Result;
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

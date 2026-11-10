@@ -10,7 +10,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat.Actions
@@ -44,7 +43,7 @@ namespace Aow.Game.Combat.Actions
             if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
@@ -53,7 +52,7 @@ namespace Aow.Game.Combat.Actions
         {
             if (Viewer.FTime == 0)
             {
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (Viewer.FDelay == Viewer.FTime)
@@ -70,14 +69,14 @@ namespace Aow.Game.Combat.Actions
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
             {
-                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
+                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
@@ -89,14 +88,14 @@ namespace Aow.Game.Combat.Actions
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
             {
-                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
+                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
@@ -133,7 +132,7 @@ namespace Aow.Game.Combat.Actions
             if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
@@ -142,7 +141,7 @@ namespace Aow.Game.Combat.Actions
         {
             if (Viewer.FTime == 0)
             {
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (Viewer.FDelay == Viewer.FTime)
@@ -167,14 +166,14 @@ namespace Aow.Game.Combat.Actions
 
             if (Obj.FID == FSourceID)
             {
-                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
+                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
@@ -186,14 +185,14 @@ namespace Aow.Game.Combat.Actions
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
             {
-                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
+                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
@@ -239,7 +238,7 @@ namespace Aow.Game.Combat.Actions
             if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
@@ -248,7 +247,7 @@ namespace Aow.Game.Combat.Actions
         {
             if (Viewer.FTime == 0)
             {
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (Viewer.FDelay == Viewer.FTime)
@@ -273,14 +272,14 @@ namespace Aow.Game.Combat.Actions
 
             if (Obj.FID == FSourceID)
             {
-                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
+                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (FTargetIDs.IndexOf(Obj.FID) != -1)
                 {
-                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
@@ -292,14 +291,14 @@ namespace Aow.Game.Combat.Actions
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
             {
-                var spell = AoWHSSet.FSpellControl.GetSpell(FSpellID);
-                AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
+                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (FTargetIDs.IndexOf(Obj.FID) != -1)
                 {
-                    AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
@@ -364,7 +363,7 @@ namespace Aow.Game.Magic.Spells.Combat
             var resistance = Target.GetResistance();
             var immunityTypes = Target.GetImmunityTypes();
             var protectionTypes = Target.GetProtectionTypes();
-            return StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes) * FCombatInfo.RepeatCount;
+            return Aow.Game.Magic.Abilities.AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes) * FCombatInfo.RepeatCount;
         }
 
         // CombatSpells.pas:668
@@ -378,7 +377,7 @@ namespace Aow.Game.Magic.Spells.Combat
             var hitPoints = Target.GetHitPoints();
             var defense = Target.GetDefense();
             var resistance = Target.GetResistance();
-            var statisticsToLimitedDV = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, hitPoints, defense, resistance, Immunity, Protection);
+            var statisticsToLimitedDV = Aow.Game.Magic.Abilities.AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, hitPoints, defense, resistance, Immunity, Protection);
             Values.SourceDamage = statisticsToLimitedDV * FCombatInfo.RepeatCount;
             // { Original recomputes the value, using resistance in place of defense for mode 1. }
             if (FDamageMode == 1)
@@ -386,7 +385,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 var targetHitPoints = Target.GetHitPoints();
                 var targetResistance = Target.GetResistance();
                 var resistance2 = Target.GetResistance();
-                var statisticsToLimitedDV2 = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, targetHitPoints, targetResistance, resistance2, Immunity, Protection);
+                var statisticsToLimitedDV2 = Aow.Game.Magic.Abilities.AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, targetHitPoints, targetResistance, resistance2, Immunity, Protection);
                 Values.SourceDamage = statisticsToLimitedDV2 * FCombatInfo.RepeatCount;
             }
             else
@@ -394,11 +393,11 @@ namespace Aow.Game.Magic.Spells.Combat
                 var a2HitPoints = Target.GetHitPoints();
                 var targetDefense = Target.GetDefense();
                 var a2Resistance = Target.GetResistance();
-                var statisticsToLimitedDV2 = StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, a2HitPoints, targetDefense, a2Resistance, Immunity, Protection);
+                var statisticsToLimitedDV2 = Aow.Game.Magic.Abilities.AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, a2HitPoints, targetDefense, a2Resistance, Immunity, Protection);
                 Values.SourceDamage = statisticsToLimitedDV2 * FCombatInfo.RepeatCount;
             }
 
-            var statisticsToMaxDamage = StatisticsToMaxDamage(FCombatInfo.Damage, FCombatInfo.DamageTypes, Protection, Immunity);
+            var statisticsToMaxDamage = Aow.Game.Magic.Abilities.AbilityRules.StatisticsToMaxDamage(FCombatInfo.Damage, FCombatInfo.DamageTypes, Protection, Immunity);
             Values.SourceCost = statisticsToMaxDamage * FCombatInfo.RepeatCount;
             Values.TargetDamage = 0;
             Values.TargetCost = 0;
@@ -449,7 +448,7 @@ namespace Aow.Game.Magic.Spells.Combat
                             Command.FTarget = Commands.FTargetSide.GetObjects(I);
                             Command.FMoveCost = 1;
                             Command.FSpellID = FSpellID;
-                            Command.FExpectedDV = DVtoDEV(Values.SourceDamage, Values.TargetDamage, Commands.FSource, Target);
+                            Command.FExpectedDV = Aow.Game.Magic.Abilities.AbilityRules.DVtoDEV(Values.SourceDamage, Values.TargetDamage, Commands.FSource, Target);
                             Commands.Add(Command);
                         }
                     }
@@ -520,10 +519,10 @@ namespace Aow.Game.Magic.Spells.Combat
                 }
 
                 // { Original shifts Random(4) by two, so this adds no random extra targets. }
-                Count = (int)(((uint)AoWHSMap.Random(4)) >> 2) + FCombatInfo.Radius;
+                Count = (int)(((uint)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(4)) >> 2) + FCombatInfo.Radius;
                 while (Count != 0 && Targets.Count != 0)
                 {
-                    Other = (TCombatObject)Targets[AoWHSMap.Random(Targets.Count)];
+                    Other = (TCombatObject)Targets[Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(Targets.Count)];
                     for (int J = 0, last = FCombatInfo.RepeatCount - 1; J <= last; J++)
                     {
                         if (!Other.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
@@ -571,14 +570,14 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.DamageTypes = DamageTypes;
                 var hitPoints = Target.GetHitPoints();
                 var resistance = Target.GetResistance();
-                var statisticsToLimitedDV = StatisticsToLimitedDV(FCombatInfo.Attack, Damage, DamageTypes, hitPoints, Defense, resistance, Immunity, Protection);
+                var statisticsToLimitedDV = Aow.Game.Magic.Abilities.AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, Damage, DamageTypes, hitPoints, Defense, resistance, Immunity, Protection);
                 Values.SourceDamage = statisticsToLimitedDV * FCombatInfo.RepeatCount;
                 if (FCombatInfo.Radius > 1)
                 {
                     Values.SourceDamage = (int)(((uint)(Values.SourceDamage * FCombatInfo.Radius)) >> 1);
                 }
 
-                var statisticsToMaxDamage = StatisticsToMaxDamage(Damage, DamageTypes, Protection, Immunity);
+                var statisticsToMaxDamage = Aow.Game.Magic.Abilities.AbilityRules.StatisticsToMaxDamage(Damage, DamageTypes, Protection, Immunity);
                 Values.SourceCost = statisticsToMaxDamage * FCombatInfo.RepeatCount;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
@@ -644,7 +643,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:845
         public TSolarFlare(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(SolarFlareRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TSolarFlare.SolarFlareRStr);
             FSpellID = 100;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -653,6 +652,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string SolarFlareRStr = "Solar Flare";
     }
 }
 
@@ -680,7 +681,7 @@ namespace Aow.Game.Combat.Actions
                 Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
                 if (!Target.FStatus.Contains(Aow.Game.Combat.TCombatObjectStatusElement.csDestroyed))
                 {
-                    AoWHSSet.FAbilityControl.GetAbility(34).Expand(Target.FUnit);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(34).Expand(Target.FUnit);
                     Data = (TUnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(34);
                     if (Data != null)
                     {
@@ -702,7 +703,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:888
         public TTurnUndead(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(TurnUndeadRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TurnUndeadRStr);
             FSpellID = 101;
             FDamageMode = 1;
             ref var spellCombatInfo = ref FCombatInfo;
@@ -788,7 +789,7 @@ namespace Aow.Game.Combat.Actions
                 var targetID = FTargetIDs[I];
                 Target = Combat.FCombatData.FindID(targetID);
                 Target.SetHitPoints((byte)(Target.GetHitPoints() + 5));
-                AoWHSSet.FAbilityControl.GetAbility(100).Expand(((Aow.Game.Combat.TCombatUnit)Target).FUnit);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(100).Expand(((Aow.Game.Combat.TCombatUnit)Target).FUnit);
             }
         }
 
@@ -832,7 +833,7 @@ namespace Aow.Game.Combat.Actions
             {
                 Target = Combat.FCombatData.FindID(FTargetID);
                 Target.SetHitPoints((byte)(Target.GetHitPoints() + 5));
-                AoWHSSet.FAbilityControl.GetAbility(100).Expand(((Aow.Game.Combat.TCombatUnit)Target).FUnit);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(100).Expand(((Aow.Game.Combat.TCombatUnit)Target).FUnit);
             }
         }
 
@@ -848,7 +849,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:996
         public THighPrayer(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(HighPrayerRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.THighPrayer.HighPrayerRStr);
             FSpellID = 102;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -921,7 +922,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Target = Side.GetObjects(I);
                 if (Target.FCombatValue != 0 && Target is TCombatUnit)
                 {
-                    Value += DVtoDEV((Target.GetHits() - Target.GetHitPoints()) * 100, 0, Commands.FSource, Target);
+                    Value += Aow.Game.Magic.Abilities.AbilityRules.DVtoDEV((Target.GetHits() - Target.GetHitPoints()) * 100, 0, Commands.FSource, Target);
                 }
             }
 
@@ -990,6 +991,8 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.DamageTypes = TSet<TDamageType>.Of();
             }
         }
+
+        private static readonly string HighPrayerRStr = "High Prayer";
     }
 
     // inherited combat statistics, damage mode
@@ -998,7 +1001,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1130
         public TDeathRay(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(DeathRayRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TDeathRay.DeathRayRStr);
             FSpellID = 103;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1007,6 +1010,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string DeathRayRStr = "Death Ray";
     }
 
     // inherited combat statistics, damage mode
@@ -1015,7 +1020,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1146
         public TDiseaseCloud(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(DiseaseCloudRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TDiseaseCloud.DiseaseCloudRStr);
             FSpellID = 104;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1024,6 +1029,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string DiseaseCloudRStr = "Disease Cloud";
     }
 }
 
@@ -1051,15 +1058,15 @@ namespace Aow.Game.Combat.Actions
                 Source.SetExperience(Source.GetExperience() + Target.GetLevel());
                 for (int I = 0; I <= 2; I++)
                 {
-                    ((TCommandAbility)AoWHSSet.FAbilityControl.GetAbility(CommandAbilityIDs[I])).ResetCommandedUnits(Target);
+                    ((TCommandAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
                 }
 
                 for (int I = 0; I <= 2; I++)
                 {
-                    ((TCommandAbility)AoWHSSet.FAbilityControl.GetAbility(CommandAbilityIDs[I])).Uncommand(Target);
+                    ((TCommandAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
                 }
 
-                AoWHSSet.FAbilityControl.GetAbility(131).Expand(Target.FUnit);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(131).Expand(Target.FUnit);
                 Target.SetCombatPlayer((byte)Source.FCombatPlayer);
             }
         }
@@ -1076,7 +1083,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1190
         public TMindDecay(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(MindDecayRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TMindDecay.MindDecayRStr);
             FSpellID = 106;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
@@ -1103,11 +1110,13 @@ namespace Aow.Game.Magic.Spells.Combat
             if (Target is TCombatUnit && ((TCombatUnit)Target).FUnit.GetUnitType() != TUnitType.utMachine && ((TCombatUnit)Target).FUnit.GetRace() != 11 && !((TCombatUnit)Target).FUnit.GetAbilityEnabled(129) && !(((TCombatUnit)Target).FUnit is TLeader))
             {
                 var resistance = Target.GetResistance();
-                Action.FSucceeded = HitRole(FCombatInfo.Attack - resistance);
+                Action.FSucceeded = Aow.Game.Magic.Abilities.HitChance.HitRole(FCombatInfo.Attack - resistance);
             }
 
             return Action;
         }
+
+        private static readonly string MindDecayRStr = "Mind Decay";
     }
 
     // inherited combat statistics, damage mode
@@ -1116,7 +1125,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1224
         public TChainLightning(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(ChainLightningRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TChainLightning.ChainLightningRStr);
             FSpellID = 107;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1126,6 +1135,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
         }
+
+        private static readonly string ChainLightningRStr = "Chain Lighting";
     }
 
     // inherited combat statistics, damage mode
@@ -1134,7 +1145,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1241
         public TColdBreath(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(ColdBreathRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TColdBreath.ColdBreathRStr);
             FSpellID = 108;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1143,6 +1154,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 4;
         }
+
+        private static readonly string ColdBreathRStr = "Cold Breath";
     }
 }
 
@@ -1189,7 +1202,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1284
         public TSlow(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(SlowRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SlowRStr);
             FSpellID = 110;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
@@ -1215,7 +1228,7 @@ namespace Aow.Game.Magic.Spells.Combat
             if (!Target.GetAbilityEnabled(132))
             {
                 var resistance = Target.GetResistance();
-                Action.FSucceeded = HitRole(FCombatInfo.Attack - resistance);
+                Action.FSucceeded = Aow.Game.Magic.Abilities.HitChance.HitRole(FCombatInfo.Attack - resistance);
             }
 
             return Action;
@@ -1256,7 +1269,7 @@ namespace Aow.Game.Combat.Actions
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
                 Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
-                AoWHSSet.FAbilityControl.GetAbility(94).Expand(Target.FUnit);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(94).Expand(Target.FUnit);
                 Data = (TUnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(94);
                 if (Data != null)
                 {
@@ -1277,7 +1290,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1352
         public TEntangle(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(EntangleRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EntangleRStr);
             FSpellID = 111;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 7;
@@ -1303,7 +1316,7 @@ namespace Aow.Game.Magic.Spells.Combat
             if (!Target.GetAbilityEnabled(1) && !Target.GetAbilityEnabled(94))
             {
                 var resistance = Target.GetResistance();
-                Action.FSucceeded = HitRole(FCombatInfo.Attack - resistance);
+                Action.FSucceeded = Aow.Game.Magic.Abilities.HitChance.HitRole(FCombatInfo.Attack - resistance);
             }
 
             return Action;
@@ -1315,7 +1328,7 @@ namespace Aow.Game.Magic.Spells.Combat
             if (!Target.GetAbilityEnabled(1) && !Target.GetAbilityEnabled(94))
             {
                 var resistance = Target.GetResistance();
-                var hitRoleProbability = HitRoleProbability(FCombatInfo.Attack - resistance);
+                var hitRoleProbability = Aow.Game.Magic.Abilities.HitChance.HitRoleProbability(FCombatInfo.Attack - resistance);
                 var hitPoints = Target.GetHitPoints();
                 Values.SourceDamage = Round((double)(hitPoints * 100) * hitRoleProbability);
                 var targetHitPoints = Target.GetHitPoints();
@@ -1342,7 +1355,7 @@ namespace Aow.Game.Magic.Spells.Combat
         public TTremors(TECustomNode owner) : base(owner)
         {
             // { Original leaves this spell name untranslated. }
-            FSpellName = TremorsRStr;
+            FSpellName = Aow.Game.Magic.Spells.Combat.TTremors.TremorsRStr;
             FSpellID = 112;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1352,6 +1365,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = -1;
             spellCombatInfo.Radius = 5;
         }
+
+        private static readonly string TremorsRStr = "Tremors";
     }
 
     // inherited combat statistics, damage mode
@@ -1360,7 +1375,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1421
         public TCallFlames(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(CallFlamesRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TCallFlames.CallFlamesRStr);
             FSpellID = 113;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
@@ -1370,6 +1385,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = 8;
             spellCombatInfo.Radius = 1;
         }
+
+        private static readonly string CallFlamesRStr = "Call Flames";
     }
 
     // inherited combat statistics, damage mode
@@ -1378,7 +1395,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1438
         public TFireBreath(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(FireBreathRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TFireBreath.FireBreathRStr);
             FSpellID = 114;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1388,6 +1405,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = 4;
             spellCombatInfo.Radius = 3;
         }
+
+        private static readonly string FireBreathRStr = "Fire Breath";
     }
 
     // inherited combat statistics, damage mode
@@ -1396,7 +1415,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1455
         public TSwarm(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(SwarmRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TSwarm.SwarmRStr);
             FSpellID = 115;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1406,6 +1425,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 5;
         }
+
+        private static readonly string SwarmRStr = "Swarm";
     }
 
     // inherited combat statistics, damage mode
@@ -1414,7 +1435,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1472
         public TGreatHail(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(GreatHailRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TGreatHail.GreatHailRStr);
             FSpellID = 116;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
@@ -1424,6 +1445,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 2;
         }
+
+        private static readonly string GreatHailRStr = "Great Hail";
     }
 
     // inherited combat statistics, damage mode
@@ -1432,7 +1455,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1489
         public TFireBall(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(FireBallRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TFireBall.FireBallRStr);
             FSpellID = 117;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1441,6 +1464,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string FireBallRStr = "Fireball";
     }
 
     // inherited combat statistics, damage mode
@@ -1449,7 +1474,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1505
         public TGeyser(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(GeyserRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TGeyser.GeyserRStr);
             FSpellID = 118;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
@@ -1482,6 +1507,8 @@ namespace Aow.Game.Magic.Spells.Combat
 
             return Action;
         }
+
+        private static readonly string GeyserRStr = "Geyser";
     }
 
     // inherited combat statistics, damage mode
@@ -1490,7 +1517,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1537
         public TIceShards(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(IceShardsRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TIceShards.IceShardsRStr);
             FSpellID = 119;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1499,6 +1526,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 3;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string IceShardsRStr = "Ice Shards";
     }
 
     // inherited combat statistics, damage mode
@@ -1507,7 +1536,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1553
         public TFrostBeams(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(FrostBeamsRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TFrostBeams.FrostBeamsRStr);
             FSpellID = 120;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
@@ -1517,6 +1546,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
         }
+
+        private static readonly string FrostBeamsRStr = "Frost Beam";
     }
 
     // inherited combat statistics, damage mode
@@ -1525,7 +1556,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1570
         public TVaporize(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(VaporizeRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TVaporize.VaporizeRStr);
             FSpellID = 121;
             FDamageMode = 1;
             ref var spellCombatInfo = ref FCombatInfo;
@@ -1535,6 +1566,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string VaporizeRStr = "Vaporize";
     }
 
     // inherited combat statistics, damage mode
@@ -1543,7 +1576,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1603
         public TFlamingArrow(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(FlamingArrowRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TFlamingArrow.FlamingArrowRStr);
             FSpellID = 123;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1552,6 +1585,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string FlamingArrowRStr = "Flaming Arrow";
     }
 
     // inherited combat statistics, damage mode
@@ -1560,7 +1595,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1587
         public TStoning(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(StoningRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TStoning.StoningRStr);
             FSpellID = 122;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
@@ -1569,6 +1604,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 6;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string StoningRStr = "Stoning";
     }
 
     // inherited combat statistics, damage mode
@@ -1577,7 +1614,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1619
         public TOoze(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(OozeRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TOoze.OozeRStr);
             FSpellID = 124;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
@@ -1594,12 +1631,14 @@ namespace Aow.Game.Magic.Spells.Combat
             Target.GetImmunityTypes();
             Values.DamageTypes = FCombatInfo.DamageTypes;
             var resistance = Target.GetResistance();
-            var hitRoleProbability = HitRoleProbability(FCombatInfo.Attack - resistance);
+            var hitRoleProbability = Aow.Game.Magic.Abilities.HitChance.HitRoleProbability(FCombatInfo.Attack - resistance);
             Values.SourceDamage = Round((double)hitRoleProbability * 200);
             Values.SourceCost = 200;
             Values.TargetDamage = 0;
             Values.TargetCost = 0;
         }
+
+        private static readonly string OozeRStr = "Ooze";
     }
 
     // inherited combat statistics, damage mode
@@ -1608,7 +1647,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1649
         public TSacredWrath(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(SacredWrathRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TSacredWrath.SacredWrathRStr);
             FSpellID = 125;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1618,6 +1657,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = 8;
             spellCombatInfo.Radius = 3;
         }
+
+        private static readonly string SacredWrathRStr = "Sacred Wrath";
     }
 }
 
@@ -1641,7 +1682,7 @@ namespace Aow.Game.Combat.Actions
             {
                 var targetID = FTargetIDs[I];
                 Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(targetID);
-                AoWHSSet.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
             }
         }
 
@@ -1659,7 +1700,7 @@ namespace Aow.Game.Combat.Actions
             for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
                 Target = Side.GetObjects(I);
-                if (!Target.FStatus.Contains(Aow.Game.Combat.TCombatObjectStatusElement.csDestroyed) && !Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is Aow.Game.Combat.TCombatUnit && !Target.GetImmunityTypes().Contains(Aow.Game.Combat.TDamageType.dtDeath) && ((Aow.Game.Combat.TCombatUnit)Target).FUnit.GetUnitType() != TUnitType.utMachine && HitRole(6 - Target.GetResistance()))
+                if (!Target.FStatus.Contains(Aow.Game.Combat.TCombatObjectStatusElement.csDestroyed) && !Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is Aow.Game.Combat.TCombatUnit && !Target.GetImmunityTypes().Contains(Aow.Game.Combat.TDamageType.dtDeath) && ((Aow.Game.Combat.TCombatUnit)Target).FUnit.GetUnitType() != TUnitType.utMachine && Aow.Game.Magic.Abilities.HitChance.HitRole(6 - Target.GetResistance()))
                 {
                     FTargetIDs.Add(Target.FID);
                 }
@@ -1700,13 +1741,13 @@ namespace Aow.Game.Combat.Actions
             if (FSucceeded)
             {
                 Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
-                AoWHSSet.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
             }
 
             if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
             {
                 Source = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FSourceID);
-                AoWHSSet.FSpellControl.GetSpell(105).CastingDone(Source.FUnit, FManaCost);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(105).CastingDone(Source.FUnit, FManaCost);
             }
         }
 
@@ -1725,7 +1766,7 @@ namespace Aow.Game.Combat.Actions
             FTargetID = Target.FID;
             if (!Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is Aow.Game.Combat.TCombatUnit && !Target.GetImmunityTypes().Contains(Aow.Game.Combat.TDamageType.dtDeath) && ((Aow.Game.Combat.TCombatUnit)Target).FUnit.GetUnitType() != TUnitType.utMachine)
             {
-                FSucceeded = HitRole(6 - Target.GetResistance());
+                FSucceeded = Aow.Game.Magic.Abilities.HitChance.HitRole(6 - Target.GetResistance());
             }
         }
 
@@ -1741,7 +1782,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1759
         public TTerror(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(TerrorRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TTerror.TerrorRStr);
             FSpellID = 105;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
@@ -1771,7 +1812,7 @@ namespace Aow.Game.Magic.Spells.Combat
             int Value;
             if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is TCombatUnit && !Target.GetImmunityTypes().Contains(TDamageType.dtDeath))
             {
-                Value = Round((double)HitRoleProbability(6 - Target.GetResistance()) * 100);
+                Value = Round((double)Aow.Game.Magic.Abilities.HitChance.HitRoleProbability(6 - Target.GetResistance()) * 100);
             }
             else
             {
@@ -1852,7 +1893,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Opponent = Side.GetObjects(I);
                 if (!Opponent.GetAbilityEnabled(108) && Opponent.FCombatValue != 0 && Opponent is TCombatUnit && !Opponent.GetImmunityTypes().Contains(TDamageType.dtDeath))
                 {
-                    Value += Round((double)HitRoleProbability(6 - Opponent.GetResistance()) * 100);
+                    Value += Round((double)Aow.Game.Magic.Abilities.HitChance.HitRoleProbability(6 - Opponent.GetResistance()) * 100);
                 }
             }
 
@@ -1873,6 +1914,8 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.DamageTypes = TSet<TDamageType>.Of();
             }
         }
+
+        private static readonly string TerrorRStr = "Terror";
     }
 
     // inherited spell ID, combat statistics, damage mode
@@ -1881,7 +1924,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1889
         public TWindsOfFury(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(WindsOfFuryRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TWindsOfFury.WindsOfFuryRStr);
             FSpellID = 126;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1913,6 +1956,8 @@ namespace Aow.Game.Magic.Spells.Combat
 
             return Action;
         }
+
+        private static readonly string WindsOfFuryRStr = "Winds Of Fury";
     }
 
     // inherited spell ID, combat statistics, damage mode
@@ -1921,7 +1966,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1919
         public TShockwave(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(ShockwaveRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TShockwave.ShockwaveRStr);
             FSpellID = 127;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1930,6 +1975,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
+
+        private static readonly string ShockwaveRStr = "Shock Wave";
     }
 
     // inherited spell ID, combat statistics, damage mode
@@ -1938,7 +1985,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1934
         public TSacrificialFlame(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(SacrificialFlameRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TSacrificialFlame.SacrificialFlameRStr);
             FSpellID = 128;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
@@ -1948,6 +1995,8 @@ namespace Aow.Game.Magic.Spells.Combat
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
         }
+
+        private static readonly string SacrificialFlameRStr = "Sacrificial Flame";
     }
 }
 
@@ -1975,7 +2024,7 @@ namespace Aow.Game.Combat.Actions
                 Source = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FSourceID);
                 Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
                 NewUnit = new TUnit(null);
-                NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(130));
+                NewUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(130));
                 NewUnit.SetPlayer(Source.FUnit.FPlayer);
                 NewUnit.ExpandAbility(130);
                 NewUnit.Activate();
@@ -1998,7 +2047,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:1975
         public TRecallSpirit(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(RecallSpiritRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TRecallSpirit.RecallSpiritRStr);
             FSpellID = 129;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
@@ -2043,6 +2092,8 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.DamageTypes = TSet<TDamageType>.Of();
             }
         }
+
+        private static readonly string RecallSpiritRStr = "Recall Spirits";
     }
 }
 
@@ -2070,7 +2121,7 @@ namespace Aow.Game.Combat.Actions
                 Source = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FSourceID);
                 Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
                 NewUnit = new TUnit(null);
-                NewUnit.SetUnitResource(AoWHSSet.FUnitResources.GetUnitResource(201));
+                NewUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(201));
                 NewUnit.SetPlayer(Source.FUnit.FPlayer);
                 NewUnit.ExpandAbility(130);
                 NewUnit.Activate();
@@ -2093,7 +2144,7 @@ namespace Aow.Game.Magic.Spells.Combat
         // CombatSpells.pas:2046
         public TAnimateDead(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(AnimateDeadRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TAnimateDead.AnimateDeadRStr);
             FSpellID = 130;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
@@ -2138,92 +2189,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.DamageTypes = TSet<TDamageType>.Of();
             }
         }
-    }
 
-    public static partial class CombatSpellsUnit
-    {
-        // CombatSpells.pas:2092
-        public static void RegisterCombatSpells(TAoWEngine Engine)
-        {
-            Aow.Game.Magic.Spells.TSpellControl Control;
-            Control = Engine.FGameSet.FSpellControl;
-            Engine.RegisterEClasses([EClass.Of<TCombatSpellCA>(), EClass.Of<TFastCombatTerrorCA>(), EClass.Of<TTacticalCombatTerrorCA>(), EClass.Of<TRecallSpiritCA>(), EClass.Of<TAnimateDeadCA>(), EClass.Of<TFastCombatHighPrayerCA>(), EClass.Of<TTacticalCombatHighPrayerCA>(), EClass.Of<TEntangleSpellCA>(), EClass.Of<TMindDecayCA>(), EClass.Of<TTurnUndeadSpellCA>(), EClass.Of<TSlowCA>()]);
-            Control.RegisterSpell(new TSolarFlare(null));
-            Control.RegisterSpell(new TTurnUndead(null));
-            Control.RegisterSpell(new THighPrayer(null));
-            Control.RegisterSpell(new TDeathRay(null));
-            Control.RegisterSpell(new TDiseaseCloud(null));
-            Control.RegisterSpell(new TTerror(null));
-            Control.RegisterSpell(new TMindDecay(null));
-            Control.RegisterSpell(new TChainLightning(null));
-            Control.RegisterSpell(new TColdBreath(null));
-            Control.RegisterSpell(new TSlow(null));
-            Control.RegisterSpell(new TEntangle(null));
-            Control.RegisterSpell(new TTremors(null));
-            Control.RegisterSpell(new TCallFlames(null));
-            Control.RegisterSpell(new TFireBreath(null));
-            Control.RegisterSpell(new TSwarm(null));
-            Control.RegisterSpell(new TGreatHail(null));
-            Control.RegisterSpell(new TFireBall(null));
-            Control.RegisterSpell(new TGeyser(null));
-            Control.RegisterSpell(new TIceShards(null));
-            Control.RegisterSpell(new TFrostBeams(null));
-            Control.RegisterSpell(new TVaporize(null));
-            Control.RegisterSpell(new TStoning(null));
-            Control.RegisterSpell(new TFlamingArrow(null));
-            Control.RegisterSpell(new TOoze(null));
-            Control.RegisterSpell(new TSacredWrath(null));
-            Control.RegisterSpell(new TAnimateDead(null));
-            Control.RegisterSpell(new TRecallSpirit(null));
-            Control.RegisterSpell(new TWindsOfFury(null));
-            Control.RegisterSpell(new TShockwave(null));
-            Control.RegisterSpell(new TSacrificialFlame(null));
-        }
-
-        // CombatSpells.pas:2130
-        public static void UnregisterCombatSpells(TAoWEngine Engine)
-        {
-            Aow.Game.Magic.Spells.TSpellControl Control;
-            Control = Engine.FGameSet.FSpellControl;
-            Engine.UnregisterEClasses([EClass.Of<TCombatSpellCA>(), EClass.Of<TFastCombatTerrorCA>(), EClass.Of<TTacticalCombatTerrorCA>(), EClass.Of<TRecallSpiritCA>(), EClass.Of<TAnimateDeadCA>(), EClass.Of<TFastCombatHighPrayerCA>(), EClass.Of<TTacticalCombatHighPrayerCA>(), EClass.Of<TEntangleSpellCA>(), EClass.Of<TMindDecayCA>(), EClass.Of<TTurnUndeadSpellCA>(), EClass.Of<TSlowCA>()]);
-            Control.UnregisterSpellID(100);
-            Control.UnregisterSpellID(101);
-            Control.UnregisterSpellID(102);
-            Control.UnregisterSpellID(103);
-            Control.UnregisterSpellID(104);
-            Control.UnregisterSpellID(105);
-            Control.UnregisterSpellID(106);
-            Control.UnregisterSpellID(107);
-            Control.UnregisterSpellID(108);
-            Control.UnregisterSpellID(110);
-            Control.UnregisterSpellID(111);
-            Control.UnregisterSpellID(112);
-            Control.UnregisterSpellID(113);
-            Control.UnregisterSpellID(114);
-            Control.UnregisterSpellID(115);
-            Control.UnregisterSpellID(116);
-            Control.UnregisterSpellID(117);
-            Control.UnregisterSpellID(118);
-            Control.UnregisterSpellID(119);
-            Control.UnregisterSpellID(120);
-            Control.UnregisterSpellID(121);
-            Control.UnregisterSpellID(122);
-            Control.UnregisterSpellID(123);
-            Control.UnregisterSpellID(124);
-            Control.UnregisterSpellID(125);
-            Control.UnregisterSpellID(130);
-            Control.UnregisterSpellID(129);
-            Control.UnregisterSpellID(126);
-            Control.UnregisterSpellID(127);
-            Control.UnregisterSpellID(128);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
+        private static readonly string AnimateDeadRStr = "Animate Dead";
     }
 }

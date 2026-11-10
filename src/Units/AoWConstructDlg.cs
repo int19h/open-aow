@@ -6,8 +6,6 @@ using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWConstructDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -74,11 +72,11 @@ public partial class TConstructDlg : TDataModule
         TConstructAbility Ability;
         TConstructionControl Control;
         Dlg.FDrawn = false;
-        U = AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
+        U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        Ability = (TConstructAbility)AoWHSSet.FAbilityControl.GetAbility(125);
+        Ability = (TConstructAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(125);
         for (int I = 0, last = Ability.FConstructionControls.Count - 1; I <= last; I++)
         {
             Control = Ability.FConstructionControls.GetConstructionControl(I);
@@ -124,7 +122,7 @@ public partial class TConstructDlg : TDataModule
     // AoWConstructDlg.pas:62
     public void CancelBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -152,7 +150,7 @@ public partial class TConstructDlg : TDataModule
         string Reason = "";
         TConstructionControl Control;
         TAbstractUnit U;
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         bool condition = ConstructionList.Selected >= 0;
         if (condition)
         {
@@ -162,7 +160,7 @@ public partial class TConstructDlg : TDataModule
 
         if (condition)
         {
-            U = AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
+            U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
             Control = (TConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
             if (Control.CanConstruct(U, ref Reason))
             {
@@ -173,7 +171,7 @@ public partial class TConstructDlg : TDataModule
             }
             else
             {
-                AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
             }
         }
     }
@@ -181,19 +179,19 @@ public partial class TConstructDlg : TDataModule
     // AoWConstructDlg.pas:96
     public void SortConstructionsBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:99
     public void SortConstructionCostBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:102
     public void SortConstructionTurnsBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:105
@@ -210,8 +208,4 @@ public partial class TConstructDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
-
-public static partial class AoWConstructDlgUnit
-{
 }

@@ -5,8 +5,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Ui.Controls;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Grids;
@@ -216,10 +214,10 @@ public partial class TScanner : TAOWControl
                 var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
                 SD.ClipRect = rect;
                 FMapSurface.Lock(ref SurfDesc);
-                BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
                 FMapSurface.Unlock();
                 FObjectSurface.Lock(ref SurfDesc);
-                BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
+                Aow.Game.Draw.TSurfaceDesc.BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
                 FObjectSurface.Unlock();
                 if (FMapWidth > 0 && FMapHeight > 0)
                 {
@@ -385,7 +383,7 @@ public partial class TScanner : TAOWControl
     public void SetLevel(TMapLevel Value)
     {
         FLevel = Value;
-        if (AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
         {
             FMapWidth = FLevel.Width - 16;
             FMapHeight = FLevel.Height - 12;
@@ -400,7 +398,7 @@ public partial class TScanner : TAOWControl
     // Scanner.pas:205
     public void SetMapWidth(int Value)
     {
-        if (AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
         {
             FMapWidth = Value - 16;
         }
@@ -413,7 +411,7 @@ public partial class TScanner : TAOWControl
     // Scanner.pas:211
     public void SetMapHeight(int Value)
     {
-        if (AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
         {
             FMapHeight = Value - 12;
         }
@@ -428,7 +426,7 @@ public partial class TScanner : TAOWControl
     public byte GetTerrain(int X, int Y)
     {
         byte Result;
-        if (AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
         {
             Result = (byte)FLevel.GetField(X + 8, Y + 6).TerrainType;
         }
@@ -449,7 +447,7 @@ public partial class TScanner : TAOWControl
     public int GetOverlay(int X, int Y)
     {
         int Result;
-        if (AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
         {
             switch (FLevel.GetField(X + 8, Y + 6).GetDecorationType())
             {
@@ -502,7 +500,7 @@ public partial class TScanner : TAOWControl
     {
         byte Result;
         TAoWMapField Field;
-        if (AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
         {
             Field = (TAoWMapField)FLevel.GetField(X + 8, Y + 6);
         }
@@ -567,7 +565,7 @@ public partial class TScanner : TAOWControl
     public int GetObject(int X, int Y)
     {
         int Result;
-        if (AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
         {
             Result = ((TAoWMapField)FLevel.GetField(X + 8, Y + 6)).GetScannerIcon();
         }
@@ -675,7 +673,7 @@ public partial class TScanner : TAOWControl
         if (FMap != null)
         {
             FLevel = FMap.MapContainer.GetMapLevel(0);
-            if (AoWHSMap.FCombatMap != null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
             {
                 FMapWidth = FLevel.Width - 16;
                 FMapHeight = FLevel.Height - 12;
@@ -1037,15 +1035,4 @@ public enum TOType : byte
     otBuilding = 0,
     otArmy = 1,
     otNatural = 2
-}
-
-public static partial class ScannerUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

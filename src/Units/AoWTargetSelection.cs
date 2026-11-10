@@ -4,8 +4,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AoWTargetSelection.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -34,8 +32,8 @@ public partial class TTargetSelectionDlg : TDataModule
     // AoWTargetSelection.pas:45
     public void CloseClick()
     {
-        General.PlayButtonSound(0);
-        AoWHSMap.FTargetSelection.Deactivate();
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.Deactivate();
     }
 
     // AoWTargetSelection.pas:51
@@ -43,8 +41,4 @@ public partial class TTargetSelectionDlg : TDataModule
     {
         CloseClick();
     }
-}
-
-public static partial class AoWTargetSelectionUnit
-{
 }

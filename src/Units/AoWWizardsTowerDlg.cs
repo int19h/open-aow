@@ -1,15 +1,25 @@
 // Translated from AoWWizardsTowerDlg.pas.
+using Aow.Game.Combat;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWWizardsTowerDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -59,13 +69,13 @@ public partial class TWizardsTowerDlg : TDataModule
             Event.Release();
         }
 
-        AoWHSMap.FTutorialControl.ShowMessage(69, true, true);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(69, true, true);
     }
 
     // AoWWizardsTowerDlg.pas:67
     public void CancelBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -73,10 +83,10 @@ public partial class TWizardsTowerDlg : TDataModule
     public void BuyBtnClick()
     {
         string Reason = "";
-        General.PlayButtonSound(0);
-        if (!FEvent.FTower.Buy(AoWHSMap.FSeatedPlayer, ref Reason))
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        if (!FEvent.FTower.Buy(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, ref Reason))
         {
-            AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
         }
         else
         {
@@ -99,7 +109,7 @@ public partial class TWizardsTowerDlg : TDataModule
         var wizardsTower = FEvent.FTower;
         if (wizardsTower.FSpellID != 0)
         {
-            S = AoWHSSet.FSpellControl.GetSpell(wizardsTower.FSpellID);
+            S = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(wizardsTower.FSpellID);
             if (S != null)
             {
                 if (S.FCastImages.GetImageSequence(10) != null)
@@ -120,8 +130,42 @@ public partial class TWizardsTowerDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWWizardsTowerDlgUnit
-{
+    internal static void ShowTower(TWizardsTowerDlg Dialog, TEnterWizardsTowerEventLog Event, TExecuteDoneEvent Done)
+    {
+        TWizardsTower Tower;
+        TSpell Spell;
+        Dialog.FOnClose = Done;
+        Dialog.FEvent = Event;
+        Dialog.FEvent.AddRef();
+        Tower = Dialog.FEvent.FTower;
+        if (Tower.FSpellID != 0)
+        {
+            var buyCost = Dialog.FEvent.FTower.BuyCost();
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ForXGoldRStr), [IntToStr(buyCost)]);
+            Dialog.PriceLbl.Text = format + ".";
+            Spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Tower.FSpellID);
+            Dialog.SpellName.Text = Spell.FSpellName;
+            var magicSphere = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
+            var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelRStr);
+            Dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
+            var castingCost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CastingCostRStr);
+            var mana = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ManaRStr);
+            Dialog.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
+            var text = Spell.FSpellText.Text;
+            Dialog.ResearchMemo.Items.Text = text;
+        }
+        else
+        {
+            Dialog.PriceLbl.Text = "";
+            var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NoneRStr);
+            Dialog.SpellName.Text = none;
+            Dialog.SpellClass.Text = "";
+            Dialog.SpellCost.Text = "";
+            Dialog.ResearchMemo.Items.Text = "";
+        }
+
+        Dialog.Dlg.Visible = true;
+    }
+
 }

@@ -893,7 +893,3 @@ public partial class TAOWPanel : TAOWBaseWindow
         set => EventSlot.Set(this, ref FOnShow, value);
     }
 }
-
-public static partial class AoWPanelUnit
-{
-}

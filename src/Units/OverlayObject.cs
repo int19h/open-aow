@@ -3,7 +3,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Engine.Storage;
 using Aow.Game.World.Terrain;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Terrain;
 
@@ -39,29 +38,8 @@ public partial class TOverlayObjectResource : TFixedILTerrainMOR
     public override int ResourceUserClassID() => 131228;
 
     // OverlayObject.pas:39
-    public override string ResourceEditName() => TranslateRStr(OverlayObjectRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TOverlayObjectResource.OverlayObjectRStr);
 
-}
+    private static readonly string OverlayObjectRStr = "Overlay Object";
 
-public static partial class OverlayObjectUnit
-{
-    // OverlayObject.pas:54
-    public static void RegisterOverlayObject(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TOverlayObject>(), EClass.Of<TOverlayObjectResource>()]);
-    }
-
-    // OverlayObject.pas:59
-    public static void UnRegisterOverlayObject(TEngine AEngine)
-    {
-        AEngine.UnregisterEClasses([EClass.Of<TOverlayObject>(), EClass.Of<TOverlayObjectResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

@@ -398,23 +398,23 @@ public partial class TCityRebelDlg : ILayoutModule
         AoWFrame1.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        RebelWin.WinManager = AoWWinManUnit.General.Manager;
-        RebelWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        RebelWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        Close.ToolTip = AoWWinManUnit.General.ToolTip;
-        Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
-        TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
-        BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        CenterBut.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        CenterBut.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        CloseBut.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        CloseBut.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        RebelBG.ImageLib = aowIntGfxModUnit.IntGfxMod.MiscArt;
-        CityNameLabel.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
-        AOWLabel2.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
-        AOWLabel3.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        AoWFrame1.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+        RebelWin.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        RebelWin.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        RebelWin.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        Title.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        Close.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
+        Close.ILIcon = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericI;
+        TitleIcon.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleIcons;
+        BCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        CenterBut.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        CenterBut.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        CloseBut.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        CloseBut.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        RebelBG.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.MiscArt;
+        CityNameLabel.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        AOWLabel2.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        AOWLabel3.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        AoWFrame1.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
     }
 
     private void Layout_RebelWinHide_0()

@@ -6,8 +6,6 @@ using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
@@ -38,7 +36,7 @@ public partial class TCombatRoad : TAbstractRoad
         TCustomImageLibrary Images;
         int X = default;
         int Y = default;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
         X = X - XhpSurf - 8;
         Y = Y - YhpSurf;
         Images = FResource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -61,7 +59,7 @@ public partial class TCombatRoad : TAbstractRoad
     }
 
     // CombatRoad.pas:54
-    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
     // CombatRoad.pas:57
     public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
@@ -111,7 +109,7 @@ public partial class TCombatRoad : TAbstractRoad
         int X = default;
         int Y = default;
         MapLevel = (TMapLevel)Owner.Owner;
-        CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, HN, ref X, ref Y);
+        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, HN, ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
         {
             Overlay = MapLevel.GetField(X, Y).OverlayType;
@@ -195,21 +193,4 @@ public partial class TCombatRoadResource : TAbstractRoadResource
     // CombatRoad.pas:136
     public override string ResourceEditName() => "Combat Road";
 
-}
-
-public static partial class CombatRoadUnit
-{
-    // CombatRoad.pas:162
-    public static void RegisterCombatRoad(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TCombatRoadResource>(), EClass.Of<TCombatRoad>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

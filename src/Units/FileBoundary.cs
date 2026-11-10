@@ -139,7 +139,7 @@ public static class FileBoundary
     /// no stored CRC, and is logged.
     /// </summary>
     public static int ImageCrc32(string fileName, GameProfile profile) =>
-        Load(fileName, profile, "crc") is { } image ? Aow.Game.Engine.Nodes.EngineUnit.GetCRC32(image, image.Length) : 0;
+        Load(fileName, profile, "crc") is { } image ? Aow.Game.Engine.Nodes.EngineServices.GetCRC32(image, image.Length) : 0;
 
     /// <summary>
     /// The four bytes at the end of the engine image, the stored CRC of a scenario set that

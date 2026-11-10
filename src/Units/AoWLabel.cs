@@ -192,7 +192,3 @@ public partial class TAOWLabel : TAOWControl
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWLabelUnit
-{
-}

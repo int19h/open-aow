@@ -3,7 +3,6 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Windows;
@@ -285,7 +284,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                                         else
                                         {
                                             var pixelFormatID = FBackSurface.GetPixelFormatID();
-                                            var color2PixelInfo = Color2PixelInfo(FMaskColor, pixelFormatID, null);
+                                            var color2PixelInfo = Aow.Game.Draw.PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
                                             FBackSurface.BltAreaColorKeyClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop, color2PixelInfo);
                                         }
 
@@ -446,11 +445,11 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                     {
                         if (FMasked == true)
                         {
-                            BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
+                            Aow.Game.Draw.TSurfaceDesc.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
                         }
                         else
                         {
-                            BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
+                            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
                         }
                     }
                     catch
@@ -595,8 +594,4 @@ public partial class TAOWBaseWindow : TAOWWindowControl
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
-}
-
-public static partial class AoWBaseWinUnit
-{
 }

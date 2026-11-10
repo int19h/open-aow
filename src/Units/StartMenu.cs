@@ -290,14 +290,3 @@ public partial class TStartMenu : TAOWMenu
         set => EventSlot.Set(this, ref FOnSelect, value);
     }
 }
-
-public static partial class StartMenuUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

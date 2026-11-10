@@ -30,20 +30,3 @@ public partial class TWorkshopResource : TCombatStructureResource
     public override string ResourceEditName() => "Combat Workshop";
 
 }
-
-public static partial class WorkShopUnit
-{
-    // WorkShop.pas:48
-    public static void RegisterWorkshop(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TWorkshopResource>(), EClass.Of<TWorkshop>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

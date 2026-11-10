@@ -3,7 +3,6 @@ using Aow.Game.Draw.Animation;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -37,23 +36,8 @@ public partial class TAltarOfPestilenceResource : TAltarResource
     // AltPest.pas:26
 
     // AltPest.pas:49
-    public override string ResourceEditName() => TranslateRStr(AltarOfPestilenceRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfPestilenceResource.AltarOfPestilenceRStr);
 
-}
+    private static readonly string AltarOfPestilenceRStr = "Altar of Pestilence";
 
-public static partial class AltPestUnit
-{
-    // AltPest.pas:58
-    public static void RegisterAltarOfPestilence(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAltarOfPestilence>(), EClass.Of<TAltarOfPestilenceResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

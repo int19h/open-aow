@@ -1037,7 +1037,3 @@ public partial class TAOWVScrollBar : TAOWScrollBar
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWVScrollUnit
-{
-}

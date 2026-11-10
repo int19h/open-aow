@@ -33,27 +33,27 @@ public sealed class RemainingConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWHSSet previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
-        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        private readonly TAoWHSSet previousSet = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TMapObjectResourceList CombatResources = new TMapObjectResourceList(null!);
 
         internal Fixture()
         {
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = null!;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FUnitGFXResources = null!;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet = set;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet = previousSet;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
         }
@@ -216,10 +216,10 @@ public sealed class RemainingConstructionTests
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
-            if (EngineUnit.Engines is null) EngineUnit.Initialize();
+            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
             using var engine = new TEngine(null!);
             var meta = EClass.Of(type);
-            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);

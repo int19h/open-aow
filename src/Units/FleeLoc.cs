@@ -6,10 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World
 {
@@ -39,8 +35,8 @@ namespace Aow.Game.World
             int Y = default;
             if (FAlpha > 0)
             {
-                HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
-                FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, AlphaBlendTable.LookupTables[FAlpha]);
+                Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+                FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[FAlpha]);
             }
         }
 
@@ -66,8 +62,8 @@ namespace Aow.Game.World
         public override void Activate()
         {
             base.Activate();
-            AoWCombatMap.NewFrameEvents += NewFrame;
-            FHighlighted = AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting);
+            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents += NewFrame;
+            FHighlighted = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting);
             if (FHighlighted)
             {
                 FAlpha = 50;
@@ -77,13 +73,13 @@ namespace Aow.Game.World
                 FAlpha = 0;
             }
 
-            AoWCombatMap.FFleeLocations.Add(this);
+            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FFleeLocations.Add(this);
         }
 
         // FleeLoc.pas:65
         public override void Deactivate()
         {
-            AoWCombatMap.NewFrameEvents -= NewFrame;
+            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents -= NewFrame;
             base.Deactivate();
         }
 
@@ -91,7 +87,7 @@ namespace Aow.Game.World
         public override bool CanSelect(int Xhp, int Yhp) => true;
 
         // FleeLoc.pas:79
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
         // FleeLoc.pas:87
         public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -108,7 +104,7 @@ namespace Aow.Game.World
                 if (OldHexagon != null)
                 {
                     OldHexagon?.Dispose();
-                    AoWHSSet.FCombatHexagons.Place(AoWCombatMap.MapContainer, Xhx, Yhx, 0, 1);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatHexagons.Place(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer, Xhx, Yhx, 0, 1);
                 }
             }
 
@@ -120,13 +116,13 @@ namespace Aow.Game.World
         {
             bool Highlight;
             Highlight = false;
-            if (AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 Highlight = true;
             }
             else
             {
-                if (AoWCombatMap.FUnitSelection.GetTCUnitHS() != null && AoWCombatMap.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == AoWCombatMap.FSeatedCombatPlayer && AoWCombatMap.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != AoWCombatMap.FCombat.FCombatData.FDefenderPlayer)
+                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.GetTCUnitHS() != null && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FDefenderPlayer)
                 {
                     Highlight = true;
                 }
@@ -207,26 +203,5 @@ namespace Aow.Game.Draw
 
         // Engine.pas:524
 
-    }
-}
-
-namespace Aow.Game.World
-{
-
-    public static partial class FleeLocUnit
-    {
-        // FleeLoc.pas:191
-        public static void RegisterFleeLocation(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TFleeLocationResource>(), EClass.Of<TFleeLocation>(), EClass.Of<TMovementHS>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

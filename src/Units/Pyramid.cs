@@ -2,7 +2,6 @@
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -28,23 +27,8 @@ public partial class TPyramidResource : TItemExplorationSiteResource
     public override int ResourceUserClassID() => 131982;
 
     // Pyramid.pas:37
-    public override string ResourceEditName() => TranslateRStr(PyramidRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TPyramidResource.PyramidRStr);
 
-}
+    private static readonly string PyramidRStr = "Pyramid";
 
-public static partial class PyramidUnit
-{
-    // Pyramid.pas:46
-    public static void RegisterPyramid(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TPyramid>(), EClass.Of<TPyramidResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

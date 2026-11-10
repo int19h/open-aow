@@ -7,8 +7,6 @@ using Aow.Game.Engine.Storage;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.Draw
 {
@@ -99,7 +97,7 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:163
-        public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+        public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
         // CombatILTer.pas:93
         public override bool CanPlaceOnHS(THexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is TAbstractRoad;
@@ -109,7 +107,7 @@ namespace Aow.Game.World.Terrain
         {
             int Xhp = default;
             int Yhp = default;
-            HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
             FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((TMapField)Owner).Xhx + (((TMapField)Owner).Yhx << 4)));
@@ -146,7 +144,7 @@ namespace Aow.Game.World.Terrain
                     DestroyShadow();
                 }
 
-                if (AoWHSMap == null || AoWHSMap.FShowUnitShadows)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap == null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowUnitShadows)
                 {
                     FShadow = new TCombatILTerrainShadow(null);
                     FShadow.FTerrain = this;
@@ -263,22 +261,5 @@ namespace Aow.Game.World.Terrain
         // CombatILTer.pas:230
         public override string ResourceEditName() => "Combat FixedILTerrain";
 
-    }
-
-    public static partial class CombatILTerUnit
-    {
-        // CombatILTer.pas:236
-        public static void RegisterCombatILTerrain(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TCombatILTerrain>(), EClass.Of<TCombatILTerrainResource>(), EClass.Of<TCombatFixedILTerrain>(), EClass.Of<TCombatFixedILTerrainResource>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

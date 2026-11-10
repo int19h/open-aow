@@ -7,7 +7,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Grids
@@ -133,8 +132,8 @@ namespace Aow.Game.Ui.Grids
             TItem Item = default;
             FStream.Clear();
             Item = new TItem(FItems);
-            AoWEngine.ActivateEObject(Item);
-            Item.Editor().Edit(Item, AoWEngine, EditItemDone);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.ActivateEObject(Item);
+            Item.Editor().Edit(Item, Aow.Game.Magic.Abilities.GameTables.AoWEngine, EditItemDone);
         }
 
         // ItemGrid.pas:265
@@ -243,20 +242,5 @@ namespace Aow.Game.Ui.Grids.ItemGrid
         public byte Kind;
         public FixedArray_byte_15 Reserved35;
         public bool Hidden;
-    }
-}
-
-namespace Aow.Game.Ui.Grids
-{
-
-    public static partial class ItemGridUnit
-    {
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

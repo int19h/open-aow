@@ -156,14 +156,3 @@ public partial class TAoWUserWindow : TAOWWindow
 }
 
 public delegate void TDrawSurfaceExEvent(TSurface Surface, ref bool Handled);
-
-public static partial class AowUserWindowUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

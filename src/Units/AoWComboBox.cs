@@ -826,7 +826,3 @@ public partial class TAOWComboBox : TAOWControl
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWComboBoxUnit
-{
-}

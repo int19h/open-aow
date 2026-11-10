@@ -502,7 +502,3 @@ public partial class TAOWButton : TAOWBaseButton
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWButtonUnit
-{
-}

@@ -2,7 +2,6 @@
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -28,23 +27,8 @@ public partial class TRuinResource : TItemExplorationSiteResource
     public override int ResourceUserClassID() => 131994;
 
     // Ruin.pas:37
-    public override string ResourceEditName() => TranslateRStr(CastleRuinRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TRuinResource.CastleRuinRStr);
 
-}
+    private static readonly string CastleRuinRStr = "Castle Ruin";
 
-public static partial class RuinUnit
-{
-    // Ruin.pas:46
-    public static void RegisterRuin(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TRuin>(), EClass.Of<TRuinResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

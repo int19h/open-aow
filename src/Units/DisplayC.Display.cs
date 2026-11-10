@@ -125,13 +125,13 @@ public partial class TCustomDisplay
             if (result < 0)
             {
                 if (previous is not null && previous.Activate(this) >= 0) FActiveDC = previous;
-                result = DisplayCUnit.DCERR_ACTIVATEFAILED;
+                result = Aow.Game.Draw.TCustomDisplay.DCERR_ACTIVATEFAILED;
             }
             else FActiveDC = dc;
             if (FActiveDC is null) return result;
             Resize();
             for (int i = 1; i <= (int)FBufferingScheme; i++)
-                if (saved[i] is not null) GFXEUnit.RemapSurface(saved[i], FActiveDC.GetSurface(i));
+                if (saved[i] is not null) Aow.Game.Draw.TCustomDisplay.RemapSurface(saved[i], FActiveDC.GetSurface(i));
             FOnActivateDC?.Invoke(this, FActiveDC);
             return result;
         }
@@ -147,7 +147,7 @@ public partial class TCustomDisplay
         PauseFrameUpdateLoop();
         try
         {
-            if (Host is null) return DisplayCUnit.DCERR_NOTACTIVATED;
+            if (Host is null) return Aow.Game.Draw.DisplayCodes.DCERR_NOTACTIVATED;
             Host.Fullscreen = !Host.Fullscreen;
             FOnSwapDC?.Invoke(FActiveDC);
             Resize();

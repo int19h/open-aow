@@ -2,7 +2,6 @@ using System.Reflection;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
-using G = Aow.Game.Draw.GFXEUnit;
 using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
 
 namespace Aow.Units.Tests;
@@ -175,11 +174,11 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Surfaces()
     {
-        yield return new object[] { (Func<TGFXEPalette, TSurface>)(palette => new TDataSurface(7, 4, G.pfPAL8, palette)), G.pfPAL8, 8 };
-        yield return new object[] { (Func<TGFXEPalette, TSurface>)(palette => new TDIB08Surface(7, 4, palette)), G.pfPAL8, 8 };
-        yield return new object[] { (Func<TGFXEPalette, TSurface>)(_ => new TDIB16Surface(7, 4, G.pfRGB555)), G.pfRGB555, 16 };
-        yield return new object[] { (Func<TGFXEPalette, TSurface>)(_ => new TDIB24Surface(7, 4)), G.pfRGB24, 24 };
-        yield return new object[] { (Func<TGFXEPalette, TSurface>)(_ => new TDIB32Surface(7, 4)), G.pfRGB32, 28 };
+        yield return new object[] { (Func<TGFXEPalette, TSurface>)(palette => new TDataSurface(7, 4, Aow.Game.Draw.PixelFormats.pfPAL8, palette)), Aow.Game.Draw.PixelFormats.pfPAL8, 8 };
+        yield return new object[] { (Func<TGFXEPalette, TSurface>)(palette => new TDIB08Surface(7, 4, palette)), Aow.Game.Draw.PixelFormats.pfPAL8, 8 };
+        yield return new object[] { (Func<TGFXEPalette, TSurface>)(_ => new TDIB16Surface(7, 4, Aow.Game.Draw.PixelFormats.pfRGB555)), Aow.Game.Draw.PixelFormats.pfRGB555, 16 };
+        yield return new object[] { (Func<TGFXEPalette, TSurface>)(_ => new TDIB24Surface(7, 4)), Aow.Game.Draw.PixelFormats.pfRGB24, 24 };
+        yield return new object[] { (Func<TGFXEPalette, TSurface>)(_ => new TDIB32Surface(7, 4)), Aow.Game.Draw.PixelFormats.pfRGB32, 28 };
     }
 
     [Theory]
@@ -190,7 +189,7 @@ public sealed class GraphicsConstructionTests
         palette.Entries[0].R = 29;
         var surface = create(palette);
         TSurfaceDesc sd = default;
-        Assert.Equal(G.GFXE_OK, surface.Lock(ref sd));
+        Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
         Assert.Equal(format, sd.PixelFormatID);
@@ -212,7 +211,7 @@ public sealed class GraphicsConstructionTests
     {
         var palette = new TGFXEPalette();
         palette.Entries[0].R = 29;
-        var surface = new TDataSurface(7, 4, G.pfPAL8, palette);
+        var surface = new TDataSurface(7, 4, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
         Assert.NotSame(palette, surface.Palette);
         Assert.Equal((byte)29, surface.Palette.Entries[0].R);
         Assert.Equal(7, surface.Width);
@@ -244,8 +243,8 @@ public sealed class GraphicsConstructionTests
         var palette = new TGFXEPalette();
         palette.Entries[0].R = 29;
         Assert.Throws<ArgumentOutOfRangeException>(() => new TDIB08Surface(-1, 4, palette));
-        Assert.Throws<ArgumentOutOfRangeException>(() => new TDIB16Surface(-1, 4, G.pfRGB555));
-        Assert.Throws<NotSupportedException>(() => new TDIB16Surface(7, 4, G.pfPAL8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new TDIB16Surface(-1, 4, Aow.Game.Draw.PixelFormats.pfRGB555));
+        Assert.Throws<NotSupportedException>(() => new TDIB16Surface(7, 4, Aow.Game.Draw.PixelFormats.pfPAL8));
         Assert.Equal((byte)29, palette.Entries[0].R);
     }
 
@@ -281,7 +280,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
         Assert.Equal(-8, sd.Pitch);
-        Assert.Equal(G.pfPAL8, sd.PixelFormatID);
+        Assert.Equal(Aow.Game.Draw.PixelFormats.pfPAL8, sd.PixelFormatID);
         Assert.Same(Field(owner, "FPalette"), sd.Palette);
         Assert.Same(owner, Field(surface, "FOwner"));
         surface.Unlock();
@@ -305,14 +304,14 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
-        using var source = new TDIB16Surface(7, 4, G.pfRGB555);
+        using var source = new TDIB16Surface(7, 4, Aow.Game.Draw.PixelFormats.pfRGB555);
         source.Cls(255);
         using var copy = new TDataSurface(source, default);
         TSurfaceDesc sd = default;
         copy.Lock(ref sd);
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
-        Assert.Equal(G.pfRGB555, sd.PixelFormatID);
+        Assert.Equal(Aow.Game.Draw.PixelFormats.pfRGB555, sd.PixelFormatID);
         Assert.Equal((ushort)0x7C00, sd.View().Word(0));
         copy.Unlock();
     }

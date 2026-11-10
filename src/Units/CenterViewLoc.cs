@@ -4,8 +4,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World;
 
@@ -20,7 +18,7 @@ public partial class TCenterViewLocation : TMapObject
     // CenterViewLoc.pas:80
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
     {
-        if (AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
+        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -32,12 +30,12 @@ public partial class TCenterViewLocation : TMapObject
         base.Activate();
         if (!GetEditMode())
         {
-            if (AoWCombatMap.FCenterViewLocation != null)
+            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCenterViewLocation != null)
             {
-                AoWCombatMap.FCenterViewLocation?.Dispose();
+                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCenterViewLocation?.Dispose();
             }
 
-            AoWCombatMap.FCenterViewLocation = this;
+            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCenterViewLocation = this;
         }
     }
 
@@ -47,9 +45,9 @@ public partial class TCenterViewLocation : TMapObject
         base.Deactivate();
         if (!GetEditMode())
         {
-            if (AoWCombatMap.FCenterViewLocation == this)
+            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCenterViewLocation == this)
             {
-                AoWCombatMap.FCenterViewLocation = null;
+                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCenterViewLocation = null;
             }
         }
     }
@@ -58,7 +56,7 @@ public partial class TCenterViewLocation : TMapObject
     public override bool CanSelect(int Xhp, int Yhp) => true;
 
     // CenterViewLoc.pas:49
-    public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
     // CenterViewLoc.pas:52
     public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -94,21 +92,4 @@ public partial class TCenterViewLocationResource : TMapObjectResource
     // CenterViewLoc.pas:99
     public override string ResourceEditName() => "Center View Location";
 
-}
-
-public static partial class CenterViewLocUnit
-{
-    // CenterViewLoc.pas:105
-    public static void RegisterCenterViewLocation(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TCenterViewLocationResource>(), EClass.Of<TCenterViewLocation>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

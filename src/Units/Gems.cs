@@ -9,8 +9,6 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Game.Audio.SoundUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
@@ -45,7 +43,7 @@ public partial class TGems : TILTerrainMO
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && AoWHSMap.FDay == 1)
+        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 1)
         {
             GenerateGemsAmount();
         }
@@ -85,19 +83,19 @@ public partial class TGems : TILTerrainMO
     {
         if (FGenerateMode == TGemsGenerateMode.gmRandom)
         {
-            FGenerateMode = (TGemsGenerateMode)(AoWHSMap.Random(3) + 1);
+            FGenerateMode = (TGemsGenerateMode)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(3) + 1);
         }
 
         switch (FGenerateMode)
         {
             case TGemsGenerateMode.gmLow:
-                FAmount = AoWHSMap.Random(25) + 25;
+                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(25) + 25;
                 break;
             case TGemsGenerateMode.gmNormal:
-                FAmount = AoWHSMap.Random(25) + 50;
+                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(25) + 50;
                 break;
             case TGemsGenerateMode.gmHigh:
-                FAmount = AoWHSMap.Random(50) + 100;
+                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(50) + 100;
                 break;
         }
     }
@@ -128,34 +126,38 @@ public partial class TGems : TILTerrainMO
         TLocationTextEventLog Event;
         if (ArmyHS.FArmy.FPlayer != 0)
         {
-            bool condition = AoWHSMap.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
+            bool condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
+                condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
             {
-                PlaySample("SFX\\EVENTS\\GOLD.WAV");
+                Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
-            var player = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
             player.SetGems(player.FGems + FAmount);
 
             Event = new TLocationTextEventLog(null);
             Event.FPlayer = ArmyHS.FArmy.FPlayer;
-            Event.FText = RtlUnit.Format(TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
+            Event.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TGems.GoldFoundRStr), [IntToStr(FAmount)]);
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             Event.SetLocation(GetXhx(), yhx2, lhx2);
-            AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
             Event.Release();
             Dispose();
         }
     }
+
+    private static readonly string GoldFoundRStr = "%s gold pieces found";
+
+    // Gems.pas:24
 
     // Gems.pas:24
 
@@ -173,7 +175,9 @@ public partial class TGemsResource : TILTerrainMOR
     public override int ResourceUserClassID() => 132014;
 
     // Gems.pas:134
-    public override string ResourceEditName() => TranslateRStr(GoldRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TGemsResource.GoldRStr);
+
+    private static readonly string GoldRStr = "Gold";
 
 }
 
@@ -184,21 +188,4 @@ public enum TGemsGenerateMode : byte
     gmNormal = 2,
     gmHigh = 3,
     gmRandom = 4
-}
-
-public static partial class GemsUnit
-{
-    // Gems.pas:143
-    public static void RegisterGems(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TGems>(), EClass.Of<TGemsResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

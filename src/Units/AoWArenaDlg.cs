@@ -10,10 +10,6 @@ using Aow.Game.Units;
 using Aow.Rtl;
 // Translated from AoWArenaDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -67,9 +63,9 @@ public partial class TArenaDlg : TDataModule
             var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = U.GetAlignment();
-            if ((byte)Alignment < aowIntGfxModUnit.IntGfxMod.UnitBGs.Count)
+            if ((byte)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
             {
-                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -79,16 +75,16 @@ public partial class TArenaDlg : TDataModule
             U.ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
             {
-                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[7];
+                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
             SD.ClipRect = SaveRect;
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) != 0)
             {
-                AoWExeFormsUnit.FontModule.Age8.Color = 0;
+                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.Color = 0;
                 var unitTrainCost = FEvent.FArena.UnitTrainCost(U);
-                AoWExeFormsUnit.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
+                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
             }
         }
     }
@@ -98,7 +94,7 @@ public partial class TArenaDlg : TDataModule
     {
         TEnterArenaEventLog Event;
         TExecuteDoneEvent Notify;
-        General.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         Notify = FOnClose;
         Event = FEvent;
         FOnClose = null;
@@ -117,7 +113,7 @@ public partial class TArenaDlg : TDataModule
     // AoWArenaDlg.pas:152
     public void CloseClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -125,14 +121,14 @@ public partial class TArenaDlg : TDataModule
     public void SelectBtnClick()
     {
         string Reason = "";
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FEvent.Train(ref Reason))
         {
             Dlg.Visible = false;
         }
         else
         {
-            AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
         }
     }
 
@@ -161,11 +157,11 @@ public partial class TArenaDlg : TDataModule
         {
             if (Sender.Checked)
             {
-                General.PlayButtonSound(1);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
             }
             else
             {
-                General.PlayButtonSound(2);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
             }
         }
 
@@ -214,7 +210,7 @@ public partial class TArenaDlg : TDataModule
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         var yhx = FEvent.FArena.GetYhx();
-        HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -227,19 +223,19 @@ public partial class TArenaDlg : TDataModule
             Y = 16;
         }
 
-        CreateSDfromSD(SD, R, ref MapSD);
+        Aow.Game.Draw.TSurfaceDesc.CreateSDfromSD(SD, R, ref MapSD);
         var lhx = FEvent.FArena.GetLhx();
-        AoWHSMap.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
-        AoWHSMap.UpdateStaticScene();
-        AoWHSMap.UpdateDynamicScene();
-        AoWHSMap.DrawStaticScene(ref MapSD);
-        AoWHSMap.DrawDynamicScene(ref MapSD);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateStaticScene();
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateDynamicScene();
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DrawStaticScene(ref MapSD);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DrawDynamicScene(ref MapSD);
     }
 
     // AoWArenaDlg.pas:224
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame & 1) != 0;
     }
 
     // AoWArenaDlg.pas:229
@@ -255,24 +251,19 @@ public partial class TArenaDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWArenaDlgUnit
-{
-    // AoWArenaDlg.pas:90
-    public static void ShowArena(TArenaDlg Dialog, TEnterArenaEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowArena(TArenaDlg Dialog, TEnterArenaEventLog Event, TExecuteDoneEvent Done)
     {
         Assert(Dialog.FEvent == null, "", "AoWArenaDlg.pas", 94);
-        ResetArena(Dialog);
+        Aow.Game.Ui.Dialogs.TArenaDlg.ResetArena(Dialog);
         Dialog.FOnClose = Done;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
-        General.Manager.OverlayPriority = 49;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
         Dialog.Dlg.Visible = true;
     }
 
-    // AoWArenaDlg.pas:238
-    public static void ResetArena(TArenaDlg Dialog)
+    internal static void ResetArena(TArenaDlg Dialog)
     {
         Dialog.U1.Checked = false;
         Dialog.U2.Checked = false;
@@ -284,4 +275,5 @@ public static partial class AoWArenaDlgUnit
         Dialog.U8.Checked = false;
         Dialog.SelectionInfoLbl.Text = "";
     }
+
 }

@@ -27,31 +27,31 @@ public sealed class UiConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
-        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
-        private readonly Aow.Game.Combat.TAoWCombatMap previousCombat = Aow.Game.Combat.AoWTCUnit.AoWCombatMap;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        private readonly Aow.Game.Combat.TAoWCombatMap previousCombat = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
         private readonly EventStore<THSMap> loaded;
         private readonly EventStore<THSMap> closed;
 
         internal Fixture()
         {
-            if (EngineUnit.Engines is null) EngineUnit.Initialize();
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = EngineFixture.Engine;
-            loaded = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMLoadedStore;
-            closed = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMCloseStore;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMLoadedStore = new EventStore<THSMap>();
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMCloseStore = new EventStore<THSMap>();
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
-            Aow.Game.Combat.AoWTCUnit.AoWCombatMap = null!;
+            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+            loaded = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore;
+            closed = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = new EventStore<THSMap>();
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = new EventStore<THSMap>();
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
+            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = null!;
         }
 
         public void Dispose()
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMLoadedStore = loaded;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMCloseStore = closed;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
-            Aow.Game.Combat.AoWTCUnit.AoWCombatMap = previousCombat;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = loaded;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = closed;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
+            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = previousCombat;
         }
     }
 
@@ -279,7 +279,7 @@ public sealed class UiConstructionTests
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            states.Add("subscriptions:" + Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMLoadedStore.Count + ":" + Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FOnHSMCloseStore.Count);
+            states.Add("subscriptions:" + Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore.Count + ":" + Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore.Count);
             string actual = string.Join("\n", states);
             string key = name + ".owner" + owned;
             ConstructionSnapshot.Check("UiConstruction", key, actual);

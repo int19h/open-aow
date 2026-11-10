@@ -179,7 +179,7 @@ namespace Aow.Game.Commands
     public partial class TTokenEvent : TEObject
     {
         // NetworkE.pas:950
-        public new const int ClassID = NetworkEUnit.CID_TokenEvent;
+        public new const int ClassID = Aow.Game.Commands.TTokenEvent.CID_TokenEvent;
 
         public TTokenEvent(TECustomNode owner) : base(owner)
         {
@@ -230,6 +230,8 @@ namespace Aow.Game.Commands
 
         public int TokenCounter { get => FTokenCounter; set => FTokenCounter = value; }
 
+        private const short CID_TokenEvent = 1361;
+
     }
 }
 
@@ -240,7 +242,7 @@ namespace Aow.Game.Net
     public partial class TTokenEventList : TEObject
     {
         // NetworkE.pas:995
-        public new const int ClassID = NetworkEUnit.CID_TokenEventList;
+        public new const int ClassID = Aow.Game.Net.TTokenEventList.CID_TokenEventList;
 
         internal TEReferenceNode FList;
 
@@ -322,7 +324,7 @@ namespace Aow.Game.Net
         // NetworkE.pas:1056
         public void SortOnTokenCounter()
         {
-            FList.FChildren.Sort(NetworkEUnit.CompareTokenCounter);
+            FList.FChildren.Sort(Aow.Game.Net.TTokenEventList.CompareTokenCounter);
         }
 
         // NetworkE.pas:1061
@@ -359,6 +361,13 @@ namespace Aow.Game.Net
         public int Count { get => GetCount(); }
 
         public TTokenEvent this[int Index] { get => GetEvent(Index); }
+
+        private const short CID_TokenEventList = 1362;
+
+        private static int CompareTokenCounter(object Item1, object Item2)
+        {
+            return ((global::Aow.Game.Commands.TTokenEvent)Item1).FTokenCounter - ((global::Aow.Game.Commands.TTokenEvent)Item2).FTokenCounter;
+        }
 
     }
 
@@ -484,7 +493,7 @@ namespace Aow.Game.Net
         {
             if (Local() && !Global() && Events.Count != 0)
             {
-                FTokenManager.FTokenPackageDistributer.SendTokenEvents(FPlayer, NetworkEUnit.AllPlayers, Events);
+                FTokenManager.FTokenPackageDistributer.SendTokenEvents(FPlayer, Aow.Game.Net.NetworkSession.AllPlayers, Events);
             }
         }
 
@@ -589,7 +598,7 @@ namespace Aow.Game.Net
                 while (InOrder && !PassToken && I < FEvents.Count)
                 {
                     InOrder = FEvents[I].FTokenCounter == Executer.FTokenCounter + I;
-                    PassToken = FEvents[I].EClass.ClassID == NetworkEUnit.CID_PassTokenTE;
+                    PassToken = FEvents[I].EClass.ClassID == Aow.Game.Net.NetworkSession.CID_PassTokenTE;
                     I += 1;
                 }
 
@@ -1599,7 +1608,7 @@ namespace Aow.Game.Net
         {
             bool Result;
             int SystemID;
-            if (APlayer == NetworkEUnit.AllPlayers)
+            if (APlayer == Aow.Game.Net.NetworkSession.AllPlayers)
             {
                 SystemID = 0;
             }
@@ -1618,7 +1627,7 @@ namespace Aow.Game.Net
                 Result = true;
             }
 
-            if (APlayer == NetworkEUnit.AllPlayers || SystemID == FLocalSystemID)
+            if (APlayer == Aow.Game.Net.NetworkSession.AllPlayers || SystemID == FLocalSystemID)
             {
                 FPackageDataList.Add(Stream);
             }
@@ -1770,7 +1779,7 @@ namespace Aow.Game.Net
     public partial class TTokenPackage : TDataPackage
     {
         // NetworkE.pas:1100
-        public new const int ClassID = NetworkEUnit.CID_TokenPackage;
+        public new const int ClassID = Aow.Game.Net.TTokenPackage.CID_TokenPackage;
 
         internal TTokenEventList FTokenEvents;
 
@@ -1795,6 +1804,8 @@ namespace Aow.Game.Net
         }
 
         public TTokenEventList TokenEvents { get => FTokenEvents; }
+
+        private const short CID_TokenPackage = 1360;
 
     }
 
@@ -1892,7 +1903,7 @@ namespace Aow.Game.Commands
     // ends the turn of the token control that prefetched it
     public partial class TPassTokenTE : TTokenEvent
     {
-        public new const int ClassID = NetworkEUnit.CID_PassTokenTE;
+        public new const int ClassID = Aow.Game.Net.NetworkSession.CID_PassTokenTE;
 
         public TPassTokenTE(TECustomNode owner) : base(owner)
         { }
@@ -1903,7 +1914,7 @@ namespace Aow.Game.Commands
     // execution triggers OnSyncError
     public partial class TSyncTE : TTokenEvent
     {
-        public new const int ClassID = NetworkEUnit.CID_SyncTE;
+        public new const int ClassID = Aow.Game.Commands.TSyncTE.CID_SyncTE;
 
         public TSyncTE(TECustomNode owner) : base(owner)
         { }
@@ -1931,46 +1942,7 @@ namespace Aow.Game.Commands
 
         public int SyncValue { get => FSyncValue; set => FSyncValue = value; }
 
-    }
-}
+        private const short CID_SyncTE = 1365;
 
-namespace Aow.Game.Net
-{
-
-    public static partial class NetworkEUnit
-    {
-        // The NetworkE unit of Network.dpl (the network message layer of Age of Wonders: the player
-        // communication controls that move data packages between the players' systems, and the
-        // token system that orders the game's token events and executes them on every system in the
-        // same order). A data package travels as a stored TEObject:
-        // TPlayerCommunicator.SendDataPackage stores it in a memory stream with
-        // TEngine.StoreEObject and hands the stream to the active player communication control
-        // (TLocalPCC queues it for itself, TRemotePCC sends it through OnSendData to every other
-        // system). TPlayerCommunicator.Process retrieves the packages that arrived and triggers
-        // OnReceive. The token manager keeps one token control per player. the token executer
-        // activates them in turn, lets the active one prefetch its events (a local player sends
-        // them to the others in a token package, a TPassTokenTE ends the turn of the token) and
-        // executes them in token counter order
-        // { TRemotePCC.SendPackageData / TTokenControl.TokenEventsPrefetched: the package goes to every
-        //     player }
-        public const int AllPlayers = 32768;
-        // { Class IDs }
-        public const short CID_TokenPackage = 1360;
-        public const short CID_TokenEvent = 1361;
-        public const short CID_TokenEventList = 1362;
-        public const short CID_PassTokenTE = 1364;
-        public const short CID_SyncTE = 1365;
-
-        // NetworkE.pas:1751
-        public static void RegisterNetworkEngine(TEngine AEngine)
-        {
-            NetworkEngineDID = AEngine.RegisterDebugID("Network Engine");
-            AEngine.RegisterEClasses([EClass.Of<TTokenPackage>(), EClass.Of<TPassTokenTE>(), EClass.Of<TSyncTE>()]);
-        }
-
-        public static int NetworkEngineDID;
-
-        // NetworkE.pas:1051
-        public static int CompareTokenCounter(object Item1, object Item2) => ((TTokenEvent)Item1).FTokenCounter - ((TTokenEvent)Item2).FTokenCounter;
     }
 }

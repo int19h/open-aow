@@ -13,8 +13,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
@@ -95,9 +93,9 @@ public partial class TExplorationSite : TStructure
         bool Result;
         int Xhx = default;
         int Yhx = default;
-        if (!AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+        if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
         {
-            HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             if (((TMapField)Owner).Xhx == Xhx && ((TMapField)Owner).Yhx == Yhx)
             {
                 Result = base.CanSelect(Xhp, Yhp);
@@ -120,7 +118,7 @@ public partial class TExplorationSite : TStructure
     {
         int Result;
         int Image;
-        if (!GetExplored() || AoWHSMap.FDay == 0)
+        if (!GetExplored() || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 0)
         {
             Result = TerrainType;
         }
@@ -163,7 +161,7 @@ public partial class TExplorationSite : TStructure
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.FDay == 1 && FDefendersMode != TDefendersMode.dmUserDefined)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 1 && FDefendersMode != TDefendersMode.dmUserDefined)
         {
             GenerateDefenders();
         }
@@ -223,8 +221,8 @@ public partial class TExplorationSite : TStructure
             {
                 if (CombatType == TCombatType.ctFast)
                 {
-                    AoWHSMap.LockGameOverEvent();
-                    Combat = AoWHSMap.CreateCombat(131760);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.LockGameOverEvent();
+                    Combat = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CreateCombat(131760);
                     SetupCombat(Combat, ArmyHS);
                     Combat.LockExecuted();
                     Combat.Initialize();
@@ -236,20 +234,20 @@ public partial class TExplorationSite : TStructure
                     Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
                     Event = new TCombatEventLog(null);
                     Event.SetCombatLogbook(Combat.FLogbook);
-                    AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
-                    if (AoWHSMap.FSeatedPlayer == Player && AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman)
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman)
                     {
                         Event.Execute(false, TExecuteTrigger.etEvent, null);
                     }
 
                     Event.Release();
                     Combat.UnlockExecuted();
-                    AoWHSMap.DestroyCombat();
-                    AoWHSMap.UnlockGameOverEvent();
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DestroyCombat();
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UnlockGameOverEvent();
                 }
                 else
                 {
-                    Combat = AoWHSMap.CreateCombat(2228496);
+                    Combat = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CreateCombat(2228496);
                     SetupCombat(Combat, ArmyHS);
                     Combat.Initialize();
                     Combat.Activate();
@@ -261,14 +259,14 @@ public partial class TExplorationSite : TStructure
                         Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
                         Event = new TCombatEventLog(null);
                         Event.SetCombatLogbook(Combat.FLogbook);
-                        AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
-                        if (AoWHSMap.FSeatedPlayer == Player && AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman)
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
+                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman)
                         {
                             Event.Execute(false, TExecuteTrigger.etEvent, null);
                         }
 
                         Event.Release();
-                        AoWHSMap.DestroyCombat();
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DestroyCombat();
                     }
                 }
             }
@@ -293,8 +291,8 @@ public partial class TExplorationSite : TStructure
         ArmyHS = (TArmyHS)Owner.FindOwnedChild(131607);
         if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
         {
-            var playerList = AoWHSMap.FPlayers;
-            if (playerList.FLocalPlayers.Count == 1 || AoWHSMap.FRequestCombatType)
+            var playerList = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers;
+            if (playerList.FLocalPlayers.Count == 1 || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRequestCombatType)
             {
                 Request = new TCombatTypeRequestEventLog(null);
                 var lhx = GetLhx();
@@ -302,7 +300,7 @@ public partial class TExplorationSite : TStructure
                 Request.SetCenterLocation((byte)GetXhx(), (byte)yhx, lhx);
                 Request.FPlayer = ArmyHS.FArmy.FPlayer;
                 Request.FDefenderPlayer = 0;
-                AoWHSMap.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
                 Request.Release();
                 Result = true;
             }
@@ -314,7 +312,7 @@ public partial class TExplorationSite : TStructure
                     SetupTE(TE);
                     TE.FAction = 0;
                     TE.FParam = 1;
-                    AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
                     TE.Release();
                     Result = true;
                 }
@@ -373,7 +371,7 @@ public partial class TExplorationSite : TStructure
             SetupTE(TE);
             TE.FAction = 0;
             TE.FParam = (int)combatTypeRequestEventLog.FCombatType;
-            AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
             TE.Release();
         }
     }
@@ -409,7 +407,7 @@ public partial class TExplorationSite : TStructure
         int Collection;
         TUnitIndexList List;
         TUnitIndexListCollection Collections;
-        RandSeed = AoWHSMap.FDefendersSeed;
+        RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDefendersSeed;
         if (FDefendersMode == TDefendersMode.dmRandom)
         {
             FDefendersMode = (TDefendersMode)(Random(3) + 1);
@@ -427,7 +425,7 @@ public partial class TExplorationSite : TStructure
 
             try
             {
-                FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature, TUnitType.utMachine));
+                Aow.Game.Engine.Collections.TIntegerList.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature, TUnitType.utMachine));
             }
             catch
             {
@@ -489,21 +487,4 @@ public enum TDefendersMode : byte
     dmNormal = 2,
     dmHigh = 3,
     dmRandom = 4
-}
-
-public static partial class ExploreSUnit
-{
-    // ExploreS.pas:385
-    public static void RegisterExplorationSite(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TExplorationSite>(), EClass.Of<TExplorationSiteResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

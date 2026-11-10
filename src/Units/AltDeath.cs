@@ -3,7 +3,6 @@ using Aow.Game.Draw.Animation;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -37,23 +36,8 @@ public partial class TAltarOfDeathResource : TAltarResource
     // AltDeath.pas:26
 
     // AltDeath.pas:49
-    public override string ResourceEditName() => TranslateRStr(AltarOfDeathRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfDeathResource.AltarOfDeathRStr);
 
-}
+    private static readonly string AltarOfDeathRStr = "Altar of Death";
 
-public static partial class AltDeathUnit
-{
-    // AltDeath.pas:58
-    public static void RegisterAltarOfDeath(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAltarOfDeath>(), EClass.Of<TAltarOfDeathResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

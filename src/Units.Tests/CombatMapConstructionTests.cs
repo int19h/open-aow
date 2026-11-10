@@ -6,7 +6,6 @@ using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Combat = Aow.Game.Combat.AoWTCUnit;
 
 namespace Aow.Units.Tests;
 
@@ -21,7 +20,7 @@ public sealed class CombatMapConstructionTests
         public override int AddChild(TEObject child)
         {
             base.AddChild(child);
-            PublishedAtInsertion.Add(ReferenceEquals(Combat.AoWCombatMap, child));
+            PublishedAtInsertion.Add(ReferenceEquals(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap, child));
             if (reject) throw new InvalidDataException("owner rejects after insertion");
             return Members.Count - 1;
         }
@@ -34,7 +33,7 @@ public sealed class CombatMapConstructionTests
     [Fact]
     public void RoutesStateOwnerPublicationOffsetsAndFixtureFailuresMatchBaseCommit()
     {
-        var previous = Combat.AoWCombatMap;
+        var previous = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
         var actual = new JsonObject();
         bool plain = typeof(TAoWCombatMap).GetConstructor([typeof(TECustomNode)]) is not null;
         try
@@ -46,9 +45,9 @@ public sealed class CombatMapConstructionTests
                         using var fixture = new OrderingRecording.Fixture(typeof(TAoWCombatMap));
                         var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
                         entry.FImageLibrary = new TImageLibrary(null!);
-                        var set = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
-                        if (failure == 2) Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = null!;
-                        Combat.AoWCombatMap = null!;
+                        var set = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
+                        if (failure == 2) Aow.Game.Engine.TAoWHSSet.AoWHSSet = null!;
+                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = null!;
                         var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
                         TAoWCombatMap? value = null;
                         System.Exception? caught = null;
@@ -57,9 +56,9 @@ public sealed class CombatMapConstructionTests
                             value = Assert.IsType<TAoWCombatMap>(OrderingRecording.Create(typeof(TAoWCombatMap), owner, route, fixture.Engine));
                         }
                         catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { caught = error; }
-                        finally { Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set; }
+                        finally { Aow.Game.Engine.TAoWHSSet.AoWHSSet = set; }
                         Assert.Equal(failure == 0, value is not null);
-                        var published = Combat.AoWCombatMap;
+                        var published = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
                         Assert.NotNull(published);
                         if (owner is not null) Assert.Equal([true], owner.PublishedAtInsertion);
                         int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TAoWCombatMap) && x.GetMethod()?.Name == "Dispose");
@@ -84,7 +83,7 @@ public sealed class CombatMapConstructionTests
                             Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
                             value.SetOwner(null!);
                             value.Dispose();
-                            Assert.Null(Combat.AoWCombatMap);
+                            Assert.Null(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap);
                             Assert.Equal(0, entry.RefCount);
                         }
                         else
@@ -120,6 +119,6 @@ public sealed class CombatMapConstructionTests
                 Assert.True(JsonNode.DeepEquals(baseline, pair.Value), pair.Key + "\n" + pair.Value);
             }
         }
-        finally { Combat.AoWCombatMap = previous; }
+        finally { Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = previous; }
     }
 }

@@ -11,7 +11,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units
@@ -81,7 +80,7 @@ namespace Aow.Game.World.Structures
         public override void NewDay()
         {
             base.NewDay();
-            if (AoWHSMap.FDay == 1)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 1)
             {
                 Generate();
             }
@@ -108,7 +107,7 @@ namespace Aow.Game.World.Structures
                 Army = (TArmyHS)Owner.FindOwnedChild(131607);
                 Log = new TItemExplorationSiteEventLog(null);
                 Log.FPlayer = Army.FArmy.FPlayer;
-                Log.FTitle = TranslateRStr(ItemsFoundRStr);
+                Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TItemExplorationSite.ItemsFoundRStr);
                 var xhx = GetXhx();
                 Log.FLocation.X = xhx;
                 var yhx = GetYhx();
@@ -122,11 +121,11 @@ namespace Aow.Game.World.Structures
                     var lhx2 = GetLhx();
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    Item.PlaceOnMap(AoWHSMap, xhx2, yhx2, lhx2);
+                    Item.PlaceOnMap(Aow.Game.World.Map.TAoWHSMap.AoWHSMap, xhx2, yhx2, lhx2);
                 }
 
                 // { Original parses the formatted text as CSV. }
-                var itemsExplored = TranslateRStr(ItemsExploredRStr);
+                var itemsExplored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TItemExplorationSite.ItemsExploredRStr);
                 var resourceEditName = FResource.ResourceEditName();
                 var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
                 Log.FMessages.CommaText = format;
@@ -142,16 +141,16 @@ namespace Aow.Game.World.Structures
             TItem Item;
             if (FItemCount != 0)
             {
-                RandSeed = AoWHSMap.Random(16777215);
+                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
                 if (FItemCount == 4)
                 {
-                    FItemCount = (byte)(AoWHSMap.Random(3) + 1);
+                    FItemCount = (byte)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(3) + 1);
                 }
 
                 FItems.Clear();
                 for (int itemOrdinal = 1, last = FItemCount; itemOrdinal <= last; itemOrdinal++)
                 {
-                    Item = AoWHSMap.FItemControl.GenerateItem(itAll, 0, 65535);
+                    Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.GenerateItem(Aow.Game.World.Structures.TItemExplorationSite.itAll, 0, 65535);
                     if (Item != null)
                     {
                         Item.Owner = FItems;
@@ -159,6 +158,12 @@ namespace Aow.Game.World.Structures
                 }
             }
         }
+
+        private static readonly string ItemsExploredRStr = "\"From the %s\",\"you recovered the following items:\"";
+        private static readonly string ItemsFoundRStr = "Items Found";
+        private static TSet<global::Aow.Game.Units.TItemType> itAll = TSet<global::Aow.Game.Units.TItemType>.FromMask(127uL);
+
+        // ItemExpS.pas:32
 
         // ItemExpS.pas:32
 
@@ -217,22 +222,5 @@ namespace Aow.Game.World.Structures
         // ItemExpS.pas:212
         public new const int ClassID = 132084;
 
-    }
-
-    public static partial class ItemExpSUnit
-    {
-        // ItemExpS.pas:215
-        public static void RegisterItemExplorationSite(TEngine Engine)
-        {
-            Engine.RegisterEClasses([EClass.Of<TItemExplorationSiteEventLog>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

@@ -1,5 +1,4 @@
 using Aow.Game.Session;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -9,8 +8,8 @@ public partial class TTBWindow
     public void UpdatePlayerIndicator()
     {
         int count = 0;
-        for (int i = 0; i < AoWHSMap.FPlayers.GetCount(); i++)
-            if (AoWHSMap.FPlayers.GetPlayers(i).FStatus == TPlayerStatus.psPlaying) count++;
+        for (int i = 0; i < Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount(); i++)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(i).FStatus == TPlayerStatus.psPlaying) count++;
         PInd.WinWidth = count * 5 + 4;
         PInd.FAligned = false;
         TBMessEdit.Alignment.RightOffset = PInd.WinWidth + 278;
@@ -20,7 +19,7 @@ public partial class TTBWindow
     // The companion routine at sizes the tactical indicator and message field
     public void UpdateCombatPlayerIndicator()
     {
-        int count = Aow.Game.Combat.AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count;
+        int count = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FTurnOrder.Count;
         TCPInd.WinWidth = count * 5 + 4;
         TCPInd.FAligned = false;
         TCMsg.Alignment.RightOffset = TCPInd.WinWidth + 278;

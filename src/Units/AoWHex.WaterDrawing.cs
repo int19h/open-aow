@@ -7,8 +7,6 @@ using Aow.Game.World.Map;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 namespace Aow.Game.World.Hexes;
 
 public partial class TAoWWaterHexagon
@@ -24,11 +22,11 @@ public partial class TAoWWaterHexagon
         TImageSequence Sequence;
         int Image;
         bool Showing;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         // { Original uses the shared engine settings and the Flood enchantment. }
-        if (AoWEngine.FAnimationDetail != 0 && (((((TAoWMapField)Owner).FFieldFlags >> 16) & 255) != 0 || !((TAbstractAoWHSMap)((TMapLevel)Owner.Owner).Map).FFogEnabled))
+        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0 && (((((TAoWMapField)Owner).FFieldFlags >> 16) & 255) != 0 || !((TAbstractAoWHSMap)((TMapLevel)Owner.Owner).Map).FFogEnabled))
         {
             FAnimationFrame = (sbyte)(FAnimationFrame + 1);
             if (FAnimationFrame >= 0)
@@ -37,9 +35,9 @@ public partial class TAoWWaterHexagon
                 if (FAnimationFrame == 0)
                 {
                     // { Original tests the Flood enchantment. }
-                    if (AoWHSMap.FGlobalMagicControl.FActiveEnchantments.Contains(TGlobalEnchantmentType.getFlood))
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.FActiveEnchantments.Contains(TGlobalEnchantmentType.getFlood))
                     {
-                        if (FOpenSides == 0 && Random(300) == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+                        if (FOpenSides == 0 && Random(300) == 0 && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                         {
                             FAnimationIndex = (byte)(Random(10) + 30);
                         }
@@ -57,7 +55,7 @@ public partial class TAoWWaterHexagon
                     }
                     else
                     {
-                        if (FOpenSides == 0 && Random(700) == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+                        if (FOpenSides == 0 && Random(700) == 0 && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                         {
                             FAnimationIndex = (byte)(Random(10) + 30);
                         }
@@ -89,7 +87,7 @@ public partial class TAoWWaterHexagon
 
                 if (!Showing)
                 {
-                    if (AoWEngine.FAnimationDetail == 1)
+                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail == 1)
                     {
                         FAnimationFrame = (sbyte)(-20 - Random(25));
                     }

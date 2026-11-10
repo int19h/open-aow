@@ -3,7 +3,6 @@ using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Map;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Hexes;
 
@@ -48,7 +47,7 @@ public partial class TBorderHexagon : TAbstractBorderHexagon
     {
         int Xhp = default;
         int Yhp = default;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         FResource.ImageLibrary[0].Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
     }
 
@@ -86,13 +85,4 @@ public partial class TBorderHexagonResource : TAbstractBorderHexagonResource
     // BorderHx.pas:107
     public override string ResourceEditName() => "Border Hexagon";
 
-}
-
-public static partial class BorderHxUnit
-{
-    // BorderHx.pas:117
-    public static void RegisterBorderHexagon(TEngine Engine)
-    {
-        Engine.RegisterEClasses([EClass.Of<TBorderHexagon>(), EClass.Of<TBorderHexagonResource>()]);
-    }
 }

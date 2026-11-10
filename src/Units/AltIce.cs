@@ -3,7 +3,6 @@ using Aow.Game.Draw.Animation;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -37,23 +36,8 @@ public partial class TAltarOfIceResource : TAltarResource
     // AltIce.pas:26
 
     // AltIce.pas:49
-    public override string ResourceEditName() => TranslateRStr(AltarOfIceRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfIceResource.AltarOfIceRStr);
 
-}
+    private static readonly string AltarOfIceRStr = "Altar of Ice";
 
-public static partial class AltIceUnit
-{
-    // AltIce.pas:58
-    public static void RegisterAltarOfIce(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAltarOfIce>(), EClass.Of<TAltarOfIceResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

@@ -4,7 +4,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Map;
 using Aow.Platform;
 using Sample = Aow.Game.Audio.TSample;
-using SoundApi = Aow.Game.Audio.SoundUnit;
 
 namespace Aow.Units.Tests;
 
@@ -89,30 +88,30 @@ public sealed class MapNetSoundDispatchTests
 
     private sealed class SoundState : IDisposable
     {
-        private readonly TSampleList samples = SoundApi.SampleList;
-        private readonly TSampleDataList data = SoundApi.SampleDataList;
-        private readonly TSoundSystemList systems = SoundApi.SoundSystems;
-        private readonly TSoundSystem system = SoundApi.SoundSystem;
-        private readonly TSongPlayer songs = SoundApi.SongPlayer;
+        private readonly TSampleList samples = Aow.Game.Audio.AudioHost.SampleList;
+        private readonly TSampleDataList data = Aow.Game.Audio.AudioHost.SampleDataList;
+        private readonly TSoundSystemList systems = Aow.Game.Audio.AudioHost.SoundSystems;
+        private readonly TSoundSystem system = Aow.Game.Audio.AudioHost.SoundSystem;
+        private readonly TSongPlayer songs = Aow.Game.Audio.AudioHost.SongPlayer;
 
         internal SoundState()
         {
-            SoundApi.SampleList = new TSampleList();
-            SoundApi.SampleDataList = new TSampleDataList();
-            SoundApi.SoundSystems = new TSoundSystemList();
-            SoundApi.SoundSystem = null!;
-            SoundApi.SongPlayer = null!;
+            Aow.Game.Audio.AudioHost.SampleList = new TSampleList();
+            Aow.Game.Audio.AudioHost.SampleDataList = new TSampleDataList();
+            Aow.Game.Audio.AudioHost.SoundSystems = new TSoundSystemList();
+            Aow.Game.Audio.AudioHost.SoundSystem = null!;
+            Aow.Game.Audio.AudioHost.SongPlayer = null!;
             TSdlSoundSystem.Install(mute: true, audioOutput: false);
         }
 
         public void Dispose()
         {
-            SoundApi.ReleaseSoundSystem();
-            SoundApi.SampleList = samples;
-            SoundApi.SampleDataList = data;
-            SoundApi.SoundSystems = systems;
-            SoundApi.SoundSystem = system;
-            SoundApi.SongPlayer = songs;
+            Aow.Game.Audio.AudioPlayback.ReleaseSoundSystem();
+            Aow.Game.Audio.AudioHost.SampleList = samples;
+            Aow.Game.Audio.AudioHost.SampleDataList = data;
+            Aow.Game.Audio.AudioHost.SoundSystems = systems;
+            Aow.Game.Audio.AudioHost.SoundSystem = system;
+            Aow.Game.Audio.AudioHost.SongPlayer = songs;
         }
     }
 
@@ -139,16 +138,16 @@ public sealed class MapNetSoundDispatchTests
             Assert.IsType<TSampleData>(value);
             Assert.Equal(1, value.RefCount);
             Assert.Equal(memory ? "" : value == direct ? "direct" : "dynamic", value.Name);
-            if (!memory) Assert.Same(value, SoundApi.SampleDataList.Find(value.Name));
+            if (!memory) Assert.Same(value, Aow.Game.Audio.AudioHost.SampleDataList.Find(value.Name));
         }
-        Assert.Equal(memory ? 0 : 2, SoundApi.SampleDataList.Count);
+        Assert.Equal(memory ? 0 : 2, Aow.Game.Audio.AudioHost.SampleDataList.Count);
         var sample = Sample.Create(direct);
         var dynamicSample = Sample.Descriptor.Create(dynamic);
         Assert.IsType<Sample>(sample);
         Assert.IsType<Sample>(dynamicSample);
         Assert.Equal(2, direct.RefCount);
         Assert.Equal(2, dynamic.RefCount);
-        Assert.Equal(2, SoundApi.SampleList.Count);
+        Assert.Equal(2, Aow.Game.Audio.AudioHost.SampleList.Count);
         Assert.Equal(0, sample.Delay);
         Assert.Equal(default, sample.Status);
         sample.Dispose();
@@ -157,28 +156,28 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(1, dynamic.RefCount);
         direct.Release();
         dynamic.Release();
-        Assert.Equal(0, SoundApi.SampleList.Count);
-        Assert.Equal(0, SoundApi.SampleDataList.Count);
+        Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleList.Count);
+        Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleDataList.Count);
     }
 
     [Fact]
     public void SoundAliasesKeepDistinctDescriptorsOverOneRuntimeType()
     {
         using var state = new SoundState();
-        var sdl = SoundApi.SoundSystems.Find("SDL");
-        var galaxy = SoundApi.SoundSystems.Find("Galaxy");
+        var sdl = Aow.Game.Audio.AudioHost.SoundSystems.Find("SDL");
+        var galaxy = Aow.Game.Audio.AudioHost.SoundSystems.Find("Galaxy");
         Assert.NotSame(sdl, galaxy);
         Assert.Equal("SDL", sdl.Name);
         Assert.Equal("Galaxy", galaxy.Name);
         Assert.Same(sdl, TSdlSoundSystem.Descriptor);
         Assert.Same(galaxy, TSdlSoundSystem.Galaxy);
-        Assert.Same(sdl, SoundApi.SoundSystems.Find("sdl"));
-        Assert.Same(galaxy, SoundApi.SoundSystems.Find("GALAXY"));
+        Assert.Same(sdl, Aow.Game.Audio.AudioHost.SoundSystems.Find("sdl"));
+        Assert.Same(galaxy, Aow.Game.Audio.AudioHost.SoundSystems.Find("GALAXY"));
         TSdlSoundSystem.Install(mute: true, audioOutput: false);
-        Assert.Equal(2, SoundApi.SoundSystems.Count);
-        Assert.Same(sdl, SoundApi.SoundSystems.Find("SDL"));
-        Assert.Same(galaxy, SoundApi.SoundSystems.Find("Galaxy"));
-        var error = Assert.Throws<InvalidOperationException>(() => SoundApi.RegisterSoundSystem(sdl));
+        Assert.Equal(2, Aow.Game.Audio.AudioHost.SoundSystems.Count);
+        Assert.Same(sdl, Aow.Game.Audio.AudioHost.SoundSystems.Find("SDL"));
+        Assert.Same(galaxy, Aow.Game.Audio.AudioHost.SoundSystems.Find("Galaxy"));
+        var error = Assert.Throws<InvalidOperationException>(() => Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(sdl));
         Assert.Equal("Sound System with name: SDL already registered", error.Message);
     }
 
@@ -188,18 +187,18 @@ public sealed class MapNetSoundDispatchTests
     public void SdlFacadesCreateExactSilentTypes(string name)
     {
         using var state = new SoundState();
-        var meta = SoundApi.SoundSystems.Find(name);
+        var meta = Aow.Game.Audio.AudioHost.SoundSystems.Find(name);
         var system = meta.Create();
         Assert.IsType<TSdlSoundSystem>(system);
         Assert.Equal(1, system.FRefCount);
         system.Dispose();
-        Assert.True(SoundApi.InitializeSoundSystem(name,
+        Assert.True(Aow.Game.Audio.AudioPlayback.InitializeSoundSystem(name,
             new TSoundSettings { SampleRate = 8000, SampleVoices = 1, SFXEnabled = true }));
         var sampleDataMeta = TSdlSoundSystem.SampleData;
         var data = sampleDataMeta.CreateEx(Format, new byte[] { 128 }, 1);
         Assert.Equal("SdlSampleData", data.GetType().Name);
         Assert.Equal(1, data.RefCount);
-        Assert.Equal(0, SoundApi.SampleDataList.Count);
+        Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleDataList.Count);
         var sampleMeta = TSdlSoundSystem.Samples;
         var sample = sampleMeta.Create(data);
         Assert.Equal("SdlSample", sample.GetType().Name);
@@ -208,11 +207,11 @@ public sealed class MapNetSoundDispatchTests
         Assert.False(sample.Looped);
         Assert.Equal(TSamplePanning.spCenter, sample.Panning);
         Assert.Equal(2, data.RefCount);
-        Assert.Equal(1, SoundApi.SampleList.Count);
+        Assert.Equal(1, Aow.Game.Audio.AudioHost.SampleList.Count);
         sample.Dispose();
         Assert.Equal(1, data.RefCount);
         data.Release();
-        Assert.Equal(0, SoundApi.SampleList.Count);
+        Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleList.Count);
     }
 
     [Fact]
@@ -221,15 +220,15 @@ public sealed class MapNetSoundDispatchTests
         using var state = new SoundState();
         var meta = TSdlSoundSystem.SampleData;
         Assert.Throws<InvalidDataException>(() => meta.CreateEx(default, new byte[1], 1));
-        Assert.Equal(0, SoundApi.SampleList.Count);
-        Assert.Equal(0, SoundApi.SampleDataList.Count);
+        Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleList.Count);
+        Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleDataList.Count);
     }
 
     [Fact]
     public void NullBackendKeepsCompletedSampleCreation()
     {
         using var state = new SoundState();
-        SoundApi.SoundSystems.Clear();
+        Aow.Game.Audio.AudioHost.SoundSystems.Clear();
         NullSoundSystem.Install();
         var system = NullSoundSystem.Descriptor.Create();
         Assert.IsType<NullSoundSystem>(system);

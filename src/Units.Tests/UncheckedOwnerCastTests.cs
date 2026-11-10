@@ -19,17 +19,17 @@ public sealed class UncheckedOwnerCastTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly TAoWHSMap previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        private readonly TAoWHSMap previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
 
         public MapScope()
         {
             Map = new TAoWHSMap(null!);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
         }
 
         public TAoWHSMap Map { get; }
 
-        public void Dispose() => Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous;
+        public void Dispose() => Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
     }
 
     // The list is the owner without going through AddChild.
@@ -214,7 +214,7 @@ public sealed class UncheckedOwnerCastTests
         var caster = new TDisjunctionSpellCaster(null!) { FCasterSourceID = 42, FEnchantmentID = 7 };
         string reason = "";
         Assert.False(caster.CanCast(ref reason));
-        Assert.Equal(Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.CannotDispelWhenSpellWardIsActiveRStr), reason);
+        Assert.Equal(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Global.TDisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveRStr), reason);
 
         scope.Map.FGlobalMagicControl.FActiveEnchantments = TSet<TGlobalEnchantmentType>.Of();
         Assert.True(caster.CanCast(ref reason));

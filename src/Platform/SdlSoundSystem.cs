@@ -1,6 +1,5 @@
 using Aow.Game.Audio;
 using Aow.Rtl;
-using SoundApi = Aow.Game.Audio.SoundUnit;
 
 namespace Aow.Platform;
 
@@ -25,8 +24,8 @@ public class TSdlSoundSystem : TSoundSystem
     {
         muted = mute || Environment.GetEnvironmentVariable("AOW_MUTE") == "1";
         useOutput = audioOutput;
-        if (SoundApi.SoundSystems.Find("SDL") is null) SoundApi.RegisterSoundSystem(Descriptor);
-        if (SoundApi.SoundSystems.Find("Galaxy") is null) SoundApi.RegisterSoundSystem(Galaxy);
+        if (Aow.Game.Audio.AudioHost.SoundSystems.Find("SDL") is null) Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(Descriptor);
+        if (Aow.Game.Audio.AudioHost.SoundSystems.Find("Galaxy") is null) Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(Galaxy);
     }
 
     public static string Name => "SDL";
@@ -134,7 +133,7 @@ public class TSdlSoundSystem : TSoundSystem
             State = SongState.Idle;
             try
             {
-                using var stream = RtlUnit.Files.Open(SoundApi.BaseSoundEnginePath + name, 0);
+                using var stream = RtlUnit.Files.Open(Aow.Game.Audio.AudioHost.BaseSoundEnginePath + name, 0);
                 using var data = new MemoryStream(); stream.CopyTo(data);
                 var song = OpenMptModule.Load(data.GetBuffer().AsSpan(0, (int)data.Length), repeat);
                 if (song is null) return false;
@@ -209,7 +208,7 @@ internal class SdlSampleData : TSampleData
 
     private protected SdlSampleData(ConstructionContext context, string name) : base(context, name)
     {
-        using var stream = RtlUnit.Files.Open(SoundApi.BaseSoundEnginePath + name, 0);
+        using var stream = RtlUnit.Files.Open(Aow.Game.Audio.AudioHost.BaseSoundEnginePath + name, 0);
         Wave = WaveData.Read(stream);
     }
 

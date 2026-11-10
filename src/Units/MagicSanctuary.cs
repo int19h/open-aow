@@ -6,9 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.Draw
 {
@@ -38,16 +35,16 @@ namespace Aow.Game.Draw
             int Xhp = default;
             int Yhp = default;
             int FramesLeft;
-            HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
             Sequence = FStructure.FResource.ImageSequenceList.GetImageSequence(19);
             if (Sequence != null)
             {
                 Blend = 50;
-                if (FFadeEndFrame != -1 && FFadeEndFrame > AoWHSMap.Frame)
+                if (FFadeEndFrame != -1 && FFadeEndFrame > Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame)
                 {
-                    FramesLeft = FFadeEndFrame - AoWHSMap.Frame;
+                    FramesLeft = FFadeEndFrame - Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame;
                     if (FramesLeft <= 20)
                     {
                         Blend += (10 - Math.Abs(FramesLeft - 10)) * 3;
@@ -63,14 +60,14 @@ namespace Aow.Game.Draw
                 }
 
                 FrameIndex = Sequence.GetFrameIndex(0, 0);
-                Sequence.ImageLibrary[FrameIndex].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, IntensityBlendTable.LookupTables[Blend]);
+                Sequence.ImageLibrary[FrameIndex].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Blend]);
             }
         }
 
         // MagicSanctuary.pas:105
         public void FadeUp()
         {
-            FFadeEndFrame = AoWHSMap.Frame + 20;
+            FFadeEndFrame = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame + 20;
         }
 
         // MagicSanctuary.pas:22
@@ -98,7 +95,7 @@ namespace Aow.Game.World.Structures
         // MagicSanctuary.pas:117
         public override void Dispose()
         {
-            AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
             FOverlayHS?.Dispose();
             base.Dispose();
         }
@@ -159,24 +156,9 @@ namespace Aow.Game.World.Structures
         // MagicSanctuary.pas:43
 
         // MagicSanctuary.pas:157
-        public override string ResourceEditName() => TranslateRStr(MagicSanctuaryRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMagicSanctuaryResource.MagicSanctuaryRStr);
 
-    }
+        private static readonly string MagicSanctuaryRStr = "Magic Sanctuary";
 
-    public static partial class MagicSanctuaryUnit
-    {
-        // MagicSanctuary.pas:166
-        public static void RegisterMagicSanctuary(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TMagicSanctuary>(), EClass.Of<TMagicSanctuaryResource>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

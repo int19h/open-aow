@@ -309,7 +309,3 @@ public partial class TInterfaceIL : TImageLibrary
         SurfDesc.ClipRect = OldClip;
     }
 }
-
-public static partial class AOWInterfaceImgLibUnit
-{
-}

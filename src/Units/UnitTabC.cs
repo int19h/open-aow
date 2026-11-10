@@ -88,14 +88,3 @@ public partial class TUnitTabControl : TTabControl
 }
 
 public delegate void TOnSelectUnitEvent(object Sender, int UnitIndex);
-
-public static partial class UnitTabCUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

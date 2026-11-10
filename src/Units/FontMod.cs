@@ -22,7 +22,3 @@ public partial class TFontModule : TDataModule
     public TImageLibraryFont Age10bs;
     public TImageLibraryFont TBarNumber;
 }
-
-public static partial class FontModUnit
-{
-}

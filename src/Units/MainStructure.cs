@@ -33,20 +33,3 @@ public partial class TMainStructureResource : TCombatStructureResource
     public override string ResourceEditName() => "Combat Main Structure";
 
 }
-
-public static partial class MainStructureUnit
-{
-    // MainStructure.pas:52
-    public static void RegisterMainStructure(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TMainStructureResource>(), EClass.Of<TMainStructure>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

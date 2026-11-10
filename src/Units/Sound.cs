@@ -5,7 +5,6 @@ using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Engine.Storage;
 using Aow.Rtl;
-using static Aow.Game.Engine.Nodes.EngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Audio;
@@ -123,7 +122,7 @@ public partial class TSample : IDisposable
     {
         CaptureAddress.Assign(this);
         context.Capture(this);
-        SoundUnit.SampleList.Add(this);
+        Aow.Game.Audio.AudioHost.SampleList.Add(this);
         FSampleData = ASampleData;
         FSampleData.AddRef();
     }
@@ -152,7 +151,7 @@ public partial class TSample : IDisposable
         }
 
         FSampleData = null;
-        SoundUnit.SampleList.Remove(this);
+        Aow.Game.Audio.AudioHost.SampleList.Remove(this);
     }
 
     // Sound.pas:774
@@ -196,6 +195,22 @@ public partial class TSongStatus
     {
         CaptureAddress.Assign(this);
     }
+
+    internal static bool RestoreSongStatus(TSongStatus Status)
+    {
+        bool Result;
+        if (Aow.Game.Audio.AudioHost.SoundSystem != null)
+        {
+            Result = Aow.Game.Audio.AudioHost.SoundSystem.RestoreSongStatus(Status);
+        }
+        else
+        {
+            Result = false;
+        }
+
+        return Result;
+    }
+
 }
 
 public delegate void TSampleCallBack(TSample Sample, TSampleCallBackMode Mode);
@@ -249,7 +264,7 @@ public partial class TSampleData : IDisposable
         CaptureAddress.Assign(this);
         context.Capture(this);
         FName = Name;
-        SoundUnit.SampleDataList.Add(this);
+        Aow.Game.Audio.AudioHost.SampleDataList.Add(this);
         AddRef();
     }
 
@@ -282,7 +297,7 @@ public partial class TSampleData : IDisposable
     // Sound.pas:690
     public virtual void Dispose()
     {
-        SoundUnit.SampleDataList.Remove(this);
+        Aow.Game.Audio.AudioHost.SampleDataList.Remove(this);
     }
 
     public string Name { get => FName; }
@@ -296,6 +311,21 @@ public partial class TSampleData : IDisposable
     public static TSampleData CreateEx(in TWaveFormatEx format, object data, int size) =>
         ConstructionContext.Create((format, data, size), static (context, value) =>
             new TSampleData(context, value.format, value.data, value.size));
+
+    public static TSample CreateSample(TSampleData SampleData)
+    {
+        TSample Result;
+        if (Aow.Game.Audio.AudioHost.SoundSystem != null)
+        {
+            Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleClass().Create(SampleData);
+        }
+        else
+        {
+            Result = null;
+        }
+
+        return Result;
+    }
 
 }
 
@@ -539,7 +569,7 @@ public partial class TSFXManager : TComponent
             TSearchRec SR = default;
             TStringList Dirs;
             bool Found;
-            Found = FindFirst(FSearchPath + Dir + "*." + SoundUnit.SFXExtension, 63 & ~16, ref SR) == 0;
+            Found = FindFirst(FSearchPath + Dir + "*." + Aow.Game.Audio.TSFXManager.SFXExtension, 63 & ~16, ref SR) == 0;
             while (Found)
             {
                 FSFX.Add(UpperCase(Dir + SR.Name));
@@ -579,7 +609,7 @@ public partial class TSFXManager : TComponent
         SetCurrentDir(Path);
         Search("");
         SetCurrentDir(OldDir);
-        FSearchPath = UpperCase(ExtractRelativePath(SoundUnit.BaseSoundEnginePath, FSearchPath));
+        FSearchPath = UpperCase(ExtractRelativePath(Aow.Game.Audio.AudioHost.BaseSoundEnginePath, FSearchPath));
     }
 
     [Published]
@@ -587,6 +617,8 @@ public partial class TSFXManager : TComponent
 
     [Published]
     public TSFXList SFX { get => FSFX; }
+
+    private static readonly string SFXExtension = "WAV";
 
 }
 
@@ -761,7 +793,7 @@ public partial class TSonglist : TEObject
         {
             try
             {
-                var songName = SoundUnit.GetSongName(FSongs[I]);
+                var songName = Aow.Game.Audio.AudioPlayback.GetSongName(FSongs[I]);
                 FSongNames.Insert(0, songName);
             }
             catch
@@ -775,7 +807,7 @@ public partial class TSonglist : TEObject
     public override void ReadWrite(TEStorageStream Stream)
     {
         base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(smText))
+        if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
         {
             Stream.rwStrings(FSongs, 10);
         }
@@ -802,7 +834,7 @@ public partial class TSonglist : TEObject
             Path = Path + "\\";
         }
 
-        FullPath = SoundUnit.BaseSoundEnginePath + Path;
+        FullPath = Aow.Game.Audio.AudioHost.BaseSoundEnginePath + Path;
         FSongs.BeginUpdate();
         Found = FindFirst(FullPath + "*." + Ext, 63 & ~16, ref SR) == 0;
         while (Found)
@@ -848,7 +880,7 @@ public partial class TSongPlayer : IDisposable
         {
             try
             {
-                var songName = SoundUnit.GetSongName(FSongs[I]);
+                var songName = Aow.Game.Audio.AudioPlayback.GetSongName(FSongs[I]);
                 FSongNames.Insert(0, songName);
             }
             catch
@@ -881,9 +913,9 @@ public partial class TSongPlayer : IDisposable
             }
             else
             {
-                if (SoundUnit.SoundSystem != null)
+                if (Aow.Game.Audio.AudioHost.SoundSystem != null)
                 {
-                    SoundUnit.SoundSystem.StopSong();
+                    Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
                 }
 
                 FCurrentIndex = -1;
@@ -913,7 +945,7 @@ public partial class TSongPlayer : IDisposable
     // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
     public void Update()
     {
-        if (SoundUnit.SoundSystem != null && FStatus.Contains(TSongPlayerStatusElement.spPlaying) && !FStatus.Contains(TSongPlayerStatusElement.spPaused) && !SoundUnit.SoundSystem.PlayingSong && SoundUnit.SoundSystem.MusicEnabled)
+        if (Aow.Game.Audio.AudioHost.SoundSystem != null && FStatus.Contains(TSongPlayerStatusElement.spPlaying) && !FStatus.Contains(TSongPlayerStatusElement.spPaused) && !Aow.Game.Audio.AudioHost.SoundSystem.PlayingSong && Aow.Game.Audio.AudioHost.SoundSystem.MusicEnabled)
         {
             FCurrentIndex += 1;
             if (FSongs.Count <= FCurrentIndex)
@@ -937,11 +969,11 @@ public partial class TSongPlayer : IDisposable
     public bool PlayEx(int Index, int FadeOut, int FadeIn)
     {
         bool Result;
-        if (SoundUnit.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
+        if (Aow.Game.Audio.AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
         {
             FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
             var item = FSongs[Index];
-            Result = SoundUnit.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
+            Result = Aow.Game.Audio.AudioHost.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
             if (Result)
             {
                 FCurrentIndex = Index;
@@ -969,11 +1001,11 @@ public partial class TSongPlayer : IDisposable
     public bool Play(int Index)
     {
         bool Result;
-        if (SoundUnit.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
+        if (Aow.Game.Audio.AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
         {
             FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
             var item = FSongs[Index];
-            Result = SoundUnit.SoundSystem.PlaySongEx(item, 2, 0, false);
+            Result = Aow.Game.Audio.AudioHost.SoundSystem.PlaySongEx(item, 2, 0, false);
             if (Result)
             {
                 FCurrentIndex = Index;
@@ -1001,11 +1033,11 @@ public partial class TSongPlayer : IDisposable
     public bool Stop(bool StopMusic)
     {
         bool Result;
-        if (SoundUnit.SoundSystem != null)
+        if (Aow.Game.Audio.AudioHost.SoundSystem != null)
         {
             if (StopMusic)
             {
-                Result = SoundUnit.SoundSystem.StopSong();
+                Result = Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
             }
             else
             {
@@ -1032,11 +1064,11 @@ public partial class TSongPlayer : IDisposable
             {
             }
 
-            FBackup = SoundUnit.BackupSongStatus();
+            FBackup = Aow.Game.Audio.AudioPlayback.BackupSongStatus();
             FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPaused);
             if (StopMusic)
             {
-                SoundUnit.SoundSystem.StopSong();
+                Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
             }
         }
 
@@ -1059,7 +1091,7 @@ public partial class TSongPlayer : IDisposable
                 }
                 else
                 {
-                    SoundUnit.RestoreSongStatus(FBackup);
+                    Aow.Game.Audio.TSongStatus.RestoreSongStatus(FBackup);
                 }
                 FBackup = null;
             }
@@ -1093,17 +1125,17 @@ public partial class TSFX : TEObject
     public override void ReadWrite(TEStorageStream Stream)
     {
         base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(smText))
+        if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
         {
             Stream.rwString(ref FFileName, 5);
         }
     }
 
     // Sound.pas:1034
-    public TSample Play() => SoundUnit.PlaySample(FFileName);
+    public TSample Play() => Aow.Game.Audio.AudioPlayback.PlaySample(FFileName);
 
     // Sound.pas:1039
-    public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack) => SoundUnit.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
+    public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack) => Aow.Game.Audio.AudioPlayback.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
 
     public string FileName { get => FFileName; set => FFileName = value; }
 
@@ -1375,652 +1407,4 @@ public partial class TSoundSystemList : TList
         return Result;
     }
 
-}
-
-public static partial class SoundUnit
-{
-    public static string BaseSoundEnginePath = "";
-    public static TSongPlayer SongPlayer;
-
-    // Sound.pas:1182
-    // { Unit routines }
-    // { Loads the sound data (or adds a reference) so that it stays loaded between samples. }
-    public static void LockSampleData(string Name)
-    {
-        TSampleData D;
-        if (SoundSystem != null)
-        {
-            D = SampleDataList.Find(Name);
-            if (D == null)
-            {
-                SoundSystem.SampleDataClass().Create(Name);
-            }
-            else
-            {
-                D.AddRef();
-            }
-        }
-    }
-
-    // Sound.pas:1196
-    public static void UnlockSampleData(string Name)
-    {
-        TSampleData D;
-        D = SampleDataList.Find(Name);
-        if (D != null)
-        {
-            D.Release();
-        }
-    }
-
-    // Sound.pas:1205
-    public static TSampleData CreateSampleData(string Name)
-    {
-        TSampleData Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.SampleDataClass().Create(Name);
-        }
-        else
-        {
-            Result = null;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1213
-    public static TSampleData CreateSampleDataEx(ReadOnlySpan<TWaveFormatEx> Format, object Data, int Size)
-    {
-        TSampleData Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.SampleDataClass().CreateEx(Format[0], Data, Size);
-        }
-        else
-        {
-            Result = null;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1221
-    public static TSample CreateSample(TSampleData SampleData)
-    {
-        TSample Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.SampleClass().Create(SampleData);
-        }
-        else
-        {
-            Result = null;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1229
-    public static TSample PlaySample(string Name)
-    {
-        TSample Result;
-        TSampleData D;
-        if (SoundSystem != null && SoundSystem.SFXEnabled)
-        {
-            try
-            {
-                D = SampleDataList.Find(Name);
-                if (D == null)
-                {
-                    D = SoundSystem.SampleDataClass().Create(Name);
-                    Result = SoundSystem.SampleClass().Create(D);
-                    D.Release();
-                }
-                else
-                {
-                    Result = SoundSystem.SampleClass().Create(D);
-                }
-
-                Result.Execute();
-            }
-            catch
-            {
-                Result = null;
-            }
-        }
-        else
-        {
-            Result = null;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1252
-    public static TSample PlaySampleEx(string Name, int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
-    {
-        TSample Result;
-        TSampleData D;
-        if (SoundSystem != null && SoundSystem.SFXEnabled)
-        {
-            try
-            {
-                D = SampleDataList.Find(Name);
-                if (D == null)
-                {
-                    D = SoundSystem.SampleDataClass().Create(Name);
-                    Result = SoundSystem.SampleClass().Create(D);
-                    D.Release();
-                }
-                else
-                {
-                    Result = SoundSystem.SampleClass().Create(D);
-                }
-
-                Result.Looped = Looped;
-                Result.FDelay = Delay;
-                Result.Panning = Panning;
-                Result.FCallBack = CallBack;
-                Result.Volume = Volume;
-                Result.Execute();
-            }
-            catch
-            {
-                Result = null;
-            }
-        }
-        else
-        {
-            Result = null;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1281
-    public static int SamplesActive() => SampleList.Count;
-
-    // Sound.pas:1286
-    public static int SamplesLoaded() => SampleDataList.Count;
-
-    // Sound.pas:1306
-    public static void RegisterSoundSystem(SoundSystemClass AClass)
-    {
-        if (SoundSystems == null)
-        {
-            SoundSystems = new TSoundSystemList();
-        }
-
-        var name = AClass.Name;
-        if (SoundSystems.Find(name) == null)
-        {
-            SoundSystems.Add(AClass);
-        }
-        else
-        {
-            throw new InvalidOperationException("Sound System with name: " + AClass.Name + " already registered");
-        }
-    }
-
-    // Sound.pas:1317
-    // { Creates and activates the named sound system (the first registered one when Name is empty). }
-    public static bool InitializeSoundSystem(string Name, in TSoundSettings Settings)
-    {
-        SoundSystemClass C;
-        bool Result = true;
-        if (IsEmpty(Name))
-        {
-            if (SoundSystems.Count != 0)
-            {
-                C = (SoundSystemClass)SoundSystems[0];
-            }
-            else
-            {
-                C = null;
-            }
-        }
-        else
-        {
-            C = SoundSystems.Find(Name);
-        }
-
-        if (C != null)
-        {
-            if (SoundSystem != null)
-            {
-                ReleaseSoundSystem();
-            }
-
-            SoundSystem = C.Create();
-            if (!SoundSystem.Activate(Settings))
-            {
-                SoundSystem?.Dispose();
-                SoundSystem = null;
-                Result = false;
-            }
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1347
-    public static void ReleaseSoundSystem()
-    {
-        if (SoundSystem != null)
-        {
-            if (SongPlayer != null)
-            {
-                SongPlayer.Stop(true);
-            }
-
-            if (SampleList != null)
-            {
-                SampleList.Clear();
-            }
-
-            SoundSystem.Release();
-            SoundSystem = null;
-        }
-    }
-
-    // Sound.pas:1360
-    public static TSet<TSoundSystemStatusElement> SoundSystemStatus()
-    {
-        TSet<TSoundSystemStatusElement> Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.FStatus;
-        }
-        else
-        {
-            Result = TSet<TSoundSystemStatusElement>.Of();
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1368
-    public static void SetMusicVolume(int Volume)
-    {
-        if (SoundSystem != null)
-        {
-            SoundSystem.SetMusicVolume(Volume);
-        }
-    }
-
-    // Sound.pas:1374
-    public static void FadeMusicVolume(int Volume, int Speed)
-    {
-        if (SoundSystem != null)
-        {
-            SoundSystem.FadeMusicVolume(Volume, Speed);
-        }
-    }
-
-    // Sound.pas:1380
-    public static int GetMusicVolume()
-    {
-        int Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.GetMusicVolume();
-        }
-        else
-        {
-            Result = -1;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1388
-    public static void SetSFXVolume(int Volume)
-    {
-        if (SoundSystem != null)
-        {
-            SoundSystem.SetSFXVolume(Volume);
-        }
-    }
-
-    // Sound.pas:1394
-    public static int GetSFXVolume()
-    {
-        int Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.GetSFXVolume();
-        }
-        else
-        {
-            Result = -1;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1402
-    public static bool GetMusicEnabled()
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.GetMusicEnabled();
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1410
-    public static bool SetMusicEnabled(bool Value)
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.SetMusicEnabled(Value);
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1418
-    public static bool GetSFXEnabled()
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.GetSFXEnabled();
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1426
-    public static bool SetSFXEnabled(bool Value)
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.SetSFXEnabled(Value);
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1434
-    public static TSoundSettings GetSoundSettings()
-    {
-        TSoundSettings Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.GetSoundSettings();
-        }
-        else
-        {
-            Result = default;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1442
-    public static bool SetSoundSettings(in TSoundSettings Settings)
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.SetSoundSettings(Settings);
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1450
-    public static TSongStatus BackupSongStatus()
-    {
-        TSongStatus Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.BackupSongStatus();
-        }
-        else
-        {
-            Result = null;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1458
-    public static bool RestoreSongStatus(TSongStatus Status)
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.RestoreSongStatus(Status);
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1468
-    // { The title stored in an Impulse Tracker or Scream Tracker 3 module, else the file name without
-    //   the extension. }
-    public static string GetSongName(string FileName)
-    {
-        string Result = "";
-        Stream Stream;
-        string Ext;
-        FixedArray_byte_28 Title;
-        int P;
-        Stream = OpenFile(BaseSoundEnginePath + FileName, 0 | 32);
-        try
-        {
-            Ext = UpperCase(ExtractFileExt(FileName));
-            Title = default;
-            if (Ext == ".IT")
-            {
-                Stream.Seek(4, SeekOrigin.Begin);
-                Stream.ReadBytes(((Span<byte>)Title).Slice(0, 28));
-                Result = StrPasBuffer(Title);
-            }
-            else
-            {
-                if (Ext == ".S3M")
-                {
-                    Stream.ReadBytes(((Span<byte>)Title).Slice(0, 28));
-                    Result = StrPasBuffer(Title);
-                }
-                else
-                {
-                    Result = ExtractFileName(FileName);
-                    P = Pos(".", Result);
-                    if (P != 0)
-                    {
-                        Result = Copy(Result, 1, P - 1);
-                    }
-                }
-            }
-        }
-        finally
-        {
-            Stream?.Dispose();
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1502
-    public static string PlayingSongFileName()
-    {
-        string Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.GetPlayingSongFileName();
-        }
-        else
-        {
-            Result = "";
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1510
-    public static bool PlaySong(string FileName)
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.PlaySong(FileName);
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1518
-    public static bool PlaySongEx(string FileName, int FadeOut, int FadeIn, bool Loop)
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.PlaySongEx(FileName, FadeOut, FadeIn, Loop);
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1526
-    public static bool StopSong()
-    {
-        bool Result;
-        if (SoundSystem != null)
-        {
-            Result = SoundSystem.StopSong();
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // Sound.pas:1534
-    public static void ProcessSound()
-    {
-        if (SampleList != null)
-        {
-            for (int I = SampleList.Count - 1; I >= 0; I--)
-            {
-                ((TSample)SampleList.List[I]).Update();
-            }
-        }
-
-        if (SongPlayer != null)
-        {
-            SongPlayer.Update();
-        }
-
-        if (SoundSystem != null)
-        {
-            SoundSystem.Process();
-        }
-    }
-
-    // Sound.pas:1547
-    public static void RegisterSoundEngineClasses(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TSFXSequence>(), EClass.Of<TSFXLibrary>(), EClass.Of<TSFX>()]);
-    }
-
-    // Sound.pas:1552
-    public static void UnregisterSoundEngineClasses(TEngine AEngine)
-    {
-        AEngine.UnregisterEClasses([EClass.Of<TSFXSequence>(), EClass.Of<TSFXLibrary>(), EClass.Of<TSFX>()]);
-    }
-
-    public static readonly string SFXExtension = "WAV";
-    public static TSoundSystem SoundSystem = default;
-    public static TSoundSystemList SoundSystems = default;
-    public static TSampleDataList SampleDataList = default;
-    public static TSampleList SampleList = default;
-
-    public static void Initialize()
-    {
-        if (ToolServices != null)
-        {
-            BaseSoundEnginePath = ExtractFilePath(ToolServices.GetProjectName());
-        }
-        else
-        {
-            BaseSoundEnginePath = ExtractFilePath(Application.ExeName);
-        }
-
-        SampleList = new TSampleList();
-        SampleDataList = new TSampleDataList();
-        if (SoundSystems == null)
-        {
-            SoundSystems = new TSoundSystemList();
-        }
-
-        SongPlayer = new TSongPlayer();
-    }
-
-    public static void Finalize()
-    {
-        SongPlayer?.Dispose();
-        SongPlayer = null;
-        SampleList?.Dispose();
-        SampleList = null;
-        if (SampleDataList.Count != 0)
-        {
-            ShowMessage("Inproper use of Sound Engine (SoundData still loaded)!");
-        }
-
-        SampleDataList?.Dispose();
-        SampleDataList = null;
-        if (SoundSystem != null)
-        {
-            SoundSystem.Release();
-        }
-
-        SoundSystems?.Dispose();
-    }
 }

@@ -1,19 +1,26 @@
 // Translated from AoWPartyJoin.pas.
+using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWPartyJoin.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -75,8 +82,8 @@ public partial class TPartyJoinDlg : TDataModule
         if (FDetailsOpen)
         {
             FDetailsOpen = false;
-            AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = AOWControlWinUnit.ControlWin.ControlWindow.Priority;
-            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Priority;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
         Done = FDone;
@@ -109,9 +116,9 @@ public partial class TPartyJoinDlg : TDataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             Alignment = FUnits.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
             {
-                var image = IntGfxMod.UnitBGs[(int)Alignment];
+                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
             }
 
@@ -121,7 +128,7 @@ public partial class TPartyJoinDlg : TDataModule
             FUnits.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
             if ((((int)(((uint)FSelection) >> Index)) & 1) == 0)
             {
-                var image = IntGfxMod.UnitBGs[7];
+                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
             }
 
@@ -147,10 +154,10 @@ public partial class TPartyJoinDlg : TDataModule
         string Reason = "";
         if (ValidateJoin())
         {
-            General.PlayButtonSound(0);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             if (!FJoinEvent.Accept(ref Reason))
             {
-                AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
             }
             else
             {
@@ -165,10 +172,10 @@ public partial class TPartyJoinDlg : TDataModule
         string Reason = "";
         if (ValidateJoin())
         {
-            General.PlayButtonSound(0);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             if (!FJoinEvent.Reject(ref Reason))
             {
-                AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
             }
             else
             {
@@ -182,7 +189,7 @@ public partial class TPartyJoinDlg : TDataModule
     {
         if (ValidateJoin())
         {
-            General.PlayButtonSound(0);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
     }
@@ -192,7 +199,7 @@ public partial class TPartyJoinDlg : TDataModule
     {
         if (ValidateJoin())
         {
-            General.PlayButtonSound(0);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             Dlg.Visible = false;
         }
     }
@@ -241,12 +248,12 @@ public partial class TPartyJoinDlg : TDataModule
             if (Slot < count)
             {
                 var unit = FUnits.GetUnit(Slot);
-                General.FSelectedUnit = unit;
+                Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
                 if (Button == TMouseButton.mbLeft)
                 {
                     FDetailsOpen = true;
-                    AoWUnitWindowUnit.UnitWindow.ShowUnit();
-                    AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
                 }
             }
         }
@@ -266,8 +273,60 @@ public partial class TPartyJoinDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWPartyJoinUnit
-{
+    internal static void ResetPartyJoin(TPartyJoinDlg Dialog)
+    {
+        Dialog.LeftBtn.Visible = true;
+        Dialog.MiddleBtn.Visible = true;
+        Dialog.RightBtn.Visible = true;
+        var partyJoin = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenarioText.PartyJoinRStr);
+        Dialog.Title.Text = partyJoin;
+    }
+
+    internal static void UpdatePartyJoin(TPartyJoinDlg Dialog)
+    {
+        if (Dialog.ValidateJoin())
+        {
+            Dialog.FUnits.Clear();
+            Dialog.FFaceUnit = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
+            Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
+            var text = Dialog.FJoinEvent.FJoinMessage.Text;
+            Dialog.JoinMemo.Items.Text = text;
+        }
+    }
+
+    internal static void ShowPartyJoin(TPartyJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
+    {
+        Aow.Game.Ui.Dialogs.TPartyJoinDlg.ResetPartyJoin(Dialog);
+        Dialog.Dlg.Visible = true;
+        Dialog.FJoinEvent = Event;
+        Dialog.FJoinEvent.AddRef();
+        Dialog.FDone = Done;
+        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AcceptRStr);
+        Dialog.LeftBtn.Text = accept;
+        var attack = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AttackRStr);
+        Dialog.MiddleBtn.Text = attack;
+        var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
+        Dialog.RightBtn.Text = cancel;
+        Aow.Game.Ui.Dialogs.TPartyJoinDlg.UpdatePartyJoin(Dialog);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(70, true, true);
+    }
+
+    internal static void ShowPrisonersJoin(TPartyJoinDlg Dialog, TPrisonersJoinEventLog Event, TExecuteDoneEvent Done)
+    {
+        Aow.Game.Ui.Dialogs.TPartyJoinDlg.ResetPartyJoin(Dialog);
+        Dialog.Dlg.Visible = true;
+        var prisonerLiberation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TDungeon.PrisonerLiberationRStr);
+        Dialog.Title.Text = prisonerLiberation;
+        Dialog.FJoinEvent = Event;
+        Dialog.FJoinEvent.AddRef();
+        Dialog.FDone = Done;
+        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AcceptRStr);
+        Dialog.LeftBtn.Text = accept;
+        Dialog.MiddleBtn.Visible = false;
+        var reject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RejectRStr);
+        Dialog.RightBtn.Text = reject;
+        Aow.Game.Ui.Dialogs.TPartyJoinDlg.UpdatePartyJoin(Dialog);
+    }
+
 }

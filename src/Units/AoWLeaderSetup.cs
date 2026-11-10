@@ -9,12 +9,6 @@ using Aow.Game.Units;
 using Aow.Rtl;
 // Translated from AoWLeaderSetup.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Engine.Nodes.EngineUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.aowSetupEventsUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
-using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -210,7 +204,7 @@ public partial class TLeaderSetupWin : TDataModule
         FSetup.AddRef();
         FSelectedSort = 0;
         FAvailableSort = 0;
-        LeaderPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.TitleScreen;
+        LeaderPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleScreen;
         LeaderPnl.ILIndexTexture = 4;
         RaceCB.Visible = FSetup.FItems.Count != 0 && FSetup.FMode.Contains(TLeaderSetupModeElement.lsmCampaign);
         RaceLbl.Visible = RaceCB.Visible;
@@ -220,7 +214,7 @@ public partial class TLeaderSetupWin : TDataModule
             for (int I = 0, last = FSetup.FItems.Count - 1; I <= last; I++)
             {
                 var item = FSetup.FItems[I];
-                var raceNames = TranslateRStr(RaceNamesRStr[item]);
+                var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[item]);
                 var item2 = FSetup.FItems[I];
                 RaceCB.Items.AddObject(raceNames, IntToObject(item2));
             }
@@ -229,7 +223,7 @@ public partial class TLeaderSetupWin : TDataModule
             RaceCB.Selected = indexOf;
         }
 
-        var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
         SideNameLbl.Text = raceNamesPlural;
         ShieldL.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
         ShieldR.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
@@ -267,7 +261,7 @@ public partial class TLeaderSetupWin : TDataModule
         Control.FStatus = TLeaderSetupStatus.lssDone;
         FSetup = null;
         LeaderPnl.Visible = false;
-        SetupEvents.UpdatePlayerName(Control.FOriginalLeader.FHeroName);
+        Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.UpdatePlayerName(Control.FOriginalLeader.FHeroName);
         Control.Done();
         Control.Release();
     }
@@ -288,14 +282,14 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:750
     public void LoadLeader()
     {
-        FLeader.Assign(FSetup.FOriginalLeader, AoWEngine);
+        FLeader.Assign(FSetup.FOriginalLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
     }
 
     // AoWLeaderSetup.pas:755
     public void SaveLeader()
     {
         TLeader Leader;
-        FSetup.FOriginalLeader.Assign(FLeader, AoWEngine);
+        FSetup.FOriginalLeader.Assign(FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
         Leader = FSetup.FOriginalLeader;
         LeaderName.Text = Leader.FHeroName;
         var inherentAttack = Leader.GetInherentAttack();
@@ -312,7 +306,7 @@ public partial class TLeaderSetupWin : TDataModule
         UMoves.Text = IntToStr(moves);
         UAbilities.Items.Clear();
         Leader.ListAbilities(UAbilities.Items);
-        var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[Leader.FRace]);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Leader.FRace]);
         SideNameLbl.Text = raceNamesPlural;
         ShieldL.CurrentImage = Leader.FRace + 13;
         ShieldR.CurrentImage = Leader.FRace + 13;
@@ -322,7 +316,7 @@ public partial class TLeaderSetupWin : TDataModule
     public void UpdateSkillPoints()
     {
         var skillPoints = FLeader.GetSkillPoints();
-        var skillPointsText = TranslateRStr(SkillPointsRStr);
+        var skillPointsText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TLeaderSetupWin.SkillPointsRStr);
         var skillPointsMax = FLeader.GetSkillPointsMax();
         SkillPointsLbl.Text = skillPointsText + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
     }
@@ -373,16 +367,16 @@ public partial class TLeaderSetupWin : TDataModule
         switch (FSelectedSort)
         {
             case 0:
-                SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
                 break;
             case 1:
-                SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
                 break;
             case 2:
-                SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
                 break;
             case 3:
-                SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
                 break;
         }
     }
@@ -393,16 +387,16 @@ public partial class TLeaderSetupWin : TDataModule
         switch (FAvailableSort)
         {
             case 0:
-                SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
                 break;
             case 1:
-                SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
                 break;
             case 2:
-                SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
                 break;
             case 3:
-                SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
                 break;
         }
     }
@@ -415,15 +409,15 @@ public partial class TLeaderSetupWin : TDataModule
         TAbility Ability;
         AvailableAbilities.Items.Clear();
         AvailableAbilitiesCost.Items.Clear();
-        for (int I = 0, last = AoWHSSet.FAbilityControl.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSSet.FAbilityControl.GetAbility(I) != null && (AoWHSSet.FAbilityControl.GetAbility(I).FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of())
+            if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I) != null && (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I).FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of())
             {
-                if (AoWHSSet.FAbilityControl.GetAbility(I).CanExpand(FLeader))
+                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I).CanExpand(FLeader))
                 {
-                    var expandName = AoWHSSet.FAbilityControl.GetAbility(I).ExpandName(FLeader);
+                    var expandName = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I).ExpandName(FLeader);
                     AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
-                    var expandCost = AoWHSSet.FAbilityControl.GetAbility(I).ExpandCost(FLeader);
+                    var expandCost = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I).ExpandCost(FLeader);
                     AvailableAbilitiesCost.Items.Add(IntToStr(expandCost));
                 }
             }
@@ -433,13 +427,13 @@ public partial class TLeaderSetupWin : TDataModule
         SelectedAbilitiesCost.Items.Clear();
         for (int I = 0, last = FLeader.GetAbCount() - 1; I <= last; I++)
         {
-            Ability = AoWHSSet.FAbilityControl.GetAbility(I);
+            Ability = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I);
             if (FLeader.GetAbSet(I) && (FLeader.FHeroResource.FAbilities.GetAbSet(I) || (Ability.FSelectionTypes & TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astCustomizeLeader, TAbilitySelectionType.astHeroUpgrade)) != TSet<TAbilitySelectionType>.Of()))
             {
-                Name = AoWHSSet.FAbilityControl.GetAbility(I).GetName(FLeader);
+                Name = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I).GetName(FLeader);
                 if (FLeader.FHeroResource.FAbilities.GetAbSet(I) && FLeader.FHeroResource.FAbilities.GetAbLevel(I) == FLeader.GetAbilityLevel(I))
                 {
-                    Name = Name + " (" + TranslateRStr(FixedRStr) + ")";
+                    Name = Name + " (" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FixedRStr) + ")";
                     Cost = "-";
                 }
                 else
@@ -475,7 +469,7 @@ public partial class TLeaderSetupWin : TDataModule
     }
 
     // AoWLeaderSetup.pas:846
-    public bool CanAddAbility(int AbilityID) => AoWHSSet.FAbilityControl.GetAbility(AbilityID).CanExpand(FLeader) && AoWHSSet.FAbilityControl.GetAbility(AbilityID).ExpandCost(FLeader) <= FLeader.GetSkillPoints();
+    public bool CanAddAbility(int AbilityID) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(AbilityID).CanExpand(FLeader) && Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(AbilityID).ExpandCost(FLeader) <= FLeader.GetSkillPoints();
 
     // AoWLeaderSetup.pas:913
     public void SetPhase(int Value)
@@ -498,12 +492,12 @@ public partial class TLeaderSetupWin : TDataModule
         MainFace.Visible = MainFaceFr.Visible;
         if (Value == 3 || (Value == 2 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of()) || (Value == 1 && (FSetup.FMode & TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmSettings, TLeaderSetupModeElement.lsmSpheres)) == TSet<TLeaderSetupModeElement>.Of()))
         {
-            var finish = TranslateRStr(FinishRStr);
+            var finish = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TLeaderSetupWin.FinishRStr);
             NextBtn.Text = finish;
         }
         else
         {
-            var next = TranslateRStr(NextRStr);
+            var next = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TLeaderSetupWin.NextRStr);
             NextBtn.Text = next;
         }
 
@@ -535,11 +529,11 @@ public partial class TLeaderSetupWin : TDataModule
         DefaultBtn.Visible = true;
         PrevBtn.Visible = true;
         NextBtn.Visible = true;
-        var step1CustomizeLeader = TranslateRStr(Step1CustomizeLeaderRStr);
+        var step1CustomizeLeader = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TLeaderSetupWin.Step1CustomizeLeaderRStr);
         Phase1Header.Text = step1CustomizeLeader;
-        var step2AssignSkillPoints = TranslateRStr(Step2AssignSkillPointsRStr);
+        var step2AssignSkillPoints = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TLeaderSetupWin.Step2AssignSkillPointsRStr);
         Phase2Header.Text = step2AssignSkillPoints;
-        var step3AssignSpheres = TranslateRStr(Step3AssignSpheresRStr);
+        var step3AssignSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TLeaderSetupWin.Step3AssignSpheresRStr);
         Phase3Header.Text = step3AssignSpheres;
         SetFixedSpheres(0);
     }
@@ -632,7 +626,7 @@ public partial class TLeaderSetupWin : TDataModule
         }
 
         var sphereCount = FLeader.GetSphereCount();
-        var selectedSpheres = TranslateRStr(SelectedSpheresRStr);
+        var selectedSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TLeaderSetupWin.SelectedSpheresRStr);
         SelectedSpheresLbl.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(FLeader.FSpherePicksMax) + ")";
         if (FLeader.CanAddSphere(TMagicSphere.msLife))
         {
@@ -724,7 +718,7 @@ public partial class TLeaderSetupWin : TDataModule
     public void AddAbilityClick()
     {
         int AbilityID;
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (AvailableAbilities.Selected != -1)
         {
             AbilityID = ObjectToInt(AvailableAbilities.Items.Objects[AvailableAbilities.Selected]);
@@ -741,7 +735,7 @@ public partial class TLeaderSetupWin : TDataModule
     public void RemoveAbilityClick()
     {
         int AbilityID;
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (SelectedAbilities.Selected != -1)
         {
             AbilityID = ObjectToInt(SelectedAbilities.Items.Objects[SelectedAbilities.Selected]);
@@ -768,13 +762,13 @@ public partial class TLeaderSetupWin : TDataModule
         while (Offset < 0)
         {
             Offset += 1;
-            Index = AoWHSSet.FFaceResources.PrevFace(Index);
+            Index = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.PrevFace(Index);
         }
 
         while (Offset > 0)
         {
             Offset -= 1;
-            Index = AoWHSSet.FFaceResources.NextFace(Index);
+            Index = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.NextFace(Index);
         }
 
         var image = Sender;
@@ -782,7 +776,7 @@ public partial class TLeaderSetupWin : TDataModule
 
         if (Setup.FOriginalLeader.GetFace() != null)
         {
-            Face = AoWHSSet.FFaceResources.GetFaceResource(Index);
+            Face = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.GetFaceResource(Index);
             Face.AddRef();
             Face.GetFaceImage().ShowStretched(R, SD);
             Face.Release();
@@ -792,25 +786,25 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:345
     public void FacePrevBtnClick()
     {
-        General.PlayButtonSound(0);
-        var prevFace = AoWHSSet.FFaceResources.PrevFace(FLeader.FFaceIndex);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        var prevFace = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.PrevFace(FLeader.FFaceIndex);
         FLeader.SetFaceIndex(prevFace);
-        TitleWindow.TitleWin.FDrawn = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWLeaderSetup.pas:352
     public void FaceNextBtnClick()
     {
-        General.PlayButtonSound(0);
-        var nextFace = AoWHSSet.FFaceResources.NextFace(FLeader.FFaceIndex);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        var nextFace = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.NextFace(FLeader.FFaceIndex);
         FLeader.SetFaceIndex(nextFace);
-        TitleWindow.TitleWin.FDrawn = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWLeaderSetup.pas:359
     public void PrevBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         switch (FPhase)
         {
             case 1:
@@ -849,7 +843,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:376
     public void NextBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         switch (FPhase)
         {
             case 1:
@@ -870,7 +864,7 @@ public partial class TLeaderSetupWin : TDataModule
                     }
                 }
 
-                TitleWindow.TitleWin.FDrawn = false;
+                Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
                 break;
             case 2:
                 SaveLeader();
@@ -883,7 +877,7 @@ public partial class TLeaderSetupWin : TDataModule
                     Finish();
                 }
 
-                TitleWindow.TitleWin.FDrawn = false;
+                Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
                 break;
             case 3:
                 if (FLeader.GetSphereCount() == FLeader.FSpherePicksMax)
@@ -892,12 +886,12 @@ public partial class TLeaderSetupWin : TDataModule
                 }
                 else
                 {
-                    ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
-                    AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
-                    var pleaseAssignAllSpheres = TranslateRStr(PleaseAssignAllSpheresRStr);
-                    AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(pleaseAssignAllSpheres);
-                    AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
-                    AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
+                    Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+                    var pleaseAssignAllSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TLeaderSetupWin.PleaseAssignAllSpheresRStr);
+                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseAssignAllSpheres);
+                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
+                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
                 }
 
                 break;
@@ -969,7 +963,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:459
     public void AttUpClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitAttack((sbyte)(FLeader.FUnitAttack + 1));
         UpdateStatistics();
     }
@@ -977,7 +971,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:466
     public void AttDnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitAttack((sbyte)(FLeader.FUnitAttack - 1));
         UpdateStatistics();
     }
@@ -985,7 +979,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:473
     public void DefUpClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitDefense((sbyte)(FLeader.FUnitDefense + 1));
         UpdateStatistics();
     }
@@ -993,7 +987,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:480
     public void DefDnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitDefense((sbyte)(FLeader.FUnitDefense - 1));
         UpdateStatistics();
     }
@@ -1001,7 +995,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:487
     public void DamUpClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitDamage((sbyte)(FLeader.FUnitDamage + 1));
         UpdateStatistics();
     }
@@ -1009,7 +1003,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:494
     public void DamDnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitDamage((sbyte)(FLeader.FUnitDamage - 1));
         UpdateStatistics();
     }
@@ -1017,7 +1011,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:501
     public void ResUpClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitResistance((sbyte)(FLeader.FUnitResistance + 1));
         UpdateStatistics();
     }
@@ -1025,7 +1019,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:508
     public void ResDnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitResistance((sbyte)(FLeader.FUnitResistance - 1));
         UpdateStatistics();
     }
@@ -1033,7 +1027,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:515
     public void HitUpClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitHits((sbyte)(FLeader.FUnitHits + 1));
         UpdateStatistics();
     }
@@ -1041,7 +1035,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:522
     public void HitDnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitHits((sbyte)(FLeader.FUnitHits - 1));
         UpdateStatistics();
     }
@@ -1049,7 +1043,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:529
     public void MovUpClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitMoves((sbyte)(FLeader.FUnitMoves + 1));
         UpdateStatistics();
     }
@@ -1057,7 +1051,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:536
     public void MovDnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FLeader.SetUnitMoves((sbyte)(FLeader.FUnitMoves - 1));
         UpdateStatistics();
     }
@@ -1065,7 +1059,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:543
     public void ClearBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         switch (FPhase)
         {
             case 1:
@@ -1101,8 +1095,8 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:568
     public void DefaultBtnClick()
     {
-        General.PlayButtonSound(0);
-        TitleWindow.TitleWin.FDrawn = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
         switch (FPhase)
         {
             case 1:
@@ -1149,7 +1143,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:604
     public void SelLifeClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FLeader.CanAddSphere(TMagicSphere.msLife))
         {
             FLeader.AddSphere(TMagicSphere.msLife);
@@ -1160,7 +1154,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:614
     public void SelFireClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FLeader.CanAddSphere(TMagicSphere.msFire))
         {
             FLeader.AddSphere(TMagicSphere.msFire);
@@ -1171,7 +1165,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:624
     public void SelDeathClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FLeader.CanAddSphere(TMagicSphere.msDeath))
         {
             FLeader.AddSphere(TMagicSphere.msDeath);
@@ -1182,7 +1176,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:634
     public void SelWaterClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FLeader.CanAddSphere(TMagicSphere.msWater))
         {
             FLeader.AddSphere(TMagicSphere.msWater);
@@ -1193,7 +1187,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:644
     public void SelAirClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FLeader.CanAddSphere(TMagicSphere.msAir))
         {
             FLeader.AddSphere(TMagicSphere.msAir);
@@ -1204,7 +1198,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:654
     public void SelEarthClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FLeader.CanAddSphere(TMagicSphere.msEarth))
         {
             FLeader.AddSphere(TMagicSphere.msEarth);
@@ -1215,7 +1209,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:664
     public void DeleteSphereClick(int Slot)
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var sphereCount = FLeader.GetSphereCount();
         if (Slot < sphereCount)
         {
@@ -1228,7 +1222,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:672
     public void RaceCBChange()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var objectValue = RaceCB.Items.Objects[RaceCB.Selected];
         FLeader.SetRace((sbyte)ObjectToInt(objectValue));
     }
@@ -1236,7 +1230,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:678
     public void SelectedAbilitiesSortClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FSelectedSort == 0)
         {
             FSelectedSort = 1;
@@ -1252,7 +1246,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:686
     public void SelectedAbilitiesCostSortClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FSelectedSort == 2)
         {
             FSelectedSort = 3;
@@ -1268,7 +1262,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:694
     public void AvailableAbilitiesSortClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FAvailableSort == 0)
         {
             FAvailableSort = 1;
@@ -1284,7 +1278,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:702
     public void AvailableAbilitiesCostSortClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FAvailableSort == 2)
         {
             FAvailableSort = 3;
@@ -1300,19 +1294,19 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:710
     public void SBaseClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWLeaderSetup.pas:715
     public void SExtraClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWLeaderSetup.pas:720
     public void SFinalClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWLeaderSetup.pas:725
@@ -1322,11 +1316,11 @@ public partial class TLeaderSetupWin : TDataModule
         if (Button == TMouseButton.mbRight && SelectedAbilities.Selected != -1)
         {
             var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-            Ability = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                SetInfoBanner(AoWInfoBannerUnit.InfoBanner, name, Ability.FDescription);
+                Aow.Game.Ui.Dialogs.TInfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
@@ -1338,17 +1332,21 @@ public partial class TLeaderSetupWin : TDataModule
         if (Button == TMouseButton.mbRight && AvailableAbilities.Selected != -1)
         {
             var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-            Ability = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                SetInfoBanner(AoWInfoBannerUnit.InfoBanner, name, Ability.FDescription);
+                Aow.Game.Ui.Dialogs.TInfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
-}
 
-public static partial class AoWLeaderSetupUnit
-{
-    public static TLeaderSetupWin LeaderSetupWin;
+    private static readonly string FinishRStr = "Finish";
+    private static readonly string NextRStr = "Next";
+    private static readonly string PleaseAssignAllSpheresRStr = "Please assign all spheres!";
+    private static readonly string SelectedSpheresRStr = "Selected Spheres";
+    private static readonly string SkillPointsRStr = "Skill Points";
+    private static readonly string Step1CustomizeLeaderRStr = "Step 1: Customize Leader";
+    private static readonly string Step2AssignSkillPointsRStr = "Step 2: Assign Skill Points";
+    private static readonly string Step3AssignSpheresRStr = "Step 3: Assign Spheres";
 }

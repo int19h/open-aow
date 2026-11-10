@@ -3,7 +3,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -41,23 +40,8 @@ public partial class TWaterNodeResource : TProductionPlaceResource
     // WaterNode.pas:27
 
     // WaterNode.pas:52
-    public override string ResourceEditName() => TranslateRStr(WaterNodeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TWaterNodeResource.WaterNodeRStr);
 
-}
+    private static readonly string WaterNodeRStr = "Water Node";
 
-public static partial class WaterNodeUnit
-{
-    // WaterNode.pas:61
-    public static void RegisterWaterNode(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TWaterNode>(), EClass.Of<TWaterNodeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

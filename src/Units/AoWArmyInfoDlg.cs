@@ -1,16 +1,26 @@
 // Translated from AoWArmyInfoDlg.pas.
+using Aow.Game.Combat;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWArmyInfoDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -62,10 +72,10 @@ public partial class TArmyInfoDlg : TDataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             Alignment = FEvent.FArmyView.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < aowIntGfxModUnit.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
             }
 
@@ -75,7 +85,7 @@ public partial class TArmyInfoDlg : TDataModule
             FEvent.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, SD, Info);
             if ((((int)(((uint)FEvent.FSelection) >> Index)) & 1) == 0)
             {
-                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[7];
+                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
             }
 
@@ -91,8 +101,8 @@ public partial class TArmyInfoDlg : TDataModule
         if (FUnitInfoShown)
         {
             FUnitInfoShown = false;
-            AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = AOWControlWinUnit.ControlWin.ControlWindow.Priority;
-            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Priority;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
         Notify = FOnClose;
@@ -113,14 +123,14 @@ public partial class TArmyInfoDlg : TDataModule
     // AoWArmyInfoDlg.pas:109
     public void CloseBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
     // AoWArmyInfoDlg.pas:115
     public void CloseClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -131,12 +141,12 @@ public partial class TArmyInfoDlg : TDataModule
         if (Slot < count)
         {
             var unit = FEvent.FArmyView.GetUnit(Slot);
-            General.FSelectedUnit = unit;
+            Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
             if (Button == TMouseButton.mbLeft)
             {
                 FUnitInfoShown = true;
-                AoWUnitWindowUnit.UnitWindow.ShowUnit();
-                AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
         }
     }
@@ -188,8 +198,18 @@ public partial class TArmyInfoDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWArmyInfoDlgUnit
-{
+    internal static void ShowArmyInfo(TArmyInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
+    {
+        Dialog.FOnClose = Done;
+        Dialog.FEvent = Event;
+        Dialog.FEvent.AddRef();
+        var text = Event.FMessages.Text;
+        Dialog.Message.Items.Text = text;
+        Dialog.Title.Text = Event.FTitle;
+        Dialog.HeaderLbl.Text = Event.FDescription;
+        Dialog.Dlg.Visible = true;
+        Dialog.FUnitInfoShown = false;
+    }
+
 }

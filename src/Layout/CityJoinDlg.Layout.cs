@@ -469,27 +469,27 @@ public partial class TCityJoinDlg : ILayoutModule
         CloseBtn.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Dlg.WinManager = AoWWinManUnit.General.Manager;
-        Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        ApproachLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        CeltFrame.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        Memo.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
-        Memo.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        CancelBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        CancelBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        AttackBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        AttackBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
-        Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        AcceptBtn.ToolTip = AoWWinManUnit.General.ToolTip;
-        AcceptBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        AcceptBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        WhatLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        CloseBtn.ToolTip = AoWWinManUnit.General.ToolTip;
-        CloseBtn.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        Dlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        Dlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        ApproachLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        CeltFrame.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        BCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        Memo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        Memo.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        CancelBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        CancelBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        AttackBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        AttackBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        TitleIcon.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleIcons;
+        Title.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        AcceptBtn.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
+        AcceptBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        AcceptBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        WhatLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        CloseBtn.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
+        CloseBtn.ILIcon = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericI;
     }
 
     private void Layout_DlgHide_0()

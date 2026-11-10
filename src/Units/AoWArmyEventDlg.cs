@@ -11,8 +11,6 @@ using Aow.Game.Units;
 using Aow.Rtl;
 // Translated from AoWArmyEventDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -80,14 +78,14 @@ public partial class TArmyEventDlg : TDataModule
                 {
                     var unit5 = FUnits[Index];
                     var unitGFXResourceIndex = Event.FArmyView.GetUnit(unit5).GetUnitGFXResourceIndex();
-                    var unitGFXResource = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
+                    var unitGFXResource = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
                     unitGFXResource.FSFXLibraries[3].Play(0);
                 }
                 else
                 {
                     var unit5 = FUnits[Index];
                     var unitGFXResourceIndex = Event.FArmyView.GetUnit(unit5).GetUnitGFXResourceIndex();
-                    var unitGFXResource = AoWHSSet.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
+                    var unitGFXResource = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
                     unitGFXResource.FSFXLibraries[4].Play(0);
                 }
             }
@@ -98,22 +96,22 @@ public partial class TArmyEventDlg : TDataModule
                 var damageValue = Event.FDamageValues[unit4];
                 var unit5 = FUnits[Index];
                 var damageType = Event.FDamageTypes[unit5];
-                ShowDamageIcon(X, Y + 8, SD, damageValue, (TDamageType)damageType);
+                Aow.Game.Magic.Abilities.AbilityRules.ShowDamageIcon(X, Y + 8, SD, damageValue, (TDamageType)damageType);
                 var unit6 = FUnits[Index];
                 var hitPoints = Event.FArmyView.GetUnit(unit6).GetHitPoints();
                 var unit7 = FUnits[Index];
                 var damageValue2 = Event.FDamageValues[unit7];
                 var unit8 = FUnits[Index];
-                var hitPointsToHitPcnt = HitPointsToHitPcnt((sbyte)(byte)(hitPoints - damageValue2), Event.FArmyView.GetUnit(unit8).GetHits());
-                ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
+                var hitPointsToHitPcnt = Aow.Game.Magic.Abilities.HitChance.HitPointsToHitPcnt((sbyte)(byte)(hitPoints - damageValue2), Event.FArmyView.GetUnit(unit8).GetHits());
+                Aow.Game.Magic.Abilities.HitChance.ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
             }
             else
             {
                 var unit4 = FUnits[Index];
                 var hits = Event.FArmyView.GetUnit(unit4).GetHits();
                 var unit5 = FUnits[Index];
-                var hitPointsToHitPcnt = HitPointsToHitPcnt(Event.FArmyView.GetUnit(unit5).GetHitPoints(), hits);
-                ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
+                var hitPointsToHitPcnt = Aow.Game.Magic.Abilities.HitChance.HitPointsToHitPcnt(Event.FArmyView.GetUnit(unit5).GetHitPoints(), hits);
+                Aow.Game.Magic.Abilities.HitChance.ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
             }
         }
         else
@@ -129,14 +127,14 @@ public partial class TArmyEventDlg : TDataModule
         TArmyEventLog Event;
         TExecuteDoneEvent Notify;
         int Resource = default;
-        General.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         for (int I = 0, last = FUnits.Count - 1; I <= last; I++)
         {
             var unit = FUnits[I];
             Resource = FEvent.FArmyView.GetUnit(unit).GetUnitGFXResourceIndex();
             if (Resource != -1)
             {
-                AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Resource).Release();
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Resource).Release();
             }
         }
 
@@ -170,7 +168,7 @@ public partial class TArmyEventDlg : TDataModule
     // AoWArmyEventDlg.pas:181
     public void CloseClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         ArmyEventWin.Visible = false;
     }
 
@@ -206,12 +204,8 @@ public partial class TArmyEventDlg : TDataModule
             ArmyEventWin.Visible = false;
         }
     }
-}
 
-public static partial class AoWArmyEventDlgUnit
-{
-    // AoWArmyEventDlg.pas:84
-    public static void ShowArmyEvent(TArmyEventDlg Dialog, TArmyEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowArmyEvent(TArmyEventDlg Dialog, TArmyEventLog Event, TExecuteDoneEvent Done)
     {
         TArmyEventLog Log;
         TArmyView Army;
@@ -228,13 +222,13 @@ public static partial class AoWArmyEventDlgUnit
         Dialog.FUnits.Clear();
         for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
         {
-            if (!Army.GetUnitConcealedForPlayer(I, AoWHSMap.FSeatedPlayer) || Log.FDamageValues[I] != 0)
+            if (!Army.GetUnitConcealedForPlayer(I, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer) || Log.FDamageValues[I] != 0)
             {
                 Dialog.FUnits.Add((byte)I);
                 Image = Log.FArmyView.GetUnit(I).GetUnitGFXResourceIndex();
                 if (Image != -1)
                 {
-                    AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image).AddRef();
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image).AddRef();
                 }
             }
         }
@@ -242,4 +236,5 @@ public static partial class AoWArmyEventDlgUnit
         Dialog.ArmyEventWin.Visible = true;
         Dialog.FFrame = 0;
     }
+
 }

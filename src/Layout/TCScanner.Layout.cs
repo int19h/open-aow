@@ -235,19 +235,19 @@ public partial class TTCScanner : ILayoutModule
         SMinIcon.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        TCScannerWin.WinManager = AoWWinManUnit.General.Manager;
-        TCScannerWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        TCScannerWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        ScannerFr.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        Scanner.TilesImageLib = aowIntGfxModUnit.IntGfxMod.ScanTiles;
-        Scanner.HiLightsImageLib = aowIntGfxModUnit.IntGfxMod.ScanHiLites;
-        Scanner.FogImageLib = aowIntGfxModUnit.IntGfxMod.ScanFog;
-        Scanner.ILObjects = aowIntGfxModUnit.IntGfxMod.ScanObj;
-        Scanner.ILFrame = aowIntGfxModUnit.IntGfxMod.ScanWin;
-        STitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
-        STitleLabel.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        SMinIcon.ToolTip = AoWWinManUnit.General.ToolTip;
-        SMinIcon.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
+        TCScannerWin.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        TCScannerWin.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        TCScannerWin.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        ScannerFr.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        Scanner.TilesImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanTiles;
+        Scanner.HiLightsImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanHiLites;
+        Scanner.FogImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanFog;
+        Scanner.ILObjects = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanObj;
+        Scanner.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanWin;
+        STitleIcon.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleIcons;
+        STitleLabel.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        SMinIcon.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
+        SMinIcon.ILIcon = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericI;
     }
 
     private void Layout_TCScannerWinDrag_0()

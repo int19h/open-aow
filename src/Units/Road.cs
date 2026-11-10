@@ -3,7 +3,6 @@ using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Map;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Hexes;
 
@@ -29,7 +28,7 @@ public partial class TRoad : TAbstractRoad
     {
         int Xhp = default;
         int Yhp = default;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         ((TRoadResource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
     }
 
@@ -64,8 +63,8 @@ public partial class TRoad : TAbstractRoad
         FTransitions = 0;
         for (int HN = 1; HN <= 6; HN++)
         {
-            HNtoHX(HN, ref Xhx, ref Yhx);
-            TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);
@@ -99,8 +98,8 @@ public partial class TRoad : TAbstractRoad
         Level = (TMapLevel)Owner.Owner;
         for (int HN = 1; HN <= 6; HN++)
         {
-            HNtoHX(HN, ref Xhx, ref Yhx);
-            TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
             {
                 MapField = Level.GetField(Xhx, Yhx);
@@ -202,13 +201,4 @@ public partial class TRoadResource : TAbstractRoadResource
     // Road.pas:131
     public override string ResourceEditName() => "Road";
 
-}
-
-public static partial class RoadUnit
-{
-    // Road.pas:177
-    public static void RegisterRoad(TEngine Engine)
-    {
-        Engine.RegisterEClasses([EClass.Of<TRoad>(), EClass.Of<TRoadResource>()]);
-    }
 }

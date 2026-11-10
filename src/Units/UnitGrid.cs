@@ -117,14 +117,3 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     [Published]
     public bool EditEnabled { get => FEditEnabled; set => FEditEnabled = value; }
 }
-
-public static partial class UnitGridUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

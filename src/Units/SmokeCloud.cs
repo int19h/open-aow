@@ -13,8 +13,6 @@ using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.Magic.Spells
 {
@@ -47,7 +45,7 @@ namespace Aow.Game.Magic.Spells
         }
 
         // SmokeCloud.pas:102
-        public override string GetName() => AoWHSSet.FSpellControl.GetSpell(74).FSpellName;
+        public override string GetName() => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(74).FSpellName;
 
         // SmokeCloud.pas:156
         public override bool VisibleForPlayer(sbyte Player)
@@ -57,11 +55,11 @@ namespace Aow.Game.Magic.Spells
             ref var walk = ref Walk;
             var yhx = FCloud.Yhx;
             var xhx = FCloud.Xhx;
-            InitHNWalk(ref Walk, xhx, yhx, 0);
+            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
             while (!Result && walk.Radius <= 3)
             {
-                Result = AoWHSMap.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, Player);
-                WalkToNextHN(ref Walk);
+                Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, Player);
+                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
             }
 
             return Result;
@@ -155,7 +153,7 @@ namespace Aow.Game.World
         // SmokeCloud.pas:300
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            if (FVisibleForSeatedPlayer || AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (FVisibleForSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
@@ -185,7 +183,7 @@ namespace Aow.Game.World
         // SmokeCloud.pas:245
         public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
         {
-            if (Msg.MsgID != 16 || AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (Msg.MsgID != 16 || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.MapFieldMsgProc(ref Msg);
             }
@@ -212,7 +210,7 @@ namespace Aow.Game.World
             base.Activate();
             if (FDirection == 0)
             {
-                FDirection = (byte)(AoWHSMap.Random(6) + 1);
+                FDirection = (byte)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(6) + 1);
             }
 
             var smokeCloudEnchantment = FEnchantment;
@@ -258,8 +256,8 @@ namespace Aow.Game.World
             int HN;
             if (FResource.Engine.HSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
-                HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-                HN = dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
+                Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+                HN = Aow.Game.World.Map.HexGeometry.dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
                 Result = HN < FResource.TerrainList.Count && FResource.TerrainList.Terrain[HN] >= -1;
             }
             else
@@ -277,8 +275,8 @@ namespace Aow.Game.World
             TMapLevel Level;
             TAoWMapField MapField;
             TArmyHS ArmyHS;
-            Level = AoWHSMap.MapContainer.MapLevels[Lhx];
-            InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Lhx];
+            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (FResource.TerrainList.Count > Walk.HN)
             {
                 if (FResource.TerrainList.Terrain[Walk.HN] >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
@@ -291,7 +289,7 @@ namespace Aow.Game.World
                     }
                 }
 
-                WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -302,11 +300,11 @@ namespace Aow.Game.World
             var lhx = GetLhx();
             var yhx = GetYhx();
             var xhx = GetXhx();
-            Visible = AoWHSMap.Visible(xhx, yhx, lhx, 3) || FEnchantment.FPlayerIndex == AoWHSMap.FSeatedPlayer;
+            Visible = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Visible(xhx, yhx, lhx, 3) || FEnchantment.FPlayerIndex == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
             if (FVisibleForSeatedPlayer ^ Visible)
             {
                 FVisibleForSeatedPlayer = Visible;
-                AoWHSMap.FGlobalMagicControl.TriggerChangedEvent();
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.TriggerChangedEvent();
             }
         }
 
@@ -318,8 +316,8 @@ namespace Aow.Game.World
             TMapLevel Level;
             Level = (TMapLevel)Owner.Owner;
             var yhx = GetYhx();
-            CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
-            CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
             return Xhx >= 10 && Yhx >= 10 && Level.Width >= Xhx + 10 && Level.Height >= Yhx + 10;
         }
 
@@ -367,7 +365,7 @@ namespace Aow.Game.World
 
                     while (Directions.Count != 0 && !Valid)
                     {
-                        Direction = Directions[AoWHSMap.Random(Directions.Count)];
+                        Direction = Directions[Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(Directions.Count)];
                         Valid = ValidMoveDir(Direction);
                         if (!Valid)
                         {
@@ -381,7 +379,7 @@ namespace Aow.Game.World
                         Tries = 20;
                         while (!Valid && Tries != 0)
                         {
-                            Direction = AoWHSMap.Random(6) + 1;
+                            Direction = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(6) + 1;
                             Valid = ValidMoveDir(Direction);
                             Tries -= 1;
                         }
@@ -392,13 +390,13 @@ namespace Aow.Game.World
                         FDirection = (byte)Direction;
                         Lhx = GetLhx();
                         var yhx = GetYhx();
-                        CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
-                        CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
+                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
+                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
                         Disconnect();
                         UpdateConcealment(FXhx, FYhx, (sbyte)Lhx);
                         FXhx = (sbyte)Xhx;
                         FYhx = (sbyte)Yhx;
-                        Owner = AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
+                        Owner = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
                         Connect();
                         UpdateConcealment(FXhx, FYhx, (sbyte)Lhx);
                     }
@@ -426,7 +424,7 @@ namespace Aow.Game.World
         public override int ResourceUserClassID() => 135746;
 
         // SmokeCloud.pas:388
-        public override string ResourceEditName() => TranslateRStr(SmokeCloudRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SmokeCloudRStr);
 
     }
 }
@@ -449,22 +447,5 @@ namespace Aow.Game.Magic.Spells
         public FixedArray_byte_165 Reserved;
         [FieldOffset(165)]
         public byte SeatedPlayer;
-    }
-
-    public static partial class SmokeCloudUnit
-    {
-        // SmokeCloud.pas:394
-        public static void RegisterSmokeCloud(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TSmokeCloud>(), EClass.Of<TSmokeCloudResource>(), EClass.Of<TSmokeCloudEnchantment>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

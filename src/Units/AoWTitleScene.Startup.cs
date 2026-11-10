@@ -6,9 +6,6 @@ using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.Ui.Dialogs;
 using Aow.Rtl;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -16,23 +13,23 @@ public partial class TTitleScene
 {
     public void ShowScene(bool playMusic)
     {
-        var player = SoundUnit.SongPlayer;
+        var player = Aow.Game.Audio.AudioHost.SongPlayer;
         if (playMusic && !(player.CurrentIndex >= 0 && player.CurrentIndex < player.Songs.Count && player.Songs[player.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             player.Songs.Clear();
             player.Songs.Add("SONGS\\TITLE.IT");
             player.Play(0);
         }
-        General.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         TitleSceneIL.LoadDiscardableImageData();
-        VideoDialog.SetSceneSize(640, 480);
-        SetVideoMode(VideoDialog, TScreenMode.scmTitle);
-        VideoDialog.ApplyMode();
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
+        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmTitle);
+        Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.SetFrameRate(30);
         GameHost.MainForm.DXDC.UseVerticalBlank = true;
         FRedrawBackground = true;
         FPressedButton = FHoverButton = -1;
-        FFont = FCreditsFont = FontModule.AoW15WhiteGrey;
+        FFont = FCreditsFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
         Window.WinManager.ILIndexTBack = 4;
         Window.Visible = true;
     }
@@ -58,36 +55,36 @@ public partial class TTitleScene
             {
                 case 0:
                     Window.Visible = false;
-                    General.PlayButtonSound(0);
-                    MultiWindow.Execute("");
+                    Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+                    Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.Execute("");
                     break;
                 case 1:
-                    if (!AoWEUnit.AoWEngine.FDemo)
+                    if (!Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo)
                     {
                         Window.Visible = false;
-                        General.PlayButtonSound(0);
-                        AoWSelFactionWinUnit.ShowFactionSelection(AoWSelFactionWinUnit.SelFactionWin);
+                        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+                        Aow.Game.Ui.Dialogs.TTitleScene.ShowFactionSelection(Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin);
                     }
-                    else AoWMessageDlgUnit.ShowDemoMessage();
+                    else Aow.Game.Ui.Dialogs.TMessageDlg.ShowDemoMessage();
                     break;
                 case 2:
-                    E2GameFlowUnit.LoadGame(General, FileBoundary.ReadName(AoWEUnit.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
-                    if (AoWEUnit.AoWHSMap is { } map)
+                    Aow.Game.Ui.Dialogs.TTitleScene.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, FileBoundary.ReadName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { } map)
                     {
                         map.FFixedLeaders = true;
-                        E2GameFlowUnit.StartGame(General);
+                        Aow.Game.Ui.Dialogs.TTitleScene.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
                         Window.Visible = false;
                     }
                     break;
                 case 3:
-                    General.PlayButtonSound(0);
-                    AoWFileDialogUnit.FileDlgWindow.FMode = 0;
-                    AoWFileDialogUnit.FileDlgWindow.FileDialog.Visible = true;
+                    Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+                    Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FMode = 0;
+                    Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible = true;
                     break;
                 case 4:
                     Window.Visible = false;
-                    General.PlayButtonSound(0);
-                    if (AoWEUnit.AoWEngine.FDemo) E2GlobalsUnit.TitleWindow.ShowExitSplash();
+                    Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo) Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.ShowExitSplash();
                     else GameHost.MainForm.CloseRequested();
                     break;
             }

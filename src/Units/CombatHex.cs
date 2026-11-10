@@ -8,9 +8,6 @@ using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
@@ -35,14 +32,14 @@ public partial class TCombatHexagon : TAbstractHexagon
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                ((TAoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(AoWCombatMap.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
+                ((TAoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
             }
             else
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                ((TAoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(AoWCombatMap.MapContainer, xhx, yhx, lhx, 0);
+                ((TAoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer, xhx, yhx, lhx, 0);
             }
         }
     }
@@ -75,7 +72,7 @@ public partial class TCombatHexagon : TAbstractHexagon
         TCustomImageLibrary Images;
         if (((TMapField)Owner).OverlayType != 4)
         {
-            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             Images = FResource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -99,7 +96,7 @@ public partial class TCombatHexagon : TAbstractHexagon
     }
 
     // CombatHex.pas:73
-    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
     // CombatHex.pas:134
     public override void UpdateTransitions()
@@ -120,7 +117,7 @@ public partial class TCombatHexagon : TAbstractHexagon
         int X = default;
         int Y = default;
         MapLevel = (TMapLevel)Owner.Owner;
-        CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, CombatHexUnit.TransitionNeighbours[Side - 1], ref X, ref Y);
+        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Aow.Game.World.Hexes.TCombatHexagon.TransitionNeighbours[Side - 1], ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
         {
             NeighbourTerrain = MapLevel.GetField(X, Y).TerrainType;
@@ -247,6 +244,8 @@ public partial class TCombatHexagon : TAbstractHexagon
         }
     }
 
+    private static global::Aow.Game.Engine.Buffers.FixedArray_byte_3 TransitionNeighbours = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
+
 }
 
 public partial class TCombatHexagonResource : TAbstractHexagonResource
@@ -280,7 +279,7 @@ public partial class TCombatHexagonResource : TAbstractHexagonResource
 
         if (Msg.MsgID == 536870920)
         {
-            FTransitionLibrary = AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCombat\\Base_Hex\\CTransHx.ILB");
+            FTransitionLibrary = Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCombat\\Base_Hex\\CTransHx.ILB");
         }
     }
 
@@ -321,7 +320,7 @@ public partial class TWaterCombatHexagon : TAoWWaterHexagon
     public new const int ClassID = 2229655;
 
     // CombatHex.pas:216
-    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
 }
 
@@ -342,23 +341,4 @@ public partial class TWaterCombatHexagonResource : TAoWWaterHexagonResource
     // CombatHex.pas:225
     public override string ResourceEditName() => "Combat Water/Ice hex";
 
-}
-
-public static partial class CombatHexUnit
-{
-    // CombatHex.pas:234
-    public static void RegisterCombatHexagon(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TCombatHexagonResource>(), EClass.Of<TCombatHexagon>(), EClass.Of<TWaterCombatHexagon>(), EClass.Of<TWaterCombatHexagonResource>()]);
-    }
-
-    public static FixedArray_byte_3 TransitionNeighbours = FixedArray_byte_3.From([6, 1, 2]);
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

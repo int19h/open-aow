@@ -792,7 +792,3 @@ public partial class TAOWWinManager : TAoWComponent
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AOWWinManagerUnit
-{
-}

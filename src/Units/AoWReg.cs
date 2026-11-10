@@ -1,6 +1,5 @@
 // Translated from AoWReg.pas.
 using Aow.Rtl;
-using static Aow.Game.Engine.Nodes.EngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Engine;
@@ -120,12 +119,12 @@ public partial class TAoWRegistry : TRegistry
                     if (ValueExists(Name))
                     {
                         S = ReadString(Name);
-                        Value = AoWRegUnit.StringToRect(S);
+                        Value = Aow.Game.Engine.TAoWRegistry.StringToRect(S);
                     }
 
                     break;
                 case TReadWriteMode.rwWrite:
-                    S = AoWRegUnit.RectToString(Value);
+                    S = Aow.Game.Engine.TAoWRegistry.RectToString(Value);
                     WriteString(Name, S);
                     break;
             }
@@ -715,14 +714,14 @@ public partial class TAoWRegistry : TRegistry
         string Result;
         Result = "";
         rwString("Email", "POP3 Password", ref Result, TReadWriteMode.rwRead);
-        Result = AoWRegUnit.TransformPassword(Result, true);
+        Result = Aow.Game.Engine.TAoWRegistry.TransformPassword(Result, true);
         return Result;
     }
 
     // AoWReg.pas:728
     public void SetPOP3Password(string Value)
     {
-        Value = AoWRegUnit.TransformPassword(Value, true);
+        Value = Aow.Game.Engine.TAoWRegistry.TransformPassword(Value, true);
         rwString("Email", "POP3 Password", ref Value, TReadWriteMode.rwWrite);
     }
 
@@ -781,7 +780,7 @@ public partial class TAoWRegistry : TRegistry
                     S = Copy(S, 1, P - 1);
                     if (!IsEmpty(S))
                     {
-                        Result = HexToInt(S);
+                        Result = Aow.Game.Engine.TAoWRegistry.HexToInt(S);
                     }
                 }
             }
@@ -815,6 +814,87 @@ public partial class TAoWRegistry : TRegistry
         int value = 0;
         rwInteger("General", "Language", ref value, TReadWriteMode.rwRead);
         return value is >= 2 and <= 5 ? (TAoWLanguage)value : TAoWLanguage.alEnglish;
+    }
+
+    private static TRect StringToRect(string S)
+    {
+        TRect result = default(TRect);
+        int num = RtlUnit.Pos(",", S);
+        int num2 = 0;
+        while (!RtlUnit.IsEmpty(S) && num2 != 4)
+        {
+            string text;
+            if (num != 0)
+            {
+                text = RtlUnit.Copy(S, 1, num - 1);
+                S = RtlUnit.Delete(S, 1, num);
+            }
+            else
+            {
+                text = S;
+                S = "";
+            }
+            int num3 = ((!RtlUnit.IsEmpty(text)) ? RtlUnit.StrToInt(text) : 0);
+            switch (num2)
+            {
+                case 0:
+                    result.Left = num3;
+                    break;
+                case 1:
+                    result.Top = num3;
+                    break;
+                case 2:
+                    result.Right = num3;
+                    break;
+                case 3:
+                    result.Bottom = num3;
+                    break;
+            }
+            num = RtlUnit.Pos(",", S);
+            num2++;
+        }
+        return result;
+    }
+
+    private static string RectToString(TRect R)
+    {
+        return string.Concat(new string[7]
+        {
+            RtlUnit.IntToStr(R.Left),
+            ",",
+            RtlUnit.IntToStr(R.Top),
+            ",",
+            RtlUnit.IntToStr(R.Right),
+            ",",
+            RtlUnit.IntToStr(R.Bottom)
+        });
+    }
+
+    private static string TransformPassword(string S, bool Mode)
+    {
+        string text = "";
+        for (int i = 1; i <= S.Length; i++)
+        {
+            text += Cp1252.Text((byte)(((S.Length + (i + 5)) & 0xFF) ^ Cp1252.Byte(S[i - 1])));
+        }
+        return text;
+    }
+
+    private static int HexToInt(string S)
+    {
+        int num = 0;
+        int num2 = S.Length;
+        if (num2 > 8)
+        {
+            num2 = 8;
+        }
+        for (int i = 0; i <= num2 - 1; i++)
+        {
+            byte b = Cp1252.Byte(S[num2 - i - 1]);
+            int num3 = ((!TSet<byte>.WithBounds(0, 255).WithRange((byte)48, (byte)57).Contains(b)) ? ((!TSet<byte>.WithBounds(0, 255).WithRange((byte)65, (byte)70).Contains(b)) ? (TSet<byte>.WithBounds(0, 255).WithRange((byte)97, (byte)102).Contains(b) ? (b - 97 + 10) : 0) : (b - 65 + 10)) : (b - 48));
+            num |= num3 << i * 4;
+        }
+        return num;
     }
 }
 
@@ -865,108 +945,4 @@ public enum TAoWLanguage : byte
     alFrench = 3,
     alSpanish = 4,
     alItalian = 5
-}
-
-public static partial class AoWRegUnit
-{
-    // AoWReg registry settings from AoWEPACK.dpl, recovered against Delphi 3.02
-    public static TGUID ID_AOWAPP = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
-
-    // AoWReg.pas:811
-    public static bool ValidAoWCD(byte Drive)
-    {
-        /* TODO: Implement Windows.GetDriveType in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // AoWReg.pas:824
-    public static bool AoWCDInserted() => true;
-
-    // AoWReg.pas:894
-    // { The shipped GOG binary patches the drive scan to True followed by 54 NOPs. }
-    public static bool GuaranteeAoWCD(string FirstMessage, string RetryMessage)
-    {
-        /* TODO: Implement Dialogs.MessageDlg in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    public static readonly string AgeOfWondersMapStr = "Age Of Wonders Map";
-
-    // AoWReg.pas:189
-    public static TRect StringToRect(string S)
-    {
-        int P;
-        int I;
-        int Value;
-        string Part;
-        TRect Result = default;
-        P = Pos(",", S);
-        I = 0;
-        while (!IsEmpty(S) && I != 4)
-        {
-            if (P != 0)
-            {
-                Part = Copy(S, 1, P - 1);
-                S = Delete(S, 1, P);
-            }
-            else
-            {
-                Part = S;
-                S = "";
-            }
-
-            if (!IsEmpty(Part))
-            {
-                Value = StrToInt(Part);
-            }
-            else
-            {
-                Value = 0;
-            }
-
-            switch (I)
-            {
-                case 0:
-                    Result.Left = Value;
-                    break;
-                case 1:
-                    Result.Top = Value;
-                    break;
-                case 2:
-                    Result.Right = Value;
-                    break;
-                case 3:
-                    Result.Bottom = Value;
-                    break;
-            }
-
-            P = Pos(",", S);
-            I += 1;
-        }
-
-        return Result;
-    }
-
-    // AoWReg.pas:221
-    public static string RectToString(TRect R) => IntToStr(R.Left) + "," + IntToStr(R.Top) + "," + IntToStr(R.Right) + "," + IntToStr(R.Bottom);
-
-    // AoWReg.pas:701
-    public static string TransformPassword(string S, bool Mode)
-    {
-        string Result = "";
-        for (int I = 1; I <= S.Length; I++)
-        {
-            Result = Result + Cp1252.Text((byte)(((S.Length + (I + 5)) & 255) ^ Cp1252.Byte(S[I - 1])));
-        }
-
-        return Result;
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

@@ -3,7 +3,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Session;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -39,50 +38,8 @@ public partial class TBuildersGuildResource : TProductionPlaceResource
     // BldGuild.pas:26
 
     // BldGuild.pas:50
-    public override string ResourceEditName() => TranslateRStr(BuildersGuildRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TBuildersGuildResource.BuildersGuildRStr);
 
-}
+    private static readonly string BuildersGuildRStr = "Builders Guild";
 
-public static partial class BldGuildUnit
-{
-    // BldGuild.pas:59
-    public static int BuildersGuildIncome(sbyte Player)
-    {
-        int Result;
-        TPlayer P;
-        TPlayerStructure S;
-        if (AoWHSMap != null)
-        {
-            P = AoWHSMap.FPlayers.GetPlayers(Player);
-            Result = 0;
-            for (int I = 0, last = P.FStructures.Count - 1; I <= last; I++)
-            {
-                S = P.FStructures.GetStructure(I);
-                if (S.EClass.ClassID == 133422 && S.FPlayer == Player)
-                {
-                    Result += S.GetIncome();
-                }
-            }
-        }
-        else
-        {
-            Result = -1;
-        }
-
-        return Result;
-    }
-
-    // BldGuild.pas:79
-    public static void RegisterBuildersGuild(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TBuildersGuild>(), EClass.Of<TBuildersGuildResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

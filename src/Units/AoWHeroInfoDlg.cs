@@ -11,10 +11,6 @@ using Aow.Game.Units;
 using Aow.Rtl;
 // Translated from AoWHeroInfoDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Session.E2CampaignSupportUnit;
-using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -55,8 +51,8 @@ public partial class THeroInfoDlg : TDataModule
         if (FDetailsOpen)
         {
             FDetailsOpen = false;
-            AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = AOWControlWinUnit.ControlWin.ControlWindow.Priority;
-            AoWUnitWindowUnit.UnitWindow.UnitWin.Visible = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Priority;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
         Done = FDone;
@@ -89,9 +85,9 @@ public partial class THeroInfoDlg : TDataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             Alignment = FArmyInfo.FArmyView.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
             {
-                var image = IntGfxMod.UnitBGs[(int)Alignment];
+                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
             }
 
@@ -101,7 +97,7 @@ public partial class THeroInfoDlg : TDataModule
             FArmyInfo.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
             if ((((int)(((uint)FArmyInfo.FSelection) >> Index)) & 1) == 0)
             {
-                var image = IntGfxMod.UnitBGs[7];
+                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
             }
 
@@ -112,7 +108,7 @@ public partial class THeroInfoDlg : TDataModule
     // AoWHeroInfoDlg.pas:146
     public void CloseBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -127,7 +123,7 @@ public partial class THeroInfoDlg : TDataModule
         R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
         R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
-        Hero = FArmyInfo.FArmyView.Hero(FArmyInfo.FSelection, AllHeroTypes);
+        Hero = FArmyInfo.FArmyView.Hero(FArmyInfo.FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
         if (Hero.GetFace() != null)
         {
             Hero.ShowFace(R, Surface);
@@ -166,12 +162,12 @@ public partial class THeroInfoDlg : TDataModule
         if (Slot < count)
         {
             var unit = FArmyInfo.FArmyView.GetUnit(Slot);
-            General.FSelectedUnit = unit;
+            Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
             if (Button == TMouseButton.mbLeft)
             {
                 FDetailsOpen = true;
-                AoWUnitWindowUnit.UnitWindow.ShowUnit();
-                AoWUnitWindowUnit.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
+                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
         }
     }
@@ -190,12 +186,8 @@ public partial class THeroInfoDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWHeroInfoDlgUnit
-{
-    // AoWHeroInfoDlg.pas:61
-    public static void ShowHeroInfo(THeroInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowHeroInfo(THeroInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
     {
         THero Hero;
         Assert(Dialog.FArmyInfo == null, "", "AoWHeroInfoDlg.pas", 80);
@@ -204,12 +196,12 @@ public static partial class AoWHeroInfoDlgUnit
         Dialog.FArmyInfo.AddRef();
         var text = Event.FMessages.Text;
         Dialog.Message.Items.Text = text;
-        Hero = Dialog.FArmyInfo.FArmyView.Hero(Dialog.FArmyInfo.FSelection, AllHeroTypes);
+        Hero = Dialog.FArmyInfo.FArmyView.Hero(Dialog.FArmyInfo.FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
         if (Hero != null)
         {
             Dialog.HeroName.Text = Hero.FHeroName;
             var level = Hero.GetLevel();
-            var format = AoWEUnit.Format(TranslateRStr(LevelXRStr), [IntToStr(level)]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelXRStr), [IntToStr(level)]);
             Dialog.HeroLevel.Text = format;
         }
         else
@@ -221,4 +213,5 @@ public static partial class AoWHeroInfoDlgUnit
         Dialog.Dlg.Visible = true;
         Dialog.FDetailsOpen = false;
     }
+
 }

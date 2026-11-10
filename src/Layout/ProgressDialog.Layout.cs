@@ -303,18 +303,18 @@ public partial class TProgressDialog : ILayoutModule
         AOWImage2.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Title.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        StatusLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        ProgDlg.WinManager = AoWWinManUnit.General.Manager;
-        ProgDlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        ProgDlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        Bar.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        Bar.ILTextureNormal = aowIntGfxModUnit.IntGfxMod.GenericT;
-        Bar.ILTextureSelected = aowIntGfxModUnit.IntGfxMod.GenericT;
-        TCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        AOWImage1.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        AOWImage2.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
+        Title.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        BCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        StatusLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        ProgDlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        ProgDlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        ProgDlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        Bar.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        Bar.ILTextureNormal = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        Bar.ILTextureSelected = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        TCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        AOWImage1.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        AOWImage2.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
     }
 }

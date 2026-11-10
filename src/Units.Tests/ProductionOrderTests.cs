@@ -61,9 +61,9 @@ public sealed class ProductionOrderTests
 
     private static TEngine CreateEngine()
     {
-        if (EngineUnit.Engines is null) EngineUnit.Initialize();
+        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         var engine = new TEngine(null!);
-        engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+        engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
         engine.RegisterEClasses([EClass.Of<TProductionItem>(), EClass.Of<TProductionTE>()]);
         return engine;
     }
@@ -237,21 +237,21 @@ public sealed class ProductionOrderTests
     // reads no unit production.
     private static string OldName(int ID, int Parameter, bool City, TMagicSphere Sphere)
     {
-        string Result = Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.UnknownRStr);
+        string Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
         if (City)
         {
             switch (OldCityAction(ID))
             {
-                case TCityAction.caTrade: Result = Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.ProduceMerchandiseRStr); break;
-                case TCityAction.caUpgrade: Result = Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.UpgradeRStr); break;
-                case TCityAction.caMigrate: Result = Runtime.Format(Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.MigrateToXRStr), [Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.RaceNamesPluralRStr[Parameter])]); break;
-                case TCityAction.caLoot: Result = Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.LootRStr); break;
-                case TCityAction.caFortify: Result = Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.FortifyRStr); break;
+                case TCityAction.caTrade: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceMerchandiseRStr); break;
+                case TCityAction.caUpgrade: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UpgradeRStr); break;
+                case TCityAction.caMigrate: Result = Runtime.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Migrate.MigrateToXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Parameter])]); break;
+                case TCityAction.caLoot: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LootRStr); break;
+                case TCityAction.caFortify: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FortifyRStr); break;
             }
         }
         else if (ID == 10)
         {
-            Result = Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Sphere != TMagicSphere.msNone ? Aow.Game.Magic.Abilities.AoWEUnit.GenerateExtraPowerRStr : Aow.Game.Magic.Abilities.AoWEUnit.ProduceMerchandiseRStr);
+            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Sphere != TMagicSphere.msNone ? Aow.Game.World.Structures.Trade.GenerateExtraPowerRStr : Aow.Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
         }
         return Result;
     }
@@ -264,9 +264,9 @@ public sealed class ProductionOrderTests
     [Fact]
     public void OrdersAnswerAsTheOldSwitches()
     {
-        var previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        var previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
         var map = new TAoWHSMap(null!);
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
         var owner = new EngineFixture.Owner();
         var city = (TCity)EClass.Of<TCity>().Create(owner);
         var guild = (TBuildersGuild)EClass.Of<TBuildersGuild>().Create(owner);
@@ -306,7 +306,7 @@ public sealed class ProductionOrderTests
         finally
         {
             foreach (TStructure structure in new TStructure[] { city, guild, node }) _ = Record.Exception(structure.Dispose);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
             map.Dispose();
         }
     }

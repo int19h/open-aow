@@ -41,31 +41,31 @@ public sealed partial class AoWERuleConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWHSSet previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
-        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        private readonly TAoWHSSet previousSet = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TAoWHSMap Map;
 
         internal Fixture()
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = EngineFixture.Engine;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
             Map = new TAoWHSMap(null!);
             var set = EngineFixture.CreateGameSet(Manager);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = null!;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet = set;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
             Map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
             Map.FRaces = new TRaceList(null!);
             Map.FUnitControl = new TUnitControl(null!);
             Map.FHeroControl = new THeroControl(null!);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
         }
 
         public void Dispose()
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet = previousSet;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
             Manager.Dispose();
             Map.FRaces.Dispose();
             Map.FUnitControl.Dispose();
@@ -143,10 +143,10 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
-            if (EngineUnit.Engines is null) EngineUnit.Initialize();
+            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
             using var engine = new TEngine(null!);
             var meta = EClass.Of(type);
-            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
