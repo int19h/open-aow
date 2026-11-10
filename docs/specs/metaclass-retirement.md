@@ -1,7 +1,7 @@
 # Metaclass retirement (milestone 9.4)
 
 Status 2026-10-30. Complete through CF-3. Briefs 9.4-1 to 9.4-6, CF-2 and CF-3 retire the
-product shim. `src/Units/ClassRegistry.cs` registers every descriptor through the single
+product shim. `src/Game/ClassRegistry.cs` registers every descriptor through the single
 `Catalog<TKey, TValue>` type. `EClass.ClassName` is a `string`. The class-id snapshot remains
 unchanged. The private transpiler still emits `Meta` in its reference tree, which diverges from
 the product source. The driver runs the full gate separately from this brief's build and tests.

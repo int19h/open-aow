@@ -1,0 +1,9 @@
+
+namespace Aow.Game.Audio;
+
+public sealed class SampleClass(string name, Func<SampleData, Sample> create)
+{
+    public string Name { get; } = name;
+
+    public Sample Create(SampleData data) => create(data);
+}

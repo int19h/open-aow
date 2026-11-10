@@ -142,7 +142,7 @@ method.
 ### 3.3 ShowInfo
 
 ```csharp
-[Union] public readonly struct BlendValue : IUnion    // src/Units/GFXE.BlendValue.cs, cases int (percentage) and BlendTable
+[Union] public readonly struct BlendValue : IUnion    // src/Game/Draw/BlendValue.cs, cases int (percentage) and BlendTable
 {
     public int Percentage { get; }                    // the percentage, 0 when empty, EInvalidCast on a table
 }

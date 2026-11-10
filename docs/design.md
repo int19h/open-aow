@@ -537,14 +537,14 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
     cases without boxing: `FormatArg` for the arguments of `Format` (`src/Rtl/Legacy/FormatArg.cs`, in
     place of `TVarRec`), `MsgArg` for the slots of the engine messages `EMsg` and `MapFieldMsg`
     (`src/Rtl/Legacy/MsgArg.cs`), and `BlendValue` for the percentage or table of `ShowInfo`
-    (`src/Units/GFXE.BlendValue.cs`).
+    (`src/Game/Draw/BlendValue.cs`).
   - Four kind families became virtual dispatch (section 6): structure and event log views, whose
     keys the screens render from `Catalog` tables, and production orders and diplomatic proposals,
     open records with `Catalog` registries. No switch on a structure kind, an event log kind, a
     production id or a diplomatic kind remains outside the kind classes, apart from the city
     screen's button table, which selects a button's panel and handler and stays until milestone 10
     gives a mod's new city action its button.
-  - `IntOrRef` remains only in `HashItem.Key` (Delphi `THashItem`) (`Engine.cs`, `HashTabU.cs`), where a hash list
+  - `IntOrRef` remains only in `HashItem.Key` (Delphi `THashItem`) (`src/Engine/Hash/HashList.cs`, `src/Engine/Collections/HashList.cs`), where a hash list
     keeps an integer key and the string hash list a string in the same slot, and in
     `Ptr<T>.Unbox(IntOrRef)`, until the collections pass gives each hash list a typed key.
 - Formats are free. Once the readers for the original formats exist as converting adapters, the
@@ -570,30 +570,35 @@ documents that starts with `docs/` or `src/` is in this repository. One that sta
 `correspondence/`, `data/`, `tools/` or `tests/` is in the private repository. What exists is
 marked. The rest is where the specifications put things.
 
-Since 2026-10-27, `src/Units/Aow.Units.csproj` compiles the units, their partial files and
-`src/Layout` directly. There is no override manifest or layout import in the product. Every
-directory under `src` is hand-owned source, and hand edits go through the same review. `src/Layout`
-joined them with brief C11 of milestone 9.8 (2026-11-05). Until then decision D3
-(`data/rewrite/review-9x.md`) regenerated it whole from the private forms generator, with no hand
-edits, so that the 9.5 strings pass changed the generator once instead of every layout. The
-private transpiler and the forms generator are reference emitters: the transpiler accepts
-`emit --out <dir>`, the generator writes into private scratch space, both stay outside the product
-tree, and their output serves comparison only and is never copied into `src`.
+Since 2026-10-27 the game library is hand-owned source. There is no override manifest. Every
+directory under `src` is hand-owned source, and hand edits go through the same review. Layout
+source joined that rule with brief C11 of milestone 9.8 (2026-11-05). Until then decision D3
+(`data/rewrite/review-9x.md`) regenerated the layout files whole from the private forms generator,
+with no hand edits, so that the 9.5 strings pass changed the generator once instead of every
+layout. Issue 161 (2026-11-10) named the projects, put each namespace in its own folder and put
+each top-level type in its own file. The library project is `src/Game/Aow.Game.csproj` (assembly
+`Aow.Game`). It compiles `src/Game` and `src/Engine`. A layout partial sits beside its type and
+keeps the `.Layout.cs` suffix. The executable is `src/Aow/Aow.csproj` (assembly `Aow`, namespace
+`Aow`). The private transpiler and the forms generator are reference emitters: the transpiler
+accepts `emit --out <dir>`, the generator writes into private scratch space, both stay outside
+the product tree, and their output serves comparison only and is never copied into `src`.
 
 ```
 D:\git\open-aow
 docs/                 this file, process.md, milestones.md, specs/, briefs/               (exists)
+src/Aow/              the game executable, assembly Aow, namespace Aow                platform.md 2
+src/Game/             the game library, assembly Aow.Game, namespace Aow.Game
+src/Engine/           namespace Aow.Engine, compiled by the game library
+src/Game.Tests/       tests of the game library, namespace Aow.Game.Tests
 src/Rtl/              the Delphi RTL and VCL shim                                    rtl-shim.md
-src/Units/            editable C# units and their partial class files                transpiler.md
 src/Formats/          the own save and map formats: documents, profiles, codecs      own-formats.md
 src/Convert/          aowconv, the converter's command line                          own-formats.md 3.2
-src/Layout/           hand-owned layout source compiled directly into Aow.Units      ui-layout.md
 src/Graphics/         the rewritten blitters and memory surfaces                     graphics.md
 src/Forms/            the form files as data                                         ui-layout.md
 src/Platform/         the SDL host: window, input, audio, video, files, settings     platform.md
 src/Headless/         the host without a display, for the oracle                    testing.md
-src/Game/             the game executable                                            platform.md 2
-src/*.Tests/          xUnit tests of the product projects                            rtl-shim.md 8
+src/Rtl.Tests/        xUnit tests of the RTL shim                                    rtl-shim.md 8
+src/Formats.Tests/    xUnit tests of the own formats                                 own-formats.md
 
 D:\git\open-aow-private
 correspondence/       requests to and replies from the recovery project, dated      (exists)

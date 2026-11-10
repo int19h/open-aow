@@ -54,7 +54,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     public void Rounding(double value, int result, int singleResult)
     {
         var caller = new StackTrace(1, true).GetFrames()
-            .FirstOrDefault(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Units");
+            .FirstOrDefault(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game");
         writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "rounding",
@@ -70,7 +70,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     public void Record(RandomTraceEvent entry)
     {
         var stack = new StackTrace(1, true).GetFrames()
-            .Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
+            .Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
             .ToArray();
         bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: "AoWHSMap" };
         var caller = stack.Skip(map ? 1 : 0).FirstOrDefault();

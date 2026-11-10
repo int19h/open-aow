@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Aow.Formats.Tests" />
-    <InternalsVisibleTo Include="Aow.Units.Tests" />
+    <InternalsVisibleTo Include="Aow.Game.Tests" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rtl\Aow.Rtl.csproj" />

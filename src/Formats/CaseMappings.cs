@@ -4,7 +4,7 @@ namespace Aow.Formats;
 
 /// <summary>
 /// The unit side of a case mapping (own-formats.md 3.1): what the game's kind of a key writes
-/// back for stored values, through the kind family's FromFields and ToFields. Aow.Units registers
+/// back for stored values, through the kind family's FromFields and ToFields. Aow.Game registers
 /// one per mapped class. The converter calls it only on numbers and creates no game object.
 /// </summary>
 public interface ICaseUnit

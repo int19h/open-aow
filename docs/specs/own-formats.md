@@ -200,7 +200,7 @@ rules.
 
 What version 1 holds, and versions 2 and 3 keep: 970 classes, generated once by the private
 `tools/formats/schema-build` from the 9.7-0 census proposal, the class baseline
-`src/Units.Tests/EClassBaseline.json`, registration reachability and corpus order evidence, then
+`src/Game.Tests/EClassBaseline.json`, registration reachability and corpus order evidence, then
 hand-owned. `python -B tools/formats/schema-build/regenerate.py` reproduces it. A class records
 its name, class id, parent, the engine tables that enlist it (game, tactical, campaign) and,
 for three classes whose corpus order differs from inherited `ReadWrite` order (`AoWHSMap`,
@@ -286,7 +286,7 @@ document whose `$residue` reaches the game loses it at the next save. The case t
 `schema.json` (`ProductionOrder`: keys 1, 2 and 10 to 14, `DiplomaticProposal`: kinds 0 to 9).
 `CaseCodec` (`src/Formats/Original/CaseCodec.cs`) turns the stored members into the case and
 back, and asks the unit side, `ProductionOrderCases` and `DiplomaticProposalCases` in
-`src/Units/FormatMappings.cs`, what the kind writes back through `FromFields` and `ToFields`. A
+`src/Game/Saves/ProductionOrderCases.cs` and `src/Game/Saves/DiplomaticProposalCases.cs`, what the kind writes back through `FromFields` and `ToFields`. A
 document never keeps a case field the kind drops. An unknown case name, a field the case does
 not keep and a registered key under `Unknown` are refused, and a mapped class whose unit side
 is not registered fails with `E_MAPPING`. `aowconv check` counts the `$residue` members of every
@@ -575,10 +575,10 @@ diff after game load/save. Canonical ordering makes real changes visible.
   validation interfaces, writer, migrations and `GameFiles`. Engine-image generation
   and original export are separate operations. Images containing port state are
   not original-game exports.
-- Unit-dependent mappings live in `Aow.Units`, registered by persisted name in
+- Unit-dependent mappings live in `Aow.Game`, registered by persisted name in
   the third block of `ClassRegistry`'s one module initializer. Descriptors come
   first, kinds second, format mappings third, one registration call per mapped
-  class in one form. Units references Formats with no reverse reference.
+  class in one form. The game library references Formats with no reverse reference.
 - `ProductionItem` maps to `Order` with stable `$case`, through
   `ProductionOrder.ToFields` and `FromFields`. `DiplomaticAction` uses its proposal
   twins. They arrive with 9.6-6 and 9.6-7. Registration invokes no creation delegate
@@ -593,11 +593,11 @@ diff after game load/save. Canonical ordering makes real changes visible.
 - Units supplies data-only game validation. Built-in mappings run without engine
   object construction. Future mod fragments remain declarative, and conversion
   never loads mod assemblies.
-- `src/Convert`, `Aow.Convert`, executable `aowconv`, references Units for built-in
+- `src/Convert`, `Aow.Convert`, executable `aowconv`, references the game library for built-in
   mapping registration. It calls `SetErrorMode` with the repository's required
   flags first, opens no window and plays no sound. New test hosts follow the same
   process rule.
-- `src/Formats.Tests` holds codec and contract fixtures. Units tests cover real
+- `src/Formats.Tests` holds codec and contract fixtures. `Aow.Game.Tests` covers real
   registrations, game validation and integration when 9.7-3 wires them.
 
 9.7-1 needs no Units edit. It tests validation interfaces with data fixtures and
@@ -605,9 +605,9 @@ uses its accepted flat mappings. Unit mappings and the Units project reference
 enter with integration. Later mappings bump the format version and migrate the
 earlier flat documents.
 
-9.7-3 wired the Units side. `Aow.Formats` references only `Aow.Rtl`, `Aow.Units` references
-`Aow.Formats`, and `Aow.Convert` references `Aow.Rtl`, `Aow.Formats` and `Aow.Units`. `aowconv`
-runs the `Aow.Units` module initializer before any command, so a mapped class never converts
+9.7-3 wired the game library. `Aow.Formats` references only `Aow.Rtl`, `Aow.Game` references
+`Aow.Formats`, and `Aow.Convert` references `Aow.Rtl`, `Aow.Formats` and `Aow.Game`. `aowconv`
+runs the `Aow.Game` module initializer before any command, so a mapped class never converts
 without its mapping, and `check` runs the unit validators over every imported document. The
 case mappings landed in version 1 with 9.7-3 (2.6).
 
@@ -728,7 +728,7 @@ In the code the boundary has two halves. `GameBoundary` in `src/Formats/GameBoun
 converts: `PrepareLoad` takes the file's bytes and a caller profile and returns the engine
 image or the refusal, and `PrepareSave` imports the engine-written image, validates the
 document, checks that the document's own image equals the engine's, and returns the canonical
-bytes. `FileBoundary` in `src/Units/FileBoundary.cs` reads and writes through
+bytes. `FileBoundary` in `src/Game/Saves/FileBoundary.cs` reads and writes through
 `IRtlHost.Files`, runs the unit validators, logs and caches previews. A caller profile
 (`GameProfile`) names the original profile, the kinds it accepts and the kind it writes:
 `world-map` (`world-hsm`, kinds `save`, `map` and `campaign-map`, writes `save`),
@@ -806,7 +806,7 @@ layer, profile, kind, detected format, version, G1 result or not-applicable reas
 validation outcome and error code. Physical paths belong in diagnostics/logs,
 never documents. Failed preflight operations are logged too.
 
-`OpenAoW` (`src/Game`) and the Headless host take `--file-log <path>` and write one JSON line per
+`OpenAoW` (`src/Aow`) and the Headless host take `--file-log <path>` and write one JSON line per
 open, preview, listing, CRC read and write (`FileLogRecord.ToJson`): `operation`, `path` (as the
 engine names the file), `layer` (`root`, `user`, `single` or `none` in the layered file service, `input` in the Headless host), `profile`, `use` (the caller
 profile), `kind`, `format`, `version`, `g1` (`equal`, `different at 0x...` or `not applicable:`
