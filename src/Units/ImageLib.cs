@@ -796,7 +796,6 @@ public partial class LibraryImagePalette : Persistent
 
 }
 
-[LegacyObject]
 public partial class PaletteManager : IDisposable
 {
     internal DelphiList FPalettes;
@@ -819,7 +818,6 @@ public partial class PaletteManager : IDisposable
     // ImageLib.pas:6971
     public PaletteManager()
     {
-        CaptureAddress.Assign(this);
         FPalettes = new DelphiList();
     }
 
@@ -2231,7 +2229,6 @@ public enum LoadMode : byte
     LoadFreeOnDemand = 2
 }
 
-[LegacyObject]
 public partial class GrabInfo
 {
     public static GrabInfoClass Descriptor { get; } = new("GrabInfo", static () => new GrabInfo());
@@ -2284,11 +2281,6 @@ public partial class GrabInfo
         }
 
         return Result;
-    }
-
-    public GrabInfo()
-    {
-        CaptureAddress.Assign(this);
     }
 
 }
@@ -6426,7 +6418,6 @@ public partial class ImageLibraryManager : Component
 
 }
 
-[LegacyObject]
 // an entry of a TILManagerList. FRefCount (the LinkToIL calls not yet released), FImageLibrary
 // (loaded by the first LinkToIL)
 public partial class ILManagerObject
@@ -6436,11 +6427,6 @@ public partial class ILManagerObject
 
     public int RefCount { get => FRefCount; }
     public CustomImageLibrary ImageLibrary { get => FImageLibrary; }
-
-    public ILManagerObject()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
 // library file names (upper case, relative to the search path) with their TILManagerObject.
@@ -7789,7 +7775,6 @@ public partial class FrameTableList : Persistent
 
 }
 
-[LegacyObject]
 // an animation of the images of a library, one layer of a chain sorted by layer. FOwner,
 // FLayer, FNext (the next layer), FImageLibrary (linked by LinkToIL: FImageLibraryName from the
 // manager of FOwner, or the library of FOwner), FImageLibraryName, FSequenceSpeed (frames per
@@ -7838,7 +7823,6 @@ public partial class ImageSequence : IDisposable
     // ImageLib.pas:8553
     public ImageSequence(ImageSequenceList owner)
     {
-        CaptureAddress.Assign(this);
         FOwner = owner;
     }
 
@@ -8314,7 +8298,6 @@ public partial class ImageSequence : IDisposable
 }
 
 // A read-only file opened for a sequential load. Dispose releases that file.
-[LegacyObject]
 public partial class FastLoadFileStream : Stream
 {
 }

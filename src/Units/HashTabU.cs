@@ -5,7 +5,6 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Engine.Hash;
 
-[LegacyObject]
 public partial class HashList : IDisposable
 {
     internal int FCount;
@@ -58,11 +57,6 @@ public partial class HashList : IDisposable
     }
 
     public int Count { get => FCount; }
-
-    public HashList()
-    {
-        CaptureAddress.Assign(this);
-    }
 
     // { The HashTabU unit of Ilpack.dpl: the hash list and hash table classes, an older copy of the
     //   ones the Engine unit includes from inc\HashTab.PAS (Enginep.dpl). This version has no Assert
@@ -129,7 +123,6 @@ public partial class IntegerHashList : HashList
 
 }
 
-[LegacyObject]
 // the abstract table interface
 public partial class IntegerHashTable
 {
@@ -155,11 +148,6 @@ public partial class IntegerHashTable
     public virtual void Clear()
     {
         throw AbstractErrorException.Create("Abstract Error");
-    }
-
-    public IntegerHashTable()
-    {
-        CaptureAddress.Assign(this);
     }
 }
 
@@ -296,7 +284,6 @@ public partial class StringHashList : HashList
 
 }
 
-[LegacyObject]
 // the abstract table interface
 public partial class StringHashTable
 {
@@ -322,11 +309,6 @@ public partial class StringHashTable
     public virtual void Clear()
     {
         throw AbstractErrorException.Create("Abstract Error");
-    }
-
-    public StringHashTable()
-    {
-        CaptureAddress.Assign(this);
     }
 }
 

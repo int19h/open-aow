@@ -1,39 +1,19 @@
 namespace Aow.Rtl;
 
-[LegacyObject]
 public class IUnknown
 {
-    public IUnknown()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 public class Canvas
 {
-    public Canvas()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 public class PopupMenu
 {
-    public PopupMenu()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 public class Text
 {
-    public Text()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
 // These VCL controls retain component identity. Native drawing awaits the platform layer.
@@ -159,15 +139,9 @@ public class OpenDialog : Component
     public virtual bool Execute() => throw new NotImplementedException("VCL.OpenDialog");
 }
 
-[LegacyObject]
 public class StringProperty
 {
     public virtual void Edit() => throw new NotImplementedException("VCL.PropertyEditor");
     public virtual Set<PropertyAttribute> GetAttributes() => default;
     public virtual string GetValue() => throw new NotImplementedException("VCL.PropertyEditor");
-
-    public StringProperty()
-    {
-        CaptureAddress.Assign(this);
-    }
 }

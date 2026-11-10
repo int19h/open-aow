@@ -131,14 +131,12 @@ public interface IPointerBox
     int ByteIndex { get; }
 }
 
-[LegacyObjectAttribute]
 public sealed class PtrBox<T> : IPointerBox
 {
     public Ptr<T> Pointer;
 
     public PtrBox(Ptr<T> pointer)
     {
-        CaptureAddress.Assign(this);
         Pointer = pointer;
     }
 

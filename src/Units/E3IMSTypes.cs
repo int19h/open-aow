@@ -3,20 +3,13 @@ using Aow.Rtl;
 
 namespace Aow.Game.Net;
 
-[LegacyObject]
 // Imported IMS objects used by E3. List instances are opaque and their methods are imported
 // from ims.dpl.
 public partial class MailHeader
 {
     public string FFrom = "";
-
-    public MailHeader()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 public partial class MailAddressList
 {
     // E3IMSTypes.pas:19
@@ -32,14 +25,8 @@ public partial class MailAddressList
         /* TODO: Implement TmsAddressList.AddAddress. */
         throw new NotImplementedException();
     }
-
-    public MailAddressList()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 public partial class MailAttachmentList
 {
     // E3IMSTypes.pas:24
@@ -54,10 +41,5 @@ public partial class MailAttachmentList
     {
         /* TODO: Implement TmsAttList.AddFile. */
         throw new NotImplementedException();
-    }
-
-    public MailAttachmentList()
-    {
-        CaptureAddress.Assign(this);
     }
 }

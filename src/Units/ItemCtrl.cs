@@ -195,18 +195,12 @@ public partial class ItemControlGrid : CustomImageDrawGrid
     [Published]
     public NotifyEvent<object> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
 
-    [LegacyObject]
     public partial class GridMapView
     {
         public ItemControl ItemControl;
         public HeroControl HeroControl;
         public PlayerList Players;
         public EventList LeaderEvent;
-
-        public GridMapView()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 
     public struct RawView

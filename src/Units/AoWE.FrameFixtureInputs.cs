@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Game.Engine;
 
 /// <summary>
-/// Explicit capture inputs. Fixture and smoke processes pin construction order for the reads that follow the old counter.
+/// Explicit capture inputs. Address reads the identity hash unless a unit test pins one value.
 /// The looped frame offset stays on the identity hash unless the capture replaces it.
 /// </summary>
 public static class FrameFixtureInputs
@@ -17,11 +17,11 @@ public static class FrameFixtureInputs
     public static int? MeasuredFrameRate { get; set; }
     public static Action? TacticalInitialized { get; set; }
 
-    // Unit tests pin one address here. A capture leaves this empty and uses construction order.
+    // Unit tests pin one address here. A capture leaves this empty and reads the identity hash.
     internal static int? PinnedAddress { get; set; }
 
     // The value the original read from the object address. Null reads as 0.
-    public static int Address(object? instance) => instance is null ? 0 : PinnedAddress ?? CaptureAddress.Of(instance);
+    public static int Address(object? instance) => instance is null ? 0 : PinnedAddress ?? IdentityHash.Of(instance);
 
     // The capture replaces the shifted offset. Ordinary play uses the identity hash, which stays fixed for one object.
     public static int AnimationOffset(object instance) => AddressAnimationPhase ?? ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535);

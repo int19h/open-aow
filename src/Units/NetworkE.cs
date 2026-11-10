@@ -371,7 +371,6 @@ namespace Aow.Game.Net
 
     }
 
-    [LegacyObject]
     // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
     public partial class TokenControl : IDisposable
     {
@@ -500,7 +499,6 @@ namespace Aow.Game.Net
         // NetworkE.pas:1169
         public TokenControl(TokenManager AManager, int APlayer)
         {
-            CaptureAddress.Assign(this);
             FEvents = new TokenEventList(null);
             FTokenManager = AManager;
             FPlayer = APlayer;
@@ -626,7 +624,6 @@ namespace Aow.Game.Net
 
     }
 
-    [LegacyObject]
     // FActiveTC, FPrefetchTC, FActiveTCIndex, FEvents, FTCList, FTokenCounter, FRound,
     // FExecuteCount, FState, FOnEventsExecuted, FOnActivateTC, FOnSyncError, FOnGetSyncValue,
     // FOnExecuteTokenEvent, FExecuting, FLockCount, FSystemEvents, FHoldTC, FTokenManager
@@ -695,7 +692,6 @@ namespace Aow.Game.Net
         // NetworkE.pas:1350
         public TokenExecuter(TokenManager AManager)
         {
-            CaptureAddress.Assign(this);
             FTokenManager = AManager;
             FEvents = new TokenEventList(null);
             FTCList = new DelphiList();
@@ -1014,7 +1010,6 @@ namespace Aow.Game.Net
 
     }
 
-    [LegacyObject]
     // FTokenExecuter, FTokenPackageDistributer, FOwner, FTokenControls (one per player, nil for a
     // free slot), FOnMessage
     public partial class TokenManager : IDisposable
@@ -1022,7 +1017,6 @@ namespace Aow.Game.Net
 
         public TokenManager(object owner)
         {
-            CaptureAddress.Assign(this);
             FOwner = owner;
             FTokenControls = new DelphiList();
             FTokenExecuter = CreateTokenExecuter();
@@ -1329,7 +1323,6 @@ namespace Aow.Game.Net
 
     }
 
-    [LegacyObject]
     // FRefCount, FPlayerCommunicator, FPCSList. The base player communication control: one system,
     // no transport
     public partial class PlayerCommunicationControl : IDisposable
@@ -1366,7 +1359,6 @@ namespace Aow.Game.Net
         // NetworkE.pas:468
         public PlayerCommunicationControl()
         {
-            CaptureAddress.Assign(this);
             FRefCount = 1;
             FPCSList = new PlayerCommunicationSettingsList(null);
         }
@@ -1453,7 +1445,6 @@ namespace Aow.Game.Net
 
     }
 
-    [LegacyObject]
     // FList, the memory streams of the packages that wait to be received
     public partial class PackageDataList : IDisposable
     {
@@ -1462,7 +1453,6 @@ namespace Aow.Game.Net
         // NetworkE.pas:870
         public PackageDataList()
         {
-            CaptureAddress.Assign(this);
             FList = new DelphiList();
         }
 
@@ -1811,7 +1801,6 @@ namespace Aow.Game.Net
 
     }
 
-    [LegacyObject]
     // FTokenManager, FPC. Sends the token events of the local players in token packages and files
     // the received ones with their players' token controls
     public partial class TokenPackageDistributer
@@ -1856,7 +1845,6 @@ namespace Aow.Game.Net
         // NetworkE.pas:1113
         public TokenPackageDistributer(TokenManager AManager)
         {
-            CaptureAddress.Assign(this);
             FTokenManager = AManager;
         }
 

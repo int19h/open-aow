@@ -3,7 +3,6 @@ using System.Reflection;
 
 namespace Aow.Rtl;
 
-[LegacyObject]
 public class Persistent : IDisposable
 {
     // CLASSES.PAS TPersistent.Assign, AssignTo and AssignError.
@@ -26,11 +25,6 @@ public class Persistent : IDisposable
 
     public virtual void Dispose()
     {
-    }
-
-    public Persistent()
-    {
-        CaptureAddress.Assign(this);
     }
 }
 

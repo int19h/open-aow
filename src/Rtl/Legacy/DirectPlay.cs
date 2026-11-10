@@ -49,33 +49,17 @@ public class GDPlay : Component
     public void DisConnect() { }
 }
 
-[LegacyObject]
 // aowDPlayComp.pas: a service provider found by EnumConnections.
 public class GDConnection
 {
     public GUID FGuid;
     public ConnectionType FType;
-
-    public GDConnection()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 public class GDFile
 {
-    public GDFile()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 public class GDMessage
 {
-    public GDMessage()
-    {
-        CaptureAddress.Assign(this);
-    }
 }

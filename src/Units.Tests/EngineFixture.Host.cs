@@ -41,7 +41,6 @@ public sealed partial class EngineFixture
             })
                 foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
                 {
-                    if (field.Name == "captureOrdinal") continue;
                     if (!field.IsLiteral && !field.IsInitOnly) globals.Add(field, field.GetValue(null));
                 }
             Directory.CreateDirectory(root);

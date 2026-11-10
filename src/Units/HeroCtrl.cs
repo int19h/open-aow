@@ -201,18 +201,12 @@ public partial class HeroControlGrid : CustomImageDrawGrid
     [Published]
     public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }
 
-    [LegacyObject]
     public partial class GridMapView
     {
         public ItemControl ItemControl;
         public HeroControl HeroControl;
         public PlayerList Players;
         public EventList LeaderEvent;
-
-        public GridMapView()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 
     public struct RawView

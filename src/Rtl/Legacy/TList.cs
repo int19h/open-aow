@@ -2,7 +2,6 @@ namespace Aow.Rtl;
 
 public delegate int ListSortCompare(object? left, object? right);
 
-[LegacyObject]
 public class DelphiList : IDisposable
 {
     private object?[] items = [];
@@ -143,9 +142,4 @@ public class DelphiList : IDisposable
 
     // CLASSES.PAS TList.Destroy.
     public virtual void Dispose() { Clear(); }
-
-    public DelphiList()
-    {
-        CaptureAddress.Assign(this);
-    }
 }

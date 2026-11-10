@@ -261,8 +261,9 @@ the same input give identical saves. What the recovery verified about the origin
   `TacticalCombat.FHostPlayer` (Delphi `TTacticalCombat`) to 0 in `Execute`, because without a human it stays -1
   (`AoWTC.pas:5103-5107`). The harness has the same option (`--tactical`), applied at the same two
   points, so the tactical resolver is covered by the `heroes` tactical runs.
-- Object addresses: `InstanceId` replaces them (`transpiler.md` N7). Saves hold no paths or
-  addresses: the original gave equal saves from runs in different directories.
+- Object addresses: `IdentityHash.Of` replaces them (`transpiler.md` N7). Fixture captures pin
+  animation and water through `address_animation_phase` and `water_variant_phase`. Saves hold no
+  paths or addresses: the original gave equal saves from runs in different directories.
 - Uninitialized reads. The recovered source marks six (`AoWReg.pas:268, 295`, `Ability.PAS:352`,
   `AoWHSMap.PAS:2379`, `Army.PAS:1443`, `GlobalSpells.pas:269`). None produced a difference between
   two runs of the original. The port reads zero there (C# default initialization), a defined value

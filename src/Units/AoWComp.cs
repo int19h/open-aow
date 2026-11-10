@@ -1105,16 +1105,10 @@ public partial class AOWAlignment : Persistent
 
 }
 
-[LegacyObject]
 // one entry of the dirty rectangle lists. R, Owner (the component that asked for the redraw.
 // AddDrawRect only)
 public partial class TaowRect
 {
     public Rect R;
     public AoWComponent Owner;
-
-    public TaowRect()
-    {
-        CaptureAddress.Assign(this);
-    }
 }

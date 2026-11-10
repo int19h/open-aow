@@ -33,7 +33,6 @@ type,ByteBuffer,Aow.Formats.Original.ByteBuffer
 type,Bytes,Aow.Rtl.Bytes
 type,BytesNode,Aow.Formats.Tree.BytesNode
 type,CampaignMapCodec,Aow.Formats.Original.CampaignMapCodec
-type,CaptureAddress,Aow.Rtl.CaptureAddress
 type,Case,Aow.Convert.Fixtures.Case
 type,Case,Aow.Game.Draw.BlendValue.Case
 type,Case,Aow.Rtl.FormatArg.Case
@@ -400,7 +399,6 @@ type,LayoutTGDPlay,Aow.Game.Layout.LayoutGDPlay
 type,LayoutTIvTranslator,Aow.Game.Layout.LayoutIvTranslator
 type,LayoutTVideoPlayer,Aow.Game.Layout.LayoutVideoPlayer
 type,LeaderColumns,Aow.Game.Ui.Grids.LeaderColumns
-type,LegacyObjectAttribute,Aow.Rtl.LegacyObjectAttribute
 type,LibraryCatalog,Aow.Game.Draw.Images.LibraryCatalog
 type,LibraryDrawing,Aow.Game.Draw.Images.LibraryDrawing
 type,LibraryImageClass,Aow.Game.Draw.Images.LibraryImageClass

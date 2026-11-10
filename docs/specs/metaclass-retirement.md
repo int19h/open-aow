@@ -165,7 +165,7 @@ groups, equal by method for `Remove`.
 
 ### 2.4 The shim after 9.4
 
-`TObject` keeps `InstanceId`, `ClassNameOf`, `Destroy`, `FreeInstance`. `Meta`, `ClassType`,
+`TObject` keeps `ClassNameOf`, `Destroy`, `FreeInstance`. The construction counter later left, and address reads use `IdentityHash.Of`. `Meta`, `ClassType`,
 `MetaRegistry`, `Component.Meta` and the `TVarRec` conversion from `Meta` are deleted. `rtl-shim.md`
 1.1 and `transpiler.md` 4.4 get a note that the metaclass design was retired here and the
 transpiler's reference diffs are read with that in mind.
@@ -175,7 +175,7 @@ transpiler's reference diffs are read with that in mind.
 - Saved class ids: each constant moves verbatim. A snapshot `data/metaclass/classids.json` taken on
   main before 9.4-1 (type name, id, instance size, parent) is compared by a test against the full
   `EClass` table and against each engine's registered set after `RegisterEClasses`.
-- Creation order and `InstanceId` allocation: descriptors are not `TObject`s (`Meta` is not one
+- Creation order: descriptors are not `TObject`s (`Meta` is not one
   either), registration allocates no instance, `eoVerifyClasses` still creates and frees one object
   per registered class in registration order, and every creation site keeps its position and
   argument (`Copy` and the save path pass `null`).
