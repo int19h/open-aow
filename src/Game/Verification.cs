@@ -1,4 +1,6 @@
+using System.Runtime.ExceptionServices;
 using System.Text.RegularExpressions;
+using Aow.Game;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Host;
@@ -23,7 +25,7 @@ internal static class Verification
 
     private static void Equal<T>(T expected, T actual, string label) => Check(EqualityComparer<T>.Default.Equals(expected, actual), $"{label}: expected {expected}, got {actual}");
 
-    private static void Throws<T>(Action action, string label) where T : System.Exception
+    private static void Throws<T>(Action action, string label) where T : Exception
     {
         try { action(); }
         catch (T) { assertions++; return; }
@@ -315,7 +317,7 @@ internal static class Verification
             Equal("a.ilb", search.Name, "FindFirst order");
             RtlUnit.FindClose(ref search);
             int missingDirectoryExceptions = 0;
-            void MissingDirectoryException(object? sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs error)
+            void MissingDirectoryException(object? sender, FirstChanceExceptionEventArgs error)
             {
                 if (error.Exception is DirectoryNotFoundException) missingDirectoryExceptions++;
             }

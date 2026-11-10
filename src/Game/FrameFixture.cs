@@ -1,16 +1,21 @@
+using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.ExceptionServices;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Aow.Formats;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
@@ -67,7 +72,7 @@ internal sealed class FrameFixture
         Directory.CreateDirectory(output);
         using var diagnostics = FrameDiagnostics.Start(output);
         using var trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
-        void Record(object? sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs error) => trace.WriteLine(error.Exception + "\n" + new System.Diagnostics.StackTrace(1, true));
+        void Record(object? sender, FirstChanceExceptionEventArgs error) => trace.WriteLine(error.Exception + "\n" + new StackTrace(1, true));
         AppDomain.CurrentDomain.FirstChanceException += Record;
         string? saveDirectory = fixture.values.GetValueOrDefault("save_directory");
         if (saveDirectory is not null)
@@ -141,7 +146,7 @@ internal sealed class FrameFixture
         using var script = new StreamWriter(Path.Combine(output, "script.jsonl")) { NewLine = "\n", AutoFlush = true };
         try
         {
-            using MainForm form = Aow.Platform.MainForm.Create(display, argument);
+            using MainForm form = MainForm.Create(display, argument);
             if (saveDirectory is not null)
                 DialogHosts.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
@@ -313,7 +318,7 @@ internal sealed class FrameFixture
                         var player = world.FPlayers.GetPlayers(playerIndex);
                         players.Add(new { index = playerIndex, units = player.GetUnitCount(), gold = player.FGems });
                         for (int index = 0; index < player.FStructures.GetCount(); index++)
-                            if (player.FStructures.GetStructure(index) is Game.World.Structures.City city)
+                            if (player.FStructures.GetStructure(index) is City city)
                                 cities.Add(new { name = city.FName, player = playerIndex, wall = city.FWallType, upgrade = city.FUpgradeLevel });
                     }
                     File.WriteAllText(Path.Combine(output, "world.json"), JsonSerializer.Serialize(new
@@ -373,7 +378,7 @@ internal sealed class FrameFixture
                 if (fixture.values.GetValueOrDefault("save_world") == "true")
                 {
                     saveName = "paths-world.asg";
-                    GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + saveName, null!, Aow.Formats.GameProfile.WorldMap);
+                    GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + saveName, null!, GameProfile.WorldMap);
                 }
                 else map.FPlayerControl.AutoSave();
                 File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);

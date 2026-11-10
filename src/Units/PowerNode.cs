@@ -1,11 +1,14 @@
 // Translated from PowerNode.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
 using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -49,7 +52,7 @@ public partial class PowerNode : PlayerStructure
         base.Activate();
         if (FPlayer != -1)
         {
-            Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
+            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
         }
     }
 
@@ -58,7 +61,7 @@ public partial class PowerNode : PlayerStructure
     {
         if (FPlayer != -1)
         {
-            Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
+            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
         }
 
         base.Deactivate();
@@ -87,7 +90,7 @@ public partial class PowerNode : PlayerStructure
     public override string GetCurrentActivityText()
     {
         var power = GetPower();
-        return RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
+        return RtlUnit.Format(AbilityRules.TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
     }
 
     // PowerNode.pas:96
@@ -106,9 +109,9 @@ public partial class PowerNode : PlayerStructure
                     }
                     else
                     {
-                        if (Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
+                        if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                         {
-                            P = 50 - Map.AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
+                            P = 50 - AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                             if (P < 25)
                             {
                                 P = 25;
@@ -140,13 +143,13 @@ public partial class PowerNode : PlayerStructure
             {
                 if (FPlayer != -1)
                 {
-                    Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
+                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
                 }
 
                 base.SetPlayer(Player);
                 if (FPlayer != -1)
                 {
-                    Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
+                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
                 }
             }
             else
@@ -173,12 +176,12 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:145
-    public override string GetCombatEventText(Combat.Combat Combat)
+    public override string GetCombatEventText(Combat.Battle Combat)
     {
         string Result;
         if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
         {
-            Result = Magic.Abilities.AbilityRules.TranslateRStr(PowerNodeBattleWonRStr);
+            Result = AbilityRules.TranslateRStr(PowerNodeBattleWonRStr);
         }
         else
         {
@@ -219,7 +222,7 @@ public partial class PowerNode : PlayerStructure
         // PowerNode.pas:41
 
         // PowerNode.pas:163
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(PowerNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(PowerNodeRStr);
 
         private static readonly string PowerNodeRStr = "Power Node";
 

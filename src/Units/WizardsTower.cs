@@ -1,14 +1,16 @@
 // Translated from WizardsTower.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.Session;
@@ -66,7 +68,7 @@ namespace Aow.Game.World.Structures
                 if (AoWHSMap.Current.FSeatedPlayer == TE.FParam)
                 {
                     var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                    var format = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
+                    var format = RtlUnit.Format(AbilityRules.TranslateRStr(TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
                     AoWHSMap.Current.ShowMessage(format);
                 }
             }
@@ -133,7 +135,7 @@ namespace Aow.Game.World.Structures
                 {
                     case AITargetMode.Attack:
                         Player = ((AoWMapField)Owner).GetPlayer();
-                        if (Player != Info.Player && (Player <= 0 || Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, 0, Player, 0)) && ValidAITarget(Info.Player))
+                        if (Player != Info.Player && (Player <= 0 || AbilityRules.ValidAttackRelation(Info.Player, 0, Player, 0)) && ValidAITarget(Info.Player))
                         {
                             if (Data.Priority < 10)
                             {
@@ -246,13 +248,13 @@ namespace Aow.Game.World.Structures
                     else
                     {
                         Result = false;
-                        Reason = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.NotEnoughGoldRStr);
+                        Reason = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
                     }
                 }
                 else
                 {
                     Result = false;
-                    Reason = Magic.Abilities.AbilityRules.TranslateRStr(SpellIsAlreadyResearchedRStr);
+                    Reason = AbilityRules.TranslateRStr(SpellIsAlreadyResearchedRStr);
                 }
             }
             else
@@ -303,7 +305,7 @@ namespace Aow.Game.World.Structures
             public override int ResourceUserClassID() => 133278;
 
             // WizardsTower.pas:260
-            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(WizardsTowerRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(WizardsTowerRStr);
 
             private static readonly string WizardsTowerRStr = "Wizards Tower";
 

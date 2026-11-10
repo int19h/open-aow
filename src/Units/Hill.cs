@@ -1,6 +1,8 @@
 // Translated from Hill.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Hexes;
 
 namespace Aow.Game.World;
@@ -36,6 +38,6 @@ public partial class HillMOR : TerrainMOR
     }
 
     // Hill.pas:45
-    public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.HillRStr);
+    public override string ResourceEditName() => AbilityRules.TranslateRStr(GameText.HillRStr);
 
 }

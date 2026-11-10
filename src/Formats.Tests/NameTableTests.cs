@@ -1,4 +1,5 @@
 using System.Text;
+using Aow.Engine;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
@@ -156,6 +157,27 @@ public sealed class NameTableTests : FormatsTest
         var again = Assert.IsType<EnumNode>(current.Find("TargetType"));
         Assert.Equal(again.Value, status.Value);
         Assert.Equal(NameTable.ResolveStored("TBridge"), schema.Find("TBridge")!.Name);
+    }
+
+    [Fact]
+    public void AnOldEngineBattleOrMovedEnumNameLoads()
+    {
+        var schema = FormatSchema.Current;
+        Assert.Equal("GameEngine", schema.Find("TAoWEngine")!.Name);
+        Assert.Equal("GameEngine", schema.Find("TEngine")!.Name);
+        Assert.Equal("GameEngine", schema.Find("THSEngine")!.Name);
+        Assert.Equal("Battle", schema.Find("TCombat")!.Name);
+        Assert.Equal("FastBattle", schema.Find("TFastCombat")!.Name);
+        Assert.Equal("TacticalBattle", schema.Find("TTacticalCombat")!.Name);
+        var engine = DocumentBackend.Read(new JsonObject(), schema.Find("TAoWEngine")!, schema, "game");
+        Assert.Empty(engine.Members);
+        var battle = DocumentBackend.Read(new JsonObject(), schema.Find("TCombat")!, schema, "game");
+        Assert.Empty(battle.Members);
+
+        var hero = schema.Get("HeroResource");
+        var old = DocumentBackend.Read(new JsonObject().Add("Alignment", new JsonString("alGood")), hero, schema, "game");
+        var current = DocumentBackend.Read(new JsonObject().Add("Alignment", new JsonString("Good")), hero, schema, "game");
+        Assert.Equal(((EnumNode)current.Find("Alignment")!).Value, ((EnumNode)old.Find("Alignment")!).Value);
     }
 
     private const string RenamedSchema = """

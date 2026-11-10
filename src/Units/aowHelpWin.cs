@@ -2,6 +2,7 @@
 using Aow.Game.Events;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from aowHelpWin.pas.
 using Aow.Rtl.Localize;
@@ -121,7 +122,7 @@ public partial class HelpWindow : DataModule
         }
 
         Lines = new StringList();
-        Engine.AoWHSSet.Current.FTextControl.RetrieveText(HelpID, Lines);
+        AoWHSSet.Current.FTextControl.RetrieveText(HelpID, Lines);
         DialogHosts.HelpWindow.HelpSB.Position = 0;
         DialogHosts.HelpWindow.HeaderMemo.Items.Clear();
         if (Lines.Count > 0)

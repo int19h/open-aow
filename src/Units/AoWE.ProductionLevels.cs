@@ -1,5 +1,6 @@
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 public partial class ProductionControl
@@ -14,7 +15,7 @@ public partial class ProductionControl
         {
             var production = FUnitProductions.GetItem(i);
             if (production.FResearched != researched || production.FUnitIndex < 0) continue;
-            var resource = Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex);
+            var resource = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex);
             if (resource != null && result < resource.FLevel) result = resource.FLevel;
         }
         return result;

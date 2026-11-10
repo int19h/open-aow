@@ -1,8 +1,12 @@
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Game;
 using Aow.Game.Commands;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -131,16 +135,16 @@ public sealed class DiplomaticProposalTests
         return memory;
     }
 
-    private static Engine CreateEngine()
+    private static GameEngine CreateEngine()
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        var engine = new Engine(null!);
-        engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
+        GameEngine engine = new GameEngine(null!);
+        engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
         engine.RegisterEClasses([EClass.Of<DiplomaticAction>(), EClass.Of<DiplomaticActionTE>(), EClass.Of<DiplomaticActionEventLog>()]);
         return engine;
     }
 
-    private static string Write(Engine engine, EObject value)
+    private static string Write(GameEngine engine, EObject value)
     {
         using var memory = new MemoryStream();
         var writer = new EWriteStorageStream(memory, engine, false);
@@ -149,7 +153,7 @@ public sealed class DiplomaticProposalTests
         return Hex(memory);
     }
 
-    private static T Read<T>(Engine engine, string hex) where T : EObject
+    private static T Read<T>(GameEngine engine, string hex) where T : EObject
     {
         using var memory = Memory(hex);
         EObject result = null!;
@@ -182,7 +186,7 @@ public sealed class DiplomaticProposalTests
     public void ProposalsWriteTheOldBytes(int Index)
     {
         var c = Cases[Index];
-        var engine = CreateEngine();
+        GameEngine engine = CreateEngine();
         try
         {
             var proposal = DiplomaticProposal.FromFields(c.Kind, c.Gold, c.Mana);
@@ -228,7 +232,7 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void EventLogCopiesKeepTheirMessage()
     {
-        var engine = CreateEngine();
+        GameEngine engine = CreateEngine();
         try
         {
             string[] message = ["The Dark Elves declare war on the Humans.", "", "Second line."];
@@ -349,8 +353,8 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:1265 GetText.
     private static string OldText(byte Kind, DiplomaticActionReaction Reaction, bool SourceSeated)
     {
-        static string T(string name) => Game.Magic.Abilities.AbilityRules.TranslateRStr(name);
-        static string F(string format, string arg) => Game.Magic.Abilities.AbilityRules.Format(T(format), [arg]);
+        static string T(string name) => AbilityRules.TranslateRStr(name);
+        static string F(string format, string arg) => AbilityRules.Format(T(format), [arg]);
         string Answer(string none, string subject, string accepted, string otherwise) => Reaction switch
         {
             DiplomaticActionReaction.None => none,
@@ -361,16 +365,16 @@ public sealed class DiplomaticProposalTests
         };
         return Kind switch
         {
-            0 => T(Game.Magic.Abilities.GameTables.P5WarRStr),
+            0 => T(GameTables.P5WarRStr),
             2 => Answer(T(ProposeAlliance.P5AllianceProposalRStr), T(ProposeAlliance.P5AllianceProposalRStr),
                 SourceSeated ? F(DiplomaticProposal.P5XAcceptedRStr, T(ProposeAlliance.P5AllianceProposalRStr)) : T(ProposeAlliance.P5MadeAllianceRStr), T(ProposeAlliance.P5AllianceProposalRStr)),
             1 => Answer(T(OfferPeace.P5PeaceOfferRStr), T(OfferPeace.P5PeaceOfferRStr),
-                SourceSeated ? F(DiplomaticProposal.P5XAcceptedRStr, T(OfferPeace.P5PeaceOfferRStr)) : T(Game.Magic.Abilities.GameTables.P5PeaceRStr), ""),
+                SourceSeated ? F(DiplomaticProposal.P5XAcceptedRStr, T(OfferPeace.P5PeaceOfferRStr)) : T(GameTables.P5PeaceRStr), ""),
             5 => Answer(T(Player.MakeTribute.P5TributeRStr), T(Player.MakeTribute.P5TributeRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(Player.MakeTribute.P5TributeRStr)), ""),
-            9 => Answer(T(Player.DeclareWarToY.P5DeclareWarSuggestionRStr), T(Game.Magic.Abilities.GameText.P5DeclareWarRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(Game.Magic.Abilities.GameText.P5DeclareWarRStr)), ""),
-            8 => Answer(T(Player.BreakAllianceWithY.P5BreakAllianceSuggestionRStr), T(Game.Magic.Abilities.GameText.P5BreakAllianceRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(Game.Magic.Abilities.GameText.P5BreakAllianceRStr)), ""),
+            9 => Answer(T(Player.DeclareWarToY.P5DeclareWarSuggestionRStr), T(GameText.P5DeclareWarRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(GameText.P5DeclareWarRStr)), ""),
+            8 => Answer(T(Player.BreakAllianceWithY.P5BreakAllianceSuggestionRStr), T(GameText.P5BreakAllianceRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(GameText.P5BreakAllianceRStr)), ""),
             6 => T(BreakAlliance.P5AllianceBrokenRStr),
-            3 or 7 => T(Game.Magic.Abilities.GameText.P5MessageRStr),
+            3 or 7 => T(GameText.P5MessageRStr),
             4 => T(Player.ThreatenToAttack.P5ThreatRStr),
             _ => "DiplomaticActionEventLog",
         };
@@ -379,13 +383,13 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:505 GetName, for the kinds that name no other player.
     private static string OldName(byte Kind) => Kind switch
     {
-        0 => Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.P5DeclareWarRStr),
-        1 => Game.Magic.Abilities.AbilityRules.TranslateRStr(OfferPeace.P5OfferPeaceRStr),
-        2 => Game.Magic.Abilities.AbilityRules.TranslateRStr(ProposeAlliance.P5ProposeAllianceRStr),
-        3 => Game.Magic.Abilities.AbilityRules.TranslateRStr(SendMessage.P5SendMessageRStr),
-        4 => Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.ThreatenToAttack.P5ThreatenToAttackRStr),
-        5 => Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.MakeTribute.P5MakeTributeRStr),
-        6 => Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.P5BreakAllianceRStr),
+        0 => AbilityRules.TranslateRStr(GameText.P5DeclareWarRStr),
+        1 => AbilityRules.TranslateRStr(OfferPeace.P5OfferPeaceRStr),
+        2 => AbilityRules.TranslateRStr(ProposeAlliance.P5ProposeAllianceRStr),
+        3 => AbilityRules.TranslateRStr(SendMessage.P5SendMessageRStr),
+        4 => AbilityRules.TranslateRStr(Player.ThreatenToAttack.P5ThreatenToAttackRStr),
+        5 => AbilityRules.TranslateRStr(Player.MakeTribute.P5MakeTributeRStr),
+        6 => AbilityRules.TranslateRStr(GameText.P5BreakAllianceRStr),
         _ => "",
     };
 
@@ -397,7 +401,7 @@ public sealed class DiplomaticProposalTests
         void Get(int number, string first, string second, string? third = null)
         {
             TextControl.RetrieveText(Alignment + number, Text);
-            Text.Text = third is null ? Game.Magic.Abilities.AbilityRules.Format(Text.Text, [first, second]) : Game.Magic.Abilities.AbilityRules.Format(Text.Text, [first, second, third]);
+            Text.Text = third is null ? AbilityRules.Format(Text.Text, [first, second]) : AbilityRules.Format(Text.Text, [first, second, third]);
         }
         switch (Action)
         {
@@ -470,7 +474,7 @@ public sealed class DiplomaticProposalTests
                 checks += 5;
                 string error = "";
                 Assert.Equal(kind != 5, proposal.CanSend(new DiplomaticAction(null!) { Proposal = proposal }, ref error));
-                Assert.Equal(kind == 5 ? Game.Magic.Abilities.AbilityRules.TranslateRStr(Player.MakeTribute.P5NoGoldManaSpecifiedRStr) : "", error);
+                Assert.Equal(kind == 5 ? AbilityRules.TranslateRStr(Player.MakeTribute.P5NoGoldManaSpecifiedRStr) : "", error);
                 Assert.True(proposal.WithOffer(0, 1).CanSend(new DiplomaticAction(null!), ref error));
                 checks += 2;
                 foreach (byte reaction in new byte[] { 0, 1, 2, 3, 4 })

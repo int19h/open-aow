@@ -1,19 +1,22 @@
 // Translated from Animation.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Draw.Animation
+namespace Aow.Game.Draw.Animations
 {
 
     public enum AnimationControlModeElement : byte
@@ -487,7 +490,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Draw.Animation
+namespace Aow.Game.Draw.Animations
 {
 
     // sequence, pixel offsets, last frame, loop flag
@@ -699,7 +702,7 @@ namespace Aow.Game.Draw.Animation
                         Angle += FFrameCounter * 4;
                     }
 
-                    Magic.Abilities.AbilityRules.DegreesRadToCo(Angle, Radius, ref DX, ref DY);
+                    AbilityRules.DegreesRadToCo(Angle, Radius, ref DX, ref DY);
                     Sequence = FImageSequence;
                     while (Sequence != null)
                     {

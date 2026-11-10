@@ -1,4 +1,7 @@
 using System.Text.Json;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Ai;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
@@ -59,12 +62,12 @@ public sealed class EClassTests
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        using var engine = new Engine(null!);
-        var engines = new List<Engine> { engine };
-        foreach (var other in EngineHost.Engines!.List.OfType<Engine>())
+        using GameEngine engine = new GameEngine(null!);
+        var engines = new List<GameEngine> { engine };
+        foreach (GameEngine other in EngineHost.Engines!.List.OfType<GameEngine>())
             if (!ReferenceEquals(other, engine)) engines.Add(other);
         Assert.Contains(EClass.Of<EControlStyleObject>(), ProductRegistered(engine));
-        foreach (var registered in engines)
+        foreach (GameEngine registered in engines)
         {
             var classes = ProductRegistered(registered);
             Assert.NotEmpty(classes);
@@ -78,7 +81,7 @@ public sealed class EClassTests
         }
     }
 
-    private static List<EClass> ProductRegistered(Engine engine)
+    private static List<EClass> ProductRegistered(GameEngine engine)
     {
         var result = new List<EClass>();
         for (int i = 0; i < engine.EClasses.Count; i++)
@@ -133,7 +136,7 @@ public sealed class EClassTests
         try { Assert.IsType<EResourceList>(split); }
         finally { split?.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EClass.Of(typeof(Unregistered)));
-        Assert.Throws<InvalidOperationException>(() => EClass.Register<EObject>(80, static owner => new EObject(null!), 8));
+        Assert.Throws<InvalidOperationException>(() => EClass.Register(80, static owner => new EObject(null!), 8));
     }
 
     [Fact]
@@ -157,7 +160,7 @@ public sealed class EClassTests
     public void GenericRegistrationUsesTheTypedFactoryAndPreservesTheEarlierSnapshot()
     {
         var previous = EClass.All;
-        var descriptor = EClass.Register<Registered>(EObject.ClassID, static owner => new Registered(owner), 8);
+        var descriptor = EClass.Register(EObject.ClassID, static owner => new Registered(owner), 8);
         Assert.Same(descriptor, EClass.Of<Registered>());
         Assert.Same(descriptor, EClass.Of(typeof(Registered)));
         Assert.Same(EClass.Of<EObject>(), descriptor.Parent);
@@ -167,6 +170,6 @@ public sealed class EClassTests
         var instance = descriptor.Create(null!);
         try { Assert.IsType<Registered>(instance); }
         finally { instance.Dispose(); }
-        Assert.Throws<InvalidOperationException>(() => EClass.Register<Registered>(0, static owner => new Registered(owner), 8));
+        Assert.Throws<InvalidOperationException>(() => EClass.Register(0, static owner => new Registered(owner), 8));
     }
 }

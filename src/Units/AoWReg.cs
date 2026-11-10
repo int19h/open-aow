@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine;
+namespace Aow.Game;
 
 // { ot=1 }
 // inherited TRegistry fields

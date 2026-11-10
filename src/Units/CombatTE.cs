@@ -1,4 +1,7 @@
 // Translated from CombatTE.pas.
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
@@ -6,7 +9,6 @@ using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
@@ -3025,8 +3027,8 @@ public partial class CAbRangedTE : TokenEvent
         FStrikeIndex += 1;
     }
 
-    private static Engine.Buffers.FixedArray_int_19 rndHex = Engine.Buffers.FixedArray_int_19.From([6, 0, 1, 3, 4, 5, 2, 18, 12, 7, 11, 10, 17, 15, 9, 16, 13, 8, 14]);
-    private static Engine.Buffers.FixedArray_int_12 BreathHit = Engine.Buffers.FixedArray_int_12.From([0, 1, 4, 7, 8, 2, 5, 9, 10, 3, 6, 11]);
+    private static FixedArray_int_19 rndHex = FixedArray_int_19.From([6, 0, 1, 3, 4, 5, 2, 18, 12, 7, 11, 10, 17, 15, 9, 16, 13, 8, 14]);
+    private static FixedArray_int_12 BreathHit = FixedArray_int_12.From([0, 1, 4, 7, 8, 2, 5, 9, 10, 3, 6, 11]);
 
     private static ushort GetRangedDirIndex(int DX, int DY)
     {

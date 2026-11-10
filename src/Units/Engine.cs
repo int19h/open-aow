@@ -3,7 +3,14 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Formats;
 using Aow.Formats.Tree;
+using Aow.Game;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Audio;
@@ -11,19 +18,15 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Magic.Spells.GlobalTarget;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
@@ -39,7 +42,7 @@ using Aow.Rtl;
 using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine.Nodes
+namespace Aow.Engine.Nodes
 {
 
     public enum EControlStyleElement : byte
@@ -51,7 +54,7 @@ namespace Aow.Game.Engine.Nodes
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Engine
 {
 
     public enum EngineUserElement : byte
@@ -67,7 +70,7 @@ namespace Aow.Game.Engine
     }
 }
 
-namespace Aow.Game.Engine.Storage
+namespace Aow.Engine.Storage
 {
 
     public enum StorageModeElement : byte
@@ -82,7 +85,7 @@ namespace Aow.Game.Engine.Storage
     }
 }
 
-namespace Aow.Game.Engine.Collections
+namespace Aow.Engine.Collections
 {
 
     public partial class IntegerList : Persistent
@@ -4513,7 +4516,7 @@ namespace Aow.Game.Engine.Collections
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Engine
 {
 
     public partial class PropertyTable : IDisposable
@@ -4785,7 +4788,7 @@ namespace Aow.Game.Engine
     }
 }
 
-namespace Aow.Game.Engine.Nodes
+namespace Aow.Engine.Nodes
 {
 
     // FOwner
@@ -4854,7 +4857,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2558
-        public virtual Engine GetEngine() => FOwner.GetEngine();
+        public virtual GameEngine GetEngine() => FOwner.GetEngine();
 
         // Engine.pas:2502
         public virtual int GetLastMsg() => 2147483647;
@@ -4943,7 +4946,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2511
-        public virtual bool Compare(EObject Obj, Engine AEngine)
+        public virtual bool Compare(EObject Obj, GameEngine AEngine)
         {
             MemoryStream S1;
             MemoryStream S2;
@@ -4980,7 +4983,7 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:2466
         public virtual EditorClass Editor()
         {
-            Engine E;
+            GameEngine E;
             EditorClass Result = null;
             E = GetEngine();
             if (E != null)
@@ -5000,7 +5003,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2529
-        public virtual void Assign(EObject Source, Engine AEngine)
+        public virtual void Assign(EObject Source, GameEngine AEngine)
         {
             MemoryStream S;
             S = new MemoryStream();
@@ -5052,7 +5055,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2543
-        public EObject Copy(Engine AEngine)
+        public EObject Copy(GameEngine AEngine)
         {
             EObject Result = default;
             MemoryStream S;
@@ -5152,7 +5155,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2648
-        public override void Assign(EObject Source, Engine AEngine)
+        public override void Assign(EObject Source, GameEngine AEngine)
         {
             Clear();
             base.Assign(Source, AEngine);
@@ -5430,16 +5433,13 @@ namespace Aow.Game.Engine.Nodes
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game
 {
 
     // FMsgCount, FEClasses, FClassTable, FEditors, FControlNode, FComponent (the owning component),
     // FDebugIDs, FDebugEvents, FStartupDirectory, FOptions. Every engine is in the Engines list
-    public partial class Engine : ENode
+    public partial class GameEngine : ENode
     {
-        // Engine.pas:8756
-        public new const int ClassID = 17;
-
         internal int FMsgCount;
         internal EObjectClassList FEClasses;
         internal IntegerHashTable256 FClassTable;
@@ -5460,6 +5460,13 @@ namespace Aow.Game.Engine
         public Set<EngineUserElement> FUser;
         internal Set<EngineModeElement> FOptions;
 
+        // Create sets this before the instance exists. InitializeBeforeInherited reads it from the
+        // base constructor, which runs before the body below.
+        private static bool fullConstruction;
+
+        // The map and game dispose work runs only after Create's constructor finishes.
+        private bool fullInstance;
+
         // Engine.pas:8776
         internal int CreateUniqueDebugID()
         {
@@ -5473,11 +5480,11 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8814
-        public override Engine GetEngine() => this;
+        public override GameEngine GetEngine() => this;
 
-        public Engine(ECustomNode owner) : this(null, owner) { }
+        public GameEngine(ECustomNode owner) : this(null, owner) { }
 
-        private protected Engine(ConstructionContext context, ECustomNode owner) : base(context, owner)
+        private protected GameEngine(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
             UpdateStartupDirectory();
             FOptions = Set<EngineModeElement>.Of(eoVerifyClasses);
@@ -5491,17 +5498,82 @@ namespace Aow.Game.Engine
             FDebugIDs.AddObject(UserStr, IntToObject(-1));
             RegisterEClasses([EClass.Of<EControlStyleObject>(), EClass.Of<EControlStyleNode>(), EClass.Of<ECustomOwner>(), EClass.Of<EResourceEditSettings>()]);
             EngineHost.Engines.Add(this);
+            if (!fullConstruction) return;
+
+            FOnHSMLoadedStore = new();
+            FOnHSMCloseStore = new();
+            FOnHSSLoadedStore = new();
+            FOnHSSCloseStore = new();
+            RegisterEClasses([EClass.Of<MapContainer>(), EClass.Of<MapLevel>(), EClass.Of<HSMap>(), EClass.Of<HSSet>()]);
+            RegisterEClasses([EClass.Of<MapObjectResource>(), EClass.Of<MultiHexMOR>()]);
+            RegisterEClasses([EClass.Of<AbstractHexagon>(), EClass.Of<AbstractBorderHexagon>(), EClass.Of<AbstractRoad>()]);
+            HSEngineDID = RegisterDebugID("HS-Engine");
+            FHSSFileName = "noname.hss";
+            CreateHSSet();
+
+            Options = Options - Set<EngineModeElement>.Of(EngineModeElement.VerifyEObjects);
+            RegisterEClasses([EClass.Of<AoWHSSet>(), EClass.Of<AoWHSMap>(), EClass.Of<AoWMapLevel>(), EClass.Of<AoWCampaign>(), EClass.Of<AoWCampaignScenario>()]);
+            RegisterEClasses([EClass.Of<Player>(), EClass.Of<Race>(), EClass.Of<Unit>(), EClass.Of<RaceResource>(), EClass.Of<UnitGFXResource>(), EClass.Of<UnitResource>(), EClass.Of<UnitHS>()]);
+            RegisterEClasses([EClass.Of<Hero>(), EClass.Of<HeroResource>(), EClass.Of<HeroUpgradeTE>(), EClass.Of<HeroJoinEventLog>(), EClass.Of<HeroEmergeEventLog>(), EClass.Of<Leader>(), EClass.Of<ItemGFX>(), EClass.Of<Item>(), EClass.Of<ItemTE>(), EClass.Of<ItemHS>(), EClass.Of<FaceResource>()]);
+            RegisterEClasses([EClass.Of<Army>(), EClass.Of<ArmyHS>(), EClass.Of<ArmyView>(), EClass.Of<ArmyEventLog>(), EClass.Of<ArmyID>(), EClass.Of<TurnInfoItem>(), EClass.Of<ShowMessageEventLog>()]);
+            RegisterEClasses([EClass.Of<ArmyDefaultMoveTE>(), EClass.Of<ArmyCombatMoveTE>(), EClass.Of<ArmyCombineMoveTE>(), EClass.Of<ArmyNegotiateMoveTE>(), EClass.Of<NegotiateTE>(), EClass.Of<SaveGameTE>(), EClass.Of<ChangePlayerMagicTE>(), EClass.Of<ChangeGlobalMagicTE>()]);
+            RegisterEClasses([EClass.Of<CombatLogbook>(), EClass.Of<CombatParty>(), EClass.Of<CombatData>(), EClass.Of<DamageCA>(), EClass.Of<DamageEffectCA>(), EClass.Of<FleeCA>(), EClass.Of<CombatUnit>()]);
+            RegisterEClasses([EClass.Of<FastBattle>(), EClass.Of<CombatWall>(), EClass.Of<FastCombatUnit>(), EClass.Of<MoveWallCA>(), EClass.Of<ProductionEventLog>()]);
+            RegisterEClasses([EClass.Of<UpdateHeaderCA>(), EClass.Of<NewCombatTurnCA>(), EClass.Of<NewCombatRoundCA>(), EClass.Of<CombatObjectTurnDoneCA>()]);
+            RegisterEClasses([EClass.Of<CombatEventLog>(), EClass.Of<CombatPlayer>(), EClass.Of<DiplomaticAction>(), EClass.Of<EmailGame>(), EClass.Of<RestartGameEventLog>()]);
+            RegisterEClasses([EClass.Of<Structure>(), EClass.Of<StructureResource>(), EClass.Of<StructureTE>(), EClass.Of<ConstructStructureTE>(), EClass.Of<ProductionTE>(), EClass.Of<HeroUpdateTE>()]);
+            RegisterEClasses([EClass.Of<PlayerStructure>(), EClass.Of<PlayerStructureResource>(), EClass.Of<ProductionItem>(), EClass.Of<UnitProduction>()]);
+            RegisterEClasses([EClass.Of<Fire>(), EClass.Of<Fire.Resource>()]);
+            RegisterEClasses([EClass.Of<NewDayEventLog>(), EClass.Of<ArmyInfoEventLog>(), EClass.Of<TextControlItem>(), EClass.Of<HeroUpgradeEventLog>()]);
+            RegisterEClasses([EClass.Of<DiplomaticActionTE>(), EClass.Of<DiplomaticActionEventLog>(), EClass.Of<PlayerMagicEventLog>(), EClass.Of<DiplomaticRelationHistoryItem>(), EClass.Of<DiplomaticRelationHistoryList>()]);
+            RegisterEClasses([EClass.Of<HuntAG>(), EClass.Of<AIBudget>(), EClass.Of<AISavingsBudget>(), EClass.Of<AITransporterBudget>()]);
+            P2RegisterGroupControls();
+            RegisterSoundEngineClasses(this);
+            RegisterNetworkEngine(this);
+            P2RegisterMoveEvents(this);
+            RegisterEventLog(this);
+            P2RegisterAbilities(FGameSet.FAbilityControl);
+            P2RegisterSpells(this);
+            CombatAbilityTables.CombatDID = RegisterDebugID("Combat");
+            AbilityRules.AIDID = RegisterDebugID("AI");
+            AbilityRules.TMPDID = RegisterDebugID("TMP");
+            MAGICDID = RegisterDebugID("MAGIC");
+            Editors.RegisterClass(EditorClass.Of<AoWMapObjectEditor>());
+            LoadExternalPlugIns(StartupDirectory + "PLUGINS");
+            FEmailGames.Load();
+            fullInstance = true;
         }
 
-        // Engine.pas:8745
+        // Engine.pas:8745, then the HSEngine and AoWEngine dispose bodies when Create built the instance.
+        // Create's failure path disposes the instance before it clears the flag, so that path runs the same body.
         public override void Dispose()
         {
+            if (fullInstance || fullConstruction)
+            {
+                CloseCampaign();
+                CloseHSM(null);
+                UnregisterCoreSpells(this);
+                UnregisterCoreAbilities(FGameSet.FAbilityControl);
+                FOnHSMLoadedStore.Clear();
+                FOnHSMCloseStore.Clear();
+                CloseHSM(null);
+            }
+
             EngineHost.Engines.Remove(this);
             FDebugEventsStore.Clear();
             FDebugIDs?.Dispose();
             base.Dispose();
             FClassTable?.Dispose();
             FEClasses?.Dispose();
+            if (fullInstance || fullConstruction)
+            {
+                FOnHSMLoadedStore.Clear();
+                FOnHSMCloseStore.Clear();
+                FOnHSSLoadedStore.Clear();
+                FOnHSSCloseStore.Clear();
+                FDictionary?.Dispose();
+                FEmailGames?.Dispose();
+            }
         }
 
         // Engine.pas:8771
@@ -5510,10 +5582,34 @@ namespace Aow.Game.Engine
             FStartupDirectory = Value;
         }
 
-        // Engine.pas:8766
+        // Engine.pas:8766. A bare engine has no registry, so it keeps this body. Create has already
+        // run InitializeBeforeInherited, and that path keeps the AoWEngine body.
         public virtual void UpdateStartupDirectory()
         {
-            FStartupDirectory = ExtractFilePath(RtlUnit.Application.ExeName);
+            if (FRegistry is null)
+            {
+                FStartupDirectory = ExtractFilePath(RtlUnit.Application.ExeName);
+                return;
+            }
+
+            if (!IsEmpty(FRegistry.GetStartupDirectory()))
+            {
+                SetStartupDirectory(FRegistry.GetStartupDirectory());
+            }
+            else
+            {
+                SetStartupDirectory(ExtractFilePath(RtlUnit.Application.ExeName));
+            }
+
+            if (StartupDirectory[StartupDirectory.Length - 1] != 92)
+            {
+                SetStartupDirectory(StartupDirectory + "\\");
+            }
+
+            ImageLibraries.BaseImageLibraryPath = StartupDirectory;
+            AudioHost.BaseSoundEnginePath = StartupDirectory;
+            FDictionary.FFileName = StartupDirectory + "Dict\\" + "ResStr" + ".mld";
+            FDictionary.Open();
         }
 
         // Engine.pas:8887
@@ -5537,9 +5633,6 @@ namespace Aow.Game.Engine
 
             return Result;
         }
-
-        // Engine.pas:8761
-        public virtual string TranslateText(string Text) => Text;
 
         // Engine.pas:8782
         public int RegisterDebugID(string Name)
@@ -5660,7 +5753,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8895
-        public void WriteEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
+        public void WriteEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             EStorageStream S;
             S = new EWriteStorageStream(Stream, this, false);
@@ -5676,7 +5769,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8908
-        public void ReadEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
+        public void ReadEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             EStorageStream S;
             S = new EReadStorageStream(Stream, this, false);
@@ -5692,7 +5785,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8921
-        public void WritePreviewEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
+        public void WritePreviewEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             EStorageStream S;
             S = new EWriteStorageStream(Stream, this, true);
@@ -5708,7 +5801,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8934
-        public void ReadPreviewEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
+        public void ReadPreviewEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             EStorageStream S;
             S = new EReadStorageStream(Stream, this, true);
@@ -5724,7 +5817,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8947
-        public void StoreEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
+        public void StoreEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             EStorageStream S;
             S = new EWriteStorageStream(Stream, this, false);
@@ -5740,7 +5833,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8960
-        public EObject RetrieveEObject(Stream Stream, ProgressEvent AProgress)
+        public EObject RetrieveEObject(Stream Stream, Aow.Engine.ProgressEvent AProgress)
         {
             EObject Result = default;
             EStorageStream S;
@@ -5761,13 +5854,13 @@ namespace Aow.Game.Engine
         // Engine.pas:8973
         // The file goes through the game's file boundary with the caller's profile. A refused
         // preflight raises EGameFileError before an object is created (own-formats.md 4.1).
-        public EObject RetrieveFromFile(string FileName, ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public EObject RetrieveFromFile(string FileName, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             return RetrieveFromImage(FileBoundary.LoadOrRaise(FileName, Profile), AProgress);
         }
 
         // Retrieves the object of an engine image whose preflight has passed.
-        public EObject RetrieveFromImage(byte[] Image, ProgressEvent AProgress)
+        public EObject RetrieveFromImage(byte[] Image, Aow.Engine.ProgressEvent AProgress)
         {
             EObject Result = default;
             MemoryStream M;
@@ -5787,7 +5880,7 @@ namespace Aow.Game.Engine
         // Engine.pas:8985
         // The engine writes the image in memory. The boundary converts, validates and replaces the
         // file only after the whole document is serialized.
-        public void StoreInFile(string FileName, EObject Obj, ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void StoreInFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             MemoryStream M;
             M = new MemoryStream();
@@ -5813,7 +5906,7 @@ namespace Aow.Game.Engine
 
         // The in-scope form of WriteToFile for the hero and item lists (own-formats.md 4.1). The
         // three-argument form below stays the original byte path of the excluded PFS callers.
-        public void WriteToFile(string FileName, EObject Obj, ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void WriteToFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             MemoryStream M;
             M = new MemoryStream();
@@ -5829,7 +5922,7 @@ namespace Aow.Game.Engine
         }
 
         // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
-        public void ReadFromFile(string FileName, EObject Obj, ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void ReadFromFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             MemoryStream M;
             M = ImageStream(FileBoundary.LoadOrRaise(FileName, Profile));
@@ -5844,7 +5937,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8997
-        public void WriteToFile(string FileName, EObject Obj, ProgressEvent AProgress)
+        public void WriteToFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             MemoryStream M;
             Stream F = default;
@@ -5870,7 +5963,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9017
-        public void ReadFromFile(string FileName, EObject Obj, ProgressEvent AProgress)
+        public void ReadFromFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             MemoryStream M;
             Stream F;
@@ -5897,7 +5990,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9037
-        public void WriteToFileCRC(string FileName, EObject Obj, ProgressEvent AProgress)
+        public void WriteToFileCRC(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             int CRC1 = default;
             int CRC2 = default;
@@ -5931,7 +6024,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9061
-        public bool ReadFromFileCRC(string FileName, EObject Obj, ProgressEvent AProgress)
+        public bool ReadFromFileCRC(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress)
         {
             MemoryStream M;
             Stream F;
@@ -6059,15 +6152,15 @@ namespace Aow.Game.Engine
 
         private static readonly string UserStr = "User";
 
-        internal static void UnregisterSoundEngineClasses(Engine AEngine)
+        internal static void UnregisterSoundEngineClasses(GameEngine AEngine)
         {
             AEngine.UnregisterEClasses([EClass.Of<SFXSequence>(), EClass.Of<SFXLibrary>(), EClass.Of<SFX>()]);
         }
 
-        internal static void UnRegisterStorms(Engine AEngine)
+        internal static void UnRegisterStorms(GameEngine AEngine)
         {
             SpellControl Spells;
-            Spells = ((AoWEngine)AEngine).FGameSet.FSpellControl;
+            Spells = AEngine.FGameSet.FSpellControl;
             Spells.UnregisterSpellID(3);
             Spells.UnregisterSpellID(5);
             Spells.UnregisterSpellID(6);
@@ -6076,7 +6169,7 @@ namespace Aow.Game.Engine
             Spells.UnregisterSpellID(9);
         }
 
-        internal static void InitializePlugIns(Engine AEngine)
+        internal static void InitializePlugIns(GameEngine AEngine)
         {
             for (int I = 0, last = EngineHost.PlugIns.Count - 1; I <= last; I++)
             {
@@ -6084,7 +6177,7 @@ namespace Aow.Game.Engine
             }
         }
 
-        internal static void FinalizePlugIns(Engine AEngine)
+        internal static void FinalizePlugIns(GameEngine AEngine)
         {
             for (int I = 0, last = EngineHost.PlugIns.Count - 1; I <= last; I++)
             {
@@ -6092,62 +6185,62 @@ namespace Aow.Game.Engine
             }
         }
 
-        internal static Engine CopyEngine;
+        internal static GameEngine CopyEngine;
 
-        internal static void UnRegisterMountain(Engine AEngine)
+        internal static void UnRegisterMountain(GameEngine AEngine)
         {
             AEngine.UnregisterEClasses([EClass.Of<MountainMO>(), EClass.Of<MountainMOR>(), EClass.Of<RaiseTerrainTE>(), EClass.Of<RaisedMountain>(), EClass.Of<RaisedMountain.Resource>()]);
             // { Original unregisters spell 12, although Raise Terrain registers as spell 19. }
-            ((AoWEngine)AEngine).FGameSet.FSpellControl.UnregisterSpellID(12);
+            AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
         }
 
-        internal static void RegisterBorderHexagon(Engine Engine)
+        internal static void RegisterBorderHexagon(GameEngine Engine)
         {
             Engine.RegisterEClasses([EClass.Of<BorderHexagon>(), EClass.Of<BorderHexagon.Resource>()]);
         }
 
-        internal static void RegisterHexagon(Engine Engine)
+        internal static void RegisterHexagon(GameEngine Engine)
         {
             Engine.RegisterEClasses([EClass.Of<Hexagon>(), EClass.Of<HexagonResource>()]);
         }
 
-        internal static void RegisterIsometricHexagon(Engine Engine)
+        internal static void RegisterIsometricHexagon(GameEngine Engine)
         {
             Engine.RegisterEClasses([EClass.Of<IsometricHexagon>(), EClass.Of<IsometricHexagonResource>(), EClass.Of<UpperIsometricHexagon>(), EClass.Of<UpperIsometricHexagon.Resource>(), EClass.Of<LowerIsometricHexagon>(), EClass.Of<LowerIsometricHexagon.Resource>()]);
         }
 
-        internal static void RegisterRoad(Engine Engine)
+        internal static void RegisterRoad(GameEngine Engine)
         {
             Engine.RegisterEClasses([EClass.Of<Road>(), EClass.Of<Road.Resource>()]);
         }
 
-        internal static void RegisterTerrain(Engine Engine)
+        internal static void RegisterTerrain(GameEngine Engine)
         {
             Engine.RegisterEClasses([EClass.Of<TerrainMO>(), EClass.Of<TerrainMOR>()]);
         }
 
-        internal static void RegisterHill(Engine AEngine)
+        internal static void RegisterHill(GameEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<HillMO>()]);
         }
 
-        internal static void RegisterAltar(Engine AEngine)
+        internal static void RegisterAltar(GameEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<Altar>(), EClass.Of<AltarResource>()]);
         }
 
-        internal static void RegisterRandomNode(Engine AEngine)
+        internal static void RegisterRandomNode(GameEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<RandomNode>(), EClass.Of<RandomNode.Resource>()]);
         }
 
-        internal static void UnRegisterHolyGround(Engine Engine)
+        internal static void UnRegisterHolyGround(GameEngine Engine)
         {
             Engine.UnregisterEClasses([EClass.Of<HolyGround>(), EClass.Of<HolyGround.Resource>(), EClass.Of<HolyGroundSpellTE>()]);
-            ((AoWEngine)Engine).FGameSet.FSpellControl.UnregisterSpellID(13);
+            Engine.FGameSet.FSpellControl.UnregisterSpellID(13);
         }
 
-        internal static void UnRegisterOverlayObject(Engine AEngine)
+        internal static void UnRegisterOverlayObject(GameEngine AEngine)
         {
             AEngine.UnregisterEClasses([EClass.Of<OverlayObject>(), EClass.Of<OverlayObject.Resource>()]);
         }
@@ -6155,7 +6248,7 @@ namespace Aow.Game.Engine
     }
 }
 
-namespace Aow.Game.Engine.Storage
+namespace Aow.Engine.Storage
 {
 
     // the base of every storage stream. The rw* methods do nothing here. the subclasses read,
@@ -6163,7 +6256,7 @@ namespace Aow.Game.Engine.Storage
     public partial class EStorageStream : IDisposable
     {
 
-        internal Engine FEngine;
+        internal GameEngine FEngine;
         internal Stream FStream;
         internal bool FErrorHandled;
         internal PropertyTable FPropertyTable;
@@ -6274,7 +6367,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9489
-        public EStorageStream(Stream AStream, Engine AEngine)
+        public EStorageStream(Stream AStream, GameEngine AEngine)
         {
             FEngine = AEngine;
             FStream = AStream;
@@ -6290,7 +6383,7 @@ namespace Aow.Game.Engine.Storage
             }
         }
 
-        public Engine Engine { get => FEngine; }
+        public GameEngine Engine { get => FEngine; }
         public Stream Stream { get => FStream; }
         public PropertyTable PropertyTable { get => FPropertyTable; }
         public StorageStreamError OnError { get => FOnError; set => FOnError = value; }
@@ -6312,7 +6405,7 @@ namespace Aow.Game.Engine.Storage
     }
 }
 
-namespace Aow.Game.Engine.Nodes
+namespace Aow.Engine.Nodes
 {
 
     // { Engine.TEObjectEditorList: the editor descriptors an engine registers, one per editor class id
@@ -6436,7 +6529,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8525
-        public virtual void Draw(Canvas Canvas, Rect Rect, Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+        public virtual void Draw(Canvas Canvas, Rect Rect, Game.Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
             Rect R = default;
             LibraryDrawing.BltLibraryImage(Canvas, GetCellImage(), Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
@@ -6485,11 +6578,11 @@ namespace Aow.Game.Engine.Nodes
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Engine
 {
     public delegate void ProgressEvent(EObject Sender, string Message, int Progression);
 
-    public partial class DoublePrioriyIDException : System.Exception
+    public partial class DoublePrioriyIDException : Exception
     {
         // SysUtils.pas:174
         public DoublePrioriyIDException(string Msg) : base(Msg)
@@ -6498,7 +6591,7 @@ namespace Aow.Game.Engine
     }
 }
 
-namespace Aow.Game.Engine.Storage
+namespace Aow.Engine.Storage
 {
 
     // the write stream's data buffer
@@ -6660,7 +6753,7 @@ namespace Aow.Game.Engine.Storage
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Engine
 {
 
     // FRefCount, FEngines, FCounts. A plug-in registers itself in PlugIns on creation and counts
@@ -6685,7 +6778,7 @@ namespace Aow.Game.Engine
         {
             while (FEngines.Count != 0)
             {
-                Finalize((Engine)FEngines[FEngines.Count - 1]);
+                Finalize((GameEngine)FEngines[FEngines.Count - 1]);
             }
 
             FEngines?.Dispose();
@@ -6713,7 +6806,7 @@ namespace Aow.Game.Engine
         public virtual string Name() => "Abstract PlugIn";
 
         // Engine.pas:9178
-        public virtual bool Initialize(Engine AEngine)
+        public virtual bool Initialize(GameEngine AEngine)
         {
             bool Result;
             int I;
@@ -6736,7 +6829,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9197
-        public virtual bool Finalize(Engine AEngine)
+        public virtual bool Finalize(GameEngine AEngine)
         {
             bool Result;
             int I;
@@ -6805,7 +6898,7 @@ namespace Aow.Game.Engine
 
     }
 
-    public partial class PlugInMissingException : System.Exception
+    public partial class PlugInMissingException : Exception
     {
         // SysUtils.pas:174
         public PlugInMissingException(string Msg) : base(Msg)
@@ -6817,7 +6910,7 @@ namespace Aow.Game.Engine
     // the list changes
     public partial class PlugInControl : EObject
     {
-        internal Engine FEngine;
+        internal GameEngine FEngine;
         internal StringList FUsedPlugIns;
 
         // Engine.pas:9279
@@ -6896,7 +6989,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9269
-        public override Engine GetEngine() => FEngine;
+        public override GameEngine GetEngine() => FEngine;
 
         // Engine.pas:9274
         public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared);
@@ -6911,7 +7004,7 @@ namespace Aow.Game.Engine
             }
         }
 
-        public Engine Engine { get => FEngine; set => FEngine = value; }
+        public GameEngine Engine { get => FEngine; set => FEngine = value; }
         public StringCollection UsedPlugIns { get => GetUsedPlugIns(); set => SetUsedPlugIns(value); }
 
         private static PlugIn FindPlugIn(string Name)
@@ -6936,7 +7029,7 @@ namespace Aow.Game.Engine
     }
 }
 
-namespace Aow.Game.Engine.Nodes
+namespace Aow.Engine.Nodes
 {
 
     // the child list of a TENode
@@ -7661,7 +7754,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:7263
-        public override void Assign(EObject Source, Engine AEngine)
+        public override void Assign(EObject Source, GameEngine AEngine)
         {
             BeginUpdate();
             base.Assign(Source, AEngine);
@@ -8682,7 +8775,7 @@ namespace Aow.Game.Engine.Nodes
         public static int EditorClassID => 0;
 
         // Engine.pas:3041
-        public static void Edit(EObject Obj, Engine AEngine, EditDoneEvent Done)
+        public static void Edit(EObject Obj, GameEngine AEngine, EditDoneEvent Done)
         {
             Done(EditResult.Cancel, Obj);
         }
@@ -8695,7 +8788,7 @@ namespace Aow.Game.Engine.Nodes
     }
 }
 
-namespace Aow.Game.Engine.Collections
+namespace Aow.Engine.Collections
 {
 
     public partial class HashList : IDisposable
@@ -9134,7 +9227,7 @@ namespace Aow.Game.Engine.Collections
     }
 }
 
-namespace Aow.Game.Engine.Nodes
+namespace Aow.Engine.Nodes
 {
 
     // FControlStyle
@@ -9223,14 +9316,14 @@ namespace Aow.Game.Engine.Nodes
             FControlStyle = base.GetControlStyle();
         }
 
-        internal Engine FEngine;
+        internal GameEngine FEngine;
         internal Set<EControlStyleElement> FControlStyle;
 
         // Engine.pas:8262
-        public override Engine GetEngine() => FEngine;
+        public override GameEngine GetEngine() => FEngine;
 
         // Engine.pas:8267
-        public void SetEngine(Engine AEngine)
+        public void SetEngine(GameEngine AEngine)
         {
             FEngine = AEngine;
         }
@@ -9256,7 +9349,7 @@ namespace Aow.Game.Engine.Nodes
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = Msg.Payload.As<Engine>();
+                FEngine = Msg.Payload.As<GameEngine>();
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -9266,7 +9359,7 @@ namespace Aow.Game.Engine.Nodes
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Engine
 {
 
     // a TList of class references
@@ -9372,7 +9465,7 @@ namespace Aow.Game.Engine
     }
 }
 
-namespace Aow.Game.Engine.Nodes
+namespace Aow.Engine.Nodes
 {
 
     // FEditors, editor names with ids
@@ -11282,6 +11375,10 @@ namespace Aow.Game.Engine.Nodes
         public ResourcesAccessor Resources => new ResourcesAccessor(this);
 
     }
+}
+
+namespace Aow.Game.Engine.Nodes
+{
 
     // FOnRegisterClasses (called from Loaded), FOnUnRegisterClasses (called from Destroy), FEngine,
     // the engine the component owns and frees. Descendants such as HSEngine's THexagonSpriteEngine
@@ -11290,7 +11387,7 @@ namespace Aow.Game.Engine.Nodes
     {
         internal NotifyEvent<object> FOnRegisterClasses;
         internal NotifyEvent<object> FOnUnRegisterClasses;
-        internal Engine FEngine;
+        internal GameEngine FEngine;
 
         // Engine.pas:8642
         public override void Loaded()
@@ -11317,14 +11414,14 @@ namespace Aow.Game.Engine.Nodes
             base.Dispose();
         }
 
-        public Engine Engine { get => FEngine; set => FEngine = value; }
+        public GameEngine Engine { get => FEngine; set => FEngine = value; }
 
         public EComponent(Component owner) : base(owner)
         { }
     }
 }
 
-namespace Aow.Game.Engine.Collections
+namespace Aow.Engine.Collections
 {
 
     public partial class CallBackEventList : IDisposable
@@ -11385,7 +11482,7 @@ namespace Aow.Game.Engine.Collections
     }
 }
 
-namespace Aow.Game.Engine.Storage
+namespace Aow.Engine.Storage
 {
 
     // FPath, FSize, FSections, FText, FValues. The text form of the storage: "[:path:]" lines open
@@ -11533,7 +11630,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10611
-        public EReadTextStorageStream(Stream AStream, Engine AEngine, int ASize) : base(AStream, AEngine)
+        public EReadTextStorageStream(Stream AStream, GameEngine AEngine, int ASize) : base(AStream, AEngine)
         {
             FPath = "";
             if (ASize <= 0)
@@ -11742,7 +11839,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10335
-        public EWriteTextStorageStream(Stream AStream, Engine AEngine) : base(AStream, AEngine)
+        public EWriteTextStorageStream(Stream AStream, GameEngine AEngine) : base(AStream, AEngine)
         {
             FPath = "";
             FBuffer = new EBufferStream();
@@ -11928,7 +12025,7 @@ namespace Aow.Game.Engine.Storage
         internal int FDataBase;
 
         // Engine.pas:9968
-        public EReadStorageStream(Stream AStream, Engine AEngine, bool APartial) : base(AStream, AEngine)
+        public EReadStorageStream(Stream AStream, GameEngine AEngine, bool APartial) : base(AStream, AEngine)
         {
             FPropertyTable = new PropertyTable();
             FPropertyTable.LoadFromStream(AStream);
@@ -12308,7 +12405,7 @@ namespace Aow.Game.Engine.Storage
                         FPropertyTable.RestoreSettings();
                         FDataBase = SavedBase;
                     }
-                    catch (System.Exception error)
+                    catch (Exception error)
                     {
                         Obj?.Dispose();
                         Obj = null;
@@ -12393,7 +12490,7 @@ namespace Aow.Game.Engine.Storage
                 FPropertyTable.RestoreSettings();
                 FDataBase = SavedBase;
             }
-            catch (System.Exception error)
+            catch (Exception error)
             {
                 FPropertyTable.RestoreSettings();
                 FDataBase = SavedBase;
@@ -12425,7 +12522,7 @@ namespace Aow.Game.Engine.Storage
                     FDataBase = SavedBase;
                     FStream.Position = Start + Size + 4;
                 }
-                catch (System.Exception error)
+                catch (Exception error)
                 {
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
@@ -12535,14 +12632,14 @@ namespace Aow.Game.Engine.Storage
 
         // Engine.pas:9565
         // Engine.pas:10489 TDebugWriteStream borrows the supplied stream as its buffer.
-        private protected EWriteStorageStream(Stream stream, Engine engine, EBufferStream buffer) : base(stream, engine)
+        private protected EWriteStorageStream(Stream stream, GameEngine engine, EBufferStream buffer) : base(stream, engine)
         {
             FBuffer = buffer;
             FPropertyTable = new PropertyTable();
             FPartial = false;
         }
 
-        public EWriteStorageStream(Stream AStream, Engine AEngine, bool APartial) : base(AStream, AEngine)
+        public EWriteStorageStream(Stream AStream, GameEngine AEngine, bool APartial) : base(AStream, AEngine)
         {
             FEngine = AEngine;
             FStream = AStream;
@@ -12899,7 +12996,7 @@ namespace Aow.Game.Engine.Storage
                         FBuffer = Outer;
                         FPropertyTable.Add(ID, Start);
                     }
-                    catch (System.Exception error)
+                    catch (Exception error)
                     {
                         FPropertyTable.RestoreSettings();
                         FBuffer?.Dispose();
@@ -12978,7 +13075,7 @@ namespace Aow.Game.Engine.Storage
                     FBuffer = Outer;
                     FPropertyTable.Add(ID, Start);
                 }
-                catch (System.Exception error)
+                catch (Exception error)
                 {
                     FPropertyTable.RestoreSettings();
                     FBuffer?.Dispose();
@@ -13020,7 +13117,7 @@ namespace Aow.Game.Engine.Storage
                 FBuffer?.Dispose();
                 FBuffer = Outer;
             }
-            catch (System.Exception error)
+            catch (Exception error)
             {
                 FBuffer?.Dispose();
                 FBuffer = Outer;
@@ -13092,7 +13189,7 @@ namespace Aow.Game.Engine.Storage
     {
         // Engine.pas:10489
         // Retained: The debug writer uses the supplied stream as FBuffer and skips the normal writer buffer allocation. Retire with a replacement-base storage protocol.
-        public DebugWriteStream(Stream AStream, Engine AEngine) : base(AStream, AEngine, (EBufferStream)AStream)
+        public DebugWriteStream(Stream AStream, GameEngine AEngine) : base(AStream, AEngine, (EBufferStream)AStream)
         { }
 
         // Engine.pas:10499
@@ -13131,7 +13228,7 @@ namespace Aow.Game.Engine.Storage
                         FPropertyTable.RestoreSettings();
                         FPropertyTable.Add(ID, (int)(FBuffer.Position));
                     }
-                    catch (System.Exception error)
+                    catch (Exception error)
                     {
                         FPropertyTable.RestoreSettings();
                         if (!HandleException(error))
@@ -13191,7 +13288,7 @@ namespace Aow.Game.Engine.Storage
                     FPropertyTable.RestoreSettings();
                     FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 }
-                catch (System.Exception error)
+                catch (Exception error)
                 {
                     FPropertyTable.RestoreSettings();
                     if (!HandleException(error))
@@ -13219,7 +13316,7 @@ namespace Aow.Game.Engine.Storage
                 FBuffer.Write(Bytes.Of(ref Size, 4));
                 FPropertyTable.RestoreSettings();
             }
-            catch (System.Exception error)
+            catch (Exception error)
             {
                 FPropertyTable.RestoreSettings();
                 Size = 0;
@@ -13237,7 +13334,7 @@ namespace Aow.Game.Engine.Storage
     public partial class TranslateStorageStream : EStorageStream
     {
         // Engine.pas:10825
-        public TranslateStorageStream(Engine AEngine) : base(null, AEngine)
+        public TranslateStorageStream(GameEngine AEngine) : base(null, AEngine)
         {
             FPropertyTable = new PropertyTable();
         }
@@ -13343,7 +13440,7 @@ namespace Aow.Game.Engine.Storage
     // a read stream that announces a comparison to come (smSetupCompare)
     public partial class SetupCompareStorageStream : EReadStorageStream
     {
-        public SetupCompareStorageStream(Stream AStream, Engine AEngine, bool APartial) : base(AStream, AEngine, APartial)
+        public SetupCompareStorageStream(Stream AStream, GameEngine AEngine, bool APartial) : base(AStream, AEngine, APartial)
         { }
 
         // Engine.pas:10911
@@ -13367,7 +13464,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10918
-        public CompareStorageStream(Stream AStream, Engine AEngine) : base(AStream, AEngine, false)
+        public CompareStorageStream(Stream AStream, GameEngine AEngine) : base(AStream, AEngine, false)
         { }
 
         // Engine.pas:10928
@@ -13401,7 +13498,7 @@ namespace Aow.Game.Engine.Storage
                         FPropertyTable.RestoreSettings();
                         FDataBase = SavedBase;
                     }
-                    catch (System.Exception error)
+                    catch (Exception error)
                     {
                         Obj?.Dispose();
                         Obj = null;
@@ -13623,7 +13720,7 @@ namespace Aow.Game.Engine.Storage
     }
 }
 
-namespace Aow.Game.Engine.Collections
+namespace Aow.Engine.Collections
 {
 
     public delegate int StringsSortCompare(string S1, string S2, object O1, object O2);
@@ -13704,6 +13801,10 @@ namespace Aow.Game.Engine.Collections
         }
 
     }
+}
+
+namespace Aow.Game.Engine.Collections
+{
 
     // { the layout of TList, to write its count field straight from the object }
     public partial class ListFields

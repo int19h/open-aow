@@ -1,9 +1,8 @@
-// Translated from HashTabU.pas.
-using Aow.Game.Engine.Buffers;
+using Aow.Engine.Buffers;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine.Hash;
+namespace Aow.Engine.Hash;
 
 public partial class HashList : IDisposable
 {

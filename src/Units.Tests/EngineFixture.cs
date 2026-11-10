@@ -1,7 +1,10 @@
 using System.Reflection;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Xunit.Sdk;
 
@@ -16,7 +19,7 @@ public sealed partial class EngineFixture : IDisposable
     private readonly RecordingHost host = new("fixture");
     private static RecordingHost services = null!;
 
-    internal static AoWEngine Engine { get; private set; } = null!;
+    internal static GameEngine Engine { get; private set; } = null!;
     internal static AoWHSSet GameSet { get; private set; } = null!;
     internal static string Root => services.GameRoot;
 
@@ -25,7 +28,7 @@ public sealed partial class EngineFixture : IDisposable
     internal static void RestoreEngine()
     {
         foreach (var pair in state) pair.Key.SetValue(Engine, pair.Value);
-        Game.Magic.Abilities.GameTables.AoWEngine = Engine;
+        GameTables.AoWEngine = Engine;
         AoWHSSet.Current = GameSet;
         AoWHSMap.Current = null!;
     }
@@ -34,8 +37,8 @@ public sealed partial class EngineFixture : IDisposable
     {
         Runtime.InstallHost(host);
         services = host;
-        Game.Magic.Abilities.GameTables.ValidateAoWEngine();
-        Engine = Game.Magic.Abilities.GameTables.AoWEngine;
+        GameTables.ValidateAoWEngine();
+        Engine = GameTables.AoWEngine;
         GameSet = AoWHSSet.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))

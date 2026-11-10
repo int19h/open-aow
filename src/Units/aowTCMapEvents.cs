@@ -1,13 +1,18 @@
 // Translated from aowTCMapEvents.pas.
+using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
+using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
 using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -25,7 +30,7 @@ public partial class CombatMapEvents : DataModule
     public void TCMapDeActivateMap()
     {
         StopSong();
-        Audio.AudioHost.SongPlayer.Resume();
+        AudioHost.SongPlayer.Resume();
         DialogHosts.MWindow.MapViewer.HSMap = AoWHSMap.Current;
         DialogHosts.SWindow.Scanner.SetMap(AoWHSMap.Current);
         DialogHosts.SWindow.Scanner.FPreviousWidth = 0;
@@ -235,7 +240,7 @@ public partial class CombatMapEvents : DataModule
     private static void RefreshCombatUnit(CombatUnitInfo Window)
     {
         AbilityCombatInfo Info = default(AbilityCombatInfo);
-        Magic.Spells.SpellCombatInfo info = default(Magic.Spells.SpellCombatInfo);
+        SpellCombatInfo info = default(SpellCombatInfo);
         if (DialogHosts.General.FCombatUnit != null)
         {
             AbstractUnit fUnit = DialogHosts.General.FCombatUnit.FUnit.FUnit;
@@ -255,13 +260,13 @@ public partial class CombatMapEvents : DataModule
                     sbyte castingPoints = tHero.GetCastingPoints();
                     Window.UnitMana.Position = castingPoints;
                 }
-                Windows.AOWPanel unitFr = Window.UnitFr;
+                AOWPanel unitFr = Window.UnitFr;
                 unitFr.Alignment.TopOffset = 7;
                 unitFr.WinHeight = 54;
             }
             else
             {
-                Windows.AOWPanel unitFr2 = Window.UnitFr;
+                AOWPanel unitFr2 = Window.UnitFr;
                 unitFr2.Alignment.TopOffset = 0;
                 unitFr2.WinHeight = 61;
             }
@@ -286,7 +291,7 @@ public partial class CombatMapEvents : DataModule
                     Window.UDefense.Text = RtlUnit.IntToStr((int)defense);
                     sbyte resistance = fUnit.GetResistance();
                     Window.UResistance.Text = RtlUnit.IntToStr((int)resistance);
-                    Set<World.Movement.MoveType> moveTypes = fUnit.GetMoveTypes();
+                    Set<MoveType> moveTypes = fUnit.GetMoveTypes();
                     int current = DialogHosts.General.MTtoInt(moveTypes);
                     Window.UMovesIcon.SetCurrent(current);
                     DialogHosts.General.FCombatUnit.ListAbilities((StringCollection)(object)Window.UAbilLB.Items, null, null);
@@ -300,7 +305,7 @@ public partial class CombatMapEvents : DataModule
                     Window.TCAbilPnl.Visible = true;
                     Window.TargetSelPnl.Visible = false;
                     AoWHSSet.Current.FSpellControl.GetSpell(DialogHosts.General.FCombatUnit.FSelectedSpell).GetCombatInfo(DialogHosts.General.FCombatUnit.FUnit.FUnit, ref info);
-                    Magic.Spells.Spell spell = AoWHSSet.Current.FSpellControl.GetSpell(DialogHosts.General.FCombatUnit.FSelectedSpell);
+                    Spell spell = AoWHSSet.Current.FSpellControl.GetSpell(DialogHosts.General.FCombatUnit.FSelectedSpell);
                     Window.AbilNameLbl.Text = spell.FSpellName;
                     if (info.Attack > 0)
                     {
@@ -468,9 +473,9 @@ public partial class CombatMapEvents : DataModule
 
     private static bool StopSong()
     {
-        if (Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
-            return Audio.AudioHost.SoundSystem.StopSong();
+            return AudioHost.SoundSystem.StopSong();
         }
         return false;
     }

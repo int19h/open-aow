@@ -1,11 +1,13 @@
 // Translated from Cave.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
@@ -222,9 +224,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Cave.pas:163
-        public override Draw.Images.LibraryImage GetTopBorderImage()
+        public override LibraryImage GetTopBorderImage()
         {
-            Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             if (FEntrance == Entrance.Up)
             {
                 if (FResource.ImageSequenceList != null && FResource.ImageSequenceList.ImageSequences[33] != null)
@@ -245,9 +247,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Cave.pas:175
-        public override Draw.Images.LibraryImage GetMiddleBorderImage()
+        public override LibraryImage GetMiddleBorderImage()
         {
-            Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             if (FEntrance == Entrance.Up)
             {
                 if (FResource.ImageSequenceList != null && FResource.ImageSequenceList.ImageSequences[34] != null)
@@ -268,9 +270,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Cave.pas:187
-        public override Draw.Images.LibraryImage GetBottomBorderImage()
+        public override LibraryImage GetBottomBorderImage()
         {
-            Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             if (FEntrance == Entrance.Up)
             {
                 if (FResource.ImageSequenceList != null && FResource.ImageSequenceList.ImageSequences[35] != null)

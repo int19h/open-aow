@@ -1,7 +1,7 @@
 // Translated from GFXE.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Aow.Game.Engine.Buffers;
+using Aow.Engine.Buffers;
 using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;

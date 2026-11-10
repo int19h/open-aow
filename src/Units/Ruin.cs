@@ -1,6 +1,8 @@
 // Translated from Ruin.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -25,7 +27,7 @@ public partial class Ruin : ItemExplorationSite
         public override int ResourceUserClassID() => 131994;
 
         // Ruin.pas:37
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(CastleRuinRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(CastleRuinRStr);
 
         private static readonly string CastleRuinRStr = "Castle Ruin";
 

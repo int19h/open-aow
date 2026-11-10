@@ -1,11 +1,14 @@
 // Translated from AoWUnitWindow.pas.
+using Aow.Engine.Buffers;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWUnitWindow.pas.
 using Aow.Rtl.Localize;
@@ -143,7 +146,7 @@ public partial class UnitWindow : DataModule
     public int FHighlightStep;
     public bool FItemVisible;
     public int FBlinkDelay;
-    public Draw.Images.LibraryImage FCursorImage;
+    public LibraryImage FCursorImage;
     public int FGroundOffset;
     public int FGroundCount;
     public P2UnitShowInfo FShowInfo;
@@ -229,10 +232,10 @@ public partial class UnitWindow : DataModule
         bool Enabled;
         Ability A;
         var objectValue = T1AbilityLB.Items.Objects[DrawItem];
-        A = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-        if (World.Map.AoWHSMap.Current.FCombatMap == null)
+        A = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+        if (AoWHSMap.Current.FCombatMap == null)
         {
-            Enabled = A != null && DialogHosts.General.FSelectedUnit != null && DialogHosts.General.FSelectedUnit.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer && A.GetControlType(DialogHosts.General.FSelectedUnit).Contains(AbilityControlTypeElement.Action);
+            Enabled = A != null && DialogHosts.General.FSelectedUnit != null && DialogHosts.General.FSelectedUnit.FPlayer == AoWHSMap.Current.FSeatedPlayer && A.GetControlType(DialogHosts.General.FSelectedUnit).Contains(AbilityControlTypeElement.Action);
         }
         else
         {
@@ -240,14 +243,14 @@ public partial class UnitWindow : DataModule
             if (condition)
             {
                 var objectValue2 = T1AbilityLB.Items.Objects[DrawItem];
-                condition = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(AbilityControlTypeElement.CombatAction);
+                condition = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(AbilityControlTypeElement.CombatAction);
             }
 
             bool test = condition && DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.Current.FSeatedPlayer && DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0;
             if (test)
             {
                 var objectValue2 = T1AbilityLB.Items.Objects[DrawItem];
-                var combatMode = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
                 test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[DrawItem]) == 52) || DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves() == DialogHosts.General.FCombatUnit.FUnit.FMovePoints;
             }
 
@@ -277,15 +280,15 @@ public partial class UnitWindow : DataModule
         T1AbilityLB.Selected = Sender.Selected;
         T1TypeLB.Selected = Sender.Selected;
         T1SrcLB.Selected = Sender.Selected;
-        if (World.Map.AoWHSMap.Current.FCombatMap == null)
+        if (AoWHSMap.Current.FCombatMap == null)
         {
-            if (DialogHosts.General.FSelectedUnit.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer && T1AbilityLB.Selected > -1)
+            if (DialogHosts.General.FSelectedUnit.FPlayer == AoWHSMap.Current.FSeatedPlayer && T1AbilityLB.Selected > -1)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                A = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+                A = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (A != null && A.GetEnabled(DialogHosts.General.FSelectedUnit))
                 {
-                    if (World.Map.AoWHSMap.Current.FCombatMap == null)
+                    if (AoWHSMap.Current.FCombatMap == null)
                     {
                         var controlType = A.GetControlType(DialogHosts.General.FSelectedUnit);
                         T1UseBut.Visible = controlType.Contains(AbilityControlTypeElement.Action);
@@ -293,11 +296,11 @@ public partial class UnitWindow : DataModule
                     else
                     {
                         var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                        bool condition = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(DialogHosts.General.FSelectedUnit) != CombatMode.None;
+                        bool condition = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(DialogHosts.General.FSelectedUnit) != CombatMode.None;
                         if (condition)
                         {
                             var objectValue3 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                            condition = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(DialogHosts.General.FSelectedUnit) != CombatMode.Melee;
+                            condition = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(DialogHosts.General.FSelectedUnit) != CombatMode.Melee;
                         }
 
                         T1UseBut.Visible = condition;
@@ -326,14 +329,14 @@ public partial class UnitWindow : DataModule
             if (condition)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                condition = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(AbilityControlTypeElement.CombatAction);
+                condition = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(AbilityControlTypeElement.CombatAction);
             }
 
             bool test = condition && DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.Current.FSeatedPlayer && DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0;
             if (test)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                var combatMode = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
                 test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[T1AbilityLB.Selected]) == 52) || DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves() == DialogHosts.General.FCombatUnit.FUnit.FMovePoints;
             }
 
@@ -341,7 +344,7 @@ public partial class UnitWindow : DataModule
             {
                 T1UseBut.Visible = true;
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                var name = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                var name = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(DialogHosts.General.FCombatUnit.FUnit.FUnit);
                 var format = AbilityRules.Format(AbilityRules.TranslateRStr(UseXRStr), [name]);
                 T1UseBut.Text = format;
             }
@@ -472,12 +475,12 @@ public partial class UnitWindow : DataModule
         string Reason = "";
         DialogHosts.General.PlayButtonSound(0);
         var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-        A = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+        A = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
         if (A != null && A.GetEnabled(DialogHosts.General.FSelectedUnit))
         {
-            if (World.Map.AoWHSMap.Current.FCombatMap == null)
+            if (AoWHSMap.Current.FCombatMap == null)
             {
-                if (DialogHosts.General.FSelectedUnit.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (DialogHosts.General.FSelectedUnit.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
                     if (A.Activate(DialogHosts.General.FSelectedUnit, ref Reason))
                     {
@@ -487,7 +490,7 @@ public partial class UnitWindow : DataModule
                     {
                         if (!IsEmpty(Reason))
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
                     }
                 }
@@ -519,7 +522,7 @@ public partial class UnitWindow : DataModule
             }
             else
             {
-                World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                AoWHSMap.Current.ShowWarning(Reason);
             }
         }
     }
@@ -634,7 +637,7 @@ public partial class UnitWindow : DataModule
     {
         if (DialogHosts.General.FSelectedUnit != null)
         {
-            if (!World.Map.AoWHSMap.Current.FPlayers.GetPlayers(DialogHosts.General.FSelectedUnit.FPlayer).GetBusy())
+            if (!AoWHSMap.Current.FPlayers.GetPlayers(DialogHosts.General.FSelectedUnit.FPlayer).GetBusy())
             {
                 if (Button == MouseButton.Right)
                 {
@@ -730,7 +733,7 @@ public partial class UnitWindow : DataModule
         if (Button == MouseButton.Right && DialogHosts.General.FSelectedUnit != null && T1AbilityLB.Selected != -1)
         {
             var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-            A = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            A = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
                 var name = A.GetName(null);
@@ -807,7 +810,7 @@ public partial class UnitWindow : DataModule
 
     private static readonly string MoraleXRStr = "Morale: %s";
     private static readonly string UseXRStr = "Use %s";
-    private static Engine.Buffers.FixedArray_string_5 TMoraleRStr = Engine.Buffers.FixedArray_string_5.From(["Terrible", "Poor", "Okay", "Good", "High"]);
+    private static FixedArray_string_5 TMoraleRStr = FixedArray_string_5.From(["Terrible", "Poor", "Okay", "Good", "High"]);
     private static AOWCheckBox SelectedItem;
     private static readonly string AbilitiesRStr = "Abilities";
     private static readonly string InfoRStr = "Info";
@@ -826,8 +829,8 @@ public partial class UnitWindow : DataModule
 
     private static int CompareUnitAbilities(string S1, string S2, object O1, object O2)
     {
-        Ability ability = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O1));
-        Ability ability2 = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O2));
+        Ability ability = AoWHSSet.Current.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O1));
+        Ability ability2 = AoWHSSet.Current.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O2));
         int num = ((ability.GetEnabled(DialogHosts.General.FSelectedUnit) && ability.GetControlType(DialogHosts.General.FSelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0);
         int num2 = ((ability2.GetEnabled(DialogHosts.General.FSelectedUnit) && ability2.GetControlType(DialogHosts.General.FSelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0);
         int num3 = num2 - num;

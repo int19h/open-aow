@@ -1,8 +1,10 @@
 // Translated from MagicSanctuary.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -152,7 +154,7 @@ namespace Aow.Game.World.Structures
             // MagicSanctuary.pas:43
 
             // MagicSanctuary.pas:157
-            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(MagicSanctuaryRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(MagicSanctuaryRStr);
 
             private static readonly string MagicSanctuaryRStr = "Magic Sanctuary";
 

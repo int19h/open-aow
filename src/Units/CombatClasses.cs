@@ -1,13 +1,12 @@
 using System.Runtime.CompilerServices;
+using Aow.Engine;
 using Aow.Game.Audio;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
@@ -27,9 +26,9 @@ namespace Aow.Game.Combat;
 
 public static class CombatClasses
 {
-    public static void Register(Engine.Engine AEngine)
+    public static void Register(GameEngine AEngine)
     {
-        GameTables.AoWEngine.RegisterEClasses([EClass.Of<AoWCombatMap>(), EClass.Of<AoWCombatMapLevel>(), EClass.Of<UnitPositionHS>(), EClass.Of<TacticalCombat>()]);
+        GameTables.AoWEngine.RegisterEClasses([EClass.Of<AoWCombatMap>(), EClass.Of<AoWCombatMapLevel>(), EClass.Of<UnitPositionHS>(), EClass.Of<TacticalBattle>()]);
         (AEngine).RegisterEClasses([EClass.Of<CombatILTerrain>(), EClass.Of<CombatILTerrainResource>(), EClass.Of<CombatFixedILTerrain>(), EClass.Of<CombatFixedILTerrain.Resource>()]);
         (AEngine).RegisterEClasses([EClass.Of<CombatHexagon.Resource>(), EClass.Of<CombatHexagon>(), EClass.Of<WaterCombatHexagon>(), EClass.Of<WaterCombatHexagon.Resource>()]);
         (AEngine).RegisterEClasses([EClass.Of<CombatRoad.Resource>(), EClass.Of<CombatRoad>()]);

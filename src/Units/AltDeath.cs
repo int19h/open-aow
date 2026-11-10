@@ -1,7 +1,8 @@
-// Translated from AltDeath.pas.
-using Aow.Game.Draw.Animation;
+using Aow.Engine.Nodes;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -34,7 +35,7 @@ public partial class AltarOfDeath : Altar
         // AltDeath.pas:26
 
         // AltDeath.pas:49
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AltarOfDeathRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(AltarOfDeathRStr);
 
         private static readonly string AltarOfDeathRStr = "Altar of Death";
 

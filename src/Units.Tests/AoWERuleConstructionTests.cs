@@ -1,7 +1,12 @@
 using System.Collections;
+using System.Globalization;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Combat;
@@ -42,7 +47,7 @@ public sealed partial class AoWERuleConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = GameTables.AoWEngine;
+        private readonly GameEngine previousEngine = GameTables.AoWEngine;
         private readonly AoWHSMap previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly AoWHSMap Map;
@@ -79,7 +84,7 @@ public sealed partial class AoWERuleConstructionTests
         object? State(object? item, string path)
         {
             if (item is null) return null;
-            if (item is AoWEngine) return "$engine";
+            if (item is GameEngine) return "$engine";
             Type type = item.GetType();
             if (item is string text) return text;
             if (type.IsEnum) return Convert.ToInt64(item);
@@ -143,11 +148,11 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 2)
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
-            using var engine = new Engine(null!);
+            using GameEngine engine = new GameEngine(null!);
             var meta = EClass.Of(type);
-            engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
-            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+            catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
             return engine.CreateEObject(meta.ClassID, owner);
         }
@@ -163,11 +168,11 @@ public sealed partial class AoWERuleConstructionTests
         object?[] args = parameters.Select(p => p.ParameterType == typeof(ECustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
             : p.ParameterType == typeof(HSMap) ? fixture.Map
-            : p.ParameterType == typeof(FastCombat) ? new FastCombat(null!)
+            : p.ParameterType == typeof(FastBattle) ? new FastBattle(null!)
             : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!)
             : null).ToArray();
         try { return (object)Invoke(() => factory is not null ? factory.Invoke(null, args) : constructor!.Invoke(args))!; }
-        finally { foreach (object? arg in args) if (arg is FastCombat or CombatSide) ((((object)arg) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
+        finally { foreach (object? arg in args) if (arg is FastBattle or CombatSide) ((((object)arg) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
     }
 
     private static object? Invoke(Func<object?> action)
@@ -175,7 +180,7 @@ public sealed partial class AoWERuleConstructionTests
         try { return action(); }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
-            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw();
+            ExceptionDispatchInfo.Capture(error.InnerException).Throw();
             throw;
         }
     }
@@ -188,7 +193,7 @@ public sealed partial class AoWERuleConstructionTests
     {
         var matches = typeof(Spell).Assembly.GetTypes().Where(type => type.Name == name).ToArray();
         if (matches.Length != 1)
-            throw new InvalidOperationException(name + " matches " + matches.Length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " types.");
+            throw new InvalidOperationException(name + " matches " + matches.Length.ToString(CultureInfo.InvariantCulture) + " types.");
         return matches[0];
     }
 
@@ -214,11 +219,11 @@ public sealed partial class AoWERuleConstructionTests
                 AssertPrivateArrayChildren(value);
                 state = "success:" + Snapshot(value);
             }
-            catch (System.Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
+            catch (Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
             finally
             {
                 try { (value as IDisposable)?.Dispose(); }
-                catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
             }
             states.Add(state);
             ConstructionSnapshot.Check("AoWERuleConstruction", name, string.Join("\n", states));
@@ -241,7 +246,7 @@ public sealed partial class AoWERuleConstructionTests
             Assert.Same(EClass.Of(type), value.EClass);
             string state = Snapshot(value);
             try { value.Dispose(); }
-            catch (System.Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }
+            catch (Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }
             expected ??= state;
             Assert.Equal(expected, state);
         }

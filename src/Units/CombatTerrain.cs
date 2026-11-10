@@ -1,10 +1,11 @@
 // Translated from CombatTerrain.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World;
@@ -261,7 +262,7 @@ namespace Aow.Game.World.Hexes
         }
 
         // CombatTerrain.pas:91
-        public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+        public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
         // CombatTerrain.pas:106
         public override bool CanPlaceOnHS(HexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;

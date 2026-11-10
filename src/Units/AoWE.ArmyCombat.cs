@@ -1,8 +1,9 @@
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -26,7 +27,7 @@ public partial class ArmyCombatMoveTE
         ArmyHS OtherArmyHS = default;
         ArmyHS ArmyHS = default;
         ArmyHS MovedArmyHS = default;
-        Combat.Combat Combat = default;
+        Combat.Battle Combat = default;
         MapFieldMsg Msg = default;
         UserEventLog Log = default;
         ImageSequenceAnimation Anim = default;
@@ -110,7 +111,7 @@ public partial class ArmyCombatMoveTE
         {
             Combat.Deactivate();
             Combat.Finalize();
-            if (Combat is FastCombat)
+            if (Combat is FastBattle)
             {
                 DistributeCombatEvent(Combat.FLogbook, true);
                 if (AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FSeatedPlayer == Defender)

@@ -1,14 +1,17 @@
 // Translated from BloodShrine.pas.
+using Aow.Engine.Nodes;
+using Aow.Game.Audio;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Draw.Animation
+namespace Aow.Game.Draw.Animations
 {
 
     public partial class BloodShrineAnimation : Animation
@@ -60,7 +63,7 @@ namespace Aow.Game.World.Structures
         {
             int Xhp = default;
             int Yhp = default;
-            Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             Xhp -= XhpSurf;
             Yhp -= YhpSurf;
             FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
@@ -78,24 +81,24 @@ namespace Aow.Game.World.Structures
                 AoWHSSet.Current.FAbilityControl.GetAbility(168).Expand(AUnit);
             }
 
-            bool condition = ArmyHS.FArmy.FPlayer == Map.AoWHSMap.Current.FSeatedPlayer;
+            bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+                condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
             {
-                Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+                AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
             }
 
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             var xhx2 = GetXhx();
-            if (Map.AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
+            if (AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
             {
                 Anim = new BloodShrineAnimation(null);
                 R = new Rect(-16, -8, 32, 40);
@@ -105,7 +108,7 @@ namespace Aow.Game.World.Structures
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Map.AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
+                AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
             }
         }
 

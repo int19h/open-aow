@@ -2,16 +2,16 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Storage;
 using Aow.Formats.Tree;
+using Aow.Game;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Saves;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine.Nodes;
+namespace Aow.Engine.Nodes;
 
 public static class EngineServices
 {
@@ -72,14 +72,14 @@ public static class EngineServices
         return crc ^ -1;
     }
 
-    internal static Engine GetEngine(int Index)
+    internal static GameEngine GetEngine(int Index)
     {
-        Engine Result;
+        GameEngine Result;
         object P;
         if (EngineHost.Engines != null && Index >= 0 && Index < EngineHost.Engines.Count)
         {
             P = EngineHost.Engines[Index];
-            Result = (Engine)P;
+            Result = (GameEngine)P;
         }
         else
         {
@@ -89,12 +89,12 @@ public static class EngineServices
         return Result;
     }
 
-    internal static Engine FindEngine(int AClassID)
+    internal static GameEngine FindEngine(int AClassID)
     {
         int I;
         bool Found;
         Found = false;
-        Engine Result = null;
+        GameEngine Result = null;
         if (EngineHost.Engines != null)
         {
             I = 0;
@@ -107,7 +107,7 @@ public static class EngineServices
 
             if (Found)
             {
-                Result = (Engine)EngineHost.Engines[I - 1];
+                Result = (GameEngine)EngineHost.Engines[I - 1];
             }
         }
 

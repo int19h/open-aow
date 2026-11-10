@@ -4,6 +4,7 @@ using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Map;
 

@@ -1,4 +1,5 @@
 // Translated from PassiveAb.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;

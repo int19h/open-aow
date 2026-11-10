@@ -58,11 +58,11 @@ public sealed class LayoutSession
         {
             module.InitializeComponent(this);
         }
-        catch (System.Exception error)
+        catch (Exception error)
         {
             publish(null);
             try { module.Dispose(); }
-            catch (System.Exception cleanup) { throw new AggregateException(error, cleanup); }
+            catch (Exception cleanup) { throw new AggregateException(error, cleanup); }
             throw;
         }
     }

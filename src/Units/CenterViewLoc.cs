@@ -1,4 +1,6 @@
 // Translated from CenterViewLoc.pas.
+using Aow.Engine.Nodes;
+using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
@@ -18,7 +20,7 @@ public partial class CenterViewLocation : MapObject
     // CenterViewLoc.pas:80
     public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
-        if (Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -30,12 +32,12 @@ public partial class CenterViewLocation : MapObject
         base.Activate();
         if (!GetEditMode())
         {
-            if (Combat.AoWCombatMap.Current.FCenterViewLocation != null)
+            if (AoWCombatMap.Current.FCenterViewLocation != null)
             {
-                Combat.AoWCombatMap.Current.FCenterViewLocation?.Dispose();
+                AoWCombatMap.Current.FCenterViewLocation?.Dispose();
             }
 
-            Combat.AoWCombatMap.Current.FCenterViewLocation = this;
+            AoWCombatMap.Current.FCenterViewLocation = this;
         }
     }
 
@@ -45,9 +47,9 @@ public partial class CenterViewLocation : MapObject
         base.Deactivate();
         if (!GetEditMode())
         {
-            if (Combat.AoWCombatMap.Current.FCenterViewLocation == this)
+            if (AoWCombatMap.Current.FCenterViewLocation == this)
             {
-                Combat.AoWCombatMap.Current.FCenterViewLocation = null;
+                AoWCombatMap.Current.FCenterViewLocation = null;
             }
         }
     }
@@ -56,7 +58,7 @@ public partial class CenterViewLocation : MapObject
     public override bool CanSelect(int Xhp, int Yhp) => true;
 
     // CenterViewLoc.pas:49
-    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
     // CenterViewLoc.pas:52
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;

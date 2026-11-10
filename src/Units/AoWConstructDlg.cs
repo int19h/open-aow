@@ -2,6 +2,7 @@
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWConstructDlg.pas.
@@ -72,11 +73,11 @@ public partial class ConstructDlg : DataModule
         ConstructAbility Ability;
         ConstructionControl Control;
         Dlg.FDrawn = false;
-        U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
+        U = AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        Ability = (ConstructAbility)Engine.AoWHSSet.Current.FAbilityControl.GetAbility(125);
+        Ability = (ConstructAbility)AoWHSSet.Current.FAbilityControl.GetAbility(125);
         for (int I = 0, last = Ability.FConstructionControls.Count - 1; I <= last; I++)
         {
             Control = Ability.FConstructionControls.GetConstructionControl(I);
@@ -160,7 +161,7 @@ public partial class ConstructDlg : DataModule
 
         if (condition)
         {
-            U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
+            U = AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
             Control = (ConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
             if (Control.CanConstruct(U, ref Reason))
             {
@@ -171,7 +172,7 @@ public partial class ConstructDlg : DataModule
             }
             else
             {
-                World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                AoWHSMap.Current.ShowWarning(Reason);
             }
         }
     }

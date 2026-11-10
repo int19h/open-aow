@@ -1,16 +1,19 @@
 // Translated from GlobalEnchantmentSpells.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Ai;
 using Aow.Game.Audio;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
@@ -72,7 +75,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalEnchantment
+namespace Aow.Game.Magic.Spells
 {
 
     // FAIBasePriority
@@ -155,7 +158,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:435
         public override bool CanActivate(AbstractUnit Source, ref string MessageText)
         {
-            Magic.GlobalEnchantment Enchantment;
+            GlobalEnchantment Enchantment;
             bool Result = base.CanActivate(Source, ref MessageText);
             if (Result)
             {
@@ -212,10 +215,10 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:419
-        public virtual Magic.GlobalEnchantment CreateEnchantment() => null;
+        public virtual GlobalEnchantment CreateEnchantment() => null;
 
         // GlobalEnchantmentSpells.pas:424
-        public virtual void SetupEnchantment(AbstractUnit Source, Magic.GlobalEnchantment Enchantment)
+        public virtual void SetupEnchantment(AbstractUnit Source, GlobalEnchantment Enchantment)
         {
             Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
         }
@@ -223,16 +226,16 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:484
         public int AIUpkeepPriority()
         {
-            Magic.GlobalEnchantment Enchantment;
+            GlobalEnchantment Enchantment;
             // { Original creates the base enchantment here. }
-            Enchantment = new Magic.GlobalEnchantment(null);
+            Enchantment = new GlobalEnchantment(null);
             int Result = Enchantment.GetAIUpkeepPriority();
             Enchantment.Release();
             return Result;
         }
     }
 
-    public partial class EnchantedRoadsEnchantment : Magic.GlobalEnchantment
+    public partial class EnchantedRoadsEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:535
         public new const int ClassID = 135955;
@@ -323,7 +326,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:636
-        public override Magic.GlobalEnchantment CreateEnchantment() => new EnchantedRoadsEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new EnchantedRoadsEnchantment(null);
 
         public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in SurfaceDesc surface)
         {
@@ -347,7 +350,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class AirMasteryEnchantment : Magic.GlobalEnchantment
+    public partial class AirMasteryEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:649
         public new const int ClassID = 135966;
@@ -429,7 +432,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             sbyte L = default;
             Animation Anim = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
-            GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Air);
+            SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Air);
             Source.GetLocation(ref X, ref Y, ref L);
             AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
             Anim = new Animation(null);
@@ -444,7 +447,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:747
-        public override Magic.GlobalEnchantment CreateEnchantment() => new AirMasteryEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new AirMasteryEnchantment(null);
 
         // GlobalEnchantmentSpells.pas:701
         public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
@@ -489,7 +492,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class WaterMasteryEnchantment : Magic.GlobalEnchantment
+    public partial class WaterMasteryEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:760
         public new const int ClassID = 135956;
@@ -573,7 +576,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             // { Original ignores the event step. }
             base.ExecuteTE(Event, Source, 0);
             Source.GetLocation(ref X, ref Y, ref L);
-            GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Water);
+            SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Water);
             AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
             FCastSounds.Play(0);
             AoWHSMap.Current.AddEffect(TworldFXType.WaterMastery);
@@ -582,11 +585,11 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:801
-        public override Magic.GlobalEnchantment CreateEnchantment() => new WaterMasteryEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new WaterMasteryEnchantment(null);
     }
 
     // FDaysActive
-    public partial class HatredEnchantment : Magic.GlobalEnchantment
+    public partial class HatredEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:841
         public new const int ClassID = 135957;
@@ -692,11 +695,11 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:884
-        public override Magic.GlobalEnchantment CreateEnchantment() => new HatredEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new HatredEnchantment(null);
     }
 
     // FDaysActive
-    public partial class HarmonyEnchantment : Magic.GlobalEnchantment
+    public partial class HarmonyEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:921
         public new const int ClassID = 135958;
@@ -802,10 +805,10 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:964
-        public override Magic.GlobalEnchantment CreateEnchantment() => new HarmonyEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new HarmonyEnchantment(null);
     }
 
-    public partial class PowerLeakEnchantment : Magic.GlobalEnchantment
+    public partial class PowerLeakEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1001
         public new const int ClassID = 135959;
@@ -881,7 +884,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1031
-        public override Magic.GlobalEnchantment CreateEnchantment() => new PowerLeakEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new PowerLeakEnchantment(null);
     }
 
     // FWidth, FHeight, FOriginalTerrain
@@ -1095,7 +1098,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
     }
 
     // FRemoved, FRestoreDays, FDispelPlayer, FTurnsActive, FFloodControl
-    public partial class FloodEnchantment : Magic.GlobalEnchantment
+    public partial class FloodEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1240
         public new const int ClassID = 135960;
@@ -1368,7 +1371,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1353
-        public override Magic.GlobalEnchantment CreateEnchantment() => new FloodEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new FloodEnchantment(null);
 
         // GlobalEnchantmentSpells.pas:1367
         public void ShowAnimation(int Anim, int XhpSurf, int YhpSurf, int SurfaceDesc)
@@ -1376,7 +1379,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class LifeMasteryEnchantment : Magic.GlobalEnchantment
+    public partial class LifeMasteryEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1395
         public new const int ClassID = 135967;
@@ -1472,7 +1475,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             sbyte L = default;
             TwinkleAnimation Twinkle;
             base.ExecuteTE(Event, Source, ExecuteCount);
-            GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Life);
+            SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Life);
             Source.GetLocation(ref X, ref Y, ref L);
             AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
             Twinkle = new TwinkleAnimation(null);
@@ -1484,10 +1487,10 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1454
-        public override Magic.GlobalEnchantment CreateEnchantment() => new LifeMasteryEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new LifeMasteryEnchantment(null);
     }
 
-    public partial class DeathMasteryEnchantment : Magic.GlobalEnchantment
+    public partial class DeathMasteryEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1483
         public new const int ClassID = 135968;
@@ -1651,7 +1654,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             sbyte Y = default;
             sbyte L = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
-            GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Death);
+            SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Death);
             Source.GetLocation(ref X, ref Y, ref L);
             AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
             var animation = new Animation(null);
@@ -1667,7 +1670,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1590
-        public override Magic.GlobalEnchantment CreateEnchantment() => new DeathMasteryEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new DeathMasteryEnchantment(null);
 
         // GlobalEnchantmentSpells.pas:1593
         public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
@@ -1712,7 +1715,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class FireMasteryEnchantment : Magic.GlobalEnchantment
+    public partial class FireMasteryEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1647
         public new const int ClassID = 135969;
@@ -1871,7 +1874,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             if (ExecuteCount == 0)
             {
                 Source.GetLocation(ref X, ref Y, ref L);
-                GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Fire);
+                SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Fire);
                 AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
                 var animation = new Animation(null);
                 animation.FAnimationLevel = 27;
@@ -1898,7 +1901,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1746
-        public override Magic.GlobalEnchantment CreateEnchantment() => new FireMasteryEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new FireMasteryEnchantment(null);
 
         public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in SurfaceDesc surface)
         {
@@ -1928,7 +1931,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class EarthMasteryEnchantment : Magic.GlobalEnchantment
+    public partial class EarthMasteryEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1828
         public new const int ClassID = 135970;
@@ -2028,7 +2031,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             sbyte Y = default;
             sbyte L = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
-            GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Earth);
+            SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Earth);
             Source.GetLocation(ref X, ref Y, ref L);
             AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
             AoWHSMap.Current.AddEffect(TworldFXType.EarthMastery);
@@ -2038,7 +2041,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1932
-        public override Magic.GlobalEnchantment CreateEnchantment() => new EarthMasteryEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new EarthMasteryEnchantment(null);
 
         // GlobalEnchantmentSpells.pas:1890
         public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
@@ -2084,7 +2087,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class SpellWardEnchantment : Magic.GlobalEnchantment
+    public partial class SpellWardEnchantment : GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1943
         public new const int ClassID = 135971;
@@ -2131,6 +2134,6 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1973
-        public override Magic.GlobalEnchantment CreateEnchantment() => new SpellWardEnchantment(null);
+        public override GlobalEnchantment CreateEnchantment() => new SpellWardEnchantment(null);
     }
 }

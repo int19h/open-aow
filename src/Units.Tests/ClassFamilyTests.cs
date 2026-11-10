@@ -1,3 +1,7 @@
+using System.Reflection;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Draw;
@@ -85,7 +89,7 @@ public sealed class ClassFamilyTests
         // which is the value the Delphi class method returned through the class reference.
         static object? Nearest(Type type, string name)
         {
-            const System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.DeclaredOnly;
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
             for (var t = type; t != null; t = t.BaseType)
                 if (t.GetProperty(name, flags) is { } property) return property.GetValue(null);
             throw new InvalidOperationException(name);
@@ -150,7 +154,7 @@ public sealed class ClassFamilyTests
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        using var engine = new Engine(null!);
+        using GameEngine engine = new GameEngine(null!);
         var mapObjectEditor = EditorClass.Of<AoWMapObjectEditor>();
         Assert.Same(mapObjectEditor, EditorClass.Of(typeof(AoWMapObjectEditor)));
         Assert.Same(EClass.Of<AoWMapObjectEditor>(), mapObjectEditor.Class);

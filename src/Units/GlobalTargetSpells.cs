@@ -1,17 +1,19 @@
 // Translated from GlobalTargetSpells.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -76,7 +78,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     // FCasterID, FCasterPlayer, FAboveGroundOnly CanActivate/Activate and the target predicates
@@ -362,7 +364,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class FreezeWater : GlobalTargetSpell
@@ -479,7 +481,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class FireBarrier : GlobalTargetSpell
@@ -597,7 +599,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class LevelTerrain : GlobalTargetSpell
@@ -712,7 +714,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class Rejuvenate : GlobalTargetSpell
@@ -763,7 +765,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     }
 
     // FWatcher
-    public partial class WatcherEnchantment : Magic.GlobalEnchantment
+    public partial class WatcherEnchantment : GlobalEnchantment
     {
         public WatcherHS FWatcher;
 
@@ -1200,7 +1202,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class Watcher : GlobalTargetSpell
@@ -1528,7 +1530,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class Tornado : GlobalTargetSpell
@@ -1863,7 +1865,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class Vortex : GlobalTargetSpell
@@ -2166,7 +2168,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class HealingShowers : GlobalTargetSpell
@@ -2290,6 +2292,10 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         // GlobalTargetSpells.pas:2335
         public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field);
     }
+}
+
+namespace Aow.Game.Magic.Spells.GlobalTarget
+{
 
     public partial class GlobalTargetSpellCalls : Spell
     {
@@ -2439,6 +2445,10 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         [FieldOffset(24)]
         public int Flags;
     }
+}
+
+namespace Aow.Game.Magic.Spells
+{
 
     [StructLayout(LayoutKind.Explicit, Size = 257)]
     public struct SpellMoveTable
@@ -2448,6 +2458,10 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         [FieldOffset(1)]
         public FixedArray_Aow_Units_FixedArray_sbyte_16_16 Cost;
     }
+}
+
+namespace Aow.Game.Magic.Spells.GlobalTarget
+{
 
     public struct SpellAnimationFields
     {

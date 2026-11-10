@@ -1,9 +1,12 @@
 // Translated from MoveOnEvents.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -231,7 +234,7 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
         {
             if (CompareText(PlayingSongFileName(), FSongFileName) != 0)
             {
-                Audio.AudioPlayback.PlaySongEx(FSongFileName, 2, 0, false);
+                AudioPlayback.PlaySongEx(FSongFileName, 2, 0, false);
             }
         }
 
@@ -240,9 +243,9 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
 
     private static string PlayingSongFileName()
     {
-        if (Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
-            return Audio.AudioHost.SoundSystem.GetPlayingSongFileName();
+            return AudioHost.SoundSystem.GetPlayingSongFileName();
         }
         return "";
     }
@@ -259,7 +262,7 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132427;
 
         // MoveOnEvents.pas:295
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ChangeSongEventRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(ChangeSongEventRStr);
 
         private static readonly string ChangeSongEventRStr = "Change Song Event";
 
@@ -292,7 +295,7 @@ public partial class PlaySampleMoveOnEvent : MoveOnEvent
     {
         if (Player == AoWHSMap.Current.FSeatedPlayer)
         {
-            Audio.AudioPlayback.PlaySample(FSampleFileName);
+            AudioPlayback.PlaySample(FSampleFileName);
         }
 
         SetTriggerPlayer(Player, false);
@@ -310,7 +313,7 @@ public partial class PlaySampleMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132445;
 
         // MoveOnEvents.pas:322
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(PlaySampleEventRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(PlaySampleEventRStr);
 
         private static readonly string PlaySampleEventRStr = "Play Sample";
 
@@ -374,7 +377,7 @@ public partial class ShowMessageMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132429;
 
         // MoveOnEvents.pas:369
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ShowMessageEventRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(ShowMessageEventRStr);
 
         private static readonly string ShowMessageEventRStr = "Show Message Event";
 

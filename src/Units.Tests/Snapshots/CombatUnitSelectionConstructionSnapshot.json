@@ -109,7 +109,7 @@
             "MoveControlSettings.FDestinationX": -1,
             "MoveControlSettings.FDestinationY": -1,
             "MoveControlSettings.FEvenOffsets": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+              "$type": "Aow.Engine.Buffers.FixedArray_int_8",
               "FixedArray_int_8.element0": 0
             },
             "MoveControlSettings.FHeight": 0,
@@ -126,9 +126,9 @@
               "Set`1.low": 0
             },
             "MoveControlSettings.FMovePointTable": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
               "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+                "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
                 "FixedArray_sbyte_16.element0": -1
               }
             },
@@ -136,7 +136,7 @@
             "MoveControlSettings.FMovePointsLimit": 0,
             "MoveControlSettings.FMovePointsMax": 4095,
             "MoveControlSettings.FOddOffsets": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+              "$type": "Aow.Engine.Buffers.FixedArray_int_8",
               "FixedArray_int_8.element0": 0
             },
             "MoveControlSettings.FPath": {
@@ -171,7 +171,7 @@
             "MoveControlSettings.FSubMoves": {
               "$type": "Aow.Game.World.Movement.SubMoveList",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
               },
@@ -181,7 +181,7 @@
             "MoveControlSettings.FUnits": {
               "$type": "Aow.Game.Units.UnitUserList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
               },
@@ -193,7 +193,7 @@
           "MoveSelector.FMoveSettingsList": {
             "$type": "Aow.Game.World.Movement.MoveSettingsList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
             },

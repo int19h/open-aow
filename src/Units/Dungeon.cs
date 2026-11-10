@@ -1,16 +1,19 @@
 // Translated from Dungeon.pas.
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -109,7 +112,7 @@ namespace Aow.Game.World.Structures
         public override void NewDay()
         {
             base.NewDay();
-            if (Map.AoWHSMap.Current.FDay == 1)
+            if (AoWHSMap.Current.FDay == 1)
             {
                 GeneratePrisoners();
             }
@@ -119,7 +122,7 @@ namespace Aow.Game.World.Structures
         public override bool GetExplored() => FPrisoners.Count == 0;
 
         // Dungeon.pas:121
-        public override void SetupCombat(Combat.Combat Combat, ArmyHS Army)
+        public override void SetupCombat(Combat.Battle Combat, ArmyHS Army)
         {
             base.SetupCombat(Combat, Army);
             Combat.FItems = FPrisoners;
@@ -170,7 +173,7 @@ namespace Aow.Game.World.Structures
             int Collection;
             UnitIndexList List;
             UnitIndexListCollection Collections;
-            RandSeed = Map.AoWHSMap.Current.FDefendersSeed;
+            RandSeed = AoWHSMap.Current.FDefendersSeed;
             if (FPrisonersMode == PrisonersMode.Random)
             {
                 FPrisonersMode = (PrisonersMode)(Random(3) + 1);
@@ -186,7 +189,7 @@ namespace Aow.Game.World.Structures
                     List.Add(Collections.GetU(Collection, I));
                 }
 
-                Engine.Collections.IntegerList.FillWithRandomUnits(List, FPrisoners, 4, (int)FPrisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                IntegerList.FillWithRandomUnits(List, FPrisoners, 4, (int)FPrisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
                 List?.Dispose();
             }
         }
@@ -227,7 +230,7 @@ namespace Aow.Game.World.Structures
                 if (FPrisoners.Count == 1)
                 {
                     ArmyLog.FText = AbilityRules.TranslateRStr(OnePrisonerLiberatedRStr);
-                    var name2 = Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
+                    var name2 = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
                     var format = RtlUnit.Format(AbilityRules.TranslateRStr(AfterLiberationOneUnitJoinedTheForcesOfXRStr), [name2]);
                     ArmyLog.FMessages.Text = format;
                 }
@@ -236,7 +239,7 @@ namespace Aow.Game.World.Structures
                     var count = FPrisoners.Count;
                     ArmyLog.FText = RtlUnit.Format(AbilityRules.TranslateRStr(XPrisonersLiberatedRStr), [IntToStr(count)]);
                     var fPrisonersCount = FPrisoners.Count;
-                    var name2 = Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
+                    var name2 = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
                     var format = RtlUnit.Format(AbilityRules.TranslateRStr(AfterLiberationXunitsJoinedTheForcesOfYRStr), [fPrisonersCount, name2]);
                     ArmyLog.FMessages.Text = format;
                 }
@@ -244,7 +247,7 @@ namespace Aow.Game.World.Structures
             else
             {
                 ArmyLog.FText = RtlUnit.Format(AbilityRules.TranslateRStr(XLiberatedRStr), [Hero.FHeroName]);
-                var name2 = Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
+                var name2 = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
                 var format = RtlUnit.Format(AbilityRules.TranslateRStr(AfterLiberationXJoinedTheForcesOfYRStr), [Hero.FHeroName, name2]);
                 ArmyLog.FMessages.Text = format;
             }
@@ -347,14 +350,14 @@ namespace Aow.Game.Events
             bool Result;
             Dungeon Dungeon;
             StructureTE TE;
-            Dungeon = (Dungeon)World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
-            if (Dungeon != null && !World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+            Dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
+            if (Dungeon != null && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 TE = Dungeon.CreateTE();
                 Dungeon.SetupTE(TE);
                 TE.FParam = FPlayer;
                 TE.FAction = 1;
-                World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
+                AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -371,7 +374,7 @@ namespace Aow.Game.Events
         {
             Dungeon Dungeon;
             int Index;
-            Dungeon = (Dungeon)World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
+            Dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
             if (Dungeon != null)
             {
                 for (int I = 0, last = Dungeon.FPrisoners.Count - 1; I <= last; I++)

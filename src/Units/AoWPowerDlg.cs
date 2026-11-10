@@ -1,10 +1,12 @@
 // Translated from AoWPowerDlg.pas.
 using Aow.Game.Draw;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWPowerDlg.pas.
 using Aow.Rtl.Localize;
@@ -50,7 +52,7 @@ public partial class PowerDlg : DataModule
     {
         PlayerMagicControl Control;
         Dlg.Visible = true;
-        Control = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
+        Control = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl;
         PowerSlider.Position = Control.FResearchPercentage;
         var netPower = Control.GetNetPower();
         Power.Text = IntToStr(netPower);
@@ -66,23 +68,23 @@ public partial class PowerDlg : DataModule
         int PointsLeft;
         int ManaPower;
         int ResearchPower;
-        ManaPower = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetNetPower();
-        PointsLeft = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchPointsLeft;
-        Upkeep = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetManaUpkeep();
-        SpellID = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID;
+        ManaPower = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetNetPower();
+        PointsLeft = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchPointsLeft;
+        Upkeep = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetManaUpkeep();
+        SpellID = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID;
         ResearchPower = Round((double)(PowerSlider.Position * ManaPower) / 100);
         ManaPower -= ResearchPower;
         if (SpellID != 0)
         {
-            Turns = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
-            var spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
+            Turns = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
+            var spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
             SpellName.Text = spell.FSpellName;
             var fmtTurnsStr = FmtTurnsStr(Turns);
             ResearchLeft.Text = fmtTurnsStr;
         }
         else
         {
-            var none = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.NoneRStr);
+            var none = AbilityRules.TranslateRStr(GameTables.NoneRStr);
             SpellName.Text = none;
             ResearchLeft.Text = "-";
         }
@@ -110,7 +112,7 @@ public partial class PowerDlg : DataModule
     public void SetBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ChangePowerSettings(PowerSlider.Position))
+        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ChangePowerSettings(PowerSlider.Position))
         {
             Dlg.Visible = false;
         }
@@ -155,12 +157,12 @@ public partial class PowerDlg : DataModule
     {
         if (Turns == 1)
         {
-            string s = Magic.Abilities.AbilityRules.TranslateRStr(XTurnRStr);
+            string s = AbilityRules.TranslateRStr(XTurnRStr);
             FormatArg val = (FormatArg)((byte)49);
-            return Magic.Abilities.AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref val));
+            return AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref val));
         }
-        string s2 = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.XTurnsRStr);
+        string s2 = AbilityRules.TranslateRStr(GameText.XTurnsRStr);
         FormatArg val2 = (FormatArg)(RtlUnit.IntToStr(Turns));
-        return Magic.Abilities.AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref val2));
+        return AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref val2));
     }
 }

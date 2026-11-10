@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using System.Text.Json;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Draw;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.World.Map;
+using Xunit.Sdk;
 
 namespace Aow.Units.Tests;
 
@@ -46,7 +48,7 @@ public sealed class ArmySpriteConstructionTests
                     value = Assert.IsType<ArmyHS>(OrderingRecording.Create(typeof(ArmyHS), owner, route, fixture.Engine));
                     state = OrderingRecording.Snapshot(value);
                 }
-                catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
+                catch (Exception error) when (error is not XunitException)
                 {
                     state = error.GetType().FullName + ":" + error.Message;
                     destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(ArmyHS) && x.GetMethod()?.Name == "Dispose");

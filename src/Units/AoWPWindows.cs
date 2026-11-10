@@ -1,9 +1,13 @@
 // Translated from AoWPWindows.pas.
+using Aow.Engine.Buffers;
+using Aow.Game.Events;
 using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
 
@@ -81,7 +85,7 @@ public partial class PopupWindows : DataModule
                 ShowInformationBook(DialogHosts.WorldMap, null, null);
                 break;
             case 1:
-                if (Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+                if (GameTables.AoWEngine.FCampaign != null)
                 {
                     DialogHosts.WorldMap.ShowCampaignHistory();
                 }
@@ -96,8 +100,8 @@ public partial class PopupWindows : DataModule
         switch (Sender.FSelectedItem)
         {
             case 0:
-                var quitCombat = Magic.Abilities.AbilityRules.TranslateRStr(QuitCombatRStr);
-                var confirm = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ConfirmRStr);
+                var quitCombat = AbilityRules.TranslateRStr(QuitCombatRStr);
+                var confirm = AbilityRules.TranslateRStr(LobbyText.ConfirmRStr);
                 DialogHosts.DialogWin.Confirm(confirm, quitCombat, 6);
                 break;
         }
@@ -132,21 +136,21 @@ public partial class PopupWindows : DataModule
         {
             case 0:
                 DialogHosts.DialogWin.Confirm(
-                    Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ConfirmRStr),
-                    Magic.Abilities.AbilityRules.TranslateRStr(SurrenderYourEmpireRStr), 4);
+                    AbilityRules.TranslateRStr(LobbyText.ConfirmRStr),
+                    AbilityRules.TranslateRStr(SurrenderYourEmpireRStr), 4);
                 break;
             case 1:
-                World.Map.AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, null);
+                AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, null);
                 break;
             case 2:
-                if (Magic.Abilities.GameTables.AoWEngine.FDemo) DialogHosts.TitleWindow.ShowExitSplash();
+                if (GameTables.AoWEngine.FDemo) DialogHosts.TitleWindow.ShowExitSplash();
                 else GameHost.MainForm.CloseRequested();
                 break;
         }
     }
 
-    private static Engine.Buffers.FixedArray_string_4 TVictoryConditionRStr = Engine.Buffers.FixedArray_string_4.From(default(ReadOnlySpan<string>));
-    private static Engine.Buffers.FixedArray_string_3 TPlayerConnectionTypeRStr = Engine.Buffers.FixedArray_string_3.From(default(ReadOnlySpan<string>));
+    private static FixedArray_string_4 TVictoryConditionRStr = FixedArray_string_4.From(default(ReadOnlySpan<string>));
+    private static FixedArray_string_3 TPlayerConnectionTypeRStr = FixedArray_string_3.From(default(ReadOnlySpan<string>));
     private static readonly string AlliedVictoryXRStr = "Allied victory: %s";
     private static readonly string ConquerTheMapRStr = "Conquer the map";
     private static readonly string DisabledRStr = "Disabled";
@@ -171,7 +175,7 @@ public partial class PopupWindows : DataModule
         Dialog.Dlg.Visible = true;
     }
 
-    internal static void ShowInformationBook(WorldMap Dialog, Events.ShowBookEventLog Event, Events.ExecuteDoneEvent Done)
+    internal static void ShowInformationBook(WorldMap Dialog, ShowBookEventLog Event, ExecuteDoneEvent Done)
     {
         Dialog.FOnBookClosed = RtlUnit.RebindDelegate<NotifyEvent<object>>((Delegate)Done);
         Dialog.FBookContext = Event;
@@ -179,85 +183,85 @@ public partial class PopupWindows : DataModule
         {
             Dialog.FBookContext.AddRef();
         }
-        Dialog.LabelL.Text = World.Map.AoWHSMap.Current.FMapName;
+        Dialog.LabelL.Text = AoWHSMap.Current.FMapName;
         ((StringCollection)Dialog.MemoL.Items).Clear();
-        ((StringCollection)Dialog.MemoL.Items).AddStrings((StringCollection)(object)World.Map.AoWHSMap.Current.FDescription);
-        string text = Magic.Abilities.AbilityRules.TranslateRStr(MapSettingsRStr);
+        ((StringCollection)Dialog.MemoL.Items).AddStrings((StringCollection)(object)AoWHSMap.Current.FDescription);
+        string text = AbilityRules.TranslateRStr(MapSettingsRStr);
         Dialog.LabelR.Text = text;
         ((StringCollection)Dialog.MemoR.Items).Clear();
-        if (World.Map.AoWHSMap.Current.FVictoryCondition == World.Map.AoWHSMap.VictoryCondition.None)
+        if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.None)
         {
-            string text2 = Magic.Abilities.AbilityRules.TranslateRStr(ConquerTheMapRStr);
-            string s = Magic.Abilities.AbilityRules.TranslateRStr(ObjectiveXRStr);
+            string text2 = AbilityRules.TranslateRStr(ConquerTheMapRStr);
+            string s = AbilityRules.TranslateRStr(ObjectiveXRStr);
             FormatArg val = (FormatArg)(text2);
-            string text3 = Magic.Abilities.AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref val));
+            string text3 = AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref val));
             ((StringCollection)Dialog.MemoR.Items).Add(text3);
         }
         else
         {
-            string text4 = Magic.Abilities.AbilityRules.TranslateRStr(TVictoryConditionRStr[(int)World.Map.AoWHSMap.Current.FVictoryCondition]);
-            string s2 = Magic.Abilities.AbilityRules.TranslateRStr(ObjectiveXRStr);
+            string text4 = AbilityRules.TranslateRStr(TVictoryConditionRStr[(int)AoWHSMap.Current.FVictoryCondition]);
+            string s2 = AbilityRules.TranslateRStr(ObjectiveXRStr);
             FormatArg val2 = (FormatArg)(text4);
-            string text5 = Magic.Abilities.AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref val2));
+            string text5 = AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref val2));
             ((StringCollection)Dialog.MemoR.Items).Add(text5);
         }
-        if (World.Map.AoWHSMap.Current.FDayLimit > 0)
+        if (AoWHSMap.Current.FDayLimit > 0)
         {
-            string s3 = Magic.Abilities.AbilityRules.TranslateRStr(DayLimitXRStr);
-            FormatArg val3 = (FormatArg)(RtlUnit.IntToStr(World.Map.AoWHSMap.Current.FDayLimit));
-            string text6 = Magic.Abilities.AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref val3));
+            string s3 = AbilityRules.TranslateRStr(DayLimitXRStr);
+            FormatArg val3 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.FDayLimit));
+            string text6 = AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref val3));
             ((StringCollection)Dialog.MemoR.Items).Add(text6);
         }
-        if (World.Map.AoWHSMap.Current.FAlliedVictory)
+        if (AoWHSMap.Current.FAlliedVictory)
         {
-            string text7 = Magic.Abilities.AbilityRules.TranslateRStr(EnabledRStr);
-            string s4 = Magic.Abilities.AbilityRules.TranslateRStr(AlliedVictoryXRStr);
+            string text7 = AbilityRules.TranslateRStr(EnabledRStr);
+            string s4 = AbilityRules.TranslateRStr(AlliedVictoryXRStr);
             FormatArg val4 = (FormatArg)(text7);
-            string text8 = Magic.Abilities.AbilityRules.Format(s4, new ReadOnlySpan<FormatArg>(ref val4));
+            string text8 = AbilityRules.Format(s4, new ReadOnlySpan<FormatArg>(ref val4));
             ((StringCollection)Dialog.MemoR.Items).Add(text8);
         }
         else
         {
-            string text9 = Magic.Abilities.AbilityRules.TranslateRStr(DisabledRStr);
-            string s5 = Magic.Abilities.AbilityRules.TranslateRStr(AlliedVictoryXRStr);
+            string text9 = AbilityRules.TranslateRStr(DisabledRStr);
+            string s5 = AbilityRules.TranslateRStr(AlliedVictoryXRStr);
             FormatArg val5 = (FormatArg)(text9);
-            string text10 = Magic.Abilities.AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref val5));
+            string text10 = AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref val5));
             ((StringCollection)Dialog.MemoR.Items).Add(text10);
         }
-        int count = World.Map.AoWHSMap.Current.FPlayers.GetCount();
-        string s6 = Magic.Abilities.AbilityRules.TranslateRStr(PlayersOnMapXRStr);
+        int count = AoWHSMap.Current.FPlayers.GetCount();
+        string s6 = AbilityRules.TranslateRStr(PlayersOnMapXRStr);
         FormatArg val6 = (FormatArg)(RtlUnit.IntToStr(count - 1));
-        string text11 = Magic.Abilities.AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref val6));
+        string text11 = AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref val6));
         ((StringCollection)Dialog.MemoR.Items).Add(text11);
-        string s7 = Magic.Abilities.AbilityRules.TranslateRStr(MaximumSphereLevelXRStr);
-        FormatArg val7 = (FormatArg)(RtlUnit.IntToStr(World.Map.AoWHSMap.Current.FSphereCount));
-        string text12 = Magic.Abilities.AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref val7));
+        string s7 = AbilityRules.TranslateRStr(MaximumSphereLevelXRStr);
+        FormatArg val7 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.FSphereCount));
+        string text12 = AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref val7));
         ((StringCollection)Dialog.MemoR.Items).Add(text12);
-        string s8 = Magic.Abilities.AbilityRules.TranslateRStr(MaximumPlayerHeroesXRStr);
-        FormatArg val8 = (FormatArg)(RtlUnit.IntToStr((int)World.Map.AoWHSMap.Current.FHeroCountMax));
-        string text13 = Magic.Abilities.AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref val8));
+        string s8 = AbilityRules.TranslateRStr(MaximumPlayerHeroesXRStr);
+        FormatArg val8 = (FormatArg)(RtlUnit.IntToStr((int)AoWHSMap.Current.FHeroCountMax));
+        string text13 = AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref val8));
         ((StringCollection)Dialog.MemoR.Items).Add(text13);
-        if (World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && World.Map.AoWHSMap.Current.FRequestCombatType)
+        if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.FRequestCombatType)
         {
-            string text14 = Magic.Abilities.AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)World.Map.AoWHSMap.Current.FConnectionType]);
-            string text15 = Magic.Abilities.AbilityRules.TranslateRStr(HotSeatRStr);
-            string s9 = Magic.Abilities.AbilityRules.TranslateRStr(GametypeXRStr);
+            string text14 = AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)AoWHSMap.Current.FConnectionType]);
+            string text15 = AbilityRules.TranslateRStr(HotSeatRStr);
+            string s9 = AbilityRules.TranslateRStr(GametypeXRStr);
             FormatArg val9 = (FormatArg)(text14 + "/" + text15);
-            string text16 = Magic.Abilities.AbilityRules.Format(s9, new ReadOnlySpan<FormatArg>(ref val9));
+            string text16 = AbilityRules.Format(s9, new ReadOnlySpan<FormatArg>(ref val9));
             ((StringCollection)Dialog.MemoR.Items).Add(text16);
         }
         else
         {
-            string text17 = Magic.Abilities.AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)World.Map.AoWHSMap.Current.FConnectionType]);
-            string s10 = Magic.Abilities.AbilityRules.TranslateRStr(GametypeXRStr);
+            string text17 = AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)AoWHSMap.Current.FConnectionType]);
+            string s10 = AbilityRules.TranslateRStr(GametypeXRStr);
             FormatArg val10 = (FormatArg)(text17);
-            string text18 = Magic.Abilities.AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref val10));
+            string text18 = AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref val10));
             ((StringCollection)Dialog.MemoR.Items).Add(text18);
         }
-        string text19 = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TPlayModeRStr[(int)World.Map.AoWHSMap.Current.FPlayMode]);
-        string s11 = Magic.Abilities.AbilityRules.TranslateRStr(TurnModeXRStr);
+        string text19 = AbilityRules.TranslateRStr(GameText.TPlayModeRStr[(int)AoWHSMap.Current.FPlayMode]);
+        string s11 = AbilityRules.TranslateRStr(TurnModeXRStr);
         FormatArg val11 = (FormatArg)(text19);
-        string text20 = Magic.Abilities.AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref val11));
+        string text20 = AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref val11));
         ((StringCollection)Dialog.MemoR.Items).Add(text20);
         Dialog.PicL.Visible = false;
         Dialog.PicR.Visible = false;

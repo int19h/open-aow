@@ -1,9 +1,11 @@
+using Aow.Engine;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.World.Map;
-using ListObject = Aow.Game.Engine.Collections.ListObject;
-using ObjectList = Aow.Game.Engine.Collections.ObjectList;
+using Aow.Game.World.Structures;
+using ListObject = Aow.Engine.Collections.ListObject;
+using ObjectList = Aow.Engine.Collections.ObjectList;
 
 namespace Aow.Units.Tests;
 
@@ -14,12 +16,12 @@ public sealed class SmallClassTargetTests
     {
         var events = new EventStore<HSMap>();
         events.Add(BehaviorRegistrator.MapLoaded);
-        events.Add(Game.World.Structures.CityRegistrator.MapLoaded);
+        events.Add(CityRegistrator.MapLoaded);
         events.Add(IndependentRegistrator.MapLoaded);
         events.Add(MainRegistrator.MapLoaded);
         Assert.Equal(4, events.Count);
         events.Remove(BehaviorRegistrator.MapLoaded);
-        events.Remove(Game.World.Structures.CityRegistrator.MapLoaded);
+        events.Remove(CityRegistrator.MapLoaded);
         events.Remove(IndependentRegistrator.MapLoaded);
         events.Remove(MainRegistrator.MapLoaded);
         Assert.Equal(0, events.Count);

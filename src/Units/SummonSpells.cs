@@ -1,18 +1,19 @@
 // Translated from SummonSpells.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.Summon;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -72,7 +73,7 @@ namespace Aow.Game.Commands
                 {
                     var yhx = Army.GetYhx();
                     var xhx = Army.GetXhx();
-                    if (World.Map.HexGeometry.dHXtoRad(X, Y, xhx, yhx) <= 2)
+                    if (HexGeometry.dHXtoRad(X, Y, xhx, yhx) <= 2)
                     {
                         if (U.ExpandAbility(155))
                         {
@@ -100,22 +101,22 @@ namespace Aow.Game.Commands
 
             if (Done)
             {
-                if (source.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
-                    World.Map.AoWHSMap.Current.MakeVisible(X, Y, L, 3);
+                    AoWHSMap.Current.MakeVisible(X, Y, L, 3);
                 }
 
-                World.Map.AoWHSMap.Current.ValidateObservation(source.FPlayer, X, Y, L, 0);
-                if (World.Map.AoWHSMap.Current.Visible(X, Y, L, 0))
+                AoWHSMap.Current.ValidateObservation(source.FPlayer, X, Y, L, 0);
+                if (AoWHSMap.Current.Visible(X, Y, L, 0))
                 {
                     if (AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
                     {
                         Anim = new ImageSequenceAnimation(null);
                         Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
-                        World.Map.AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
+                        AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
                     }
 
-                    if (source.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer || World.Map.AoWHSMap.Current.Watching(X, Y, L, 0))
+                    if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(X, Y, L, 0))
                     {
                         AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
                     }
@@ -126,10 +127,10 @@ namespace Aow.Game.Commands
             }
             else
             {
-                if (source.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
                     var noSummonLocationFound = AbilityRules.TranslateRStr(NoSummonLocationFoundRStr);
-                    World.Map.AoWHSMap.Current.ShowMessage(noSummonLocationFound);
+                    AoWHSMap.Current.ShowMessage(noSummonLocationFound);
                 }
             }
 
@@ -145,7 +146,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.Summon
+namespace Aow.Game.Magic.Spells
 {
 
     // FAIBasePriority, FUnitIndices
@@ -237,7 +238,7 @@ namespace Aow.Game.Magic.Spells.Summon
                 Event = new SummonSpellTE(null);
                 Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
                 SetupSummonSpellTE(Event);
-                World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+                AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }

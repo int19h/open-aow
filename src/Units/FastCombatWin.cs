@@ -3,10 +3,12 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from FastCombatWin.pas.
 using Aow.Rtl.Localize;
@@ -132,7 +134,7 @@ public partial class FastCombatWindow : DataModule
         int PX = default;
         int PY = default;
         int Position;
-        Combat.Combat Combat;
+        Combat.Battle Combat;
         CombatObject Obj;
         if (FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
@@ -194,62 +196,62 @@ public partial class FastCombatWindow : DataModule
 
         if (HasWall(1, 6))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image].Show(X + 180, Y + 218 - 50, Surface);
+            AoWHSSet.Current.FCombatImages[Image].Show(X + 180, Y + 218 - 50, Surface);
         }
 
         if (HasWall(1, 2))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image].Show(X + 372, Y + 218 - 50, Surface);
+            AoWHSSet.Current.FCombatImages[Image].Show(X + 372, Y + 218 - 50, Surface);
         }
 
         if (HasWall(0, 1))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 218, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 218, Surface);
         }
 
         if (HasWall(0, 6))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 218, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 218, Surface);
         }
 
         if (HasWall(0, 2))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 218, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 218, Surface);
         }
 
         if (HasWall(5, 6))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 3].Show(X + 0, Y + 275, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 3].Show(X + 0, Y + 275, Surface);
         }
 
         if (HasWall(2, 3))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 2].Show(X + 374, Y + 275, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 2].Show(X + 374, Y + 275, Surface);
         }
 
         if (HasWall(0, 5))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 275, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 275, Surface);
         }
 
         if (HasWall(0, 3))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 275, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 275, Surface);
         }
 
         if (HasWall(0, 4))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 332, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 332, Surface);
         }
 
         if (HasWall(4, 5))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 180, Y + 342, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 180, Y + 342, Surface);
         }
 
         if (HasWall(4, 3))
         {
-            Engine.AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 372, Y + 342, Surface);
+            AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 372, Y + 342, Surface);
         }
 
         var combatData = FViewer.FCombat.FCombatData;
@@ -261,14 +263,14 @@ public partial class FastCombatWindow : DataModule
                 if (HasWall(0, 4))
                 {
                     var hits = Wall.GetHits();
-                    var hitPointsToHitPcnt = Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
-                    Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 332 - 45, Surface, hitPointsToHitPcnt);
+                    var hitPointsToHitPcnt = HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
+                    HitChance.ShowHitPcnt(X + 250, Y + 332 - 45, Surface, hitPointsToHitPcnt);
                 }
                 else
                 {
                     var hits = Wall.GetHits();
-                    var hitPointsToHitPcnt = Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
-                    Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 218 - 45, Surface, hitPointsToHitPcnt);
+                    var hitPointsToHitPcnt = HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
+                    HitChance.ShowHitPcnt(X + 250, Y + 218 - 45, Surface, hitPointsToHitPcnt);
                 }
             }
         }
@@ -277,7 +279,7 @@ public partial class FastCombatWindow : DataModule
     // FastCombatWin.pas:316
     public void DrawCombat(int X, int Y, ref SurfaceDesc Surface)
     {
-        Combat.Combat Combat;
+        Combat.Battle Combat;
         int PX = default;
         int PY = default;
         int Glow;
@@ -308,7 +310,7 @@ public partial class FastCombatWindow : DataModule
                             Glow = FPhaseFrame / 2;
                             Glow = Math.Abs((Glow + 7) % 15 - 7);
                             GetPartyPosition(I, ref PX, ref PY);
-                            Engine.AoWHSSet.Current.FCombatImages[Glow + 100].ShowClipped(PX + X - 10, PY + Y - 9, Surface);
+                            AoWHSSet.Current.FCombatImages[Glow + 100].ShowClipped(PX + X - 10, PY + Y - 9, Surface);
                         }
                     }
                 }
@@ -332,7 +334,7 @@ public partial class FastCombatWindow : DataModule
         else
         {
             var player = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
-            Left = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            Left = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
         }
 
         if (Data.FCurrentPlayer == 255 || Data.FPlayers.GetPlayers((sbyte)Data.FCurrentPlayer).FSideIndex != 0)
@@ -356,7 +358,7 @@ public partial class FastCombatWindow : DataModule
         else
         {
             var player = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-            Right = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            Right = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
         }
 
         if (Data.FCurrentPlayer == 255 || Data.FPlayers.GetPlayers((sbyte)Data.FCurrentPlayer).FSideIndex != 1)
@@ -693,7 +695,7 @@ public partial class FastCombatWindow : DataModule
         int RaceIndex;
         int PartyRace;
         sbyte PlayerIndex;
-        Combat.Combat Combat;
+        Combat.Battle Combat;
         CombatParty Party;
         AOWImage Image;
         Dialog.FViewer.Initialize(Logbook);
@@ -739,7 +741,7 @@ public partial class FastCombatWindow : DataModule
                 PlayerIndex = Combat.FCombatData.FPlayers.GetPlayers((sbyte)Party.FPlayerIndex).FPlayer;
                 if (PlayerIndex != 0)
                 {
-                    PartyRace = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(PlayerIndex).FPlayerRace;
+                    PartyRace = AoWHSMap.Current.FPlayers.GetPlayers(PlayerIndex).FPlayerRace;
                 }
                 else
                 {
@@ -760,27 +762,27 @@ public partial class FastCombatWindow : DataModule
             // { Original refreshes both side labels inside the party loop. }
             if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer).FPlayer == 0)
             {
-                var independents = Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
+                var independents = AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
                 Dialog.LSideLbl.Text = independents;
             }
             else
             {
                 var player = Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer);
-                RaceIndex = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
-                var raceResource = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
+                RaceIndex = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+                var raceResource = AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
                 Dialog.LSideLbl.Text = raceResource.FRaceName;
             }
 
             if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer).FPlayer == 0)
             {
-                var independents = Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
+                var independents = AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
                 Dialog.RSideLbl.Text = independents;
             }
             else
             {
                 var player = Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer);
-                RaceIndex = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
-                var raceResource = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
+                RaceIndex = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+                var raceResource = AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
                 Dialog.RSideLbl.Text = raceResource.FRaceName;
             }
         }

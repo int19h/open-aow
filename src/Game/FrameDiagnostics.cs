@@ -1,8 +1,11 @@
 using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Host;
+using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -83,8 +86,8 @@ internal sealed class FrameDiagnostics : IDisposable
     public void Snapshot(string name)
     {
         if (AoWHSMap.Current is not { } map) return;
-        var viewer = Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer;
-        var window = Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow;
+        var viewer = DialogHosts.MWindow.MapViewer;
+        var window = DialogHosts.MWindow.MapWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);
         var objects = new List<object>();
         for (int y = 0; y < level.Height; y++)
@@ -109,8 +112,8 @@ internal sealed class FrameDiagnostics : IDisposable
                                     mode = sequence.SequenceMode.ToString(),
                                     sequence.SpeedCount,
                                     sequence.ImageIndex,
-                                    lastFrame = typeof(ImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
-                                    counter = typeof(ImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence)
+                                    lastFrame = typeof(ImageSequence).GetField("FLastFrame", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence),
+                                    counter = typeof(ImageSequence).GetField("FFrameCounter", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence)
                                 });
                     objects.Add(new
                     {

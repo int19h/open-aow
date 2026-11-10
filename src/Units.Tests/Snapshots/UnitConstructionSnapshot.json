@@ -11,7 +11,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -44,7 +44,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -77,7 +77,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -114,7 +114,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -177,7 +177,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -240,7 +240,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -307,7 +307,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -340,7 +340,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -366,7 +366,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -418,7 +418,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -451,7 +451,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -477,7 +477,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -529,7 +529,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -562,7 +562,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -588,7 +588,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -644,7 +644,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -677,7 +677,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -703,7 +703,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -755,7 +755,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -788,7 +788,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -814,7 +814,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -866,7 +866,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -899,7 +899,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -925,7 +925,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -981,7 +981,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -1014,7 +1014,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -1040,7 +1040,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -1081,7 +1081,7 @@
           "Hero.FUsedSkillPoints": 0,
           "Leader.FSpherePicksMax": 5,
           "Leader.FSpheres": {
-            "$type": "Aow.Game.Engine.Collections.ByteList",
+            "$type": "Aow.Engine.Collections.ByteList",
             "ByteList.FCapacity": 0,
             "ByteList.FCount": 0,
             "ByteList.FDefault": 0,
@@ -1100,7 +1100,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -1133,7 +1133,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -1159,7 +1159,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -1200,7 +1200,7 @@
           "Hero.FUsedSkillPoints": 0,
           "Leader.FSpherePicksMax": 5,
           "Leader.FSpheres": {
-            "$type": "Aow.Game.Engine.Collections.ByteList",
+            "$type": "Aow.Engine.Collections.ByteList",
             "ByteList.FCapacity": 0,
             "ByteList.FCount": 0,
             "ByteList.FDefault": 0,
@@ -1219,7 +1219,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -1252,7 +1252,7 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -1278,7 +1278,7 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
@@ -1319,7 +1319,7 @@
           "Hero.FUsedSkillPoints": 0,
           "Leader.FSpherePicksMax": 5,
           "Leader.FSpheres": {
-            "$type": "Aow.Game.Engine.Collections.ByteList",
+            "$type": "Aow.Engine.Collections.ByteList",
             "ByteList.FCapacity": 0,
             "ByteList.FCount": 0,
             "ByteList.FDefault": 0,
@@ -1334,7 +1334,7 @@
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Unit",
+          "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.FAbilityData": null,
           "AbstractUnit.FDefensiveStrength": 0,
           "AbstractUnit.FGroup": null,
@@ -1342,7 +1342,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -1375,7 +1375,7 @@
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Unit",
+          "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.FAbilityData": null,
           "AbstractUnit.FDefensiveStrength": 0,
           "AbstractUnit.FGroup": null,
@@ -1383,7 +1383,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -1416,7 +1416,7 @@
       "insert:2:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.Unit",
+          "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.FAbilityData": null,
           "AbstractUnit.FDefensiveStrength": 0,
           "AbstractUnit.FGroup": null,
@@ -1424,7 +1424,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -1469,7 +1469,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -1505,7 +1505,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,
@@ -1541,7 +1541,7 @@
           "AbstractUnit.FMaxOffensiveStrength": 0,
           "AbstractUnit.FMoraleValue": 0,
           "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "AbstractUnit.FPlayer": 0,

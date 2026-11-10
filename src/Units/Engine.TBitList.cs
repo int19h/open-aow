@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Aow.Game.Engine.Collections;
+namespace Aow.Engine.Collections;
 
 public partial class BitList
 {

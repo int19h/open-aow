@@ -1,14 +1,17 @@
 // Translated from CombatSpells.pas.
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -36,7 +39,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:459
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             base.Execute(Combat);
@@ -126,7 +129,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:512
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             if (FManaCost != 0 && Combat.FStatus.Contains(CombatStatusElement.Executing))
@@ -232,7 +235,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:579
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             if (FManaCost != 0 && Combat.FStatus.Contains(CombatStatusElement.Executing))
@@ -314,7 +317,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // combat statistics (attack, damage, types, repeats, range, radius, targets). damage mode
@@ -465,7 +468,7 @@ namespace Aow.Game.Magic.Spells.Combat
             int Distance;
             CombatObject Target;
             DelphiList Targets;
-            Game.Combat.Combat Combat;
+            Combat.Battle Combat;
             Target = Command.FTarget;
             for (int I = 0, last = FCombatInfo.RepeatCount - 1; I <= last; I++)
             {
@@ -519,10 +522,10 @@ namespace Aow.Game.Magic.Spells.Combat
                 }
 
                 // { Original shifts Random(4) by two, so this adds no random extra targets. }
-                Count = (int)(((uint)World.Map.AoWHSMap.Current.Random(4)) >> 2) + FCombatInfo.Radius;
+                Count = (int)(((uint)AoWHSMap.Current.Random(4)) >> 2) + FCombatInfo.Radius;
                 while (Count != 0 && Targets.Count != 0)
                 {
-                    Other = (CombatObject)Targets[World.Map.AoWHSMap.Current.Random(Targets.Count)];
+                    Other = (CombatObject)Targets[AoWHSMap.Current.Random(Targets.Count)];
                     for (int J = 0, last = FCombatInfo.RepeatCount - 1; J <= last; J++)
                     {
                         if (!Other.FStatus.Contains(CombatObjectStatusElement.Destroyed))
@@ -552,7 +555,7 @@ namespace Aow.Game.Magic.Spells.Combat
             int Count;
             int Distance;
             CombatObject Other;
-            Game.Combat.Combat Combat;
+            Combat.Battle Combat;
             int Damage;
             int Defense;
             if (WallSituation == WallSituation.None || FCombatInfo.Range == -1 || FCombatInfo.Range >= 8)
@@ -669,7 +672,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:867
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             CombatUnit Target;
@@ -694,7 +697,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited combat statistics, damage mode
@@ -780,7 +783,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:943
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Target;
             base.Execute(Combat);
@@ -825,7 +828,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:982
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Target;
             base.Execute(Combat);
@@ -840,7 +843,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited combat statistics, damage mode
@@ -1046,7 +1049,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:1168
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             CombatUnit Target;
@@ -1074,7 +1077,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited combat statistics, damage mode
@@ -1171,7 +1174,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:1263
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Target;
             CombatObject Source;
@@ -1193,7 +1196,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited combat statistics, damage mode
@@ -1259,7 +1262,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:1334
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             CombatUnit Target;
@@ -1281,7 +1284,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited combat statistics, damage mode
@@ -1674,7 +1677,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:1672
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Target;
             base.Execute(Combat);
@@ -1734,7 +1737,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:1723
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Target;
             CombatUnit Source;
@@ -1773,7 +1776,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited combat statistics, damage mode
@@ -2013,7 +2016,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:1953
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             CombatUnit Target;
@@ -2038,7 +2041,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited spell ID, combat statistics, damage mode
@@ -2110,7 +2113,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // CombatSpells.pas:2024
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             CombatUnit Target;
@@ -2135,7 +2138,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Combat
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited spell ID, combat statistics, damage mode

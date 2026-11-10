@@ -1,8 +1,10 @@
 // Translated from CombatObstacle.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -156,7 +158,7 @@ namespace Aow.Game.World
         }
 
         // CombatObstacle.pas:107
-        public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+        public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
         // CombatObstacle.pas:104
         public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -264,7 +266,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 2229546;
 
             // CombatObstacle.pas:242
-            public override string ResourceEditName() => "Combat " + Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.ObstacleRStr);
+            public override string ResourceEditName() => "Combat " + AbilityRules.TranslateRStr(GameText.ObstacleRStr);
 
         }
 

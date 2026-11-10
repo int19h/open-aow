@@ -1,9 +1,13 @@
 using System.Reflection;
+using Aow.Engine;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Game;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 
 namespace Aow.Units.Tests;
 
@@ -33,10 +37,10 @@ public sealed class EngineLeafConstructionTests
         }
     }
 
-    private static Engine CreateEngine()
+    private static GameEngine CreateEngine()
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        var engine = new Engine(null!);
+        GameEngine engine = new GameEngine(null!);
         return engine;
     }
 
@@ -51,7 +55,7 @@ public sealed class EngineLeafConstructionTests
     [InlineData(3, true)]
     public void LeafCreationRoutesKeepTypeOwnerAndState(int kind, bool owned)
     {
-        var engine = CreateEngine();
+        GameEngine engine = CreateEngine();
         var owner = new LeafOwner();
         ECustomNode argument = owned ? owner : null!;
         Type type = kind switch

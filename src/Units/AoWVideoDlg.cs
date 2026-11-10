@@ -1,6 +1,10 @@
 // Translated from AoWVideoDlg.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
@@ -9,19 +13,15 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
@@ -426,7 +426,7 @@ namespace Aow.Game.Session
                 }
 
                 // The campaign autosave takes the extension the host writes (own-formats.md 4.2).
-                Result = Result + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
+                Result = Result + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
             }
             else
             {

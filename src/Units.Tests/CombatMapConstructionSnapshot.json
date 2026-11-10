@@ -9,12 +9,12 @@
     "FieldGraph": {
       "$type": "Aow.Game.Combat.AoWCombatMap",
       "AbstractAoWCombatMap.FAbilityActivatedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AbstractAoWCombatMap.FCombatStartedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -42,7 +42,7 @@
       },
       "AbstractAoWHSMap.FHexagonSelectorVisible": false,
       "AbstractAoWHSMap.FMapChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -50,7 +50,7 @@
       "AbstractAoWHSMap.FMessageFrame": 0,
       "AbstractAoWHSMap.FMessageText": "",
       "AbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -60,7 +60,7 @@
       "AbstractAoWHSMap.FSelectorY": 0,
       "AbstractAoWHSMap.FShowGrid": false,
       "AbstractAoWHSMap.FShowMessageEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Events.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -104,14 +104,14 @@
       },
       "AoWCombatMap.FCenterViewLocation": null,
       "AoWCombatMap.FChangeTurnEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FCombat": null,
       "AoWCombatMap.FCurrentCombatPlayer": 0,
       "AoWCombatMap.FDeselectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -127,7 +127,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "AoWCombatMap.FMouseOverTargetEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -166,11 +166,11 @@
         "MoveControl.FExploredMask": 0,
         "MoveControl.FFieldOffsets": [
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         ],
@@ -217,9 +217,9 @@
           "Set`1.low": 0
         },
         "MoveControl.FMovePointTable": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
           "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
             "FixedArray_sbyte_16.element0": 0
           }
         },
@@ -227,9 +227,9 @@
         "MoveControl.FOnMovePoint": null,
         "MoveControl.FPlayer": 0,
         "MoveControl.FPointOffsets": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
           "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         },
@@ -254,7 +254,7 @@
       },
       "AoWCombatMap.FPlaySounds": false,
       "AoWCombatMap.FPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -263,23 +263,23 @@
         "TacticalCombatPlayerList.FPlayers": null
       },
       "AoWCombatMap.FPositionStatus": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_8",
+        "$type": "Aow.Engine.Buffers.FixedArray_byte_8",
         "FixedArray_byte_8.element0": 2
       },
       "AoWCombatMap.FRound": 0,
       "AoWCombatMap.FSeatedCombatPlayer": 0,
       "AoWCombatMap.FSeatedPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FUnitChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -409,7 +409,7 @@
           "MoveControlSettings.FDestinationX": -1,
           "MoveControlSettings.FDestinationY": -1,
           "MoveControlSettings.FEvenOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FHeight": 0,
@@ -426,9 +426,9 @@
             "Set`1.low": 0
           },
           "MoveControlSettings.FMovePointTable": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
             "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
               "FixedArray_sbyte_16.element0": -1
             }
           },
@@ -436,7 +436,7 @@
           "MoveControlSettings.FMovePointsLimit": 0,
           "MoveControlSettings.FMovePointsMax": 4095,
           "MoveControlSettings.FOddOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FPath": {
@@ -471,7 +471,7 @@
           "MoveControlSettings.FSubMoves": {
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -481,7 +481,7 @@
           "MoveControlSettings.FUnits": {
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -493,7 +493,7 @@
         "MoveSelector.FMoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
           },
@@ -516,7 +516,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "ENode.FChildren": {
-        "$type": "Aow.Game.Engine.Nodes.EObjectList",
+        "$type": "Aow.Engine.Nodes.EObjectList",
         "DelphiList.count": 6,
         "DelphiList.items": [
           "$ref:$.HSMap.FSelection",
@@ -531,14 +531,14 @@
       },
       "EObject.FOwner": null,
       "HSMap.FDestroyEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FDynamicFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -557,7 +557,7 @@
       "HSMap.FDynamicVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -576,7 +576,7 @@
       "HSMap.FFileName": "",
       "HSMap.FFrame": 0,
       "HSMap.FHSChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -585,7 +585,7 @@
       "HSMap.FMouse": {
         "$type": "Aow.Game.Combat.AoWCombatMapMouse",
         "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -611,22 +611,22 @@
         "HSMapMouse.FHSMap": "$ref:$",
         "HSMapMouse.FIgnoreDown": false,
         "HSMapMouse.FOnCaptureChangedStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDblClickStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDownStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnMoveStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -638,7 +638,7 @@
           ]
         },
         "HSMapMouse.FOnUpStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
@@ -666,7 +666,7 @@
         "HSMapMouse.FY": -2147483648
       },
       "HSMap.FNewFrameEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -677,7 +677,7 @@
       "HSMap.FSelection": {
         "$type": "Aow.Game.World.Map.HexagonSpriteSelection",
         "EControlStyleNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -687,7 +687,7 @@
           "Set`1.low": 0
         },
         "ENode.FChildren": {
-          "$type": "Aow.Game.Engine.Nodes.EObjectList",
+          "$type": "Aow.Engine.Nodes.EObjectList",
           "DelphiList.count": 0,
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
@@ -699,12 +699,12 @@
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
         "HexagonSpriteSelection.FOnDeselectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HexagonSpriteSelection.FOnSelectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         }
@@ -712,7 +712,7 @@
       "HSMap.FStaticFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -731,7 +731,7 @@
       "HSMap.FStaticVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -757,18 +757,18 @@
         "Set`1.low": 0
       },
       "HSMap.FTerrainChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FTerrainChangedLockCounter": 0,
       "HSMap.FTimer": {
-        "$type": "Aow.Game.Engine.Nodes.ETimerNode",
+        "$type": "Aow.Engine.Nodes.ETimerNode",
         "EObject.FOwner": "$owner",
         "ETimerNode.FCount": 0,
         "ETimerNode.FTick": 0,
         "ETimerNode.FTimerLists": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
           "FixedArray_Aow_Rtl_TList_10.element0": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
@@ -781,7 +781,7 @@
       "HSMap.FViewHeightHX": 0,
       "HSMap.FViewL": 0,
       "HSMap.FViewPortChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -803,12 +803,12 @@
     "FieldGraph": {
       "$type": "Aow.Game.Combat.AoWCombatMap",
       "AbstractAoWCombatMap.FAbilityActivatedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AbstractAoWCombatMap.FCombatStartedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -836,7 +836,7 @@
       },
       "AbstractAoWHSMap.FHexagonSelectorVisible": false,
       "AbstractAoWHSMap.FMapChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -844,7 +844,7 @@
       "AbstractAoWHSMap.FMessageFrame": 0,
       "AbstractAoWHSMap.FMessageText": "",
       "AbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -854,7 +854,7 @@
       "AbstractAoWHSMap.FSelectorY": 0,
       "AbstractAoWHSMap.FShowGrid": false,
       "AbstractAoWHSMap.FShowMessageEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Events.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -898,14 +898,14 @@
       },
       "AoWCombatMap.FCenterViewLocation": null,
       "AoWCombatMap.FChangeTurnEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FCombat": null,
       "AoWCombatMap.FCurrentCombatPlayer": 0,
       "AoWCombatMap.FDeselectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -921,7 +921,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "AoWCombatMap.FMouseOverTargetEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -960,11 +960,11 @@
         "MoveControl.FExploredMask": 0,
         "MoveControl.FFieldOffsets": [
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         ],
@@ -1011,9 +1011,9 @@
           "Set`1.low": 0
         },
         "MoveControl.FMovePointTable": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
           "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
             "FixedArray_sbyte_16.element0": 0
           }
         },
@@ -1021,9 +1021,9 @@
         "MoveControl.FOnMovePoint": null,
         "MoveControl.FPlayer": 0,
         "MoveControl.FPointOffsets": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
           "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         },
@@ -1048,7 +1048,7 @@
       },
       "AoWCombatMap.FPlaySounds": false,
       "AoWCombatMap.FPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1057,23 +1057,23 @@
         "TacticalCombatPlayerList.FPlayers": null
       },
       "AoWCombatMap.FPositionStatus": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_8",
+        "$type": "Aow.Engine.Buffers.FixedArray_byte_8",
         "FixedArray_byte_8.element0": 2
       },
       "AoWCombatMap.FRound": 0,
       "AoWCombatMap.FSeatedCombatPlayer": 0,
       "AoWCombatMap.FSeatedPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FUnitChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1203,7 +1203,7 @@
           "MoveControlSettings.FDestinationX": -1,
           "MoveControlSettings.FDestinationY": -1,
           "MoveControlSettings.FEvenOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FHeight": 0,
@@ -1220,9 +1220,9 @@
             "Set`1.low": 0
           },
           "MoveControlSettings.FMovePointTable": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
             "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
               "FixedArray_sbyte_16.element0": -1
             }
           },
@@ -1230,7 +1230,7 @@
           "MoveControlSettings.FMovePointsLimit": 0,
           "MoveControlSettings.FMovePointsMax": 4095,
           "MoveControlSettings.FOddOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FPath": {
@@ -1265,7 +1265,7 @@
           "MoveControlSettings.FSubMoves": {
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -1275,7 +1275,7 @@
           "MoveControlSettings.FUnits": {
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -1287,7 +1287,7 @@
         "MoveSelector.FMoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
           },
@@ -1310,7 +1310,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "ENode.FChildren": {
-        "$type": "Aow.Game.Engine.Nodes.EObjectList",
+        "$type": "Aow.Engine.Nodes.EObjectList",
         "DelphiList.count": 6,
         "DelphiList.items": [
           "$ref:$.HSMap.FSelection",
@@ -1325,14 +1325,14 @@
       },
       "EObject.FOwner": null,
       "HSMap.FDestroyEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FDynamicFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -1351,7 +1351,7 @@
       "HSMap.FDynamicVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -1370,7 +1370,7 @@
       "HSMap.FFileName": "",
       "HSMap.FFrame": 0,
       "HSMap.FHSChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1379,7 +1379,7 @@
       "HSMap.FMouse": {
         "$type": "Aow.Game.Combat.AoWCombatMapMouse",
         "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -1405,22 +1405,22 @@
         "HSMapMouse.FHSMap": "$ref:$",
         "HSMapMouse.FIgnoreDown": false,
         "HSMapMouse.FOnCaptureChangedStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDblClickStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDownStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnMoveStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -1432,7 +1432,7 @@
           ]
         },
         "HSMapMouse.FOnUpStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
@@ -1460,7 +1460,7 @@
         "HSMapMouse.FY": -2147483648
       },
       "HSMap.FNewFrameEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1471,7 +1471,7 @@
       "HSMap.FSelection": {
         "$type": "Aow.Game.World.Map.HexagonSpriteSelection",
         "EControlStyleNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -1481,7 +1481,7 @@
           "Set`1.low": 0
         },
         "ENode.FChildren": {
-          "$type": "Aow.Game.Engine.Nodes.EObjectList",
+          "$type": "Aow.Engine.Nodes.EObjectList",
           "DelphiList.count": 0,
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
@@ -1493,12 +1493,12 @@
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
         "HexagonSpriteSelection.FOnDeselectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HexagonSpriteSelection.FOnSelectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         }
@@ -1506,7 +1506,7 @@
       "HSMap.FStaticFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -1525,7 +1525,7 @@
       "HSMap.FStaticVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -1551,18 +1551,18 @@
         "Set`1.low": 0
       },
       "HSMap.FTerrainChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FTerrainChangedLockCounter": 0,
       "HSMap.FTimer": {
-        "$type": "Aow.Game.Engine.Nodes.ETimerNode",
+        "$type": "Aow.Engine.Nodes.ETimerNode",
         "EObject.FOwner": "$owner",
         "ETimerNode.FCount": 0,
         "ETimerNode.FTick": 0,
         "ETimerNode.FTimerLists": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
           "FixedArray_Aow_Rtl_TList_10.element0": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
@@ -1575,7 +1575,7 @@
       "HSMap.FViewHeightHX": 0,
       "HSMap.FViewL": 0,
       "HSMap.FViewPortChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1597,12 +1597,12 @@
     "FieldGraph": {
       "$type": "Aow.Game.Combat.AoWCombatMap",
       "AbstractAoWCombatMap.FAbilityActivatedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AbstractAoWCombatMap.FCombatStartedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1630,7 +1630,7 @@
       },
       "AbstractAoWHSMap.FHexagonSelectorVisible": false,
       "AbstractAoWHSMap.FMapChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1638,7 +1638,7 @@
       "AbstractAoWHSMap.FMessageFrame": 0,
       "AbstractAoWHSMap.FMessageText": "",
       "AbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1648,7 +1648,7 @@
       "AbstractAoWHSMap.FSelectorY": 0,
       "AbstractAoWHSMap.FShowGrid": false,
       "AbstractAoWHSMap.FShowMessageEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Events.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1692,14 +1692,14 @@
       },
       "AoWCombatMap.FCenterViewLocation": null,
       "AoWCombatMap.FChangeTurnEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FCombat": null,
       "AoWCombatMap.FCurrentCombatPlayer": 0,
       "AoWCombatMap.FDeselectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1715,7 +1715,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "AoWCombatMap.FMouseOverTargetEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1754,11 +1754,11 @@
         "MoveControl.FExploredMask": 0,
         "MoveControl.FFieldOffsets": [
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         ],
@@ -1805,9 +1805,9 @@
           "Set`1.low": 0
         },
         "MoveControl.FMovePointTable": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
           "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
             "FixedArray_sbyte_16.element0": 0
           }
         },
@@ -1815,9 +1815,9 @@
         "MoveControl.FOnMovePoint": null,
         "MoveControl.FPlayer": 0,
         "MoveControl.FPointOffsets": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
           "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         },
@@ -1842,7 +1842,7 @@
       },
       "AoWCombatMap.FPlaySounds": false,
       "AoWCombatMap.FPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1851,23 +1851,23 @@
         "TacticalCombatPlayerList.FPlayers": null
       },
       "AoWCombatMap.FPositionStatus": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_8",
+        "$type": "Aow.Engine.Buffers.FixedArray_byte_8",
         "FixedArray_byte_8.element0": 2
       },
       "AoWCombatMap.FRound": 0,
       "AoWCombatMap.FSeatedCombatPlayer": 0,
       "AoWCombatMap.FSeatedPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FUnitChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -1997,7 +1997,7 @@
           "MoveControlSettings.FDestinationX": -1,
           "MoveControlSettings.FDestinationY": -1,
           "MoveControlSettings.FEvenOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FHeight": 0,
@@ -2014,9 +2014,9 @@
             "Set`1.low": 0
           },
           "MoveControlSettings.FMovePointTable": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
             "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
               "FixedArray_sbyte_16.element0": -1
             }
           },
@@ -2024,7 +2024,7 @@
           "MoveControlSettings.FMovePointsLimit": 0,
           "MoveControlSettings.FMovePointsMax": 4095,
           "MoveControlSettings.FOddOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FPath": {
@@ -2059,7 +2059,7 @@
           "MoveControlSettings.FSubMoves": {
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -2069,7 +2069,7 @@
           "MoveControlSettings.FUnits": {
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -2081,7 +2081,7 @@
         "MoveSelector.FMoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
           },
@@ -2104,7 +2104,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "ENode.FChildren": {
-        "$type": "Aow.Game.Engine.Nodes.EObjectList",
+        "$type": "Aow.Engine.Nodes.EObjectList",
         "DelphiList.count": 6,
         "DelphiList.items": [
           "$ref:$.HSMap.FSelection",
@@ -2119,14 +2119,14 @@
       },
       "EObject.FOwner": null,
       "HSMap.FDestroyEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FDynamicFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -2145,7 +2145,7 @@
       "HSMap.FDynamicVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -2164,7 +2164,7 @@
       "HSMap.FFileName": "",
       "HSMap.FFrame": 0,
       "HSMap.FHSChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2173,7 +2173,7 @@
       "HSMap.FMouse": {
         "$type": "Aow.Game.Combat.AoWCombatMapMouse",
         "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -2199,22 +2199,22 @@
         "HSMapMouse.FHSMap": "$ref:$",
         "HSMapMouse.FIgnoreDown": false,
         "HSMapMouse.FOnCaptureChangedStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDblClickStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDownStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnMoveStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -2226,7 +2226,7 @@
           ]
         },
         "HSMapMouse.FOnUpStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
@@ -2254,7 +2254,7 @@
         "HSMapMouse.FY": -2147483648
       },
       "HSMap.FNewFrameEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2265,7 +2265,7 @@
       "HSMap.FSelection": {
         "$type": "Aow.Game.World.Map.HexagonSpriteSelection",
         "EControlStyleNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -2275,7 +2275,7 @@
           "Set`1.low": 0
         },
         "ENode.FChildren": {
-          "$type": "Aow.Game.Engine.Nodes.EObjectList",
+          "$type": "Aow.Engine.Nodes.EObjectList",
           "DelphiList.count": 0,
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
@@ -2287,12 +2287,12 @@
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
         "HexagonSpriteSelection.FOnDeselectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HexagonSpriteSelection.FOnSelectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         }
@@ -2300,7 +2300,7 @@
       "HSMap.FStaticFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -2319,7 +2319,7 @@
       "HSMap.FStaticVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -2345,18 +2345,18 @@
         "Set`1.low": 0
       },
       "HSMap.FTerrainChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FTerrainChangedLockCounter": 0,
       "HSMap.FTimer": {
-        "$type": "Aow.Game.Engine.Nodes.ETimerNode",
+        "$type": "Aow.Engine.Nodes.ETimerNode",
         "EObject.FOwner": "$owner",
         "ETimerNode.FCount": 0,
         "ETimerNode.FTick": 0,
         "ETimerNode.FTimerLists": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
           "FixedArray_Aow_Rtl_TList_10.element0": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
@@ -2369,7 +2369,7 @@
       "HSMap.FViewHeightHX": 0,
       "HSMap.FViewL": 0,
       "HSMap.FViewPortChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2391,12 +2391,12 @@
     "FieldGraph": {
       "$type": "Aow.Game.Combat.AoWCombatMap",
       "AbstractAoWCombatMap.FAbilityActivatedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AbstractAoWCombatMap.FCombatStartedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2424,7 +2424,7 @@
       },
       "AbstractAoWHSMap.FHexagonSelectorVisible": false,
       "AbstractAoWHSMap.FMapChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2432,7 +2432,7 @@
       "AbstractAoWHSMap.FMessageFrame": 0,
       "AbstractAoWHSMap.FMessageText": "",
       "AbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2442,7 +2442,7 @@
       "AbstractAoWHSMap.FSelectorY": 0,
       "AbstractAoWHSMap.FShowGrid": false,
       "AbstractAoWHSMap.FShowMessageEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Events.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2486,14 +2486,14 @@
       },
       "AoWCombatMap.FCenterViewLocation": null,
       "AoWCombatMap.FChangeTurnEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FCombat": null,
       "AoWCombatMap.FCurrentCombatPlayer": 0,
       "AoWCombatMap.FDeselectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2509,7 +2509,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "AoWCombatMap.FMouseOverTargetEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2548,11 +2548,11 @@
         "MoveControl.FExploredMask": 0,
         "MoveControl.FFieldOffsets": [
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         ],
@@ -2599,9 +2599,9 @@
           "Set`1.low": 0
         },
         "MoveControl.FMovePointTable": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
           "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
             "FixedArray_sbyte_16.element0": 0
           }
         },
@@ -2609,9 +2609,9 @@
         "MoveControl.FOnMovePoint": null,
         "MoveControl.FPlayer": 0,
         "MoveControl.FPointOffsets": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
           "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         },
@@ -2636,7 +2636,7 @@
       },
       "AoWCombatMap.FPlaySounds": false,
       "AoWCombatMap.FPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2645,23 +2645,23 @@
         "TacticalCombatPlayerList.FPlayers": null
       },
       "AoWCombatMap.FPositionStatus": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_8",
+        "$type": "Aow.Engine.Buffers.FixedArray_byte_8",
         "FixedArray_byte_8.element0": 2
       },
       "AoWCombatMap.FRound": 0,
       "AoWCombatMap.FSeatedCombatPlayer": 0,
       "AoWCombatMap.FSeatedPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FUnitChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2791,7 +2791,7 @@
           "MoveControlSettings.FDestinationX": -1,
           "MoveControlSettings.FDestinationY": -1,
           "MoveControlSettings.FEvenOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FHeight": 0,
@@ -2808,9 +2808,9 @@
             "Set`1.low": 0
           },
           "MoveControlSettings.FMovePointTable": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
             "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
               "FixedArray_sbyte_16.element0": -1
             }
           },
@@ -2818,7 +2818,7 @@
           "MoveControlSettings.FMovePointsLimit": 0,
           "MoveControlSettings.FMovePointsMax": 4095,
           "MoveControlSettings.FOddOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FPath": {
@@ -2853,7 +2853,7 @@
           "MoveControlSettings.FSubMoves": {
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -2863,7 +2863,7 @@
           "MoveControlSettings.FUnits": {
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -2875,7 +2875,7 @@
         "MoveSelector.FMoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
           },
@@ -2898,7 +2898,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "ENode.FChildren": {
-        "$type": "Aow.Game.Engine.Nodes.EObjectList",
+        "$type": "Aow.Engine.Nodes.EObjectList",
         "DelphiList.count": 6,
         "DelphiList.items": [
           "$ref:$.HSMap.FSelection",
@@ -2913,14 +2913,14 @@
       },
       "EObject.FOwner": null,
       "HSMap.FDestroyEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FDynamicFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -2939,7 +2939,7 @@
       "HSMap.FDynamicVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -2958,7 +2958,7 @@
       "HSMap.FFileName": "",
       "HSMap.FFrame": 0,
       "HSMap.FHSChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -2967,7 +2967,7 @@
       "HSMap.FMouse": {
         "$type": "Aow.Game.Combat.AoWCombatMapMouse",
         "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -2993,22 +2993,22 @@
         "HSMapMouse.FHSMap": "$ref:$",
         "HSMapMouse.FIgnoreDown": false,
         "HSMapMouse.FOnCaptureChangedStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDblClickStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDownStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnMoveStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -3020,7 +3020,7 @@
           ]
         },
         "HSMapMouse.FOnUpStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
@@ -3048,7 +3048,7 @@
         "HSMapMouse.FY": -2147483648
       },
       "HSMap.FNewFrameEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3059,7 +3059,7 @@
       "HSMap.FSelection": {
         "$type": "Aow.Game.World.Map.HexagonSpriteSelection",
         "EControlStyleNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -3069,7 +3069,7 @@
           "Set`1.low": 0
         },
         "ENode.FChildren": {
-          "$type": "Aow.Game.Engine.Nodes.EObjectList",
+          "$type": "Aow.Engine.Nodes.EObjectList",
           "DelphiList.count": 0,
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
@@ -3081,12 +3081,12 @@
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
         "HexagonSpriteSelection.FOnDeselectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HexagonSpriteSelection.FOnSelectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         }
@@ -3094,7 +3094,7 @@
       "HSMap.FStaticFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -3113,7 +3113,7 @@
       "HSMap.FStaticVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -3139,18 +3139,18 @@
         "Set`1.low": 0
       },
       "HSMap.FTerrainChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FTerrainChangedLockCounter": 0,
       "HSMap.FTimer": {
-        "$type": "Aow.Game.Engine.Nodes.ETimerNode",
+        "$type": "Aow.Engine.Nodes.ETimerNode",
         "EObject.FOwner": "$owner",
         "ETimerNode.FCount": 0,
         "ETimerNode.FTick": 0,
         "ETimerNode.FTimerLists": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
           "FixedArray_Aow_Rtl_TList_10.element0": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
@@ -3163,7 +3163,7 @@
       "HSMap.FViewHeightHX": 0,
       "HSMap.FViewL": 0,
       "HSMap.FViewPortChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3187,12 +3187,12 @@
     "FieldGraph": {
       "$type": "Aow.Game.Combat.AoWCombatMap",
       "AbstractAoWCombatMap.FAbilityActivatedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AbstractAoWCombatMap.FCombatStartedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3220,7 +3220,7 @@
       },
       "AbstractAoWHSMap.FHexagonSelectorVisible": false,
       "AbstractAoWHSMap.FMapChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3228,7 +3228,7 @@
       "AbstractAoWHSMap.FMessageFrame": 0,
       "AbstractAoWHSMap.FMessageText": "",
       "AbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3238,7 +3238,7 @@
       "AbstractAoWHSMap.FSelectorY": 0,
       "AbstractAoWHSMap.FShowGrid": false,
       "AbstractAoWHSMap.FShowMessageEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Events.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3282,14 +3282,14 @@
       },
       "AoWCombatMap.FCenterViewLocation": null,
       "AoWCombatMap.FChangeTurnEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FCombat": null,
       "AoWCombatMap.FCurrentCombatPlayer": 0,
       "AoWCombatMap.FDeselectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3305,7 +3305,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "AoWCombatMap.FMouseOverTargetEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3344,11 +3344,11 @@
         "MoveControl.FExploredMask": 0,
         "MoveControl.FFieldOffsets": [
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         ],
@@ -3395,9 +3395,9 @@
           "Set`1.low": 0
         },
         "MoveControl.FMovePointTable": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
           "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
             "FixedArray_sbyte_16.element0": 0
           }
         },
@@ -3405,9 +3405,9 @@
         "MoveControl.FOnMovePoint": null,
         "MoveControl.FPlayer": 0,
         "MoveControl.FPointOffsets": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
           "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         },
@@ -3432,7 +3432,7 @@
       },
       "AoWCombatMap.FPlaySounds": false,
       "AoWCombatMap.FPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3441,23 +3441,23 @@
         "TacticalCombatPlayerList.FPlayers": null
       },
       "AoWCombatMap.FPositionStatus": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_8",
+        "$type": "Aow.Engine.Buffers.FixedArray_byte_8",
         "FixedArray_byte_8.element0": 2
       },
       "AoWCombatMap.FRound": 0,
       "AoWCombatMap.FSeatedCombatPlayer": 0,
       "AoWCombatMap.FSeatedPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FUnitChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3587,7 +3587,7 @@
           "MoveControlSettings.FDestinationX": -1,
           "MoveControlSettings.FDestinationY": -1,
           "MoveControlSettings.FEvenOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FHeight": 0,
@@ -3604,9 +3604,9 @@
             "Set`1.low": 0
           },
           "MoveControlSettings.FMovePointTable": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
             "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
               "FixedArray_sbyte_16.element0": -1
             }
           },
@@ -3614,7 +3614,7 @@
           "MoveControlSettings.FMovePointsLimit": 0,
           "MoveControlSettings.FMovePointsMax": 4095,
           "MoveControlSettings.FOddOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FPath": {
@@ -3649,7 +3649,7 @@
           "MoveControlSettings.FSubMoves": {
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -3659,7 +3659,7 @@
           "MoveControlSettings.FUnits": {
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -3671,7 +3671,7 @@
         "MoveSelector.FMoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
           },
@@ -3694,7 +3694,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "ENode.FChildren": {
-        "$type": "Aow.Game.Engine.Nodes.EObjectList",
+        "$type": "Aow.Engine.Nodes.EObjectList",
         "DelphiList.count": 6,
         "DelphiList.items": [
           "$ref:$.HSMap.FSelection",
@@ -3709,14 +3709,14 @@
       },
       "EObject.FOwner": "$owner",
       "HSMap.FDestroyEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FDynamicFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -3735,7 +3735,7 @@
       "HSMap.FDynamicVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -3754,7 +3754,7 @@
       "HSMap.FFileName": "",
       "HSMap.FFrame": 0,
       "HSMap.FHSChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3763,7 +3763,7 @@
       "HSMap.FMouse": {
         "$type": "Aow.Game.Combat.AoWCombatMapMouse",
         "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -3789,22 +3789,22 @@
         "HSMapMouse.FHSMap": "$ref:$",
         "HSMapMouse.FIgnoreDown": false,
         "HSMapMouse.FOnCaptureChangedStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDblClickStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDownStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnMoveStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -3816,7 +3816,7 @@
           ]
         },
         "HSMapMouse.FOnUpStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
@@ -3844,7 +3844,7 @@
         "HSMapMouse.FY": -2147483648
       },
       "HSMap.FNewFrameEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3855,7 +3855,7 @@
       "HSMap.FSelection": {
         "$type": "Aow.Game.World.Map.HexagonSpriteSelection",
         "EControlStyleNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -3865,7 +3865,7 @@
           "Set`1.low": 0
         },
         "ENode.FChildren": {
-          "$type": "Aow.Game.Engine.Nodes.EObjectList",
+          "$type": "Aow.Engine.Nodes.EObjectList",
           "DelphiList.count": 0,
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
@@ -3877,12 +3877,12 @@
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
         "HexagonSpriteSelection.FOnDeselectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HexagonSpriteSelection.FOnSelectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         }
@@ -3890,7 +3890,7 @@
       "HSMap.FStaticFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -3909,7 +3909,7 @@
       "HSMap.FStaticVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -3935,18 +3935,18 @@
         "Set`1.low": 0
       },
       "HSMap.FTerrainChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FTerrainChangedLockCounter": 0,
       "HSMap.FTimer": {
-        "$type": "Aow.Game.Engine.Nodes.ETimerNode",
+        "$type": "Aow.Engine.Nodes.ETimerNode",
         "EObject.FOwner": "$owner",
         "ETimerNode.FCount": 0,
         "ETimerNode.FTick": 0,
         "ETimerNode.FTimerLists": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
           "FixedArray_Aow_Rtl_TList_10.element0": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
@@ -3959,7 +3959,7 @@
       "HSMap.FViewHeightHX": 0,
       "HSMap.FViewL": 0,
       "HSMap.FViewPortChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -3983,12 +3983,12 @@
     "FieldGraph": {
       "$type": "Aow.Game.Combat.AoWCombatMap",
       "AbstractAoWCombatMap.FAbilityActivatedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AbstractAoWCombatMap.FCombatStartedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4016,7 +4016,7 @@
       },
       "AbstractAoWHSMap.FHexagonSelectorVisible": false,
       "AbstractAoWHSMap.FMapChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4024,7 +4024,7 @@
       "AbstractAoWHSMap.FMessageFrame": 0,
       "AbstractAoWHSMap.FMessageText": "",
       "AbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4034,7 +4034,7 @@
       "AbstractAoWHSMap.FSelectorY": 0,
       "AbstractAoWHSMap.FShowGrid": false,
       "AbstractAoWHSMap.FShowMessageEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Events.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4078,14 +4078,14 @@
       },
       "AoWCombatMap.FCenterViewLocation": null,
       "AoWCombatMap.FChangeTurnEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FCombat": null,
       "AoWCombatMap.FCurrentCombatPlayer": 0,
       "AoWCombatMap.FDeselectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4101,7 +4101,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "AoWCombatMap.FMouseOverTargetEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4140,11 +4140,11 @@
         "MoveControl.FExploredMask": 0,
         "MoveControl.FFieldOffsets": [
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         ],
@@ -4191,9 +4191,9 @@
           "Set`1.low": 0
         },
         "MoveControl.FMovePointTable": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
           "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
             "FixedArray_sbyte_16.element0": 0
           }
         },
@@ -4201,9 +4201,9 @@
         "MoveControl.FOnMovePoint": null,
         "MoveControl.FPlayer": 0,
         "MoveControl.FPointOffsets": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
           "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         },
@@ -4228,7 +4228,7 @@
       },
       "AoWCombatMap.FPlaySounds": false,
       "AoWCombatMap.FPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4237,23 +4237,23 @@
         "TacticalCombatPlayerList.FPlayers": null
       },
       "AoWCombatMap.FPositionStatus": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_8",
+        "$type": "Aow.Engine.Buffers.FixedArray_byte_8",
         "FixedArray_byte_8.element0": 2
       },
       "AoWCombatMap.FRound": 0,
       "AoWCombatMap.FSeatedCombatPlayer": 0,
       "AoWCombatMap.FSeatedPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FUnitChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4383,7 +4383,7 @@
           "MoveControlSettings.FDestinationX": -1,
           "MoveControlSettings.FDestinationY": -1,
           "MoveControlSettings.FEvenOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FHeight": 0,
@@ -4400,9 +4400,9 @@
             "Set`1.low": 0
           },
           "MoveControlSettings.FMovePointTable": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
             "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
               "FixedArray_sbyte_16.element0": -1
             }
           },
@@ -4410,7 +4410,7 @@
           "MoveControlSettings.FMovePointsLimit": 0,
           "MoveControlSettings.FMovePointsMax": 4095,
           "MoveControlSettings.FOddOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FPath": {
@@ -4445,7 +4445,7 @@
           "MoveControlSettings.FSubMoves": {
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -4455,7 +4455,7 @@
           "MoveControlSettings.FUnits": {
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -4467,7 +4467,7 @@
         "MoveSelector.FMoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
           },
@@ -4490,7 +4490,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "ENode.FChildren": {
-        "$type": "Aow.Game.Engine.Nodes.EObjectList",
+        "$type": "Aow.Engine.Nodes.EObjectList",
         "DelphiList.count": 6,
         "DelphiList.items": [
           "$ref:$.HSMap.FSelection",
@@ -4505,14 +4505,14 @@
       },
       "EObject.FOwner": "$owner",
       "HSMap.FDestroyEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FDynamicFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -4531,7 +4531,7 @@
       "HSMap.FDynamicVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -4550,7 +4550,7 @@
       "HSMap.FFileName": "",
       "HSMap.FFrame": 0,
       "HSMap.FHSChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4559,7 +4559,7 @@
       "HSMap.FMouse": {
         "$type": "Aow.Game.Combat.AoWCombatMapMouse",
         "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -4585,22 +4585,22 @@
         "HSMapMouse.FHSMap": "$ref:$",
         "HSMapMouse.FIgnoreDown": false,
         "HSMapMouse.FOnCaptureChangedStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDblClickStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDownStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnMoveStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -4612,7 +4612,7 @@
           ]
         },
         "HSMapMouse.FOnUpStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
@@ -4640,7 +4640,7 @@
         "HSMapMouse.FY": -2147483648
       },
       "HSMap.FNewFrameEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4651,7 +4651,7 @@
       "HSMap.FSelection": {
         "$type": "Aow.Game.World.Map.HexagonSpriteSelection",
         "EControlStyleNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -4661,7 +4661,7 @@
           "Set`1.low": 0
         },
         "ENode.FChildren": {
-          "$type": "Aow.Game.Engine.Nodes.EObjectList",
+          "$type": "Aow.Engine.Nodes.EObjectList",
           "DelphiList.count": 0,
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
@@ -4673,12 +4673,12 @@
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
         "HexagonSpriteSelection.FOnDeselectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HexagonSpriteSelection.FOnSelectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         }
@@ -4686,7 +4686,7 @@
       "HSMap.FStaticFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -4705,7 +4705,7 @@
       "HSMap.FStaticVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -4731,18 +4731,18 @@
         "Set`1.low": 0
       },
       "HSMap.FTerrainChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FTerrainChangedLockCounter": 0,
       "HSMap.FTimer": {
-        "$type": "Aow.Game.Engine.Nodes.ETimerNode",
+        "$type": "Aow.Engine.Nodes.ETimerNode",
         "EObject.FOwner": "$owner",
         "ETimerNode.FCount": 0,
         "ETimerNode.FTick": 0,
         "ETimerNode.FTimerLists": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
           "FixedArray_Aow_Rtl_TList_10.element0": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
@@ -4755,7 +4755,7 @@
       "HSMap.FViewHeightHX": 0,
       "HSMap.FViewL": 0,
       "HSMap.FViewPortChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4779,12 +4779,12 @@
     "FieldGraph": {
       "$type": "Aow.Game.Combat.AoWCombatMap",
       "AbstractAoWCombatMap.FAbilityActivatedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AbstractAoWCombatMap.FCombatStartedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4812,7 +4812,7 @@
       },
       "AbstractAoWHSMap.FHexagonSelectorVisible": false,
       "AbstractAoWHSMap.FMapChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4820,7 +4820,7 @@
       "AbstractAoWHSMap.FMessageFrame": 0,
       "AbstractAoWHSMap.FMessageText": "",
       "AbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4830,7 +4830,7 @@
       "AbstractAoWHSMap.FSelectorY": 0,
       "AbstractAoWHSMap.FShowGrid": false,
       "AbstractAoWHSMap.FShowMessageEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Events.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4874,14 +4874,14 @@
       },
       "AoWCombatMap.FCenterViewLocation": null,
       "AoWCombatMap.FChangeTurnEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FCombat": null,
       "AoWCombatMap.FCurrentCombatPlayer": 0,
       "AoWCombatMap.FDeselectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4897,7 +4897,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "AoWCombatMap.FMouseOverTargetEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -4936,11 +4936,11 @@
         "MoveControl.FExploredMask": 0,
         "MoveControl.FFieldOffsets": [
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         ],
@@ -4987,9 +4987,9 @@
           "Set`1.low": 0
         },
         "MoveControl.FMovePointTable": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
           "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
             "FixedArray_sbyte_16.element0": 0
           }
         },
@@ -4997,9 +4997,9 @@
         "MoveControl.FOnMovePoint": null,
         "MoveControl.FPlayer": 0,
         "MoveControl.FPointOffsets": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
           "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         },
@@ -5024,7 +5024,7 @@
       },
       "AoWCombatMap.FPlaySounds": false,
       "AoWCombatMap.FPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5033,23 +5033,23 @@
         "TacticalCombatPlayerList.FPlayers": null
       },
       "AoWCombatMap.FPositionStatus": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_8",
+        "$type": "Aow.Engine.Buffers.FixedArray_byte_8",
         "FixedArray_byte_8.element0": 2
       },
       "AoWCombatMap.FRound": 0,
       "AoWCombatMap.FSeatedCombatPlayer": 0,
       "AoWCombatMap.FSeatedPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FUnitChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5179,7 +5179,7 @@
           "MoveControlSettings.FDestinationX": -1,
           "MoveControlSettings.FDestinationY": -1,
           "MoveControlSettings.FEvenOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FHeight": 0,
@@ -5196,9 +5196,9 @@
             "Set`1.low": 0
           },
           "MoveControlSettings.FMovePointTable": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
             "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
               "FixedArray_sbyte_16.element0": -1
             }
           },
@@ -5206,7 +5206,7 @@
           "MoveControlSettings.FMovePointsLimit": 0,
           "MoveControlSettings.FMovePointsMax": 4095,
           "MoveControlSettings.FOddOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FPath": {
@@ -5241,7 +5241,7 @@
           "MoveControlSettings.FSubMoves": {
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -5251,7 +5251,7 @@
           "MoveControlSettings.FUnits": {
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -5263,7 +5263,7 @@
         "MoveSelector.FMoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
           },
@@ -5286,7 +5286,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "ENode.FChildren": {
-        "$type": "Aow.Game.Engine.Nodes.EObjectList",
+        "$type": "Aow.Engine.Nodes.EObjectList",
         "DelphiList.count": 6,
         "DelphiList.items": [
           "$ref:$.HSMap.FSelection",
@@ -5301,14 +5301,14 @@
       },
       "EObject.FOwner": "$owner",
       "HSMap.FDestroyEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FDynamicFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -5327,7 +5327,7 @@
       "HSMap.FDynamicVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -5346,7 +5346,7 @@
       "HSMap.FFileName": "",
       "HSMap.FFrame": 0,
       "HSMap.FHSChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5355,7 +5355,7 @@
       "HSMap.FMouse": {
         "$type": "Aow.Game.Combat.AoWCombatMapMouse",
         "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -5381,22 +5381,22 @@
         "HSMapMouse.FHSMap": "$ref:$",
         "HSMapMouse.FIgnoreDown": false,
         "HSMapMouse.FOnCaptureChangedStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDblClickStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDownStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnMoveStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -5408,7 +5408,7 @@
           ]
         },
         "HSMapMouse.FOnUpStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
@@ -5436,7 +5436,7 @@
         "HSMapMouse.FY": -2147483648
       },
       "HSMap.FNewFrameEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5447,7 +5447,7 @@
       "HSMap.FSelection": {
         "$type": "Aow.Game.World.Map.HexagonSpriteSelection",
         "EControlStyleNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -5457,7 +5457,7 @@
           "Set`1.low": 0
         },
         "ENode.FChildren": {
-          "$type": "Aow.Game.Engine.Nodes.EObjectList",
+          "$type": "Aow.Engine.Nodes.EObjectList",
           "DelphiList.count": 0,
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
@@ -5469,12 +5469,12 @@
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
         "HexagonSpriteSelection.FOnDeselectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HexagonSpriteSelection.FOnSelectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         }
@@ -5482,7 +5482,7 @@
       "HSMap.FStaticFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -5501,7 +5501,7 @@
       "HSMap.FStaticVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -5527,18 +5527,18 @@
         "Set`1.low": 0
       },
       "HSMap.FTerrainChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FTerrainChangedLockCounter": 0,
       "HSMap.FTimer": {
-        "$type": "Aow.Game.Engine.Nodes.ETimerNode",
+        "$type": "Aow.Engine.Nodes.ETimerNode",
         "EObject.FOwner": "$owner",
         "ETimerNode.FCount": 0,
         "ETimerNode.FTick": 0,
         "ETimerNode.FTimerLists": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
           "FixedArray_Aow_Rtl_TList_10.element0": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
@@ -5551,7 +5551,7 @@
       "HSMap.FViewHeightHX": 0,
       "HSMap.FViewL": 0,
       "HSMap.FViewPortChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5575,12 +5575,12 @@
     "FieldGraph": {
       "$type": "Aow.Game.Combat.AoWCombatMap",
       "AbstractAoWCombatMap.FAbilityActivatedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.ActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AbstractAoWCombatMap.FCombatStartedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5608,7 +5608,7 @@
       },
       "AbstractAoWHSMap.FHexagonSelectorVisible": false,
       "AbstractAoWHSMap.FMapChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5616,7 +5616,7 @@
       "AbstractAoWHSMap.FMessageFrame": 0,
       "AbstractAoWHSMap.FMessageText": "",
       "AbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5626,7 +5626,7 @@
       "AbstractAoWHSMap.FSelectorY": 0,
       "AbstractAoWHSMap.FShowGrid": false,
       "AbstractAoWHSMap.FShowMessageEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Events.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5670,14 +5670,14 @@
       },
       "AoWCombatMap.FCenterViewLocation": null,
       "AoWCombatMap.FChangeTurnEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FCombat": null,
       "AoWCombatMap.FCurrentCombatPlayer": 0,
       "AoWCombatMap.FDeselectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5693,7 +5693,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "AoWCombatMap.FMouseOverTargetEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5732,11 +5732,11 @@
         "MoveControl.FExploredMask": 0,
         "MoveControl.FFieldOffsets": [
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         ],
@@ -5783,9 +5783,9 @@
           "Set`1.low": 0
         },
         "MoveControl.FMovePointTable": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
           "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
             "FixedArray_sbyte_16.element0": 0
           }
         },
@@ -5793,9 +5793,9 @@
         "MoveControl.FOnMovePoint": null,
         "MoveControl.FPlayer": 0,
         "MoveControl.FPointOffsets": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
           "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           }
         },
@@ -5820,7 +5820,7 @@
       },
       "AoWCombatMap.FPlaySounds": false,
       "AoWCombatMap.FPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.AoWCombatMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5829,23 +5829,23 @@
         "TacticalCombatPlayerList.FPlayers": null
       },
       "AoWCombatMap.FPositionStatus": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_8",
+        "$type": "Aow.Engine.Buffers.FixedArray_byte_8",
         "FixedArray_byte_8.element0": 2
       },
       "AoWCombatMap.FRound": 0,
       "AoWCombatMap.FSeatedCombatPlayer": 0,
       "AoWCombatMap.FSeatedPlayerChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "$type": "Aow.Engine.EventStore`1[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Combat.TacticalCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.TacticalBattle, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "AoWCombatMap.FUnitChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.TacticalCombatUnitHS, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -5975,7 +5975,7 @@
           "MoveControlSettings.FDestinationX": -1,
           "MoveControlSettings.FDestinationY": -1,
           "MoveControlSettings.FEvenOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FHeight": 0,
@@ -5992,9 +5992,9 @@
             "Set`1.low": 0
           },
           "MoveControlSettings.FMovePointTable": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+            "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
             "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+              "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
               "FixedArray_sbyte_16.element0": -1
             }
           },
@@ -6002,7 +6002,7 @@
           "MoveControlSettings.FMovePointsLimit": 0,
           "MoveControlSettings.FMovePointsMax": 4095,
           "MoveControlSettings.FOddOffsets": {
-            "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+            "$type": "Aow.Engine.Buffers.FixedArray_int_8",
             "FixedArray_int_8.element0": 0
           },
           "MoveControlSettings.FPath": {
@@ -6037,7 +6037,7 @@
           "MoveControlSettings.FSubMoves": {
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -6047,7 +6047,7 @@
           "MoveControlSettings.FUnits": {
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
             },
@@ -6059,7 +6059,7 @@
         "MoveSelector.FMoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
           },
@@ -6082,7 +6082,7 @@
         "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
       },
       "ENode.FChildren": {
-        "$type": "Aow.Game.Engine.Nodes.EObjectList",
+        "$type": "Aow.Engine.Nodes.EObjectList",
         "DelphiList.count": 6,
         "DelphiList.items": [
           "$ref:$.HSMap.FSelection",
@@ -6097,14 +6097,14 @@
       },
       "EObject.FOwner": "$owner",
       "HSMap.FDestroyEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FDynamicFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -6123,7 +6123,7 @@
       "HSMap.FDynamicVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -6142,7 +6142,7 @@
       "HSMap.FFileName": "",
       "HSMap.FFrame": 0,
       "HSMap.FHSChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -6151,7 +6151,7 @@
       "HSMap.FMouse": {
         "$type": "Aow.Game.Combat.AoWCombatMapMouse",
         "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -6177,22 +6177,22 @@
         "HSMapMouse.FHSMap": "$ref:$",
         "HSMapMouse.FIgnoreDown": false,
         "HSMapMouse.FOnCaptureChangedStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDblClickStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnDownStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HSMapMouse.FOnMoveStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 1,
           "EventStore`1.items": [
             [
@@ -6204,7 +6204,7 @@
           ]
         },
         "HSMapMouse.FOnUpStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
@@ -6232,7 +6232,7 @@
         "HSMapMouse.FY": -2147483648
       },
       "HSMap.FNewFrameEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
@@ -6243,7 +6243,7 @@
       "HSMap.FSelection": {
         "$type": "Aow.Game.World.Map.HexagonSpriteSelection",
         "EControlStyleNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -6253,7 +6253,7 @@
           "Set`1.low": 0
         },
         "ENode.FChildren": {
-          "$type": "Aow.Game.Engine.Nodes.EObjectList",
+          "$type": "Aow.Engine.Nodes.EObjectList",
           "DelphiList.count": 0,
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
@@ -6265,12 +6265,12 @@
           "DelphiList.items": "$ref:$.AoWCombatMap.FAI.CAI.Allies.DelphiList.items"
         },
         "HexagonSpriteSelection.FOnDeselectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         },
         "HexagonSpriteSelection.FOnSelectStore": {
-          "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Engine.EventStore`1[[Aow.Engine.Nodes.ECustomNode, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "EventStore`1.count": 0,
           "EventStore`1.items": null
         }
@@ -6278,7 +6278,7 @@
       "HSMap.FStaticFixedVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -6297,7 +6297,7 @@
       "HSMap.FStaticVisibleHS": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode.FControlStyle": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.EControlStyleElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 2,
           "Set`1.b": 0,
           "Set`1.bounded": true,
@@ -6323,18 +6323,18 @@
         "Set`1.low": 0
       },
       "HSMap.FTerrainChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },
       "HSMap.FTerrainChangedLockCounter": 0,
       "HSMap.FTimer": {
-        "$type": "Aow.Game.Engine.Nodes.ETimerNode",
+        "$type": "Aow.Engine.Nodes.ETimerNode",
         "EObject.FOwner": "$owner",
         "ETimerNode.FCount": 0,
         "ETimerNode.FTick": 0,
         "ETimerNode.FTimerLists": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
+          "$type": "Aow.Engine.Buffers.FixedArray_Aow_Rtl_TList_10",
           "FixedArray_Aow_Rtl_TList_10.element0": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
@@ -6347,7 +6347,7 @@
       "HSMap.FViewHeightHX": 0,
       "HSMap.FViewL": 0,
       "HSMap.FViewPortChangedEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1.count": 0,
         "EventStore`1.items": null
       },

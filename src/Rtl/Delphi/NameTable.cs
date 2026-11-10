@@ -353,7 +353,15 @@ public static class NameTable
             foreach (var row in rows)
             {
                 if (!seen.Add(row.Current))
+                {
+                    // The three engine classes share one current name and keep their Delphi names.
+                    if (row.Kind == "type" && typeByCurrent.ContainsKey(row.Current))
+                    {
+                        Add(typeByDelphi, row.Delphi, row);
+                        continue;
+                    }
                     throw new InvalidOperationException("The name table repeats " + row.Current + ".");
+                }
                 if (row.Kind == "type")
                 {
                     typeByCurrent.Add(row.Current, row);
@@ -406,8 +414,8 @@ public static class NameTable
             foreach (var row in rows)
             {
                 if (row.Kind != "type") continue;
+                if (!delphiOf.TryAdd(row.Current, row.Delphi)) continue;
                 names.Add(row.Current);
-                delphiOf.Add(row.Current, row.Delphi);
             }
             var ownerOf = new Dictionary<string, string?>();
             foreach (var name in names) ownerOf[name] = Owner(name, names);

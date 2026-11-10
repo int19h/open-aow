@@ -1,4 +1,5 @@
 // Translated from AoWLeaderSetup.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -6,6 +7,7 @@ using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWLeaderSetup.pas.
 using Aow.Rtl.Localize;
@@ -367,16 +369,16 @@ public partial class LeaderSetupWin : DataModule
         switch (FSelectedSort)
         {
             case 0:
-                Engine.Nodes.StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
                 break;
             case 1:
-                Engine.Nodes.StringSorting.SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                StringSorting.SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
                 break;
             case 2:
-                Engine.Nodes.StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
                 break;
             case 3:
-                Engine.Nodes.StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
                 break;
         }
     }
@@ -387,16 +389,16 @@ public partial class LeaderSetupWin : DataModule
         switch (FAvailableSort)
         {
             case 0:
-                Engine.Nodes.StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
                 break;
             case 1:
-                Engine.Nodes.StringSorting.SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                StringSorting.SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
                 break;
             case 2:
-                Engine.Nodes.StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
                 break;
             case 3:
-                Engine.Nodes.StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
                 break;
         }
     }
@@ -409,15 +411,15 @@ public partial class LeaderSetupWin : DataModule
         Ability Ability;
         AvailableAbilities.Items.Clear();
         AvailableAbilitiesCost.Items.Clear();
-        for (int I = 0, last = Engine.AoWHSSet.Current.FAbilityControl.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSSet.Current.FAbilityControl.GetCount() - 1; I <= last; I++)
         {
-            if (Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I) != null && (Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).FSelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
+            if (AoWHSSet.Current.FAbilityControl.GetAbility(I) != null && (AoWHSSet.Current.FAbilityControl.GetAbility(I).FSelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
             {
-                if (Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).CanExpand(FLeader))
+                if (AoWHSSet.Current.FAbilityControl.GetAbility(I).CanExpand(FLeader))
                 {
-                    var expandName = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).ExpandName(FLeader);
+                    var expandName = AoWHSSet.Current.FAbilityControl.GetAbility(I).ExpandName(FLeader);
                     AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
-                    var expandCost = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).ExpandCost(FLeader);
+                    var expandCost = AoWHSSet.Current.FAbilityControl.GetAbility(I).ExpandCost(FLeader);
                     AvailableAbilitiesCost.Items.Add(IntToStr(expandCost));
                 }
             }
@@ -427,10 +429,10 @@ public partial class LeaderSetupWin : DataModule
         SelectedAbilitiesCost.Items.Clear();
         for (int I = 0, last = FLeader.GetAbCount() - 1; I <= last; I++)
         {
-            Ability = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I);
+            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
             if (FLeader.GetAbSet(I) && (FLeader.FHeroResource.FAbilities.GetAbSet(I) || (Ability.FSelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of()))
             {
-                Name = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).GetName(FLeader);
+                Name = AoWHSSet.Current.FAbilityControl.GetAbility(I).GetName(FLeader);
                 if (FLeader.FHeroResource.FAbilities.GetAbSet(I) && FLeader.FHeroResource.FAbilities.GetAbLevel(I) == FLeader.GetAbilityLevel(I))
                 {
                     Name = Name + " (" + AbilityRules.TranslateRStr(GameText.FixedRStr) + ")";
@@ -469,7 +471,7 @@ public partial class LeaderSetupWin : DataModule
     }
 
     // AoWLeaderSetup.pas:846
-    public bool CanAddAbility(int AbilityID) => Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).CanExpand(FLeader) && Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ExpandCost(FLeader) <= FLeader.GetSkillPoints();
+    public bool CanAddAbility(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).CanExpand(FLeader) && AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ExpandCost(FLeader) <= FLeader.GetSkillPoints();
 
     // AoWLeaderSetup.pas:913
     public void SetPhase(int Value)
@@ -762,13 +764,13 @@ public partial class LeaderSetupWin : DataModule
         while (Offset < 0)
         {
             Offset += 1;
-            Index = Engine.AoWHSSet.Current.FFaceResources.PrevFace(Index);
+            Index = AoWHSSet.Current.FFaceResources.PrevFace(Index);
         }
 
         while (Offset > 0)
         {
             Offset -= 1;
-            Index = Engine.AoWHSSet.Current.FFaceResources.NextFace(Index);
+            Index = AoWHSSet.Current.FFaceResources.NextFace(Index);
         }
 
         var image = Sender;
@@ -776,7 +778,7 @@ public partial class LeaderSetupWin : DataModule
 
         if (Setup.FOriginalLeader.GetFace() != null)
         {
-            Face = Engine.AoWHSSet.Current.FFaceResources.GetFaceResource(Index);
+            Face = AoWHSSet.Current.FFaceResources.GetFaceResource(Index);
             Face.AddRef();
             Face.GetFaceImage().ShowStretched(R, SD);
             Face.Release();
@@ -787,7 +789,7 @@ public partial class LeaderSetupWin : DataModule
     public void FacePrevBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var prevFace = Engine.AoWHSSet.Current.FFaceResources.PrevFace(FLeader.FFaceIndex);
+        var prevFace = AoWHSSet.Current.FFaceResources.PrevFace(FLeader.FFaceIndex);
         FLeader.SetFaceIndex(prevFace);
         DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
@@ -796,7 +798,7 @@ public partial class LeaderSetupWin : DataModule
     public void FaceNextBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var nextFace = Engine.AoWHSSet.Current.FFaceResources.NextFace(FLeader.FFaceIndex);
+        var nextFace = AoWHSSet.Current.FFaceResources.NextFace(FLeader.FFaceIndex);
         FLeader.SetFaceIndex(nextFace);
         DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
@@ -1316,7 +1318,7 @@ public partial class LeaderSetupWin : DataModule
         if (Button == MouseButton.Right && SelectedAbilities.Selected != -1)
         {
             var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-            Ability = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
@@ -1332,7 +1334,7 @@ public partial class LeaderSetupWin : DataModule
         if (Button == MouseButton.Right && AvailableAbilities.Selected != -1)
         {
             var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-            Ability = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (Ability != null)
             {
                 var name = Ability.GetName(null);

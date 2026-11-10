@@ -1,7 +1,8 @@
-// Translated from AltFire.pas.
-using Aow.Game.Draw.Animation;
+using Aow.Engine.Nodes;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -37,7 +38,7 @@ public partial class AltarOfFire : Altar
         // AltFire.pas:27
 
         // AltFire.pas:55
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AltarOfFireRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(AltarOfFireRStr);
 
         private static readonly string AltarOfFireRStr = "Altar of Fire";
 

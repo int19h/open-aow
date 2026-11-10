@@ -1,6 +1,8 @@
 // Translated from Merchant.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -32,7 +34,7 @@ public partial class Merchant : Structure
         // Merchant.pas:25
 
         // Merchant.pas:50
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(MerchantRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(MerchantRStr);
 
         private static readonly string MerchantRStr = "Merchant";
 

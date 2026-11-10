@@ -1,8 +1,10 @@
 // Translated from Farm.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -65,7 +67,7 @@ public partial class Farm : PlayerCropStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(AbilityRules.TranslateRStr(GameText.ProducingXIncomeRStr), [IntToStr(income)]);
     }
 
     // Farm.pas:111
@@ -86,7 +88,7 @@ public partial class Farm : PlayerCropStructure
                         }
                         else
                         {
-                            if (Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
+                            if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                             {
                                 Priority = 50 - AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                 if (Priority < 25)
@@ -177,7 +179,7 @@ public partial class Farm : PlayerCropStructure
         // Farm.pas:36
 
         // Farm.pas:146
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(FarmRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(FarmRStr);
 
         private static readonly string FarmRStr = "Farm";
 

@@ -6,6 +6,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWTCUnit.pas.
 using Aow.Rtl.Localize;
@@ -111,7 +112,7 @@ public partial class CombatUnitInfo : DataModule
             if (condition)
             {
                 var ability = DialogHosts.General.FCombatUnit.FAbilities[DrawItem];
-                var combatMode = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
                 bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && ((CombatAbilityRef)DialogHosts.General.FCombatUnit.FAbilities[DrawItem]).Ability != 52;
                 if (!test)
                 {
@@ -168,7 +169,7 @@ public partial class CombatUnitInfo : DataModule
                 if (Button == MouseButton.Right && DialogHosts.General.FCombatUnit != null)
                 {
                     var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
-                    Ability = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+                    Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                     if (Ability != null)
                     {
                         var name = Ability.GetName(DialogHosts.General.FCombatUnit.FUnit.FUnit);
@@ -187,7 +188,7 @@ public partial class CombatUnitInfo : DataModule
             if (DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.Current.FSeatedPlayer && DialogHosts.General.FCombatUnit.FUnit.FMovePoints != 0 && UAbilLB.F188 < DialogHosts.General.FCombatUnit.FCombatAbilityCount)
             {
                 var ability = DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188];
-                var combatMode = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
                 if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && ((CombatAbilityRef)DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188]).Ability != 52)
                 {
                     return;

@@ -1,5 +1,3 @@
-// Translated from AoWEmailSettingsDlg.pas.
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;

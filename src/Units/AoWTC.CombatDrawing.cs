@@ -3,6 +3,7 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
+using Aow.Game.Host;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;

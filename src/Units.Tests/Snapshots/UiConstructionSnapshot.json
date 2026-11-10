@@ -4991,7 +4991,7 @@
               "PageTurnControl.FHalfWidth": 0,
               "PageTurnControl.FHeight": 0,
               "PageTurnControl.FInvCos": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_float_512",
+                "$type": "Aow.Engine.Buffers.FixedArray_float_512",
                 "FixedArray_float_512.element0": 1.5707929
               },
               "PageTurnControl.FMode": 0,
@@ -5227,7 +5227,7 @@
               "PageTurnControl.FHalfWidth": 0,
               "PageTurnControl.FHeight": 0,
               "PageTurnControl.FInvCos": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_float_512",
+                "$type": "Aow.Engine.Buffers.FixedArray_float_512",
                 "FixedArray_float_512.element0": 1.5707929
               },
               "PageTurnControl.FMode": 0,
@@ -9863,7 +9863,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Engine.AgeOfWondersEngine",
-            "AgeOfWondersEngine.FGameEngine": "Aow.Game.Engine.AoWEngine",
+            "AgeOfWondersEngine.FGameEngine": "Aow.Game.GameEngine",
             "Component.\u003CComponentState\u003Ek__BackingField": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -9879,10 +9879,10 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "EComponent.FEngine": "Aow.Game.Engine.AoWEngine",
+            "EComponent.FEngine": "Aow.Game.GameEngine",
             "EComponent.FOnRegisterClasses": null,
             "EComponent.FOnUnRegisterClasses": null,
-            "HexagonSpriteEngine.FHSEngine": "Aow.Game.Engine.AoWEngine"
+            "HexagonSpriteEngine.FHSEngine": "Aow.Game.GameEngine"
           }
         }
       },
@@ -9897,7 +9897,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Engine.AgeOfWondersEngine",
-            "AgeOfWondersEngine.FGameEngine": "Aow.Game.Engine.AoWEngine",
+            "AgeOfWondersEngine.FGameEngine": "Aow.Game.GameEngine",
             "Component.\u003CComponentState\u003Ek__BackingField": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -9913,10 +9913,10 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "EComponent.FEngine": "Aow.Game.Engine.AoWEngine",
+            "EComponent.FEngine": "Aow.Game.GameEngine",
             "EComponent.FOnRegisterClasses": null,
             "EComponent.FOnUnRegisterClasses": null,
-            "HexagonSpriteEngine.FHSEngine": "Aow.Game.Engine.AoWEngine"
+            "HexagonSpriteEngine.FHSEngine": "Aow.Game.GameEngine"
           }
         }
       },
@@ -21304,7 +21304,7 @@
             "SelFactionWin.FFadeDirection": 0,
             "SelFactionWin.FFadeImage": 0,
             "SelFactionWin.F_SelFactionWin_8C": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_4",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_4",
               "FixedArray_byte_4.element0": 0
             },
             "SelFactionWin.FactionPnl": null,
@@ -21355,7 +21355,7 @@
             "SelFactionWin.FFadeDirection": 0,
             "SelFactionWin.FFadeImage": 0,
             "SelFactionWin.F_SelFactionWin_8C": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_4",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_4",
               "FixedArray_byte_4.element0": 0
             },
             "SelFactionWin.FactionPnl": null,
@@ -21401,7 +21401,7 @@
               "SelFactionWin.FFadeDirection": 0,
               "SelFactionWin.FFadeImage": 0,
               "SelFactionWin.F_SelFactionWin_8C": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_4",
+                "$type": "Aow.Engine.Buffers.FixedArray_byte_4",
                 "FixedArray_byte_4.element0": 0
               },
               "SelFactionWin.FactionPnl": null,
@@ -21625,7 +21625,7 @@
             "SetupControl.FSettings": {
               "$type": "Aow.Game.Session.SetupSettings",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.SetupControl.FSettings.SetupSettings.FRemotePlayers.ENode.FChildren.DelphiList.items"
               },
@@ -21649,7 +21649,7 @@
               "SetupSettings.FRemotePlayers": {
                 "$type": "Aow.Game.Session.RemotePlayerList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -21743,7 +21743,7 @@
             "SetupControl.FSettings": {
               "$type": "Aow.Game.Session.SetupSettings",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.SetupControl.FSettings.SetupSettings.FRemotePlayers.ENode.FChildren.DelphiList.items"
               },
@@ -21767,7 +21767,7 @@
               "SetupSettings.FRemotePlayers": {
                 "$type": "Aow.Game.Session.RemotePlayerList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -23960,7 +23960,7 @@
             "TitleScene.FMouseX": 0,
             "TitleScene.FMouseY": 0,
             "TitleScene.FPadA5": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
               "FixedArray_byte_3.element0": 0
             },
             "TitleScene.FPressedButton": 0,
@@ -24026,7 +24026,7 @@
             "TitleScene.FMouseX": 0,
             "TitleScene.FMouseY": 0,
             "TitleScene.FPadA5": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
               "FixedArray_byte_3.element0": 0
             },
             "TitleScene.FPressedButton": 0,
@@ -24087,7 +24087,7 @@
               "TitleScene.FMouseX": 0,
               "TitleScene.FMouseY": 0,
               "TitleScene.FPadA5": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+                "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
                 "FixedArray_byte_3.element0": 0
               },
               "TitleScene.FPressedButton": 0,
@@ -26956,7 +26956,7 @@
             "General.FScannerVisible": false,
             "General.FSelectedUnit": null,
             "General.FSelectedUnits": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+              "$type": "Aow.Engine.Buffers.FixedArray_int_8",
               "FixedArray_int_8.element0": 0
             },
             "General.FSign": null,
@@ -27022,7 +27022,7 @@
             "General.FScannerVisible": false,
             "General.FSelectedUnit": null,
             "General.FSelectedUnits": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+              "$type": "Aow.Engine.Buffers.FixedArray_int_8",
               "FixedArray_int_8.element0": 0
             },
             "General.FSign": null,
@@ -27083,7 +27083,7 @@
               "General.FScannerVisible": false,
               "General.FSelectedUnit": null,
               "General.FSelectedUnits": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+                "$type": "Aow.Engine.Buffers.FixedArray_int_8",
                 "FixedArray_int_8.element0": 0
               },
               "General.FSign": null,
@@ -29257,10 +29257,10 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "EComponent.FEngine": "Aow.Game.World.Map.HSEngine",
+            "EComponent.FEngine": "Aow.Game.GameEngine",
             "EComponent.FOnRegisterClasses": null,
             "EComponent.FOnUnRegisterClasses": null,
-            "HexagonSpriteEngine.FHSEngine": "Aow.Game.World.Map.HSEngine"
+            "HexagonSpriteEngine.FHSEngine": "Aow.Game.GameEngine"
           }
         }
       },
@@ -29290,10 +29290,10 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "EComponent.FEngine": "Aow.Game.World.Map.HSEngine",
+            "EComponent.FEngine": "Aow.Game.GameEngine",
             "EComponent.FOnRegisterClasses": null,
             "EComponent.FOnUnRegisterClasses": null,
-            "HexagonSpriteEngine.FHSEngine": "Aow.Game.World.Map.HSEngine"
+            "HexagonSpriteEngine.FHSEngine": "Aow.Game.GameEngine"
           }
         }
       },
@@ -29725,13 +29725,13 @@
       "subscriptions:0:0"
     ]
   },
-  "Aow.Game.Engine.PlugInManager.owner0": {
+  "Aow.Engine.PlugInManager.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Engine.PlugInManager",
+            "$type": "Aow.Engine.PlugInManager",
             "Component.\u003CComponentState\u003Ek__BackingField": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -29768,13 +29768,13 @@
       "subscriptions:0:0"
     ]
   },
-  "Aow.Game.Engine.PlugInManager.owner1": {
+  "Aow.Engine.PlugInManager.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Engine.PlugInManager",
+            "$type": "Aow.Engine.PlugInManager",
             "Component.\u003CComponentState\u003Ek__BackingField": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -29812,7 +29812,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Engine.PlugInManager",
+              "$type": "Aow.Engine.PlugInManager",
               "Component.\u003CComponentState\u003Ek__BackingField": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,

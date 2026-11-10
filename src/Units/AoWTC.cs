@@ -1,5 +1,10 @@
 // Translated from AoWTC.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine;
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Formats;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
@@ -7,9 +12,8 @@ using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
@@ -8575,7 +8579,7 @@ namespace Aow.Game.Combat
         public new const int ClassID = 2228480;
 
         public TacticalCombatPlayerList FPlayers;
-        public TacticalCombat FCombat;
+        public TacticalBattle FCombat;
         public UnitPositionControl FUnitPositions;
         public sbyte FSeatedCombatPlayer;
         public sbyte FCurrentCombatPlayer;
@@ -8607,17 +8611,17 @@ namespace Aow.Game.Combat
         public CombatMoveControl FMoveControl;
         public CombatUnitSelectionControl FUnitSelection;
 
-        internal EventStore<TacticalCombat> FSelectEventsStore;
+        internal EventStore<TacticalBattle> FSelectEventsStore;
 
-        public event NotifyEvent<TacticalCombat> FSelectEvents
+        public event NotifyEvent<TacticalBattle> FSelectEvents
         {
             add => FSelectEventsStore.Add(value);
             remove => FSelectEventsStore.Remove(value);
         }
 
-        internal EventStore<TacticalCombat> FDeselectEventsStore;
+        internal EventStore<TacticalBattle> FDeselectEventsStore;
 
-        public event NotifyEvent<TacticalCombat> FDeselectEvents
+        public event NotifyEvent<TacticalBattle> FDeselectEvents
         {
             add => FDeselectEventsStore.Add(value);
             remove => FDeselectEventsStore.Remove(value);
@@ -8720,7 +8724,7 @@ namespace Aow.Game.Combat
         {
             if (Msg.MsgID == 536870920 && !Status.Contains(HSMapStatusElement.Editting))
             {
-                SetCombat((TacticalCombat)AoWHSMap.Current.FCombat);
+                SetCombat((TacticalBattle)AoWHSMap.Current.FCombat);
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -8907,7 +8911,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2243
-        public void SetCombat(TacticalCombat Combat)
+        public void SetCombat(TacticalBattle Combat)
         {
             FCombat = Combat;
             if (FCombat != null)
@@ -9340,12 +9344,12 @@ namespace Aow.Game.Combat
     }
 
     // Inherited combat layout. FHostPlayer
-    public partial class TacticalCombat : Combat
+    public partial class TacticalBattle : Battle
     {
         // AoWTC.pas:5081
         public new const int ClassID = 2228496;
 
-        public TacticalCombat(ECustomNode owner) : base(owner)
+        public TacticalBattle(ECustomNode owner) : base(owner)
         { }
 
         public sbyte FHostPlayer;
@@ -9597,7 +9601,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:4156
-        public AoWCombatMap RandomMap(TacticalCombat Combat, int X, int Y, int L)
+        public AoWCombatMap RandomMap(TacticalBattle Combat, int X, int Y, int L)
         {
             byte[] TerrainBuffer = [];
             int I;
@@ -9767,7 +9771,7 @@ namespace Aow.Game.Combat
             FileName = FileName + ".HSM";
             if (Combat == null)
             {
-                GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, Aow.Formats.GameProfile.TacticalMap);
+                GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, GameProfile.TacticalMap);
             }
             else
             {

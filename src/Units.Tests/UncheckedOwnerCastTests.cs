@@ -3,6 +3,7 @@ using Aow.Game.Commands;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
+using Aow.Game.Magic.Spells;
 using Aow.Game.Magic.Spells.Global;
 using Aow.Game.Net;
 using Aow.Game.Session;

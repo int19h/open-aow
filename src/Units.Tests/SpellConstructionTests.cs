@@ -1,13 +1,17 @@
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.Summon;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -41,7 +45,7 @@ public sealed partial class SpellConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = GameTables.AoWEngine;
+        private readonly GameEngine previousEngine = GameTables.AoWEngine;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
 
         internal Fixture()
@@ -91,16 +95,16 @@ public sealed partial class SpellConstructionTests
         return JsonSerializer.Serialize(state);
     }
 
-    private static Engine RegisteredEngine(Type type)
+    private static GameEngine RegisteredEngine(Type type)
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        var engine = new Engine(null!);
+        GameEngine engine = new GameEngine(null!);
         try { engine.RegisterEClasses([EClass.Of(type)]); }
         catch { engine.Dispose(); throw; }
         return engine;
     }
 
-    private static EObject Create(Type type, ECustomNode owner, int route, Engine? registered = null)
+    private static EObject Create(Type type, ECustomNode owner, int route, GameEngine? registered = null)
     {
         var meta = EClass.Of(type);
         if (route == 0)
@@ -114,7 +118,7 @@ public sealed partial class SpellConstructionTests
             }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
-                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw();
+                ExceptionDispatchInfo.Capture(error.InnerException).Throw();
                 throw;
             }
         }
@@ -124,12 +128,12 @@ public sealed partial class SpellConstructionTests
             try { return (EObject)meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner])!; }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
-                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw();
+                ExceptionDispatchInfo.Capture(error.InnerException).Throw();
                 throw;
             }
         }
         if (registered is not null) return registered.CreateEObject(meta.ClassID, owner);
-        var engine = RegisteredEngine(type);
+        GameEngine engine = RegisteredEngine(type);
         try
         {
             return engine.CreateEObject(meta.ClassID, owner);

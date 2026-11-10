@@ -1,12 +1,16 @@
 // Translated from IndependentAG.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
@@ -887,14 +891,14 @@ namespace Aow.Game.Ai.Groups
 
         internal static void SubscribeMapLoaded()
         {
-            if (Magic.Abilities.GameTables.ValidateAoWEngine())
-                Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
+            if (GameTables.ValidateAoWEngine())
+                GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
         }
 
         internal static void UnsubscribeMapLoaded()
         {
-            if (Magic.Abilities.GameTables.AoWEngine != null)
-                Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded -= MapLoaded;
+            if (GameTables.AoWEngine != null)
+                GameTables.AoWEngine.OnHSMLoaded -= MapLoaded;
         }
     }
 }

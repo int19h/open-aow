@@ -1,10 +1,11 @@
+using Aow.Engine;
+using Aow.Engine.Nodes;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.Unit;
 
 namespace Aow.Units.Tests;
 
@@ -139,10 +140,10 @@ public sealed partial class SpellConstructionTests
     }
 
     [Theory]
-    [InlineData(typeof(Game.Magic.Spells.GlobalTarget.HolyGroundSpell))]
-    [InlineData(typeof(Game.Magic.Spells.GlobalTarget.UnholyGroundSpell))]
-    [InlineData(typeof(Game.Magic.Spells.GlobalTarget.RaiseTerrain))]
-    [InlineData(typeof(Game.Magic.Spells.GlobalTarget.PoisonPlantSpell))]
+    [InlineData(typeof(HolyGroundSpell))]
+    [InlineData(typeof(UnholyGroundSpell))]
+    [InlineData(typeof(RaiseTerrain))]
+    [InlineData(typeof(PoisonPlantSpell))]
     public void ConvertedGlobalTargetDescendantsUseCompletedConstruction(Type type)
     {
         using var fixture = new Fixture();

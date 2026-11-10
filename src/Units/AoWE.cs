@@ -3,7 +3,14 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Formats;
 using Aow.Formats.Tree;
+using Aow.Game;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Audio;
@@ -11,20 +18,18 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Magic.Spells.GlobalTarget;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
@@ -35,6 +40,7 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Game.World.Terrain;
+using Aow.Graphics;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
@@ -6737,7 +6743,7 @@ namespace Aow.Game.Session
                         if (!Hero.FHeroStatus.Contains(HeroStatusElement.Died) && Hero.FPlayer <= 0 && Hero.Owner == null && Hero.GetAbilityEnabled(52) && Hero.GetLevel() >= 2 && Hero.GetLevel() <= 3)
                         {
                             var playerRelation = AoWHSMap.Current.FRaces.GetRace(Hero.FRace).GetPlayerRelation(FPlayerIndex);
-                            if (Set<Engine.Status>.Of(Engine.Status.Polite, Engine.Status.Friendly).Contains(playerRelation) && Hero.JoinAmount(FPlayerIndex) < FGems)
+                            if (Set<Session.Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && Hero.JoinAmount(FPlayerIndex) < FGems)
                             {
                                 var level = Hero.GetLevel();
                                 Heroes.AddAB(Hero, (level - 2) * 1000 + 1);
@@ -7752,7 +7758,7 @@ namespace Aow.Game.Session
         public ByteList FLocalHumanPlayers;
 
         // Player.PAS:1543
-        public override void Assign(EObject Source, Engine.Engine AEngine)
+        public override void Assign(EObject Source, GameEngine AEngine)
         {
             SetNumberOfPlayers(((PlayerList)Source).GetNumberOfPlayers());
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
@@ -8822,7 +8828,7 @@ namespace Aow.Game.World.Movement
 
         internal static void FillInt(Span<byte> destination, int count, int value)
         {
-            Aow.Graphics.Blit.FillInt(destination, count, value);
+            Blit.FillInt(destination, count, value);
         }
 
         public enum Status : byte
@@ -9580,7 +9586,7 @@ namespace Aow.Game.World.Movement
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Net
 {
 
     public partial class AoWTokenManager : TokenManager
@@ -9680,7 +9686,7 @@ namespace Aow.Game.Events
                 }
                 else
                 {
-                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
+                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
                 }
             }
             else
@@ -9867,12 +9873,12 @@ namespace Aow.Game.Session
                     {
                         if (Player == 0)
                         {
-                            GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.FMapName + IntToStr(AoWHSMap.Current.FDay) + "_p" + IntToStr(AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save), null, Aow.Formats.GameProfile.WorldMap);
+                            GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.FMapName + IntToStr(AoWHSMap.Current.FDay) + "_p" + IntToStr(AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
                         }
                     }
                     else
                     {
-                        GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.FMapName + IntToStr(AoWHSMap.Current.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save), null, Aow.Formats.GameProfile.WorldMap);
+                        GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.FMapName + IntToStr(AoWHSMap.Current.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
                     }
                 }
                 catch
@@ -9890,7 +9896,7 @@ namespace Aow.Game.Session
                 try
                 {
                     // The autosave takes the extension the host writes (own-formats.md 4.2).
-                    FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
+                    FileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
                     GameTables.AoWEngine.SaveCampaign(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName);
                 }
                 catch
@@ -9903,8 +9909,8 @@ namespace Aow.Game.Session
             {
                 try
                 {
-                    FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save);
-                    GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
+                    FileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
+                    GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, GameProfile.WorldMap);
                 }
                 catch
                 {
@@ -10102,7 +10108,7 @@ namespace Aow.Game.Session
                                 Log = new MessageEventLog(null);
                                 Log.FTitle = AbilityRules.TranslateRStr(ConfirmRStr);
                                 Log.FButtons = MessageEventLog.Buttons.YesNoCancel;
-                                if (GameTables.AoWEngine.FCampaign == null && !IsEmpty(AoWHSMap.Current.FileName) && !Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
+                                if (GameTables.AoWEngine.FCampaign == null && !IsEmpty(AoWHSMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                                 {
                                     Log.FLayout = MessageEventLog.Layout.Normal;
                                     // The message names the file the save writes (own-formats.md 4.2).
@@ -10112,7 +10118,7 @@ namespace Aow.Game.Session
                                 }
                                 else
                                 {
-                                    if (GameTables.AoWEngine.FCampaign != null && !IsEmpty(GameTables.AoWEngine.FCampaign.FFileName) && !Aow.Formats.DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
+                                    if (GameTables.AoWEngine.FCampaign != null && !IsEmpty(GameTables.AoWEngine.FCampaign.FFileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                                     {
                                         // { Original tests the map extension when saving a campaign. }
                                         Log.FLayout = MessageEventLog.Layout.Normal;
@@ -10311,7 +10317,7 @@ namespace Aow.Game.Session
                 }
                 else
                 {
-                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
+                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
                 }
 
                 AoWHSMap.Current.ExecuteExitGame();
@@ -10337,7 +10343,7 @@ namespace Aow.Game.Session
             SaveGameEventLog SaveLog = default;
             if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
             {
-                if (GameTables.AoWEngine.FCampaign == null && (IsEmpty(AoWHSMap.Current.FileName) || Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))) || GameTables.AoWEngine.FCampaign != null && (IsEmpty(GameTables.AoWEngine.FCampaign.FFileName) || Aow.Formats.DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))))
+                if (GameTables.AoWEngine.FCampaign == null && (IsEmpty(AoWHSMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))) || GameTables.AoWEngine.FCampaign != null && (IsEmpty(GameTables.AoWEngine.FCampaign.FFileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))))
                 {
                     SaveLog = new SaveGameEventLog(null);
                     if (!IsEmpty(AoWHSMap.Current.FileName))
@@ -10359,7 +10365,7 @@ namespace Aow.Game.Session
                 }
                 else
                 {
-                    var aoWEngine = GameTables.AoWEngine;
+                    GameEngine aoWEngine = GameTables.AoWEngine;
                     // The save writes the own sibling of an original's name, which stays untouched
                     // (own-formats.md 4.2).
                     if (aoWEngine.FCampaign != null)
@@ -10368,7 +10374,7 @@ namespace Aow.Game.Session
                     }
                     else
                     {
-                        aoWEngine.SaveHSM(FileBoundary.WriteName(AoWHSMap.Current.FileName), null, Aow.Formats.GameProfile.WorldMap);
+                        aoWEngine.SaveHSM(FileBoundary.WriteName(AoWHSMap.Current.FileName), null, GameProfile.WorldMap);
                     }
 
                     AoWHSMap.Current.ExecuteExitGame();
@@ -10508,7 +10514,7 @@ namespace Aow.Game.Session
     }
 }
 
-namespace Aow.Game.Units
+namespace Aow.Game.World.Map
 {
 
     // ID, Text, Name
@@ -10550,7 +10556,7 @@ namespace Aow.Game.Units
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.World.Map
 {
 
     // inherits the children list
@@ -11241,7 +11247,7 @@ namespace Aow.Game.Session
             SaveGameEventLog Log = default;
             if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PBEMPlayerStatusElement.Playing))
             {
-                if (Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
+                if (DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                 {
                     Log = new SaveGameEventLog(null);
                     Log.FTitle = AbilityRules.TranslateRStr(SaveEmailGameRStr);
@@ -11258,7 +11264,7 @@ namespace Aow.Game.Session
                 {
                     // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
                     AoWHSMap.Current.FileName = FileBoundary.WriteName(AoWHSMap.Current.FileName);
-                    GameTables.AoWEngine.SaveHSM(AoWHSMap.Current.FileName, null, Aow.Formats.GameProfile.WorldMap);
+                    GameTables.AoWEngine.SaveHSM(AoWHSMap.Current.FileName, null, GameProfile.WorldMap);
                     AoWHSMap.Current.ExecuteExitGame();
                 }
             }
@@ -11276,7 +11282,7 @@ namespace Aow.Game.Session
             bool Saved = default;
             if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
             {
-                if (Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
+                if (DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                 {
                     SaveLog = new SaveGameEventLog(null);
                     SaveLog.FTitle = AbilityRules.TranslateRStr(SaveEmailGameRStr);
@@ -11297,7 +11303,7 @@ namespace Aow.Game.Session
                     AoWHSMap.Current.FileName = FileBoundary.WriteName(AoWHSMap.Current.FileName);
                     try
                     {
-                        GameTables.AoWEngine.SaveHSM(AoWHSMap.Current.FileName, null, Aow.Formats.GameProfile.WorldMap);
+                        GameTables.AoWEngine.SaveHSM(AoWHSMap.Current.FileName, null, GameProfile.WorldMap);
                         Saved = true;
                     }
                     catch
@@ -11366,7 +11372,7 @@ namespace Aow.Game.Session
             {
                 try
                 {
-                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
+                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
                     var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.GameSavedRStr), [((SaveGameEventLog)Log).FFileName]);
                     AoWHSMap.Current.ShowMessage(format);
                     Failed = false;
@@ -11431,7 +11437,7 @@ namespace Aow.Game.Session
                 {
                     var players = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
                     AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.TurnDone) - Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.Playing);
-                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
+                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
                     var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.GameSavedRStr), [((SaveGameEventLog)Log).FFileName]);
                     AoWHSMap.Current.ShowMessage(format);
                     AoWHSMap.Current.SynchroniseBegin();
@@ -11582,7 +11588,7 @@ namespace Aow.Game.Session
             {
                 try
                 {
-                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
+                    GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
                     AoWHSMap.Current.ExecuteExitGame();
                 }
                 catch
@@ -14125,9 +14131,9 @@ namespace Aow.Game.World.Map
         public void RunDefaultTest()
         {
             string FileName;
-            FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save);
+            FileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
             // { Original saves the autosave file. }
-            GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
+            GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, GameProfile.WorldMap);
         }
 
         private static readonly string ObserveEnabledRStr = "Observe enabled";
@@ -15174,7 +15180,7 @@ namespace Aow.Game.World.Map
 
         private static void DrawLine16(int X1, int Y1, int X2, int Y2, int Skip, ushort Color, in SurfaceDesc SD)
         {
-            Aow.Graphics.Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD.View());
+            Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD.View());
         }
     }
 }
@@ -15341,7 +15347,7 @@ namespace Aow.Game.World.Map
         public GameResult FGameResult;
         public GameType FGameType;
         public AbstractAoWCombatMap FCombatMap;
-        public Combat.Combat FCombat;
+        public Combat.Battle FCombat;
         public TutorialControl FTutorialControl;
         public AIExecuter FAIExecuter;
         public AIPlayerActionManager FAIPlayerActionManager;
@@ -15435,9 +15441,9 @@ namespace Aow.Game.World.Map
             remove => FSeatedPlayerChangedEventsStore.Remove(value);
         }
 
-        internal EventStore<Combat.Combat> FCombatEventsStore;
+        internal EventStore<Combat.Battle> FCombatEventsStore;
 
-        public event NotifyEvent<Combat.Combat> FCombatEvents
+        public event NotifyEvent<Combat.Battle> FCombatEvents
         {
             add => FCombatEventsStore.Add(value);
             remove => FCombatEventsStore.Remove(value);
@@ -16297,7 +16303,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:1887
-        public virtual void TriggerCombatEvent(Combat.Combat Combat)
+        public virtual void TriggerCombatEvent(Combat.Battle Combat)
         {
             FCombatEventsStore.Raise(Combat);
         }
@@ -17679,7 +17685,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:2870
-        public void InitializeCombatMap(Combat.Combat Combat, string FileName)
+        public void InitializeCombatMap(Combat.Battle Combat, string FileName)
         {
             Player Player = default;
             int X = default;
@@ -17696,7 +17702,7 @@ namespace Aow.Game.World.Map
                     Player.FViewL = (byte)L;
                 }
 
-                FCombatMap = (AbstractAoWCombatMap)GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, Aow.Formats.GameProfile.TacticalMap);
+                FCombatMap = (AbstractAoWCombatMap)GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, GameProfile.TacticalMap);
                 FCombatMapCreatedEventsStore.Raise(this);
             }
         }
@@ -17714,12 +17720,12 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:2903
-        public Combat.Combat CreateCombat(int AClassID)
+        public Combat.Battle CreateCombat(int AClassID)
         {
-            Combat.Combat Result;
+            Combat.Battle Result;
             if (FCombat == null)
             {
-                Result = (Combat.Combat)GameTables.AoWEngine.CreateEObject(AClassID, null);
+                Result = (Combat.Battle)GameTables.AoWEngine.CreateEObject(AClassID, null);
                 FCombat = Result;
                 if (FGameType == GameType.Tutorial && AClassID == 2228496)
                 {
@@ -18234,7 +18240,7 @@ namespace Aow.Game.Units
         }
 
         // UnitHS.PAS:27
-        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
+        public override GameEngine GetEngine() => GameTables.AoWEngine;
 
         // UnitHS.PAS:116
         public override void ReadWrite(EStorageStream Stream)
@@ -18286,7 +18292,7 @@ namespace Aow.Game.Units
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FSequences.FILManager = ((HSEngine)Msg.Payload.As<Engine.Engine>()).HSSet.ImageLibraryManager;
+                FSequences.FILManager = Msg.Payload.As<GameEngine>().HSSet.ImageLibraryManager;
             }
         }
 
@@ -20764,7 +20770,7 @@ namespace Aow.Game.Units
         public bool FHidden;
 
         // Army.PAS:5093
-        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
+        public override GameEngine GetEngine() => GameTables.AoWEngine;
 
         // Army.PAS:5167
         public override void ReadWrite(EStorageStream Stream)
@@ -21851,13 +21857,13 @@ namespace Aow.Game.Units
         // Army.PAS:4957
         public void LoadFromFile(string FileName)
         {
-            GameTables.AoWEngine.ReadFromFile(FileName, this, null, Aow.Formats.GameProfile.ItemList);
+            GameTables.AoWEngine.ReadFromFile(FileName, this, null, GameProfile.ItemList);
         }
 
         // Army.PAS:4962
         public void SaveToFile(string FileName)
         {
-            GameTables.AoWEngine.WriteToFile(FileName, this, null, Aow.Formats.GameProfile.ItemList);
+            GameTables.AoWEngine.WriteToFile(FileName, this, null, GameProfile.ItemList);
         }
 
         private static readonly string SystemItemLibraryRStr = "System";
@@ -21928,7 +21934,7 @@ namespace Aow.Game.Units
             FLibraries.AddChild(FSystemLibrary);
             // Both extensions list, and a list present in both forms loads its own document once
             // (own-formats.md 4.2).
-            foreach (var Listed in FileBoundary.FindDocuments(GameTables.AoWEngine.StartupDirectory + "User\\", Aow.Formats.DocumentKind.ItemList))
+            foreach (var Listed in FileBoundary.FindDocuments(GameTables.AoWEngine.StartupDirectory + "User\\", DocumentKind.ItemList))
             {
                 ItemLibrary = new ItemLibrary(null);
                 try
@@ -21951,7 +21957,7 @@ namespace Aow.Game.Units
             {
                 ItemLibrary = GetLibrary(I);
                 var name = ItemLibrary.GetName();
-                ItemLibrary.SaveToFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.ItemList));
+                ItemLibrary.SaveToFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.ItemList));
             }
         }
 
@@ -22009,7 +22015,7 @@ namespace Aow.Game.Units
                 Result = new ItemLibrary(FLibraries);
                 Result.FName = LibraryName;
                 // { Original creates in Release while reading and deleting from User. }
-                Result.SaveToFile(GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.ItemList));
+                Result.SaveToFile(GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(DocumentKind.ItemList));
             }
             else
             {
@@ -22026,8 +22032,8 @@ namespace Aow.Game.Units
             {
                 var name = GetLibrary(Index).GetName();
                 // The list goes in both forms, so an original of the same name does not return.
-                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OriginalExtension);
-                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OwnExtension);
+                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + DocumentKind.ItemList.OriginalExtension);
+                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + DocumentKind.ItemList.OwnExtension);
                 GetLibrary(Index)?.Dispose();
             }
         }
@@ -22614,7 +22620,7 @@ namespace Aow.Game.Units
         public bool FDeveloperOnly;
 
         // Ability.PAS:445
-        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
+        public override GameEngine GetEngine() => GameTables.AoWEngine;
 
         // Ability.PAS:512
         public override void ReadWrite(EStorageStream Stream)
@@ -23670,7 +23676,7 @@ namespace Aow.Game.Magic.Abilities
                 {
                     var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
                     Alignment = AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
-                    if (GetAlignment() != Engine.Alignment.None)
+                    if (GetAlignment() != Units.Alignment.None)
                     {
                         Relation = AlignmentTables.dAlignmentToDiplomaticRelation(GetAlignment(), Alignment);
                         if (Relation == DiplomaticRelation.Unknown && this is Unit)
@@ -23757,7 +23763,7 @@ namespace Aow.Game.Magic.Abilities
                     {
                         var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
                         Alignment = AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
-                        if ((GetAlignment() != Engine.Alignment.None || GetUnitType() == UnitType.Machine) && AlignmentTables.dAlignmentToDiplomaticRelation(GetAlignment(), Alignment) != DiplomaticRelation.Peace)
+                        if ((GetAlignment() != Units.Alignment.None || GetUnitType() == UnitType.Machine) && AlignmentTables.dAlignmentToDiplomaticRelation(GetAlignment(), Alignment) != DiplomaticRelation.Peace)
                         {
                             Result = false;
                         }
@@ -25349,7 +25355,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Unit.PAS:1715. Native hard casts retain identity across the intermediate local type.
-        public Set<DamageType> ExecuteCombatDamageEffects(Combat.Combat combat, Set<DamageType> damageTypes)
+        public Set<DamageType> ExecuteCombatDamageEffects(Combat.Battle combat, Set<DamageType> damageTypes)
         {
             Set<DamageType> result = default;
             var active = damageTypes - GetImmunityTypes();
@@ -25430,7 +25436,7 @@ namespace Aow.Game.Units
         public int FUnitGFXResourceIndex;
 
         // UnitRes.PAS:1
-        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
+        public override GameEngine GetEngine() => GameTables.AoWEngine;
 
         // UnitRes.PAS:37
         public override void ReadWrite(EStorageStream Stream)
@@ -25736,7 +25742,7 @@ namespace Aow.Game.Units
     }
 }
 
-namespace Aow.Game.Magic.Abilities
+namespace Aow.Game.Units
 {
 
     public partial class Unit : AbstractUnit
@@ -26039,7 +26045,7 @@ namespace Aow.Game.Magic.Abilities
             if (AoWHSMap.Current.FDay == 1)
             {
                 SetAbCount(0);
-                for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
+                for (int rankOrdinal = (int)Unit.Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
                 {
                     Rank = (Rank)rankOrdinal;
                     UpdateDefaultAbilities(FUnitResource.FAbilities[(int)Rank]);
@@ -26212,7 +26218,7 @@ namespace Aow.Game.Magic.Abilities
                 if (FUnitResource != null)
                 {
                     UpdateMoraleValue();
-                    for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
+                    for (int rankOrdinal = (int)Unit.Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
                     {
                         Rank = (Rank)rankOrdinal;
                         UpdateDefaultAbilities(FUnitResource.FAbilities[(int)Rank]);
@@ -26671,8 +26677,8 @@ namespace Aow.Game.Units
                 {
                     Unit_ = (AbstractUnit)Units.FChildren.List[I];
                     Alignment = Unit_.GetAlignment();
-                    Evil = Evil && AlignmentTables.alsEvil.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Engine.Alignment.Evil, Engine.Alignment.PureEvil).Contains(Alignment));
-                    Good = Good && AlignmentTables.alsGood.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Engine.Alignment.PureGood, Engine.Alignment.Good).Contains(Alignment));
+                    Evil = Evil && AlignmentTables.alsEvil.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(Alignment));
+                    Good = Good && AlignmentTables.alsGood.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(Alignment));
                     Neutral = Neutral && AlignmentTables.alsNeutral.Contains(Alignment);
                 }
 
@@ -28766,7 +28772,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:700
-        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
+        public override GameEngine GetEngine() => GameTables.AoWEngine;
 
         // Hero.PAS:1625
         public override void ReadWrite(EStorageStream Stream)
@@ -31210,7 +31216,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:2898
-        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
+        public override GameEngine GetEngine() => GameTables.AoWEngine;
 
         // Hero.PAS:2891
         public override void ReadWrite(EStorageStream Stream)
@@ -32085,13 +32091,13 @@ namespace Aow.Game.Units
         // Hero.PAS:2633
         public void LoadFromFile(string FileName)
         {
-            GameTables.AoWEngine.ReadFromFile(FileName, this, null, Aow.Formats.GameProfile.HeroList);
+            GameTables.AoWEngine.ReadFromFile(FileName, this, null, GameProfile.HeroList);
         }
 
         // Hero.PAS:2636
         public void SaveToFile(string FileName)
         {
-            GameTables.AoWEngine.WriteToFile(FileName, this, null, Aow.Formats.GameProfile.HeroList);
+            GameTables.AoWEngine.WriteToFile(FileName, this, null, GameProfile.HeroList);
         }
 
         // Engine.pas:631
@@ -32158,7 +32164,7 @@ namespace Aow.Game.Units
             FLibraries.AddChild(FSystemLibrary);
             // Both extensions list, and a list present in both forms loads its own document once
             // (own-formats.md 4.2).
-            foreach (var Listed in FileBoundary.FindDocuments(GameTables.AoWEngine.StartupDirectory + "User\\", Aow.Formats.DocumentKind.HeroList))
+            foreach (var Listed in FileBoundary.FindDocuments(GameTables.AoWEngine.StartupDirectory + "User\\", DocumentKind.HeroList))
             {
                 Lib = new HeroLibrary(null);
                 try
@@ -32181,7 +32187,7 @@ namespace Aow.Game.Units
             {
                 Lib = GetLibrary(I);
                 var name = Lib.GetName();
-                Lib.SaveToFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.HeroList));
+                Lib.SaveToFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.HeroList));
             }
         }
 
@@ -32238,7 +32244,7 @@ namespace Aow.Game.Units
             {
                 Result = new HeroLibrary(FLibraries);
                 Result.FLibraryName = LibraryName;
-                Result.SaveToFile(GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.HeroList));
+                Result.SaveToFile(GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(DocumentKind.HeroList));
             }
             else
             {
@@ -32255,8 +32261,8 @@ namespace Aow.Game.Units
             {
                 var name = GetLibrary(Index).GetName();
                 // The list goes in both forms, so an original of the same name does not return.
-                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OriginalExtension);
-                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OwnExtension);
+                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + DocumentKind.HeroList.OriginalExtension);
+                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + DocumentKind.HeroList.OwnExtension);
                 GetLibrary(Index)?.Dispose();
             }
         }
@@ -32749,7 +32755,7 @@ namespace Aow.Game.Units
         }
 
         // Army.PAS:588
-        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
+        public override GameEngine GetEngine() => GameTables.AoWEngine;
 
         // Army.PAS:1898
         public override void ReadWrite(EStorageStream Stream)
@@ -35244,8 +35250,8 @@ namespace Aow.Game.Units
                     {
                         AUnit = (AbstractUnit)FChildren.List[I];
                         Alignment = AUnit.GetAlignment();
-                        Evil = Evil && AlignmentTables.alsEvil.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Engine.Alignment.Evil, Engine.Alignment.PureEvil).Contains(Alignment));
-                        Good = Good && AlignmentTables.alsGood.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Engine.Alignment.PureGood, Engine.Alignment.Good).Contains(Alignment));
+                        Evil = Evil && AlignmentTables.alsEvil.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.Evil, Units.Alignment.PureEvil).Contains(Alignment));
+                        Good = Good && AlignmentTables.alsGood.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.PureGood, Units.Alignment.Good).Contains(Alignment));
                         Neutral = Neutral && AlignmentTables.alsNeutral.Contains(Alignment);
                     }
 
@@ -37706,7 +37712,7 @@ namespace Aow.Game.Session
         }
 
         // PlayerC.PAS:1749
-        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
+        public override GameEngine GetEngine() => GameTables.AoWEngine;
 
         // PlayerC.PAS:1861
         public override void ReadWrite(EStorageStream Stream)
@@ -40094,13 +40100,13 @@ namespace Aow.Game.World.Structures
             {
                 if (Msg.MsgID == 4368 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
-                    FinalizeCombat(Msg.Param[0].As<Combat.Combat>());
+                    FinalizeCombat(Msg.Param[0].As<Combat.Battle>());
                 }
                 else
                 {
                     if (Msg.MsgID == 4361 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
                     {
-                        var combatEventText = GetCombatEventText(Msg.Param[0].As<Combat.Combat>());
+                        var combatEventText = GetCombatEventText(Msg.Param[0].As<Combat.Battle>());
                         Msg.Result.As<CombatResultQuery>().Text = combatEventText;
                     }
                 }
@@ -40480,7 +40486,7 @@ namespace Aow.Game.World.Structures
 
         // Structur.PAS:2124
         // { Original leaves the result unchanged for a razed structure. }
-        public virtual void FinalizeCombat(Combat.Combat Combat)
+        public virtual void FinalizeCombat(Combat.Battle Combat)
         {
             if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
             {
@@ -40489,7 +40495,7 @@ namespace Aow.Game.World.Structures
         }
 
         // Structur.PAS:2115
-        public virtual string GetCombatEventText(Combat.Combat Combat)
+        public virtual string GetCombatEventText(Combat.Battle Combat)
         {
             string Result = "";
             if (!GetRazed())
@@ -41183,7 +41189,7 @@ namespace Aow.Game.World
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.World.Map
 {
 
     // inherited . fields listed below. Shared resources and controls for a game pack
@@ -41468,7 +41474,7 @@ namespace Aow.Game.Engine
             CRCs.Add(GetFileCRC(Path + "SPELLS.PFS", false));
             // The scenario set's stored CRC comes from its engine image, so an own document agrees
             // with its original (own-formats.md 4.1). The PFS files keep their original bytes.
-            CRCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(Path + "RELEASE.HSS"), Aow.Formats.GameProfile.ScenarioSet));
+            CRCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(Path + "RELEASE.HSS"), GameProfile.ScenarioSet));
             int Result = EngineServices.GetCRC32(MemoryMarshal.AsBytes(CRCs.List.AsSpan()), CRCs.Count * 4);
             CRCs?.Dispose();
             return Result;
@@ -41753,7 +41759,7 @@ namespace Aow.Game.Net
             {
                 Destination = "";
                 Overwrite = false;
-                Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileName, Aow.Formats.GameProfile.WorldMap);
+                Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileName, GameProfile.WorldMap);
                 bool condition = Map != null && Map.FConnectionType == PlayerConnectionType.Email && Map.FCurrentPlayer > 0;
                 if (condition)
                 {
@@ -41774,7 +41780,7 @@ namespace Aow.Game.Net
                                 Name = Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FName;
                                 if (FileExists(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg"))
                                 {
-                                    PreviousMap = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg", Aow.Formats.GameProfile.WorldMap);
+                                    PreviousMap = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg", GameProfile.WorldMap);
                                     if (PreviousMap != null)
                                     {
                                         // { Original bug: the previous map's player is checked against the new map's count. }
@@ -44015,7 +44021,7 @@ namespace Aow.Game.Combat
             FCombatPlayer = -1;
         }
 
-        public Combat FCombat;
+        public Battle FCombat;
         public byte FID;
         public QuadItemList<CombatObject> FTargets;
         public QuadItemList<CombatObject> FTargetedBy;
@@ -44163,8 +44169,8 @@ namespace Aow.Game.Combat
         public virtual void SetCombatPlayer(byte Player)
         {
             bool ChangedSide;
-            Combat Combat;
-            Combat NewCombat;
+            Battle Combat;
+            Battle NewCombat;
             if (FStatus.Contains(CombatObjectStatusElement.Activated))
             {
                 bool condition = Player != 255;
@@ -44271,10 +44277,10 @@ namespace Aow.Game.Combat
         public virtual AbilityOwner GetAbilityOwner() => null;
 
         // Combat.pas:5672
-        public virtual void Activate(Combat ACombat)
+        public virtual void Activate(Battle ACombat)
         {
             byte Player;
-            Combat Combat;
+            Battle Combat;
             FCombat = ACombat;
             FStatus = FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
             Player = (byte)FCombatPlayer;
@@ -44291,7 +44297,7 @@ namespace Aow.Game.Combat
         public virtual void Deactivate()
         {
             byte Player;
-            Combat Combat;
+            Battle Combat;
             FStatus = FStatus - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
             Player = (byte)FCombatPlayer;
             if (Player != 255)
@@ -44339,7 +44345,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat.pas:5697
-        public virtual void Initialize(Combat ACombat)
+        public virtual void Initialize(Battle ACombat)
         {
             FCombat = ACombat;
         }
@@ -45237,7 +45243,7 @@ namespace Aow.Game.Combat
         public override AbilityOwner GetAbilityOwner() => FUnit;
 
         // Combat.pas:1178
-        public override void Activate(Combat ACombat)
+        public override void Activate(Battle ACombat)
         {
             base.Activate(ACombat);
             UpdateParty();
@@ -45271,7 +45277,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat.pas:1193
-        public override void Initialize(Combat ACombat)
+        public override void Initialize(Battle ACombat)
         {
             base.Initialize(ACombat);
             if (FUnit is Leader)
@@ -45937,7 +45943,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat.pas:1712
-        public override void Activate(Combat ACombat)
+        public override void Activate(Battle ACombat)
         {
             base.Activate(ACombat);
             ACombat.FCombatData.FWall = this;
@@ -46163,7 +46169,7 @@ namespace Aow.Game.Combat
     public partial class FastCombatCommandList : IDisposable
     {
         // AIGroup.pas:6716
-        public FastCombatCommandList(CombatObject Source, FastCombat Combat, CombatSide Side)
+        public FastCombatCommandList(CombatObject Source, FastBattle Combat, CombatSide Side)
         {
             FCommands = new DelphiList();
             FSource = Source;
@@ -46182,7 +46188,7 @@ namespace Aow.Game.Combat
         public CombatObject FSource;
         public CombatSide FSourceSide;
         public CombatSide FTargetSide;
-        public FastCombat FCombat;
+        public FastBattle FCombat;
         public DelphiList FCommands;
 
         // AIGroup.pas:6727
@@ -46245,14 +46251,14 @@ namespace Aow.Game.Combat
         // Combat2.pas:546
         public CombatViewer()
         {
-            FCombat = new Combat(null);
+            FCombat = new Battle(null);
             FTime = -1;
             FSpeed = 5;
             FDelay = 5;
         }
 
         public Set<CombatViewerStatusElement> FStatus;
-        public Combat FCombat;
+        public Battle FCombat;
         public byte FDelay;
         public byte FSpeed;
         public int FPosition;
@@ -46545,7 +46551,7 @@ namespace Aow.Game.Combat.Actions
         public virtual string GetName() => this.GetType().Name;
 
         // intf_P3_02.inc:42
-        public virtual void Execute(Combat Combat)
+        public virtual void Execute(Battle Combat)
         {
             throw AbstractErrorException.Create("Abstract Error");
         }
@@ -46709,7 +46715,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:817
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Target;
             CombatObject Source;
@@ -47007,7 +47013,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:890
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Target;
             CombatObject Source;
@@ -47099,7 +47105,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:969
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             Combat.FCombatData.FHeader = F_UpdateHeaderCA_0C;
         }
@@ -47126,7 +47132,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:991
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             Combat.FCombatData.FCurrentPlayer = F_NewCombatTurnCA_0C;
             for (int I = Combat.FCombatData.GetCount() - 1; I >= 0; I--)
@@ -47160,7 +47166,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // Combat2.pas:1012
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             var combatData = Combat.FCombatData;
             combatData.FRound += 1;
@@ -47193,7 +47199,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:1047
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Obj;
             Obj = Combat.FCombatData.FindID(F_CombatObjectTurnDoneCA_0C);
@@ -47224,7 +47230,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:1082
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             FastCombatUnit Obj;
             Obj = (FastCombatUnit)Combat.FCombatData.FindID(F_MoveWallCA_0C);
@@ -47261,7 +47267,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:1108
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Obj;
             Obj = Combat.FCombatData.FindID(FObjectID);
@@ -47328,14 +47334,14 @@ namespace Aow.Game.Combat
         }
 
         // Combat2.pas:61
-        public void Activate(Combat ACombat)
+        public void Activate(Battle ACombat)
         {
             var players = ACombat.FCombatData.FPlayers.GetPlayers((sbyte)FPlayerIndex);
             FArmy.SetPlayer(players.FPlayer);
         }
 
         // Combat2.pas:67
-        public void Deactivate(Combat ACombat)
+        public void Deactivate(Battle ACombat)
         {
         }
 
@@ -47352,7 +47358,7 @@ namespace Aow.Game.Combat
         public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.ArrayMode);
 
         // Combat2.pas:73
-        public CombatParty CreateParty(Combat ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, Army Army)
+        public CombatParty CreateParty(Battle ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, Army Army)
         {
             CombatParty P;
             if (GetParty(Position) == null)
@@ -47399,7 +47405,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat2.pas:99
-        public void Activate(Combat ACombat)
+        public void Activate(Battle ACombat)
         {
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
@@ -47411,7 +47417,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat2.pas:107
-        public void Deactivate(Combat ACombat)
+        public void Deactivate(Battle ACombat)
         {
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
@@ -47731,11 +47737,11 @@ namespace Aow.Game.Combat
 
     // FCombatStatus. FCombatData. FNextCOID. FResult. FLogbook. FSides. FExecutedEvents.
     // FExecutedLock. FOnExecuted. FTerminated. FOnTerminated. FVisibilityMode
-    public partial class Combat : EObject
+    public partial class Battle : EObject
     {
 
         // Combat.pas:6067
-        public Combat(ECustomNode owner) : base(owner)
+        public Battle(ECustomNode owner) : base(owner)
         {
             FExecutedEventsStore = new();
             var combatSide = new CombatSide(null);
@@ -47758,9 +47764,9 @@ namespace Aow.Game.Combat
         public CombatLogbook FLogbook;
         public FixedArray_Aow_Units_AoWE_TCombatSide_2 FSides;
 
-        internal EventStore<Combat> FExecutedEventsStore;
+        internal EventStore<Battle> FExecutedEventsStore;
 
-        public event NotifyEvent<Combat> FExecutedEvents
+        public event NotifyEvent<Battle> FExecutedEvents
         {
             add => FExecutedEventsStore.Add(value);
             remove => FExecutedEventsStore.Remove(value);
@@ -47769,7 +47775,7 @@ namespace Aow.Game.Combat
         public int FExecutedLock;
         public ExecutedEvent FOnExecuted;
         public bool FTerminated;
-        public NotifyEvent<Combat> FOnTerminated;
+        public NotifyEvent<Battle> FOnTerminated;
         public byte FExplorationSite;
         public EObject FItems;
 
@@ -48641,7 +48647,7 @@ namespace Aow.Game.Combat
         private static readonly string BattleLostRStr = "Battle Lost";
         private static readonly string BattleDrawnRStr = "Battle Drawn";
 
-        public delegate void ExecutedEvent(Combat pCombat);
+        public delegate void ExecutedEvent(Battle pCombat);
 
         // intf_P3_02.inc:318
 
@@ -52248,7 +52254,7 @@ namespace Aow.Game.Ai.Groups
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Ai.Groups
 {
 
     // inherited move control, executer and state
@@ -52493,7 +52499,7 @@ namespace Aow.Game.Units
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Ai.Groups
 {
 
     // meeting point, adjacent armies
@@ -63392,7 +63398,7 @@ namespace Aow.Game.Commands
         {
             AoWMapField Field = default;
             sbyte Player = default;
-            Combat.Combat Combat = default;
+            Combat.Battle Combat = default;
             MapFieldMsg Msg = default;
             CombatTypeRequestEventLog Request = default;
             NewTurnEventLog Log = default;
@@ -63616,7 +63622,7 @@ namespace Aow.Game.Commands
 
             if (FCombatMode == CombatMoveMode.RequestingCombatType || (FCombatType == CombatType.Tactical && FCombatMode == CombatMoveMode.SetupReady))
             {
-                Combat = new Combat.Combat(null);
+                Combat = new Combat.Battle(null);
                 var yhx = FArmyHS.GetYhx();
                 var lhx = FArmyHS.GetLhx();
                 var player = Field.GetPlayer();
@@ -63769,14 +63775,14 @@ namespace Aow.Game.Commands
         }
 
         // MoveT.PAS:2801
-        public void CombatExecuted(Combat.Combat Combat)
+        public void CombatExecuted(Combat.Battle Combat)
         {
             ArmyHS ArmyHS;
             Army Army;
             byte Selection;
             MoveArmyTE Move;
             AoWMapField Field;
-            if (!(Combat is FastCombat))
+            if (!(Combat is FastBattle))
             {
                 if (Set<CombatResult>.Of(CombatResult.Victory).Contains(Combat.FCombatResult))
                 {
@@ -64332,7 +64338,7 @@ namespace Aow.Game.Commands
                         }
                         else
                         {
-                            GameTables.AoWEngine.SaveHSM(FFileName, null, Aow.Formats.GameProfile.WorldMap);
+                            GameTables.AoWEngine.SaveHSM(FFileName, null, GameProfile.WorldMap);
                             AoWHSMap.Current.FileName = FFileName;
                         }
 
@@ -65013,10 +65019,10 @@ namespace Aow.Game.Combat
         }
 
         // AIGroup.pas:7011
-        public override void Activate(Combat ACombat)
+        public override void Activate(Battle ACombat)
         {
             base.Activate(ACombat);
-            if (ACombat is FastCombat)
+            if (ACombat is FastBattle)
             {
                 UpdateWallSiegeObjectRegistration();
             }
@@ -65026,14 +65032,14 @@ namespace Aow.Game.Combat
         public override void Deactivate()
         {
             base.Deactivate();
-            if (FCombat is FastCombat)
+            if (FCombat is FastBattle)
             {
                 UpdateWallSiegeObjectRegistration();
             }
         }
 
         // AIGroup.pas:7002
-        public override void Initialize(Combat ACombat)
+        public override void Initialize(Battle ACombat)
         {
             AbstractUnit AUnit;
             base.Initialize(ACombat);
@@ -65063,13 +65069,13 @@ namespace Aow.Game.Combat
         // AIGroup.pas:7048
         public override bool fcExecute(int MoveCost)
         {
-            FastCombat Combat;
+            FastBattle Combat;
             FastCombatCommandList Commands;
             AbstractUnit AUnit;
             FixedArray_Aow_Units_AoWE_TAbility_1 Ability = default;
             FleeCA Action;
             bool Executed;
-            Combat = (FastCombat)FCombat;
+            Combat = (FastBattle)FCombat;
             var side = GetSide();
             Commands = new FastCombatCommandList(this, Combat, Combat.FSides[(int)side]);
             AUnit = FUnit;
@@ -65087,7 +65093,7 @@ namespace Aow.Game.Combat
             {
                 if (fcBehindWall())
                 {
-                    if (((FastCombat)FCombat).AttackerCanCrushWall() || (double)((FastCombat)FCombat).GetAttackerBalisticCV() > (double)((FastCombat)FCombat).GetDefenderBalisticCV() * 1.5)
+                    if (((FastBattle)FCombat).AttackerCanCrushWall() || (double)((FastBattle)FCombat).GetAttackerBalisticCV() > (double)((FastBattle)FCombat).GetDefenderBalisticCV() * 1.5)
                     {
                         FState = FState + Set<FastCombatUnitStateElement>.Of(FastCombatUnitStateElement.OutsideWall);
                         AUnit = FUnit;
@@ -65231,7 +65237,7 @@ namespace Aow.Game.Combat
         public override void DestroyObject()
         {
             base.DestroyObject();
-            if (FCombat is FastCombat)
+            if (FCombat is FastBattle)
             {
                 UpdateWallSiegeObjectRegistration();
             }
@@ -65269,7 +65275,7 @@ namespace Aow.Game.Combat
             {
                 if (!FState.Contains(FastCombatUnitStateElement.WallSiegeObjectRegistered))
                 {
-                    ((FastCombat)FCombat).FWallSiegeObjectCount += 1;
+                    ((FastBattle)FCombat).FWallSiegeObjectCount += 1;
                     FState = FState + Set<FastCombatUnitStateElement>.Of(FastCombatUnitStateElement.WallSiegeObjectRegistered);
                 }
             }
@@ -65277,7 +65283,7 @@ namespace Aow.Game.Combat
             {
                 if (FState.Contains(FastCombatUnitStateElement.WallSiegeObjectRegistered))
                 {
-                    ((FastCombat)FCombat).FWallSiegeObjectCount -= 1;
+                    ((FastBattle)FCombat).FWallSiegeObjectCount -= 1;
                     FState = FState - Set<FastCombatUnitStateElement>.Of(FastCombatUnitStateElement.WallSiegeObjectRegistered);
                 }
             }
@@ -65305,13 +65311,13 @@ namespace Aow.Game.Combat
     }
 
     // wall siege object count
-    public partial class FastCombat : Combat
+    public partial class FastBattle : Battle
     {
         // AIGroup.pas:7128
         public new const int ClassID = 131760;
 
         // AIGroup.pas:7118
-        public FastCombat(ECustomNode owner) : base(owner)
+        public FastBattle(ECustomNode owner) : base(owner)
         {
         }
 
@@ -65570,10 +65576,10 @@ namespace Aow.Game.Magic.Abilities
         public override string Name() => P4AbilitiesRStr;
 
         // AoWAb.PAS:5573
-        public override bool Initialize(Engine.Engine AEngine)
+        public override bool Initialize(GameEngine AEngine)
         {
             bool Result;
-            if (AEngine is AoWEngine)
+            if (AEngine is GameEngine)
             {
                 Result = base.Initialize(AEngine);
             }
@@ -65586,7 +65592,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:5578
-        public override bool Finalize(Engine.Engine AEngine)
+        public override bool Finalize(GameEngine AEngine)
         {
             AddRef();
             bool Result = base.Finalize(AEngine);
@@ -65982,7 +65988,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:1163
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             CombatObject Target;
@@ -67379,7 +67385,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:4894
         public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
         {
-            Combat.Combat Combat;
+            Combat.Battle Combat;
             DelphiList Targets;
             CombatObject Target;
             CombatObject Other;
@@ -67439,7 +67445,7 @@ namespace Aow.Game.Magic.Abilities
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             int Count;
-            Combat.Combat Combat;
+            Combat.Battle Combat;
             CombatObject Target;
             base.fcGetDamageValueEx(Attacker, Defender, WallSituation, ref DamageValues);
             if (DamageValues.SourceDamage != 0)
@@ -67715,7 +67721,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2484
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             CombatUnit Target;
@@ -68103,7 +68109,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2778
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Target;
             if (FSuccessful)
@@ -68314,7 +68320,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2938
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             CombatUnit Target;
@@ -68531,7 +68537,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3420
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             CombatObject Target;
@@ -68777,7 +68783,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // AoWAb.PAS:3088
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             CombatUnit Target;
@@ -69250,7 +69256,7 @@ namespace Aow.Game.Magic.Abilities
             Set<DamageType> DamageTypes;
             int Count;
             StrikeCA Action;
-            Combat.Combat Combat;
+            Combat.Battle Combat;
             DelphiList Targets;
             CombatObject Target;
             CombatObject Other;
@@ -69370,7 +69376,7 @@ namespace Aow.Game.Magic.Abilities
         {
             int Count;
             Set<DamageType> DamageTypes;
-            Combat.Combat Combat;
+            Combat.Battle Combat;
             CombatObject Target;
             if (WallSituation == WallSituation.None && CanTouch(Attacker, Defender))
             {
@@ -69574,7 +69580,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:5063
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             CombatUnit Target;
@@ -69675,7 +69681,7 @@ namespace Aow.Game.Magic.Abilities
         public override int GetAbilityID() => FAbilityID;
 
         // AoWAb.PAS:4973
-        public int CommandingTargetPriority(Combat.Combat Combat)
+        public int CommandingTargetPriority(Combat.Battle Combat)
         {
             CombatObject Target;
             int Result = 0;
@@ -69692,7 +69698,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:4985
-        public int CommandingTargetStrength(Combat.Combat Combat)
+        public int CommandingTargetStrength(Combat.Battle Combat)
         {
             CombatObject Target;
             int Result = 0;
@@ -70134,7 +70140,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // AoWAb.PAS:2116
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatObject Source;
             CombatObject Target;
@@ -70502,7 +70508,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // AoWAb.PAS:3579
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             CombatUnit Target;
@@ -71114,7 +71120,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3951
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             EnchantmentList Enchantments;
             CombatObject Source;
@@ -71211,7 +71217,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // AoWAb.PAS:4018
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             base.Execute(Combat);
@@ -72783,7 +72789,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:4588
         public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
         {
-            FastCombat Combat;
+            FastBattle Combat;
             CombatObject Source;
             string Error = "";
             PlayerMagicControl Magic;
@@ -73336,7 +73342,7 @@ namespace Aow.Game.Magic.Spells
                 var combatUnit = (CombatUnit)Source;
                 ((Hero)combatUnit.FUnit).CastingDone(FSpellID, Mana);
                 combatUnit.UpdateWallCombatFeatures();
-                if (Source.FCombat is FastCombat)
+                if (Source.FCombat is FastBattle)
                 {
                     ((FastCombatUnit)Source).UpdateWallSiegeObjectRegistration();
                 }
@@ -74266,7 +74272,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Spells.PAS:1111
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             ((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(FSpellID)).ExecuteCA(Combat, this);
         }
@@ -74283,7 +74289,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Unit
+namespace Aow.Game.Magic.Spells
 {
 
     // (multiple targets, range, dispel resistance, AI value)
@@ -74577,7 +74583,7 @@ namespace Aow.Game.Magic.Spells.Unit
         }
 
         // Spells.PAS:1411
-        public virtual void ExecuteCA(Game.Combat.Combat Combat, UnitSpellCA Action)
+        public virtual void ExecuteCA(Combat.Battle Combat, UnitSpellCA Action)
         {
             CombatObject Source;
             CombatObject Target;
@@ -75519,7 +75525,7 @@ namespace Aow.Game.Session
         {
             AoWHSMap Map;
             ClearSelection();
-            Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileName, Aow.Formats.GameProfile.WorldMap);
+            Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileName, GameProfile.WorldMap);
             FTransferPointsMax = Map.FCampaignSettings.FTransferPointsMax;
             if (GameTables.AoWEngine.FCampaign.FDifficultyLevel == AoWCampaign.CampaignDifficultyLevel.Easy)
             {
@@ -75952,7 +75958,7 @@ namespace Aow.Game.Session
 
         // Diplomacy.pas:2413
         // The name takes the extension the host writes for a campaign save (own-formats.md 4.2).
-        public virtual string GetAutoSaveFileName(CampaignAutoSaveType Auto) => AoWHSMap.Current.FMapName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
+        public virtual string GetAutoSaveFileName(CampaignAutoSaveType Auto) => AoWHSMap.Current.FMapName + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
 
         // Diplomacy.pas:2330
         public virtual void SelectNextScenario(int ID)
@@ -77234,7 +77240,7 @@ namespace Aow.Game.Ai
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game
 {
 
     public partial class AoWDictionary : IvBinaryDictionary
@@ -77246,11 +77252,15 @@ namespace Aow.Game.Engine
         // IvAMulti.pas:21
 
     }
+}
+
+namespace Aow.Game
+{
 
     // { Interface declaration run owned by P2. }
     // FVersion, FRegistry, FGameMap, FGameSet, FCombatFont, FDebugMode, FAnimationDetail, FDemo,
     // FCampaign, FEmailGames, FDictionary, FLanguage
-    public partial class AoWEngine : HSEngine
+    public partial class GameEngine : ENode
     {
         public new const int ClassID = 131073;
 
@@ -77267,21 +77277,10 @@ namespace Aow.Game.Engine
         public AoWDictionary FDictionary;
         public byte FLanguage;
 
-        // Army.PAS:5853
-        public override void Dispose()
-        {
-            CloseCampaign();
-            CloseHSM(null);
-            UnregisterCoreSpells(this);
-            UnregisterCoreAbilities(FGameSet.FAbilityControl);
-            base.Dispose();
-            FDictionary?.Dispose();
-            FEmailGames?.Dispose();
-        }
-
-        // Army.PAS:5767-5786
+        // Army.PAS:5767-5786. A bare constructor leaves the flag clear and skips this body.
         private protected sealed override void InitializeBeforeInherited()
         {
+            if (!fullConstruction) return;
             GameTables.AoWEngine = this;
             SetVersion(1, 36, 53);
             FRegistry = new AoWRegistry();
@@ -77319,79 +77318,21 @@ namespace Aow.Game.Engine
             FLanguage = (byte)FRegistry.GetLanguage();
         }
 
-        // Army.PAS:5788-5817
-        private protected AoWEngine(ConstructionContext context, ECustomNode owner) : base(context, owner)
-        {
-            Options = Options - Set<EngineModeElement>.Of(EngineModeElement.VerifyEObjects);
-            RegisterEClasses([EClass.Of<AoWHSSet>(), EClass.Of<AoWHSMap>(), EClass.Of<AoWMapLevel>(), EClass.Of<AoWCampaign>(), EClass.Of<AoWCampaignScenario>()]);
-            RegisterEClasses([EClass.Of<Player>(), EClass.Of<Race>(), EClass.Of<Unit>(), EClass.Of<RaceResource>(), EClass.Of<UnitGFXResource>(), EClass.Of<UnitResource>(), EClass.Of<UnitHS>()]);
-            RegisterEClasses([EClass.Of<Hero>(), EClass.Of<HeroResource>(), EClass.Of<HeroUpgradeTE>(), EClass.Of<HeroJoinEventLog>(), EClass.Of<HeroEmergeEventLog>(), EClass.Of<Leader>(), EClass.Of<ItemGFX>(), EClass.Of<Item>(), EClass.Of<ItemTE>(), EClass.Of<ItemHS>(), EClass.Of<FaceResource>()]);
-            RegisterEClasses([EClass.Of<Army>(), EClass.Of<ArmyHS>(), EClass.Of<ArmyView>(), EClass.Of<ArmyEventLog>(), EClass.Of<ArmyID>(), EClass.Of<TurnInfoItem>(), EClass.Of<ShowMessageEventLog>()]);
-            RegisterEClasses([EClass.Of<ArmyDefaultMoveTE>(), EClass.Of<ArmyCombatMoveTE>(), EClass.Of<ArmyCombineMoveTE>(), EClass.Of<ArmyNegotiateMoveTE>(), EClass.Of<NegotiateTE>(), EClass.Of<SaveGameTE>(), EClass.Of<ChangePlayerMagicTE>(), EClass.Of<ChangeGlobalMagicTE>()]);
-            RegisterEClasses([EClass.Of<CombatLogbook>(), EClass.Of<CombatParty>(), EClass.Of<CombatData>(), EClass.Of<DamageCA>(), EClass.Of<DamageEffectCA>(), EClass.Of<FleeCA>(), EClass.Of<CombatUnit>()]);
-            RegisterEClasses([EClass.Of<FastCombat>(), EClass.Of<CombatWall>(), EClass.Of<FastCombatUnit>(), EClass.Of<MoveWallCA>(), EClass.Of<ProductionEventLog>()]);
-            RegisterEClasses([EClass.Of<UpdateHeaderCA>(), EClass.Of<NewCombatTurnCA>(), EClass.Of<NewCombatRoundCA>(), EClass.Of<CombatObjectTurnDoneCA>()]);
-            RegisterEClasses([EClass.Of<CombatEventLog>(), EClass.Of<CombatPlayer>(), EClass.Of<DiplomaticAction>(), EClass.Of<EmailGame>(), EClass.Of<RestartGameEventLog>()]);
-            RegisterEClasses([EClass.Of<Structure>(), EClass.Of<StructureResource>(), EClass.Of<StructureTE>(), EClass.Of<ConstructStructureTE>(), EClass.Of<ProductionTE>(), EClass.Of<HeroUpdateTE>()]);
-            RegisterEClasses([EClass.Of<PlayerStructure>(), EClass.Of<PlayerStructureResource>(), EClass.Of<ProductionItem>(), EClass.Of<UnitProduction>()]);
-            RegisterEClasses([EClass.Of<Fire>(), EClass.Of<Fire.Resource>()]);
-            RegisterEClasses([EClass.Of<NewDayEventLog>(), EClass.Of<ArmyInfoEventLog>(), EClass.Of<TextControlItem>(), EClass.Of<HeroUpgradeEventLog>()]);
-            RegisterEClasses([EClass.Of<DiplomaticActionTE>(), EClass.Of<DiplomaticActionEventLog>(), EClass.Of<PlayerMagicEventLog>(), EClass.Of<DiplomaticRelationHistoryItem>(), EClass.Of<DiplomaticRelationHistoryList>()]);
-            RegisterEClasses([EClass.Of<HuntAG>(), EClass.Of<AIBudget>(), EClass.Of<AISavingsBudget>(), EClass.Of<AITransporterBudget>()]);
-            P2RegisterGroupControls();
-            RegisterSoundEngineClasses(this);
-            RegisterNetworkEngine(this);
-            P2RegisterMoveEvents(this);
-            RegisterEventLog(this);
-            P2RegisterAbilities(FGameSet.FAbilityControl);
-            P2RegisterSpells(this);
-            CombatAbilityTables.CombatDID = RegisterDebugID("Combat");
-            AbilityRules.AIDID = RegisterDebugID("AI");
-            AbilityRules.TMPDID = RegisterDebugID("TMP");
-            MAGICDID = RegisterDebugID("MAGIC");
-            Editors.RegisterClass(EditorClass.Of<AoWMapObjectEditor>());
-            LoadExternalPlugIns(StartupDirectory + "PLUGINS");
-            FEmailGames.Load();
-        }
-
-        // Army.PAS:5901
-        public override void UpdateStartupDirectory()
-        {
-            if (!IsEmpty(FRegistry.GetStartupDirectory()))
-            {
-                SetStartupDirectory(FRegistry.GetStartupDirectory());
-            }
-            else
-            {
-                SetStartupDirectory(ExtractFilePath(RtlUnit.Application.ExeName));
-            }
-
-            if (StartupDirectory[StartupDirectory.Length - 1] != 92)
-            {
-                SetStartupDirectory(StartupDirectory + "\\");
-            }
-
-            ImageLibraries.BaseImageLibraryPath = StartupDirectory;
-            AudioHost.BaseSoundEnginePath = StartupDirectory;
-            FDictionary.FFileName = StartupDirectory + "Dict\\" + "ResStr" + ".mld";
-            FDictionary.Open();
-        }
-
-        // Army.PAS:5748
-        public override string TranslateText(string Text) => TranslateRStr(Text);
+        // Army.PAS:5748. A bare engine has no dictionary, so it returns the text unchanged.
+        public virtual string TranslateText(string Text) => FDictionary is null ? Text : TranslateRStr(Text);
 
         // Army.PAS:5955
-        public override void CreateHSSet()
+        public virtual void CreateHSSet()
         {
             FHSSet = AoWHSSet.Create(this);
             FGameSet = (AoWHSSet)FHSSet;
             AoWHSSet.Current = FGameSet;
         }
 
-        // Army.PAS:5973
-        public override void SetHSMap(HSMap Value)
+        // Army.PAS:5973. The HSEngine body assigns the map, then the game body records an AoW map.
+        public virtual void SetHSMap(HSMap Value)
         {
-            base.SetHSMap(Value);
+            FHSMap = Value;
             if (Value is AoWHSMap)
             {
                 FGameMap = (AoWHSMap)FHSMap;
@@ -77399,12 +77340,19 @@ namespace Aow.Game.Engine
             }
         }
 
-        // Army.PAS:5962
-        public override void CloseHSM(ProgressEvent AProgress)
+        // Army.PAS:5962. The HSEngine body closes the map, then the game body clears the current map.
+        public virtual void CloseHSM(Aow.Engine.ProgressEvent AProgress)
         {
             try
             {
-                base.CloseHSM(AProgress);
+                if (FHSMap != null)
+                {
+                    FHSMap.FOnProgress = AProgress;
+                    FOnHSMCloseStore.Raise(FHSMap);
+                    FHSMap?.Dispose();
+                    SetHSMap(null);
+                }
+
                 FGameMap = null;
                 AoWHSMap.Current = null;
             }
@@ -77730,7 +77678,7 @@ namespace Aow.Game.Engine
         }
 
         // Army.PAS:6059
-        public void LoadCampaignMap(ProgressEvent AProgress)
+        public void LoadCampaignMap(Aow.Engine.ProgressEvent AProgress)
         {
             if (FCampaign != null && FCampaign.FStream != null)
             {
@@ -77743,7 +77691,7 @@ namespace Aow.Game.Engine
         // The preflight raises before the current campaign closes (own-formats.md 2.7).
         public void LoadCampaign(string FileName)
         {
-            LoadCampaign(FileName, FileBoundary.LoadOrRaise(FileName, Aow.Formats.GameProfile.Campaign));
+            LoadCampaign(FileName, FileBoundary.LoadOrRaise(FileName, GameProfile.Campaign));
         }
 
         // Loads a campaign file whose preflight has passed, from its engine image.
@@ -77766,7 +77714,7 @@ namespace Aow.Game.Engine
                     SaveHSMtoStream(FCampaign.FStream, null);
                 }
 
-                StoreInFile(FileName, FCampaign, null, Aow.Formats.GameProfile.Campaign);
+                StoreInFile(FileName, FCampaign, null, GameProfile.Campaign);
             }
         }
 
@@ -77777,9 +77725,19 @@ namespace Aow.Game.Engine
             FCampaign = (AoWCampaign)CreateEObject(AClassID, null);
         }
 
-        // intf_P2_08.inc:29
-        public static new AoWEngine Create(ECustomNode owner) =>
-            ConstructionContext.Create(owner, static (context, owner) => new AoWEngine(context, owner));
+        // intf_P2_08.inc:29. The flag is set before construction and cleared when it returns.
+        public static GameEngine Create(ECustomNode owner)
+        {
+            fullConstruction = true;
+            try
+            {
+                return ConstructionContext.Create(owner, static (context, owner) => new GameEngine(context, owner));
+            }
+            finally
+            {
+                fullConstruction = false;
+            }
+        }
 
         private static FixedArray_byte_8 P2InitializeMovePoints__MoveBits = FixedArray_byte_8.From([1, 4, 2, 8, 16, 32, 64, 128]);
 
@@ -77835,7 +77793,7 @@ namespace Aow.Game.Engine
             Control.UnregisterAbilityID(20);
         }
 
-        private static void UnregisterCoreSpells(AoWEngine AEngine)
+        private static void UnregisterCoreSpells(GameEngine AEngine)
         {
             SpellControl Control;
             Control = AEngine.FGameSet.FSpellControl;
@@ -78119,7 +78077,7 @@ namespace Aow.Game.Engine
             GameTables.AoWEngine.RegisterEClasses([EClass.Of<GuardGC>(), EClass.Of<PassiveGC>(), EClass.Of<GuardAreaGC>(), EClass.Of<SuicidalGC>(), EClass.Of<PatrolGC>(), EClass.Of<ScoutGC>(), EClass.Of<RefugeGC>()]);
         }
 
-        private static void P2RegisterMoveEvents(AoWEngine AEngine)
+        private static void P2RegisterMoveEvents(GameEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<EndTurnTE>(), EClass.Of<GameOverTE>(), EClass.Of<MultiMoveTE>(), EClass.Of<CheatTE>(), EClass.Of<DisbandUnitTE>(), EClass.Of<ChangePlayerSettingsTE>(), EClass.Of<CombatFlowControlTE>(), EClass.Of<TerminatePlayerTE>()]);
         }
@@ -78156,7 +78114,7 @@ namespace Aow.Game.Engine
             P2RegisterTouches(Control);
         }
 
-        private static void P2RegisterSpells(AoWEngine AEngine)
+        private static void P2RegisterSpells(GameEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<SpellTE>()]);
             AEngine.RegisterEClasses([EClass.Of<SpellCastEventLog>()]);
@@ -78234,23 +78192,23 @@ namespace Aow.Game.Engine
             S = Cp1252.Decode(buffer);
         }
 
-        private static void RegisterEventLog(Engine AEngine)
+        private static void RegisterEventLog(GameEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<TextEventLog>(), EClass.Of<EndTurnEventLog>(), EClass.Of<GameOverEventLog>(), EClass.Of<LocationTextEventLog>()]);
         }
 
-        private static void RegisterNetworkEngine(Engine AEngine)
+        private static void RegisterNetworkEngine(GameEngine AEngine)
         {
             NetworkSession.NetworkEngineDID = AEngine.RegisterDebugID("Network Engine");
             AEngine.RegisterEClasses([EClass.Of<TokenPackage>(), EClass.Of<PassTokenTE>(), EClass.Of<SyncTE>()]);
         }
 
-        private static void RegisterSoundEngineClasses(Engine AEngine)
+        private static void RegisterSoundEngineClasses(GameEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<SFXSequence>(), EClass.Of<SFXLibrary>(), EClass.Of<SFX>()]);
         }
 
-        internal static void UnregisterCitySpells(AoWEngine Engine)
+        internal static void UnregisterCitySpells(GameEngine Engine)
         {
             Engine.UnregisterEClasses([EClass.Of<CityEnchantmentSpellTE>(), EClass.Of<CityTargetSpellTE>(), EClass.Of<TownGateTE>()]);
             var spellControl = Engine.FGameSet.FSpellControl;
@@ -78264,7 +78222,7 @@ namespace Aow.Game.Engine
             spellControl.UnregisterSpellID(76);
         }
 
-        internal static void UnregisterCombatSpells(AoWEngine Engine)
+        internal static void UnregisterCombatSpells(GameEngine Engine)
         {
             SpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
@@ -78301,7 +78259,7 @@ namespace Aow.Game.Engine
             Control.UnregisterSpellID(128);
         }
 
-        internal static void UnregisterGlobalSpells(AoWEngine Engine)
+        internal static void UnregisterGlobalSpells(GameEngine Engine)
         {
             SpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
@@ -78316,7 +78274,7 @@ namespace Aow.Game.Engine
             Control.UnregisterSpellID(75);
         }
 
-        internal static void UnregisterGlobalEnchantmentSpells(AoWEngine AEngine)
+        internal static void UnregisterGlobalEnchantmentSpells(GameEngine AEngine)
         {
             SpellControl Control;
             Control = AEngine.FGameSet.FSpellControl;
@@ -78332,12 +78290,12 @@ namespace Aow.Game.Engine
             Control.UnregisterSpellID(64);
             Control.UnregisterSpellID(45);
             Control.UnregisterSpellID(65);
-            AEngine.UnregisterEClasses([EClass.Of<Magic.Spells.GlobalEnchantment.EnchantedRoadsEnchantment>(), EClass.Of<GlobalEnchantmentSpellTE>(), EClass.Of<GlobalEnchantmentEventLog>()]);
-            AEngine.UnregisterEClasses([EClass.Of<Magic.Spells.GlobalEnchantment.WaterMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.HatredEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.HarmonyEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.PowerLeakEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.FloodEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.AirMasteryEnchantment>()]);
-            AEngine.UnregisterEClasses([EClass.Of<Magic.Spells.GlobalEnchantment.LifeMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.DeathMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.FireMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.EarthMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.SpellWardEnchantment>()]);
+            AEngine.UnregisterEClasses([EClass.Of<EnchantedRoadsEnchantment>(), EClass.Of<GlobalEnchantmentSpellTE>(), EClass.Of<GlobalEnchantmentEventLog>()]);
+            AEngine.UnregisterEClasses([EClass.Of<WaterMasteryEnchantment>(), EClass.Of<HatredEnchantment>(), EClass.Of<HarmonyEnchantment>(), EClass.Of<PowerLeakEnchantment>(), EClass.Of<FloodEnchantment>(), EClass.Of<AirMasteryEnchantment>()]);
+            AEngine.UnregisterEClasses([EClass.Of<LifeMasteryEnchantment>(), EClass.Of<DeathMasteryEnchantment>(), EClass.Of<FireMasteryEnchantment>(), EClass.Of<EarthMasteryEnchantment>(), EClass.Of<SpellWardEnchantment>()]);
         }
 
-        internal static void UnregisterGlobalTargetSpells(AoWEngine Engine)
+        internal static void UnregisterGlobalTargetSpells(GameEngine Engine)
         {
             SpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
@@ -78353,7 +78311,7 @@ namespace Aow.Game.Engine
             Engine.UnregisterEClasses([EClass.Of<FreezeWaterTE>(), EClass.Of<FrozenWaterHS>(), EClass.Of<FireBarrierTE>(), EClass.Of<LevelTerrainTE>(), EClass.Of<RejuvenateTE>(), EClass.Of<WatcherTE>(), EClass.Of<WatcherHS>(), EClass.Of<TornadoTE>(), EClass.Of<VortexTE>(), EClass.Of<HealingShowersTE>(), EClass.Of<GlobalTargetSpellTE>()]);
         }
 
-        internal static void UnregisterSummonSpells(AoWEngine AEngine)
+        internal static void UnregisterSummonSpells(GameEngine AEngine)
         {
             SpellControl Control;
             Control = AEngine.FGameSet.FSpellControl;
@@ -78373,7 +78331,7 @@ namespace Aow.Game.Engine
             Control.UnregisterSpellID(78);
         }
 
-        internal static void UnregisterUnitSpells(AoWEngine Engine)
+        internal static void UnregisterUnitSpells(GameEngine Engine)
         {
             SpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
@@ -78398,19 +78356,23 @@ namespace Aow.Game.Engine
             Engine.UnregisterEClasses([EClass.Of<DispelMagicSpellCA>()]);
         }
 
-        internal static void UnRegisterPoisonPlant(AoWEngine AEngine)
+        internal static void UnRegisterPoisonPlant(GameEngine AEngine)
         {
             AEngine.UnregisterEClasses([EClass.Of<PoisonPlant>(), EClass.Of<PoisonPlant.Resource>(), EClass.Of<PoisonPlantSpellTE>()]);
             AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
         }
 
-        internal static void UnRegisterUnholyGround(AoWEngine AEngine)
+        internal static void UnRegisterUnholyGround(GameEngine AEngine)
         {
             AEngine.UnregisterEClasses([EClass.Of<UnHolyGround>(), EClass.Of<UnHolyGround.Resource>(), EClass.Of<UnholyGroundSpellTE>()]);
             AEngine.FGameSet.FSpellControl.UnregisterSpellID(14);
         }
 
     }
+}
+
+namespace Aow.Game.Engine
+{
 
     // FGameEngine
     public partial class AgeOfWondersEngine : HexagonSpriteEngine
@@ -78419,7 +78381,7 @@ namespace Aow.Game.Engine
         public AgeOfWondersEngine(Component owner) : base(owner)
         { }
 
-        public HSEngine FGameEngine;
+        public GameEngine FGameEngine;
 
         // Army.PAS:6104
         public override void Dispose()
@@ -78430,7 +78392,7 @@ namespace Aow.Game.Engine
         }
 
         // Army.PAS:6092
-        public override void SetHSEngine(HSEngine Value)
+        public override void SetHSEngine(GameEngine Value)
         {
             base.SetHSEngine(Value);
             FGameEngine = Value;
@@ -78631,7 +78593,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Engine.Storage
+namespace Aow.Engine.Storage
 {
 
     // { Interface declaration run owned by P2. }
@@ -78696,7 +78658,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:1327
-        public ExportTextStream(Stream AStream, Engine AEngine) : base(AStream, AEngine)
+        public ExportTextStream(Stream AStream, GameEngine AEngine) : base(AStream, AEngine)
         { }
     }
 
@@ -78764,7 +78726,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:1343
-        public TranslateTextStream(Engine AEngine) : base(AEngine)
+        public TranslateTextStream(GameEngine AEngine) : base(AEngine)
         { }
     }
 }
@@ -79211,7 +79173,7 @@ namespace Aow.Game.World.Movement
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Units
 {
 
     public enum BloodType : byte
@@ -79241,7 +79203,7 @@ namespace Aow.Game.Session
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.World.Structures
 {
 
     public enum DefensePriority : byte
@@ -79280,7 +79242,7 @@ namespace Aow.Game.Magic.Abilities
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Units
 {
 
     public enum Alignment : byte
@@ -79337,7 +79299,7 @@ namespace Aow.Game.Units
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Session
 {
 
     public enum Status : byte
@@ -79476,7 +79438,7 @@ namespace Aow.Game.Ai
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Draw
 {
 
     public enum TworldFXType : byte
@@ -79529,7 +79491,7 @@ namespace Aow.Game.Combat
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.World.Structures
 {
 
     [StructLayout(LayoutKind.Explicit, Size = 40)]
@@ -79789,7 +79751,7 @@ namespace Aow.Game.Combat
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Combat
 {
 
     public enum FinalizeMode : byte
@@ -79960,7 +79922,7 @@ namespace Aow.Game.Session
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Magic.Abilities
 {
 
     public enum DurationMode : byte
@@ -80048,7 +80010,7 @@ namespace Aow.Game.World.Map
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Events
 {
 
     public struct ShowMessageInfo
@@ -80952,7 +80914,7 @@ namespace Aow.Game.Combat
 namespace Aow.Game.Engine
 {
 
-    public delegate int P1FastRound(FastCombat Combat);
+    public delegate int P1FastRound(FastBattle Combat);
 }
 
 namespace Aow.Game.Units

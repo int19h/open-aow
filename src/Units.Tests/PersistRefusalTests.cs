@@ -1,3 +1,5 @@
+using Aow.Engine;
+using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
@@ -143,7 +145,7 @@ public sealed class PersistRefusalTests
         "Resource",
         "Resource",
         "ColdBreath",
-        "Combat",
+        "Battle",
         "CombatActionList",
         "CombatData",
         "CombatEventLog",
@@ -260,7 +262,7 @@ public sealed class PersistRefusalTests
         "FaceResourceList",
         "Farm",
         "Resource",
-        "FastCombat",
+        "FastBattle",
         "FastCombatHighPrayerCA",
         "FastCombatParty",
         "FastCombatTerrorCA",
@@ -590,7 +592,7 @@ public sealed class PersistRefusalTests
         "SummonedAbility",
         "Swarm",
         "SyncTE",
-        "TacticalCombat",
+        "TacticalBattle",
         "TacticalCombatHighPrayerCA",
         "TacticalCombatPlayer",
         "TacticalCombatTerrorCA",

@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using Aow.Engine;
 using Aow.Game.Engine;
 using Aow.Game.Saves;
 using Aow.Game.World;
@@ -8,8 +10,8 @@ internal static class PortedExceptions
 {
     // The construction sweeps caught the Delphi exception base. This is that set after the
     // stand-ins with a .NET counterpart were replaced. Runtime failures stay outside it.
-    internal static bool Is(System.Exception error) =>
-        error is not Aow.Rtl.NullStringException
+    internal static bool Is(Exception error) =>
+        error is not NullStringException
         && error is (
             ArgumentException
             or InvalidOperationException
@@ -21,11 +23,11 @@ internal static class PortedExceptions
             or AccessViolationException
             or KeyNotFoundException
             or OutOfMemoryException
-            or System.ComponentModel.Win32Exception
-            or Aow.Rtl.AbstractErrorException
-            or Aow.Rtl.AssertionFailedException
-            or Aow.Rtl.AbortException
-            or Aow.Rtl.HaltException
+            or Win32Exception
+            or AbstractErrorException
+            or AssertionFailedException
+            or AbortException
+            or HaltException
             or GameFileErrorException
             or DoublePrioriyIDException
             or PlugInMissingException

@@ -1,4 +1,6 @@
 // Translated from AoWSpellBook.pas.
+using Aow.Engine.Collections;
+using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine.Collections;
@@ -8,8 +10,10 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWSpellBook.pas.
 using Aow.Rtl.Localize;
@@ -162,7 +166,7 @@ public partial class SpellBook : DataModule
     {
         ExecuteDoneEvent Done;
         PlayerMagicEventLog Event;
-        Audio.AudioPlayback.PlaySample("SFX\\INT\\BOOKCLSE.WAV");
+        AudioPlayback.PlaySample("SFX\\INT\\BOOKCLSE.WAV");
         Done = FDone;
         Event = FEvent;
         FDone = null;
@@ -188,7 +192,7 @@ public partial class SpellBook : DataModule
         bool Result;
         if (FActivation != null)
         {
-            FHero = World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FActivation.FUnitID);
+            FHero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FActivation.FUnitID);
             Result = FHero != null && !FHero.FUnitStatus.Contains(UnitStatusElement.Killed);
         }
         else
@@ -258,7 +262,7 @@ public partial class SpellBook : DataModule
                 case 2:
                 case 3:
                     FSpells.Clear();
-                    World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ListResearchSpells(ref FSpells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                    AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ListResearchSpells(ref FSpells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                     FSpells.SortOnLevel();
                     var spellType = AbilityRules.TranslateRStr(GameTables.TSpellTypeRStr[(int)FSpellType]);
                     var format = AbilityRules.Format(AbilityRules.TranslateRStr(ResearchXspellRStr), [spellType]);
@@ -274,7 +278,7 @@ public partial class SpellBook : DataModule
                     break;
                 case 0:
                     FSpells.Clear();
-                    World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
+                    AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
                     FSpells.SortOnLevel();
                     var spellType3 = AbilityRules.TranslateRStr(GameTables.TSpellTypeRStr[(int)FSpellType]);
                     var format2 = AbilityRules.Format(AbilityRules.TranslateRStr(CastXSpellRStr), [spellType3]);
@@ -285,7 +289,7 @@ public partial class SpellBook : DataModule
                     break;
                 case 1:
                     FSpells.Clear();
-                    World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
+                    AoWHSMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
                     FSpells.SortOnLevel();
                     var spellType5 = AbilityRules.TranslateRStr(GameTables.TSpellTypeRStr[(int)FSpellType]);
                     var format4 = AbilityRules.Format(AbilityRules.TranslateRStr(CastXSpellRStr), [spellType5]);
@@ -329,9 +333,9 @@ public partial class SpellBook : DataModule
             ShowSpellEntry(Spell, S8Pnl, S8Btn, S8Spell, S8Class, S8Cost, S8Memo, S8Icn);
             if (FMode == 0)
             {
-                FPlayerPages.Count = World.Map.AoWHSMap.Current.FSeatedPlayer + 1;
-                FPlayerPages.List[World.Map.AoWHSMap.Current.FSeatedPlayer].A = (int)FSpellType;
-                FPlayerPages.List[World.Map.AoWHSMap.Current.FSeatedPlayer].B = FPage;
+                FPlayerPages.Count = AoWHSMap.Current.FSeatedPlayer + 1;
+                FPlayerPages.List[AoWHSMap.Current.FSeatedPlayer].A = (int)FSpellType;
+                FPlayerPages.List[AoWHSMap.Current.FSeatedPlayer].B = FPage;
             }
 
             if (FPageKind == 1)
@@ -363,10 +367,10 @@ public partial class SpellBook : DataModule
             }
             else
             {
-                Player = World.Map.AoWHSMap.Current.FSeatedPlayer;
+                Player = AoWHSMap.Current.FSeatedPlayer;
             }
 
-            Leader = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FLeader;
+            Leader = AoWHSMap.Current.FPlayers.GetPlayers(Player).FLeader;
             for (int I = 0; I <= 6; I++)
             {
                 switch (I)
@@ -441,7 +445,7 @@ public partial class SpellBook : DataModule
             }
 
             NameLbl.Text = FHero.FHeroName;
-            var player = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
             var manaPool = AbilityRules.TranslateRStr(ManaPoolRStr);
             ManaPoolLbl.Text = manaPool + ": " + IntToStr(player.FMagicControl.FMana);
             var castingPoints = FHero.GetCastingPoints();
@@ -449,7 +453,7 @@ public partial class SpellBook : DataModule
             var castingPointsMax = FHero.GetCastingPointsMax();
             CastingPointsLbl.Text = castingPointsText + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
             ResearchManaPoolLbl.Text = ManaPoolLbl.Text;
-            var netPowerToResearch = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.GetNetPowerToResearch();
+            var netPowerToResearch = AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.GetNetPowerToResearch();
             var researchPoints = AbilityRules.TranslateRStr(ResearchPointsRStr);
             ResearchPointsLbl.Text = researchPoints + ": " + IntToStr(netPowerToResearch);
             if (Set<byte>.WithBounds(0, 255).With(2).With(3).Contains(FMode))
@@ -459,12 +463,12 @@ public partial class SpellBook : DataModule
                 SpellBookLbl.Visible = false;
                 ResearchBookLbl.Visible = true;
                 CastingPage.Visible = false;
-                Control = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl;
+                Control = AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl;
                 if (Control.FResearchSpellID != 0)
                 {
                     ResearchPnl.Visible = true;
                     ResearchNone.Visible = false;
-                    Spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(Control.FResearchSpellID);
+                    Spell = AoWHSSet.Current.FSpellControl.GetSpell(Control.FResearchSpellID);
                     var currentlyResearching = AbilityRules.TranslateRStr(CurrentlyResearchingRStr);
                     ResearchLbl.Text = currentlyResearching + ":";
                     ResearchMemo.Items = Spell.FSpellText;
@@ -497,7 +501,7 @@ public partial class SpellBook : DataModule
                     {
                         ResearchPnl.Visible = true;
                         ResearchNone.Visible = false;
-                        Spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(FResearchedSpell);
+                        Spell = AoWHSSet.Current.FSpellControl.GetSpell(FResearchedSpell);
                         var researched = AbilityRules.TranslateRStr(ResearchedRStr);
                         ResearchLbl.Text = researched + ":";
                         ResearchMemo.Items = Spell.FSpellText;
@@ -539,7 +543,7 @@ public partial class SpellBook : DataModule
                     if (FHero.Casting())
                     {
                         NoneCastingLbl.Visible = false;
-                        Spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(FHero.FCastingSpellID);
+                        Spell = AoWHSSet.Current.FSpellControl.GetSpell(FHero.FCastingSpellID);
                         CastingSpell.Text = Spell.FSpellName;
                         var magicSphere = AbilityRules.TranslateRStr(GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
                         var level = AbilityRules.TranslateRStr(GameText.LevelRStr);
@@ -627,7 +631,7 @@ public partial class SpellBook : DataModule
                 Cost.Text = AbilityRules.Format(AbilityRules.TranslateRStr(CostXRStr), [castingMana]);
             }
 
-            if (FMode == 0 && (!Spell.FSpellControlTypes.Contains(SpellControlTypeElement.Global) || FHero.Casting()) || FMode == 1 && (!Spell.FSpellControlTypes.Contains(SpellControlTypeElement.Combat) || FHero.Casting() || !FHero.CanCastSpellInstantly(Spell.FSpellID, Spell.FBaseManaCost, ref Reason)) || FMode == 2 && World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID != 0)
+            if (FMode == 0 && (!Spell.FSpellControlTypes.Contains(SpellControlTypeElement.Global) || FHero.Casting()) || FMode == 1 && (!Spell.FSpellControlTypes.Contains(SpellControlTypeElement.Combat) || FHero.Casting() || !FHero.CanCastSpellInstantly(Spell.FSpellID, Spell.FBaseManaCost, ref Reason)) || FMode == 2 && AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID != 0)
             {
                 Memo.TextColor = 5000268;
                 Name.TextColor = 5000268;
@@ -670,7 +674,7 @@ public partial class SpellBook : DataModule
             {
                 if (FMode == 2 || FMode == 3)
                 {
-                    Control = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
+                    Control = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl;
                     Turns = Control.ResearchTurns(Control.GetNetPowerToResearch(), Spell.FResearchCost);
                     if (Turns < 999)
                     {
@@ -701,7 +705,7 @@ public partial class SpellBook : DataModule
             {
                 case 2:
                 case 3:
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ResearchSpell(Spell.FSpellID))
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ResearchSpell(Spell.FSpellID))
                     {
                         if (FEvent == null || FEvent.FMode != PlayerMagicEventLog.PlayerMagicEventMode.StartResearch)
                         {
@@ -716,7 +720,7 @@ public partial class SpellBook : DataModule
 
                     break;
                 case 0:
-                    if (FHero.GetCastingPoints() >= Spell.FBaseManaCost || World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FHero.FPlayer).FMagicControl.GetCheatEnabled())
+                    if (FHero.GetCastingPoints() >= Spell.FBaseManaCost || AoWHSMap.Current.FPlayers.GetPlayers(FHero.FPlayer).FMagicControl.GetCheatEnabled())
                     {
                         if (FHero.CastSpell(Spell.FSpellID, ref Reason))
                         {
@@ -724,7 +728,7 @@ public partial class SpellBook : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
                     }
                     else
@@ -735,7 +739,7 @@ public partial class SpellBook : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
                     }
 
@@ -762,7 +766,7 @@ public partial class SpellBook : DataModule
     // AoWSpellBook.pas:415
     public void PlayerChanged(sbyte Player)
     {
-        if (Dlg.Visible && Player == World.Map.AoWHSMap.Current.FSeatedPlayer)
+        if (Dlg.Visible && Player == AoWHSMap.Current.FSeatedPlayer)
         {
             UpdateSpellPages();
             UpdateInfoPages();
@@ -791,7 +795,7 @@ public partial class SpellBook : DataModule
         GlobalBtn.ILIndexUp = 13;
         CombatBtn.Visible = false;
         UnitBtn.Visible = false;
-        if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID != 0)
+        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID != 0)
         {
             SetPageKind(0);
         }
@@ -803,7 +807,7 @@ public partial class SpellBook : DataModule
         FMode = 2;
         FSpellType = SpellType.Global;
         FPage = 0;
-        FHero = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FLeader;
+        FHero = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FLeader;
         UpdateSpellPages();
         UpdateInfoPages();
         ShowBook();
@@ -815,7 +819,7 @@ public partial class SpellBook : DataModule
         FEvent = Event;
         FEvent.AddRef();
         FDone = Done;
-        if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID == 0)
+        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID == 0)
         {
             Reset();
             GlobalBtn.ILIndexDown = 14;
@@ -828,11 +832,11 @@ public partial class SpellBook : DataModule
             FMode = 2;
             FSpellType = SpellType.Global;
             FPage = 0;
-            FHero = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FLeader;
+            FHero = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FLeader;
             UpdateSpellPages();
             UpdateInfoPages();
             ShowBook();
-            World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(51, true, true);
+            AoWHSMap.Current.FTutorialControl.ShowMessage(51, true, true);
         }
         else
         {
@@ -846,7 +850,7 @@ public partial class SpellBook : DataModule
         FEvent = Event;
         FEvent.AddRef();
         FDone = Done;
-        if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID == 0)
+        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID == 0)
         {
             Reset();
             FResearchedSpell = Event.FSpellID;
@@ -854,7 +858,7 @@ public partial class SpellBook : DataModule
             FMode = 3;
             FSpellType = SpellType.Global;
             FPage = 0;
-            FHero = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FLeader;
+            FHero = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FLeader;
             UpdateSpellPages();
             UpdateInfoPages();
             ShowBook();
@@ -874,8 +878,8 @@ public partial class SpellBook : DataModule
         FMode = 0;
         if (ValidateHero())
         {
-            FSpellType = (SpellType)FPlayerPages[World.Map.AoWHSMap.Current.FSeatedPlayer].A;
-            FPage = FPlayerPages[World.Map.AoWHSMap.Current.FSeatedPlayer].B;
+            FSpellType = (SpellType)FPlayerPages[AoWHSMap.Current.FSeatedPlayer].A;
+            FPage = FPlayerPages[AoWHSMap.Current.FSeatedPlayer].B;
             if (FHero.Casting())
             {
                 SetPageKind(0);
@@ -883,7 +887,7 @@ public partial class SpellBook : DataModule
             else
             {
                 FSpells.Clear();
-                World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
+                AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
                 if (FSpells.GetCount() == 0 || FSpells.GetCount() <= FPage * 8)
                 {
                     FSpells.Clear();
@@ -891,7 +895,7 @@ public partial class SpellBook : DataModule
                     while (FSpells.GetCount() == 0 && (int)FSpellType != 0)
                     {
                         FSpellType = (SpellType)((int)FSpellType - 1);
-                        World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
+                        AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
                     }
                 }
 
@@ -929,7 +933,7 @@ public partial class SpellBook : DataModule
                 while (FSpells.GetCount() == 0 && (int)FSpellType != 0)
                 {
                     FSpellType = (SpellType)((int)FSpellType - 1);
-                    World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
+                    AoWHSMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FSeatedPlayer).FMagicControl.ListSpells(ref FSpells, Set<SpellType>.Of(FSpellType));
                 }
 
                 SetPageKind(1);
@@ -974,7 +978,7 @@ public partial class SpellBook : DataModule
     // AoWSpellBook.pas:214
     public void CancelClick()
     {
-        if (World.Map.AoWHSMap.Current.FCombatMap != null && DialogHosts.General.FCombatUnit != null)
+        if (AoWHSMap.Current.FCombatMap != null && DialogHosts.General.FCombatUnit != null)
         {
             DialogHosts.General.FCombatUnit.SelectAbility(-1);
         }
@@ -988,9 +992,9 @@ public partial class SpellBook : DataModule
     {
         FPage += 1;
         UpdateSpellPages();
-        Dlg.StartAnim(Grids.PageTurnMode.Left);
+        Dlg.StartAnim(PageTurnMode.Left);
         Dlg.FPageTurn.FSpeed = 25;
-        Audio.AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+        AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
     }
 
     // AoWSpellBook.pas:229
@@ -998,9 +1002,9 @@ public partial class SpellBook : DataModule
     {
         FPage -= 1;
         UpdateSpellPages();
-        Dlg.StartAnim(Grids.PageTurnMode.Right);
+        Dlg.StartAnim(PageTurnMode.Right);
         Dlg.FPageTurn.FSpeed = 25;
-        Audio.AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+        AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
     }
 
     // AoWSpellBook.pas:236
@@ -1035,14 +1039,14 @@ public partial class SpellBook : DataModule
         {
             if (FPageKind == 0)
             {
-                Dlg.StartAnim(Grids.PageTurnMode.Left);
+                Dlg.StartAnim(PageTurnMode.Left);
             }
             else
             {
-                Dlg.StartAnim(Grids.PageTurnMode.Right);
+                Dlg.StartAnim(PageTurnMode.Right);
             }
 
-            Audio.AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+            AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             FSpellType = SpellType.Global;
             FPage = 0;
             UpdateSpellPages();
@@ -1057,14 +1061,14 @@ public partial class SpellBook : DataModule
         {
             if (FPageKind == 0 || FSpellType == SpellType.Global)
             {
-                Dlg.StartAnim(Grids.PageTurnMode.Left);
+                Dlg.StartAnim(PageTurnMode.Left);
             }
             else
             {
-                Dlg.StartAnim(Grids.PageTurnMode.Right);
+                Dlg.StartAnim(PageTurnMode.Right);
             }
 
-            Audio.AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+            AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             FSpellType = SpellType.Unit;
             FPage = 0;
             UpdateSpellPages();
@@ -1077,8 +1081,8 @@ public partial class SpellBook : DataModule
     {
         if (FSpellType != SpellType.Combat || FPage != 0 || FPageKind != 1)
         {
-            Dlg.StartAnim(Grids.PageTurnMode.Left);
-            Audio.AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+            Dlg.StartAnim(PageTurnMode.Left);
+            AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             FSpellType = SpellType.Combat;
             FPage = 0;
             UpdateSpellPages();
@@ -1091,8 +1095,8 @@ public partial class SpellBook : DataModule
     {
         if (FPageKind != 0)
         {
-            Dlg.StartAnim(Grids.PageTurnMode.Right);
-            Audio.AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+            Dlg.StartAnim(PageTurnMode.Right);
+            AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             SetPageKind(0);
         }
     }
@@ -1113,12 +1117,12 @@ public partial class SpellBook : DataModule
                     }
                     else
                     {
-                        World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                        AoWHSMap.Current.ShowWarning(Reason);
                     }
 
                     break;
                 case 1:
-                    SelectSpell(Engine.AoWHSSet.Current.FSpellControl.GetSpell(FHero.FCastingSpellID));
+                    SelectSpell(AoWHSSet.Current.FSpellControl.GetSpell(FHero.FCastingSpellID));
                     break;
             }
         }
@@ -1148,11 +1152,11 @@ public partial class SpellBook : DataModule
     {
         Spell Spell;
         int X;
-        var player = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer);
-        Spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(player.FMagicControl.FResearchSpellID);
+        var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
+        Spell = AoWHSSet.Current.FSpellControl.GetSpell(player.FMagicControl.FResearchSpellID);
         if (Spell == null && FMode == 3)
         {
-            Spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(FResearchedSpell);
+            Spell = AoWHSSet.Current.FSpellControl.GetSpell(FResearchedSpell);
         }
 
         if (Spell != null)
@@ -1171,7 +1175,7 @@ public partial class SpellBook : DataModule
         {
             if (FHero.Casting())
             {
-                Spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(FHero.FCastingSpellID);
+                Spell = AoWHSSet.Current.FSpellControl.GetSpell(FHero.FCastingSpellID);
                 if (Spell != null)
                 {
                     X = Sender.FAOWWindow.WinLeft;
@@ -1188,7 +1192,7 @@ public partial class SpellBook : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (ValidateHero())
         {
-            Control = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
+            Control = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl;
             if (Control.FResearchSpellID != 0)
             {
                 Control.ResearchSpell(0);
@@ -1229,7 +1233,7 @@ public partial class SpellBook : DataModule
     {
         if (Key == 27)
         {
-            if (World.Map.AoWHSMap.Current.FCombatMap != null && DialogHosts.General.FCombatUnit != null)
+            if (AoWHSMap.Current.FCombatMap != null && DialogHosts.General.FCombatUnit != null)
             {
                 DialogHosts.General.FCombatUnit.SelectAbility(-1);
             }

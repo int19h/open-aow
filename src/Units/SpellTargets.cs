@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
@@ -7,13 +8,10 @@ using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -28,7 +26,7 @@ using Aow.Game.World.Terrain;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Magic.Spells.GlobalTarget;
+namespace Aow.Game.Magic.Spells;
 
 internal static class SpellTargets
 {

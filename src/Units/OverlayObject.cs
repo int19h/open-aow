@@ -1,7 +1,9 @@
 // Translated from OverlayObject.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Terrain;
 
 namespace Aow.Game.World.Terrain;
@@ -36,7 +38,7 @@ public partial class OverlayObject : FixedILTerrainMO
         public override int ResourceUserClassID() => 131228;
 
         // OverlayObject.pas:39
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(OverlayObjectRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(OverlayObjectRStr);
 
         private static readonly string OverlayObjectRStr = "Overlay Object";
 

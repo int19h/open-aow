@@ -1,12 +1,13 @@
 using System.Reflection;
+using Aow.Engine.Nodes;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Magic.Spells.GlobalEnchantment;
+using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;

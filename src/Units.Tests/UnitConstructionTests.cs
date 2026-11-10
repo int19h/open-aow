@@ -1,8 +1,11 @@
 using System.Reflection;
 using System.Text.Json;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Game;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -39,10 +42,10 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 2)
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
-            using var engine = new Engine(null!);
-            engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
+            using GameEngine engine = new GameEngine(null!);
+            engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
-            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+            catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
             return (AbstractUnit)engine.CreateEObject(meta.ClassID, owner);
         }
@@ -99,16 +102,16 @@ public sealed partial class AoWERuleConstructionTests
         Type type = TypeNamed(name);
         var meta = EClass.Of(type);
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        var engine = new Engine(null!);
+        GameEngine engine = new GameEngine(null!);
         EObject source = CreateUnit(type, null!, 0);
         EObject result = null!;
         var owner = new UnitOwner(false);
         using var memory = new MemoryStream();
         try
         {
-            engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
-            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+            catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
             if (source is Unit unit) unit.FUnitResource = new UnitResource(set.FUnitResources);
             if (source is Hero hero) hero.FExperience = 1;

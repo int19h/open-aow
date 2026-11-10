@@ -1,7 +1,9 @@
 // Translated from WaterNode.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -38,7 +40,7 @@ public partial class WaterNode : ProductionPlace
         // WaterNode.pas:27
 
         // WaterNode.pas:52
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(WaterNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(WaterNodeRStr);
 
         private static readonly string WaterNodeRStr = "Water Node";
 

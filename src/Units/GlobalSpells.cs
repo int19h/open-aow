@@ -1,14 +1,16 @@
 // Translated from GlobalSpells.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -141,7 +143,7 @@ namespace Aow.Game.Draw
     }
 }
 
-namespace Aow.Game.Magic.Spells.Global
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited name, spell ID, mana, sphere, level, type
@@ -403,7 +405,7 @@ namespace Aow.Game.Draw
     }
 }
 
-namespace Aow.Game.Magic.Spells.Global
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited name, spell ID, mana, sphere, level, spell type
@@ -594,7 +596,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.Global
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited name, ID, mana, sphere, level, spell type
@@ -1336,7 +1338,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.Global
+namespace Aow.Game.Magic.Spells
 {
 
     // enchantment ID, dispel chance. inherited spell ID, source unit ID, references
@@ -1440,9 +1442,9 @@ namespace Aow.Game.Magic.Spells.Global
         }
 
         // GlobalSpells.pas:817
-        public Magic.GlobalEnchantment SelectedEnchantment()
+        public GlobalEnchantment SelectedEnchantment()
         {
-            Magic.GlobalEnchantment Result;
+            GlobalEnchantment Result;
             int Index;
             Index = AoWHSMap.Current.FGlobalMagicControl.IndexOfID(FEnchantmentID);
             if (Index != -1)
@@ -1461,7 +1463,7 @@ namespace Aow.Game.Magic.Spells.Global
         public int GetMana()
         {
             int Result;
-            Magic.GlobalEnchantment Enchantment;
+            GlobalEnchantment Enchantment;
             Enchantment = SelectedEnchantment();
             if (Enchantment != null)
             {
@@ -1623,7 +1625,7 @@ namespace Aow.Game.Magic.Spells.Global
             sbyte Y = default;
             sbyte Layer = default;
             ArmyHS Party;
-            Abilities.Unit NewUnit;
+            Unit NewUnit;
             if (ExecuteCount == 0)
             {
                 Source.GetLocation(ref X, ref Y, ref Layer);
@@ -1642,7 +1644,7 @@ namespace Aow.Game.Magic.Spells.Global
                     UnitIndex = AoWHSMap.Current.Random(1);
                     for (int J = 0; J <= Count - 1; J++)
                     {
-                        NewUnit = new Abilities.Unit(null);
+                        NewUnit = new Unit(null);
                         NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(TCrusade_ExecuteTE__LargeUnits[UnitIndex]));
                         NewUnit.ExpandAbility(101);
                         Party.FArmy.AddUnit(NewUnit);
@@ -1663,7 +1665,7 @@ namespace Aow.Game.Magic.Spells.Global
                         Count = AoWHSMap.Current.Random(3) + 4;
                         for (int J = 0; J <= Count - 1; J++)
                         {
-                            NewUnit = new Abilities.Unit(null);
+                            NewUnit = new Unit(null);
                             UnitIndex = AoWHSMap.Current.Random(2);
                             NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(TCrusade_ExecuteTE__FootUnits[UnitIndex]));
                             NewUnit.ExpandAbility(101);
@@ -1688,7 +1690,7 @@ namespace Aow.Game.Magic.Spells.Global
 
                     for (int J = 0; J <= Count - 1; J++)
                     {
-                        NewUnit = new Abilities.Unit(null);
+                        NewUnit = new Unit(null);
                         NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(TCrusade_ExecuteTE__MountedUnits[UnitIndex]));
                         NewUnit.ExpandAbility(101);
                         Party.FArmy.AddUnit(NewUnit);
@@ -1782,6 +1784,10 @@ namespace Aow.Game.Magic.Spells.Global
         private static FixedArray_int_3 TCrusade_ExecuteTE__MountedUnits = FixedArray_int_3.From([132, 134, 128]);
         private static FixedArray_int_2 TCrusade_ExecuteTE__FootUnits = FixedArray_int_2.From([129, 126]);
     }
+}
+
+namespace Aow.Game.Magic.Spells.Global
+{
 
     [StructLayout(LayoutKind.Explicit, Size = 110)]
     public struct GlobalSpellEngineFields

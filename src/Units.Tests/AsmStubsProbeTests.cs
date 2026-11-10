@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
@@ -8,6 +10,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
+using Xunit.Sdk;
 
 namespace Aow.Units.Tests;
 
@@ -48,10 +51,10 @@ public sealed class AsmStubsProbeTests
         [typeof(AccessViolationException)] = "EAccessViolation",
     };
 
-    private static string DelphiName(System.Exception error) =>
+    private static string DelphiName(Exception error) =>
         DelphiNames.TryGetValue(error.GetType(), out string? name)
             ? name
-            : throw new Xunit.Sdk.XunitException("asm-stubs has no Delphi name for " + error.GetType().Name);
+            : throw new XunitException("asm-stubs has no Delphi name for " + error.GetType().Name);
 
     [Fact]
     public void EngineFills() => Check(0, EngineFillLines());
@@ -240,7 +243,7 @@ public sealed class AsmStubsProbeTests
                 bits[-1] = true;
                 AddText(lines, "Engine.TBitList.Put_negative", "returned");
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 AddText(lines, "Engine.TBitList.Put_negative", DelphiName(e));
             }
@@ -254,7 +257,7 @@ public sealed class AsmStubsProbeTests
                 bits[-2] = true;
                 AddText(lines, "Engine.TBitList.Put_negative_two", "returned");
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 AddText(lines, "Engine.TBitList.Put_negative_two", DelphiName(e));
             }
@@ -425,7 +428,7 @@ public sealed class AsmStubsProbeTests
         {
             PixelFormats.FillTrippleByte(new byte[12], 0, 0x12345678);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             AddText(lines, "GFXE.FillTrippleByte_zero", DelphiName(e));
         }

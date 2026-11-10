@@ -1,9 +1,12 @@
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -16,7 +19,7 @@ public sealed class WallCrushingFastCombatTests
     private sealed class Fixture : IDisposable
     {
         private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = GameTables.AoWEngine;
+        private readonly GameEngine previousEngine = GameTables.AoWEngine;
         private readonly ImageLibraryManager manager = new ImageLibraryManager(null!);
 
         internal Fixture()
@@ -46,9 +49,9 @@ public sealed class WallCrushingFastCombatTests
         }
     }
 
-    private static (Combat Combat, Attacker Source, RecordingWall Wall) Build()
+    private static (Battle Combat, Attacker Source, RecordingWall Wall) Build()
     {
-        var combat = new Combat(null!);
+        var combat = new Battle(null!);
         combat.FStatus = combat.FStatus + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         var objects = combat.FCombatData.FCombatObjects;
         var source = new Attacker(objects) { FCombat = combat, FID = 1 };

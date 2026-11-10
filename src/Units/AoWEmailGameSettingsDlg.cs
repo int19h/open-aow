@@ -1,10 +1,12 @@
 // Translated from AoWEmailGameSettingsDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
@@ -113,7 +115,7 @@ public partial class EmailGameSettingsDlg : DataModule
         {
             MessageDlg.ResetMessageDialog(DialogHosts.MessageDlg);
             DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var pleaseFillInAllSettings = Magic.Abilities.AbilityRules.TranslateRStr(PleaseFillInAllSettingsRStr);
+            var pleaseFillInAllSettings = AbilityRules.TranslateRStr(PleaseFillInAllSettingsRStr);
             DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
             DialogHosts.MessageDlg.OKPnl.Visible = true;
             DialogHosts.MessageDlg.Dlg.Visible = true;
@@ -135,9 +137,9 @@ public partial class EmailGameSettingsDlg : DataModule
     // AoWEmailGameSettingsDlg.pas:146
     public void LocalEmailAddressEditUpdate()
     {
-        if (Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
+        if (GameTables.AoWEngine.FRegistry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
         {
-            var localEmailAddress = Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+            var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
             LocalEmailAddressEdit.Text = localEmailAddress;
         }
     }
@@ -152,7 +154,7 @@ public partial class EmailGameSettingsDlg : DataModule
         if (I < FEmailAddresses.Count)
         {
             var objectValue = FEmailAddresses.Objects[I];
-            R = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(ObjectToInt(objectValue));
+            R = AoWHSSet.Current.FRaceResources.GetRaceResource(ObjectToInt(objectValue));
             R.AddRef();
             R.FImageLibrary[38].Show(panel.WinLeft, panel.WinTop, SD);
             R.Release();
@@ -176,7 +178,7 @@ public partial class EmailGameSettingsDlg : DataModule
             EmailEdit.CaptureInput = true;
             EmailEdit.Text = FEmailAddresses[Index];
             var objectValue = FEmailAddresses.Objects[Index];
-            NameLabel.Text = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.RaceNamesPluralRStr[ObjectToInt(objectValue)]);
+            NameLabel.Text = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[ObjectToInt(objectValue)]);
         }
         else
         {
@@ -224,7 +226,7 @@ public partial class EmailGameSettingsDlg : DataModule
         FEmailAddresses.Clear();
         PlayerSB.Visible = true;
         PlayerSB.Position = 0;
-        var localEmailAddress = Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+        var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
     }
 
@@ -240,7 +242,7 @@ public partial class EmailGameSettingsDlg : DataModule
             if (C.FSettings.GetSettings(I).FBehavior.PlayerType == 0)
             {
                 var setting = C.FSettings.GetSettings(I);
-                var localEmailAddress = Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+                var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
                 FEmailAddresses.AddObject(localEmailAddress, IntToObject(setting.FRace));
             }
         }
@@ -254,7 +256,7 @@ public partial class EmailGameSettingsDlg : DataModule
         {
             MessageDlg.ResetMessageDialog(DialogHosts.MessageDlg);
             DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var youNeed2HumanPlayersToPlayAnEmailGame = Magic.Abilities.AbilityRules.TranslateRStr(YouNeed2HumanPlayersToPlayAnEmailGameRStr);
+            var youNeed2HumanPlayersToPlayAnEmailGame = AbilityRules.TranslateRStr(YouNeed2HumanPlayersToPlayAnEmailGameRStr);
             DialogHosts.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
             DialogHosts.MessageDlg.OKPnl.Visible = true;
             DialogHosts.MessageDlg.Dlg.Visible = true;

@@ -1,7 +1,7 @@
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine;
+namespace Aow.Game;
 
 internal static class DiscCheck
 {

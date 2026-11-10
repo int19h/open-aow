@@ -1,5 +1,6 @@
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -31,7 +32,7 @@ public sealed class UnitSelectorTests
     [Fact]
     public void HealingSetupAcceptsHeroesAndSelectsOnlyTheWounded()
     {
-        Game.Engine.AoWHSSet.Current = null!;
+        AoWHSSet.Current = null!;
         var units = new UnitUserList(null!);
         var selector = new HealingUnitSelector();
         try

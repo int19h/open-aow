@@ -1,10 +1,13 @@
 // Translated from AoWHex.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
@@ -339,7 +342,7 @@ public partial class AoWWaterHexagon : LowerIsometricHexagon
         // AoWHex.pas:58
 
         // AoWHex.pas:455
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(WaterHexagonRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(WaterHexagonRStr);
 
         private static readonly string WaterHexagonRStr = "Water/Ice Hexagon";
 

@@ -7,6 +7,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWCastUnitSpellDlg.pas.
 using Aow.Rtl.Localize;
@@ -119,7 +120,7 @@ public partial class CastUnitSpellDlg : DataModule
         }
         else
         {
-            World.Map.AoWHSMap.Current.ShowMessage(Reason);
+            AoWHSMap.Current.ShowMessage(Reason);
         }
     }
 
@@ -128,7 +129,7 @@ public partial class CastUnitSpellDlg : DataModule
     {
         AbstractUnit U;
         Rect R = default;
-        U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FCasterSourceID);
+        U = AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FCasterSourceID);
         if (U != null)
         {
             if (U.GetFace() != null)

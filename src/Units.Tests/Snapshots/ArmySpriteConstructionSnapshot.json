@@ -51,7 +51,7 @@
             "Army.FX": -1,
             "Army.FY": -1,
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
@@ -137,7 +137,7 @@
             "Army.FX": -1,
             "Army.FY": -1,
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },

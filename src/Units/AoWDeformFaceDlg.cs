@@ -1,10 +1,11 @@
 // Translated from AoWDeformFaceDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Magic.Spells;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWDeformFaceDlg.pas.
 using Aow.Rtl.Localize;
@@ -44,7 +45,7 @@ public partial class DeformFaceDlg : DataModule
         AbstractUnit U;
         FCaster = Caster;
         FCaster.AddRef();
-        U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FTargetUnitID);
+        U = AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FTargetUnitID);
         if (U != null)
         {
             var name = U.GetName();
@@ -83,7 +84,7 @@ public partial class DeformFaceDlg : DataModule
         }
         else
         {
-            World.Map.AoWHSMap.Current.ShowMessage(Reason);
+            AoWHSMap.Current.ShowMessage(Reason);
         }
     }
 
@@ -97,19 +98,19 @@ public partial class DeformFaceDlg : DataModule
         while (Offset < 0)
         {
             Offset += 1;
-            Face = Engine.AoWHSSet.Current.FFaceResources.PrevFace(Face);
+            Face = AoWHSSet.Current.FFaceResources.PrevFace(Face);
         }
 
         while (Offset > 0)
         {
             Offset -= 1;
-            Face = Engine.AoWHSSet.Current.FFaceResources.NextFace(Face);
+            Face = AoWHSSet.Current.FFaceResources.NextFace(Face);
         }
 
         R = new Rect(Dlg.WinLeft + Sender.WinLeft + 2, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
         if (Face != -1)
         {
-            Resource = Engine.AoWHSSet.Current.FFaceResources.GetFaceResource(Face);
+            Resource = AoWHSSet.Current.FFaceResources.GetFaceResource(Face);
             Resource.AddRef();
             Resource.GetFaceImage().ShowStretched(R, SD);
             Resource.Release();
@@ -120,7 +121,7 @@ public partial class DeformFaceDlg : DataModule
     public void PrevFaceBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var prevFace = Engine.AoWHSSet.Current.FFaceResources.PrevFace(FCaster.FFaceIndex);
+        var prevFace = AoWHSSet.Current.FFaceResources.PrevFace(FCaster.FFaceIndex);
         FCaster.FFaceIndex = prevFace;
         Dlg.FDrawn = false;
     }
@@ -129,7 +130,7 @@ public partial class DeformFaceDlg : DataModule
     public void NextFaceBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var nextFace = Engine.AoWHSSet.Current.FFaceResources.NextFace(FCaster.FFaceIndex);
+        var nextFace = AoWHSSet.Current.FFaceResources.NextFace(FCaster.FFaceIndex);
         FCaster.FFaceIndex = nextFace;
         Dlg.FDrawn = false;
     }

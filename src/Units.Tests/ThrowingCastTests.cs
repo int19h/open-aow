@@ -157,7 +157,7 @@ public sealed class ThrowingCastTests
             level.CreateMapFieldList(1, 1);
             container.FMap = map;
             map.FMapContainer = container;
-            var combat = new TacticalCombat(null!);
+            var combat = new TacticalBattle(null!);
             map.SetCombat(combat);
             combat.FCombatData.FWallType = 1;
             var field = container.MapLevels[0].Field[0, 0];
@@ -198,7 +198,7 @@ public sealed class ThrowingCastTests
             var field = container.MapLevels[0].Field[3, 3];
             field.AddHS(new ItemSite(), 0);
 
-            var combat = new TacticalCombat(null!) { FExplorationSite = 1 };
+            var combat = new TacticalBattle(null!) { FExplorationSite = 1 };
             combat.FItems = new PrisonersArmy(null!);
             var prisoners = new RndTacHsm();
             var error = Record.Exception(() => prisoners.RandomMap(combat, 3, 3, 0));

@@ -1,5 +1,4 @@
-// Translated from aowFX.pas.
-using Aow.Game.Engine.Buffers;
+using Aow.Engine.Buffers;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 

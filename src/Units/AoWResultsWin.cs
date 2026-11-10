@@ -1,6 +1,11 @@
 // Translated from AoWResultsWin.pas.
+using Aow.Engine.Collections;
+using Aow.Game.Audio;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Engine.Collections;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
@@ -132,7 +137,7 @@ public partial class ResultsWin : DataModule
             }
         }
 
-        var turn = Magic.Abilities.AbilityRules.TranslateRStr(TurnRStr);
+        var turn = AbilityRules.TranslateRStr(TurnRStr);
         TurnLbl.Text = turn + " " + IntToStr(FMaxTurns);
     }
 
@@ -179,7 +184,7 @@ public partial class ResultsWin : DataModule
     }
 
     // AoWResultsWin.pas:123
-    public void DrawGraph(Draw.Images.LibraryImage Image, IntegerList Values, int Turns, int Maximum, in Rect R, in SurfaceDesc Surface)
+    public void DrawGraph(LibraryImage Image, IntegerList Values, int Turns, int Maximum, in Rect R, in SurfaceDesc Surface)
     {
         int Width;
         int LastY;
@@ -373,10 +378,10 @@ public partial class ResultsWin : DataModule
         FinishPyre(DialogHosts.PyreScreen);
         DialogHosts.General.PlayButtonSound(0);
         DialogHosts.ResultsWin.ResultsPnl.Visible = false;
-        Audio.AudioPlayback.FadeMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position, 2);
+        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position, 2);
         if (AoWHSMap.Current.FGameStatus == AoWHSMap.GameStatus.Terminated)
         {
-            if (Magic.Abilities.GameTables.AoWEngine.FCampaign == null)
+            if (GameTables.AoWEngine.FCampaign == null)
             {
                 DialogHosts.General.ReturnToTitle();
             }
@@ -471,24 +476,24 @@ public partial class ResultsWin : DataModule
 
     private static void FinishPyre(PyreScreen Dialog)
     {
-        Audio.AudioPlayback.SetSFXVolume(DialogHosts.SoundDlg.SFXVolume.Position);
+        AudioPlayback.SetSFXVolume(DialogHosts.SoundDlg.SFXVolume.Position);
         Dialog.ClearFire();
         if (Dialog.FSavedSongStatus != null)
         {
-            Audio.SongStatus.RestoreSongStatus(Dialog.FSavedSongStatus);
+            SongStatus.RestoreSongStatus(Dialog.FSavedSongStatus);
             Dialog.FSavedSongStatus = null;
         }
         Dialog.FGameOverEvent.Handled();
         DialogHosts.General.Manager.OverlayPriority = 0;
-        Events.ExecuteDoneEvent fDone = Dialog.FDone;
-        Events.GameOverEventLog fGameOverEvent = Dialog.FGameOverEvent;
+        ExecuteDoneEvent fDone = Dialog.FDone;
+        GameOverEventLog fGameOverEvent = Dialog.FGameOverEvent;
         Dialog.FDone = null;
         Dialog.FGameOverEvent = null;
         fDone?.Invoke(fGameOverEvent);
         fGameOverEvent?.Release();
     }
 
-    private static void DrawImageLine(Draw.Images.LibraryImage Image, int X1, int Y1, int X2, int Y2, int Spacing, in SurfaceDesc SD)
+    private static void DrawImageLine(LibraryImage Image, int X1, int Y1, int X2, int Y2, int Spacing, in SurfaceDesc SD)
     {
         int num = 0;
         int i;

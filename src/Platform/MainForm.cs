@@ -1,4 +1,6 @@
 #nullable disable
+using Aow.Formats;
+using Aow.Game;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -9,6 +11,7 @@ using Aow.Game.Layout;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Platform;
@@ -115,7 +118,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     // A command-line save names a world or campaign save by its original or own extension (own-formats.md 2.9).
     public static bool IsSaveName(string argument) =>
-        Aow.Formats.DocumentKind.Save.HasExtension(Path.GetExtension(argument)) || Aow.Formats.DocumentKind.CampaignSave.HasExtension(Path.GetExtension(argument));
+        DocumentKind.Save.HasExtension(Path.GetExtension(argument)) || DocumentKind.CampaignSave.HasExtension(Path.GetExtension(argument));
 
     private void FormShow(string argument)
     {
@@ -157,20 +160,20 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (DialogHosts.SetupEvents.DPlay.DPlay is not null)
             DialogHosts.SetupEvents.DPlay.CheckMessages();
         AudioPlayback.ProcessSound();
-        try { Game.World.Map.AoWHSMap.Current?.NewFrame(); }
-        catch (System.Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
+        try { AoWHSMap.Current?.NewFrame(); }
+        catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
         if (dc?.GetSurface(1) is Surface back)
         {
             int x = -1, y = -1;
             Display.GetMousePos(ref x, ref y);
             Rect rect = default;
             GetCursorRect(x, y, ref rect);
-            FCursorChanged |= (Game.World.Map.AoWHSMap.Current is not null && Game.World.Map.AoWHSMap.Current.Mouse.CursorVisible) ||
+            FCursorChanged |= (AoWHSMap.Current is not null && AoWHSMap.Current.Mouse.CursorVisible) ||
                 FLastCursorRect.Left != rect.Left || FLastCursorRect.Top != rect.Top ||
                 FLastCursorRect.Right != rect.Right || FLastCursorRect.Bottom != rect.Bottom;
-            if (Game.World.Map.AoWHSMap.Current is not null) ScrollMap(x, y);
+            if (AoWHSMap.Current is not null) ScrollMap(x, y);
             try { DialogHosts.General.Manager.DrawSurface(back); }
-            catch (System.Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
+            catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
             SurfaceDesc descriptor = default;
             if (x != -1 && back.Lock(ref descriptor) >= 0)
             {
@@ -180,11 +183,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             FLastCursorRect = rect;
             DialogHosts.DialogWin.FrameLbl.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
         }
-        if (Game.World.Map.AoWHSMap.Current is not null && Game.World.Map.AoWHSMap.Current.FExitPending) DialogHosts.General.ReturnToTitle();
+        if (AoWHSMap.Current is not null && AoWHSMap.Current.FExitPending) DialogHosts.General.ReturnToTitle();
         VideoDialog.ApplyVideoSettings(DialogHosts.VideoDialog);
     }
 
-    private int CursorIndex => FCursor == 9999 && Game.World.Map.AoWHSMap.Current is not null ? Game.World.Map.AoWHSMap.Current.Mouse.Cursor : FCursor;
+    private int CursorIndex => FCursor == 9999 && AoWHSMap.Current is not null ? AoWHSMap.Current.Mouse.Cursor : FCursor;
 
     public void GetCursorRect(int x, int y, ref Rect rect)
     {
@@ -200,7 +203,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             RtlUnit.UnionRect(ref FCursorBounds, FCursorBounds, bounds);
         }
         FCursorBounds = default;
-        if (Game.World.Map.AoWHSMap.Current is not null)
+        if (AoWHSMap.Current is not null)
         {
             Include(FCursorImage, -15, -20);
             if (CursorIndex != 1) Include(AoWHSSet.Current.FCursorImages[CursorIndex], -25, -25);
@@ -214,17 +217,17 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     public void DrawCursor(int x, int y, in SurfaceDesc surface)
     {
         if (x == -1) return;
-        if (Game.World.Map.AoWHSMap.Current is not null && Game.World.Map.AoWHSMap.Current.Status.Contains(Game.World.Map.HSMapStatusElement.Activated))
+        if (AoWHSMap.Current is not null && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, surface);
             var image = CursorIndex != 1 ? AoWHSSet.Current.FCursorImages[CursorIndex] : null;
             if (image is null) return;
-            if (Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1 && Game.World.Map.AoWHSMap.Current.FCombatMap is null)
+            if (AoWHSMap.Current.FSeatedPlayer != -1 && AoWHSMap.Current.FCombatMap is null)
             {
-                var player = Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
                 if (player.GetBusy() && player.FGameOverStatus == GameOverStatus.None)
                 {
-                    image.ShowBlended(x - 25, y - 25, surface, GfxState.AlphaBlendTable.GetLookupTables(Math.Abs((Game.World.Map.AoWHSMap.Current.Frame << 2) % 100 - 50) + 30));
+                    image.ShowBlended(x - 25, y - 25, surface, GfxState.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Current.Frame << 2) % 100 - 50) + 30));
                     FCursorChanged = true;
                     return;
                 }
@@ -249,7 +252,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         Display.MouseButtons = shift;
         DialogHosts.General.Manager.CheckMouseUp(button, shift, x, y);
-        if (Game.World.Map.AoWHSMap.Current?.Mouse is Game.World.Map.AbstractAoWHSMapMouse mouse) mouse.ResetRectangleSelection();
+        if (AoWHSMap.Current?.Mouse is AbstractAoWHSMapMouse mouse) mouse.ResetRectangleSelection();
     }
 
     public void MouseMove(Set<ShiftState> shift, int x, int y) { Display.MouseButtons = shift; DialogHosts.General.Manager.CheckMouseMove(shift, x, y); }
@@ -260,12 +263,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         if (key == 13 && shift.Contains(ShiftState.Alt)) { Display.SwapDC(); return; }
         DialogHosts.General.Manager.CheckKeyDown(ref key, shift);
-        if (key == 112 && Game.World.Map.AoWHSMap.Current is not null && Game.World.Map.AoWHSMap.Current.FGameType == GameType.Tutorial) TutorialWindow.ShowTutorialMessage(GameLayouts.TutorialWindow);
+        if (key == 112 && AoWHSMap.Current is not null && AoWHSMap.Current.FGameType == GameType.Tutorial) TutorialWindow.ShowTutorialMessage(GameLayouts.TutorialWindow);
     }
 
     public void KeyPress(byte key) => DialogHosts.General.Manager.CheckKeyPress(ref key);
 
-    public void DoubleClick() { if (Game.World.Map.AoWHSMap.Current is not null && !General.HasModalWindow(DialogHosts.General)) Game.World.Map.AoWHSMap.Current.Mouse.DblClick(); }
+    public void DoubleClick() { if (AoWHSMap.Current is not null && !General.HasModalWindow(DialogHosts.General)) AoWHSMap.Current.Mouse.DblClick(); }
 
     public void Resize(int width, int height) => Display.Resize();
 
@@ -273,11 +276,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public bool CloseRequested()
     {
-        if (Game.World.Map.AoWHSMap.Current is null) return IsClosed = true;
-        if (Game.World.Map.AoWHSMap.Current.FCombatMap is null)
+        if (AoWHSMap.Current is null) return IsClosed = true;
+        if (AoWHSMap.Current.FCombatMap is null)
         {
-            Game.World.Map.AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
-            return IsClosed |= Game.World.Map.AoWHSMap.Current.FExitPending;
+            AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
+            return IsClosed |= AoWHSMap.Current.FExitPending;
         }
         DialogHosts.DialogWin.Confirm(AbilityRules.TranslateRStr(PlayerControl.ConfirmRStr), AbilityRules.TranslateRStr(PopupWindows.QuitCombatRStr), 6);
         return false;

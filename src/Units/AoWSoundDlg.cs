@@ -1,6 +1,8 @@
 // Translated from AoWSoundDlg.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
@@ -175,7 +177,7 @@ public partial class SoundDlg : DataModule
         SearchRec Search = default;
         SongLB.Items.Clear();
         SongFiles.Clear();
-        SetCurrentDir(Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "\\Songs");
+        SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "\\Songs");
         Directory = GetCurrentDir();
         if (Copy(Directory, Directory.Length, 1) == "\\")
         {
@@ -200,7 +202,7 @@ public partial class SoundDlg : DataModule
         }
 
         FindClose(ref Search);
-        Engine.Nodes.StringSorting.SortStringsAscending(SongLB.Items, [SongFiles]);
+        StringSorting.SortStringsAscending(SongLB.Items, [SongFiles]);
         SongLB.Selected = -1;
         SongLB.ListOffset = 0;
         SongSB.Position = 0;

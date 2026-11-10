@@ -1,15 +1,18 @@
 // Translated from Spring.pas.
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Game.Audio;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Draw.Animation
+namespace Aow.Game.Draw.Animations
 {
 
     public partial class SpringOfLifeAnimation : Animation
@@ -94,7 +97,7 @@ namespace Aow.Game.World.Structures
 
             if (condition)
             {
-                Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+                AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
             }
 
             var lhx2 = GetLhx();
@@ -132,7 +135,7 @@ namespace Aow.Game.World.Structures
             // Spring.pas:37
 
             // Spring.pas:126
-            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(SpringOfLifeRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(SpringOfLifeRStr);
 
             private static readonly string SpringOfLifeRStr = "Spring of Life";
 
@@ -143,7 +146,7 @@ namespace Aow.Game.World.Structures
     }
 }
 
-namespace Aow.Game.Draw.Animation
+namespace Aow.Game.Draw.Animations
 {
 
     public struct SpringAnimationCallback

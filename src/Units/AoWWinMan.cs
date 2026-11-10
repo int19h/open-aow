@@ -1,7 +1,9 @@
 // Translated from AoWWinMan.pas.
+using Aow.Engine.Buffers;
+using Aow.Formats;
+using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -61,8 +63,8 @@ public partial class General : DataModule
         GameTables.AoWEngine.CloseCampaign();
         DialogHosts.SWindow.Scanner.SetMap(null);
         DialogHosts.TCScanner.Scanner.SetMap(null);
-        Audio.AudioHost.SongPlayer.Stop(false);
-        Audio.AudioHost.SongPlayer.Songs.Clear();
+        AudioHost.SongPlayer.Stop(false);
+        AudioHost.SongPlayer.Songs.Clear();
         SetCurrentDir(GameTables.AoWEngine.StartupDirectory);
         DialogHosts.General.HideWindows();
         DialogHosts.TBWindow.TaskWindow.Visible = false;
@@ -203,16 +205,16 @@ public partial class General : DataModule
         switch (Kind)
         {
             case 0:
-                Audio.AudioPlayback.PlaySample("Sfx\\Int\\Btn1.wav");
+                AudioPlayback.PlaySample("Sfx\\Int\\Btn1.wav");
                 break;
             case 3:
-                Audio.AudioPlayback.PlaySample("Sfx\\Int\\Btn3.wav");
+                AudioPlayback.PlaySample("Sfx\\Int\\Btn3.wav");
                 break;
             case 1:
-                Audio.AudioPlayback.PlaySample("Sfx\\Int\\Btn5.wav");
+                AudioPlayback.PlaySample("Sfx\\Int\\Btn5.wav");
                 break;
             case 2:
-                Audio.AudioPlayback.PlaySample("Sfx\\Int\\Btn6.wav");
+                AudioPlayback.PlaySample("Sfx\\Int\\Btn6.wav");
                 break;
         }
     }
@@ -380,7 +382,7 @@ public partial class General : DataModule
             {
                 A = new CombatAbilityRef();
                 A.Ability = I;
-                if (DialogHosts.General.FSelectedUnit.FPlayer == AoWHSMap.Current.FSeatedPlayer && (Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).GetControlType(DialogHosts.General.FSelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
+                if (DialogHosts.General.FSelectedUnit.FPlayer == AoWHSMap.Current.FSeatedPlayer && (AoWHSSet.Current.FAbilityControl.GetAbility(I).GetControlType(DialogHosts.General.FSelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
                 {
                     FAbilities.Insert(FActiveAbilityCount, A);
                     FActiveAbilityCount += 1;
@@ -763,8 +765,8 @@ public partial class General : DataModule
         GameTables.AoWEngine.CloseCampaign();
         DialogHosts.SWindow.Scanner.SetMap(null);
         DialogHosts.TCScanner.Scanner.SetMap(null);
-        Audio.AudioHost.SongPlayer.Stop(false);
-        Audio.AudioHost.SongPlayer.Songs.Clear();
+        AudioHost.SongPlayer.Stop(false);
+        AudioHost.SongPlayer.Songs.Clear();
         SetCurrentDir(GameTables.AoWEngine.StartupDirectory);
         HideGameWindows(DialogHosts.General);
         DialogHosts.TBWindow.TaskWindow.Visible = false;
@@ -899,10 +901,10 @@ public partial class General : DataModule
             DialogHosts.General.Manager.OverlayPriority = 5000;
         }
 
-        Audio.AudioHost.SongPlayer.Stop(false);
-        Audio.AudioHost.SongPlayer.Songs.Clear();
-        Audio.AudioPlayback.FadeMusicVolume(0, 1);
-        GameTables.AoWEngine.LoadHSM(Name, false, (_, Message, Progression) => Controller.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
+        AudioHost.SongPlayer.Stop(false);
+        AudioHost.SongPlayer.Songs.Clear();
+        AudioPlayback.FadeMusicVolume(0, 1);
+        GameTables.AoWEngine.LoadHSM(Name, false, (_, Message, Progression) => Controller.MapProgress(Message, Progression), GameProfile.WorldMap);
         if (GameTables.AoWEngine.FDemo && AoWHSMap.Current != null && !AoWHSMap.Current.FShowAllPlayers)
         {
             Controller.ReturnToTitle();
@@ -915,17 +917,17 @@ public partial class General : DataModule
     internal static void StartGame(General controller)
     {
         controller.FWindowsHidden = false;
-        Audio.AudioHost.SongPlayer.Songs.Clear();
-        if (AoWHSMap.Current.FGameSongs.Songs.Count != 0) Audio.AudioHost.SongPlayer.Songs.AddStrings(AoWHSMap.Current.FGameSongs.Songs);
+        AudioHost.SongPlayer.Songs.Clear();
+        if (AoWHSMap.Current.FGameSongs.Songs.Count != 0) AudioHost.SongPlayer.Songs.AddStrings(AoWHSMap.Current.FGameSongs.Songs);
         else if (AoWHSMap.Current.FStartupSongs.Songs.Count != 0)
         {
             for (int i = 0; i < AoWHSMap.Current.FStartupSongs.Songs.Count; i++)
                 if (RtlUnit.CompareText(AoWHSMap.Current.FStartupSongs.SongNames[i], AbilityRules.TranslateRStr(LayerText.E1FileNotFoundRStr)) != 0)
-                    Audio.AudioHost.SongPlayer.Songs.Add(AoWHSMap.Current.FStartupSongs.Songs[i]);
+                    AudioHost.SongPlayer.Songs.Add(AoWHSMap.Current.FStartupSongs.Songs[i]);
         }
-        else Audio.AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
-        Audio.AudioHost.SongPlayer.Play(0);
-        Audio.AudioPlayback.SetMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position);
+        else AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
+        AudioHost.SongPlayer.Play(0);
+        AudioPlayback.SetMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position);
         var menu = DialogHosts.PopupWindows.OverViewsMenu.Items;
         menu.Clear();
         menu.Add(AbilityRules.TranslateRStr(LayerText.E1BackgroundRStr));

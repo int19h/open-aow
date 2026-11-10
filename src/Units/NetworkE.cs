@@ -1,9 +1,11 @@
 // Translated from NetworkE.pas.
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Commands;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Net;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -14,7 +16,7 @@ namespace Aow.Game.Net
     // FEngine, FOnReceive, FReceivedPackage, FSendStream, FReceiveStream, FPCC, FOnProcess
     public partial class PlayerCommunicator : EObject
     {
-        internal Engine.Engine FEngine;
+        internal GameEngine FEngine;
 
         internal EventStore<PlayerCommunicator> FOnReceiveStore;
 
@@ -151,7 +153,7 @@ namespace Aow.Game.Net
             return FPCC.SendPackageData(AReceiver, FSendStream);
         }
 
-        public Engine.Engine Engine { get => FEngine; set => FEngine = value; }
+        public GameEngine Engine { get => FEngine; set => FEngine = value; }
 
         public event NotifyEvent<PlayerCommunicator> OnReceive
         {
@@ -266,7 +268,7 @@ namespace Aow.Game.Net
         }
 
         // NetworkE.pas:1006
-        public override void Assign(EObject Source, Engine.Engine AEngine)
+        public override void Assign(EObject Source, GameEngine AEngine)
         {
             FList.Clear();
             AddEvents((TokenEventList)Source);

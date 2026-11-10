@@ -1,10 +1,13 @@
 // Translated from Crops.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -715,7 +718,7 @@ namespace Aow.Game.World.Terrain
             }
 
             // Crops.pas:254
-            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(CropRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(CropRStr);
 
             private static readonly string CropRStr = "Crops";
 

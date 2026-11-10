@@ -1,6 +1,8 @@
 // Translated from RandomNode.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -30,7 +32,7 @@ public partial class RandomNode : ProductionPlace
         // RandomNode.pas:25
 
         // RandomNode.pas:43
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(RandomNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(RandomNodeRStr);
 
         private static readonly string RandomNodeRStr = "Random Node";
 

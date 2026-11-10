@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine;
 using Aow.Formats.Tree;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
@@ -8,24 +9,17 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.City;
-using Aow.Game.Magic.Spells.Combat;
 using Aow.Game.Magic.Spells.Global;
-using Aow.Game.Magic.Spells.GlobalEnchantment;
 using Aow.Game.Magic.Spells.GlobalTarget;
-using Aow.Game.Magic.Spells.Summon;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
@@ -39,7 +33,7 @@ using Aow.Game.World.Terrain;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine;
+namespace Aow.Game;
 
 internal static class GameClasses
 {
@@ -57,7 +51,7 @@ internal static class GameClasses
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<HexagonBridge>(), EClass.Of<HexagonBridge.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<MountainMO>(), EClass.Of<MountainMOR>(), EClass.Of<RaiseTerrainTE>(), EClass.Of<RaisedMountain>(), EClass.Of<RaisedMountain.Resource>()]);
             var raiseTerrain = new RaiseTerrain(null);
-            ((AoWEngine)(GameTables.AoWEngine)).FGameSet.FSpellControl.RegisterSpell(raiseTerrain);
+            GameTables.AoWEngine.FGameSet.FSpellControl.RegisterSpell(raiseTerrain);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<Bridge>(), EClass.Of<Bridge.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<SpringOfLife>(), EClass.Of<SpringOfLife.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<BloodShrine>(), EClass.Of<BloodShrine.Resource>()]);
@@ -96,7 +90,7 @@ internal static class GameClasses
             ((ConstructAbility)AoWHSSet.Current.FAbilityControl.GetAbility(125)).RegisterConstructionControl(shipyardConstructionControl);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<HolyGround>(), EClass.Of<HolyGround.Resource>(), EClass.Of<HolyGroundSpellTE>()]);
             var holyGroundSpell = new HolyGroundSpell(null);
-            ((AoWEngine)(GameTables.AoWEngine)).FGameSet.FSpellControl.RegisterSpell(holyGroundSpell);
+            GameTables.AoWEngine.FGameSet.FSpellControl.RegisterSpell(holyGroundSpell);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<UnHolyGround>(), EClass.Of<UnHolyGround.Resource>(), EClass.Of<UnholyGroundSpellTE>()]);
             var unholyGroundSpell = new UnholyGroundSpell(null);
             (GameTables.AoWEngine).FGameSet.FSpellControl.RegisterSpell(unholyGroundSpell);
@@ -112,7 +106,7 @@ internal static class GameClasses
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<SetupSettings>(), EClass.Of<PlayerSetupSettings>(), EClass.Of<SetupPackage>(), EClass.Of<RemotePlayer>()]);
             SpellControl Spells;
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<IceStorm>(), EClass.Of<DeathStorm>(), EClass.Of<DivineStorm>(), EClass.Of<FireStorm>(), EClass.Of<LightningStorm>(), EClass.Of<PestilenceStorm>(), EClass.Of<StormSpellTE>()]);
-            Spells = ((AoWEngine)(GameTables.AoWEngine)).FGameSet.FSpellControl;
+            Spells = GameTables.AoWEngine.FGameSet.FSpellControl;
             Spells.RegisterSpell(new FireStormSpell(null));
             Spells.RegisterSpell(new DeathStormSpell(null));
             Spells.RegisterSpell(new DivineStormSpell(null));

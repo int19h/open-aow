@@ -1,7 +1,8 @@
-// Translated from AltLight.pas.
-using Aow.Game.Draw.Animation;
+using Aow.Engine.Nodes;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -34,7 +35,7 @@ public partial class AltarOfLightning : Altar
         // AltLight.pas:26
 
         // AltLight.pas:49
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AltarOfLightningRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(AltarOfLightningRStr);
 
         private static readonly string AltarOfLightningRStr = "Altar of Lightning";
 

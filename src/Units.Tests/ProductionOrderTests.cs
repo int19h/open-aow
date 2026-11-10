@@ -1,8 +1,12 @@
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Game;
 using Aow.Game.Commands;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
@@ -59,16 +63,16 @@ public sealed class ProductionOrderTests
         return memory;
     }
 
-    private static Engine CreateEngine()
+    private static GameEngine CreateEngine()
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        var engine = new Engine(null!);
-        engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
+        GameEngine engine = new GameEngine(null!);
+        engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
         engine.RegisterEClasses([EClass.Of<ProductionItem>(), EClass.Of<ProductionTE>()]);
         return engine;
     }
 
-    private static string Write(Engine engine, EObject value)
+    private static string Write(GameEngine engine, EObject value)
     {
         using var memory = new MemoryStream();
         var writer = new EWriteStorageStream(memory, engine, false);
@@ -77,7 +81,7 @@ public sealed class ProductionOrderTests
         return Hex(memory);
     }
 
-    private static T Read<T>(Engine engine, string hex) where T : EObject
+    private static T Read<T>(GameEngine engine, string hex) where T : EObject
     {
         using var memory = Memory(hex);
         EObject result = null!;
@@ -89,7 +93,7 @@ public sealed class ProductionOrderTests
     [MemberData(nameof(OldBytes))]
     public void OrdersWriteTheOldBytes(int Id, int Parameter, int GroupId, string ItemBytes, string EventBytes)
     {
-        var engine = CreateEngine();
+        GameEngine engine = CreateEngine();
         try
         {
             var order = ProductionOrder.FromFields(Id, Parameter, GroupId);
@@ -237,21 +241,21 @@ public sealed class ProductionOrderTests
     // reads no unit production.
     private static string OldName(int ID, int Parameter, bool City, MagicSphere Sphere)
     {
-        string Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameTables.UnknownRStr);
+        string Result = AbilityRules.TranslateRStr(GameTables.UnknownRStr);
         if (City)
         {
             switch (OldCityAction(ID))
             {
-                case CityAction.Trade: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.ProduceMerchandiseRStr); break;
-                case CityAction.Upgrade: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.UpgradeRStr); break;
-                case CityAction.Migrate: Result = Runtime.Format(Game.Magic.Abilities.AbilityRules.TranslateRStr(Migrate.MigrateToXRStr), [Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Parameter])]); break;
-                case CityAction.Loot: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.LootRStr); break;
-                case CityAction.Fortify: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.FortifyRStr); break;
+                case CityAction.Trade: Result = AbilityRules.TranslateRStr(GameText.ProduceMerchandiseRStr); break;
+                case CityAction.Upgrade: Result = AbilityRules.TranslateRStr(GameText.UpgradeRStr); break;
+                case CityAction.Migrate: Result = Runtime.Format(AbilityRules.TranslateRStr(Migrate.MigrateToXRStr), [AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Parameter])]); break;
+                case CityAction.Loot: Result = AbilityRules.TranslateRStr(GameText.LootRStr); break;
+                case CityAction.Fortify: Result = AbilityRules.TranslateRStr(GameText.FortifyRStr); break;
             }
         }
         else if (ID == 10)
         {
-            Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Sphere != MagicSphere.None ? Trade.GenerateExtraPowerRStr : Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
+            Result = AbilityRules.TranslateRStr(Sphere != MagicSphere.None ? Trade.GenerateExtraPowerRStr : GameText.ProduceMerchandiseRStr);
         }
         return Result;
     }

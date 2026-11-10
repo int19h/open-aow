@@ -1,4 +1,5 @@
 // Translated from HSLib.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine.Nodes;
@@ -12,7 +13,7 @@ namespace Aow.Game.Draw;
 public partial class HSLibrary : ImageLibrary
 {
     internal DelphiList FList;
-    internal HSEngine FHSEngine;
+    internal GameEngine FHSEngine;
     internal HexagonSpriteEngine FEngine;
 
     // HSLib.pas:292

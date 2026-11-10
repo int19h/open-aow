@@ -94,7 +94,7 @@
     "size": 116,
     "parent": "Aow.Game.World.Structures.PlayerStructureResource"
   },
-  "Aow.Game.Draw.Animation.Animation": {
+  "Aow.Game.Draw.Animations.Animation": {
     "id": 131815,
     "size": 60,
     "parent": "Aow.Game.Draw.HexagonSprite"
@@ -104,45 +104,45 @@
     "size": 24,
     "parent": "Aow.Game.Commands.TokenEvent"
   },
-  "Aow.Game.Draw.Animation.ImageSequenceAnimation": {
+  "Aow.Game.Draw.Animations.ImageSequenceAnimation": {
     "id": 131815,
     "size": 80,
-    "parent": "Aow.Game.Draw.Animation.Animation"
+    "parent": "Aow.Game.Draw.Animations.Animation"
   },
-  "Aow.Game.Draw.Animation.TwinkleAnimation": {
+  "Aow.Game.Draw.Animations.TwinkleAnimation": {
     "id": 131815,
     "size": 84,
-    "parent": "Aow.Game.Draw.Animation.Animation"
+    "parent": "Aow.Game.Draw.Animations.Animation"
   },
   "Aow.Game.Ai.AIBudget": {
     "id": 131740,
     "size": 56,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.AIBudgetList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.AIBudgetManager": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.AICastSpellAction": {
     "id": 80,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.AICastSpellActionList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.AIExecuter": {
     "id": 80,
     "size": 52,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIGroup": {
     "id": 136272,
@@ -152,22 +152,22 @@
   "Aow.Game.Ai.Groups.AIGroupControl": {
     "id": 80,
     "size": 368,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIGroupControlPlugin": {
     "id": 80,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIGroupControlTarget": {
     "id": 80,
     "size": 76,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIGroupControlTargetList": {
     "id": 256,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Ai.Groups.AIGroupCooperationControl": {
     "id": 80,
@@ -182,7 +182,7 @@
   "Aow.Game.Ai.Groups.AIGroupList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.Groups.AIGroupManager": {
     "id": 256,
@@ -192,7 +192,7 @@
   "Aow.Game.Ai.Groups.AIGroupProduction": {
     "id": 80,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIGroupProductionControl": {
     "id": 80,
@@ -202,17 +202,17 @@
   "Aow.Game.Ai.Groups.AIGroupProductionList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.Groups.AIGroupProductionLocation": {
     "id": 80,
     "size": 40,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIGroupProductionLocationList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Ai.Groups.AIGroupRecruitControl": {
     "id": 80,
@@ -232,27 +232,27 @@
   "Aow.Game.Ai.Groups.AIGroupUnitProduction": {
     "id": 80,
     "size": 48,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIGroupUnitProductionList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Ai.Groups.AIMoveControl": {
     "id": 80,
     "size": 544,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIMoveControlSettings": {
     "id": 80,
     "size": 360,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIMoveExecuter": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIMoveExecuterArmy": {
     "id": 256,
@@ -262,12 +262,12 @@
   "Aow.Game.Ai.Groups.AIMoveExecuterArmyList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.Groups.AIMoveExecuterControl": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIMoveExecuterMove": {
     "id": 256,
@@ -277,42 +277,42 @@
   "Aow.Game.Ai.Groups.AIMoveExecuterMoveQueue": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.Groups.AIMoveExecuterUnit": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.AIMoveExecuterUnitList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.Groups.AIMoveTargetSelector": {
     "id": 80,
     "size": 592,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.AIPlayerAction": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.AIPlayerActionList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.AIPlayerActionManager": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.AIPlayerControl": {
     "id": 80,
     "size": 40,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.AIProductionLocationFinder": {
     "id": 80,
@@ -322,7 +322,7 @@
   "Aow.Game.Ai.AIRecruitmentGroup": {
     "id": 80,
     "size": 40,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.AIRecruitmentGroupFinder": {
     "id": 80,
@@ -332,7 +332,7 @@
   "Aow.Game.Ai.AIRecruitmentGroupList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Ai.AISavingsBudget": {
     "id": 131741,
@@ -347,17 +347,17 @@
   "Aow.Game.Magic.Abilities.Ability": {
     "id": 80,
     "size": 36,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Magic.Abilities.AbilityControl": {
     "id": 80,
     "size": 32,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Magic.Abilities.AbilityData": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Magic.Abilities.AbilityList": {
     "id": 80,
@@ -387,24 +387,24 @@
   "Aow.Game.Units.AbstractUnitResource": {
     "id": 1024,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EResource"
+    "parent": "Aow.Engine.Nodes.EResource"
   },
   "Aow.Game.Magic.Abilities.ActivateAbilityInfo": {
     "id": 80,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Units.AdjacentArmy": {
     "id": 80,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Units.AdjacentArmyList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.Engine.AdjacentMEC": {
+  "Aow.Game.Ai.Groups.AdjacentMEC": {
     "id": 80,
     "size": 28,
     "parent": "Aow.Game.Ai.Groups.AIMoveExecuterControl"
@@ -422,27 +422,27 @@
   "Aow.Game.Session.AoWCampaign": {
     "id": 80,
     "size": 52,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.AoWCampaignScenario": {
     "id": 131588,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.AoWCampaignScenarioList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Session.AoWCampaignTransferSettings": {
     "id": 80,
     "size": 80,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Engine.AoWEngine": {
+  "Aow.Game.GameEngine": {
     "id": 131073,
     "size": 128,
-    "parent": "Aow.Game.World.Map.HSEngine"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.World.Map.AoWHSMap": {
     "id": 131089,
@@ -452,9 +452,9 @@
   "Aow.Game.World.Map.AoWHSMapKeyboard": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Engine.AoWHSSet": {
+  "Aow.Game.World.Map.AoWHSSet": {
     "id": 131088,
     "size": 160,
     "parent": "Aow.Game.World.Map.HSSet"
@@ -462,7 +462,7 @@
   "Aow.Game.World.Map.AoWHSMap+AoWMapCampaignSettings": {
     "id": 80,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Map.AoWMapField": {
     "id": 131090,
@@ -477,7 +477,7 @@
   "Aow.Game.World.AoWMapObjectEditor": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObjectEditor"
+    "parent": "Aow.Engine.Nodes.EObjectEditor"
   },
   "Aow.Game.Units.Army": {
     "id": 131606,
@@ -512,12 +512,12 @@
   "Aow.Game.Units.ArmyHSList": {
     "id": 265,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EChangeNotifyEventList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyEventList"
   },
   "Aow.Game.Units.ArmyID": {
     "id": 131616,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.ArmyInfoEventLog": {
     "id": 131817,
@@ -527,7 +527,7 @@
   "Aow.Game.Units.ArmyList": {
     "id": 265,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EChangeNotifyEventList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyEventList"
   },
   "Aow.Game.Commands.ArmyNegotiateMoveTE": {
     "id": 135430,
@@ -604,25 +604,25 @@
     "size": 24,
     "parent": "Aow.Game.Commands.TokenEvent"
   },
-  "Aow.Game.Combat.Combat": {
+  "Aow.Game.Combat.Battle": {
     "id": 80,
     "size": 76,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Combat.Actions.CombatAction": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Combat.CombatActionList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Combat.CombatData": {
     "id": 131747,
     "size": 84,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.CombatEventLog": {
     "id": 131810,
@@ -637,12 +637,12 @@
   "Aow.Game.Combat.CombatLogbook": {
     "id": 131749,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Combat.CombatObject": {
     "id": 80,
     "size": 76,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Combat.Actions.CombatObjectTurnDoneCA": {
     "id": 131772,
@@ -652,22 +652,22 @@
   "Aow.Game.Combat.CombatParty": {
     "id": 131746,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Combat.CombatPartyList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Combat.CombatPlayer": {
     "id": 131744,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Combat.CombatPlayerList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Events.CombatRestoreHotseatEventLog": {
     "id": 80,
@@ -677,12 +677,12 @@
   "Aow.Game.Combat.CombatSide": {
     "id": 256,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Combat.CombatSpellCaster": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.CombatTypeRequestEventLog": {
     "id": 80,
@@ -737,12 +737,12 @@
   "Aow.Game.World.Structures.ConstructionControl": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Structures.ConstructionControlList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Magic.Abilities.CosmeticSurgeryAbility": {
     "id": 80,
@@ -757,7 +757,7 @@
   "Aow.Game.Magic.Abilities.CustomAbilityList": {
     "id": 80,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Combat.Actions.DamageCA": {
     "id": 131761,
@@ -769,7 +769,7 @@
     "size": 20,
     "parent": "Aow.Game.Combat.Actions.SingleTargetCA"
   },
-  "Aow.Game.Engine.DefaultMEC": {
+  "Aow.Game.Ai.Groups.DefaultMEC": {
     "id": 80,
     "size": 20,
     "parent": "Aow.Game.Ai.Groups.AIMoveExecuterControl"
@@ -782,7 +782,7 @@
   "Aow.Game.Session.DiplomaticAction": {
     "id": 131666,
     "size": 48,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.DiplomaticActionEventLog": {
     "id": 131347,
@@ -792,7 +792,7 @@
   "Aow.Game.Session.DiplomaticActionList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Commands.DiplomaticActionTE": {
     "id": 135432,
@@ -802,12 +802,12 @@
   "Aow.Game.Session.DiplomaticRelationHistoryItem": {
     "id": 131354,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.DiplomaticRelationHistoryList": {
     "id": 131355,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Commands.DisbandUnitTE": {
     "id": 135447,
@@ -867,27 +867,27 @@
   "Aow.Game.Net.EmailGame": {
     "id": 136960,
     "size": 32,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Net.EmailGameControl": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Net.EmailGameList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Magic.Enchantment": {
     "id": 80,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Magic.EnchantmentList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.EndTurnAIPA": {
     "id": 80,
@@ -922,17 +922,17 @@
   "Aow.Game.Units.FaceResource": {
     "id": 131696,
     "size": 44,
-    "parent": "Aow.Game.Engine.Nodes.EResource"
+    "parent": "Aow.Engine.Nodes.EResource"
   },
   "Aow.Game.Units.FaceResourceList": {
     "id": 1025,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.EResourceList"
   },
-  "Aow.Game.Combat.FastCombat": {
+  "Aow.Game.Combat.FastBattle": {
     "id": 131760,
     "size": 80,
-    "parent": "Aow.Game.Combat.Combat"
+    "parent": "Aow.Game.Combat.Battle"
   },
   "Aow.Game.Combat.FastCombatParty": {
     "id": 131746,
@@ -957,7 +957,7 @@
   "Aow.Game.World.FlagControl": {
     "id": 81,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EControlStyleObject"
+    "parent": "Aow.Engine.Nodes.EControlStyleObject"
   },
   "Aow.Game.Magic.Abilities.FlameThrowingAbility": {
     "id": 80,
@@ -982,7 +982,7 @@
   "Aow.Game.Magic.GlobalEnchantment": {
     "id": 80,
     "size": 36,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.GlobalEnchantmentEventLog": {
     "id": 131819,
@@ -992,17 +992,17 @@
   "Aow.Game.Magic.GlobalEnchantmentList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Magic.GlobalMagicControl": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.Groups.GroupControl": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.GroupControlAIPA": {
     "id": 80,
@@ -1057,7 +1057,7 @@
   "Aow.Game.Units.HeroControl": {
     "id": 80,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.HeroEmergeEventLog": {
     "id": 131832,
@@ -1087,12 +1087,12 @@
   "Aow.Game.Units.HeroLibraryManager": {
     "id": 80,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Units.HeroList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Units.HeroPowerSource": {
     "id": 80,
@@ -1112,7 +1112,7 @@
   "Aow.Game.Units.HeroResourceList": {
     "id": 1025,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.EResourceList"
   },
   "Aow.Game.Commands.HeroUpdateTE": {
     "id": 135429,
@@ -1142,12 +1142,12 @@
   "Aow.Game.World.Structures.IncomeSource": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Structures.IncomeSourceList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.InitializeAIPA": {
     "id": 80,
@@ -1172,17 +1172,17 @@
   "Aow.Game.Units.ItemControl": {
     "id": 80,
     "size": 32,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Units.ItemGFX": {
     "id": 131689,
     "size": 48,
-    "parent": "Aow.Game.Engine.Nodes.EResource"
+    "parent": "Aow.Engine.Nodes.EResource"
   },
   "Aow.Game.Units.ItemGFXList": {
     "id": 1025,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.EResourceList"
   },
   "Aow.Game.Draw.ItemHS": {
     "id": 131697,
@@ -1202,12 +1202,12 @@
   "Aow.Game.Units.ItemLibraryManager": {
     "id": 80,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Units.ItemList": {
     "id": 265,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.Commands.ItemTE": {
     "id": 131698,
@@ -1227,7 +1227,7 @@
   "Aow.Game.Units.LeaderSetupControl": {
     "id": 80,
     "size": 40,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Magic.Abilities.LeadershipAbility": {
     "id": 80,
@@ -1247,17 +1247,17 @@
   "Aow.Game.World.Movement.MoveControlSettings": {
     "id": 80,
     "size": 428,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Movement.MoveSettings": {
     "id": 80,
     "size": 44,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Movement.MoveSettingsList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Commands.MoveTE": {
     "id": 1361,
@@ -1267,12 +1267,12 @@
   "Aow.Game.World.Movement.MoveTarget": {
     "id": 80,
     "size": 52,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Movement.MoveTargetList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EReferenceNode"
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
   },
   "Aow.Game.Combat.Actions.MoveWallCA": {
     "id": 131767,
@@ -1322,27 +1322,27 @@
   "Aow.Game.Magic.Abilities.P1AbilityNameView": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Magic.Abilities.P1AbilityView": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Engine.P1OwnerView": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.P3NodeAccess": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Events.P5EventLogABI": {
     "id": 80,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.PBEMPlayerControl": {
     "id": 131667,
@@ -1352,12 +1352,12 @@
   "Aow.Game.Session.PBEMPlayerSettings": {
     "id": 80,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.PadControl": {
     "id": 81,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EControlStyleObject"
+    "parent": "Aow.Engine.Nodes.EControlStyleObject"
   },
   "Aow.Game.Ai.Groups.PassiveGC": {
     "id": 136199,
@@ -1372,7 +1372,7 @@
   "Aow.Game.Session.Player": {
     "id": 131104,
     "size": 220,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.PlayerConnectionEventLog": {
     "id": 80,
@@ -1382,22 +1382,22 @@
   "Aow.Game.Session.PlayerControl": {
     "id": 80,
     "size": 32,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.PlayerDiplomaticRelations": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.PlayerList": {
     "id": 257,
     "size": 32,
-    "parent": "Aow.Game.Engine.Nodes.EControlStyleNode"
+    "parent": "Aow.Engine.Nodes.EControlStyleNode"
   },
   "Aow.Game.Session.PlayerMagicControl": {
     "id": 80,
     "size": 76,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.PlayerMagicEventLog": {
     "id": 131824,
@@ -1407,7 +1407,7 @@
   "Aow.Game.Session.PlayerStatistics": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Structures.PlayerStructure": {
     "id": 131916,
@@ -1422,7 +1422,7 @@
   "Aow.Game.Session.PlayerStructureList": {
     "id": 265,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EChangeNotifyEventList"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyEventList"
   },
   "Aow.Game.Session.PlayerStructurePowerSource": {
     "id": 80,
@@ -1457,12 +1457,12 @@
   "Aow.Game.World.Structures.PowerSource": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Structures.PowerSourceList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.ProcessEventlogAIPA": {
     "id": 80,
@@ -1472,7 +1472,7 @@
   "Aow.Game.World.Structures.ProductionControl": {
     "id": 80,
     "size": 40,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.ProductionEventLog": {
     "id": 131833,
@@ -1482,17 +1482,17 @@
   "Aow.Game.World.Structures.ProductionItem": {
     "id": 131735,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Structures.ProductionQueue": {
     "id": 256,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.World.Structures.ProductionSettings": {
     "id": 80,
     "size": 44,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Commands.ProductionTE": {
     "id": 131736,
@@ -1502,22 +1502,22 @@
   "Aow.Game.Session.Race": {
     "id": 131586,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.RaceList": {
     "id": 257,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EControlStyleNode"
+    "parent": "Aow.Engine.Nodes.EControlStyleNode"
   },
   "Aow.Game.Session.RaceResource": {
     "id": 131585,
     "size": 72,
-    "parent": "Aow.Game.Engine.Nodes.EResource"
+    "parent": "Aow.Engine.Nodes.EResource"
   },
   "Aow.Game.Session.RaceResourceList": {
     "id": 1025,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.EResourceList"
   },
   "Aow.Game.Magic.Abilities.RangedAttackAbility": {
     "id": 80,
@@ -1612,7 +1612,7 @@
   "Aow.Game.Magic.Spells.Spell": {
     "id": 80,
     "size": 52,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.SpellCastEventLog": {
     "id": 131823,
@@ -1622,7 +1622,7 @@
   "Aow.Game.Magic.Spells.SpellCaster": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Magic.Abilities.SpellCastingAbility": {
     "id": 80,
@@ -1632,7 +1632,7 @@
   "Aow.Game.Magic.Spells.SpellControl": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Commands.SpellTE": {
     "id": 135936,
@@ -1682,7 +1682,7 @@
   "Aow.Game.World.Structures.StructureControl": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ai.StructurePhase1AIPA": {
     "id": 80,
@@ -1712,12 +1712,12 @@
   "Aow.Game.World.Movement.SubMove": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Movement.SubMoveList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Ai.Groups.SuicidalGC": {
     "id": 136195,
@@ -1729,15 +1729,15 @@
     "size": 32,
     "parent": "Aow.Game.Commands.TokenEvent"
   },
-  "Aow.Game.Engine.TextControl": {
+  "Aow.Game.World.Map.TextControl": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.Units.TextControlItem": {
+  "Aow.Game.World.Map.TextControlItem": {
     "id": 131738,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Magic.Abilities.TouchAbility": {
     "id": 80,
@@ -1749,7 +1749,7 @@
     "size": 48,
     "parent": "Aow.Game.Magic.Abilities.MultiLevelAbility"
   },
-  "Aow.Game.Engine.TransportMEC": {
+  "Aow.Game.Ai.Groups.TransportMEC": {
     "id": 80,
     "size": 24,
     "parent": "Aow.Game.Ai.Groups.AIMoveExecuterControl"
@@ -1757,12 +1757,12 @@
   "Aow.Game.Session.TurnInfo": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Units.TurnInfoItem": {
     "id": 131739,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.TurnPlayerControl": {
     "id": 131664,
@@ -1782,9 +1782,9 @@
   "Aow.Game.Ui.Controls.TutorialControl": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Magic.Abilities.Unit": {
+  "Aow.Game.Units.Unit": {
     "id": 131603,
     "size": 72,
     "parent": "Aow.Game.Magic.Abilities.AbstractUnit"
@@ -1792,7 +1792,7 @@
   "Aow.Game.Units.UnitControl": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Units.UnitControlCallViewP4": {
     "id": 80,
@@ -1817,12 +1817,12 @@
   "Aow.Game.Units.UnitGFXResource": {
     "id": 131600,
     "size": 72,
-    "parent": "Aow.Game.Engine.Nodes.EResource"
+    "parent": "Aow.Engine.Nodes.EResource"
   },
   "Aow.Game.Units.UnitGFXResourceList": {
     "id": 1025,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.EResourceList"
   },
   "Aow.Game.Draw.UnitHS": {
     "id": 131604,
@@ -1832,17 +1832,17 @@
   "Aow.Game.Units.UnitList": {
     "id": 265,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.Units.UnitProduction": {
     "id": 131737,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Units.UnitProductionList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Units.UnitResource": {
     "id": 131602,
@@ -1857,7 +1857,7 @@
   "Aow.Game.Units.UnitResourceList": {
     "id": 1025,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.EResourceList"
   },
   "Aow.Game.Units.UnitSelectorAAI": {
     "id": 80,
@@ -1869,7 +1869,7 @@
     "size": 12,
     "parent": "Aow.Game.Draw.HexagonSprite"
   },
-  "Aow.Game.Magic.Spells.Unit.UnitSpell": {
+  "Aow.Game.Magic.Spells.UnitSpell": {
     "id": 80,
     "size": 68,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -1962,27 +1962,27 @@
   "Aow.Game.Session.PlayerSetupSettings": {
     "id": 131683,
     "size": 40,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.RemotePlayer": {
     "id": 131682,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.RemotePlayerList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Session.SetupPackage": {
     "id": 131681,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Session.SetupSettings": {
     "id": 131680,
     "size": 68,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Combat.AoWCombatMap": {
     "id": 2228480,
@@ -2029,10 +2029,10 @@
     "size": 32,
     "parent": "Aow.Game.Draw.FixedVisibleHS"
   },
-  "Aow.Game.Combat.TacticalCombat": {
+  "Aow.Game.Combat.TacticalBattle": {
     "id": 2228496,
     "size": 80,
-    "parent": "Aow.Game.Combat.Combat"
+    "parent": "Aow.Game.Combat.Battle"
   },
   "Aow.Game.Combat.TacticalCombatPlayer": {
     "id": 131744,
@@ -2052,7 +2052,7 @@
   "Aow.Game.Combat.UnitPositionControl": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Draw.UnitPositionHS": {
     "id": 2228483,
@@ -2087,12 +2087,12 @@
   "Aow.Game.Ui.Dialogs.WMCampaignScenarioPage": {
     "id": 2248706,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Ui.Dialogs.WMCampaignScenarioPageList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.World.Structures.Arena": {
     "id": 133276,
@@ -2199,10 +2199,10 @@
     "size": 48,
     "parent": "Aow.Game.World.Structures.Structure"
   },
-  "Aow.Game.Draw.Animation.BloodShrineAnimation": {
+  "Aow.Game.Draw.Animations.BloodShrineAnimation": {
     "id": 131815,
     "size": 60,
-    "parent": "Aow.Game.Draw.Animation.Animation"
+    "parent": "Aow.Game.Draw.Animations.Animation"
   },
   "Aow.Game.World.Structures.BloodShrine+Resource": {
     "id": 131377,
@@ -2312,39 +2312,39 @@
   "Aow.Game.Units.MigrationItem": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Structures.MigrationList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.Magic.Spells.City.Anarchy": {
+  "Aow.Game.Magic.Spells.Anarchy": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.City.CityTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.CityTargetSpell"
   },
-  "Aow.Game.Magic.Spells.City.AnimateRuins": {
+  "Aow.Game.Magic.Spells.AnimateRuins": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.City.CityTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.CityTargetSpell"
   },
-  "Aow.Game.Magic.Spells.City.AntiMagicShell": {
+  "Aow.Game.Magic.Spells.AntiMagicShell": {
     "id": 80,
     "size": 80,
-    "parent": "Aow.Game.Magic.Spells.City.CityEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.CityEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.City.CityEnchantmentSpell": {
+  "Aow.Game.Magic.Spells.CityEnchantmentSpell": {
     "id": 80,
     "size": 80,
-    "parent": "Aow.Game.Magic.Spells.City.CityTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.CityTargetSpell"
   },
   "Aow.Game.Commands.CityEnchantmentSpellTE": {
     "id": 131821,
     "size": 40,
     "parent": "Aow.Game.Commands.CityTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.City.CityTargetSpell": {
+  "Aow.Game.Magic.Spells.CityTargetSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -2354,35 +2354,35 @@
     "size": 40,
     "parent": "Aow.Game.Commands.SpellTE"
   },
-  "Aow.Game.Magic.Spells.City.FountainOfLife": {
+  "Aow.Game.Magic.Spells.FountainOfLife": {
     "id": 80,
     "size": 80,
-    "parent": "Aow.Game.Magic.Spells.City.CityEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.CityEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.City.GoldRush": {
+  "Aow.Game.Magic.Spells.GoldRush": {
     "id": 80,
     "size": 80,
-    "parent": "Aow.Game.Magic.Spells.City.CityEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.CityEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.City.TownGate": {
+  "Aow.Game.Magic.Spells.TownGate": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.City.CityTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.CityTargetSpell"
   },
   "Aow.Game.Commands.TownGateTE": {
     "id": 135950,
     "size": 48,
     "parent": "Aow.Game.Commands.CityTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.City.TownQuake": {
+  "Aow.Game.Magic.Spells.TownQuake": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.City.CityTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.CityTargetSpell"
   },
-  "Aow.Game.Magic.Spells.City.Warmonger": {
+  "Aow.Game.Magic.Spells.Warmonger": {
     "id": 80,
     "size": 80,
-    "parent": "Aow.Game.Magic.Spells.City.CityEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.CityEnchantmentSpell"
   },
   "Aow.Game.World.Terrain.CityWall": {
     "id": 2229508,
@@ -2489,32 +2489,32 @@
     "size": 52,
     "parent": "Aow.Game.World.Map.AbstractRoadResource"
   },
-  "Aow.Game.Magic.Spells.Combat.AnimateDead": {
+  "Aow.Game.Magic.Spells.AnimateDead": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
   "Aow.Game.Combat.Actions.AnimateDeadCA": {
     "id": 131782,
     "size": 28,
     "parent": "Aow.Game.Combat.Actions.ExclusiveCombatSpellCA"
   },
-  "Aow.Game.Magic.Spells.Combat.CallFlames": {
+  "Aow.Game.Magic.Spells.CallFlames": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.ChainLightning": {
+  "Aow.Game.Magic.Spells.ChainLightning": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.ColdBreath": {
+  "Aow.Game.Magic.Spells.ColdBreath": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.CombatSpell": {
+  "Aow.Game.Magic.Spells.CombatSpell": {
     "id": 80,
     "size": 64,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -2524,20 +2524,20 @@
     "size": 32,
     "parent": "Aow.Game.Combat.Actions.DamageCA"
   },
-  "Aow.Game.Magic.Spells.Combat.DeathRay": {
+  "Aow.Game.Magic.Spells.DeathRay": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.DiseaseCloud": {
+  "Aow.Game.Magic.Spells.DiseaseCloud": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.Entangle": {
+  "Aow.Game.Magic.Spells.Entangle": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
   "Aow.Game.Combat.Actions.EntangleSpellCA": {
     "id": 131784,
@@ -2559,50 +2559,50 @@
     "size": 32,
     "parent": "Aow.Game.Combat.Actions.MultiTargetCombatSpellCA"
   },
-  "Aow.Game.Magic.Spells.Combat.FireBall": {
+  "Aow.Game.Magic.Spells.FireBall": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.FireBreath": {
+  "Aow.Game.Magic.Spells.FireBreath": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.FlamingArrow": {
+  "Aow.Game.Magic.Spells.FlamingArrow": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.FrostBeams": {
+  "Aow.Game.Magic.Spells.FrostBeams": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.Geyser": {
+  "Aow.Game.Magic.Spells.Geyser": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.GreatHail": {
+  "Aow.Game.Magic.Spells.GreatHail": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.HighPrayer": {
+  "Aow.Game.Magic.Spells.HighPrayer": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.IceShards": {
+  "Aow.Game.Magic.Spells.IceShards": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.MindDecay": {
+  "Aow.Game.Magic.Spells.MindDecay": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
   "Aow.Game.Combat.Actions.MindDecayCA": {
     "id": 131787,
@@ -2614,60 +2614,60 @@
     "size": 32,
     "parent": "Aow.Game.Combat.Actions.CombatAction"
   },
-  "Aow.Game.Magic.Spells.Combat.Ooze": {
+  "Aow.Game.Magic.Spells.Ooze": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.RecallSpirit": {
+  "Aow.Game.Magic.Spells.RecallSpirit": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
   "Aow.Game.Combat.Actions.RecallSpiritCA": {
     "id": 131781,
     "size": 28,
     "parent": "Aow.Game.Combat.Actions.ExclusiveCombatSpellCA"
   },
-  "Aow.Game.Magic.Spells.Combat.SacredWrath": {
+  "Aow.Game.Magic.Spells.SacredWrath": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.SacrificialFlame": {
+  "Aow.Game.Magic.Spells.SacrificialFlame": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.Shockwave": {
+  "Aow.Game.Magic.Spells.Shockwave": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.Slow": {
+  "Aow.Game.Magic.Spells.Slow": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
   "Aow.Game.Combat.Actions.SlowCA": {
     "id": 131792,
     "size": 28,
     "parent": "Aow.Game.Combat.Actions.ExclusiveCombatSpellCA"
   },
-  "Aow.Game.Magic.Spells.Combat.SolarFlare": {
+  "Aow.Game.Magic.Spells.SolarFlare": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.Stoning": {
+  "Aow.Game.Magic.Spells.Stoning": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.Swarm": {
+  "Aow.Game.Magic.Spells.Swarm": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
   "Aow.Game.Combat.Actions.TacticalCombatHighPrayerCA": {
     "id": 131786,
@@ -2679,35 +2679,35 @@
     "size": 24,
     "parent": "Aow.Game.Combat.Actions.CombatAction"
   },
-  "Aow.Game.Magic.Spells.Combat.Terror": {
+  "Aow.Game.Magic.Spells.Terror": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.Tremors": {
+  "Aow.Game.Magic.Spells.Tremors": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.TurnUndead": {
+  "Aow.Game.Magic.Spells.TurnUndead": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
   "Aow.Game.Combat.Actions.TurnUndeadSpellCA": {
     "id": 131788,
     "size": 32,
     "parent": "Aow.Game.Combat.Actions.CombatSpellCA"
   },
-  "Aow.Game.Magic.Spells.Combat.Vaporize": {
+  "Aow.Game.Magic.Spells.Vaporize": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
-  "Aow.Game.Magic.Spells.Combat.WindsOfFury": {
+  "Aow.Game.Magic.Spells.WindsOfFury": {
     "id": 80,
     "size": 64,
-    "parent": "Aow.Game.Magic.Spells.Combat.CombatSpell"
+    "parent": "Aow.Game.Magic.Spells.CombatSpell"
   },
   "Aow.Game.World.Terrain.CombatStructure": {
     "id": 2229510,
@@ -2839,110 +2839,105 @@
     "size": 120,
     "parent": "Aow.Game.World.Structures.ProductionPlaceResource"
   },
-  "Aow.Game.Engine.Nodes.EChangeNotifyEventList": {
+  "Aow.Engine.Nodes.EChangeNotifyEventList": {
     "id": 265,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
-  "Aow.Game.Engine.Nodes.EChangeNotifyNode": {
+  "Aow.Engine.Nodes.EChangeNotifyNode": {
     "id": 265,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
-  "Aow.Game.Engine.Nodes.EControlStyleInverseSortNode": {
+  "Aow.Engine.Nodes.EControlStyleInverseSortNode": {
     "id": 263,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EInverseSortNode"
+    "parent": "Aow.Engine.Nodes.EInverseSortNode"
   },
-  "Aow.Game.Engine.Nodes.EControlStyleNode": {
+  "Aow.Engine.Nodes.EControlStyleNode": {
     "id": 257,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.Engine.Nodes.EControlStyleObject": {
+  "Aow.Engine.Nodes.EControlStyleObject": {
     "id": 81,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Engine.Nodes.EControlStyleSortNode": {
+  "Aow.Engine.Nodes.EControlStyleSortNode": {
     "id": 261,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.ESortNode"
+    "parent": "Aow.Engine.Nodes.ESortNode"
   },
-  "Aow.Game.Engine.Nodes.ECustomNode": {
+  "Aow.Engine.Nodes.ECustomNode": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Engine.Nodes.ECustomOwner": {
+  "Aow.Engine.Nodes.ECustomOwner": {
     "id": 259,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.Engine.Nodes.EInverseSortNode": {
+  "Aow.Engine.Nodes.EInverseSortNode": {
     "id": 262,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.ESortNode"
+    "parent": "Aow.Engine.Nodes.ESortNode"
   },
-  "Aow.Game.Engine.Nodes.ENode": {
+  "Aow.Engine.Nodes.ENode": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
-  "Aow.Game.Engine.Nodes.EObject": {
+  "Aow.Engine.Nodes.EObject": {
     "id": 80,
     "size": 8,
     "parent": null
   },
-  "Aow.Game.Engine.Nodes.EObjectEditor": {
+  "Aow.Engine.Nodes.EObjectEditor": {
     "id": 80,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Engine.Nodes.EReferenceNode": {
+  "Aow.Engine.Nodes.EReferenceNode": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.Engine.Nodes.EResource": {
+  "Aow.Engine.Nodes.EResource": {
     "id": 1024,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Engine.Nodes.EResourceEditSettings": {
+  "Aow.Engine.Nodes.EResourceEditSettings": {
     "id": 1026,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EControlStyleObject"
+    "parent": "Aow.Engine.Nodes.EControlStyleObject"
   },
-  "Aow.Game.Engine.Nodes.EResourceList": {
+  "Aow.Engine.Nodes.EResourceList": {
     "id": 1025,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.ECustomOwner"
+    "parent": "Aow.Engine.Nodes.ECustomOwner"
   },
-  "Aow.Game.Engine.Nodes.ESortNode": {
+  "Aow.Engine.Nodes.ESortNode": {
     "id": 260,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
-  "Aow.Game.Engine.Nodes.ETimerNode": {
+  "Aow.Engine.Nodes.ETimerNode": {
     "id": 264,
     "size": 56,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
-  "Aow.Game.Engine.Nodes.EUser": {
+  "Aow.Engine.Nodes.EUser": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Engine.Engine": {
-    "id": 17,
-    "size": 52,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
-  },
-  "Aow.Game.Engine.PlugInControl": {
+  "Aow.Engine.PlugInControl": {
     "id": 80,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.EndTurnEventLog": {
     "id": 131811,
@@ -2952,17 +2947,17 @@
   "Aow.Game.Events.EventLog": {
     "id": 80,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.EventLogList": {
     "id": 256,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Events.EventLogbook": {
     "id": 131808,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Events.GameOverEventLog": {
     "id": 131812,
@@ -3119,72 +3114,72 @@
     "size": 68,
     "parent": "Aow.Game.World.Terrain.ILTerrainMOR"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.AirMastery": {
+  "Aow.Game.Magic.Spells.AirMastery": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.AirMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.AirMasteryEnchantment": {
     "id": 135966,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.DeathMastery": {
+  "Aow.Game.Magic.Spells.DeathMastery": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.DeathMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.DeathMasteryEnchantment": {
     "id": 135968,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.EarthMastery": {
+  "Aow.Game.Magic.Spells.EarthMastery": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.EarthMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.EarthMasteryEnchantment": {
     "id": 135970,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoads": {
+  "Aow.Game.Magic.Spells.EnchantedRoads": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoadsEnchantment": {
+  "Aow.Game.Magic.Spells.EnchantedRoadsEnchantment": {
     "id": 135955,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.FireMastery": {
+  "Aow.Game.Magic.Spells.FireMastery": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.FireMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.FireMasteryEnchantment": {
     "id": 135969,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.Flood": {
+  "Aow.Game.Magic.Spells.Flood": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.FloodControl": {
+  "Aow.Game.Magic.Spells.FloodControl": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.FloodEnchantment": {
+  "Aow.Game.Magic.Spells.FloodEnchantment": {
     "id": 135960,
     "size": 48,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell": {
+  "Aow.Game.Magic.Spells.GlobalEnchantmentSpell": {
     "id": 80,
     "size": 56,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -3194,72 +3189,72 @@
     "size": 36,
     "parent": "Aow.Game.Commands.SpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.Harmony": {
+  "Aow.Game.Magic.Spells.Harmony": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.HarmonyEnchantment": {
+  "Aow.Game.Magic.Spells.HarmonyEnchantment": {
     "id": 135958,
     "size": 40,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.Hatred": {
+  "Aow.Game.Magic.Spells.Hatred": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.HatredEnchantment": {
+  "Aow.Game.Magic.Spells.HatredEnchantment": {
     "id": 135957,
     "size": 40,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.LifeMastery": {
+  "Aow.Game.Magic.Spells.LifeMastery": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.LifeMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.LifeMasteryEnchantment": {
     "id": 135967,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeak": {
+  "Aow.Game.Magic.Spells.PowerLeak": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeakEnchantment": {
+  "Aow.Game.Magic.Spells.PowerLeakEnchantment": {
     "id": 135959,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.SpellWard": {
+  "Aow.Game.Magic.Spells.SpellWard": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.SpellWardEnchantment": {
+  "Aow.Game.Magic.Spells.SpellWardEnchantment": {
     "id": 135971,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.WaterMastery": {
+  "Aow.Game.Magic.Spells.WaterMastery": {
     "id": 80,
     "size": 56,
-    "parent": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.WaterMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.WaterMasteryEnchantment": {
     "id": 135956,
     "size": 36,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
   },
-  "Aow.Game.Magic.Spells.Global.AnimateHero": {
+  "Aow.Game.Magic.Spells.AnimateHero": {
     "id": 80,
     "size": 52,
     "parent": "Aow.Game.Magic.Spells.Spell"
   },
-  "Aow.Game.Magic.Spells.Global.BirdsView": {
+  "Aow.Game.Magic.Spells.BirdsView": {
     "id": 80,
     "size": 52,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -3269,12 +3264,12 @@
     "size": 24,
     "parent": "Aow.Game.Draw.FixedVisibleHS"
   },
-  "Aow.Game.Magic.Spells.Global.CallHero": {
+  "Aow.Game.Magic.Spells.CallHero": {
     "id": 80,
     "size": 52,
     "parent": "Aow.Game.Magic.Spells.Spell"
   },
-  "Aow.Game.Magic.Spells.Global.ConcealArea": {
+  "Aow.Game.Magic.Spells.ConcealArea": {
     "id": 80,
     "size": 52,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -3284,17 +3279,17 @@
     "size": 24,
     "parent": "Aow.Game.Draw.FixedVisibleHS"
   },
-  "Aow.Game.Magic.Spells.Global.Crusade": {
+  "Aow.Game.Magic.Spells.Crusade": {
     "id": 80,
     "size": 52,
     "parent": "Aow.Game.Magic.Spells.Spell"
   },
-  "Aow.Game.Magic.Spells.Global.Disjunction": {
+  "Aow.Game.Magic.Spells.Disjunction": {
     "id": 80,
     "size": 52,
     "parent": "Aow.Game.Magic.Spells.Spell"
   },
-  "Aow.Game.Magic.Spells.Global.DisjunctionSpellCaster": {
+  "Aow.Game.Magic.Spells.DisjunctionSpellCaster": {
     "id": 80,
     "size": 28,
     "parent": "Aow.Game.Magic.Spells.SpellCaster"
@@ -3304,12 +3299,12 @@
     "size": 40,
     "parent": "Aow.Game.Commands.SpellTE"
   },
-  "Aow.Game.Magic.Spells.Global.ResurrectHero": {
+  "Aow.Game.Magic.Spells.ResurrectHero": {
     "id": 80,
     "size": 52,
     "parent": "Aow.Game.Magic.Spells.Spell"
   },
-  "Aow.Game.Magic.Spells.Global.WarpParty": {
+  "Aow.Game.Magic.Spells.WarpParty": {
     "id": 80,
     "size": 52,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -3319,27 +3314,27 @@
     "size": 40,
     "parent": "Aow.Game.Commands.SpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.FireBarrier": {
+  "Aow.Game.Magic.Spells.FireBarrier": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.FireBarrierTE": {
     "id": 135940,
     "size": 36,
     "parent": "Aow.Game.Commands.GlobalTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.FreezeWater": {
+  "Aow.Game.Magic.Spells.FreezeWater": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.FreezeWaterTE": {
     "id": 135939,
     "size": 36,
     "parent": "Aow.Game.Commands.GlobalTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell": {
+  "Aow.Game.Magic.Spells.GlobalTargetSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -3354,67 +3349,67 @@
     "size": 36,
     "parent": "Aow.Game.Commands.SpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.HealingShowers": {
+  "Aow.Game.Magic.Spells.HealingShowers": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.HealingShowersTE": {
     "id": 135975,
     "size": 40,
     "parent": "Aow.Game.Commands.GlobalTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.LevelTerrain": {
+  "Aow.Game.Magic.Spells.LevelTerrain": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.LevelTerrainTE": {
     "id": 135945,
     "size": 36,
     "parent": "Aow.Game.Commands.GlobalTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.Rejuvenate": {
+  "Aow.Game.Magic.Spells.Rejuvenate": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.RejuvenateTE": {
     "id": 135952,
     "size": 36,
     "parent": "Aow.Game.Commands.GlobalTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.SmokeCloudSpell": {
+  "Aow.Game.Magic.Spells.SmokeCloudSpell": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.Tornado": {
+  "Aow.Game.Magic.Spells.Tornado": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.TornadoTE": {
     "id": 135972,
     "size": 48,
     "parent": "Aow.Game.Commands.GlobalTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.Vortex": {
+  "Aow.Game.Magic.Spells.Vortex": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.VortexTE": {
     "id": 135973,
     "size": 48,
     "parent": "Aow.Game.Commands.GlobalTargetSpellTE"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.Watcher": {
+  "Aow.Game.Magic.Spells.Watcher": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.WatcherEnchantment": {
+  "Aow.Game.Magic.Spells.WatcherEnchantment": {
     "id": 80,
     "size": 40,
     "parent": "Aow.Game.Magic.GlobalEnchantment"
@@ -3474,20 +3469,15 @@
     "size": 24,
     "parent": "Aow.Game.Draw.HexagonSprite"
   },
-  "Aow.Game.World.Map.HSEngine": {
-    "id": 65537,
-    "size": 88,
-    "parent": "Aow.Game.Engine.Engine"
-  },
   "Aow.Game.World.Map.HSMap": {
     "id": 66048,
     "size": 164,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.World.Map.HSSet": {
     "id": 66049,
     "size": 72,
-    "parent": "Aow.Game.Engine.Nodes.ECustomOwner"
+    "parent": "Aow.Engine.Nodes.ECustomOwner"
   },
   "Aow.Game.World.Map.HexagonControl": {
     "id": 80,
@@ -3497,12 +3487,12 @@
   "Aow.Game.Draw.HexagonSprite": {
     "id": 65872,
     "size": 8,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Map.HexagonSpriteSelection": {
     "id": 257,
     "size": 32,
-    "parent": "Aow.Game.Engine.Nodes.EControlStyleNode"
+    "parent": "Aow.Engine.Nodes.EControlStyleNode"
   },
   "Aow.Game.Draw.LibraryImageHS": {
     "id": 65875,
@@ -3512,27 +3502,27 @@
   "Aow.Game.World.Map.MORTerrainControl": {
     "id": 80,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Map.MapContainer": {
     "id": 65795,
     "size": 32,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.World.Map.MapField": {
     "id": 65793,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.World.Map.MapFieldTandO": {
     "id": 80,
     "size": 24,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.World.Map.MapLevel": {
     "id": 65794,
     "size": 124,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.World.MapObject": {
     "id": 65878,
@@ -3542,12 +3532,12 @@
   "Aow.Game.World.MapObjectResource": {
     "id": 65876,
     "size": 52,
-    "parent": "Aow.Game.Engine.Nodes.EResource"
+    "parent": "Aow.Engine.Nodes.EResource"
   },
   "Aow.Game.World.MapObjectResourceList": {
     "id": 1025,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EResourceList"
+    "parent": "Aow.Engine.Nodes.EResourceList"
   },
   "Aow.Game.World.MultiHexMO": {
     "id": 65878,
@@ -3572,7 +3562,7 @@
   "Aow.Game.World.Map.VisibilityList": {
     "id": 263,
     "size": 28,
-    "parent": "Aow.Game.Engine.Nodes.EControlStyleInverseSortNode"
+    "parent": "Aow.Engine.Nodes.EControlStyleInverseSortNode"
   },
   "Aow.Game.Draw.LibraryHS": {
     "id": 65874,
@@ -3609,10 +3599,10 @@
     "size": 68,
     "parent": "Aow.Game.World.Terrain.ILTerrainMOR"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell": {
+  "Aow.Game.Magic.Spells.HolyGroundSpell": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.HolyGroundSpellTE": {
     "id": 135942,
@@ -3787,7 +3777,7 @@
   "Aow.Game.Ui.Grids.ItemListView": {
     "id": 265,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EChangeNotifyNode"
+    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.World.Structures.LifeNode": {
     "id": 131953,
@@ -3919,10 +3909,10 @@
     "size": 76,
     "parent": "Aow.Game.World.Hexes.AoWTerrain+Resource"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain": {
+  "Aow.Game.Magic.Spells.RaiseTerrain": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.RaiseTerrainTE": {
     "id": 135946,
@@ -3982,12 +3972,12 @@
   "Aow.Game.Net.DataPackage": {
     "id": 80,
     "size": 20,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Net.ENodeView": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.Commands.PassTokenTE": {
     "id": 1364,
@@ -3997,17 +3987,17 @@
   "Aow.Game.Net.PlayerCommunicationSettings": {
     "id": 80,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Net.PlayerCommunicationSettingsList": {
     "id": 256,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Net.PlayerCommunicator": {
     "id": 80,
     "size": 36,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Commands.SyncTE": {
     "id": 1365,
@@ -4017,12 +4007,12 @@
   "Aow.Game.Commands.TokenEvent": {
     "id": 1361,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Net.TokenEventList": {
     "id": 1362,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Net.TokenPackage": {
     "id": 1360,
@@ -4299,10 +4289,10 @@
     "size": 68,
     "parent": "Aow.Game.World.Terrain.ILTerrainMOR"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell": {
+  "Aow.Game.Magic.Spells.PoisonPlantSpell": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.PoisonPlantSpellTE": {
     "id": 135941,
@@ -4452,112 +4442,112 @@
   "Aow.Game.Audio.ENodeAccess": {
     "id": 80,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ECustomNode"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.Audio.SFX": {
     "id": 2162689,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.Audio.SFXLibrary": {
     "id": 2162691,
     "size": 12,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Audio.SFXSequence": {
     "id": 2162690,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.ENode"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Audio.Songlist": {
     "id": 2162692,
     "size": 16,
-    "parent": "Aow.Game.Engine.Nodes.EObject"
+    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Game.World.Structures.SpringOfLife": {
     "id": 131328,
     "size": 48,
     "parent": "Aow.Game.World.Structures.Structure"
   },
-  "Aow.Game.Draw.Animation.SpringOfLifeAnimation": {
+  "Aow.Game.Draw.Animations.SpringOfLifeAnimation": {
     "id": 131815,
     "size": 60,
-    "parent": "Aow.Game.Draw.Animation.Animation"
+    "parent": "Aow.Game.Draw.Animations.Animation"
   },
   "Aow.Game.World.Structures.SpringOfLife+Resource": {
     "id": 131329,
     "size": 100,
     "parent": "Aow.Game.World.Structures.StructureResource"
   },
-  "Aow.Game.Draw.Animation.BlastStorm": {
+  "Aow.Game.Draw.Animations.BlastStorm": {
     "id": 131815,
     "size": 68,
-    "parent": "Aow.Game.Draw.Animation.Storm"
+    "parent": "Aow.Game.Draw.Animations.Storm"
   },
-  "Aow.Game.Draw.Animation.DeathStorm": {
+  "Aow.Game.Draw.Animations.DeathStorm": {
     "id": 135741,
     "size": 68,
-    "parent": "Aow.Game.Draw.Animation.BlastStorm"
+    "parent": "Aow.Game.Draw.Animations.BlastStorm"
   },
   "Aow.Game.Magic.Spells.DeathStormSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.StormSpell"
   },
-  "Aow.Game.Draw.Animation.DivineStorm": {
+  "Aow.Game.Draw.Animations.DivineStorm": {
     "id": 135740,
     "size": 68,
-    "parent": "Aow.Game.Draw.Animation.BlastStorm"
+    "parent": "Aow.Game.Draw.Animations.BlastStorm"
   },
   "Aow.Game.Magic.Spells.DivineStormSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.StormSpell"
   },
-  "Aow.Game.Draw.Animation.FireStorm": {
+  "Aow.Game.Draw.Animations.FireStorm": {
     "id": 135742,
     "size": 64,
-    "parent": "Aow.Game.Draw.Animation.Storm"
+    "parent": "Aow.Game.Draw.Animations.Storm"
   },
   "Aow.Game.Magic.Spells.FireStormSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.StormSpell"
   },
-  "Aow.Game.Draw.Animation.IceStorm": {
+  "Aow.Game.Draw.Animations.IceStorm": {
     "id": 135738,
     "size": 68,
-    "parent": "Aow.Game.Draw.Animation.BlastStorm"
+    "parent": "Aow.Game.Draw.Animations.BlastStorm"
   },
   "Aow.Game.Magic.Spells.IceStormSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.StormSpell"
   },
-  "Aow.Game.Draw.Animation.LightningStorm": {
+  "Aow.Game.Draw.Animations.LightningStorm": {
     "id": 135739,
     "size": 68,
-    "parent": "Aow.Game.Draw.Animation.Storm"
+    "parent": "Aow.Game.Draw.Animations.Storm"
   },
   "Aow.Game.Magic.Spells.LightningStormSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.StormSpell"
   },
-  "Aow.Game.Draw.Animation.PestilenceStorm": {
+  "Aow.Game.Draw.Animations.PestilenceStorm": {
     "id": 135745,
     "size": 68,
-    "parent": "Aow.Game.Draw.Animation.Storm"
+    "parent": "Aow.Game.Draw.Animations.Storm"
   },
   "Aow.Game.Magic.Spells.PestilenceStormSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.StormSpell"
   },
-  "Aow.Game.Draw.Animation.Storm": {
+  "Aow.Game.Draw.Animations.Storm": {
     "id": 131815,
     "size": 64,
-    "parent": "Aow.Game.Draw.Animation.Animation"
+    "parent": "Aow.Game.Draw.Animations.Animation"
   },
   "Aow.Game.Magic.Spells.StormSpell": {
     "id": 80,
@@ -4569,62 +4559,62 @@
     "size": 40,
     "parent": "Aow.Game.Commands.SpellTE"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonAirElemental": {
+  "Aow.Game.Magic.Spells.SummonAirElemental": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonBlackDragon": {
+  "Aow.Game.Magic.Spells.SummonBlackDragon": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonBlackSpider": {
+  "Aow.Game.Magic.Spells.SummonBlackSpider": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonBoar": {
+  "Aow.Game.Magic.Spells.SummonBoar": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonEarthElemental": {
+  "Aow.Game.Magic.Spells.SummonEarthElemental": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonFireElemental": {
+  "Aow.Game.Magic.Spells.SummonFireElemental": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonFireSprite": {
+  "Aow.Game.Magic.Spells.SummonFireSprite": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonFrog": {
+  "Aow.Game.Magic.Spells.SummonFrog": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonGoldDragon": {
+  "Aow.Game.Magic.Spells.SummonGoldDragon": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonGreatEagle": {
+  "Aow.Game.Magic.Spells.SummonGreatEagle": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonMermaid": {
+  "Aow.Game.Magic.Spells.SummonMermaid": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonSpell": {
+  "Aow.Game.Magic.Spells.SummonSpell": {
     "id": 80,
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.Spell"
@@ -4634,15 +4624,15 @@
     "size": 36,
     "parent": "Aow.Game.Commands.SpellTE"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonSyron": {
+  "Aow.Game.Magic.Spells.SummonSyron": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
-  "Aow.Game.Magic.Spells.Summon.SummonWaterElemental": {
+  "Aow.Game.Magic.Spells.SummonWaterElemental": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.Summon.SummonSpell"
+    "parent": "Aow.Game.Magic.Spells.SummonSpell"
   },
   "Aow.Game.World.Structures.Teleport": {
     "id": 131332,
@@ -4699,10 +4689,10 @@
     "size": 68,
     "parent": "Aow.Game.World.Terrain.ILTerrainMOR"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell": {
+  "Aow.Game.Magic.Spells.UnholyGroundSpell": {
     "id": 80,
     "size": 60,
-    "parent": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell"
+    "parent": "Aow.Game.Magic.Spells.GlobalTargetSpell"
   },
   "Aow.Game.Commands.UnholyGroundSpellTE": {
     "id": 135943,
@@ -4714,105 +4704,105 @@
     "size": 20,
     "parent": "Aow.Game.Magic.Abilities.AbilityOwner"
   },
-  "Aow.Game.Magic.Spells.Unit.Bless": {
+  "Aow.Game.Magic.Spells.Bless": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.Concealment": {
+  "Aow.Game.Magic.Spells.Concealment": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.CosmeticSurgery": {
+  "Aow.Game.Magic.Spells.CosmeticSurgery": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.CosmeticSurgerySpellCaster": {
+  "Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster": {
     "id": 80,
     "size": 28,
     "parent": "Aow.Game.Magic.Spells.SpellCaster"
   },
-  "Aow.Game.Magic.Spells.Unit.DarkGift": {
+  "Aow.Game.Magic.Spells.DarkGift": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.DispelMagic": {
+  "Aow.Game.Magic.Spells.DispelMagic": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
   "Aow.Game.Combat.Actions.DispelMagicSpellCA": {
     "id": 131793,
     "size": 28,
     "parent": "Aow.Game.Combat.Actions.DispelMagicCA"
   },
-  "Aow.Game.Magic.Spells.Unit.EnchantWeapon": {
+  "Aow.Game.Magic.Spells.EnchantWeapon": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.FireAura": {
+  "Aow.Game.Magic.Spells.FireAura": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.FreeMovement": {
+  "Aow.Game.Magic.Spells.FreeMovement": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.Fury": {
+  "Aow.Game.Magic.Spells.Fury": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.Haste": {
+  "Aow.Game.Magic.Spells.Haste": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.HealingWater": {
+  "Aow.Game.Magic.Spells.HealingWater": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.HolyChampion": {
+  "Aow.Game.Magic.Spells.HolyChampion": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.LiquidForm": {
+  "Aow.Game.Magic.Spells.LiquidForm": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.Remedy": {
+  "Aow.Game.Magic.Spells.Remedy": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.StoneSkin": {
+  "Aow.Game.Magic.Spells.StoneSkin": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.UnholyChampion": {
+  "Aow.Game.Magic.Spells.UnholyChampion": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.WaterWalking": {
+  "Aow.Game.Magic.Spells.WaterWalking": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
-  "Aow.Game.Magic.Spells.Unit.WindWalking": {
+  "Aow.Game.Magic.Spells.WindWalking": {
     "id": 80,
     "size": 68,
-    "parent": "Aow.Game.Magic.Spells.Unit.UnitSpell"
+    "parent": "Aow.Game.Magic.Spells.UnitSpell"
   },
   "Aow.Game.World.Structures.WaterNode": {
     "id": 132275,
