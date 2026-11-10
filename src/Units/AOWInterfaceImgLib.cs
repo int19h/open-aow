@@ -1,10 +1,10 @@
 // Translated from AOWInterfaceImgLib.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AOWInterfaceImgLib;
+namespace Aow.Game.Draw.Images;
 
 // { The AOWInterfaceImgLib unit of aowInt.dpl: TInterfaceIL, the image library that holds the
 //   pieces the controls are drawn from (frames, textures, lines, icons). Its Draw* methods draw a
@@ -47,7 +47,7 @@ public partial class TInterfaceIL : TImageLibrary
     // { DrawILF draws a frame of 8 images: Index the top left corner, +1 the top edge, +2 the top right
     //   corner, +3 the left edge, +4 the right edge, +5 the bottom left corner, +6 the bottom edge, +7
     //   the bottom right corner }
-    public void DrawILF(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
+    public void DrawILF(int Index, in TRect R, ref Aow.Game.Draw.TSurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
@@ -126,7 +126,7 @@ public partial class TInterfaceIL : TImageLibrary
 
     // AOWInterfaceImgLib.pas:105
     // { DrawILT tiles image Index over R }
-    public void DrawILT(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
+    public void DrawILT(int Index, in TRect R, ref Aow.Game.Draw.TSurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
@@ -177,7 +177,7 @@ public partial class TInterfaceIL : TImageLibrary
 
     // AOWInterfaceImgLib.pas:133
     // { DrawILI draws image Index at the top left corner of R, clipped to R }
-    public void DrawILI(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
+    public void DrawILI(int Index, in TRect R, ref Aow.Game.Draw.TSurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
@@ -210,7 +210,7 @@ public partial class TInterfaceIL : TImageLibrary
     // AOWInterfaceImgLib.pas:154
     // { DrawILLh draws a horizontal line of 3 images: Index the left end, +1 the middle (repeated),
     //   +2 the right end }
-    public void DrawILLh(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
+    public void DrawILLh(int Index, in TRect R, ref Aow.Game.Draw.TSurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
@@ -261,7 +261,7 @@ public partial class TInterfaceIL : TImageLibrary
     // AOWInterfaceImgLib.pas:184
     // { DrawILLv draws a vertical line of 3 images: Index the top end, +1 the middle (repeated), +2
     //   the bottom end }
-    public void DrawILLv(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
+    public void DrawILLv(int Index, in TRect R, ref Aow.Game.Draw.TSurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;

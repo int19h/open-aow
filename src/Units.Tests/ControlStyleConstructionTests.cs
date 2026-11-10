@@ -1,11 +1,12 @@
 using System.Reflection;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Aow.Units.Sound;
-using EngineUnit = Aow.Units.Engine.EngineUnit;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Audio;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using EngineUnit = Aow.Game.Engine.Nodes.EngineUnit;
 
 namespace Aow.Units.Tests;
 
@@ -45,7 +46,7 @@ public sealed class ControlStyleConstructionTests
         {
             Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassID);
             Assert.Equal(kind == 0 ? 12 : kind == 1 ? 16 : 20, meta.InstanceSize);
-            Assert.Same(meta, Aow.Units.Engine.EClass.Of(type));
+            Assert.Same(meta, Aow.Game.Engine.EClass.Of(type));
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);
@@ -128,7 +129,7 @@ public sealed class ControlStyleConstructionTests
         internal readonly FlagOwner Owner;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TILManagerObject Entry;
-        private readonly TAoWHSSet previous = Game.AoWHSSet;
+        private readonly TAoWHSSet previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
         private readonly IFileSystem previousFiles = Runtime.Files;
         private readonly string previousStartup = EngineFixture.Engine.StartupDirectory;
         private readonly string previousSoundPath = SoundUnit.BaseSoundEnginePath;
@@ -165,7 +166,7 @@ public sealed class ControlStyleConstructionTests
                 }
                 if (loaded)
                     Field(typeof(TILManagerObject), "FImageLibrary").SetValue(Entry, new TImageLibrary(null!));
-                Game.AoWHSSet = Owner;
+                Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = Owner;
                 Owner.Members.Clear();
             }
             catch
@@ -180,7 +181,7 @@ public sealed class ControlStyleConstructionTests
             try { foreach (var child in Owner.Members.ToArray()) child.Dispose(); }
             finally
             {
-                Game.AoWHSSet = previous;
+                Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previous;
                 try { Manager.Dispose(); }
                 finally { RestoreFiles(); }
             }

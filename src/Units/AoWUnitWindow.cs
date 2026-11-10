@@ -1,33 +1,25 @@
 // Translated from AoWUnitWindow.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWItemBanner;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWTabPanel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.E2Globals;
-using Aow.Units.GFXE;
+// Translated from AoWUnitWindow.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWInfoBannerUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
+using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWInfoBanner.AoWInfoBannerUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.AoWUnitWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 // highlight. dragged item type. highlight step. blink state. blink delay. cursor image. ground
 // offset/count. show info
@@ -159,7 +151,7 @@ public partial class TUnitWindow : TDataModule
     public int FHighlightStep;
     public bool FItemVisible;
     public int FBlinkDelay;
-    public ImageLib.TLibraryImage FCursorImage;
+    public Aow.Game.Draw.Images.TLibraryImage FCursorImage;
     public int FGroundOffset;
     public int FGroundCount;
     public TP2UnitShowInfo FShowInfo;

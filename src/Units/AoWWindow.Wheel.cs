@@ -1,8 +1,7 @@
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
 
-namespace Aow.Units.AoWWindow;
+namespace Aow.Game.Ui.Windows;
 
 public partial class TAOWWindow
 {

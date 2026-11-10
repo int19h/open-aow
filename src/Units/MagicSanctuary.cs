@@ -1,175 +1,182 @@
 // Translated from MagicSanctuary.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.MagicSanctuary;
-
-// FStructure. FFadeEndFrame
-public partial class TMagicSanctuaryOverlayHS : TSingleHS
+namespace Aow.Game.Draw
 {
-    public TMagicSanctuaryOverlayHS(TECustomNode owner) : base(owner)
+
+    // FStructure. FFadeEndFrame
+    public partial class TMagicSanctuaryOverlayHS : TSingleHS
     {
-        FFadeEndFrame = -1;
-    }
-
-    public TMagicSanctuary FStructure;
-    public int FFadeEndFrame;
-
-    // MagicSanctuary.pas:67
-
-    // MagicSanctuary.pas:73
-    public override int GetShowPriority() => FStructure.GetShowPriority() + 134217728;
-
-    // MagicSanctuary.pas:78
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
-    {
-        TImageSequence Sequence;
-        int FrameIndex;
-        int Blend;
-        int Xhp = default;
-        int Yhp = default;
-        int FramesLeft;
-        HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
-        XhpSurf = Xhp - XhpSurf;
-        YhpSurf = Yhp - YhpSurf;
-        Sequence = FStructure.FResource.ImageSequenceList.GetImageSequence(19);
-        if (Sequence != null)
+        public TMagicSanctuaryOverlayHS(TECustomNode owner) : base(owner)
         {
-            Blend = 50;
-            if (FFadeEndFrame != -1 && FFadeEndFrame > AoWHSMap.Frame)
+            FFadeEndFrame = -1;
+        }
+
+        public TMagicSanctuary FStructure;
+        public int FFadeEndFrame;
+
+        // MagicSanctuary.pas:67
+
+        // MagicSanctuary.pas:73
+        public override int GetShowPriority() => FStructure.GetShowPriority() + 134217728;
+
+        // MagicSanctuary.pas:78
+        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        {
+            TImageSequence Sequence;
+            int FrameIndex;
+            int Blend;
+            int Xhp = default;
+            int Yhp = default;
+            int FramesLeft;
+            HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
+            XhpSurf = Xhp - XhpSurf;
+            YhpSurf = Yhp - YhpSurf;
+            Sequence = FStructure.FResource.ImageSequenceList.GetImageSequence(19);
+            if (Sequence != null)
             {
-                FramesLeft = FFadeEndFrame - AoWHSMap.Frame;
-                if (FramesLeft <= 20)
+                Blend = 50;
+                if (FFadeEndFrame != -1 && FFadeEndFrame > AoWHSMap.Frame)
                 {
-                    Blend += (10 - Math.Abs(FramesLeft - 10)) * 3;
+                    FramesLeft = FFadeEndFrame - AoWHSMap.Frame;
+                    if (FramesLeft <= 20)
+                    {
+                        Blend += (10 - Math.Abs(FramesLeft - 10)) * 3;
+                    }
+                    else
+                    {
+                        FFadeEndFrame = -1;
+                    }
                 }
                 else
                 {
                     FFadeEndFrame = -1;
                 }
-            }
-            else
-            {
-                FFadeEndFrame = -1;
-            }
 
-            FrameIndex = Sequence.GetFrameIndex(0, 0);
-            Sequence.ImageLibrary[FrameIndex].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, IntensityBlendTable.LookupTables[Blend]);
+                FrameIndex = Sequence.GetFrameIndex(0, 0);
+                Sequence.ImageLibrary[FrameIndex].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, IntensityBlendTable.LookupTables[Blend]);
+            }
         }
-    }
 
-    // MagicSanctuary.pas:105
-    public void FadeUp()
-    {
-        FFadeEndFrame = AoWHSMap.Frame + 20;
-    }
-
-    // MagicSanctuary.pas:22
-
-}
-
-// FOverlayHS
-public partial class TMagicSanctuary : TStructure
-{
-    public TMagicSanctuary(TECustomNode owner) : base(owner)
-    {
-        FOverlayHS = new TMagicSanctuaryOverlayHS(null);
-        FOverlayHS.FStructure = this;
-    }
-
-    // MagicSanctuary.pas:124
-    public new const int ClassID = 133274;
-
-    public TMagicSanctuaryOverlayHS FOverlayHS;
-
-    // MagicSanctuary.pas:117
-    public override void Dispose()
-    {
-        AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
-        FOverlayHS?.Dispose();
-        base.Dispose();
-    }
-
-    // MagicSanctuary.pas:110
-
-    // MagicSanctuary.pas:136
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
-    {
-        base.MapFieldMsgProc(ref Msg);
-        if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+        // MagicSanctuary.pas:105
+        public void FadeUp()
         {
-            if (Msg.MsgID == 4393)
+            FFadeEndFrame = AoWHSMap.Frame + 20;
+        }
+
+        // MagicSanctuary.pas:22
+
+    }
+}
+
+namespace Aow.Game.World.Structures
+{
+
+    // FOverlayHS
+    public partial class TMagicSanctuary : TStructure
+    {
+        public TMagicSanctuary(TECustomNode owner) : base(owner)
+        {
+            FOverlayHS = new TMagicSanctuaryOverlayHS(null);
+            FOverlayHS.FStructure = this;
+        }
+
+        // MagicSanctuary.pas:124
+        public new const int ClassID = 133274;
+
+        public TMagicSanctuaryOverlayHS FOverlayHS;
+
+        // MagicSanctuary.pas:117
+        public override void Dispose()
+        {
+            AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
+            FOverlayHS?.Dispose();
+            base.Dispose();
+        }
+
+        // MagicSanctuary.pas:110
+
+        // MagicSanctuary.pas:136
+        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        {
+            base.MapFieldMsgProc(ref Msg);
+            if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
             {
-                Msg.Param[0] = 1;
+                if (Msg.MsgID == 4393)
+                {
+                    Msg.Param[0] = 1;
+                }
             }
         }
-    }
 
-    // MagicSanctuary.pas:127
-    public override void MakeVisible(TVisibilityList VisibilityList)
-    {
-        if (!FStatus.Contains(TMapObjectStatusElement.moVisible))
+        // MagicSanctuary.pas:127
+        public override void MakeVisible(TVisibilityList VisibilityList)
         {
-            base.MakeVisible(VisibilityList);
-            FOverlayHS.MakeVisible(VisibilityList);
+            if (!FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moVisible))
+            {
+                base.MakeVisible(VisibilityList);
+                FOverlayHS.MakeVisible(VisibilityList);
+            }
         }
+
+        // MagicSanctuary.pas:143
+        public override void ArmyPlaced(TArmyHS PlacedArmy)
+        {
+            base.ArmyPlaced(PlacedArmy);
+            FOverlayHS.FadeUp();
+        }
+
+        // MagicSanctuary.pas:33
+
     }
 
-    // MagicSanctuary.pas:143
-    public override void ArmyPlaced(TArmyHS PlacedArmy)
+    public partial class TMagicSanctuaryResource : TStructureResource
     {
-        base.ArmyPlaced(PlacedArmy);
-        FOverlayHS.FadeUp();
+        public TMagicSanctuaryResource(TECustomNode owner) : base(owner)
+        {
+            FTerrainBound = false;
+            FRazeable = false;
+            FConnectRoads = false;
+        }
+
+        // MagicSanctuary.pas:160
+        public new const int ClassID = 133275;
+
+        // MagicSanctuary.pas:149
+
+        // MagicSanctuary.pas:163
+        public override int ResourceUserClassID() => 133274;
+
+        // MagicSanctuary.pas:43
+
+        // MagicSanctuary.pas:157
+        public override string ResourceEditName() => TranslateRStr(MagicSanctuaryRStr);
+
     }
 
-    // MagicSanctuary.pas:33
-
-}
-
-public partial class TMagicSanctuaryResource : TStructureResource
-{
-    public TMagicSanctuaryResource(TECustomNode owner) : base(owner)
+    public static partial class MagicSanctuaryUnit
     {
-        FTerrainBound = false;
-        FRazeable = false;
-        FConnectRoads = false;
-    }
+        // MagicSanctuary.pas:166
+        public static void RegisterMagicSanctuary(TEngine AEngine)
+        {
+            AEngine.RegisterEClasses([EClass.Of<TMagicSanctuary>(), EClass.Of<TMagicSanctuaryResource>()]);
+        }
 
-    // MagicSanctuary.pas:160
-    public new const int ClassID = 133275;
+        public static void Initialize()
+        {
+        }
 
-    // MagicSanctuary.pas:149
-
-    // MagicSanctuary.pas:163
-    public override int ResourceUserClassID() => 133274;
-
-    // MagicSanctuary.pas:43
-
-    // MagicSanctuary.pas:157
-    public override string ResourceEditName() => TranslateRStr(MagicSanctuaryRStr);
-
-}
-
-public static partial class MagicSanctuaryUnit
-{
-    // MagicSanctuary.pas:166
-    public static void RegisterMagicSanctuary(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TMagicSanctuary>(), EClass.Of<TMagicSanctuaryResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
+        public static void Finalize()
+        {
+        }
     }
 }

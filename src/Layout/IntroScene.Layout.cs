@@ -1,12 +1,12 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AowUserWindow;
-using Aow.Units.AoWWinMan;
 
-namespace Aow.Units.AoWIntroScene;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TIntroScene : ILayoutModule
 {

@@ -1,5 +1,6 @@
+using Aow.Game.Draw;
 #nullable disable
-namespace Aow.Units.HSEngine;
+namespace Aow.Game.World.Map;
 
 public partial class THexagonSpriteSelection
 {

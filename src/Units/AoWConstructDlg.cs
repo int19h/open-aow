@@ -1,19 +1,16 @@
 // Translated from AoWConstructDlg.pas.
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
+// Translated from AoWConstructDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
-namespace Aow.Units.AoWConstructDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // activation request
 public partial class TConstructDlg : TDataModule

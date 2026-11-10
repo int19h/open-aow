@@ -1,8 +1,7 @@
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWVScroll;
 
-namespace Aow.Units.AoWComp;
+namespace Aow.Game.Ui.Controls;
 
 // Port links for the mouse wheel. They are not instance fields. The construction recordings walk
 // every instance field, and these links are state the original components do not have.

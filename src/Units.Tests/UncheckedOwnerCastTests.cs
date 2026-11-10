@@ -1,8 +1,13 @@
-using Aow.Units.AoWE;
-using Aow.Units.GlobalSpells;
-using Aow.Units.NetworkE;
-using Aow.Units.PassiveAb;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Combat;
+using Aow.Game.Commands;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Abilities.Passive;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Net;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -14,17 +19,17 @@ public sealed class UncheckedOwnerCastTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly TAoWHSMap previous = Game.AoWHSMap;
+        private readonly TAoWHSMap previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
 
         public MapScope()
         {
             Map = new TAoWHSMap(null!);
-            Game.AoWHSMap = Map;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
         }
 
         public TAoWHSMap Map { get; }
 
-        public void Dispose() => Game.AoWHSMap = previous;
+        public void Dispose() => Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous;
     }
 
     // The list is the owner without going through AddChild.
@@ -209,7 +214,7 @@ public sealed class UncheckedOwnerCastTests
         var caster = new TDisjunctionSpellCaster(null!) { FCasterSourceID = 42, FEnchantmentID = 7 };
         string reason = "";
         Assert.False(caster.CanCast(ref reason));
-        Assert.Equal(Game.TranslateRStr(Game.CannotDispelWhenSpellWardIsActiveRStr), reason);
+        Assert.Equal(Aow.Game.Magic.Abilities.AoWEUnit.TranslateRStr(Aow.Game.Magic.Abilities.AoWEUnit.CannotDispelWhenSpellWardIsActiveRStr), reason);
 
         scope.Map.FGlobalMagicControl.FActiveEnchantments = TSet<TGlobalEnchantmentType>.Of();
         Assert.True(caster.CanCast(ref reason));

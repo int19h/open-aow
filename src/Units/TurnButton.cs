@@ -1,12 +1,11 @@
 // Translated from TurnButton.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.TurnButton;
+namespace Aow.Game.Ui.Grids;
 
 // { ot=1 }
 // library, current player, last player, animating, animation phase, frame offset, done event,

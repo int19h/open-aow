@@ -1,8 +1,9 @@
 using System.Runtime.CompilerServices;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
 using Aow.Rtl;
-using Aow.Units.Engine;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.Combat;
 
 public partial class TCombatData
 {

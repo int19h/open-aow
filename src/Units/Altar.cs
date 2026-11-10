@@ -1,13 +1,19 @@
 // Translated from Altar.pas.
+using Aow.Game.Ai;
+using Aow.Game.Combat;
+using Aow.Game.Commands;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Net;
+using Aow.Game.Session;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.NetworkE;
-using Aow.Units.Storms;
-using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.Altar;
+namespace Aow.Game.World.Structures;
 
 // { ot=1 }
 // FStorm, FMode, FRechargeDays

@@ -1,11 +1,11 @@
 // Translated from AltPest.pas.
-using Aow.Rtl;
-using Aow.Units.Altar;
-using Aow.Units.Engine;
-using Aow.Units.Storms;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Structures;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.AltPest;
+namespace Aow.Game.World.Structures;
 
 public partial class TAltarOfPestilence : TAltar
 {

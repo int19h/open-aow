@@ -1,28 +1,23 @@
 // Translated from AoWTCUnit.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWE;
-using Aow.Units.AOWGauge;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWTC;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
+// Translated from AoWTCUnit.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWInfoBannerUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E1ResourcesUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWInfoBanner.AoWInfoBannerUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E1Resources.E1ResourcesUnit;
 
-namespace Aow.Units.AoWTCUnit;
+namespace Aow.Game.Ui.Dialogs;
 
 // components
 public partial class TTCUnit : TDataModule

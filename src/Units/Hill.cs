@@ -1,10 +1,10 @@
 // Translated from Hill.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.Terrain;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Hexes;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.Hill;
+namespace Aow.Game.World;
 
 public partial class THillMO : TTerrainMO
 {

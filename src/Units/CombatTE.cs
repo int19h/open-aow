@@ -1,22 +1,29 @@
 // Translated from CombatTE.pas.
+using Aow.Game.Audio;
+using Aow.Game.Combat;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Net;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.aowFX;
-using Aow.Units.AoWTC;
-using Aow.Units.CityWall;
-using Aow.Units.CombatSpells;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.NetworkE;
-using Aow.Units.Sound;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Draw.aowFXUnit;
+using static Aow.Game.Draw.CombatFireUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowFX.aowFXUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.CombatFire.CombatFireUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.CombatTE;
+namespace Aow.Game.Commands;
 
 // { ot=1 }
 public partial class TCEndTurnTE : TTokenEvent

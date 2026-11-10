@@ -1,7 +1,5 @@
-using Aow.Rtl;
-using Aow.Units.DisplayC;
-using Aow.Units.GFXE;
-using G = Aow.Units.GFXE.GFXEUnit;
+using Aow.Game.Draw;
+using G = Aow.Game.Draw.GFXEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -193,7 +191,7 @@ public sealed class SurfaceRectangleTests
         Assert.Equal(region, dc.FPrimarySurfaceRgn);
     }
 
-    private sealed class NullDisplayHost : Aow.Platform.IDisplayHost
+    private sealed class NullDisplayHost : Aow.Game.Host.IDisplayHost
     {
         public (int Width, int Height) ClientSize => (640, 480);
         public bool Fullscreen { get; set; }
@@ -203,7 +201,7 @@ public sealed class SurfaceRectangleTests
 
         public (int X, int Y, bool Inside) PointerPosition() => (0, 0, true);
 
-        public void PumpEvents(Aow.Platform.IDisplayEvents sink) { }
+        public void PumpEvents(Aow.Game.Host.IDisplayEvents sink) { }
 
         public void ShowSystemCursor(bool show) { }
     }

@@ -3,7 +3,7 @@
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TAbstractUnit",
+          "$type": "Aow.Game.Magic.Abilities.TAbstractUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -11,14 +11,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -36,7 +36,7 @@
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TAbstractUnit",
+          "$type": "Aow.Game.Magic.Abilities.TAbstractUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -44,14 +44,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -69,7 +69,7 @@
       "insert:2:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TAbstractUnit",
+          "$type": "Aow.Game.Magic.Abilities.TAbstractUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -77,14 +77,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -106,7 +106,7 @@
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TAdjustableUnit",
+          "$type": "Aow.Game.Magic.Abilities.TAdjustableUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -114,14 +114,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -137,7 +137,7 @@
           "TAdjustableUnit.FHitPoints": 5,
           "TAdjustableUnit.FHits": 5,
           "TAdjustableUnit.FImmunityTypes": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Combat.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 256,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": true,
@@ -147,7 +147,7 @@
             "TSet\u00601.low": 0
           },
           "TAdjustableUnit.FProtectionTypes": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Combat.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -169,7 +169,7 @@
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TAdjustableUnit",
+          "$type": "Aow.Game.Magic.Abilities.TAdjustableUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -177,14 +177,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -200,7 +200,7 @@
           "TAdjustableUnit.FHitPoints": 5,
           "TAdjustableUnit.FHits": 5,
           "TAdjustableUnit.FImmunityTypes": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Combat.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 256,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": true,
@@ -210,7 +210,7 @@
             "TSet\u00601.low": 0
           },
           "TAdjustableUnit.FProtectionTypes": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Combat.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -232,7 +232,7 @@
       "insert:2:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TAdjustableUnit",
+          "$type": "Aow.Game.Magic.Abilities.TAdjustableUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -240,14 +240,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -263,7 +263,7 @@
           "TAdjustableUnit.FHitPoints": 5,
           "TAdjustableUnit.FHits": 5,
           "TAdjustableUnit.FImmunityTypes": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Combat.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 256,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": true,
@@ -273,7 +273,7 @@
             "TSet\u00601.low": 0
           },
           "TAdjustableUnit.FProtectionTypes": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Combat.TDamageType, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -299,7 +299,7 @@
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.THero",
+          "$type": "Aow.Game.Magic.Abilities.THero",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -307,14 +307,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -338,9 +338,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -353,7 +353,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -364,9 +364,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -379,7 +379,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -391,7 +391,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -410,7 +410,7 @@
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.THero",
+          "$type": "Aow.Game.Magic.Abilities.THero",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -418,14 +418,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -449,9 +449,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -464,7 +464,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -475,9 +475,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -490,7 +490,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -502,7 +502,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -521,7 +521,7 @@
       "insert:3:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.THero",
+          "$type": "Aow.Game.Magic.Abilities.THero",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -529,14 +529,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -560,9 +560,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -575,7 +575,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -586,9 +586,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -601,7 +601,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -613,7 +613,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -636,7 +636,7 @@
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.THeroCastingViewP4",
+          "$type": "Aow.Game.Magic.Abilities.THeroCastingViewP4",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -644,14 +644,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -675,9 +675,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -690,7 +690,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -701,9 +701,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -716,7 +716,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -728,7 +728,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -747,7 +747,7 @@
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.THeroCastingViewP4",
+          "$type": "Aow.Game.Magic.Abilities.THeroCastingViewP4",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -755,14 +755,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -786,9 +786,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -801,7 +801,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -812,9 +812,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -827,7 +827,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -839,7 +839,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -858,7 +858,7 @@
       "insert:3:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.THeroCastingViewP4",
+          "$type": "Aow.Game.Magic.Abilities.THeroCastingViewP4",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -866,14 +866,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -897,9 +897,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -912,7 +912,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -923,9 +923,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -938,7 +938,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -950,7 +950,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -973,7 +973,7 @@
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TLeader",
+          "$type": "Aow.Game.Magic.Abilities.TLeader",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -981,14 +981,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1012,9 +1012,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -1027,7 +1027,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1038,9 +1038,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -1053,7 +1053,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1065,7 +1065,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -1081,7 +1081,7 @@
           "THero.FUsedSkillPoints": 0,
           "TLeader.FSpherePicksMax": 5,
           "TLeader.FSpheres": {
-            "$type": "Aow.Units.Engine.TByteList",
+            "$type": "Aow.Game.Engine.Collections.TByteList",
             "TByteList.FCapacity": 0,
             "TByteList.FCount": 0,
             "TByteList.FDefault": 0,
@@ -1092,7 +1092,7 @@
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TLeader",
+          "$type": "Aow.Game.Magic.Abilities.TLeader",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -1100,14 +1100,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1131,9 +1131,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -1146,7 +1146,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1157,9 +1157,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -1172,7 +1172,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1184,7 +1184,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -1200,7 +1200,7 @@
           "THero.FUsedSkillPoints": 0,
           "TLeader.FSpherePicksMax": 5,
           "TLeader.FSpheres": {
-            "$type": "Aow.Units.Engine.TByteList",
+            "$type": "Aow.Game.Engine.Collections.TByteList",
             "TByteList.FCapacity": 0,
             "TByteList.FCount": 0,
             "TByteList.FDefault": 0,
@@ -1211,7 +1211,7 @@
       "insert:3:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TLeader",
+          "$type": "Aow.Game.Magic.Abilities.TLeader",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -1219,14 +1219,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1250,9 +1250,9 @@
           "THero.FFaceIndex": 0,
           "THero.FGender": 0,
           "THero.FHeroItems": {
-            "$type": "Aow.Units.AoWE.THeroItems",
+            "$type": "Aow.Game.Units.THeroItems",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": []
             },
@@ -1265,7 +1265,7 @@
           "THero.FHeroResource": null,
           "THero.FHeroResourceIndex": -1,
           "THero.FHeroStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1276,9 +1276,9 @@
           },
           "THero.FHitPoints": 0,
           "THero.FInventory": {
-            "$type": "Aow.Units.AoWE.THeroInventory",
+            "$type": "Aow.Game.Units.THeroInventory",
             "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.THero.FHeroItems.TEChangeNotifyNode.FChildren.TList.items"
             },
@@ -1291,7 +1291,7 @@
           "THero.FLibraryID": -1,
           "THero.FLibraryName": "",
           "THero.FMode": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.THeroModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1303,7 +1303,7 @@
           "THero.FMovePoints": 0,
           "THero.FNickname": "",
           "THero.FPowerSource": {
-            "$type": "Aow.Units.AoWE.THeroPowerSource",
+            "$type": "Aow.Game.Units.THeroPowerSource",
             "TEObject.FOwner": null,
             "THeroPowerSource.FHero": "$ref:$"
           },
@@ -1319,7 +1319,7 @@
           "THero.FUsedSkillPoints": 0,
           "TLeader.FSpherePicksMax": 5,
           "TLeader.FSpheres": {
-            "$type": "Aow.Units.Engine.TByteList",
+            "$type": "Aow.Game.Engine.Collections.TByteList",
             "TByteList.FCapacity": 0,
             "TByteList.FCount": 0,
             "TByteList.FDefault": 0,
@@ -1334,7 +1334,7 @@
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TUnit",
+          "$type": "Aow.Game.Magic.Abilities.TUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -1342,14 +1342,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1375,7 +1375,7 @@
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TUnit",
+          "$type": "Aow.Game.Magic.Abilities.TUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -1383,14 +1383,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1416,7 +1416,7 @@
       "insert:2:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TUnit",
+          "$type": "Aow.Game.Magic.Abilities.TUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -1424,14 +1424,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1461,7 +1461,7 @@
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TWallUnit",
+          "$type": "Aow.Game.Magic.Abilities.TWallUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -1469,14 +1469,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1497,7 +1497,7 @@
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TWallUnit",
+          "$type": "Aow.Game.Magic.Abilities.TWallUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -1505,14 +1505,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,
@@ -1533,7 +1533,7 @@
       "insert:2:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Units.AoWE.TWallUnit",
+          "$type": "Aow.Game.Magic.Abilities.TWallUnit",
           "TAbilityOwner.FAbilityData": null,
           "TAbstractUnit.FDefensiveStrength": 0,
           "TAbstractUnit.FGroup": null,
@@ -1541,14 +1541,14 @@
           "TAbstractUnit.FMaxOffensiveStrength": 0,
           "TAbstractUnit.FMoraleValue": 0,
           "TAbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Units.FixedArray_byte_10",
+            "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_10",
             "FixedArray_byte_10.element0": 0
           },
           "TAbstractUnit.FPlayer": 0,
           "TAbstractUnit.FRefCount": 1,
           "TAbstractUnit.FUnitID": -1,
           "TAbstractUnit.FUnitStatus": {
-            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Game.Units.TUnitStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet\u00601.a": 0,
             "TSet\u00601.b": 0,
             "TSet\u00601.bounded": false,

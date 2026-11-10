@@ -3,7 +3,7 @@
     "$jsonText": {
       "State": {
         "$jsonText": {
-          "$type": "Aow.Units.AoWTC.TCombatUnitSelectionControl",
+          "$type": "Aow.Game.Combat.TCombatUnitSelectionControl",
           "TCombatUnitSelectionControl.FCursorFrame": 0,
           "TCombatUnitSelectionControl.FCursorImage": 0,
           "TCombatUnitSelectionControl.FMouseOverTarget": null,
@@ -13,7 +13,7 @@
             "TList.items": []
           },
           "TCombatUnitSelectionControl.FPathInvalid": {
-            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWTC.AnonymousEnum_piMove, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet`1[[Aow.Game.Combat.AnonymousEnum_piMove, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet`1.a": 0,
             "TSet`1.b": 0,
             "TSet`1.bounded": false,
@@ -23,7 +23,7 @@
             "TSet`1.low": 0
           },
           "TCombatUnitSelectionControl.FRangedPath": {
-            "$type": "Aow.Units.aowFX.TXYZList",
+            "$type": "Aow.Game.Draw.TXYZList",
             "TXYZList.FList": {
               "$type": "Aow.Rtl.TList",
               "TList.count": 0,
@@ -31,7 +31,7 @@
             }
           },
           "TCombatUnitSelectionControl.FRangedPathHS": {
-            "$type": "Aow.Units.AoWTC.TRangedPathHS",
+            "$type": "Aow.Game.Draw.TRangedPathHS",
             "TEObject.FOwner": null,
             "TFixedVisibleHS.FStatus": 0,
             "TRangedPathHS.FFrame": 0,
@@ -40,7 +40,7 @@
             "TRangedPathHS.FRange": 0,
             "TRangedPathHS.FSelection": null,
             "TRangedPathHS.FTargetImages": {
-              "$type": "Aow.Units.ImageLib.TImageLibrary",
+              "$type": "Aow.Game.Draw.Images.TImageLibrary",
               "TComponent.<ComponentState>k__BackingField": {
                 "$type": "Aow.Rtl.TSet`1[[Aow.Rtl.TComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "TSet`1.a": 0,
@@ -66,7 +66,7 @@
               "TCustomImageLibrary.FLoadedFileName": "",
               "TCustomImageLibrary.FOnChange": null,
               "TCustomImageLibrary.FPaletteManager": {
-                "$type": "Aow.Units.ImageLib.TPaletteManager",
+                "$type": "Aow.Game.Draw.Images.TPaletteManager",
                 "TPaletteManager.FPalettes": {
                   "$type": "Aow.Rtl.TList",
                   "TList.count": 0,
@@ -75,7 +75,7 @@
               },
               "TCustomImageLibrary.FReloading": false,
               "TCustomImageLibrary.FStatus": {
-                "$type": "Aow.Rtl.TSet`1[[Aow.Units.ImageLib.TImageLibraryStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.TSet`1[[Aow.Game.Draw.Images.TImageLibraryStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "TSet`1.a": 0,
                 "TSet`1.b": 0,
                 "TSet`1.bounded": false,
@@ -92,9 +92,9 @@
           "TMoveSelector.FCurrentMove": -1,
           "TMoveSelector.FMap": null,
           "TMoveSelector.FMoveControlSettings": {
-            "$type": "Aow.Units.AoWTC.TCombatMoveControlSettings",
+            "$type": "Aow.Game.Combat.TCombatMoveControlSettings",
             "TCombatMoveControlSettings.FMoveFlags": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWTC.TCombatMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Combat.TCombatMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "TSet`1.a": 0,
               "TSet`1.b": 0,
               "TSet`1.bounded": false,
@@ -109,14 +109,14 @@
             "TMoveControlSettings.FDestinationX": -1,
             "TMoveControlSettings.FDestinationY": -1,
             "TMoveControlSettings.FEvenOffsets": {
-              "$type": "Aow.Units.FixedArray_int_8",
+              "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
               "FixedArray_int_8.element0": 0
             },
             "TMoveControlSettings.FHeight": 0,
             "TMoveControlSettings.FLevelCount": 0,
             "TMoveControlSettings.FLevelData": [],
             "TMoveControlSettings.FMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.TSet`1[[Aow.Game.World.Movement.TMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "TSet`1.a": 0,
               "TSet`1.b": 0,
               "TSet`1.bounded": false,
@@ -126,9 +126,9 @@
               "TSet`1.low": 0
             },
             "TMoveControlSettings.FMovePointTable": {
-              "$type": "Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+              "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
               "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-                "$type": "Aow.Units.FixedArray_sbyte_16",
+                "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
                 "FixedArray_sbyte_16.element0": -1
               }
             },
@@ -136,15 +136,15 @@
             "TMoveControlSettings.FMovePointsLimit": 0,
             "TMoveControlSettings.FMovePointsMax": 4095,
             "TMoveControlSettings.FOddOffsets": {
-              "$type": "Aow.Units.FixedArray_int_8",
+              "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
               "FixedArray_int_8.element0": 0
             },
             "TMoveControlSettings.FPath": {
-              "$type": "Aow.Units.AoWE.TMovepath",
+              "$type": "Aow.Game.World.Movement.TMovepath",
               "TXYLList.FCapacity": 0,
               "TXYLList.FCount": 0,
               "TXYLList.FDefault": {
-                "$type": "Aow.Units.HSEngine.TXYL",
+                "$type": "Aow.Game.World.Map.TXYL",
                 "TXYL.Flag": 0,
                 "TXYL.L": -1,
                 "TXYL.X": -1,
@@ -169,9 +169,9 @@
             "TMoveControlSettings.FStatus": 0,
             "TMoveControlSettings.FSubMoveIndex": 0,
             "TMoveControlSettings.FSubMoves": {
-              "$type": "Aow.Units.AoWE.TSubMoveList",
+              "$type": "Aow.Game.World.Movement.TSubMoveList",
               "TENode.FChildren": {
-                "$type": "Aow.Units.Engine.TEObjectList",
+                "$type": "Aow.Game.Engine.Nodes.TEObjectList",
                 "TList.count": 0,
                 "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
               },
@@ -179,9 +179,9 @@
             },
             "TMoveControlSettings.FTransporterArmy": null,
             "TMoveControlSettings.FUnits": {
-              "$type": "Aow.Units.AoWE.TUnitUserList",
+              "$type": "Aow.Game.Units.TUnitUserList",
               "TEChangeNotifyNode.FChildren": {
-                "$type": "Aow.Units.Engine.TEObjectList",
+                "$type": "Aow.Game.Engine.Nodes.TEObjectList",
                 "TList.count": 0,
                 "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
               },
@@ -191,16 +191,16 @@
             "TMoveControlSettings.FWidth": 0
           },
           "TMoveSelector.FMoveSettingsList": {
-            "$type": "Aow.Units.AoWE.TMoveSettingsList",
+            "$type": "Aow.Game.World.Movement.TMoveSettingsList",
             "TENode.FChildren": {
-              "$type": "Aow.Units.Engine.TEObjectList",
+              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
               "TList.count": 0,
               "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
             },
             "TEObject.FOwner": null
           },
           "TMoveSelector.FStatus": {
-            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TMoveSelectorStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.TSet`1[[Aow.Game.World.Movement.TMoveSelectorStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "TSet`1.a": 0,
             "TSet`1.b": 0,
             "TSet`1.bounded": false,

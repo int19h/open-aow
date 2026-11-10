@@ -2,19 +2,21 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AoWE;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWFileDialog;
-using Aow.Units.AOWMWindow;
-using Aow.Units.AoWWinMan;
-using Aow.Units.HSEngine;
-using GameState = Aow.Units.AoWE.AoWEUnit;
+using GameState = Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Game;
+namespace Aow;
 
 internal sealed class FrameFixture
 {
@@ -145,7 +147,7 @@ internal sealed class FrameFixture
                 AoWFileDialogUnit.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
             {
-                if (GameState.AoWHSMap?.FCombatMap is not Aow.Units.AoWTC.TAoWCombatMap combat) return;
+                if (GameState.AoWHSMap?.FCombatMap is not Aow.Game.Combat.TAoWCombatMap combat) return;
                 combat.FPlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
                 AoWExeFormsUnit.ChatWindow.MinClick();
@@ -312,7 +314,7 @@ internal sealed class FrameFixture
                         var player = world.FPlayers.GetPlayers(playerIndex);
                         players.Add(new { index = playerIndex, units = player.GetUnitCount(), gold = player.FGems });
                         for (int index = 0; index < player.FStructures.GetCount(); index++)
-                            if (player.FStructures.GetStructure(index) is Aow.Units.City.TCity city)
+                            if (player.FStructures.GetStructure(index) is Aow.Game.World.Structures.TCity city)
                                 cities.Add(new { name = city.FName, player = playerIndex, wall = city.FWallType, upgrade = city.FUpgradeLevel });
                     }
                     File.WriteAllText(Path.Combine(output, "world.json"), JsonSerializer.Serialize(new
@@ -325,13 +327,13 @@ internal sealed class FrameFixture
                     }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
                 }
             }
-            if (GameState.AoWHSMap?.FCombatMap is Aow.Units.AoWTC.TAoWCombatMap combatMap)
+            if (GameState.AoWHSMap?.FCombatMap is Aow.Game.Combat.TAoWCombatMap combatMap)
             {
                 var viewer = AOWMWindowUnit.MWindow.MapViewer;
                 var units = new List<object>();
                 var data = combatMap.FCombat.FCombatData;
                 for (int i = 0; i < data.GetCount(); i++)
-                    if (data.GetObjects(i) is Aow.Units.AoWTC.TTacticalCombatUnit unit && unit.FUnitHS is { } sprite)
+                    if (data.GetObjects(i) is Aow.Game.Combat.TTacticalCombatUnit unit && unit.FUnitHS is { } sprite)
                     {
                         int x = 0, y = 0;
                         HSEngineUnit.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);

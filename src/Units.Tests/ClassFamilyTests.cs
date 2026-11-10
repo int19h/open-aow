@@ -1,11 +1,13 @@
-using Aow.Units.AoWE;
-using Aow.Units.AoWHex;
-using Aow.Units.BehaviorAG;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.IsoHex;
-using Aow.Units.ItemGrid;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Session;
+using Aow.Game.Ui.Grids;
+using Aow.Game.World;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 

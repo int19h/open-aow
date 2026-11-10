@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Game.Engine;
 
 namespace Aow.Units.Tests;
 
@@ -32,7 +33,7 @@ public sealed class StaticStringTableTests
         }
         using var host = new EngineFixture.RecordingHost("fixture");
         Runtime.InstallHost(host);
-        Aow.Units.Sound.NullSoundSystem.Install();
+        Aow.Game.Audio.NullSoundSystem.Install();
         Startup.InitializeAll();
         var nulls = new List<string>();
         int tables = 0;

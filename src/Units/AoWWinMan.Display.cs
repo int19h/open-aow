@@ -1,13 +1,11 @@
 #nullable disable
-using Aow.Platform;
+using Aow.Game.Draw;
+using Aow.Game.Host;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWInfoBanner;
-using Aow.Units.AOWMWindow;
-using Aow.Units.AoWUnitBanner;
-using Aow.Units.E2Globals;
-using Aow.Units.Engine;
 
-namespace Aow.Units.AoWWinMan;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TGeneral
 {

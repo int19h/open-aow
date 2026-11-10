@@ -2,11 +2,14 @@ using System.Collections;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Ai;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Spells;
+using Aow.Game.World;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -32,9 +35,9 @@ public sealed class LeftoverConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly int previousSeed = Runtime.RandSeed;
-        private readonly TAoWHSSet previousSet = Game.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Game.AoWEngine;
-        private readonly TAoWHSMap previousMap = Game.AoWHSMap;
+        private readonly TAoWHSSet previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
+        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TMapObjectResourceList CombatResources = new TMapObjectResourceList(null!);
 
@@ -42,10 +45,10 @@ public sealed class LeftoverConstructionTests
         {
             Runtime.RandSeed = 123456789;
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
-            Game.AoWHSSet = set;
-            Game.AoWEngine = EngineFixture.Engine;
-            Game.AoWHSMap = null!;
-            Game.AoWHSSet.FUnitGFXResources = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = EngineFixture.Engine;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
@@ -53,9 +56,9 @@ public sealed class LeftoverConstructionTests
         {
             Runtime.RandSeed = previousSeed;
 
-            Game.AoWHSSet = previousSet;
-            Game.AoWEngine = previousEngine;
-            Game.AoWHSMap = previousMap;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
         }
@@ -105,114 +108,114 @@ public sealed class LeftoverConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Units.AoWE.TAIGroup",
-        "Aow.Units.AoWE.TAIGroupControl",
-        "Aow.Units.AoWE.TAIGroupControlPlugin",
-        "Aow.Units.AoWE.TAbility",
-        "Aow.Units.AoWE.TAbilityOwner",
-        "Aow.Units.AoWE.TAoWCampaign",
-        "Aow.Units.AoWE.TAoWCampaignScenario",
-        "Aow.Units.AoWE.TAoWHSMap",
-        "Aow.Units.AoWE.TArmy",
-        "Aow.Units.AoWE.TArmyCombatMoveTE",
-        "Aow.Units.AoWE.TArmyCombineMoveTE",
-        "Aow.Units.AoWE.TArmyDefaultMoveTE",
-        "Aow.Units.AoWE.TArmyNegotiateMoveTE",
-        "Aow.Units.AoWE.TChangeGlobalMagicTE",
-        "Aow.Units.AoWE.TChangePlayerMagicTE",
-        "Aow.Units.AoWE.TChangePlayerSettingsTE",
-        "Aow.Units.AoWE.TCheatTE",
-        "Aow.Units.AoWE.TCombat",
-        "Aow.Units.AoWE.TCombatAction",
-        "Aow.Units.AoWE.TCombatFlowControlTE",
-        "Aow.Units.AoWE.TCombatObject",
-        "Aow.Units.AoWE.TCombatUnit",
-        "Aow.Units.AoWE.TConstructStructureTE",
-        "Aow.Units.AoWE.TDiplomaticActionTE",
-        "Aow.Units.AoWE.TDisbandUnitTE",
-        "Aow.Units.AoWE.TDispelMagicAbilityTE",
-        "Aow.Units.AoWE.TDispelMagicCA",
-        "Aow.Units.AoWE.TDurationAbility",
-        "Aow.Units.AoWE.TEndTurnTE",
-        "Aow.Units.AoWE.TEnhancementAbility",
-        "Aow.Units.AoWE.TFire",
-        "Aow.Units.AoWE.TFireResource",
-        "Aow.Units.AoWE.TFrozenWaterHS",
-        "Aow.Units.AoWE.TGameOverTE",
-        "Aow.Units.AoWE.TGlobalEnchantment",
-        "Aow.Units.AoWE.THealingTE",
-        "Aow.Units.AoWE.THeroUpdateTE",
-        "Aow.Units.AoWE.THeroUpgradeTE",
-        "Aow.Units.AoWE.TItemList",
-        "Aow.Units.AoWE.TItemTE",
-        "Aow.Units.AoWE.TLeaderSetupControl",
-        "Aow.Units.AoWE.TMoveArmyTE",
-        "Aow.Units.AoWE.TMoveControlSettings",
-        "Aow.Units.AoWE.TMoveTE",
-        "Aow.Units.AoWE.TMultiLevelAbility",
-        "Aow.Units.AoWE.TMultiMoveTE",
-        "Aow.Units.AoWE.TNegotiateTE",
-        "Aow.Units.AoWE.TPlayerMagicControl",
-        "Aow.Units.AoWE.TProductionControl",
-        "Aow.Units.AoWE.TProductionTE",
-        "Aow.Units.AoWE.TSaveGameTE",
-        "Aow.Units.AoWE.TSpell",
-        "Aow.Units.AoWE.TSpellCaster",
-        "Aow.Units.AoWE.TSpellTECallViewP4",
-        "Aow.Units.AoWE.TStartupSongList",
-        "Aow.Units.AoWE.TStructureShadow",
-        "Aow.Units.AoWE.TTerminatePlayerTE",
-        "Aow.Units.AoWE.TUnitEnchantmentAbility",
-        "Aow.Units.AoWE.TUnitShadowHS",
-        "Aow.Units.AoWE.TUnitSpell",
-        "Aow.Units.AoWE.TUnitSpellTE",
-        "Aow.Units.AoWE.TWorldFXHS",
-        "Aow.Units.CitySpells.TCityEnchantmentSpellTE",
-        "Aow.Units.CitySpells.TCityTargetSpellTE",
-        "Aow.Units.CitySpells.TTownGateTE",
-        "Aow.Units.Engine.TEChangeNotifyEventList",
-        "Aow.Units.Engine.TEChangeNotifyNode",
-        "Aow.Units.Engine.TEControlStyleInverseSortNode",
-        "Aow.Units.Engine.TEControlStyleNode",
-        "Aow.Units.Engine.TECustomNode",
-        "Aow.Units.Engine.TECustomOwner",
-        "Aow.Units.Engine.TEInverseSortNode",
-        "Aow.Units.Engine.TENode",
-        "Aow.Units.Engine.TEObjectEditor",
-        "Aow.Units.Engine.TEReferenceNode",
-        "Aow.Units.Engine.TEResource",
-        "Aow.Units.Engine.TEResourceList",
-        "Aow.Units.Engine.TESortNode",
-        "Aow.Units.GlobalEnchantmentSpells.TGlobalEnchantmentSpellTE",
-        "Aow.Units.GlobalSpells.TBirdsViewHS",
-        "Aow.Units.GlobalSpells.TConcealAreaHS",
-        "Aow.Units.GlobalSpells.TDisjunctionTE",
-        "Aow.Units.GlobalSpells.TWarpPartyTE",
-        "Aow.Units.GlobalTargetSpells.TFireBarrierTE",
-        "Aow.Units.GlobalTargetSpells.TFreezeWaterTE",
-        "Aow.Units.GlobalTargetSpells.TGlobalTargetSpell",
-        "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellCalls",
-        "Aow.Units.GlobalTargetSpells.THealingShowersTE",
-        "Aow.Units.GlobalTargetSpells.TLevelTerrainTE",
-        "Aow.Units.GlobalTargetSpells.TRejuvenateTE",
-        "Aow.Units.GlobalTargetSpells.TTornadoTE",
-        "Aow.Units.GlobalTargetSpells.TVortexTE",
-        "Aow.Units.GlobalTargetSpells.TWatcherHS",
-        "Aow.Units.GlobalTargetSpells.TWatcherTE",
-        "Aow.Units.HSEngine.TFixedVisibleHS",
-        "Aow.Units.HSEngine.THPBasedHS",
-        "Aow.Units.HSEngine.THSSet",
-        "Aow.Units.HSEngine.TMapField",
-        "Aow.Units.HSEngine.TMapFieldTandO",
-        "Aow.Units.HSEngine.TMapLevel",
-        "Aow.Units.HSEngine.TMapObjectResource",
-        "Aow.Units.HSEngine.TMultiHexMOR",
-        "Aow.Units.ILTer.TILTerrainMO",
-        "Aow.Units.NetworkE.TENodeView",
-        "Aow.Units.NetworkE.TTokenEvent",
-        "Aow.Units.Sound.TENodeAccess",
-        "Aow.Units.Sound.TSonglist",
-        "Aow.Units.SummonSpells.TSummonSpellTE",
+        "Aow.Game.Ai.Groups.TAIGroup",
+        "Aow.Game.Ai.Groups.TAIGroupControl",
+        "Aow.Game.Ai.Groups.TAIGroupControlPlugin",
+        "Aow.Game.Magic.Abilities.TAbility",
+        "Aow.Game.Magic.Abilities.TAbilityOwner",
+        "Aow.Game.Session.TAoWCampaign",
+        "Aow.Game.Session.TAoWCampaignScenario",
+        "Aow.Game.World.Map.TAoWHSMap",
+        "Aow.Game.Units.TArmy",
+        "Aow.Game.Commands.TArmyCombatMoveTE",
+        "Aow.Game.Commands.TArmyCombineMoveTE",
+        "Aow.Game.Commands.TArmyDefaultMoveTE",
+        "Aow.Game.Commands.TArmyNegotiateMoveTE",
+        "Aow.Game.Commands.TChangeGlobalMagicTE",
+        "Aow.Game.Commands.TChangePlayerMagicTE",
+        "Aow.Game.Commands.TChangePlayerSettingsTE",
+        "Aow.Game.Commands.TCheatTE",
+        "Aow.Game.Combat.TCombat",
+        "Aow.Game.Combat.Actions.TCombatAction",
+        "Aow.Game.Commands.TCombatFlowControlTE",
+        "Aow.Game.Combat.TCombatObject",
+        "Aow.Game.Combat.TCombatUnit",
+        "Aow.Game.Commands.TConstructStructureTE",
+        "Aow.Game.Commands.TDiplomaticActionTE",
+        "Aow.Game.Commands.TDisbandUnitTE",
+        "Aow.Game.Commands.TDispelMagicAbilityTE",
+        "Aow.Game.Combat.Actions.TDispelMagicCA",
+        "Aow.Game.Magic.Abilities.TDurationAbility",
+        "Aow.Game.Commands.TEndTurnTE",
+        "Aow.Game.Magic.Abilities.TEnhancementAbility",
+        "Aow.Game.World.Terrain.TFire",
+        "Aow.Game.World.Terrain.TFireResource",
+        "Aow.Game.Draw.TFrozenWaterHS",
+        "Aow.Game.Commands.TGameOverTE",
+        "Aow.Game.Magic.TGlobalEnchantment",
+        "Aow.Game.Commands.THealingTE",
+        "Aow.Game.Commands.THeroUpdateTE",
+        "Aow.Game.Commands.THeroUpgradeTE",
+        "Aow.Game.Units.TItemList",
+        "Aow.Game.Commands.TItemTE",
+        "Aow.Game.Units.TLeaderSetupControl",
+        "Aow.Game.Commands.TMoveArmyTE",
+        "Aow.Game.World.Movement.TMoveControlSettings",
+        "Aow.Game.Commands.TMoveTE",
+        "Aow.Game.Magic.Abilities.TMultiLevelAbility",
+        "Aow.Game.Commands.TMultiMoveTE",
+        "Aow.Game.Commands.TNegotiateTE",
+        "Aow.Game.Session.TPlayerMagicControl",
+        "Aow.Game.World.Structures.TProductionControl",
+        "Aow.Game.Commands.TProductionTE",
+        "Aow.Game.Commands.TSaveGameTE",
+        "Aow.Game.Magic.Spells.TSpell",
+        "Aow.Game.Magic.Spells.TSpellCaster",
+        "Aow.Game.Commands.TSpellTECallViewP4",
+        "Aow.Game.Audio.TStartupSongList",
+        "Aow.Game.Draw.TStructureShadow",
+        "Aow.Game.Commands.TTerminatePlayerTE",
+        "Aow.Game.Magic.Abilities.TUnitEnchantmentAbility",
+        "Aow.Game.Draw.TUnitShadowHS",
+        "Aow.Game.Magic.Spells.Unit.TUnitSpell",
+        "Aow.Game.Commands.TUnitSpellTE",
+        "Aow.Game.Draw.TWorldFXHS",
+        "Aow.Game.Commands.TCityEnchantmentSpellTE",
+        "Aow.Game.Commands.TCityTargetSpellTE",
+        "Aow.Game.Commands.TTownGateTE",
+        "Aow.Game.Engine.Nodes.TEChangeNotifyEventList",
+        "Aow.Game.Engine.Nodes.TEChangeNotifyNode",
+        "Aow.Game.Engine.Nodes.TEControlStyleInverseSortNode",
+        "Aow.Game.Engine.Nodes.TEControlStyleNode",
+        "Aow.Game.Engine.Nodes.TECustomNode",
+        "Aow.Game.Engine.Nodes.TECustomOwner",
+        "Aow.Game.Engine.Nodes.TEInverseSortNode",
+        "Aow.Game.Engine.Nodes.TENode",
+        "Aow.Game.Engine.Nodes.TEObjectEditor",
+        "Aow.Game.Engine.Nodes.TEReferenceNode",
+        "Aow.Game.Engine.Nodes.TEResource",
+        "Aow.Game.Engine.Nodes.TEResourceList",
+        "Aow.Game.Engine.Nodes.TESortNode",
+        "Aow.Game.Commands.TGlobalEnchantmentSpellTE",
+        "Aow.Game.Draw.TBirdsViewHS",
+        "Aow.Game.Draw.TConcealAreaHS",
+        "Aow.Game.Commands.TDisjunctionTE",
+        "Aow.Game.Commands.TWarpPartyTE",
+        "Aow.Game.Commands.TFireBarrierTE",
+        "Aow.Game.Commands.TFreezeWaterTE",
+        "Aow.Game.Magic.Spells.GlobalTarget.TGlobalTargetSpell",
+        "Aow.Game.Magic.Spells.GlobalTarget.TGlobalTargetSpellCalls",
+        "Aow.Game.Commands.THealingShowersTE",
+        "Aow.Game.Commands.TLevelTerrainTE",
+        "Aow.Game.Commands.TRejuvenateTE",
+        "Aow.Game.Commands.TTornadoTE",
+        "Aow.Game.Commands.TVortexTE",
+        "Aow.Game.Draw.TWatcherHS",
+        "Aow.Game.Commands.TWatcherTE",
+        "Aow.Game.Draw.TFixedVisibleHS",
+        "Aow.Game.Draw.THPBasedHS",
+        "Aow.Game.World.Map.THSSet",
+        "Aow.Game.World.Map.TMapField",
+        "Aow.Game.World.Map.TMapFieldTandO",
+        "Aow.Game.World.Map.TMapLevel",
+        "Aow.Game.World.TMapObjectResource",
+        "Aow.Game.World.TMultiHexMOR",
+        "Aow.Game.World.Terrain.TILTerrainMO",
+        "Aow.Game.Net.TENodeView",
+        "Aow.Game.Commands.TTokenEvent",
+        "Aow.Game.Audio.TENodeAccess",
+        "Aow.Game.Audio.TSonglist",
+        "Aow.Game.Commands.TSummonSpellTE",
     ];
 
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });

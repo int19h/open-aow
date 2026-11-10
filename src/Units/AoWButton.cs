@@ -1,14 +1,12 @@
 // Translated from AoWButton.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AOWMenu;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWButton;
+namespace Aow.Game.Ui.Controls;
 
 // { The AoWButton unit of aowInt.dpl: TAOWBaseButton, the common ancestor of the push button and
 //   the check box, which draws itself from a button library (three images: the left end, the

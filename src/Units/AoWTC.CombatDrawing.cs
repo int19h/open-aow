@@ -1,17 +1,19 @@
 #nullable disable
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.CityWall;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
+using static Aow.Game.Draw.aowFXUnit;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowFX.aowFXUnit;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.AoWTC;
+namespace Aow.Game.Draw;
 
 public partial class TfxHS
 {

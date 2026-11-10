@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
+using Aow.Game.World.Movement;
 
-namespace Aow.Units.HSEngine;
+namespace Aow.Game.World.Map;
 
 public static partial class HSEngineUnit
 {

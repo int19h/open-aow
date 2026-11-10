@@ -134,10 +134,10 @@ public static class NameTable
 
     internal static IReadOnlyList<NameRow> Rows => Current().Rows;
 
-    internal static IDisposable Install(string tsv)
+    internal static IDisposable Install(string text)
     {
-        ArgumentNullException.ThrowIfNull(tsv);
-        var parsed = Table.Parse(tsv);
+        ArgumentNullException.ThrowIfNull(text);
+        var parsed = Table.Parse(text);
         lock (gate)
         {
             var previous = active ?? Product();
@@ -155,7 +155,7 @@ public static class NameTable
     private static Table Product()
     {
         if (product is not null) return product;
-        using var stream = typeof(NameTable).Assembly.GetManifestResourceStream("Aow.Rtl.names.tsv")
+        using var stream = typeof(NameTable).Assembly.GetManifestResourceStream("Aow.Rtl.names.csv")
             ?? throw new InvalidOperationException("The name table is missing.");
         using var reader = new StreamReader(stream, Encoding.UTF8);
         product = Table.Parse(reader.ReadToEnd());
@@ -228,24 +228,92 @@ public static class NameTable
         {
             var rows = new List<NameRow>();
             bool header = false;
-            var normalized = text.Replace("\r\n", "\n").Replace('\r', '\n');
-            foreach (var raw in normalized.Split('\n'))
+            foreach (var parts in Records(text))
             {
-                if (raw.Length == 0 || raw[0] == '#') continue;
+                if (parts.Length == 1 && (parts[0].Length == 0 || parts[0][0] == '#')) continue;
                 if (!header)
                 {
-                    if (raw != "kind\tdelphi\tcurrent")
+                    if (parts.Length != 3 || parts[0] != "kind" || parts[1] != "delphi" || parts[2] != "current")
                         throw new InvalidOperationException("The name table header is missing.");
                     header = true;
                     continue;
                 }
-                var parts = raw.Split('\t');
                 if (parts.Length != 3 || parts[0] is not ("type" or "member") || parts[1].Length == 0 || parts[2].Length == 0)
                     throw new InvalidOperationException("A name table row is not kind, delphi and current.");
                 rows.Add(new NameRow(parts[0], parts[1], parts[2]));
             }
             if (!header) throw new InvalidOperationException("The name table header is missing.");
             return Index(rows);
+        }
+
+        // A line that starts with # is a comment. A field is quoted only when it holds a comma, a quote or a line break.
+        private static List<string[]> Records(string text)
+        {
+            var records = new List<string[]>();
+            var fields = new List<string>();
+            var field = new StringBuilder();
+            bool quoted = false;
+            bool begin = true;
+            string normalized = text.Replace("\r\n", "\n").Replace('\r', '\n');
+            for (int i = 0; i < normalized.Length; i++)
+            {
+                char c = normalized[i];
+                if (quoted)
+                {
+                    if (c == '"')
+                    {
+                        if (i + 1 < normalized.Length && normalized[i + 1] == '"')
+                        {
+                            field.Append('"');
+                            i++;
+                        }
+                        else quoted = false;
+                    }
+                    else field.Append(c);
+                    begin = false;
+                    continue;
+                }
+                if (begin && c == '#')
+                {
+                    int end = normalized.IndexOf('\n', i);
+                    i = end < 0 ? normalized.Length - 1 : end;
+                    continue;
+                }
+                if (c == '"')
+                {
+                    if (field.Length != 0)
+                        throw new InvalidOperationException("A name table quote sits inside a field.");
+                    quoted = true;
+                    begin = false;
+                    continue;
+                }
+                if (c == ',')
+                {
+                    fields.Add(field.ToString());
+                    field.Clear();
+                    begin = false;
+                    continue;
+                }
+                if (c == '\n')
+                {
+                    if (begin && field.Length == 0 && fields.Count == 0) continue;
+                    fields.Add(field.ToString());
+                    field.Clear();
+                    records.Add(fields.ToArray());
+                    fields.Clear();
+                    begin = true;
+                    continue;
+                }
+                field.Append(c);
+                begin = false;
+            }
+            if (quoted) throw new InvalidOperationException("A quoted name table field is not closed.");
+            if (field.Length > 0 || fields.Count > 0)
+            {
+                fields.Add(field.ToString());
+                records.Add(fields.ToArray());
+            }
+            return records;
         }
 
         private static Table Index(List<NameRow> rows)

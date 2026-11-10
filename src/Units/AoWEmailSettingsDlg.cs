@@ -1,15 +1,12 @@
 // Translated from AoWEmailSettingsDlg.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWEdit;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
-using static Aow.Units.AoWE.AoWEUnit;
+// Translated from AoWEmailSettingsDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.AoWEmailSettingsDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TEmailSettingsDlg : TDataModule
 {

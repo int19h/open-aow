@@ -1,7 +1,9 @@
-using Aow.Units.AoWE;
-using Aow.Units.HSEngine;
+using Aow.Game.Draw.Images;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.World.Map;
 
-namespace Aow.Units.City;
+namespace Aow.Game.World.Structures;
 
 public partial class TCity
 {

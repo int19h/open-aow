@@ -1,18 +1,21 @@
 // Translated from MoveOnEvents.pas.
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.MoveOnEvents;
+namespace Aow.Game.World.Movement;
 
-public partial class TMoveOnEvent : TMapObject
+public partial class TMoveOnEvent : Aow.Game.World.TMapObject
 {
     public TMoveOnEvent(TECustomNode owner) : base(owner)
     { }
@@ -34,9 +37,9 @@ public partial class TMoveOnEvent : TMapObject
         THNWalkData Walk = default;
         TMapLevel MapLevel;
         TMapField MapField;
-        if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+        if (!FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap))
         {
-            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+            FStatus = FStatus + TSet<Aow.Game.World.TMapObjectStatusElement>.Of(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap);
             var mapField = (TMapField)Owner;
             MapLevel = (TMapLevel)mapField.Owner;
             InitHNWalk(ref Walk, mapField.Xhx, mapField.Yhx, 0);
@@ -65,10 +68,10 @@ public partial class TMoveOnEvent : TMapObject
     {
         THNWalkData Walk = default;
         TMapLevel MapLevel;
-        if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+        if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap))
         {
             MapLevel = (TMapLevel)Owner.Owner;
-            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+            FStatus = FStatus - TSet<Aow.Game.World.TMapObjectStatusElement>.Of(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap);
             InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 0);
             while (Walk.Radius <= FRadius)
             {
@@ -80,7 +83,7 @@ public partial class TMoveOnEvent : TMapObject
                 WalkToNextHN(ref Walk);
             }
 
-            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+            FStatus = FStatus - TSet<Aow.Game.World.TMapObjectStatusElement>.Of(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap);
             SetOwner(null);
         }
     }
@@ -157,7 +160,7 @@ public partial class TMoveOnEvent : TMapObject
 
         if (Value != FRadius)
         {
-            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap))
             {
                 MapField = Owner;
                 Disconnect();
@@ -181,7 +184,7 @@ public partial class TMoveOnEvent : TMapObject
     }
 }
 
-public partial class TMoveOnEventResource : TMapObjectResource
+public partial class TMoveOnEventResource : Aow.Game.World.TMapObjectResource
 {
     public TMoveOnEventResource(TECustomNode owner) : base(owner)
     {

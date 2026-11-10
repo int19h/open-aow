@@ -1,45 +1,28 @@
 // Translated from AoWInfoWin.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.Altar;
-using Aow.Units.AoWArnoLine;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AOWGauge;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.Arena;
-using Aow.Units.Cave;
-using Aow.Units.City;
-using Aow.Units.E3Globals;
-using Aow.Units.ExploreS;
-using Aow.Units.Farm;
-using Aow.Units.GFXE;
-using Aow.Units.Mine;
-using Aow.Units.PowerNode;
-using Aow.Units.PrdPlace;
-using Aow.Units.Sign;
-using Aow.Units.Teleport;
-using Aow.Units.Tower;
-using Aow.Units.WizardsTower;
+// Translated from AoWInfoWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2CampaignSupportUnit;
+using static Aow.Game.Ui.Dialogs.AoWCityScreenUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.aowHelpWinUnit;
+using static Aow.Game.Ui.Dialogs.AoWProdScreenUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.World.Structures.CityUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.City.CityUnit;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
 
-namespace Aow.Units.AoWInfoWin;
+namespace Aow.Game.Ui.Dialogs;
 
 // item bag
 public partial class TIWindow : TDataModule

@@ -1,13 +1,13 @@
 #nullable disable
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWExeForms;
-using Aow.Units.E3Globals;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
 
-namespace Aow.Units.AOWControlWin;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TControlWin
 {

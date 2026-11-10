@@ -1,24 +1,25 @@
 // Translated from AoWSpellBook.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWBookWindow;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWE;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWTC;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
+// Translated from AoWSpellBook.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.AoWSpellBook;
+namespace Aow.Game.Ui.Dialogs;
 
 // mode, page kind, spell type, spells, page, hero, activation, researched spell, callback,
 // event, saved player pages
@@ -991,7 +992,7 @@ public partial class TSpellBook : TDataModule
     {
         FPage += 1;
         UpdateSpellPages();
-        Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
+        Dlg.StartAnim(Aow.Game.Ui.Grids.TPageTurnMode.ptLeft);
         Dlg.FPageTurn.FSpeed = 25;
         PlaySample("Sfx\\Int\\Pagef1.wav");
     }
@@ -1001,7 +1002,7 @@ public partial class TSpellBook : TDataModule
     {
         FPage -= 1;
         UpdateSpellPages();
-        Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
+        Dlg.StartAnim(Aow.Game.Ui.Grids.TPageTurnMode.ptRight);
         Dlg.FPageTurn.FSpeed = 25;
         PlaySample("Sfx\\Int\\Pagef1.wav");
     }
@@ -1038,11 +1039,11 @@ public partial class TSpellBook : TDataModule
         {
             if (FPageKind == 0)
             {
-                Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
+                Dlg.StartAnim(Aow.Game.Ui.Grids.TPageTurnMode.ptLeft);
             }
             else
             {
-                Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
+                Dlg.StartAnim(Aow.Game.Ui.Grids.TPageTurnMode.ptRight);
             }
 
             PlaySample("Sfx\\Int\\Pagef1.wav");
@@ -1060,11 +1061,11 @@ public partial class TSpellBook : TDataModule
         {
             if (FPageKind == 0 || FSpellType == TSpellType.stGlobal)
             {
-                Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
+                Dlg.StartAnim(Aow.Game.Ui.Grids.TPageTurnMode.ptLeft);
             }
             else
             {
-                Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
+                Dlg.StartAnim(Aow.Game.Ui.Grids.TPageTurnMode.ptRight);
             }
 
             PlaySample("Sfx\\Int\\Pagef1.wav");
@@ -1080,7 +1081,7 @@ public partial class TSpellBook : TDataModule
     {
         if (FSpellType != TSpellType.stCombat || FPage != 0 || FPageKind != 1)
         {
-            Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptLeft);
+            Dlg.StartAnim(Aow.Game.Ui.Grids.TPageTurnMode.ptLeft);
             PlaySample("Sfx\\Int\\Pagef1.wav");
             FSpellType = TSpellType.stCombat;
             FPage = 0;
@@ -1094,7 +1095,7 @@ public partial class TSpellBook : TDataModule
     {
         if (FPageKind != 0)
         {
-            Dlg.StartAnim(PageTurnCtrl.TPageTurnMode.ptRight);
+            Dlg.StartAnim(Aow.Game.Ui.Grids.TPageTurnMode.ptRight);
             PlaySample("Sfx\\Int\\Pagef1.wav");
             SetPageKind(0);
         }
@@ -1147,7 +1148,7 @@ public partial class TSpellBook : TDataModule
     }
 
     // AoWSpellBook.pas:325
-    public void ResearchIcnDraw(AoWControl.TAOWControl Sender, TSurfaceDesc SD)
+    public void ResearchIcnDraw(Aow.Game.Ui.Controls.TAOWControl Sender, TSurfaceDesc SD)
     {
         TSpell Spell;
         int X;
@@ -1166,7 +1167,7 @@ public partial class TSpellBook : TDataModule
     }
 
     // AoWSpellBook.pas:337
-    public void CastingIcnDraw(AoWControl.TAOWControl Sender, TSurfaceDesc SD)
+    public void CastingIcnDraw(Aow.Game.Ui.Controls.TAOWControl Sender, TSurfaceDesc SD)
     {
         TSpell Spell;
         int X;

@@ -1,15 +1,23 @@
 // Translated from ExploreS.pas.
+using Aow.Game.Combat;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Net;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.HSEngine;
-using Aow.Units.NetworkE;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.ExploreS;
+namespace Aow.Game.World.Structures;
 
 // { ot=1 }
 public partial class TDefendersArmy : TArmy

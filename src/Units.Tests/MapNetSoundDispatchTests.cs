@@ -1,9 +1,10 @@
+using Aow.Game.Audio;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
 using Aow.Platform;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.Sound;
-using Sample = Aow.Units.Sound.TSample;
-using SoundApi = Aow.Units.Sound.SoundUnit;
+using Sample = Aow.Game.Audio.TSample;
+using SoundApi = Aow.Game.Audio.SoundUnit;
 
 namespace Aow.Units.Tests;
 
@@ -75,7 +76,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void LegacyMouseStartsWithEmptyEvents()
     {
-        var mouse = new Aow.Units.AoWE.TAbstractAoWHSMapMouse();
+        var mouse = new Aow.Game.World.Map.TAbstractAoWHSMapMouse();
         Assert.Equal(0, mouse.FOnUpStore.Count);
         Assert.Equal(0, mouse.FOnDownStore.Count);
         Assert.Equal(0, mouse.FOnMoveStore.Count);

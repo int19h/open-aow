@@ -1,14 +1,13 @@
 // Translated from OverviewUnit.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWTC;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.OverviewUnit;
+namespace Aow.Game.Draw;
 
 // FUnit
 public partial class TOverviewUnitHS : TUnitHS

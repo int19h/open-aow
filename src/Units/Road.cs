@@ -1,11 +1,11 @@
 // Translated from Road.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.Road;
+namespace Aow.Game.World.Hexes;
 
 // { The Road unit of HSEPack.dpl: a road on a hexagon (TRoad, ClassID $20164) whose image is chosen
 //   from the roads on the six neighbour hexagons (TRoadResource, ClassID $20165). }

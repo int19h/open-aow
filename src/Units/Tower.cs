@@ -1,12 +1,16 @@
 // Translated from Tower.pas.
+using Aow.Game.Ai;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
 
-namespace Aow.Units.Tower;
+namespace Aow.Game.World.Structures;
 
 public enum TTowerStateElement : byte
 {

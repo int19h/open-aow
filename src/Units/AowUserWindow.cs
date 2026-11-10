@@ -1,12 +1,11 @@
 // Translated from AowUserWindow.pas.
+using Aow.Game.Draw;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AowUserWindow;
+namespace Aow.Game.Ui.Windows;
 
 // extended drawing event
 public partial class TAoWUserWindow : TAOWWindow

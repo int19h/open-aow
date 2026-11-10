@@ -1,17 +1,14 @@
 // Translated from AoWCampaignSettings.pas.
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComboBox;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
+// Translated from AoWCampaignSettings.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
 
-namespace Aow.Units.AoWCampaignSettings;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TCampaignSettingsDlg : TDataModule
 {

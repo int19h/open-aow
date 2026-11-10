@@ -1,19 +1,17 @@
 // Translated from AoWNewTurnDialog.pas.
+using Aow.Game.Draw;
+using Aow.Game.Events;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPInfoWin;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
-namespace Aow.Units.AoWNewTurnDialog;
+namespace Aow.Game.Ui.Dialogs;
 
 // done callback, new-turn event
 public partial class TNewTurnDlg : TDataModule

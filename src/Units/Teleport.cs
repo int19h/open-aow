@@ -1,17 +1,25 @@
 // Translated from Teleport.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.Animation;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.NetworkE;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.Teleport;
+namespace Aow.Game.World.Structures;
 
 public enum TTeleportStateElement : byte
 {
@@ -112,7 +120,7 @@ public partial class TTeleport : TStructure
     public override void Deactivate()
     {
         base.Deactivate();
-        FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moActivated);
+        FStatus = FStatus - TSet<Aow.Game.World.TMapObjectStatusElement>.Of(Aow.Game.World.TMapObjectStatusElement.moActivated);
         ((TMapField)Owner).UpdateMapField();
     }
 

@@ -1,14 +1,18 @@
 // Translated from HxBridge.pas.
 using System.Runtime.InteropServices;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.HxBridge;
+namespace Aow.Game.World.Hexes;
 
 // FTerrain, FDirection (-1 invalid), FSideA, FSideB
 public partial class THexagonBridge : TAbstractRoad
@@ -214,7 +218,7 @@ public partial class THexagonBridge : TAbstractRoad
 
         TECustomNode previous = Owner;
         Owner = MapField;
-        FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+        FStatus = FStatus + TSet<Aow.Game.World.TMapObjectStatusElement>.Of(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap);
         FTerrain = MapField.TerrainType;
         // { Original bug: refresh the old owner's owner as a map field. }
         // FOwner lives on TEObject, so the old owner has it. A nil owner or a non-field owner is undefined in the original, so skip it.

@@ -1,4 +1,4 @@
-namespace Aow.Units.TurnButton;
+namespace Aow.Game.Ui.Grids;
 
 public partial class TAOWTurnButton
 {

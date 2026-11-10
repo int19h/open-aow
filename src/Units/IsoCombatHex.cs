@@ -1,16 +1,16 @@
 // Translated from IsoCombatHex.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Aow.Units.IsoHex;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.IsoCombatHex;
+namespace Aow.Game.World.Hexes;
 
 public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
 {
@@ -21,7 +21,7 @@ public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
     public new const int ClassID = 2229514;
 
     // IsoCombatHex.pas:43
-    public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
     // IsoCombatHex.pas:46
     public override void ShowDynamic(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)

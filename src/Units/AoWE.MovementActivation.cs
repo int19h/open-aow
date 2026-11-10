@@ -1,8 +1,9 @@
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWTC;
-using Aow.Units.HSEngine;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.World.Movement;
 
 public partial class TMoveControl
 {

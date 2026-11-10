@@ -1,9 +1,8 @@
 #nullable enable
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using Aow.Rtl;
 
-namespace Aow.Units.GFXE;
+namespace Aow.Game.Draw;
 
 // The blend slot of an image's show info (ImageLib.pas TShowInfo): a percentage into the blend
 // table collection of the blend mode, or the blend table itself for bmUser. The two cases are

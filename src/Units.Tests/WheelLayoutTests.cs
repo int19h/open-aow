@@ -1,19 +1,9 @@
-using Aow.Layout;
+using Aow.Game.Engine;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Platform;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWFileDialog;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWRealm;
-using Aow.Units.AoWReg;
-using Aow.Units.AoWSpellBook;
-using Aow.Units.AOWTitleWindow;
-using Aow.Units.AoWUnitBanner;
-using Aow.Units.AoWWindow;
-using Aow.Units.AoWWinMan;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.E2Globals;
-using Aow.Units.FontMod;
-using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -281,8 +271,8 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDir);
-            Game.AoWEngine.FRegistry = new TAoWRegistry();
-            Game.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FRegistry = new TAoWRegistry();
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
             dialog.FMode = 2;
             dialog.FileName.Text = "valley.map";
             dialog.SFileName.Text = "stale.asg";
@@ -297,7 +287,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         }
     }
 
-    private static string[] Names(Aow.Units.AoWListBox.TAOWListBox list)
+    private static string[] Names(Aow.Game.Ui.Controls.TAOWListBox list)
     {
         var names = new string[list.Items.Count];
         for (int i = 0; i < names.Length; i++) names[i] = list.Items[i];

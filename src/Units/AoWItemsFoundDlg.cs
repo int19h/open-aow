@@ -1,28 +1,22 @@
 // Translated from AoWItemsFoundDlg.pas.
 using System.Runtime.CompilerServices;
+using Aow.Game.Draw;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ItemExpS;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWItemBanner.AoWItemBannerUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2CampaignSupportUnit;
+using static Aow.Game.Ui.Dialogs.AoWItemBannerUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AoWItemsFoundDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // item offset, completion event, item event
 public partial class TItemsFoundDlg : TDataModule

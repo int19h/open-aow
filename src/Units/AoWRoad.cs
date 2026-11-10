@@ -1,12 +1,14 @@
 // Translated from AoWRoad.pas.
 using System.Runtime.InteropServices;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.Road;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.AoWRoad;
+namespace Aow.Game.World.Hexes;
 
 public partial class TAoWRoad : TRoad
 {

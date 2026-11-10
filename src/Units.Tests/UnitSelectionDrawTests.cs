@@ -1,10 +1,10 @@
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWE;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWUnitSelDlg;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 
 namespace Aow.Units.Tests;
 
@@ -19,8 +19,8 @@ public sealed class UnitSelectionDrawTests
     public void UnitSlotsDrawThroughTheirOwnComponentType()
     {
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
-        var previousEngine = Game.AoWEngine;
-        Game.AoWEngine = EngineFixture.Engine;
+        var previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = EngineFixture.Engine;
         var dialog = new TUnitSelectionDlg(null!);
         try
         {
@@ -35,7 +35,7 @@ public sealed class UnitSelectionDrawTests
         {
             dialog.FEvent = null!;
             dialog.Dispose();
-            Game.AoWEngine = previousEngine;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
         }
     }
 }

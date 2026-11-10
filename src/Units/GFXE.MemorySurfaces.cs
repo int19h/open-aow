@@ -1,7 +1,7 @@
 using Aow.Graphics;
 using Aow.Rtl;
 
-namespace Aow.Units.GFXE;
+namespace Aow.Game.Draw;
 
 internal static class MemorySurfaces
 {

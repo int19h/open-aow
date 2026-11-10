@@ -1,12 +1,16 @@
 using System.Diagnostics;
 using System.Text.Json;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.HSEngine;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
-using GameState = Aow.Units.AoWE.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
+using GameState = Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Game;
+namespace Aow;
 
 internal sealed class FrameDiagnostics : IDisposable
 {
@@ -107,8 +111,8 @@ internal sealed class FrameDiagnostics : IDisposable
                                     mode = sequence.SequenceMode.ToString(),
                                     sequence.SpeedCount,
                                     sequence.ImageIndex,
-                                    lastFrame = typeof(Aow.Units.ImageLib.TImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
-                                    counter = typeof(Aow.Units.ImageLib.TImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence)
+                                    lastFrame = typeof(Aow.Game.Draw.Images.TImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
+                                    counter = typeof(Aow.Game.Draw.Images.TImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence)
                                 });
                     objects.Add(new
                     {

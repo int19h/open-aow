@@ -1,4 +1,5 @@
-namespace Aow.Units.AoWE;
+using Aow.Game.Magic.Abilities;
+namespace Aow.Game.Units;
 
 public partial class TUnitSpellCaster
 {

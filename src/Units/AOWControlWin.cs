@@ -1,25 +1,22 @@
 // Translated from AOWControlWin.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWFrame;
-using Aow.Units.AOWGauge;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
+// Translated from AOWControlWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.aowHelpWinUnit;
+using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
-namespace Aow.Units.AOWControlWin;
+namespace Aow.Game.Ui.Dialogs;
 
 // published controls. inverted army selection mask
 public partial class TControlWin : TDataModule

@@ -1,12 +1,12 @@
 #nullable disable
-using Aow.Platform;
-using Aow.Rtl;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWE;
-using Aow.Units.Sound;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Game.Audio;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Units;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AoWUnitWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TUnitWindow
 {

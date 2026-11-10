@@ -1,25 +1,23 @@
 // Translated from AoWHeroInfoDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
+// Translated from AoWHeroInfoDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2CampaignSupportUnit;
+using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
 
-namespace Aow.Units.AoWHeroInfoDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // done callback, army event, unit-details flag
 public partial class THeroInfoDlg : TDataModule

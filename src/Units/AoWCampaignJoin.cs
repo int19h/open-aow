@@ -1,21 +1,20 @@
 // Translated from AoWCampaignJoin.pas.
+using Aow.Game.Draw;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWE;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLeaderSetup;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.GFXE;
+// Translated from AoWCampaignJoin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E1GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
 
-namespace Aow.Units.AoWCampaignJoin;
+namespace Aow.Game.Ui.Dialogs;
 
 // stage, faction, leader, scroll delay, scroll position, text
 public partial class TCampaignJoinDlg : TDataModule

@@ -1,11 +1,11 @@
 // Translated from BorderHx.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.BorderHx;
+namespace Aow.Game.World.Hexes;
 
 // { The BorderHx unit of HSEPack.dpl: the border hexagon (TBorderHexagon, ClassID $20557) drawn at
 //   level 11 over the map edge; it also adds itself to the hexagon above (HN 1) of its map field.

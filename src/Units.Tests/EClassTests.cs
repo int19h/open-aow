@@ -1,8 +1,9 @@
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Ai;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -140,8 +141,8 @@ public sealed class EClassTests
     {
         // The static class references of inc/Combat.pas evaluate during type initialization, after
         // the module initializer filled the registry.
-        Assert.Equal(typeof(TCommandAbilityData), Game.P4CommandDataClass.Type);
-        Assert.Equal(EClass.Of<TCommandAbilityData>().ClassID, Game.P4CommandDataClass.ClassID);
+        Assert.Equal(typeof(TCommandAbilityData), Aow.Game.Magic.Abilities.AoWEUnit.P4CommandDataClass.Type);
+        Assert.Equal(EClass.Of<TCommandAbilityData>().ClassID, Aow.Game.Magic.Abilities.AoWEUnit.P4CommandDataClass.ClassID);
     }
 
     private sealed class Unregistered : TEObject

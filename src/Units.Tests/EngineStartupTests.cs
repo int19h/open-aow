@@ -3,15 +3,13 @@ using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Aow.Game.Engine;
+using Aow.Game.World.Map;
 using Aow.Rtl.Localize;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Core = Aow.Units.Engine.EngineUnit;
-using Game = Aow.Units.AoWE.AoWEUnit;
-using Hex = Aow.Units.HSEngine.HSEngineUnit;
-using Images = Aow.Units.ImageLib.ImageLibUnit;
-using SoundApi = Aow.Units.Sound.SoundUnit;
+using Core = Aow.Game.Engine.Nodes.EngineUnit;
+using Hex = Aow.Game.World.Map.HSEngineUnit;
+using Images = Aow.Game.Draw.Images.ImageLibUnit;
+using SoundApi = Aow.Game.Audio.SoundUnit;
 
 namespace Aow.Units.Tests;
 
@@ -66,7 +64,7 @@ public sealed class EngineStartupTests
                     };
                 }
                 catch (System.Exception error) { caught = error; }
-                var engine = value ?? Game.AoWEngine;
+                var engine = value ?? Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
                 Assert.NotNull(engine);
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
                 var result = new JsonObject
@@ -80,8 +78,8 @@ public sealed class EngineStartupTests
                 };
                 if (route == "AoW")
                 {
-                    Assert.True(Game.ValidateAoWEngine());
-                    Assert.Same(value, Game.AoWEngine);
+                    Assert.True(Aow.Game.Magic.Abilities.AoWEUnit.ValidateAoWEngine());
+                    Assert.Same(value, Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine);
                     result["ValidateAgain"] = true;
                     result["FinalSnapshot"] = Snapshot((TAoWEngine)value!, fixture);
                     result["MovePointTables"] = MovePoints();
@@ -89,8 +87,8 @@ public sealed class EngineStartupTests
                 else if (caught is not null)
                 {
                     Assert.Null(value);
-                    Assert.Same(engine, Game.AoWEngine);
-                    Assert.True(Game.ValidateAoWEngine());
+                    Assert.Same(engine, Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine);
+                    Assert.True(Aow.Game.Magic.Abilities.AoWEUnit.ValidateAoWEngine());
                     result["ValidateAfterFailure"] = true;
                 }
                 if (value is not null)
@@ -138,10 +136,10 @@ public sealed class EngineStartupTests
                 object buckets = value.GetType().GetField("FLists", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
                 object Bucket(int i) => buckets switch
                 {
-                    Aow.Units.FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
-                    Aow.Units.FixedArray_Aow_Units_Engine_TStringHashList_256 a => a[i],
-                    Aow.Units.FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 a => a[i],
-                    Aow.Units.FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
+                    Aow.Game.Engine.Buffers.FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
+                    Aow.Game.Engine.Buffers.FixedArray_Aow_Units_Engine_TStringHashList_256 a => a[i],
+                    Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 a => a[i],
+                    Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
                     _ => throw new InvalidOperationException("Unknown hash bucket layout")
                 };
                 var lists = new HashSet<object>(ReferenceEqualityComparer.Instance);
@@ -193,7 +191,7 @@ public sealed class EngineStartupTests
             for (int t = 0; t < 16; t++)
             {
                 var overlay = new JsonObject();
-                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)Game.MovePointTables[mask][t][o + 1];
+                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)Aow.Game.Magic.Abilities.AoWEUnit.MovePointTables[mask][t][o + 1];
                 terrain[$"Terrain[{t}]"] = overlay;
             }
             result[$"Mask[{mask}]"] = terrain;

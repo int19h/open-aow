@@ -1,18 +1,8 @@
-using Aow.Layout;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWEmailGameSettingsDlg;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWFileDialog;
-using Aow.Units.AoWHScroll;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWRelations;
-using Aow.Units.AoWWinMan;
-using Aow.Units.FontMod;
-using Aow.Units.ImageLib;
-using Aow.Units.Sound;
+using Aow.Game.Audio;
+using Aow.Game.Draw.Images;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
 
 namespace Aow.Units.Tests;
 

@@ -1,30 +1,27 @@
 // Translated from AoWResultsWin.pas.
+using Aow.Game.Draw;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.E2Globals;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
+// Translated from AoWResultsWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Draw.Images.ImageLibUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E1GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
+using static Aow.Game.Ui.Dialogs.AOWPyreScrnUnit;
+using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AOWPyreScrn.AOWPyreScrnUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.ImageLib.ImageLibUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.AoWResultsWin;
+namespace Aow.Game.Ui.Dialogs;
 
 // player indices, checkbox controls
 public partial class TResultsWin : TDataModule
@@ -191,7 +188,7 @@ public partial class TResultsWin : TDataModule
     }
 
     // AoWResultsWin.pas:123
-    public void DrawGraph(ImageLib.TLibraryImage Image, TIntegerList Values, int Turns, int Maximum, in TRect R, in TSurfaceDesc Surface)
+    public void DrawGraph(Aow.Game.Draw.Images.TLibraryImage Image, TIntegerList Values, int Turns, int Maximum, in TRect R, in TSurfaceDesc Surface)
     {
         int Width;
         int LastY;

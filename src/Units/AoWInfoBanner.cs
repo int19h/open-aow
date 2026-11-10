@@ -1,11 +1,9 @@
 // Translated from AoWInfoBanner.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AOWMenu;
-using Aow.Units.AoWVScroll;
 
-namespace Aow.Units.AoWInfoBanner;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TInfoBanner : TDataModule
 {

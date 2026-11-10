@@ -1,15 +1,14 @@
 using System.Text.Json;
-using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using G = Aow.Units.GFXE.GFXEUnit;
-using Images = Aow.Units.ImageLib.ImageLibUnit;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using G = Aow.Game.Draw.GFXEUnit;
+using Images = Aow.Game.Draw.Images.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
 public sealed class ImageClassTests
 {
-    private sealed class UnregisteredImage(TCustomImageLibrary owner) : Aow.Units.ImageLib.TLibraryImage(owner);
+    private sealed class UnregisteredImage(TCustomImageLibrary owner) : Aow.Game.Draw.Images.TLibraryImage(owner);
 
     private sealed class UnregisteredImageFile : TImageFile;
 
@@ -23,9 +22,9 @@ public sealed class ImageClassTests
         Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Register<TPicture08>());
         Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<TBMPImageFile>());
         Assert.Equal("TPicture08", LibraryImageClass.Of<TPicture08>().ClassName);
-        var types = typeof(Aow.Units.ImageLib.TLibraryImage).Assembly.GetTypes();
+        var types = typeof(Aow.Game.Draw.Images.TLibraryImage).Assembly.GetTypes();
         Assert.Equal(types.Where(t => t.IsClass && typeof(ILibraryImageClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
-            LibraryImageClass.All.Where(c => c.Type.Assembly == typeof(Aow.Units.ImageLib.TLibraryImage).Assembly).Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
+            LibraryImageClass.All.Where(c => c.Type.Assembly == typeof(Aow.Game.Draw.Images.TLibraryImage).Assembly).Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
         Assert.Equal(types.Where(t => t.IsClass && typeof(IImageFileClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
             ImageFileClass.All.Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
     }

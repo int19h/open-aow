@@ -1,24 +1,20 @@
 // Translated from AoWPInfoWin.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Events;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
+// Translated from AoWPInfoWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.aowHelpWinUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
-namespace Aow.Units.AoWPInfoWin;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TPInfoW : TDataModule
 {

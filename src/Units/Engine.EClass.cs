@@ -1,6 +1,7 @@
+using Aow.Game.Engine.Nodes;
 using Aow.Rtl;
 
-namespace Aow.Units.Engine;
+namespace Aow.Game.Engine;
 
 // The engine's class descriptor: one per TEObject descendant, registered in inheritance order by
 // ClassRegistry from a module initializer. It carries the saved class id, the native instance size,

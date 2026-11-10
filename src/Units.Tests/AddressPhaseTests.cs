@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using Aow.Units.AoWE;
+using Aow.Game.Engine;
 
 namespace Aow.Units.Tests;
 

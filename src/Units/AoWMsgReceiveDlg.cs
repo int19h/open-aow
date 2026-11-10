@@ -1,14 +1,13 @@
 // Translated from AoWMsgReceiveDlg.pas.
+using Aow.Game.Events;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+// Translated from AoWMsgReceiveDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AoWMsgReceiveDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // done callback, retained event
 public partial class TMsgReceiveDlg : TDataModule

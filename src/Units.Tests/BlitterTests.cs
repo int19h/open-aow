@@ -1,6 +1,6 @@
 using System.Buffers.Binary;
+using Aow.Game.Draw;
 using Aow.Graphics;
-using Aow.Units.GFXE;
 
 namespace Aow.Units.Tests;
 

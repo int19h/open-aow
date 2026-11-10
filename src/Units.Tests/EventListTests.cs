@@ -1,6 +1,6 @@
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Session;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -127,9 +127,9 @@ public sealed class EventListTests
     [Fact]
     public void PlayerGemsChangeReachesATypedSubscriber()
     {
-        var previous = Game.AoWHSMap;
+        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
         var map = new TAoWHSMap(null!);
-        Game.AoWHSMap = map;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
         var player = new TPlayer(null!);
         try
         {
@@ -145,7 +145,7 @@ public sealed class EventListTests
         finally
         {
             player.Dispose();
-            Game.AoWHSMap = previous;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous;
             map.Dispose();
         }
     }

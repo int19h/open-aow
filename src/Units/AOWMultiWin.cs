@@ -1,24 +1,21 @@
 // Translated from AOWMultiWin.pas.
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWEdit;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.E2GameFlow;
-using Aow.Units.E2Globals;
+// Translated from AOWMultiWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWFileDialogUnit;
+using static Aow.Game.Ui.Dialogs.AoWMessageDlgUnit;
+using static Aow.Game.Ui.Dialogs.aowSetupEventsUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
-using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
 
-namespace Aow.Units.AOWMultiWin;
+namespace Aow.Game.Ui.Dialogs;
 
 // pending map, menu animation height
 public partial class TMultiWindow : TDataModule
@@ -213,7 +210,7 @@ public partial class TMultiWindow : TDataModule
         if (ConnectProvider(TConnectionType.conTCP) == 0)
         {
             SetupEvents.DPlay.PlayerName = TCPName.Text;
-            SetupEvents.DPlay.SessionName = Aow.Units.AoWE.AoWEUnit.Format(TranslateRStr(XsGameRStr), [TCPName.Text]);
+            SetupEvents.DPlay.SessionName = Aow.Game.Magic.Abilities.AoWEUnit.Format(TranslateRStr(XsGameRStr), [TCPName.Text]);
             if (SetupEvents.DPlay.CreateSession() == 0)
             {
                 MultiPnl.Visible = false;

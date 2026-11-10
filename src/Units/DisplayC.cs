@@ -1,11 +1,12 @@
 // Translated from DisplayC.pas.
 using System.Runtime.InteropServices;
+using Aow.Game.Draw;
+using Aow.Game.Engine.Buffers;
 using Aow.Rtl;
-using Aow.Units.GFXE;
+using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.DisplayC;
+namespace Aow.Game.Draw;
 
 [StructLayout(LayoutKind.Explicit, Size = 1028)]
 public struct Record_TWindows08DC_CreateHPalette_LogPal_2256_3

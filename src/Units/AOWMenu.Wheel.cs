@@ -1,7 +1,7 @@
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
 
-namespace Aow.Units.AOWMenu;
+namespace Aow.Game.Ui.Windows;
 
 public partial class TAOWMenu
 {

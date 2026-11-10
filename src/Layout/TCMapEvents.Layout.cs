@@ -1,12 +1,9 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
-using Aow.Rtl;
-using Aow.Units.AoWTC;
-using Aow.Units.CMapCtrl;
-using Aow.Units.HSEngine;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Grids;
 
-namespace Aow.Units.aowTCMapEvents;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TTCMapEvents : ILayoutModule
 {

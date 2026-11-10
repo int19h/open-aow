@@ -1,9 +1,9 @@
-using Aow.Layout;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Layout;
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 
-namespace Aow.Units.AoWImage;
+namespace Aow.Game.Ui.Controls;
 
 public partial class TAOWImage
 {

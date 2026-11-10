@@ -1,10 +1,11 @@
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.NetworkE;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.World.Map;
 
 public partial class TAoWHSMap
 {

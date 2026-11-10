@@ -1,18 +1,23 @@
 // Translated from PassiveAb.pas.
+using Aow.Game.Combat;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.PassiveAb;
+namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type. maximum level, level costs
-public partial class TVisionAbility : TMultiLevelAbility
+public partial class TVisionAbility : Aow.Game.Magic.Abilities.TMultiLevelAbility
 {
     // PassiveAb.pas:461
     public TVisionAbility(TECustomNode owner) : base(owner)
     {
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor);
         FMaxLevel = 4;
         FAbilityID = 64;
         FLevelCosts[1] = 5;
@@ -49,23 +54,23 @@ public partial class TVisionAbility : TMultiLevelAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class THolyChampionAbility : TEnhancementAbility
+public partial class THolyChampionAbility : Aow.Game.Magic.Abilities.TEnhancementAbility
 {
     // PassiveAb.pas:484
     public THolyChampionAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(HolyChampionRStr);
         FAbilityID = 146;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor);
     }
 
     // PassiveAb.pas:492
-    public override bool CanExpand(TAbilityOwner owner)
+    public override bool CanExpand(Aow.Game.Magic.Abilities.TAbilityOwner owner)
     {
         bool Result = base.CanExpand(owner);
-        if (Result && owner is TAbstractUnit)
+        if (Result && owner is Aow.Game.Magic.Abilities.TAbstractUnit)
         {
-            Result = alsPureGood.Contains(((TAbstractUnit)owner).GetAlignment());
+            Result = alsPureGood.Contains(((Aow.Game.Magic.Abilities.TAbstractUnit)owner).GetAlignment());
         }
 
         return Result;
@@ -73,23 +78,23 @@ public partial class THolyChampionAbility : TEnhancementAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TUnholyChampionAbility : TEnhancementAbility
+public partial class TUnholyChampionAbility : Aow.Game.Magic.Abilities.TEnhancementAbility
 {
     // PassiveAb.pas:499
     public TUnholyChampionAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(UnholyChampionRStr);
         FAbilityID = 147;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor);
     }
 
     // PassiveAb.pas:507
-    public override bool CanExpand(TAbilityOwner owner)
+    public override bool CanExpand(Aow.Game.Magic.Abilities.TAbilityOwner owner)
     {
         bool Result = base.CanExpand(owner);
-        if (Result && owner is TAbstractUnit)
+        if (Result && owner is Aow.Game.Magic.Abilities.TAbstractUnit)
         {
-            Result = alsPureEvil.Contains(((TAbstractUnit)owner).GetAlignment());
+            Result = alsPureEvil.Contains(((Aow.Game.Magic.Abilities.TAbstractUnit)owner).GetAlignment());
         }
 
         return Result;
@@ -97,34 +102,34 @@ public partial class TUnholyChampionAbility : TEnhancementAbility
 }
 
 // inherited name, ability ID, selection types, ability type. duration mode
-public partial class TNaturesBlessingAbility : TDurationAbility
+public partial class TNaturesBlessingAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:514
     public TNaturesBlessingAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(NaturesBlessingRStr);
         FAbilityID = 99;
-        FAbilityType = TAbilityType.atEnchantment;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atEnchantment;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
         FDurationMode = TDurationMode.dmDay;
     }
 
     // PassiveAb.pas:524
-    public override sbyte GetAttack(TAbilityOwner Owner) => 1;
+    public override sbyte GetAttack(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:529
-    public override sbyte GetDefense(TAbilityOwner Owner) => 1;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:534
-    public override sbyte GetResistance(TAbilityOwner Owner) => 1;
+    public override sbyte GetResistance(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:539
-    public override bool Expand(TAbilityOwner Owner)
+    public override bool Expand(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         bool Result = base.Expand(Owner);
-        if (Owner is TAbstractUnit)
+        if (Owner is Aow.Game.Magic.Abilities.TAbstractUnit)
         {
-            var unit = (TAbstractUnit)Owner;
+            var unit = (Aow.Game.Magic.Abilities.TAbstractUnit)Owner;
             unit.SetHitPoints(unit.GetHits());
         }
 
@@ -133,46 +138,46 @@ public partial class TNaturesBlessingAbility : TDurationAbility
 }
 
 // (name, ID, selection types, ability type, duration mode.)
-public partial class THighPrayerBlessingAbility : TDurationAbility
+public partial class THighPrayerBlessingAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:1267
     public THighPrayerBlessingAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(HighPrayerBlessingRStr);
         FAbilityID = 100;
-        FAbilityType = TAbilityType.atEnhancement;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atEnhancement;
         FDurationMode = TDurationMode.dmEntireCombat;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:1277
-    public override sbyte GetDefense(TAbilityOwner Owner) => 1;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:1282
-    public override sbyte GetResistance(TAbilityOwner Owner) => 1;
+    public override sbyte GetResistance(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode. duration data
 // countdown, player index
-public partial class TCrusaderAbility : TDurationAbility
+public partial class TCrusaderAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:703
     public TCrusaderAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(CrusaderRStr);
         FAbilityID = 101;
-        FAbilityType = TAbilityType.atHandicap;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
         FDurationMode = TDurationMode.dmDay;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:724
-    public override void NewTurn(TAbilityOwner Owner, sbyte Player)
+    public override void NewTurn(Aow.Game.Magic.Abilities.TAbilityOwner Owner, sbyte Player)
     {
-        TDurationAbilityData Data;
+        Aow.Game.Magic.Abilities.TDurationAbilityData Data;
         if (FDurationMode == TDurationMode.dmDay)
         {
-            Data = (TDurationAbilityData)Owner.GetAbilityData(FAbilityID);
+            Data = (Aow.Game.Magic.Abilities.TDurationAbilityData)Owner.GetAbilityData(FAbilityID);
             if (Data != null && Data.FDuration != 0 && Data.FPlayerIndex == Player)
             {
                 Data.FDuration = (byte)(Data.FDuration - 1);
@@ -181,10 +186,10 @@ public partial class TCrusaderAbility : TDurationAbility
     }
 
     // PassiveAb.pas:713
-    public override bool Remove(TAbilityOwner owner)
+    public override bool Remove(Aow.Game.Magic.Abilities.TAbilityOwner owner)
     {
         bool Result = base.Remove(owner);
-        if (owner is TAbstractUnit unit)
+        if (owner is Aow.Game.Magic.Abilities.TAbstractUnit unit)
         {
             unit.Killed();
         }
@@ -197,75 +202,75 @@ public partial class TCrusaderAbility : TDurationAbility
 }
 
 // inherited name, ability ID, selection types, ability type. duration mode
-public partial class TBloodlustAbility : TDurationAbility
+public partial class TBloodlustAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:546
     public TBloodlustAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(BloodlustRStr);
         FAbilityID = 168;
-        FAbilityType = TAbilityType.atEnchantment;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atEnchantment;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
         FDurationMode = TDurationMode.dmDay;
     }
 
     // PassiveAb.pas:556
-    public override sbyte GetAttack(TAbilityOwner Owner) => 1;
+    public override sbyte GetAttack(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:561
-    public override sbyte GetDefense(TAbilityOwner Owner) => -1;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -1;
 
     // PassiveAb.pas:566
-    public override sbyte GetDamage(TAbilityOwner Owner) => 2;
+    public override sbyte GetDamage(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 2;
 }
 
 // inherited name, ability ID, selection types, ability type. duration mode
-public partial class TPoisonedAbility : TDurationAbility
+public partial class TPoisonedAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:571
     public TPoisonedAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(PoisonedRStr);
         FAbilityID = 96;
-        FAbilityType = TAbilityType.atHandicap;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
         FDurationMode = TDurationMode.dmDay;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:581
-    public override sbyte GetAttack(TAbilityOwner Owner) => -1;
+    public override sbyte GetAttack(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -1;
 
     // PassiveAb.pas:586
-    public override sbyte GetDefense(TAbilityOwner Owner) => -1;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -1;
 
     // PassiveAb.pas:591
-    public override sbyte GetResistance(TAbilityOwner Owner) => -1;
+    public override sbyte GetResistance(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -1;
 
     // PassiveAb.pas:596
-    public override sbyte GetDamage(TAbilityOwner Owner) => -1;
+    public override sbyte GetDamage(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -1;
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class TDecayAbility : TDurationAbility
+public partial class TDecayAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:844
     public TDecayAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(DecayRStr);
         FAbilityID = 131;
-        FAbilityType = TAbilityType.atHandicap;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
         FDurationMode = TDurationMode.dmEntireCombat;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:855
     public override void NewCombatTurn(TCombatObject CombatObject, sbyte Player)
     {
-        TDurationAbilityData Data;
-        Data = (TDurationAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
+        Aow.Game.Magic.Abilities.TDurationAbilityData Data;
+        Data = (Aow.Game.Magic.Abilities.TDurationAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
         if (Data != null && Data.FPlayerIndex == Player)
         {
-            if (CombatObject.GetAbilityOwner() is TAbstractUnit)
+            if (CombatObject.GetAbilityOwner() is Aow.Game.Magic.Abilities.TAbstractUnit)
             {
                 CombatObject.ExecuteDamage(1);
             }
@@ -280,63 +285,63 @@ public partial class TDecayAbility : TDurationAbility
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class TWebbedAbility : TDurationAbility
+public partial class TWebbedAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:736
     public TWebbedAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(WebbedRStr);
         FAbilityID = 97;
-        FAbilityType = TAbilityType.atHandicap;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
         FDurationMode = TDurationMode.dmCombatTurn;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:751
-    public override sbyte GetDefense(TAbilityOwner Owner) => -2;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -2;
 
     // PassiveAb.pas:746
     public override int GetTotalDuration() => 3;
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class TStunnedAbility : TDurationAbility
+public partial class TStunnedAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:793
     public TStunnedAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(StunnedRStr);
         FAbilityID = 92;
-        FAbilityType = TAbilityType.atHandicap;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
         FDurationMode = TDurationMode.dmCombatTurn;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:810
-    public override sbyte GetDefense(TAbilityOwner Owner) => -2;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -2;
 
     // PassiveAb.pas:804
     public override int GetTotalDuration() => 1;
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class TBurningAbility : TDurationAbility
+public partial class TBurningAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:756
     public TBurningAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(BurningRStr);
         FAbilityID = 127;
-        FAbilityType = TAbilityType.atHandicap;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
         FDurationMode = TDurationMode.dmCombatTurn;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:773
     public override void NewCombatTurn(TCombatObject CombatObject, sbyte Player)
     {
-        TDurationAbilityData Data;
-        Data = (TDurationAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
+        Aow.Game.Magic.Abilities.TDurationAbilityData Data;
+        Data = (Aow.Game.Magic.Abilities.TDurationAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
         if (Data != null)
         {
             if (Data.FDuration != 0 && Data.FPlayerIndex == Player)
@@ -347,7 +352,7 @@ public partial class TBurningAbility : TDurationAbility
                     CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
                 }
 
-                if (CombatObject.GetAbilityOwner() is TAbstractUnit unit)
+                if (CombatObject.GetAbilityOwner() is Aow.Game.Magic.Abilities.TAbstractUnit unit)
                 {
                     if (HitRole(4 - unit.GetResistance()))
                     {
@@ -367,52 +372,52 @@ public partial class TBurningAbility : TDurationAbility
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class TVertigoAbility : TDurationAbility
+public partial class TVertigoAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:952
     public TVertigoAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(VertigoRStr);
         FAbilityID = 98;
-        FAbilityType = TAbilityType.atHandicap;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
         FDurationMode = TDurationMode.dmDay;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:969
-    public override sbyte GetAttack(TAbilityOwner Owner) => -2;
+    public override sbyte GetAttack(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -2;
 
     // PassiveAb.pas:975
-    public override sbyte GetDefense(TAbilityOwner Owner) => -2;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -2;
 
     // PassiveAb.pas:963
     public override int GetTotalDuration() => 3;
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class TCursedAbility : TDurationAbility
+public partial class TCursedAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:981
     public TCursedAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(CursedRStr);
         FAbilityID = 93;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
         FDurationMode = TDurationMode.dmDay;
     }
 
     // PassiveAb.pas:1009
-    public override sbyte GetDefense(TAbilityOwner Owner) => -2;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -2;
 
     // PassiveAb.pas:1015
-    public override sbyte GetResistance(TAbilityOwner Owner) => -2;
+    public override sbyte GetResistance(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -2;
 
     // PassiveAb.pas:991
-    public override string GetSourceName(TAbilityOwner Owner)
+    public override string GetSourceName(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         string Result;
-        TDurationAbilityData Data;
-        Data = (TDurationAbilityData)Owner.GetAbilityData(FAbilityID);
+        Aow.Game.Magic.Abilities.TDurationAbilityData Data;
+        Data = (Aow.Game.Magic.Abilities.TDurationAbilityData)Owner.GetAbilityData(FAbilityID);
         if (Data != null && Data.FSource == 1)
         {
             Result = TranslateRStr(DeathMasteryRStr);
@@ -430,24 +435,24 @@ public partial class TCursedAbility : TDurationAbility
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class THolyFear : TDurationAbility
+public partial class THolyFear : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:816
     public THolyFear(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(HolyFearRStr);
         FAbilityID = 53;
-        FAbilityType = TAbilityType.atHandicap;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
         FDurationMode = TDurationMode.dmDay;
     }
 
     // PassiveAb.pas:833
-    public override string GetSourceName(TAbilityOwner Owner)
+    public override string GetSourceName(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         string Result;
         // { Original assumes the ability data exists. }
-        var durationAbilityData = (TDurationAbilityData)Owner.GetAbilityData(FAbilityID);
+        var durationAbilityData = (Aow.Game.Magic.Abilities.TDurationAbilityData)Owner.GetAbilityData(FAbilityID);
         if (durationAbilityData.FSource == 1)
         {
             Result = TranslateRStr(LifeMasteryRStr);
@@ -465,23 +470,23 @@ public partial class THolyFear : TDurationAbility
 }
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class TPanickedAbility : TDurationAbility
+public partial class TPanickedAbility : Aow.Game.Magic.Abilities.TDurationAbility
 {
     // PassiveAb.pas:874
     public TPanickedAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(PanickedRStr);
         FAbilityID = 108;
-        FAbilityType = TAbilityType.atHandicap;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
         FDurationMode = TDurationMode.dmEntireCombat;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:885
-    public override bool Expand(TAbilityOwner Owner)
+    public override bool Expand(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         bool Result = base.Expand(Owner);
-        if (Owner is TAbstractUnit)
+        if (Owner is Aow.Game.Magic.Abilities.TAbstractUnit)
         {
             Owner.Changed();
         }
@@ -491,84 +496,84 @@ public partial class TPanickedAbility : TDurationAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TWallClimbingAbility : TAdjustableAbility
+public partial class TWallClimbingAbility : Aow.Game.Magic.Abilities.TAdjustableAbility
 {
     // PassiveAb.pas:922
     public TWallClimbingAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(WallClimbingRStr);
         FAbilityID = 36;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor);
     }
 
     // PassiveAb.pas:931
-    public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner Owner) => TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
+    public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TPassWallAbility : TAdjustableAbility
+public partial class TPassWallAbility : Aow.Game.Magic.Abilities.TAdjustableAbility
 {
     // PassiveAb.pas:937
     public TPassWallAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(PassWallRStr);
         FAbilityID = 66;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem);
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem);
     }
 
     // PassiveAb.pas:946
-    public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner Owner) => TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
+    public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallPassing, TWallCombatFeaturesElement.wcParticipate);
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TResurrectedAbility : TAdjustableAbility
+public partial class TResurrectedAbility : Aow.Game.Magic.Abilities.TAdjustableAbility
 {
     // PassiveAb.pas:892
     public TResurrectedAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(ResurrectedRStr);
         FAbilityID = 128;
-        FAbilityType = TAbilityType.atHandicap;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TAnimatedAbility : TAdjustableAbility
+public partial class TAnimatedAbility : Aow.Game.Magic.Abilities.TAdjustableAbility
 {
     // PassiveAb.pas:902
     public TAnimatedAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(AnimatedRStr);
         FAbilityID = 129;
-        FAbilityType = TAbilityType.atHandicap;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TCombatResurrectedAbility : TAdjustableAbility
+public partial class TCombatResurrectedAbility : Aow.Game.Magic.Abilities.TAdjustableAbility
 {
     // PassiveAb.pas:912
     public TCombatResurrectedAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(ResurrectedRStr);
         FAbilityID = 130;
-        FAbilityType = TAbilityType.atHandicap;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atHandicap;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 }
 
 // (maximum level, level costs.)
-public partial class TMarksmanshipAbility : TMultiLevelAbility
+public partial class TMarksmanshipAbility : Aow.Game.Magic.Abilities.TMultiLevelAbility
 {
     // PassiveAb.pas:1384
     public TMarksmanshipAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(MarksmanshipRStr);
-        FAbilityType = TAbilityType.atEnhancement;
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atEnhancement;
         FAbilityID = 32;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor);
         FMaxLevel = 4;
         FLevelCosts[1] = 5;
         FLevelCosts[2] = 5;
@@ -604,23 +609,23 @@ public partial class TMarksmanshipAbility : TMultiLevelAbility
 }
 
 // (FMoveTypes.)
-public partial class TMovementAbility : TAdjustableAbility
+public partial class TMovementAbility : Aow.Game.Magic.Abilities.TAdjustableAbility
 {
     public TSet<TMoveType> FMoveTypes;
 
     // PassiveAb.pas:1409
     public TMovementAbility(TECustomNode owner) : base(owner)
     {
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astRingItem);
-        FAbilityType = TAbilityType.atMovement;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem);
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atMovement;
         FSkillPointCost = 0;
     }
 
     // PassiveAb.pas:1417
-    public override TSet<TMoveType> GetMoveTypes(TAbilityOwner Owner) => FMoveTypes;
+    public override TSet<TMoveType> GetMoveTypes(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => FMoveTypes;
 
     // PassiveAb.pas:1422
-    public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(TAbilityOwner Owner)
+    public override TSet<TWallCombatFeaturesElement> GetWallCombatFeatures(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         TSet<TWallCombatFeaturesElement> Result;
         if (FAbilityID == 1)
@@ -637,19 +642,19 @@ public partial class TMovementAbility : TAdjustableAbility
 }
 
 // (FImmunityTypes.)
-public partial class TImmunityAbility : TEnhancementAbility
+public partial class TImmunityAbility : Aow.Game.Magic.Abilities.TEnhancementAbility
 {
     public TSet<TDamageType> FImmunityTypes;
 
     // PassiveAb.pas:1428
     public TImmunityAbility(TECustomNode owner) : base(owner)
     {
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem);
-        FAbilityType = TAbilityType.atEnhancement;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem);
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atEnhancement;
     }
 
     // PassiveAb.pas:1440
-    public override TSet<TMoveType> GetMoveTypes(TAbilityOwner Owner)
+    public override TSet<TMoveType> GetMoveTypes(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         TSet<TMoveType> Result;
         if (FImmunityTypes.Contains(TDamageType.dtFire))
@@ -665,38 +670,38 @@ public partial class TImmunityAbility : TEnhancementAbility
     }
 
     // PassiveAb.pas:1435
-    public override TSet<TDamageType> GetImmunityTypes(TAbilityOwner Owner) => FImmunityTypes;
+    public override TSet<TDamageType> GetImmunityTypes(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => FImmunityTypes;
 }
 
 // (FProtectionTypes.)
-public partial class TProtectionAbility : TEnhancementAbility
+public partial class TProtectionAbility : Aow.Game.Magic.Abilities.TEnhancementAbility
 {
     public TSet<TDamageType> FProtectionTypes;
 
     // PassiveAb.pas:1446
     public TProtectionAbility(TECustomNode owner) : base(owner)
     {
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor);
-        FAbilityType = TAbilityType.atEnhancement;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor);
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atEnhancement;
     }
 
     // PassiveAb.pas:1453
-    public override TSet<TDamageType> GetProtectionTypes(TAbilityOwner Owner) => FProtectionTypes;
+    public override TSet<TDamageType> GetProtectionTypes(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => FProtectionTypes;
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TEntangledAbility : TUnitEnchantmentAbility
+public partial class TEntangledAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:620
     public TEntangledAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(EntangledRStr);
         FAbilityID = 94;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:638
-    public override sbyte GetDefense(TAbilityOwner Owner) => -2;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -2;
 
     // PassiveAb.pas:628
     public override TDurationMode GetDurationMode() => TDurationMode.dmCombatTurn;
@@ -714,19 +719,19 @@ public partial class TEntangledAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TFrozenAbility : TUnitEnchantmentAbility
+public partial class TFrozenAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:649
     public TFrozenAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(FrozenRStr);
         FAbilityID = 95;
-        FAbilityType = TAbilityType.atEnchantment;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FAbilityType = Aow.Game.Magic.Abilities.TAbilityType.atEnchantment;
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:674
-    public override sbyte GetDefense(TAbilityOwner Owner) => -2;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -2;
 
     // PassiveAb.pas:658
     public override TDurationMode GetDurationMode() => TDurationMode.dmCombatTurn;
@@ -744,14 +749,14 @@ public partial class TFrozenAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TTurnedUndeadAbility : TUnitEnchantmentAbility
+public partial class TTurnedUndeadAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:679
     public TTurnedUndeadAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(TurnedUndeadRStr);
         FAbilityID = 34;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:693
@@ -770,7 +775,7 @@ public partial class TTurnedUndeadAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class THasteAbility : TUnitEnchantmentAbility
+public partial class THasteAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1021
     public THasteAbility(TECustomNode owner) : base(owner)
@@ -781,7 +786,7 @@ public partial class THasteAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TStoneSkinAbility : TUnitEnchantmentAbility
+public partial class TStoneSkinAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1029
     public TStoneSkinAbility(TECustomNode owner) : base(owner)
@@ -791,14 +796,14 @@ public partial class TStoneSkinAbility : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1048
-    public override sbyte GetDefense(TAbilityOwner Owner) => 2;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 2;
 
     // PassiveAb.pas:1037
-    public override string GetSourceName(TAbilityOwner Owner)
+    public override string GetSourceName(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         string Result;
         // { Original assumes the ability data and enchantment exist. }
-        var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
+        var unitEnchantmentAbilityData = (Aow.Game.Magic.Abilities.TUnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
         if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
         {
             Result = TranslateRStr(EarthMasteryRStr);
@@ -813,7 +818,7 @@ public partial class TStoneSkinAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TEnchantedWeaponAbility : TUnitEnchantmentAbility
+public partial class TEnchantedWeaponAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1073
     public TEnchantedWeaponAbility(TECustomNode owner) : base(owner)
@@ -823,21 +828,21 @@ public partial class TEnchantedWeaponAbility : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1081
-    public override sbyte GetAttack(TAbilityOwner Owner) => 1;
+    public override sbyte GetAttack(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:1087
-    public override sbyte GetDamage(TAbilityOwner Owner) => 1;
+    public override sbyte GetDamage(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:1093
-    public override int GetAIUpkeepPriority(TAbilityOwner Owner)
+    public override int GetAIUpkeepPriority(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
-        if (Owner is not TAbstractUnit unit)
+        if (Owner is not Aow.Game.Magic.Abilities.TAbstractUnit unit)
         {
             return 0;
         }
 
         int Result = unit.GetUnitLevel() + 225;
-        if (unit is TLeader)
+        if (unit is Aow.Game.Magic.Abilities.TLeader)
         {
             Result += 50;
         }
@@ -847,7 +852,7 @@ public partial class TEnchantedWeaponAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TSummonedAbility : TUnitEnchantmentAbility
+public partial class TSummonedAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1100
     public TSummonedAbility(TECustomNode owner) : base(owner)
@@ -857,10 +862,10 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1122
-    public override bool Remove(TAbilityOwner owner)
+    public override bool Remove(Aow.Game.Magic.Abilities.TAbilityOwner owner)
     {
         bool Result = base.Remove(owner);
-        if (Result && owner is TAbstractUnit unit)
+        if (Result && owner is Aow.Game.Magic.Abilities.TAbstractUnit unit)
         {
             unit.Killed();
             unit.SetOwner(null);
@@ -870,9 +875,9 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1134
-    public override int GetAIUpkeepPriority(TAbilityOwner Owner)
+    public override int GetAIUpkeepPriority(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
-        if (Owner is not TAbstractUnit unit)
+        if (Owner is not Aow.Game.Magic.Abilities.TAbstractUnit unit)
         {
             return 0;
         }
@@ -903,10 +908,10 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
     // PassiveAb.pas:1108
     // Static: the original calls this and GetDefaultDispelResistance on the nil result of GetSpell(155)
     // (PrdPlace.pas:336, SummonSpells.pas:258), which works there because they read only the unit argument.
-    public static int GetDefaultManaUpkeep(TAbstractUnit AUnit)
+    public static int GetDefaultManaUpkeep(Aow.Game.Magic.Abilities.TAbstractUnit AUnit)
     {
         int Result;
-        if (AUnit is TUnit)
+        if (AUnit is Aow.Game.Magic.Abilities.TUnit)
         {
             Result = (AUnit.GetUnitLevel() + 1) * 2;
         }
@@ -919,10 +924,10 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1115
-    public static int GetDefaultDispelResistance(TAbstractUnit AUnit)
+    public static int GetDefaultDispelResistance(Aow.Game.Magic.Abilities.TAbstractUnit AUnit)
     {
         int Result;
-        if (AUnit is TUnit)
+        if (AUnit is Aow.Game.Magic.Abilities.TUnit)
         {
             Result = AUnit.GetUnitLevel() + 3;
         }
@@ -962,7 +967,7 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TFuryAbility : TUnitEnchantmentAbility
+public partial class TFuryAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1160
     public TFuryAbility(TECustomNode owner) : base(owner)
@@ -972,21 +977,21 @@ public partial class TFuryAbility : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1168
-    public override sbyte GetAttack(TAbilityOwner Owner) => 2;
+    public override sbyte GetAttack(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 2;
 
     // PassiveAb.pas:1174
-    public override sbyte GetDefense(TAbilityOwner Owner) => -1;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => -1;
 
     // PassiveAb.pas:1180
-    public override int GetAIUpkeepPriority(TAbilityOwner Owner)
+    public override int GetAIUpkeepPriority(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
-        if (Owner is not TAbstractUnit unit)
+        if (Owner is not Aow.Game.Magic.Abilities.TAbstractUnit unit)
         {
             return 0;
         }
 
         int Result = unit.GetUnitLevel() + 200;
-        if (unit is TLeader)
+        if (unit is Aow.Game.Magic.Abilities.TLeader)
         {
             Result -= 50;
         }
@@ -996,7 +1001,7 @@ public partial class TFuryAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TFreeMovementAbility : TUnitEnchantmentAbility
+public partial class TFreeMovementAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1187
     public TFreeMovementAbility(TECustomNode owner) : base(owner)
@@ -1007,7 +1012,7 @@ public partial class TFreeMovementAbility : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class THolyChampionEnchantment : TUnitEnchantmentAbility
+public partial class THolyChampionEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1195
     public THolyChampionEnchantment(TECustomNode owner) : base(owner)
@@ -1018,7 +1023,7 @@ public partial class THolyChampionEnchantment : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TUnholyChampionEnchantment : TUnitEnchantmentAbility
+public partial class TUnholyChampionEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1203
     public TUnholyChampionEnchantment(TECustomNode owner) : base(owner)
@@ -1029,7 +1034,7 @@ public partial class TUnholyChampionEnchantment : TUnitEnchantmentAbility
 }
 
 // (name, ID, selection types, ability type.)
-public partial class TConcealmentEnchantment : TUnitEnchantmentAbility
+public partial class TConcealmentEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1287
     public TConcealmentEnchantment(TECustomNode owner) : base(owner)
@@ -1040,7 +1045,7 @@ public partial class TConcealmentEnchantment : TUnitEnchantmentAbility
 }
 
 // (name, ID, selection types, ability type.)
-public partial class TFireAuraEnchantment : TUnitEnchantmentAbility
+public partial class TFireAuraEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1294
     public TFireAuraEnchantment(TECustomNode owner) : base(owner)
@@ -1050,13 +1055,13 @@ public partial class TFireAuraEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1301
-    public override bool Remove(TAbilityOwner owner)
+    public override bool Remove(Aow.Game.Magic.Abilities.TAbilityOwner owner)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner is TAbstractUnit unit && owner.Owner is TArmy army)
+        if (Result && owner is Aow.Game.Magic.Abilities.TAbstractUnit unit && owner.Owner is TArmy army)
         {
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
@@ -1071,7 +1076,7 @@ public partial class TFireAuraEnchantment : TUnitEnchantmentAbility
 }
 
 // (name, ID, selection types, ability type.)
-public partial class TWaterWalkingEnchantment : TUnitEnchantmentAbility
+public partial class TWaterWalkingEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1315
     public TWaterWalkingEnchantment(TECustomNode owner) : base(owner)
@@ -1081,13 +1086,13 @@ public partial class TWaterWalkingEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1322
-    public override bool Remove(TAbilityOwner owner)
+    public override bool Remove(Aow.Game.Magic.Abilities.TAbilityOwner owner)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner is TAbstractUnit unit && owner.Owner is TArmy army)
+        if (Result && owner is Aow.Game.Magic.Abilities.TAbstractUnit unit && owner.Owner is TArmy army)
         {
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
@@ -1102,7 +1107,7 @@ public partial class TWaterWalkingEnchantment : TUnitEnchantmentAbility
 }
 
 // (name, ID, selection types, ability type.)
-public partial class TWindWalkingEnchantment : TUnitEnchantmentAbility
+public partial class TWindWalkingEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1336
     public TWindWalkingEnchantment(TECustomNode owner) : base(owner)
@@ -1112,13 +1117,13 @@ public partial class TWindWalkingEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1343
-    public override bool Remove(TAbilityOwner owner)
+    public override bool Remove(Aow.Game.Magic.Abilities.TAbilityOwner owner)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner is TAbstractUnit unit && owner.Owner is TArmy army)
+        if (Result && owner is Aow.Game.Magic.Abilities.TAbstractUnit unit && owner.Owner is TArmy army)
         {
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
@@ -1133,7 +1138,7 @@ public partial class TWindWalkingEnchantment : TUnitEnchantmentAbility
 }
 
 // (name, ID, selection types, ability type.)
-public partial class TLiquidFormEnchantment : TUnitEnchantmentAbility
+public partial class TLiquidFormEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1357
     public TLiquidFormEnchantment(TECustomNode owner) : base(owner)
@@ -1143,13 +1148,13 @@ public partial class TLiquidFormEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1364
-    public override bool Remove(TAbilityOwner owner)
+    public override bool Remove(Aow.Game.Magic.Abilities.TAbilityOwner owner)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner is TAbstractUnit unit && owner.Owner is TArmy army)
+        if (Result && owner is Aow.Game.Magic.Abilities.TAbstractUnit unit && owner.Owner is TArmy army)
         {
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
@@ -1163,15 +1168,15 @@ public partial class TLiquidFormEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1378
-    public override int GetAIUpkeepPriority(TAbilityOwner Owner)
+    public override int GetAIUpkeepPriority(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
-        if (Owner is not TAbstractUnit unit)
+        if (Owner is not Aow.Game.Magic.Abilities.TAbstractUnit unit)
         {
             return 0;
         }
 
         int Result = unit.GetUnitLevel() + 300;
-        if (unit is TLeader)
+        if (unit is Aow.Game.Magic.Abilities.TLeader)
         {
             Result += 50;
         }
@@ -1181,7 +1186,7 @@ public partial class TLiquidFormEnchantment : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TBlessedEnchantment : TUnitEnchantmentAbility
+public partial class TBlessedEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1211
     public TBlessedEnchantment(TECustomNode owner) : base(owner)
@@ -1191,17 +1196,17 @@ public partial class TBlessedEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1219
-    public override sbyte GetDefense(TAbilityOwner Owner) => 1;
+    public override sbyte GetDefense(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:1225
-    public override sbyte GetResistance(TAbilityOwner Owner) => 1;
+    public override sbyte GetResistance(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:1231
-    public override string GetSourceName(TAbilityOwner Owner)
+    public override string GetSourceName(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         string Result;
         // { Original assumes the ability data and enchantment exist. }
-        var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
+        var unitEnchantmentAbilityData = (Aow.Game.Magic.Abilities.TUnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
         if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
         {
             Result = TranslateRStr(LifeMasteryRStr);
@@ -1215,15 +1220,15 @@ public partial class TBlessedEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1242
-    public override int GetAIUpkeepPriority(TAbilityOwner Owner)
+    public override int GetAIUpkeepPriority(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
-        if (Owner is not TAbstractUnit unit)
+        if (Owner is not Aow.Game.Magic.Abilities.TAbstractUnit unit)
         {
             return 0;
         }
 
         int Result = unit.GetUnitLevel() + 200;
-        if (unit is TLeader)
+        if (unit is Aow.Game.Magic.Abilities.TLeader)
         {
             Result += 50;
         }
@@ -1233,7 +1238,7 @@ public partial class TBlessedEnchantment : TUnitEnchantmentAbility
 }
 
 // (name, ID, selection types, ability type.)
-public partial class TDarkGiftEnchantment : TUnitEnchantmentAbility
+public partial class TDarkGiftEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1249
     public TDarkGiftEnchantment(TECustomNode owner) : base(owner)
@@ -1243,18 +1248,18 @@ public partial class TDarkGiftEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1256
-    public override sbyte GetDamage(TAbilityOwner Owner) => 1;
+    public override sbyte GetDamage(Aow.Game.Magic.Abilities.TAbilityOwner Owner) => 1;
 
     // PassiveAb.pas:1261
-    public override int GetAIUpkeepPriority(TAbilityOwner Owner)
+    public override int GetAIUpkeepPriority(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
-        if (Owner is not TAbstractUnit unit)
+        if (Owner is not Aow.Game.Magic.Abilities.TAbstractUnit unit)
         {
             return 0;
         }
 
         int Result = unit.GetUnitLevel() + 200;
-        if (unit is TLeader)
+        if (unit is Aow.Game.Magic.Abilities.TLeader)
         {
             Result += 50;
         }
@@ -1264,7 +1269,7 @@ public partial class TDarkGiftEnchantment : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TFireProtectionEnchantment : TUnitEnchantmentAbility
+public partial class TFireProtectionEnchantment : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:1054
     public TFireProtectionEnchantment(TECustomNode owner) : base(owner)
@@ -1274,11 +1279,11 @@ public partial class TFireProtectionEnchantment : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1062
-    public override string GetSourceName(TAbilityOwner Owner)
+    public override string GetSourceName(Aow.Game.Magic.Abilities.TAbilityOwner Owner)
     {
         string Result;
         // { Original assumes the ability data and enchantment exist. }
-        var unitEnchantmentAbilityData = (TUnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
+        var unitEnchantmentAbilityData = (Aow.Game.Magic.Abilities.TUnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
         if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
         {
             Result = TranslateRStr(FireMasteryRStr);
@@ -1293,14 +1298,14 @@ public partial class TFireProtectionEnchantment : TUnitEnchantmentAbility
 }
 
 // inherited name, ability ID, selection types, ability type
-public partial class TSlowEnchantmentAbility : TUnitEnchantmentAbility
+public partial class TSlowEnchantmentAbility : Aow.Game.Magic.Abilities.TUnitEnchantmentAbility
 {
     // PassiveAb.pas:601
     public TSlowEnchantmentAbility(TECustomNode owner) : base(owner)
     {
         FAbilityName = TranslateRStr(SlowRStr);
         FAbilityID = 132;
-        FSelectionTypes = TSet<TAbilitySelectionType>.Of();
+        FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:615
@@ -1321,7 +1326,7 @@ public partial class TSlowEnchantmentAbility : TUnitEnchantmentAbility
 public static partial class PassiveAbUnit
 {
     // PassiveAb.pas:1504
-    public static void RegisterPassiveAbilities(TAbilityControl Control)
+    public static void RegisterPassiveAbilities(Aow.Game.Magic.Abilities.TAbilityControl Control)
     {
         Control.RegisterAbility(CreateImmunityAbility(7, TranslateRStr(FireImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtFire)));
         Control.RegisterAbility(CreateImmunityAbility(8, TranslateRStr(ColdImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtCold)));
@@ -1331,14 +1336,14 @@ public static partial class PassiveAbUnit
         Control.RegisterAbility(CreateImmunityAbility(12, TranslateRStr(HolyImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtHoly)));
         Control.RegisterAbility(CreateImmunityAbility(13, TranslateRStr(PhysicalImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtPhysical)));
         Control.RegisterAbility(CreateImmunityAbility(6, TranslateRStr(MagicImmunityRStr), TSet<TDamageType>.Of(TDamageType.dtMagic)));
-        Control.RegisterAbility(CreateProtectionAbility(71, TranslateRStr(FireProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtFire), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateProtectionAbility(76, TranslateRStr(ColdProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtCold), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateProtectionAbility(74, TranslateRStr(LightningProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtLightning), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateProtectionAbility(73, TranslateRStr(PoisonProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtPoison), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateProtectionAbility(70, TranslateRStr(DeathProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtDeath), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateProtectionAbility(72, TranslateRStr(HolyProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtHoly), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateProtectionAbility(77, TranslateRStr(PhysicalProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtPhysical), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateProtectionAbility(75, TranslateRStr(MagicProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtMagic), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateProtectionAbility(71, TranslateRStr(FireProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtFire), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateProtectionAbility(76, TranslateRStr(ColdProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtCold), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateProtectionAbility(74, TranslateRStr(LightningProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtLightning), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateProtectionAbility(73, TranslateRStr(PoisonProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtPoison), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateProtectionAbility(70, TranslateRStr(DeathProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtDeath), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateProtectionAbility(72, TranslateRStr(HolyProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtHoly), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateProtectionAbility(77, TranslateRStr(PhysicalProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtPhysical), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateProtectionAbility(75, TranslateRStr(MagicProtectionRStr), TSet<TDamageType>.Of(TDamageType.dtMagic), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
         Control.RegisterAbility(CreateMovementAbility(0, TranslateRStr(WalkingRStr), TSet<TMoveType>.Of(TMoveType.mtWalking)));
         Control.RegisterAbility(CreateMovementAbility(1, TranslateRStr(FlyingRStr), TSet<TMoveType>.Of(TMoveType.mtFlying)));
         Control.RegisterAbility(CreateMovementAbility(2, TranslateRStr(SwimmingRStr), TSet<TMoveType>.Of(TMoveType.mtSwimming)));
@@ -1348,19 +1353,19 @@ public static partial class PassiveAbUnit
         Control.RegisterAbility(CreateMovementAbility(23, TranslateRStr(SailingRStr), TSet<TMoveType>.Of(TMoveType.mtSwimming)));
         Control.RegisterAbility(CreateMovementAbility(42, TranslateRStr(TunnelingRStr), TSet<TMoveType>.Of(TMoveType.mtTunneling)));
         Control.RegisterAbility(CreateMovementAbility(59, TranslateRStr(FloatingRStr), TSet<TMoveType>.Of(TMoveType.mtFlying)));
-        Control.RegisterAbility(CreateEnhancementAbility(26, TranslateRStr(TrailOfDarknessRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(39, TranslateRStr(NightVisionRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(43, TranslateRStr(IgnitionRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(49, TranslateRStr(RegenerationRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(51, TranslateRStr(CauseFearRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(54, TranslateRStr(InvisibilityRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(63, TranslateRStr(DragonRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit)));
-        Control.RegisterAbility(CreateEnhancementAbility(37, TranslateRStr(BardsSkillsRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astEditor)));
-        Control.RegisterAbility(CreateEnhancementAbility(41, TranslateRStr(TrueVisionRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor)));
-        Control.RegisterAbility(CreateEnhancementAbility(67, TranslateRStr(FearlessRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(68, TranslateRStr(PathOfDecayRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(69, TranslateRStr(PathOfLifeRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(109, TranslateRStr(PathOfFrostRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(26, TranslateRStr(TrailOfDarknessRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(39, TranslateRStr(NightVisionRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(43, TranslateRStr(IgnitionRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(49, TranslateRStr(RegenerationRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(51, TranslateRStr(CauseFearRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(54, TranslateRStr(InvisibilityRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(63, TranslateRStr(DragonRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit)));
+        Control.RegisterAbility(CreateEnhancementAbility(37, TranslateRStr(BardsSkillsRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor)));
+        Control.RegisterAbility(CreateEnhancementAbility(41, TranslateRStr(TrueVisionRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor)));
+        Control.RegisterAbility(CreateEnhancementAbility(67, TranslateRStr(FearlessRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(68, TranslateRStr(PathOfDecayRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(69, TranslateRStr(PathOfLifeRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(109, TranslateRStr(PathOfFrostRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
         Control.RegisterAbility(new TVisionAbility(null));
         Control.RegisterAbility(new THolyChampionAbility(null));
         Control.RegisterAbility(new TUnholyChampionAbility(null));
@@ -1396,7 +1401,7 @@ public static partial class PassiveAbUnit
         Control.RegisterAbility(new TWindWalkingEnchantment(null));
         Control.RegisterAbility(new TLiquidFormEnchantment(null));
         Control.RegisterAbility(new TBlessedEnchantment(null));
-        Control.RegisterAbility(new TCosmeticSurgeryAbility(null));
+        Control.RegisterAbility(new Aow.Game.Magic.Abilities.TCosmeticSurgeryAbility(null));
         Control.RegisterAbility(new TBurningAbility(null));
         Control.RegisterAbility(new TFireProtectionEnchantment(null));
         Control.RegisterAbility(new TPanickedAbility(null));
@@ -1404,18 +1409,18 @@ public static partial class PassiveAbUnit
         Control.RegisterAbility(new THighPrayerBlessingAbility(null));
         Control.RegisterAbility(new TDarkGiftEnchantment(null));
         Control.RegisterAbility(new TCrusaderAbility(null));
-        Control.RegisterAbility(CreateEnhancementAbility(138, TranslateRStr(SteppeConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(139, TranslateRStr(UndergroundConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(140, TranslateRStr(GrassConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(141, TranslateRStr(SnowConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(142, TranslateRStr(DesertConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(143, TranslateRStr(WastelandConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(144, TranslateRStr(WaterConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem)));
-        Control.RegisterAbility(CreateEnhancementAbility(145, TranslateRStr(ConcealmentRStr), TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astHeadItem, TAbilitySelectionType.astTorsoItem, TAbilitySelectionType.astDefenseItem, TAbilitySelectionType.astRingItem, TAbilitySelectionType.astEditor)));
+        Control.RegisterAbility(CreateEnhancementAbility(138, TranslateRStr(SteppeConcealmentRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(139, TranslateRStr(UndergroundConcealmentRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(140, TranslateRStr(GrassConcealmentRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(141, TranslateRStr(SnowConcealmentRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(142, TranslateRStr(DesertConcealmentRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(143, TranslateRStr(WastelandConcealmentRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(144, TranslateRStr(WaterConcealmentRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem)));
+        Control.RegisterAbility(CreateEnhancementAbility(145, TranslateRStr(ConcealmentRStr), TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astHeadItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astDefenseItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem, Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor)));
     }
 
     // PassiveAb.pas:1597
-    public static void UnregisterPassiveAbilities(TAbilityControl Control)
+    public static void UnregisterPassiveAbilities(Aow.Game.Magic.Abilities.TAbilityControl Control)
     {
         Control.UnregisterAbilityID(0);
         Control.UnregisterAbilityID(1);
@@ -1518,7 +1523,7 @@ public static partial class PassiveAbUnit
         Ability.FMoveTypes = MoveTypes;
         if (MoveTypes.Contains(TMoveType.mtMountaineering) || MoveTypes.Contains(TMoveType.mtForestry) || MoveTypes.Contains(TMoveType.mtCaveCrawling))
         {
-            Ability.FSelectionTypes = Ability.FSelectionTypes + TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astEditor);
+            Ability.FSelectionTypes = Ability.FSelectionTypes + TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor);
         }
 
         return Ability;
@@ -1534,30 +1539,30 @@ public static partial class PassiveAbUnit
         Ability.FImmunityTypes = DamageTypes;
         if ((TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtDeath, TDamageType.dtHoly, TDamageType.dtMagic) & DamageTypes) == TSet<TDamageType>.Of())
         {
-            Ability.FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astRingItem);
+            Ability.FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem);
         }
         else
         {
             if ((TSet<TDamageType>.Of(TDamageType.dtDeath, TDamageType.dtHoly, TDamageType.dtMagic) & DamageTypes) == TSet<TDamageType>.Of())
             {
-                Ability.FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astRingItem);
+                Ability.FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem);
             }
             else
             {
-                Ability.FSelectionTypes = TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit);
+                Ability.FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit);
             }
         }
 
         if ((TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtMagic) & DamageTypes) == TSet<TDamageType>.Of())
         {
-            Ability.FSelectionTypes = Ability.FSelectionTypes + TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astTorsoItem);
+            Ability.FSelectionTypes = Ability.FSelectionTypes + TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem);
         }
 
         return Ability;
     }
 
     // PassiveAb.pas:1491
-    public static TProtectionAbility CreateProtectionAbility(int ID, string Name, TSet<TDamageType> DamageTypes, TSet<TAbilitySelectionType> SelectionTypes)
+    public static TProtectionAbility CreateProtectionAbility(int ID, string Name, TSet<TDamageType> DamageTypes, TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType> SelectionTypes)
     {
         TProtectionAbility Ability;
         Ability = new TProtectionAbility(null);

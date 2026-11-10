@@ -1,12 +1,15 @@
 // Translated from Bridge.pas.
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.BorderHx;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.Bridge;
+namespace Aow.Game.World;
 
 // { The Bridge unit of HSEPack.dpl: a bridge over water (TBridge, ClassID $20174, an overlay at level
 //   10) whose image is chosen from the roads and shores around it (TBridgeResource, ClassID $20175). }

@@ -1,15 +1,12 @@
 // Translated from StartMenu.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWMenu;
-using Aow.Units.AOWMenuBar;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AOWWinManager;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.StartMenu;
+namespace Aow.Game.Ui.Windows;
 
 // whole-menu image library
 public partial class TStartMenu : TAOWMenu

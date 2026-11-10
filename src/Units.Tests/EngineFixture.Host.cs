@@ -1,12 +1,12 @@
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Aow.Game.Engine;
 using Aow.Rtl.Localize;
-using Core = Aow.Units.Engine.EngineUnit;
-using Game = Aow.Units.AoWE.AoWEUnit;
-using Hex = Aow.Units.HSEngine.HSEngineUnit;
-using Images = Aow.Units.ImageLib.ImageLibUnit;
-using SoundApi = Aow.Units.Sound.SoundUnit;
+using Core = Aow.Game.Engine.Nodes.EngineUnit;
+using Hex = Aow.Game.World.Map.HSEngineUnit;
+using Images = Aow.Game.Draw.Images.ImageLibUnit;
+using SoundApi = Aow.Game.Audio.SoundUnit;
 
 namespace Aow.Units.Tests;
 
@@ -33,7 +33,7 @@ public sealed partial class EngineFixture
         internal RecordingHost(string fault)
         {
             this.fault = fault;
-            foreach (Type type in new[] { typeof(Game), typeof(Core), typeof(Hex), typeof(Images), typeof(SoundApi) })
+            foreach (Type type in new[] { typeof(Aow.Game.Magic.Abilities.AoWEUnit), typeof(Core), typeof(Hex), typeof(Images), typeof(SoundApi) })
                 foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
                 {
                     if (field.Name == "captureOrdinal") continue;
@@ -48,27 +48,27 @@ public sealed partial class EngineFixture
             Core.PlugIns = new TList();
             Core.Packages = new TStringList();
             Core.VerifyEObjectEnabled = true;
-            Game.AoWEngine = null!;
-            Game.AoWHSSet = null!;
-            Game.AoWHSMap = null!;
-            Hex.HSEngineDID = Game.CombatDID = Game.AIDID = Game.TMPDID = Game.MAGICDID = 0;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
+            Hex.HSEngineDID = Aow.Game.Magic.Abilities.AoWEUnit.CombatDID = Aow.Game.Magic.Abilities.AoWEUnit.AIDID = Aow.Game.Magic.Abilities.AoWEUnit.TMPDID = Aow.Game.Magic.Abilities.AoWEUnit.MAGICDID = 0;
             Images.BaseImageLibraryPath = SoundApi.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }
 
         internal string Relative(string value) => value.Replace(root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
-        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), Game.AoWEngine is not null, Game.AoWHSSet is not null, Core.Engines.Count, destroy ?? []);
+        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine is not null, Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet is not null, Core.Engines.Count, destroy ?? []);
         private void Record(string call, string argument) => Events.Add(Event(call, argument));
 
         internal JsonObject State() => new()
         {
-            ["AoWEngine"] = Game.AoWEngine is not null,
-            ["AoWHSSet"] = Game.AoWHSSet is not null,
+            ["AoWEngine"] = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine is not null,
+            ["AoWHSSet"] = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet is not null,
             ["HSEngineDID"] = Hex.HSEngineDID,
-            ["CombatDID"] = Game.CombatDID,
-            ["AIDID"] = Game.AIDID,
-            ["TMPDID"] = Game.TMPDID,
-            ["MAGICDID"] = Game.MAGICDID,
+            ["CombatDID"] = Aow.Game.Magic.Abilities.AoWEUnit.CombatDID,
+            ["AIDID"] = Aow.Game.Magic.Abilities.AoWEUnit.AIDID,
+            ["TMPDID"] = Aow.Game.Magic.Abilities.AoWEUnit.TMPDID,
+            ["MAGICDID"] = Aow.Game.Magic.Abilities.AoWEUnit.MAGICDID,
             ["BaseImageLibraryPath"] = Relative(Images.BaseImageLibraryPath),
             ["BaseSoundEnginePath"] = Relative(SoundApi.BaseSoundEnginePath),
             ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory),
@@ -144,7 +144,7 @@ public sealed partial class EngineFixture
 
         public void Dispose()
         {
-            var partial = Game.AoWEngine;
+            var partial = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
             if (partial is not null && partial.FGameSet is null)
             {
                 partial.FDictionary?.Dispose();

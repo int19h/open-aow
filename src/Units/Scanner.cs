@@ -1,18 +1,15 @@
 // Translated from Scanner.pas.
 using System.Runtime.CompilerServices;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.AoWE;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
+using static Aow.Game.Draw.GFXEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.Scanner;
+namespace Aow.Game.Ui.Grids;
 
 // { ot=1 }
 // half-row inset, libraries, icons, viewport, change event, update steps, map, frame library,
@@ -35,7 +32,7 @@ public partial class TScanner : TAOWControl
     public bool FNaturals;
     public TNotifyEvent<TScanner> FOnMapPositionChange;
     public int FSteps;
-    public AoWE.TAbstractAoWHSMap FMap;
+    public Aow.Game.World.Map.TAbstractAoWHSMap FMap;
     public TInterfaceIL FILFrame;
     public int FILIndexFrame;
     public int FMapWidth;
@@ -672,7 +669,7 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:377
-    public void SetMap(AoWE.TAbstractAoWHSMap Value)
+    public void SetMap(Aow.Game.World.Map.TAbstractAoWHSMap Value)
     {
         FMap = Value;
         if (FMap != null)

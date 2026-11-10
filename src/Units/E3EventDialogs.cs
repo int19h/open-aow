@@ -1,34 +1,19 @@
 // Translated from E3EventDialogs.pas.
+using Aow.Game.Combat;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Net;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
 using Aow.Rtl;
-using Aow.Units.AoWArenaDlg;
-using Aow.Units.AoWArmyEventDlg;
-using Aow.Units.AoWCityJoinDlg;
-using Aow.Units.AoWCityRebelDlg;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWHeroInfoDlg;
-using Aow.Units.AoWHeroJoinDlg;
-using Aow.Units.AoWHeroUpgradeDlg;
-using Aow.Units.AoWItemsFoundDlg;
-using Aow.Units.AoWMsgReceiveDlg;
-using Aow.Units.AoWNewTurnDialog;
-using Aow.Units.AoWPartyJoin;
-using Aow.Units.AoWPasswordDlg;
-using Aow.Units.AoWRelations;
-using Aow.Units.AoWSendEmailGameDlg;
-using Aow.Units.AoWSMTPDlg;
-using Aow.Units.AoWWizardsTowerDlg;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.EventLog;
-using Aow.Units.FastCombatWin;
-using Aow.Units.TCFCDlg;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
+using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
 
-namespace Aow.Units.E3EventDialogs;
+namespace Aow.Game.Ui.Dialogs;
 
 public static partial class E3EventDialogsUnit
 {

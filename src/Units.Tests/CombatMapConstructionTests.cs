@@ -2,13 +2,11 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Aow.Units.AoWE;
-using Aow.Units.AoWTC;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Combat = Aow.Units.AoWTC.AoWTCUnit;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Combat;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Combat = Aow.Game.Combat.AoWTCUnit;
 
 namespace Aow.Units.Tests;
 
@@ -48,8 +46,8 @@ public sealed class CombatMapConstructionTests
                         using var fixture = new OrderingRecording.Fixture(typeof(TAoWCombatMap));
                         var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
                         entry.FImageLibrary = new TImageLibrary(null!);
-                        var set = Game.AoWHSSet;
-                        if (failure == 2) Game.AoWHSSet = null!;
+                        var set = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
+                        if (failure == 2) Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = null!;
                         Combat.AoWCombatMap = null!;
                         var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
                         TAoWCombatMap? value = null;
@@ -59,7 +57,7 @@ public sealed class CombatMapConstructionTests
                             value = Assert.IsType<TAoWCombatMap>(OrderingRecording.Create(typeof(TAoWCombatMap), owner, route, fixture.Engine));
                         }
                         catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { caught = error; }
-                        finally { Game.AoWHSSet = set; }
+                        finally { Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set; }
                         Assert.Equal(failure == 0, value is not null);
                         var published = Combat.AoWCombatMap;
                         Assert.NotNull(published);

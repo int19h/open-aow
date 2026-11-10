@@ -1,4 +1,4 @@
-namespace Aow.Rtl;
+namespace Aow.Rtl.Localize;
 
 public class TIvTranslator : TIvCustomTranslator
 {

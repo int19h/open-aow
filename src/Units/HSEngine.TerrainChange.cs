@@ -1,11 +1,12 @@
-using Aow.Rtl;
+using Aow.Game.World;
+using Aow.Game.World.Movement;
 
-namespace Aow.Units.HSEngine;
+namespace Aow.Game.World.Map;
 
 public partial class THSMap
 {
     // HSMAP.PAS:496. The view combines the two signed terrain bytes as one word.
-    public bool CanChangeTerrain(TMapObject sender, int x, int y, int level, TTerrainList terrain)
+    public bool CanChangeTerrain(Aow.Game.World.TMapObject sender, int x, int y, int level, TTerrainList terrain)
     {
         bool result = true;
         var saved = new TTerrainList();

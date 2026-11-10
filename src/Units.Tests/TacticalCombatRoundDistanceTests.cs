@@ -1,5 +1,4 @@
-using Aow.Units.AoWE;
-using Aow.Units.AoWTC;
+using Aow.Game.Combat;
 
 namespace Aow.Units.Tests;
 

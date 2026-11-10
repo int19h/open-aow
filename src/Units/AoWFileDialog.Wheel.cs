@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWFileDialog;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TFileDlgWindow
 {

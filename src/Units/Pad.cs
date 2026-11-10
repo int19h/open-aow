@@ -1,11 +1,10 @@
 // Translated from Pad.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.ILTer;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
+using Aow.Game.World.Terrain;
 
-namespace Aow.Units.Pad;
+namespace Aow.Game.World.Terrain;
 
 // FPadActive
 public partial class TPad : TFixedILTerrainMO

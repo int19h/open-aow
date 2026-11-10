@@ -1,26 +1,23 @@
 // Translated from AoWMagic.pas.
+using Aow.Game.Draw;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWTabPanel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.Engine.EngineUnit;
+// Translated from AoWMagic.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Engine.Nodes.EngineUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E1GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.aowHelpWinUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 
-namespace Aow.Units.AoWMagic;
+namespace Aow.Game.Ui.Dialogs;
 
 // enchantment sort, global sort, power sort
 public partial class TMagicWin : TDataModule

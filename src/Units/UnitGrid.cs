@@ -1,11 +1,12 @@
 // Translated from UnitGrid.pas.
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.UnitGrid;
+namespace Aow.Game.Ui.Grids;
 
 // FSelectionControl, FUnits, FEditEnabled, FShowUnitLevel, FMemoryStream
 public partial class TUnitGrid : TCustomImageDrawGrid

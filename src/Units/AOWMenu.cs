@@ -1,16 +1,12 @@
 // Translated from AOWMenu.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWBaseWin;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AOWMenuBar;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AoWWinGeneric;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AOWMenu;
+namespace Aow.Game.Ui.Windows;
 
 // { The AOWMenu unit of aowInt.dpl: TAOWMenu, a pop-up menu window. It belongs to an item of a menu
 //   bar (OwnerMenuBar and OwnerItem) or of another menu (OwnerMenu: a submenu), places itself under

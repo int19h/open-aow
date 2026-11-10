@@ -1,6 +1,7 @@
+using Aow.Game.World.Movement;
 using Aow.Rtl;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.Magic.Abilities;
 
 public static partial class AoWEUnit
 {

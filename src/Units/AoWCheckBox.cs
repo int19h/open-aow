@@ -1,10 +1,9 @@
 // Translated from AoWCheckBox.pas.
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWCheckBox;
+namespace Aow.Game.Ui.Controls;
 
 // { The AoWCheckBox unit of aowInt.dpl: TAOWCheckBox, a button that toggles its down state
 //   (Checked) on a left click; with a RadioIndex above 0 it is a radio button, which only turns

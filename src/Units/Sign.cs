@@ -1,273 +1,293 @@
 // Translated from Sign.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Net;
+using Aow.Game.Session;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Aow.Units.NetworkE;
-using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.Sign;
-
-// FText, FTextSeen
-public partial class TSign : TStructure
+namespace Aow.Game.World.Structures
 {
-    public TSign(TECustomNode owner) : base(owner)
+
+    // FText, FTextSeen
+    public partial class TSign : TStructure
     {
-        FText = new TStringList();
-        FTextSeen = new TBitList();
-    }
-
-    // Sign.pas:99
-    public new const int ClassID = 131330;
-
-    public TStringList FText;
-    public TBitList FTextSeen;
-
-    // Sign.pas:92
-    public override void Dispose()
-    {
-        FText?.Dispose();
-        FTextSeen?.Dispose();
-        base.Dispose();
-    }
-
-    // Sign.pas:105
-    public override void ReadWrite(TEStorageStream Stream)
-    {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FText, 7);
-        if (AoWHSMap != null && AoWHSMap.FConnectionType != (TPlayerConnectionType)1)
+        public TSign(TECustomNode owner) : base(owner)
         {
-            Stream.rwStreamProc(8, FTextSeen.LoadFromStream, FTextSeen.SaveToStream);
-        }
-    }
-
-    // Sign.pas:85
-
-    // Sign.pas:102
-    public override sbyte GetOverlay(int Index) => -1;
-
-    // Sign.pas:119
-    public override void Select()
-    {
-        base.Select();
-        if (!AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
-        {
-            FTextSeen[AoWHSMap.FSeatedPlayer] = true;
-        }
-    }
-
-    // Sign.pas:113
-    public bool GetTextSeen(sbyte Player) => FTextSeen[Player];
-
-    // Sign.pas:116
-    public void SetText(TStrings Text)
-    {
-        FText.Assign(Text);
-        Update();
-    }
-
-    // Sign.pas:125
-    public bool CanChangeText()
-    {
-        TArmyHS ArmyHS;
-        ArmyHS = ((TAoWMapField)Owner).GetArmyHS();
-        return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)AoWHSMap.FSeatedPlayer;
-    }
-
-    // Sign.pas:134
-    public bool ChangeText(int Player, TStrings Text)
-    {
-        bool Result;
-        TUpdateSignTE Event;
-        if (!AoWHSMap.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
-        {
-            Event = new TUpdateSignTE(null);
-            Event.FXhx = GetXhx();
-            Event.FYhx = GetYhx();
-            Event.FLhx = GetLhx();
-            Event.FText.Assign(Text);
-            AoWHSMap.FTokenManager.GetTokenControl(Player).AddEvent(Event);
-            Event.Release();
-            Result = true;
-        }
-        else
-        {
-            Result = false;
+            FText = new TStringList();
+            FTextSeen = new TBitList();
         }
 
-        return Result;
-    }
+        // Sign.pas:99
+        public new const int ClassID = 131330;
 
-    // Sign.pas:24
+        public TStringList FText;
+        public TBitList FTextSeen;
 
-}
-
-public partial class TSignResource : TStructureResource
-{
-    public TSignResource(TECustomNode owner) : base(owner)
-    {
-        FConnectRoads = false;
-        FTerrainBound = false;
-    }
-
-    // Sign.pas:159
-    public new const int ClassID = 131331;
-
-    // Sign.pas:152
-
-    // Sign.pas:165
-    public override int ResourceUserClassID() => 131330;
-
-    // Sign.pas:168
-    public override void Show(int X, int Y, in TSurfaceDesc SurfaceDesc, TStructure Structure)
-    {
-        TImageSequence Sequence;
-        int Index;
-        int Offset;
-        int Image;
-        bool Animate;
-        if (FImageSequenceList != null)
+        // Sign.pas:92
+        public override void Dispose()
         {
-            Index = Structure.ImageIndex;
-            Offset = ((TMapField)Structure.Owner).Xhx + ((TMapField)Structure.Owner).Yhx * 16;
-            Animate = AoWHSMap.FSeatedPlayer < 0 || !((TSign)Structure).GetTextSeen(AoWHSMap.FSeatedPlayer);
-            if (Index < FImageSequenceList.Count)
+            FText?.Dispose();
+            FTextSeen?.Dispose();
+            base.Dispose();
+        }
+
+        // Sign.pas:105
+        public override void ReadWrite(TEStorageStream Stream)
+        {
+            base.ReadWrite(Stream);
+            Stream.rwStrings(FText, 7);
+            if (AoWHSMap != null && AoWHSMap.FConnectionType != (TPlayerConnectionType)1)
             {
-                Sequence = (TImageSequence)FImageSequenceList.List[Index];
+                Stream.rwStreamProc(8, FTextSeen.LoadFromStream, FTextSeen.SaveToStream);
+            }
+        }
+
+        // Sign.pas:85
+
+        // Sign.pas:102
+        public override sbyte GetOverlay(int Index) => -1;
+
+        // Sign.pas:119
+        public override void Select()
+        {
+            base.Select();
+            if (!AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+            {
+                FTextSeen[AoWHSMap.FSeatedPlayer] = true;
+            }
+        }
+
+        // Sign.pas:113
+        public bool GetTextSeen(sbyte Player) => FTextSeen[Player];
+
+        // Sign.pas:116
+        public void SetText(TStrings Text)
+        {
+            FText.Assign(Text);
+            Update();
+        }
+
+        // Sign.pas:125
+        public bool CanChangeText()
+        {
+            TArmyHS ArmyHS;
+            ArmyHS = ((TAoWMapField)Owner).GetArmyHS();
+            return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)AoWHSMap.FSeatedPlayer;
+        }
+
+        // Sign.pas:134
+        public bool ChangeText(int Player, TStrings Text)
+        {
+            bool Result;
+            TUpdateSignTE Event;
+            if (!AoWHSMap.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
+            {
+                Event = new TUpdateSignTE(null);
+                Event.FXhx = GetXhx();
+                Event.FYhx = GetYhx();
+                Event.FLhx = GetLhx();
+                Event.FText.Assign(Text);
+                AoWHSMap.FTokenManager.GetTokenControl(Player).AddEvent(Event);
+                Event.Release();
+                Result = true;
             }
             else
             {
-                Sequence = null;
+                Result = false;
             }
 
-            while (Sequence != null)
+            return Result;
+        }
+
+        // Sign.pas:24
+
+    }
+
+    public partial class TSignResource : TStructureResource
+    {
+        public TSignResource(TECustomNode owner) : base(owner)
+        {
+            FConnectRoads = false;
+            FTerrainBound = false;
+        }
+
+        // Sign.pas:159
+        public new const int ClassID = 131331;
+
+        // Sign.pas:152
+
+        // Sign.pas:165
+        public override int ResourceUserClassID() => 131330;
+
+        // Sign.pas:168
+        public override void Show(int X, int Y, in TSurfaceDesc SurfaceDesc, TStructure Structure)
+        {
+            TImageSequence Sequence;
+            int Index;
+            int Offset;
+            int Image;
+            bool Animate;
+            if (FImageSequenceList != null)
             {
-                if (Animate)
+                Index = Structure.ImageIndex;
+                Offset = ((TMapField)Structure.Owner).Xhx + ((TMapField)Structure.Owner).Yhx * 16;
+                Animate = AoWHSMap.FSeatedPlayer < 0 || !((TSign)Structure).GetTextSeen(AoWHSMap.FSeatedPlayer);
+                if (Index < FImageSequenceList.Count)
                 {
-                    Image = Sequence.GetFrameIndex(AoWHSMap.Frame, Offset);
+                    Sequence = (TImageSequence)FImageSequenceList.List[Index];
                 }
                 else
                 {
-                    Image = Sequence.GetUnloopedFrameIndex(0);
+                    Sequence = null;
                 }
 
-                if (Image != -1)
+                while (Sequence != null)
                 {
-                    if (Structure.GetSelected() && (AoWHSMap.Frame & 6) == 6)
+                    if (Animate)
                     {
-                        Sequence.ImageLibrary[Image].ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                        Image = Sequence.GetFrameIndex(AoWHSMap.Frame, Offset);
                     }
                     else
                     {
-                        Sequence.ImageLibrary[Image].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                        Image = Sequence.GetUnloopedFrameIndex(0);
                     }
-                }
 
-                Sequence = Sequence.Next;
+                    if (Image != -1)
+                    {
+                        if (Structure.GetSelected() && (AoWHSMap.Frame & 6) == 6)
+                        {
+                            Sequence.ImageLibrary[Image].ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                        }
+                        else
+                        {
+                            Sequence.ImageLibrary[Image].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                        }
+                    }
+
+                    Sequence = Sequence.Next;
+                }
             }
         }
+
+        // Sign.pas:37
+
+        // Sign.pas:162
+        public override string ResourceEditName() => TranslateRStr(SignRStr);
+
     }
-
-    // Sign.pas:37
-
-    // Sign.pas:162
-    public override string ResourceEditName() => TranslateRStr(SignRStr);
-
 }
 
-// FText, FXhx, FYhx, FLhx
-public partial class TUpdateSignTE : TTokenEvent
+namespace Aow.Game.Commands
 {
-    public TUpdateSignTE(TECustomNode owner) : base(owner)
+
+    // FText, FXhx, FYhx, FLhx
+    public partial class TUpdateSignTE : TTokenEvent
     {
-        FText = new TStringList();
-    }
-
-    // Sign.pas:202
-    public new const int ClassID = 131343;
-
-    public TStringList FText;
-    public sbyte FXhx;
-    public sbyte FYhx;
-    public sbyte FLhx;
-
-    // Sign.pas:199
-    public override void Dispose()
-    {
-        FText?.Dispose();
-        base.Dispose();
-    }
-
-    // Sign.pas:205
-    public override void ReadWrite(TEStorageStream Stream)
-    {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FText, 15);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 16);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FYhx), 17);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLhx), 18);
-    }
-
-    // Sign.pas:196
-
-    // Sign.pas:214
-    public override TExecuteResult Execute(TTokenExecuter TE)
-    {
-        TExecuteResult Result;
-        TSign Sign;
-        Sign = (TSign)AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
-        if (Sign != null)
+        public TUpdateSignTE(TECustomNode owner) : base(owner)
         {
-            Sign.SetText(FText);
-            Sign.FTextSeen.Clear();
-            Sign.FTextSeen[AoWHSMap.FCurrentPlayer] = true;
-            Result = TExecuteResult.erDone;
-        }
-        else
-        {
-            Result = TExecuteResult.erDoneHalt;
+            FText = new TStringList();
         }
 
-        return Result;
+        // Sign.pas:202
+        public new const int ClassID = 131343;
+
+        public TStringList FText;
+        public sbyte FXhx;
+        public sbyte FYhx;
+        public sbyte FLhx;
+
+        // Sign.pas:199
+        public override void Dispose()
+        {
+            FText?.Dispose();
+            base.Dispose();
+        }
+
+        // Sign.pas:205
+        public override void ReadWrite(TEStorageStream Stream)
+        {
+            base.ReadWrite(Stream);
+            Stream.rwStrings(FText, 15);
+            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 16);
+            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FYhx), 17);
+            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLhx), 18);
+        }
+
+        // Sign.pas:196
+
+        // Sign.pas:214
+        public override TExecuteResult Execute(TTokenExecuter TE)
+        {
+            TExecuteResult Result;
+            TSign Sign;
+            Sign = (TSign)AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
+            if (Sign != null)
+            {
+                Sign.SetText(FText);
+                Sign.FTextSeen.Clear();
+                Sign.FTextSeen[AoWHSMap.FCurrentPlayer] = true;
+                Result = TExecuteResult.erDone;
+            }
+            else
+            {
+                Result = TExecuteResult.erDoneHalt;
+            }
+
+            return Result;
+        }
+
+        // Sign.pas:54
+
     }
-
-    // Sign.pas:54
-
 }
 
-[StructLayout(LayoutKind.Explicit, Size = 315)]
-public struct TSignMapFields
+namespace Aow.Game.World
 {
-    [FieldOffset(0)]
-    public FixedArray_byte_164 Reserved;
-    [FieldOffset(164)]
-    public sbyte CurrentPlayer;
-    [FieldOffset(165)]
-    public sbyte SeatedPlayer;
-    [FieldOffset(166)]
-    public FixedArray_byte_148 ReservedA6;
-    [FieldOffset(314)]
-    public byte StorageType;
+
+    [StructLayout(LayoutKind.Explicit, Size = 315)]
+    public struct TSignMapFields
+    {
+        [FieldOffset(0)]
+        public FixedArray_byte_164 Reserved;
+        [FieldOffset(164)]
+        public sbyte CurrentPlayer;
+        [FieldOffset(165)]
+        public sbyte SeatedPlayer;
+        [FieldOffset(166)]
+        public FixedArray_byte_148 ReservedA6;
+        [FieldOffset(314)]
+        public byte StorageType;
+    }
 }
 
-public static partial class SignUnit
+namespace Aow.Game.World.Structures
 {
-    // Sign.pas:229
-    public static void RegisterSign(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TSign>(), EClass.Of<TSignResource>(), EClass.Of<TUpdateSignTE>()]);
-    }
 
-    public static void Initialize()
+    public static partial class SignUnit
     {
-    }
+        // Sign.pas:229
+        public static void RegisterSign(TEngine AEngine)
+        {
+            AEngine.RegisterEClasses([EClass.Of<TSign>(), EClass.Of<TSignResource>(), EClass.Of<TUpdateSignTE>()]);
+        }
 
-    public static void Finalize()
-    {
+        public static void Initialize()
+        {
+        }
+
+        public static void Finalize()
+        {
+        }
     }
 }

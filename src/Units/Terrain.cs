@@ -1,15 +1,19 @@
 // Translated from Terrain.pas.
 using System.Runtime.CompilerServices;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.Terrain;
+namespace Aow.Game.World.Hexes;
 
 // FDecorationType (-1 none), FTerrainType. persisted as ids $12 and $11
-public partial class TTerrainMOR : TMultiHexMOR
+public partial class TTerrainMOR : Aow.Game.World.TMultiHexMOR
 {
     public TTerrainMOR(TECustomNode owner) : base(owner)
     {
@@ -45,7 +49,7 @@ public partial class TTerrainMOR : TMultiHexMOR
 
 }
 
-public partial class TTerrainMO : TMultiHexMO
+public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
 {
     public TTerrainMO(TECustomNode owner) : base(owner)
     {

@@ -1,14 +1,20 @@
 // Translated from AGCPlugins.pas.
 using System.Runtime.CompilerServices;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Combat;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Session;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.City;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
 
-namespace Aow.Units.AGCPlugins;
+namespace Aow.Game.Ai.Groups;
 
 public enum TAIGroupRazeControlModeElement : byte
 {
@@ -267,7 +273,7 @@ public partial class TAIGroupDefendTargetSelector : TAIGroupControlPlugin
         this.FSelector.FOnTargetFound = TargetFoundEvent;
         this.FSelector.FMovePointsMax = 150;
         this.FSelector.FMovePointsMin = 0;
-        this.FSelector.FTargetInfo.Mode = TAITargetMode.tmDefend;
+        this.FSelector.FTargetInfo.Mode = Aow.Game.Ai.TAITargetMode.tmDefend;
 
         FPathStep = 7;
         FDamageTypes = AGCPluginsUnit.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);

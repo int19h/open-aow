@@ -1,13 +1,12 @@
 // Translated from AoWFrame.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AOWMenu;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWFrame;
+namespace Aow.Game.Ui.Controls;
 
 public enum TFrameType : byte
 {

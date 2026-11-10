@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWMagic;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TMagicWin
 {

@@ -1,19 +1,16 @@
 // Translated from AoWSWindow.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWCheckBox;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWTabPanel;
-using Aow.Units.AoWWindow;
-using Aow.Units.Scanner;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+// Translated from AoWSWindow.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.aowHelpWinUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AoWSWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TSWindow : TDataModule
 {

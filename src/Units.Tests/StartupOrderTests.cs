@@ -1,3 +1,4 @@
+using Aow.Game.Engine;
 namespace Aow.Units.Tests;
 
 /// <summary>Pins the unit table of <see cref="Startup"/>: the order of the initialization and
@@ -76,7 +77,8 @@ public sealed class StartupOrderTests
     {
         Assert.Equal(name, section.Method.Name);
         var type = section.Method.DeclaringType!;
-        Assert.Equal($"Aow.Units.{unit}.{unit}Unit", type.FullName);
+        Assert.Equal(unit + "Unit", type.Name);
+        Assert.StartsWith("Aow.Game.", type.Namespace ?? "");
         return unit;
     }
 

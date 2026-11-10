@@ -1,7 +1,7 @@
+using Aow.Game.Draw;
 using Aow.Rtl;
-using Aow.Units.GFXE;
 
-namespace Aow.Units.ImageLib;
+namespace Aow.Game.Draw.Images;
 
 public interface ILibraryImageClass
 {
@@ -42,12 +42,12 @@ public sealed class LibraryImageClass
 
     public static IReadOnlyList<LibraryImageClass> All => catalog.All;
 
-    public int GrabImages(in TSurfaceDesc SD, TGrabInfo GrabInfo, TCustomImageLibrary ImageLibrary, TGrabProgressEvent OnProgress)
+    public int GrabImages(in Aow.Game.Draw.TSurfaceDesc SD, TGrabInfo GrabInfo, TCustomImageLibrary ImageLibrary, TGrabProgressEvent OnProgress)
     {
         int Result = default;
         LibraryImageClass ImageClass;
         TLibraryImage Image = default;
-        TRectangleList Rects = default;
+        Aow.Game.Draw.TRectangleList Rects = default;
         void Progress(int Percent, string Msg)
         {
             if (OnProgress != null)
@@ -60,12 +60,12 @@ public sealed class LibraryImageClass
         ImageClass = ImageLibUnit.FindLibraryImageClass(ClassID);
         if (GrabInfo.FindRectangles)
         {
-            Rects = GFXEUnit.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
+            Rects = Aow.Game.Draw.GFXEUnit.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
         }
         else
         {
-            Rects = new TRectangleList();
-            Rects.Add(new TRectangle(0, 0, SD.Width, SD.Height));
+            Rects = new Aow.Game.Draw.TRectangleList();
+            Rects.Add(new Aow.Game.Draw.TRectangle(0, 0, SD.Width, SD.Height));
         }
 
         if (Rects != null && ImageClass != null)
@@ -98,7 +98,7 @@ public sealed class LibraryImageClass
         }
         else
         {
-            Result = GFXEUnit.GFXE_ERROR;
+            Result = Aow.Game.Draw.GFXEUnit.GFXE_ERROR;
         }
 
         Rects?.Dispose();

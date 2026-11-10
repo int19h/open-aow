@@ -1,22 +1,21 @@
 #nullable disable
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.aowMapEvents;
-using Aow.Units.aowSetupEvents;
-using Aow.Units.E1Globals;
-using Aow.Units.E2Globals;
-using Aow.Units.HSEngine;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
-using static Aow.Units.AoWRealm.AoWRealmUnit;
-using static Aow.Units.AoWSWindow.AoWSWindowUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.E1Resources.E1ResourcesUnit;
-using static Aow.Units.Sound.SoundUnit;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWPInfoWinUnit;
+using static Aow.Game.Ui.Dialogs.AoWRealmUnit;
+using static Aow.Game.Ui.Dialogs.AoWSWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
+using static Aow.Game.Ui.Dialogs.E1ResourcesUnit;
 
-namespace Aow.Units.AoWWinMan;
+namespace Aow.Game.Ui.Dialogs;
 
 public static partial class AoWWinManUnit
 {

@@ -1,11 +1,10 @@
 // Translated from AoWControl.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWBaseWin;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWToolTip;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWControl;
+namespace Aow.Game.Ui.Controls;
 
 // { The AoWControl unit of aowInt.dpl: TAOWControl, the ancestor of the controls that sit in a
 //   window (buttons, edits, lists, scroll bars, ...). It knows its window and shows its tool tip. }

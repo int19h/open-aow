@@ -1,9 +1,14 @@
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Engine;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.Animation;
-using Aow.Units.EventLog;
-using Aow.Units.HSEngine;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.Commands;
 
 public partial class TArmyCombatMoveTE
 {

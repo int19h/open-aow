@@ -1,7 +1,7 @@
 // Translated from LicenseF.pas.
 using Aow.Rtl;
 
-namespace Aow.Units.LicenseF;
+namespace Aow.Game.Ui.Windows;
 
 public partial class TLicenseForm : TForm
 {

@@ -1,10 +1,10 @@
 // Translated from RndHex.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.Hexagon;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Hexes;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.RndHex;
+namespace Aow.Game.World.Hexes;
 
 // { The RndHex unit of HSEPack.dpl: the random hexagon resource (TRndHexagonResource, ClassID
 //   $20154): placing it changes the terrain under the cursor to its terrain type through the map,

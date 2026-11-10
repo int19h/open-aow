@@ -1,12 +1,11 @@
 // Translated from AoWLabel.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWLabel;
+namespace Aow.Game.Ui.Controls;
 
 // { The AoWLabel unit of aowInt.dpl: TAOWLabel, a line of text in an image library font; it
 //   sizes itself to its text. }

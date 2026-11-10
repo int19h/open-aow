@@ -1,9 +1,7 @@
 // Translated from E1Globals.pas.
-using Aow.Units.AoWIntroScene;
-using Aow.Units.AoWPWindows;
-using Aow.Units.AoWRelations;
+using Aow.Game.Ui.Dialogs;
 
-namespace Aow.Units.E1Globals;
+namespace Aow.Game.Ui.Dialogs;
 
 public static partial class E1GlobalsUnit
 {

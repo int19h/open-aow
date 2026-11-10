@@ -1,12 +1,15 @@
 // Translated from Hexagon.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.Hexagon;
+namespace Aow.Game.World.Hexes;
 
 // { The Hexagon unit of HSEPack.dpl: the plain terrain hexagon (THexagon, ClassID $20152) drawn from
 //   the first image of its resource's image library, with the transitions to the neighbour terrain
@@ -104,11 +107,11 @@ public partial class THexagonResource : TAbstractHexagonResource
     public override int ResourceUserClassID() => 131410;
 
     // Hexagon.pas:112
-    public override TMapObject PlaceResourceUser(THSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override Aow.Game.World.TMapObject PlaceResourceUser(THSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         TMapField MapField;
         MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-        TMapObject Result = (TMapObject)MapField.FindOwnedChild(ResourceUserClassID());
+        Aow.Game.World.TMapObject Result = (Aow.Game.World.TMapObject)MapField.FindOwnedChild(ResourceUserClassID());
         if (Result != null)
         {
             if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
@@ -126,7 +129,7 @@ public partial class THexagonResource : TAbstractHexagonResource
         }
         else
         {
-            Result = (TMapObject)CreateResourceUser();
+            Result = (Aow.Game.World.TMapObject)CreateResourceUser();
             if (!Result.PlaceHX(Map.MapContainer, Xhx, Yhx, Lhx))
             {
                 Result?.Dispose();

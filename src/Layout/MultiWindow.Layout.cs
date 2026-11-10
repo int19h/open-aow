@@ -1,21 +1,12 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
-using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWEdit;
-using Aow.Units.AoWExeForms;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWinMan;
-using Aow.Units.E2Globals;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Rtl.Localize;
 
-namespace Aow.Units.AOWMultiWin;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TMultiWindow : ILayoutModule
 {

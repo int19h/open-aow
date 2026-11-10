@@ -1,37 +1,31 @@
 // Translated from AoWRealm.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AOWGauge;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWTabPanel;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.City;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.PrdPlace;
+// Translated from AoWRealm.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWCityScreenUnit;
+using static Aow.Game.Ui.Dialogs.aowHelpWinUnit;
+using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
+using static Aow.Game.Ui.Dialogs.AoWProdScreenUnit;
+using static Aow.Game.Ui.Dialogs.AoWUnitBannerUnit;
+using static Aow.Game.Ui.Dialogs.AoWUnitWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.World.Structures.BldGuildUnit;
+using static Aow.Game.World.Structures.CityUnit;
+using static Aow.Game.World.Structures.FarmUnit;
+using static Aow.Game.World.Structures.MineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
-using static Aow.Units.AoWUnitBanner.AoWUnitBannerUnit;
-using static Aow.Units.AoWUnitWindow.AoWUnitWindowUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.BldGuild.BldGuildUnit;
-using static Aow.Units.City.CityUnit;
-using static Aow.Units.Farm.FarmUnit;
-using static Aow.Units.Mine.MineUnit;
 
-namespace Aow.Units.AoWRealm;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TRealmWin : TDataModule
 {

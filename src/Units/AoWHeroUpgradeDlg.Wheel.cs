@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWHeroUpgradeDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class THeroUpgradeDlg
 {

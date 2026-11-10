@@ -1,14 +1,12 @@
 // Translated from AoWBaseWin.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AOWWinManager;
-using Aow.Units.GFXE;
+using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.AoWBaseWin;
+namespace Aow.Game.Ui.Windows;
 
 // { The AoWBaseWin unit of aowInt.dpl: TAOWBaseWindow, a window of the window manager. It draws
 //   itself and its controls into its back surface (DrawSurface) or straight into the display surface

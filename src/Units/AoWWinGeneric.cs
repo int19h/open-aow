@@ -1,11 +1,9 @@
 // Translated from AoWWinGeneric.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWBaseWin;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AOWWinManager;
 
-namespace Aow.Units.AoWWinGeneric;
+namespace Aow.Game.Ui.Windows;
 
 // { The AoWWinGeneric unit of aowInt.dpl: TAOWGenericWindow, the base window class that publishes
 //   the window manager's settings (the ancestor of TAOWWindow, TAOWToolTip and TAOWMenu). }

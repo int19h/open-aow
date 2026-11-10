@@ -1,8 +1,10 @@
 using Aow.Formats;
+using Aow.Game.Engine;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.World.Map;
 using Aow.Platform;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFileDialog;
-using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -181,7 +183,7 @@ public sealed class OwnExtensionWriteTests
         var previousMap = engine.FHSMap;
         var previousLog = FileBoundary.Log;
         engine.FHSMap = map;
-        Game.AoWHSMap = map;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
         FileBoundary.Log = log.Add;
         try
         {
@@ -191,7 +193,7 @@ public sealed class OwnExtensionWriteTests
         {
             FileBoundary.Log = previousLog;
             engine.FHSMap = previousMap;
-            Game.AoWHSMap = null!;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
             foreach (var file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save"))) File.Delete(file);
         }
     }

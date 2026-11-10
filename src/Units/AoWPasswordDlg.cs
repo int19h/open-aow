@@ -1,15 +1,12 @@
 // Translated from AoWPasswordDlg.pas.
+using Aow.Game.Events;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWEdit;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
+// Translated from AoWPasswordDlg.pas.
+using Aow.Rtl.Localize;
 
-namespace Aow.Units.AoWPasswordDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TPasswordDlg : TDataModule
 {

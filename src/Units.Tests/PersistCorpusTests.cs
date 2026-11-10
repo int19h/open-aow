@@ -5,9 +5,11 @@ using Aow.Formats.Migrations;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
 using Xunit.Abstractions;
 
 namespace Aow.Units.Tests;

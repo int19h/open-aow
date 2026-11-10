@@ -1,8 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Spells;
 
 namespace Aow.Units.Tests;
 
@@ -10,13 +9,13 @@ internal static class SweepFailureFixture
 {
     internal static readonly string[] Names =
     [
-        "Aow.Units.City.TCity",
-        "Aow.Units.HolyG.THolyGroundSpell",
-        "Aow.Units.UnHolyG.TUnholyGroundSpell",
-        "Aow.Units.Mountain.TRaiseTerrain",
-        "Aow.Units.PoisonP.TPoisonPlantSpell",
-        "Aow.Units.AoWE.TAoWMapLevel",
-        "Aow.Units.AoWTC.TAoWCombatMapLevel",
+        "Aow.Game.World.Structures.TCity",
+        "Aow.Game.Magic.Spells.GlobalTarget.THolyGroundSpell",
+        "Aow.Game.Magic.Spells.GlobalTarget.TUnholyGroundSpell",
+        "Aow.Game.Magic.Spells.GlobalTarget.TRaiseTerrain",
+        "Aow.Game.Magic.Spells.GlobalTarget.TPoisonPlantSpell",
+        "Aow.Game.World.Map.TAoWMapLevel",
+        "Aow.Game.Combat.TAoWCombatMapLevel",
     ];
 
     private sealed class FailureOwner(bool reject) : EngineFixture.Owner

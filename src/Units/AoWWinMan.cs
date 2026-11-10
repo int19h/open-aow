@@ -1,36 +1,30 @@
 // Translated from AoWWinMan.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AoWE;
-using Aow.Units.AoWInfoWin;
-using Aow.Units.AoWListBox;
-using Aow.Units.AoWPInfoWin;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AoWTC;
-using Aow.Units.AoWTCUnit;
-using Aow.Units.AOWToolTip;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWWinControl;
-using Aow.Units.AoWWindow;
-using Aow.Units.AOWWinManager;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.City;
-using Aow.Units.E2GameFlow;
-using Aow.Units.PrdPlace;
-using Aow.Units.Sign;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E1GameFlowUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWRealmUnit;
+using static Aow.Game.Ui.Dialogs.E1ResourcesUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
-using static Aow.Units.AoWRealm.AoWRealmUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.E1Resources.E1ResourcesUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.AoWWinMan;
+namespace Aow.Game.Ui.Dialogs;
 
 // preview settings. abilities. active ability count. selected indices. unit list. selected
 // unit. combat sprite

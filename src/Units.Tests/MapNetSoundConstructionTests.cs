@@ -1,10 +1,14 @@
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.NetworkE;
-using Aow.Units.Sound;
-using EngineApi = Aow.Units.Engine.EngineUnit;
-using MovePath = Aow.Units.AoWE.TMovepath;
-using UnitSfxManager = Aow.Units.Sound.TSFXManager;
+using Aow.Game.Audio;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Net;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using EngineApi = Aow.Game.Engine.Nodes.EngineUnit;
+using MovePath = Aow.Game.World.Movement.TMovepath;
+using UnitSfxManager = Aow.Game.Audio.TSFXManager;
 
 namespace Aow.Units.Tests;
 

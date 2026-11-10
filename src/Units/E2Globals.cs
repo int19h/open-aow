@@ -1,19 +1,7 @@
 // Translated from E2Globals.pas.
-using Aow.Rtl;
-using Aow.Units.AoWCampaignJoin;
-using Aow.Units.AoWCampaignSettings;
-using Aow.Units.AoWCampaignTransferDlg;
-using Aow.Units.AOWDialogWin;
-using Aow.Units.AoWGamePlayDlg;
-using Aow.Units.AoWIntroScene;
-using Aow.Units.AoWPowerDlg;
-using Aow.Units.AoWProgressDialog;
-using Aow.Units.AoWSyncDlg;
-using Aow.Units.AoWTitleScene;
-using Aow.Units.AOWTitleWindow;
-using Aow.Units.AoWTutorialWin;
+using Aow.Game.Ui.Dialogs;
 
-namespace Aow.Units.E2Globals;
+namespace Aow.Game.Ui.Dialogs;
 
 public static partial class E2GlobalsUnit
 {

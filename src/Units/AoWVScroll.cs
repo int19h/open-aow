@@ -1,13 +1,12 @@
 // Translated from AoWVScroll.pas.
 using System.ComponentModel;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWVScroll;
+namespace Aow.Game.Ui.Controls;
 
 public enum TaowScrollType : byte
 {

@@ -1,8 +1,8 @@
 #nullable disable
+using Aow.Game.Draw;
 using Aow.Rtl;
-using Aow.Units.DisplayC;
 
-namespace Aow.Platform;
+namespace Aow.Game.Host;
 
 /// <summary>The screen callbacks implemented by the rewritten platform host.</summary>
 public interface IGameHost
@@ -10,7 +10,7 @@ public interface IGameHost
     TDisplay Display { get; }
     TSdlDC DXDC { get; }
     short FCursor { get; set; }
-    Units.ImageLib.TLibraryImage FCursorImage { get; set; }
+    Aow.Game.Draw.Images.TLibraryImage FCursorImage { get; set; }
     TRect FLastCursorRect { get; }
     bool FCursorChanged { get; }
 

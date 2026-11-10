@@ -1,13 +1,16 @@
 // Translated from Shipyard.pas.
+using Aow.Game.Ai;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.PrdPlace;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.Shipyard;
+namespace Aow.Game.World.Structures;
 
 public partial class TShipyard : TProductionPlace
 {

@@ -2,8 +2,10 @@
 using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Schema;
+using Aow.Game.Session;
+using Aow.Game.World.Structures;
 
-namespace Aow.Units;
+namespace Aow.Game.Saves;
 
 /// <summary>
 /// The unit side of the own formats (own-formats.md 2.7 and 3.1). A mapping names a persisted
@@ -67,7 +69,7 @@ public sealed class ProductionOrderCases : KindCases
 
     public override IReadOnlyDictionary<string, long> Written(long key, IReadOnlyDictionary<string, long> stored)
     {
-        var order = Aow.Units.AoWE.ProductionOrder.FromFields((int)key, (int)stored.GetValueOrDefault("Parameter"), (int)stored.GetValueOrDefault("GroupID"));
+        var order = Aow.Game.World.Structures.ProductionOrder.FromFields((int)key, (int)stored.GetValueOrDefault("Parameter"), (int)stored.GetValueOrDefault("GroupID"));
         var (id, parameter, groupId) = order.ToFields();
         return new Dictionary<string, long> { ["ProductionID"] = id, ["Parameter"] = parameter, ["GroupID"] = groupId };
     }
@@ -80,7 +82,7 @@ public sealed class DiplomaticProposalCases : KindCases
 
     public override IReadOnlyDictionary<string, long> Written(long key, IReadOnlyDictionary<string, long> stored)
     {
-        var proposal = Aow.Units.AoWE.DiplomaticProposal.FromFields((byte)key, (int)stored.GetValueOrDefault("Gold"), (int)stored.GetValueOrDefault("Mana"));
+        var proposal = Aow.Game.Session.DiplomaticProposal.FromFields((byte)key, (int)stored.GetValueOrDefault("Gold"), (int)stored.GetValueOrDefault("Mana"));
         var (kind, gold, mana) = proposal.ToFields();
         return new Dictionary<string, long> { ["ActionType"] = kind, ["Gold"] = gold, ["Mana"] = mana };
     }

@@ -1,10 +1,10 @@
 // Translated from Merchant.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Structures;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.Merchant;
+namespace Aow.Game.World.Structures;
 
 public partial class TMerchant : TStructure
 {

@@ -1,8 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Aow.Rtl;
 
-namespace Aow.Units.Engine;
+namespace Aow.Game.Engine.Collections;
 
 public partial class TBitList
 {

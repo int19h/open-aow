@@ -1,7 +1,13 @@
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.World;
+using Aow.Game.World.Structures;
 
 namespace Aow.Units.Tests;
 
@@ -101,7 +107,7 @@ public sealed class ClassRegistryTests
     public void RegisteredCreationReturnsTheExactType(Type type, Type? cleanupError)
     {
         // These two entries require a linked owner even though the descriptor accepts null.
-        if (type == typeof(Aow.Units.IsoHex.TDynamicIsometricHexagon) || type == typeof(TFlagControl))
+        if (type == typeof(Aow.Game.Draw.TDynamicIsometricHexagon) || type == typeof(TFlagControl))
         {
             Assert.Throws<NullReferenceException>(() => EClass.Of(type).Create(null!));
             return;
@@ -120,53 +126,53 @@ public sealed class ClassRegistryTests
 
     private static readonly Dictionary<Type, Type> IncompleteCleanup = new()
     {
-        [typeof(Aow.Units.AoWE.TAIGroupControl)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.TArmy)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.TArmyEventLog)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.TArmyHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.TArmyInfoEventLog)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.TArmyView)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.TCombatParty)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.TFastCombatParty)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.THuntAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWE.TWorldFXHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWTC.TCCorpseHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWTC.TCItemHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWTC.TTacticalCombatUnitHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.AoWTC.TfxHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.BehaviorAG.TAbstractBehaviorAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.BehaviorAG.TAggressorAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.BehaviorAG.TDefenderAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.BehaviorAG.TExpanderAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.BehaviorAG.TNormalAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.BehaviorAG.TScorcherAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.BehaviorAG.TSkirmishAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.Crypt.TCrypt)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.Dungeon.TDungeon)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.Dungeon.TPrisonersArmy)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.Engine.TECustomNode)] = typeof(EAbstractError),
-        [typeof(Aow.Units.ExploreS.TDefendersArmy)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.ExploreS.TExplorationSite)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.GlobalTargetSpells.TWatcherHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.HSEngine.TMapFieldTandO)] = typeof(EAbstractError),
-        [typeof(Aow.Units.HSLib.TLibraryHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.IndependentAG.TGuardAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.IndependentAG.TGuardAreaAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.IndependentAG.TPatrolAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.IndependentAG.TRaidAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.IndependentAG.TRefugeAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.IndependentAG.TScoutAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.ItemExpS.TItemExplorationSite)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.MagicSanctuary.TMagicSanctuary)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.MainAG.TFortifyAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.MainAG.TPassiveAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.MainAG.TSuicidalAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.MainAG.TTransportAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.MonsterL.TMonsterlair)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.NetworkE.TENodeView)] = typeof(EAbstractError),
-        [typeof(Aow.Units.Pyramid.TPyramid)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.Ruin.TRuin)] = typeof(NullReferenceException),
-        [typeof(Aow.Units.Sound.TENodeAccess)] = typeof(EAbstractError),
+        [typeof(Aow.Game.Ai.Groups.TAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Units.TArmy)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Events.TArmyEventLog)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.TArmyHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Events.TArmyInfoEventLog)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Units.TArmyView)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Combat.TCombatParty)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Combat.TFastCombatParty)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.THuntAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.TWorldFXHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.TCCorpseHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.TCItemHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.TTacticalCombatUnitHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.TfxHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TAbstractBehaviorAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TAggressorAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TDefenderAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TExpanderAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TNormalAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TScorcherAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TSkirmishAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.TCrypt)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.TDungeon)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Units.TPrisonersArmy)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Engine.Nodes.TECustomNode)] = typeof(EAbstractError),
+        [typeof(Aow.Game.World.Structures.TDefendersArmy)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.TExplorationSite)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.TWatcherHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Map.TMapFieldTandO)] = typeof(EAbstractError),
+        [typeof(Aow.Game.Draw.TLibraryHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TGuardAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TGuardAreaAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TPatrolAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TRaidAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TRefugeAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TScoutAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.TItemExplorationSite)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.TMagicSanctuary)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TFortifyAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TPassiveAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TSuicidalAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TTransportAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.TMonsterlair)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Net.TENodeView)] = typeof(EAbstractError),
+        [typeof(Aow.Game.World.Structures.TPyramid)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.TRuin)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Audio.TENodeAccess)] = typeof(EAbstractError),
     };
 
     private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered) =>

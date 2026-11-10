@@ -1,6 +1,6 @@
 using Aow.Rtl;
 
-namespace Aow.Units.AoWReg;
+namespace Aow.Game.Engine;
 
 public partial class TAoWRegistry
 {

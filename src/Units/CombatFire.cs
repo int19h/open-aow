@@ -1,20 +1,18 @@
 // Translated from CombatFire.pas.
-using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWTC;
-using Aow.Units.CityWall;
-using Aow.Units.CombatILTer;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ILTer;
-using Aow.Units.ImageLib;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Terrain;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.CombatFire;
+namespace Aow.Game.Draw;
 
 public partial class TCombatFire : TSingleHS
 {

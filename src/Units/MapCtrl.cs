@@ -1,14 +1,21 @@
 // Translated from MapCtrl.pas.
 using System.Runtime.InteropServices;
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.EventLog;
-using Aow.Units.HSEngine;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
 
-namespace Aow.Units.MapCtrl;
+namespace Aow.Game.Ui.Grids;
 
 public partial class TAoWMapControl : TComponent
 {

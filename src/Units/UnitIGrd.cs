@@ -1,10 +1,10 @@
 // Translated from UnitIGrd.pas.
+using Aow.Game.Draw.Images;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.UnitIGrd;
+namespace Aow.Game.Ui.Grids;
 
 // FUnitIndexList, FSelectionControl, FShowUnitLevel, FDoubleUnitsEnabled, FSorted
 public partial class TUnitIndexGrid : TCustomImageDrawGrid

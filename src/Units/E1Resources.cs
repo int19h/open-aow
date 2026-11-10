@@ -1,7 +1,5 @@
-// Translated from E1Resources.pas.
-using Aow.Rtl;
 
-namespace Aow.Units.E1Resources;
+namespace Aow.Game.Ui.Dialogs;
 
 public static partial class E1ResourcesUnit
 {

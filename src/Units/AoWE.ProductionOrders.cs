@@ -1,11 +1,14 @@
+using Aow.Game.Draw;
+using Aow.Game.Events;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Session;
+using Aow.Game.Units;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.City;
-using Aow.Units.EventLog;
-using Aow.Units.PrdPlace;
+using static Aow.Game.Events.EventLogUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.EventLog.EventLogUnit;
 
 // What a production item orders: produce a unit, research one, trade, or one of the city actions.
 // Each kind holds its own fields and does what the switches over the production id and its city
@@ -13,7 +16,7 @@ using static Aow.Units.EventLog.EventLogUnit;
 // format stores an order as three integers (TProductionItem properties 20 to 22), and ToFields and
 // FromFields convert between the two. A mod order registers an id of its own and overrides these.
 
-namespace Aow.Units.AoWE
+namespace Aow.Game.World.Structures
 {
     public abstract record ProductionOrder
     {
@@ -720,7 +723,7 @@ namespace Aow.Units.AoWE
     }
 }
 
-namespace Aow.Units.City
+namespace Aow.Game.World.Structures
 {
     public partial class TCityProductionControl
     {
@@ -728,7 +731,7 @@ namespace Aow.Units.City
     }
 }
 
-namespace Aow.Units.PrdPlace
+namespace Aow.Game.World.Structures
 {
     public partial class TProductionPlaceControl
     {

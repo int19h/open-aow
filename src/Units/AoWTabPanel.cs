@@ -1,14 +1,11 @@
 // Translated from AoWTabPanel.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AoWWinControl;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWTabPanel;
+namespace Aow.Game.Ui.Controls;
 
 // { The AoWTabPanel unit of aowInt.dpl: TAOWTabPanel, a row of tabs, one per item, in a window.
 //   Clicking a tab selects it; the panels (TAOWPanel) whose TabPanel is this control are shown when

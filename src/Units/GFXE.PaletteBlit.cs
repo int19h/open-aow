@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using Aow.Graphics;
 
-namespace Aow.Units.GFXE;
+namespace Aow.Game.Draw;
 
 public static partial class GFXEUnit
 {

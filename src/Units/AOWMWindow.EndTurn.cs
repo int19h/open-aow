@@ -1,10 +1,10 @@
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
 
-namespace Aow.Units.AOWMWindow;
+namespace Aow.Game.Ui.Dialogs;
 
 // Ctrl+E and Ctrl+Enter on the strategic map. AoWHSMap.PAS:1004 called
 // AoWHSMap.EndTurn from TAoWHSMapKeyboard.KeyDown. The port presses the

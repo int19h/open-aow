@@ -1,8 +1,9 @@
 // Translated from aowFX.pas.
+using Aow.Game.Engine.Buffers;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.aowFX;
+namespace Aow.Game.Draw;
 
 public enum TSwarmDirection : byte
 {

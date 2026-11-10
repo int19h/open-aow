@@ -1,13 +1,19 @@
 // Translated from Mine.pas.
 using System.Runtime.InteropServices;
+using Aow.Game.Ai;
+using Aow.Game.Combat;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
+using Aow.Game.Session;
+using Aow.Game.World;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
 
-namespace Aow.Units.Mine;
+namespace Aow.Game.World.Structures;
 
 // FState (bit 0 razed), FIncomeSource
 public partial class TMine : TPlayerStructure
@@ -141,7 +147,7 @@ public partial class TMine : TPlayerStructure
     {
         if (Player != FPlayer)
         {
-            if (FStatus.Contains(TMapObjectStatusElement.moActivated))
+            if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated))
             {
                 if (FPlayer != -1)
                 {

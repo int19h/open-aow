@@ -1,46 +1,29 @@
 // Translated from E2GameFlow.pas.
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Saves;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.AoWCampaignJoin;
-using Aow.Units.AoWComboBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AOWDialogWin;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFileDialog;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWInfoWin;
-using Aow.Units.AoWLabel;
-using Aow.Units.aowMapEvents;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWRealm;
-using Aow.Units.AoWScenSetup;
-using Aow.Units.AoWSetup;
-using Aow.Units.aowSetupEvents;
-using Aow.Units.AoWTCUnit;
-using Aow.Units.AoWTutorialWin;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.AoWWindow;
-using Aow.Units.AoWWinMan;
-using Aow.Units.AoWWorldMap;
-using Aow.Units.E2Globals;
-using Aow.Units.HSEngine;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Draw.Images.ImageLibUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Session.E2CampaignSupportUnit;
+using static Aow.Game.Ui.Controls.AoWWorldMapUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWPInfoWinUnit;
+using static Aow.Game.Ui.Dialogs.aowSetupEventsUnit;
+using static Aow.Game.Ui.Dialogs.AoWSWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
-using static Aow.Units.AoWPInfoWin.AoWPInfoWinUnit;
-using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
-using static Aow.Units.AoWSWindow.AoWSWindowUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWWorldMap.AoWWorldMapUnit;
-using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.ImageLib.ImageLibUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.E2GameFlow;
+namespace Aow.Game.Session;
 
 public static partial class E2GameFlowUnit
 {

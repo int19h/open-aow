@@ -1,5 +1,5 @@
-using Aow.Units.AoWE;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Units;
 
 namespace Aow.Units.Tests;
 
@@ -31,7 +31,7 @@ public sealed class UnitSelectorTests
     [Fact]
     public void HealingSetupAcceptsHeroesAndSelectsOnlyTheWounded()
     {
-        Game.AoWHSSet = null!;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = null!;
         var units = new TUnitUserList(null!);
         var selector = new THealingUnitSelector();
         try

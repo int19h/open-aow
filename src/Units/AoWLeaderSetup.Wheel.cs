@@ -1,4 +1,4 @@
-namespace Aow.Units.AoWLeaderSetup;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TLeaderSetupWin
 {

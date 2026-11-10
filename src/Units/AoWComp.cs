@@ -1,11 +1,11 @@
 // Translated from AoWComp.pas.
 using System.ComponentModel;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWComp;
+namespace Aow.Game.Ui.Controls;
 
 public enum TButtonType : byte
 {

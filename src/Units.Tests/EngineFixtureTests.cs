@@ -1,4 +1,3 @@
-using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -12,7 +11,7 @@ public sealed class EngineFixtureTests
         Assert.Equal(EngineFixture.Root, Runtime.Files.CurrentDirectory);
         Assert.Equal(Path.Combine(EngineFixture.Root, "AoW.exe"), Runtime.Application.ExeName);
         Assert.Equal(EngineFixture.Root, EngineFixture.Engine.StartupDirectory.TrimEnd('\\', '/'));
-        Assert.Same(EngineFixture.GameSet, Game.AoWHSSet);
+        Assert.Same(EngineFixture.GameSet, Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet);
         Assert.Throws<Xunit.Sdk.TrueException>(() => Runtime.Files.FileExists(Path.Combine(Path.GetTempPath(), "outside-fixture")));
     }
 }

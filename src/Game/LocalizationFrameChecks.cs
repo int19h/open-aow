@@ -1,15 +1,14 @@
 using System.Text.Json;
-using Aow.Layout;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Layout;
+using Aow.Game.Ui.Dialogs;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
-using Aow.Units.AoWFileDialog;
-using Aow.Units.AoWSWindow;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
 
-namespace Aow.Game;
+namespace Aow;
 
 internal static class LocalizationFrameChecks
 {
@@ -55,7 +54,7 @@ internal static class LocalizationFrameChecks
         foreach (var module in layouts.Modules.Values)
             for (int index = 0; index < module.ComponentCount; index++)
             {
-                if (module.Components[index] is not Aow.Units.AoWControl.TAOWControl control ||
+                if (module.Components[index] is not Aow.Game.Ui.Controls.TAOWControl control ||
                     !control.Visible || control.FAOWWindow is not { Visible: true } || control.FAOWFont is not { } font) continue;
                 var texts = new List<string> { control.FText };
                 if (control.GetType().GetProperty("Items")?.GetValue(control) is TStrings items)
@@ -107,7 +106,7 @@ internal static class LocalizationFrameChecks
             {
                 left.Cls(0);
                 right.Cls(0);
-                Aow.Units.GFXE.TSurfaceDesc l = default, r = default;
+                Aow.Game.Draw.TSurfaceDesc l = default, r = default;
                 left.Lock(ref l);
                 right.Lock(ref r);
                 try

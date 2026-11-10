@@ -1,11 +1,8 @@
-using Aow.Units.AoWE;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.CMapCtrl;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.HSLib;
-using Aow.Units.MapCtrl;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Ui.Grids;
+using Aow.Game.World.Map;
 
 namespace Aow.Units.Tests;
 
@@ -27,9 +24,9 @@ public sealed class UiConstructionFailureTests
         var previousClose = engine.FOnHSMCloseStore;
         engine.FOnHSMLoadedStore = new EventStore<THSMap>();
         engine.FOnHSMCloseStore = new EventStore<THSMap>();
-        Game.AoWEngine = engine;
-        Game.AoWHSMap = null!;
-        AoWTC.AoWTCUnit.AoWCombatMap = null!;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = engine;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
+        Aow.Game.Combat.AoWTCUnit.AoWCombatMap = null!;
         var owner = new TComponent(null!);
         try
         {

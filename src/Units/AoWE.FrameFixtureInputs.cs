@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using Aow.Rtl;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.Engine;
 
 /// <summary>
 /// Explicit capture inputs. Fixture and smoke processes pin construction order for the reads that follow the old counter.

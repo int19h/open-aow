@@ -1,12 +1,13 @@
 // Translated from CenterViewLoc.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 
-namespace Aow.Units.CenterViewLoc;
+namespace Aow.Game.World;
 
 public partial class TCenterViewLocation : TMapObject
 {

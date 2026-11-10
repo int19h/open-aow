@@ -1,10 +1,11 @@
+using Aow.Game.Draw;
+using Aow.Game.Host;
 using Aow.Platform;
 using Aow.Rtl;
-using Aow.Units.GFXE;
 using SDL;
 using static SDL.SDL3;
 
-namespace Aow.Game;
+namespace Aow;
 
 internal static unsafe class SdlVerification
 {

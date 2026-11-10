@@ -1,8 +1,8 @@
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
 
-namespace Aow.Units.Terrain;
+namespace Aow.Game.World.Hexes;
 
 public partial class TTerrainMO
 {

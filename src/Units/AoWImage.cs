@@ -1,10 +1,9 @@
 // Translated from AoWImage.pas.
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWControl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.AoWImage;
+namespace Aow.Game.Ui.Controls;
 
 // { The AoWImage unit of aowInt.dpl: TAOWImage, a control that shows one image of an image
 //   library as a texture filling its rectangle, or plays the images AnimStart..AnimEnd as an

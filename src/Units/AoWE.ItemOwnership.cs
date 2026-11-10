@@ -1,27 +1,36 @@
-using Aow.Units.Engine;
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Units;
 
-namespace Aow.Units.AoWE;
-
-public partial class TItemHS
+namespace Aow.Game.Draw
 {
-    public TItemHS(TECustomNode owner) : base(owner)
+
+    public partial class TItemHS
     {
-        FItems = new TItemHSList(null);
-        FItems.Sprite = this;
-        FItems.FOnChanged = ItemsChanged;
+        public TItemHS(TECustomNode owner) : base(owner)
+        {
+            FItems = new TItemHSList(null);
+            FItems.Sprite = this;
+            FItems.FOnChanged = ItemsChanged;
+        }
     }
 }
 
-public partial class TItemHSList
+namespace Aow.Game.Units
 {
-    internal TItemHS Sprite;
 
-    public override TEngine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
-
-    public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level)
+    public partial class TItemHSList
     {
-        x = Sprite.GetXhx();
-        y = Sprite.GetYhx();
-        level = Sprite.GetLhx();
+        internal TItemHS Sprite;
+
+        public override TEngine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
+
+        public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level)
+        {
+            x = Sprite.GetXhx();
+            y = Sprite.GetYhx();
+            level = Sprite.GetLhx();
+        }
     }
 }

@@ -1,22 +1,16 @@
 // Translated from AOWDialogWin.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.aowMapEvents;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWWindow;
-using Aow.Units.AoWWorldMap;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+// Translated from AOWDialogWin.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AOWDialogWin;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TDWin : TDataModule
 {

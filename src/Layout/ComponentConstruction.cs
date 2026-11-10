@@ -1,9 +1,10 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
-using Aow.Layout;
+using Aow.Game.Layout;
 using Aow.Rtl;
+using Aow.Rtl.Localize;
 
-namespace Aow.Units.AOWGauge
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAoWGauge
     {
@@ -17,7 +18,7 @@ namespace Aow.Units.AOWGauge
     }
 }
 
-namespace Aow.Units.AOWInterfaceImgLib
+namespace Aow.Game.Draw.Images
 {
     public partial class TInterfaceIL
     {
@@ -31,7 +32,7 @@ namespace Aow.Units.AOWInterfaceImgLib
     }
 }
 
-namespace Aow.Units.AOWMWindow
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TMWindow
     {
@@ -39,7 +40,7 @@ namespace Aow.Units.AOWMWindow
     }
 }
 
-namespace Aow.Units.AOWMenu
+namespace Aow.Game.Ui.Windows
 {
     public partial class TAOWMenu
     {
@@ -53,7 +54,7 @@ namespace Aow.Units.AOWMenu
     }
 }
 
-namespace Aow.Units.AOWMenuBar
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWMenuBar
     {
@@ -75,7 +76,7 @@ namespace Aow.Units.AOWMenuBar
     }
 }
 
-namespace Aow.Units.AoWArmyEventDlg
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TArmyEventDlg
     {
@@ -97,7 +98,7 @@ namespace Aow.Units.AoWArmyEventDlg
     }
 }
 
-namespace Aow.Units.AoWButton
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWButton
     {
@@ -111,7 +112,7 @@ namespace Aow.Units.AoWButton
     }
 }
 
-namespace Aow.Units.AoWCampaignJoin
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TCampaignJoinDlg
     {
@@ -133,7 +134,7 @@ namespace Aow.Units.AoWCampaignJoin
     }
 }
 
-namespace Aow.Units.AoWCheckBox
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWCheckBox
     {
@@ -147,7 +148,7 @@ namespace Aow.Units.AoWCheckBox
     }
 }
 
-namespace Aow.Units.AoWCityScreen
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TCityScreen
     {
@@ -169,7 +170,7 @@ namespace Aow.Units.AoWCityScreen
     }
 }
 
-namespace Aow.Units.AoWComboBox
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWComboBox
     {
@@ -183,7 +184,7 @@ namespace Aow.Units.AoWComboBox
     }
 }
 
-namespace Aow.Units.AoWEdit
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWEdit
     {
@@ -197,7 +198,7 @@ namespace Aow.Units.AoWEdit
     }
 }
 
-namespace Aow.Units.AoWEmailGameSettingsDlg
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TEmailGameSettingsDlg
     {
@@ -219,7 +220,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
     }
 }
 
-namespace Aow.Units.AoWFileDialog
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TFileDlgWindow
     {
@@ -241,7 +242,7 @@ namespace Aow.Units.AoWFileDialog
     }
 }
 
-namespace Aow.Units.AoWHScroll
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWHScrollBar
     {
@@ -255,7 +256,7 @@ namespace Aow.Units.AoWHScroll
     }
 }
 
-namespace Aow.Units.AoWHeroJoinDlg
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class THeroJoinDlg
     {
@@ -277,7 +278,7 @@ namespace Aow.Units.AoWHeroJoinDlg
     }
 }
 
-namespace Aow.Units.AoWImage
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWImage
     {
@@ -291,7 +292,7 @@ namespace Aow.Units.AoWImage
     }
 }
 
-namespace Aow.Units.AoWLabel
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWLabel
     {
@@ -305,7 +306,7 @@ namespace Aow.Units.AoWLabel
     }
 }
 
-namespace Aow.Units.AoWLeaderSetup
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TLeaderSetupWin
     {
@@ -327,7 +328,7 @@ namespace Aow.Units.AoWLeaderSetup
     }
 }
 
-namespace Aow.Units.AoWListBox
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWListBox
     {
@@ -349,7 +350,7 @@ namespace Aow.Units.AoWListBox
     }
 }
 
-namespace Aow.Units.AoWMemo
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWMemo
     {
@@ -371,7 +372,7 @@ namespace Aow.Units.AoWMemo
     }
 }
 
-namespace Aow.Units.AoWPartyJoin
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TPartyJoinDlg
     {
@@ -393,7 +394,7 @@ namespace Aow.Units.AoWPartyJoin
     }
 }
 
-namespace Aow.Units.AoWProdScreen
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TProductionScreen
     {
@@ -415,7 +416,7 @@ namespace Aow.Units.AoWProdScreen
     }
 }
 
-namespace Aow.Units.AoWRelations
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TRelWindow
     {
@@ -437,7 +438,7 @@ namespace Aow.Units.AoWRelations
     }
 }
 
-namespace Aow.Units.AoWResultsWin
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TResultsWin
     {
@@ -459,7 +460,7 @@ namespace Aow.Units.AoWResultsWin
     }
 }
 
-namespace Aow.Units.AoWSMTPDlg
+namespace Aow.Game.Net
 {
     public partial class TmsMessage
     {
@@ -468,7 +469,7 @@ namespace Aow.Units.AoWSMTPDlg
     }
 }
 
-namespace Aow.Units.AoWSMTPDlg
+namespace Aow.Game.Net
 {
     public partial class TmsSMTP
     {
@@ -478,7 +479,7 @@ namespace Aow.Units.AoWSMTPDlg
     }
 }
 
-namespace Aow.Units.AoWSoundDlg
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TSoundDlg
     {
@@ -500,7 +501,7 @@ namespace Aow.Units.AoWSoundDlg
     }
 }
 
-namespace Aow.Units.AoWSpellBook
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TSpellBook
     {
@@ -522,7 +523,7 @@ namespace Aow.Units.AoWSpellBook
     }
 }
 
-namespace Aow.Units.AoWTabPanel
+namespace Aow.Game.Ui.Controls
 {
     public partial class TAOWTabPanel
     {
@@ -544,7 +545,7 @@ namespace Aow.Units.AoWTabPanel
     }
 }
 
-namespace Aow.Units.AoWTitleScene
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TTitleScene
     {
@@ -566,7 +567,7 @@ namespace Aow.Units.AoWTitleScene
     }
 }
 
-namespace Aow.Units.AoWUnitWindow
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TUnitWindow
     {
@@ -574,7 +575,7 @@ namespace Aow.Units.AoWUnitWindow
     }
 }
 
-namespace Aow.Units.AoWVideoDlg
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TVideoDialog
     {
@@ -596,7 +597,7 @@ namespace Aow.Units.AoWVideoDlg
     }
 }
 
-namespace Aow.Units.AoWWinMan
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TGeneral
     {
@@ -618,7 +619,7 @@ namespace Aow.Units.AoWWinMan
     }
 }
 
-namespace Aow.Units.AoWWorldMap
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TWorldMap
     {
@@ -626,7 +627,7 @@ namespace Aow.Units.AoWWorldMap
     }
 }
 
-namespace Aow.Units.FastCombatWin
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TFastCombatWindow
     {
@@ -648,7 +649,7 @@ namespace Aow.Units.FastCombatWin
     }
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public class LayoutTIvTranslator : TIvTranslator
     {
@@ -658,7 +659,7 @@ namespace Aow.Layout
     }
 }
 
-namespace Aow.Units.TurnButton
+namespace Aow.Game.Ui.Grids
 {
     public partial class TAOWTurnButton
     {
@@ -672,7 +673,7 @@ namespace Aow.Units.TurnButton
     }
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public class LayoutTVideoPlayer : TVideoPlayer
     {
@@ -686,7 +687,7 @@ namespace Aow.Layout
     }
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public class LayoutTGDPlay : TGDPlay
     {
@@ -712,7 +713,7 @@ namespace Aow.Layout
     }
 }
 
-namespace Aow.Units.aowSetupEvents
+namespace Aow.Game.Ui.Dialogs
 {
     public partial class TSetupEvents
     {
@@ -720,7 +721,7 @@ namespace Aow.Units.aowSetupEvents
     }
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public enum TVideoPlayerLoopMode
     {
@@ -732,7 +733,7 @@ namespace Aow.Layout
     }
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public enum TVideoPlayerOptions_Element
     {
@@ -742,62 +743,62 @@ namespace Aow.Layout
     }
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void SmtpError<in TSender>(TSender sender, ref string error);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void SmtpProgress<in TSender>(TSender sender, int progress, int total);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDChatMessageEvent(ref string ChatMsg, ref int ToID, ref int FromID);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDDestroyPlayerEvent(int ID, int NumPlayers);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDFileDoneMessageEvent(int ID, TGDFile gdFile);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDFileProgressMessageEvent(int ID, int Position, int Size);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDFileStartMessageEvent(int ID, ref string Name, int Size, ref byte Response);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDMessageErrorEvent(int ID, int Result);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDMessageEvent(ref object Data, ref int Size, ref int ToID, ref int FromID);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDPingMessageEvent(int PingMS, int PingPlayer);
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TGDSessionLostEvent();
 }
 
-namespace Aow.Layout
+namespace Aow.Game.Layout
 {
     public delegate void TStreamSoundEvent(TStreamSoundMode Mode, object Data, int DataSize);
 }

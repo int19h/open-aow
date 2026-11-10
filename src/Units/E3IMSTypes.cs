@@ -1,7 +1,7 @@
 // Translated from E3IMSTypes.pas.
 using Aow.Rtl;
 
-namespace Aow.Units.E3IMSTypes;
+namespace Aow.Game.Net;
 
 [LegacyObject]
 // Imported IMS objects used by E3. List instances are opaque and their methods are imported

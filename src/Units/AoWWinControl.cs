@@ -1,12 +1,12 @@
 // Translated from AoWWinControl.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.GFXE;
+using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.GFXE.GFXEUnit;
 
-namespace Aow.Units.AoWWinControl;
+namespace Aow.Game.Ui.Controls;
 
 public enum TWindowType : byte
 {

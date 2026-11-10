@@ -1,16 +1,15 @@
 // Translated from AoWTCScanner.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AOWMWindow;
-using Aow.Units.AoWWindow;
-using Aow.Units.Scanner;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+// Translated from AoWTCScanner.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AoWTCScanner;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TTCScanner : TDataModule
 {

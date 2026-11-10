@@ -1,27 +1,20 @@
 // Translated from E3Globals.pas.
-using Aow.Platform;
-using Aow.Rtl;
-using Aow.Units.AoWArmyInfoDlg;
-using Aow.Units.AoWCastUnitSpellDlg;
-using Aow.Units.AoWDeformFaceDlg;
-using Aow.Units.AoWDisjunctionDlg;
-using Aow.Units.AoWE;
-using Aow.Units.AoWEmailGameSettingsDlg;
-using Aow.Units.AoWEmailSettingsDlg;
-using Aow.Units.AoWInfoWin;
-using Aow.Units.AoWMagic;
-using Aow.Units.AoWPOP3Dlg;
-using Aow.Units.AoWTitleScene;
-using Aow.Units.AoWUnitSelDlg;
-using Aow.Units.AoWVideoDlg;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Host;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.World.Structures;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.Sound.SoundUnit;
 
-namespace Aow.Units.E3Globals;
+namespace Aow.Game.Ui.Dialogs;
 
 public static partial class E3GlobalsUnit
 {

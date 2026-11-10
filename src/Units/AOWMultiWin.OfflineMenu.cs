@@ -1,11 +1,9 @@
 #nullable disable
+using Aow.Game.Audio;
+using Aow.Game.Ui.Dialogs;
 using Aow.Rtl;
-using Aow.Units.aowSetupEvents;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.E2Globals;
-using Aow.Units.Sound;
 
-namespace Aow.Units.AOWMultiWin;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TMultiWindow
 {

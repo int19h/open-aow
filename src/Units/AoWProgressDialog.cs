@@ -1,12 +1,11 @@
 // Translated from AoWProgressDialog.pas.
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWFrame;
-using Aow.Units.AOWGauge;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWWindow;
+// Translated from AoWProgressDialog.pas.
+using Aow.Rtl.Localize;
 
-namespace Aow.Units.AoWProgressDialog;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TProgressDialog : TDataModule
 {

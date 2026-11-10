@@ -1,8 +1,9 @@
 // Translated from HashTabU.pas.
+using Aow.Game.Engine.Buffers;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Units.HashTabU;
+namespace Aow.Game.Engine.Hash;
 
 // { The HashTabU unit of Ilpack.dpl: the hash list and hash table classes, an older copy of the
 //   ones the Engine unit includes from inc\HashTab.PAS (Enginep.dpl). This version has no Assert

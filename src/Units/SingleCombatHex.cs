@@ -1,13 +1,14 @@
 // Translated from SingleCombatHex.pas.
-using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.World.Map.HSEngineUnit;
 
-namespace Aow.Units.SingleCombatHex;
+namespace Aow.Game.World.Hexes;
 
 public partial class TSingleCombatHexagon : TAbstractHexagon
 {
@@ -31,7 +32,7 @@ public partial class TSingleCombatHexagon : TAbstractHexagon
     }
 
     // SingleCombatHex.pas:44
-    public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
 
 }
 

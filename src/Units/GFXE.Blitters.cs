@@ -1,6 +1,6 @@
 using Aow.Graphics;
 
-namespace Aow.Units.GFXE;
+namespace Aow.Game.Draw;
 
 // The assembler blitters of GFXE.pas (graphics.md 5.2). Each untyped pointer and pitch pair of
 // the original is a SurfaceView, the tables are byte spans.

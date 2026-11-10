@@ -1,103 +1,134 @@
+using Aow.Game.Events;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
-using Aow.Units.EventLog;
 
-namespace Aow.Units.AoWE;
-
-[LegacyObject]
-public sealed class AITargetQuery
+namespace Aow.Game.Ai
 {
-    public TAITargetInfo Info;
-    public TAITargetData Data;
 
-    public AITargetQuery()
+    [LegacyObject]
+    public sealed class AITargetQuery
     {
-        CaptureAddress.Assign(this);
+        public TAITargetInfo Info;
+        public TAITargetData Data;
+
+        public AITargetQuery()
+        {
+            CaptureAddress.Assign(this);
+        }
     }
 }
 
-[LegacyObject]
-public sealed class BattleFieldQuery
+namespace Aow.Game.Combat
 {
-    public TBattleFieldInfo Info;
 
-    public BattleFieldQuery()
+    [LegacyObject]
+    public sealed class BattleFieldQuery
     {
-        CaptureAddress.Assign(this);
+        public TBattleFieldInfo Info;
+
+        public BattleFieldQuery()
+        {
+            CaptureAddress.Assign(this);
+        }
     }
 }
 
-[LegacyObject]
-public sealed class DefenseRequirementsQuery
+namespace Aow.Game.Engine
 {
-    public TDefenseRequirements Requirements;
 
-    public DefenseRequirementsQuery()
+    [LegacyObject]
+    public sealed class DefenseRequirementsQuery
     {
-        CaptureAddress.Assign(this);
+        public TDefenseRequirements Requirements;
+
+        public DefenseRequirementsQuery()
+        {
+            CaptureAddress.Assign(this);
+        }
     }
 }
 
-[LegacyObject]
-public sealed class StormDamageQuery
+namespace Aow.Game.Combat
 {
-    public TStormDamageInfo Info;
 
-    public StormDamageQuery()
+    [LegacyObject]
+    public sealed class StormDamageQuery
     {
-        CaptureAddress.Assign(this);
+        public TStormDamageInfo Info;
+
+        public StormDamageQuery()
+        {
+            CaptureAddress.Assign(this);
+        }
+    }
+
+    [LegacyObject]
+    public sealed class CombatResultQuery
+    {
+        public string Text = "";
+
+        public CombatResultQuery()
+        {
+            CaptureAddress.Assign(this);
+        }
     }
 }
 
-[LegacyObject]
-public sealed class CombatResultQuery
+namespace Aow.Game.Engine
 {
-    public string Text = "";
 
-    public CombatResultQuery()
+    [LegacyObject]
+    public sealed class ShowMessageNotification
     {
-        CaptureAddress.Assign(this);
+        public TShowMessageInfo Info;
+
+        public ShowMessageNotification()
+        {
+            CaptureAddress.Assign(this);
+        }
     }
 }
 
-[LegacyObject]
-public sealed class ShowMessageNotification
+namespace Aow.Game.World.Map
 {
-    public TShowMessageInfo Info;
 
-    public ShowMessageNotification()
+    [LegacyObject]
+    public sealed class MapChangedNotification
     {
-        CaptureAddress.Assign(this);
+        public TMapChangedInfo Info;
+
+        public MapChangedNotification()
+        {
+            CaptureAddress.Assign(this);
+        }
     }
 }
 
-[LegacyObject]
-public sealed class MapChangedNotification
+namespace Aow.Game.Events
 {
-    public TMapChangedInfo Info;
 
-    public MapChangedNotification()
+    [LegacyObject]
+    public sealed class ExecuteEventLogNotification
     {
-        CaptureAddress.Assign(this);
+        public TExecuteEventLogInfo Info;
+
+        public ExecuteEventLogNotification()
+        {
+            CaptureAddress.Assign(this);
+        }
     }
 }
 
-[LegacyObject]
-public sealed class ExecuteEventLogNotification
+namespace Aow.Game.Ai.Groups
 {
-    public TExecuteEventLogInfo Info;
 
-    public ExecuteEventLogNotification()
+    public partial class TAIMoveExecuterControl
     {
-        CaptureAddress.Assign(this);
-    }
-}
-
-public partial class TAIMoveExecuterControl
-{
-    public TAIMoveExecuterMove CreateMove(TAIMoveExecuterArmy army, byte selection, sbyte x, sbyte y,
-        sbyte level, TSet<TCreateMoveModeElement> mode)
-    {
-        byte result = 0;
-        return CreateMove(army, selection, x, y, level, mode, ref result);
+        public TAIMoveExecuterMove CreateMove(TAIMoveExecuterArmy army, byte selection, sbyte x, sbyte y,
+            sbyte level, TSet<TCreateMoveModeElement> mode)
+        {
+            byte result = 0;
+            return CreateMove(army, selection, x, y, level, mode, ref result);
+        }
     }
 }

@@ -1,17 +1,16 @@
 // Translated from AoWSyncDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Session;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWSetup;
-using Aow.Units.AoWWindow;
-using Aow.Units.GFXE;
+// Translated from AoWSyncDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.aowSetupEventsUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
 
-namespace Aow.Units.AoWSyncDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TSynchronizeDlg : TDataModule
 {

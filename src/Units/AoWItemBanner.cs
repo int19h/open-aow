@@ -1,17 +1,13 @@
 // Translated from AoWItemBanner.pas.
+using Aow.Game.Draw;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using Aow.Units.AoWE;
-using Aow.Units.AoWImage;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWListBox;
-using Aow.Units.AOWMenu;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWVScroll;
-using Aow.Units.GFXE;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
 
-namespace Aow.Units.AoWItemBanner;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TItemBanner : TDataModule
 {

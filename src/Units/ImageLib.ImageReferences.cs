@@ -1,4 +1,4 @@
-namespace Aow.Units.ImageLib;
+namespace Aow.Game.Draw.Images;
 
 public partial class TCustomImageLibrary
 {

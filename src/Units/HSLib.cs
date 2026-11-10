@@ -1,13 +1,13 @@
 // Translated from HSLib.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
+using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 
-namespace Aow.Units.HSLib;
+namespace Aow.Game.Draw;
 
 // FList (the TLibraryHS it created), FHSEngine, FEngine
 public partial class THSLibrary : TImageLibrary
@@ -88,7 +88,7 @@ public partial class TLibraryHS : THPBasedHS
 
     internal TMapContainer FMapContainer;
     internal byte FLevel;
-    internal ImageLib.TLibraryImage FImage;
+    internal Aow.Game.Draw.Images.TLibraryImage FImage;
     internal bool FDestroyOnShow;
     internal THSLibrary FLibrary;
 
@@ -256,7 +256,7 @@ public partial class TLibraryHS : THPBasedHS
     }
 
     // HSLib.pas:186
-    public void SetImage(ImageLib.TLibraryImage Value)
+    public void SetImage(Aow.Game.Draw.Images.TLibraryImage Value)
     {
         int Xhp;
         if (FXhp != -2147483648)
@@ -415,7 +415,7 @@ public partial class TLibraryHS : THPBasedHS
 
     public TMapContainer MapContainer { get => FMapContainer; }
     public new byte Level { get => FLevel; set => FLevel = value; }
-    public ImageLib.TLibraryImage Image { get => FImage; set => SetImage(value); }
+    public Aow.Game.Draw.Images.TLibraryImage Image { get => FImage; set => SetImage(value); }
     public bool DestroyOnShow { get => FDestroyOnShow; set => FDestroyOnShow = value; }
 
     // HSLib.pas:28

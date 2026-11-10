@@ -1,7 +1,8 @@
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
 using Aow.Rtl;
-using Aow.Units.HSEngine;
 
-namespace Aow.Units.AoWE;
+namespace Aow.Game.World.Map;
 
 public partial class TAoWMapLevel
 {

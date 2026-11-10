@@ -1,16 +1,15 @@
 #nullable disable
-using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWTC;
+using Aow.Game.Combat;
+using Aow.Game.Ui.Controls;
+using static Aow.Game.Audio.SoundUnit;
+using static Aow.Game.Combat.AoWTCUnit;
+using static Aow.Game.Magic.Abilities.AoWEUnit;
+using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
+using static Aow.Game.Ui.Dialogs.AoWTCUnitUnit;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AOWMWindow.AOWMWindowUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.Sound.SoundUnit;
-namespace Aow.Units.aowTCMapEvents;
+namespace Aow.Game.Ui.Dialogs;
 
 public partial class TTCMapEvents
 {

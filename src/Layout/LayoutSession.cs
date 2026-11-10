@@ -1,10 +1,11 @@
 #nullable enable
 using System.Collections;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 using Aow.Rtl;
-using Aow.Units;
-using Aow.Units.ImageLib;
+using Aow.Rtl.Localize;
 
-namespace Aow.Layout;
+namespace Aow.Game.Layout;
 
 // A data module whose layout is generated. GameLayouts loads each root through the session.
 public interface ILayoutModule

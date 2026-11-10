@@ -7,7 +7,7 @@ using Aow.Formats;
 using Aow.Rtl;
 using Aow.Rtl.Host;
 
-namespace Aow.Units;
+namespace Aow.Game.Saves;
 
 /// <summary>
 /// The game's file boundary for the in-scope profiles (own-formats.md 4.1 and 4.2). Every
@@ -139,7 +139,7 @@ public static class FileBoundary
     /// no stored CRC, and is logged.
     /// </summary>
     public static int ImageCrc32(string fileName, GameProfile profile) =>
-        Load(fileName, profile, "crc") is { } image ? Engine.EngineUnit.GetCRC32(image, image.Length) : 0;
+        Load(fileName, profile, "crc") is { } image ? Aow.Game.Engine.Nodes.EngineUnit.GetCRC32(image, image.Length) : 0;
 
     /// <summary>
     /// The four bytes at the end of the engine image, the stored CRC of a scenario set that

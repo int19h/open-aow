@@ -1,8 +1,7 @@
+using Aow.Game.Ui.Controls;
 using Aow.Rtl;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWVScroll;
 
-namespace Aow.Units.AoWHTMLMemo;
+namespace Aow.Game.Ui.Windows;
 
 public partial class TaowHTMLMemo
 {

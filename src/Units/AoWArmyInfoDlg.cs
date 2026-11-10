@@ -1,22 +1,18 @@
 // Translated from AoWArmyInfoDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Engine;
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
 using Aow.Rtl;
-using Aow.Units.AoWButton;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWControlWin;
-using Aow.Units.AoWE;
-using Aow.Units.AoWFrame;
-using Aow.Units.AoWImage;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWLabel;
-using Aow.Units.AoWMemo;
-using Aow.Units.AoWPanel;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.AoWWindow;
-using Aow.Units.EventLog;
-using Aow.Units.GFXE;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+// Translated from AoWArmyInfoDlg.pas.
+using Aow.Rtl.Localize;
+using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
-namespace Aow.Units.AoWArmyInfoDlg;
+namespace Aow.Game.Ui.Dialogs;
 
 // unit-info window open. completion callback. army-info event
 public partial class TArmyInfoDlg : TDataModule
@@ -55,7 +51,7 @@ public partial class TArmyInfoDlg : TDataModule
     {
         TRect SaveRect;
         TP2UnitShowInfo Info;
-        ImageLib.TLibraryImage Img;
+        Aow.Game.Draw.Images.TLibraryImage Img;
         TAlignment Alignment;
         int X;
         int Y;

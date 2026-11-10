@@ -1,27 +1,19 @@
 using System.Reflection;
-using Aow.Units.Animation;
-using Aow.Units.AoWE;
-using Aow.Units.aowHelpWin;
-using Aow.Units.AoWLeaderSetup;
-using Aow.Units.AOWMenu;
-using Aow.Units.AOWMultiWin;
-using Aow.Units.AoWPWindows;
-using Aow.Units.AoWScenSetup;
-using Aow.Units.AoWSetup;
-using Aow.Units.aowSetupEvents;
-using Aow.Units.AoWTitleScene;
-using Aow.Units.AOWTitleWindow;
-using Aow.Units.AoWVideoDlg;
-using Aow.Units.AoWWinMan;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.GlobalEnchantmentSpells;
-using Aow.Units.HSEngine;
-using Aow.Units.ImageLib;
-using Aow.Units.Sound;
-using E2 = Aow.Units.E2Globals.E2GlobalsUnit;
-using Exe = Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Aow.Game.Audio;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells.GlobalEnchantment;
+using Aow.Game.Session;
+using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using E2 = Aow.Game.Ui.Dialogs.E2GlobalsUnit;
+using Exe = Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
 
 namespace Aow.Units.Tests;
 
@@ -50,16 +42,16 @@ public sealed class OfflineStubTests
     private sealed class SavedGlobals : IDisposable
     {
         private readonly object?[] values = Globals.Select(field => field.GetValue(null)).ToArray();
-        private readonly TAoWHSMap map = Game.AoWHSMap;
-        private readonly TTextControl text = Game.AoWHSSet.FTextControl;
-        private readonly THeroResourceList heroes = Game.AoWHSSet.FHeroResources;
+        private readonly TAoWHSMap map = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        private readonly TTextControl text = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FTextControl;
+        private readonly THeroResourceList heroes = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FHeroResources;
 
         public void Dispose()
         {
             for (int i = 0; i < Globals.Length; i++) Globals[i].SetValue(null, values[i]);
-            Game.AoWHSMap = map;
-            Game.AoWHSSet.FTextControl = text;
-            Game.AoWHSSet.FHeroResources = heroes;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FTextControl = text;
+            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FHeroResources = heroes;
         }
     }
 
@@ -125,7 +117,7 @@ public sealed class OfflineStubTests
         var events = OfflineSetupEvents();
         var heroes = new THeroResourceList(null!);
         new THeroResource(heroes);
-        Game.AoWHSSet.FHeroResources = heroes;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FHeroResources = heroes;
         var window = Populate(new TLeaderSetupWin(null!));
         var control = new TLeaderSetupControl(null!) { FOriginalLeader = new TLeader(null!) };
         bool done = false;
@@ -256,7 +248,7 @@ public sealed class OfflineStubTests
             item.FID = id;
             item.FText.Text = header + "\r\nBody " + id;
         }
-        Game.AoWHSSet.FTextControl = text;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FTextControl = text;
         var help = Populate(new THelpWindow(null!));
         aowHelpWinUnit.HelpWindow = help;
         var popups = new TPopupWindows(null!);
@@ -307,7 +299,7 @@ public sealed class OfflineStubTests
         SetField(map, "FMapContainer", container);
         SetField(map, "FViewWidthHX", 2);
         SetField(map, "FViewHeightHX", 3);
-        Game.AoWHSMap = map;
+        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
         var sequence = new TImageSequence(null!);
         SetField(sequence, "FImageLibrary", library);
         sequence.SequenceMode = TSequenceMode.smUp;
@@ -338,7 +330,7 @@ public sealed class OfflineStubTests
         throw new MissingFieldException(name);
     }
 
-    private sealed class RecordingImage() : Aow.Units.ImageLib.TLibraryImage(null!)
+    private sealed class RecordingImage() : Aow.Game.Draw.Images.TLibraryImage(null!)
     {
         public readonly List<(int, int)> Calls = [];
 
