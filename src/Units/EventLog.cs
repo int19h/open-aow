@@ -446,7 +446,6 @@ public partial class HelpMessageEventLog : EventLog
 
 }
 
-[LegacyObject]
 // list of -byte callback records
 public partial class ExecuteEventLogCallBackList : IDisposable
 {
@@ -461,7 +460,6 @@ public partial class ExecuteEventLogCallBackList : IDisposable
     // EventLog.pas:277
     public ExecuteEventLogCallBackList()
     {
-        CaptureAddress.Assign(this);
         FList = new List<ExecuteEventLogInfo>();
     }
 

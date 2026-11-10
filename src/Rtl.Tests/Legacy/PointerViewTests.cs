@@ -105,7 +105,6 @@ public sealed class PointerViewTests
         Assert.NotNull(state);
         foreach (var field in state.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
-            if (field.Name == "captureOrdinal") continue;
             object? value = field.GetValue(state);
             Assert.False(value is Delegate or IPointerBox, field.Name);
         }

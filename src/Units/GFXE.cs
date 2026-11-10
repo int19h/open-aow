@@ -23,7 +23,6 @@ public enum DDSCreationFlagsElement : byte
     SystemMemory = 1
 }
 
-[LegacyObject]
 public partial class GFXEPalette
 {
     public int PixelFormatID;
@@ -192,11 +191,6 @@ public partial class GFXEPalette
         return Result;
     }
 
-    public GFXEPalette()
-    {
-        CaptureAddress.Assign(this);
-    }
-
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct PaletteEntry
     {
@@ -215,7 +209,6 @@ public partial class GFXEPalette
     }
 }
 
-[LegacyObject]
 // the abstract surface. GetWidth and GetHeight are abstract
 public partial class Surface : IDisposable
 {
@@ -731,11 +724,6 @@ public partial class Surface : IDisposable
     {
     }
 
-    public Surface()
-    {
-        CaptureAddress.Assign(this);
-    }
-
     private const int GFXE_CANNOTLOCK = -2147483643;
 }
 
@@ -1108,7 +1096,6 @@ public partial class DDrawSurface : Surface
     public const DDrawSurfaceStatusElement ssSystemMemory = DDrawSurfaceStatusElement.Created;
 }
 
-[LegacyObject]
 // Rect
 public partial class Rectangle
 {
@@ -1117,7 +1104,6 @@ public partial class Rectangle
     // GFXE.pas:2432
     public Rectangle(int ALeft, int ATop, int ARight, int ABottom)
     {
-        CaptureAddress.Assign(this);
         Rect.Left = ALeft;
         Rect.Top = ATop;
         Rect.Right = ARight;
@@ -1127,7 +1113,6 @@ public partial class Rectangle
     // GFXE.pas:2440
     public Rectangle(in Rect R)
     {
-        CaptureAddress.Assign(this);
         Rect = R;
     }
 }
@@ -1193,7 +1178,6 @@ public partial class DrawPanel : CustomPanel
     public delegate void OnDrawRectEvent(object Sender, in Rect R);
 }
 
-[LegacyObject]
 // an image file format, all class functions
 public partial class ImageFile : IImageFileClass
 {
@@ -1224,11 +1208,6 @@ public partial class ImageFile : IImageFileClass
         throw AbstractErrorException.Create("Abstract Error");
     }
 
-    public ImageFile()
-    {
-        CaptureAddress.Assign(this);
-    }
-
 }
 
 // a TOpenDialog whose filter lists the registered image file classes
@@ -1250,21 +1229,14 @@ public partial class OpenImageFileDialog : OpenDialog
     }
 }
 
-[LegacyObject]
 // PixelFormatID, Width, Height
 public partial class DisplayModeItem
 {
     public int PixelFormatID;
     public int Width;
     public int Height;
-
-    public DisplayModeItem()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 // FList
 public partial class DisplayModeList : IDisposable
 {
@@ -1279,7 +1251,6 @@ public partial class DisplayModeList : IDisposable
     // GFXE.pas:12611
     public DisplayModeList()
     {
-        CaptureAddress.Assign(this);
         FList = new DelphiList();
     }
 
@@ -1326,7 +1297,6 @@ public partial class DisplayModeList : IDisposable
 
 }
 
-[LegacyObject]
 // FBits, FTable (the bytes of the table, which the original addresses with a pointer into the
 // derived class's own field)
 public partial class BlendTable
@@ -1355,11 +1325,6 @@ public partial class BlendTable
 
     public int Bits { get => FBits; }
     public byte[] Table { get => FTable; }
-
-    public BlendTable()
-    {
-        CaptureAddress.Assign(this);
-    }
 
     internal static void GenerateAlphaBlendTable(BlendTable Table, float Alpha)
     {
@@ -1524,7 +1489,6 @@ public partial class BlendTable5Bit : BlendTable
 
 }
 
-[LegacyObject]
 // FList
 public partial class BlendTableList : IDisposable
 {
@@ -1539,7 +1503,6 @@ public partial class BlendTableList : IDisposable
     // GFXE.pas:9629
     public BlendTableList()
     {
-        CaptureAddress.Assign(this);
         FList = new DelphiList();
     }
 
@@ -1582,7 +1545,6 @@ public partial class BlendTableList : IDisposable
 
 }
 
-[LegacyObject]
 // FTables, Lookup (101 tables, indexed by percentage)
 public partial class LookupBlendTableCollection100 : IDisposable
 {
@@ -1596,7 +1558,6 @@ public partial class LookupBlendTableCollection100 : IDisposable
     // GFXE.pas:9674
     public LookupBlendTableCollection100()
     {
-        CaptureAddress.Assign(this);
         FTables = new BlendTableList();
     }
 

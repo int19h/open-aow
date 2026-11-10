@@ -93,7 +93,6 @@ namespace Aow.Game.Net
 namespace Aow.Game.Ui.Dialogs
 {
 
-    [LegacyObject]
     public partial class IMSSendThread
     {
         public bool FSuccess;
@@ -115,7 +114,6 @@ namespace Aow.Game.Ui.Dialogs
         // Classes.pas:771
         public IMSSendThread(bool CreateSuspended) : base()
         {
-            CaptureAddress.Assign(this);
         }
     }
 

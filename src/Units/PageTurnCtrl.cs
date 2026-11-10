@@ -7,7 +7,6 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Grids;
 
-[LegacyObject]
 public partial class PageTurnControl
 {
     public float FScale;
@@ -31,7 +30,6 @@ public partial class PageTurnControl
     // PageTurnCtrl.pas:51
     public PageTurnControl()
     {
-        CaptureAddress.Assign(this);
         FScale = (float)0.5;
         FSpeed = 2;
         FShade = (float)2;

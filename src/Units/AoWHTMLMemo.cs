@@ -1116,7 +1116,6 @@ namespace Aow.Game.Ui.Windows
             set => EventSlot.Set(this, ref FOnShow, value);
         }
 
-        [LegacyObject]
         // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for
         // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
         public partial class ChangeInfo
@@ -1128,11 +1127,6 @@ namespace Aow.Game.Ui.Windows
             public int FPos;
             public int FLine;
             public int FSpacing;
-
-            public ChangeInfo()
-            {
-                CaptureAddress.Assign(this);
-            }
         }
     }
 }

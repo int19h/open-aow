@@ -4207,7 +4207,6 @@ namespace Aow.Game.Events
 namespace Aow.Game.World.Structures
 {
 
-    [LegacyObject]
     public partial class CityRegistrator
     {
         // City.pas:3306
@@ -4217,11 +4216,6 @@ namespace Aow.Game.World.Structures
             {
                 AoWHSMap.Current.FAIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<CityAIPA>()]);
             }
-        }
-
-        public CityRegistrator()
-        {
-            CaptureAddress.Assign(this);
         }
 
         internal static void SubscribeMapLoaded()

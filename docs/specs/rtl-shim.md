@@ -88,8 +88,7 @@ public static class TObjectExtensions
 }
 ```
 
-`InstanceId` starts at 1 and increments per construction on one thread. It replaces object
-addresses where the original used them as values (`transpiler.md` rule N7). A `Meta` exists only
+The product has no construction counter. Where the original read an object address, the product reads `IdentityHash.Of`, the identity hash masked to a non-negative int (`transpiler.md` rule N7). A `Meta` exists only
 for the classes in the metaclass closure of `transpiler.md` 4.4, registered by the generated
 `MetaRegistry.cs`. `ClassType` on a class outside the closure throws, and the transpiler never emits
 it there. `Component` (Delphi `TComponent`) (section 4.4 of this document) carries the one VCL virtual constructor the
@@ -189,8 +188,7 @@ use `RtlUnit.ReallocArray`, `MoveElements` and `ClearElements` (section 2.4).
 
 `struct IntOrRef { int Value; object Ref; }` (`src/Rtl/Legacy/IntOrRef.cs`) with implicit conversions from `int`,
 from `TObject` (a `PtrBox<T>` among them) and from `string`, and `T As<T>()`, which reads `""` for
-a string slot that holds no string. `Value` of a reference is its `InstanceId`, or for a string an
-id from the same counter. `Ref` of an integer is `null`. The first stage used it wherever the
+a string slot that holds no string. `Value` of an object is `IdentityHash.Of`, the identity hash masked to a non-negative int. `Value` of a string is the unmasked identity hash of that string. `Value` of null is 0. `Ref` of an integer is `null`. The first stage used it wherever the
 source overlays a reference and an integer (`transpiler.md` 4.3). Since milestone 9.6 it remains
 only in `HashItem.Key` (Delphi `THashItem`) (`Engine.cs` and `HashTabU.cs`), where `HashList` (Delphi `THashList`) keeps an integer key
 and `StringHashItem` (Delphi `TStringHashItem`) a string in the same slot, until the collections pass gives each hash list
@@ -209,7 +207,7 @@ struct` implementing `IUnion`, with two cases:
 A nil reference is the union's null, not an object case holding null, since the original slot
 holds 0 for it, and `default(MsgArg)` is the same empty slot. `Int` reads the integer, 0 for the
 empty slot, and throws `EInvalidCast` on a reference: a reference has no integer view, where
-`IntOrRef` offered its `InstanceId`. `As<T>()` reads the reference as `T`, and `null` for an
+`IntOrRef` offered its identity hash. `As<T>()` reads the reference as `T`, and `null` for an
 integer, the empty slot or another type. `Value` boxes and serves reflection only, patterns read
 the cases through `TryGetValue`. Equality (`==`, `Equals`) is the equality of the original word:
 an integer equals the same integer, a reference the same object, the empty slot, the nil

@@ -126,7 +126,7 @@ protocol layouts, not content counts. `EMsg.Payload` and `MapFieldMsg.Result` ar
 the `Engine`, `Obj` and `Value` accessors are gone. A nil reference is the union's null, as the
 original slot holds 0 for it.
 
-What changes against `IntOrRef`: a reference no longer offers its `InstanceId` as an integer, and
+What changes against `IntOrRef`: a reference no longer offers its identity hash as an integer, and
 `Int` on a reference throws. A compile-time scan of all 511 slot uses found no reference read as an
 integer. The census's three mixed reads, `Value` of a reference in `MapFieldMsg.Result`, were the
 answered test of `MapField.SendMapFieldMsg` (Delphi `TMapField`), which compares the result before and after each
@@ -388,7 +388,7 @@ for the converter boundary.
 | save and map bytes of production items and diplomatic actions | `persistence` (7,200 byte fixtures), `oracle` (177 saves, byte and model), `scenarios` (92 states, the shipped maps), per-kind byte tests against bytes recorded on main |
 | network packet layout | token events serialize through the same `ReadWrite` behind a stand-in transport: the per-kind tests on `ProductionTE` and `DiplomaticActionTE` |
 | class ids, sizes, parents | the 9.4 `EClass` baseline test, unchanged |
-| instance id sequence | `MsgArg` allocates no id and `HashItem.Key` keeps `IntOrRef`. `oracle`, and `frames` through the animation phase that reads `InstanceId` |
+| address reads | `MsgArg` allocates no id and `HashItem.Key` keeps `IntOrRef`. `oracle`, and `frames` through `address_animation_phase` and `water_variant_phase` |
 | which dialog, panel or action a kind gets | tests that the view virtuals return, for every concrete kind and every state the cascades test, the view of a table reviewed against today's cascades, and that `CombatMapName` equals the old switch, copied into the test, for every structure class in the `EClass` table |
 | message delivery, `Format` argument order | code paths unchanged. `oracle`, `scenarios`, probes `format` and `strings` |
 | frame pixels | `frames` 100 of 100, `language-frames` 7 of 7, `scenarios` 92 frames |

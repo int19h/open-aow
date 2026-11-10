@@ -59,7 +59,6 @@ public sealed class OfflineStubTests
     {
         foreach (var field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
         {
-            if (field.Name == "captureOrdinal") continue;
             if (field.FieldType.IsSubclassOf(typeof(Component)) && field.FieldType.GetConstructor([typeof(Component)]) is { } constructor)
                 field.SetValue(module, constructor.Invoke([module]));
         }

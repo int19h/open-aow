@@ -4,7 +4,6 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Engine.Collections;
 
-[LegacyObject]
 // no fields. TObjectList.LoadFromStream constructs items with their ordinary constructor. The
 // stream methods are empty here and overridden by the items
 public partial class ListObject : IDisposable
@@ -21,11 +20,6 @@ public partial class ListObject : IDisposable
 
     public virtual void Dispose()
     {
-    }
-
-    public ListObject()
-    {
-        CaptureAddress.Assign(this);
     }
 
 }
