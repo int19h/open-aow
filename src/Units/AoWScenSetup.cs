@@ -42,207 +42,207 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // map-validation delay. setup control. ping delay. chat scroll pending
-public partial class TScenSetup : TDataModule
+public partial class ScenSetup : DataModule
 {
-    public TScenSetup(TComponent owner) : base(owner)
+    public ScenSetup(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWMemo ChatMemo;
-    public TAOWPanel ChatPnl;
-    public TAOWVScrollBar ChatSB;
-    public TAOWEdit ChatEdit;
-    public TAOWPanel SidesPnl;
-    public TAOWPanel SettingsPnl;
-    public TAOWListBox PlayerList;
-    public TAOWPanel R1Pnl;
-    public TAOWPanel R5Pnl;
-    public TAOWPanel R9Pnl;
-    public TAOWPanel R2Pnl;
-    public TAOWPanel R6Pnl;
-    public TAOWPanel R10Pnl;
-    public TAOWPanel R3Pnl;
-    public TAOWPanel R7Pnl;
-    public TAOWPanel R11Pnl;
-    public TAOWPanel R4Pnl;
-    public TAOWPanel R8Pnl;
-    public TAOWPanel R12Pnl;
-    public TAOWButton ExitGame;
-    public TAOWButton PickScenarioBtn;
-    public TAOWButton StartBtn;
-    public TAOWLabel MiscLbl;
-    public TAOWPanel ScenSetupPnl;
-    public TAOWImage R1PlayerIcon;
-    public TAOWLabel R1Lbl;
-    public TAOWComboBox R1PlayerCB;
-    public TAOWPanel R1CenterPnl;
-    public TAOWLabel TurnLbl;
-    public TAOWLabel DurationLbl;
-    public TAOWLabel TurnsLbl;
-    public TAOWLabel TurnTimeLbl;
-    public TAOWHScrollBar TurnTimeSl;
-    public TAOWLabel TurnTimeVal;
-    public TAoWFrame DurFr;
-    public TAOWHScrollBar TurnsSl;
-    public TAOWLabel TurnsVal;
-    public TAOWComboBox PlayModeCB;
-    public TAOWVScrollBar TurnVSB;
-    public TAOWLabel R1InfoLbl;
-    public TAOWComboBox R1BehaviorCB;
-    public TAOWVScrollBar R1BehaviorSB;
-    public TAOWVScrollBar R1PlayerSB;
-    public TAOWPanel R3CenterPnl;
-    public TAOWLabel R3Lbl;
-    public TAOWComboBox R3BehaviorCB;
-    public TAOWVScrollBar R3BehaviorSB;
-    public TAOWImage R3PlayerIcon;
-    public TAOWLabel R3PlayerLbl;
-    public TAOWComboBox R3PlayerCB;
-    public TAOWVScrollBar R3PlayerSB;
-    public TAOWLabel R3InfoLbl;
-    public TAOWPanel R2CenterPnl;
-    public TAOWLabel R2Lbl;
-    public TAOWComboBox R2BehaviorCB;
-    public TAOWVScrollBar R2BehaviorSB;
-    public TAOWImage R2PlayerIcon;
-    public TAOWLabel R2InfoLbl;
-    public TAOWComboBox R2PlayerCB;
-    public TAOWVScrollBar R2PlayerSB;
-    public TAOWLabel R2PlayerLbl;
-    public TAOWLabel R4InfoLbl;
-    public TAOWLabel R4PlayerLbl;
-    public TAOWPanel R4CenterPnl;
-    public TAOWLabel R4Lbl;
-    public TAOWVScrollBar R4BehaviorSB;
-    public TAOWComboBox R4PlayerCB;
-    public TAOWVScrollBar R4PlayerSB;
-    public TAOWImage R4PlayerIcon;
-    public TAOWImage R5PlayerIcon;
-    public TAOWLabel R5Lbl;
-    public TAOWComboBox R5PlayerCB;
-    public TAOWPanel R5CenterPnl;
-    public TAOWComboBox R5BehaviorCB;
-    public TAOWVScrollBar R5BehaviorSB;
-    public TAOWVScrollBar R5PlayerSB;
-    public TAOWLabel R5InfoLbl;
-    public TAOWLabel R5PlayerLbl;
-    public TAOWPanel R6CenterPnl;
-    public TAOWLabel R6Lbl;
-    public TAOWComboBox R6BehaviorCB;
-    public TAOWVScrollBar R6BehaviorSB;
-    public TAOWImage R6PlayerIcon;
-    public TAOWLabel R6PlayerLbl;
-    public TAOWComboBox R6PlayerCB;
-    public TAOWVScrollBar R6PlayerSB;
-    public TAOWLabel R6InfoLbl;
-    public TAOWPanel R7CenterPnl;
-    public TAOWLabel R7Lbl;
-    public TAOWComboBox R7BehaviorCB;
-    public TAOWVScrollBar R7BehaviorSB;
-    public TAOWImage R7PlayerIcon;
-    public TAOWLabel R7PlayerLbl;
-    public TAOWComboBox R7PlayerCB;
-    public TAOWVScrollBar R7PlayerSB;
-    public TAOWLabel R7InfoLbl;
-    public TAOWLabel R8InfoLbl;
-    public TAOWLabel R8PlayerLbl;
-    public TAOWPanel R8CenterPnl;
-    public TAOWLabel R8Lbl;
-    public TAOWComboBox R8BehaviorCB;
-    public TAOWVScrollBar R8BehaviorSB;
-    public TAOWComboBox R8PlayerCB;
-    public TAOWVScrollBar R8PlayerSB;
-    public TAOWImage R8PlayerIcon;
-    public TAOWImage R9PlayerIcon;
-    public TAOWLabel R9Lbl;
-    public TAOWComboBox R9PlayerCB;
-    public TAOWPanel R9CenterPnl;
-    public TAOWComboBox R9BehaviorCB;
-    public TAOWVScrollBar R9BehaviorSB;
-    public TAOWVScrollBar R9PlayerSB;
-    public TAOWLabel R9InfoLbl;
-    public TAOWLabel R9PlayerLbl;
-    public TAOWPanel R10CenterPnl;
-    public TAOWLabel R10Lbl;
-    public TAOWComboBox R10BehaviorCB;
-    public TAOWVScrollBar R10BehaviorSB;
-    public TAOWImage R10PlayerIcon;
-    public TAOWLabel R10PlayerLbl;
-    public TAOWComboBox R10PlayerCB;
-    public TAOWVScrollBar s10sb2;
-    public TAOWLabel R10InfoLbl;
-    public TAOWPanel R11CenterPnl;
-    public TAOWLabel R11Lbl;
-    public TAOWComboBox R11BehaviorCB;
-    public TAOWVScrollBar R11BehaviorSB;
-    public TAOWImage R11PlayerIcon;
-    public TAOWLabel R11PlayerLbl;
-    public TAOWComboBox R11PlayerCB;
-    public TAOWVScrollBar R11PlayerSB;
-    public TAOWLabel R11InfoLbl;
-    public TAOWLabel R12InfoLbl;
-    public TAOWLabel R12PlayerLbl;
-    public TAOWPanel R12CenterPnl;
-    public TAOWLabel R12Lbl;
-    public TAOWComboBox R12BehaviorCB;
-    public TAOWVScrollBar R12BehaviorSB;
-    public TAOWComboBox R12PlayerCB;
-    public TAOWVScrollBar R12PlayerSB;
-    public TAOWImage R12PlayerIcon;
-    public TAOWComboBox PreferredRaceCB;
-    public TAOWVScrollBar PreferredRaceSB;
-    public TAOWLabel PreferredRaceLbl;
-    public TAoWFrame LFr;
-    public TAOWCheckBox CustomizeLeaders;
-    public TAOWLabel CustomizeLeadersLbl;
-    public TAOWButton EjectBtn;
-    public TAOWComboBox R4BehaviorCB;
-    public TAOWPanel R1FogPnl;
-    public TAOWLabel R1PlayerLbl;
-    public TAOWPanel R2FogPnl;
-    public TAOWPanel R3FogPnl;
-    public TAOWPanel R4FogPnl;
-    public TAOWPanel R8FogPnl;
-    public TAOWPanel R7FogPnl;
-    public TAOWPanel R6FogPnl;
-    public TAOWPanel R5FogPnl;
-    public TAOWPanel R12FogPnl;
-    public TAOWPanel R11FogPnl;
-    public TAOWPanel R10FogPnl;
-    public TAOWPanel R9FogPnl;
-    public TAOWButton PreferredRaceSort;
-    public TAOWButton PlayerListSort;
-    public TAOWPanel ConnectionPnl;
-    public TAOWListBox PreferredRaceList;
-    public TAOWButton AOWButton1;
-    public TAOWListBox PingList;
-    public TAOWVScrollBar PlayerListSB;
-    public TAOWPanel SettingsFogPnl;
-    public TAOWLabel ExplorationLbl;
-    public TAOWCheckBox Exploration;
-    public TAOWLabel ScenarioLbl;
-    public TAOWLabel HostNameLbl;
-    public TAOWLabel PlayerNameLbl;
-    public TAOWLabel FileNameLbl;
-    public TAOWButton MakeHostBtn;
-    public TAOWPanel RestartSettingsFogPnl;
-    public TAOWImage ChatFogPnl;
-    public TAOWCheckBox LeadersOnMapCB;
-    public TAOWLabel AOWLabel1;
-    public TAOWCheckBox AlliedVictoryCB;
-    public TAOWLabel AlliedVictoryLbl;
-    public TIvTranslator Translator;
-    public TAOWVScrollBar AOWVScrollBar1;
-    public TAOWComboBox TacticalCombatCB;
-    public TAOWLabel TacticalCombatLbl;
-    public TAOWCheckBox AlwaysViewTCCB;
-    public TAOWLabel AlwaysViewTCLbl;
+    public AOWMemo ChatMemo;
+    public AOWPanel ChatPnl;
+    public AOWVScrollBar ChatSB;
+    public AOWEdit ChatEdit;
+    public AOWPanel SidesPnl;
+    public AOWPanel SettingsPnl;
+    public AOWListBox PlayerList;
+    public AOWPanel R1Pnl;
+    public AOWPanel R5Pnl;
+    public AOWPanel R9Pnl;
+    public AOWPanel R2Pnl;
+    public AOWPanel R6Pnl;
+    public AOWPanel R10Pnl;
+    public AOWPanel R3Pnl;
+    public AOWPanel R7Pnl;
+    public AOWPanel R11Pnl;
+    public AOWPanel R4Pnl;
+    public AOWPanel R8Pnl;
+    public AOWPanel R12Pnl;
+    public AOWButton ExitGame;
+    public AOWButton PickScenarioBtn;
+    public AOWButton StartBtn;
+    public AOWLabel MiscLbl;
+    public AOWPanel ScenSetupPnl;
+    public AOWImage R1PlayerIcon;
+    public AOWLabel R1Lbl;
+    public AOWComboBox R1PlayerCB;
+    public AOWPanel R1CenterPnl;
+    public AOWLabel TurnLbl;
+    public AOWLabel DurationLbl;
+    public AOWLabel TurnsLbl;
+    public AOWLabel TurnTimeLbl;
+    public AOWHScrollBar TurnTimeSl;
+    public AOWLabel TurnTimeVal;
+    public AoWFrame DurFr;
+    public AOWHScrollBar TurnsSl;
+    public AOWLabel TurnsVal;
+    public AOWComboBox PlayModeCB;
+    public AOWVScrollBar TurnVSB;
+    public AOWLabel R1InfoLbl;
+    public AOWComboBox R1BehaviorCB;
+    public AOWVScrollBar R1BehaviorSB;
+    public AOWVScrollBar R1PlayerSB;
+    public AOWPanel R3CenterPnl;
+    public AOWLabel R3Lbl;
+    public AOWComboBox R3BehaviorCB;
+    public AOWVScrollBar R3BehaviorSB;
+    public AOWImage R3PlayerIcon;
+    public AOWLabel R3PlayerLbl;
+    public AOWComboBox R3PlayerCB;
+    public AOWVScrollBar R3PlayerSB;
+    public AOWLabel R3InfoLbl;
+    public AOWPanel R2CenterPnl;
+    public AOWLabel R2Lbl;
+    public AOWComboBox R2BehaviorCB;
+    public AOWVScrollBar R2BehaviorSB;
+    public AOWImage R2PlayerIcon;
+    public AOWLabel R2InfoLbl;
+    public AOWComboBox R2PlayerCB;
+    public AOWVScrollBar R2PlayerSB;
+    public AOWLabel R2PlayerLbl;
+    public AOWLabel R4InfoLbl;
+    public AOWLabel R4PlayerLbl;
+    public AOWPanel R4CenterPnl;
+    public AOWLabel R4Lbl;
+    public AOWVScrollBar R4BehaviorSB;
+    public AOWComboBox R4PlayerCB;
+    public AOWVScrollBar R4PlayerSB;
+    public AOWImage R4PlayerIcon;
+    public AOWImage R5PlayerIcon;
+    public AOWLabel R5Lbl;
+    public AOWComboBox R5PlayerCB;
+    public AOWPanel R5CenterPnl;
+    public AOWComboBox R5BehaviorCB;
+    public AOWVScrollBar R5BehaviorSB;
+    public AOWVScrollBar R5PlayerSB;
+    public AOWLabel R5InfoLbl;
+    public AOWLabel R5PlayerLbl;
+    public AOWPanel R6CenterPnl;
+    public AOWLabel R6Lbl;
+    public AOWComboBox R6BehaviorCB;
+    public AOWVScrollBar R6BehaviorSB;
+    public AOWImage R6PlayerIcon;
+    public AOWLabel R6PlayerLbl;
+    public AOWComboBox R6PlayerCB;
+    public AOWVScrollBar R6PlayerSB;
+    public AOWLabel R6InfoLbl;
+    public AOWPanel R7CenterPnl;
+    public AOWLabel R7Lbl;
+    public AOWComboBox R7BehaviorCB;
+    public AOWVScrollBar R7BehaviorSB;
+    public AOWImage R7PlayerIcon;
+    public AOWLabel R7PlayerLbl;
+    public AOWComboBox R7PlayerCB;
+    public AOWVScrollBar R7PlayerSB;
+    public AOWLabel R7InfoLbl;
+    public AOWLabel R8InfoLbl;
+    public AOWLabel R8PlayerLbl;
+    public AOWPanel R8CenterPnl;
+    public AOWLabel R8Lbl;
+    public AOWComboBox R8BehaviorCB;
+    public AOWVScrollBar R8BehaviorSB;
+    public AOWComboBox R8PlayerCB;
+    public AOWVScrollBar R8PlayerSB;
+    public AOWImage R8PlayerIcon;
+    public AOWImage R9PlayerIcon;
+    public AOWLabel R9Lbl;
+    public AOWComboBox R9PlayerCB;
+    public AOWPanel R9CenterPnl;
+    public AOWComboBox R9BehaviorCB;
+    public AOWVScrollBar R9BehaviorSB;
+    public AOWVScrollBar R9PlayerSB;
+    public AOWLabel R9InfoLbl;
+    public AOWLabel R9PlayerLbl;
+    public AOWPanel R10CenterPnl;
+    public AOWLabel R10Lbl;
+    public AOWComboBox R10BehaviorCB;
+    public AOWVScrollBar R10BehaviorSB;
+    public AOWImage R10PlayerIcon;
+    public AOWLabel R10PlayerLbl;
+    public AOWComboBox R10PlayerCB;
+    public AOWVScrollBar s10sb2;
+    public AOWLabel R10InfoLbl;
+    public AOWPanel R11CenterPnl;
+    public AOWLabel R11Lbl;
+    public AOWComboBox R11BehaviorCB;
+    public AOWVScrollBar R11BehaviorSB;
+    public AOWImage R11PlayerIcon;
+    public AOWLabel R11PlayerLbl;
+    public AOWComboBox R11PlayerCB;
+    public AOWVScrollBar R11PlayerSB;
+    public AOWLabel R11InfoLbl;
+    public AOWLabel R12InfoLbl;
+    public AOWLabel R12PlayerLbl;
+    public AOWPanel R12CenterPnl;
+    public AOWLabel R12Lbl;
+    public AOWComboBox R12BehaviorCB;
+    public AOWVScrollBar R12BehaviorSB;
+    public AOWComboBox R12PlayerCB;
+    public AOWVScrollBar R12PlayerSB;
+    public AOWImage R12PlayerIcon;
+    public AOWComboBox PreferredRaceCB;
+    public AOWVScrollBar PreferredRaceSB;
+    public AOWLabel PreferredRaceLbl;
+    public AoWFrame LFr;
+    public AOWCheckBox CustomizeLeaders;
+    public AOWLabel CustomizeLeadersLbl;
+    public AOWButton EjectBtn;
+    public AOWComboBox R4BehaviorCB;
+    public AOWPanel R1FogPnl;
+    public AOWLabel R1PlayerLbl;
+    public AOWPanel R2FogPnl;
+    public AOWPanel R3FogPnl;
+    public AOWPanel R4FogPnl;
+    public AOWPanel R8FogPnl;
+    public AOWPanel R7FogPnl;
+    public AOWPanel R6FogPnl;
+    public AOWPanel R5FogPnl;
+    public AOWPanel R12FogPnl;
+    public AOWPanel R11FogPnl;
+    public AOWPanel R10FogPnl;
+    public AOWPanel R9FogPnl;
+    public AOWButton PreferredRaceSort;
+    public AOWButton PlayerListSort;
+    public AOWPanel ConnectionPnl;
+    public AOWListBox PreferredRaceList;
+    public AOWButton AOWButton1;
+    public AOWListBox PingList;
+    public AOWVScrollBar PlayerListSB;
+    public AOWPanel SettingsFogPnl;
+    public AOWLabel ExplorationLbl;
+    public AOWCheckBox Exploration;
+    public AOWLabel ScenarioLbl;
+    public AOWLabel HostNameLbl;
+    public AOWLabel PlayerNameLbl;
+    public AOWLabel FileNameLbl;
+    public AOWButton MakeHostBtn;
+    public AOWPanel RestartSettingsFogPnl;
+    public AOWImage ChatFogPnl;
+    public AOWCheckBox LeadersOnMapCB;
+    public AOWLabel AOWLabel1;
+    public AOWCheckBox AlliedVictoryCB;
+    public AOWLabel AlliedVictoryLbl;
+    public IvTranslator Translator;
+    public AOWVScrollBar AOWVScrollBar1;
+    public AOWComboBox TacticalCombatCB;
+    public AOWLabel TacticalCombatLbl;
+    public AOWCheckBox AlwaysViewTCCB;
+    public AOWLabel AlwaysViewTCLbl;
     public int FValidateDelay;
-    public TSetupControl FSetupControl;
+    public SetupControl FSetupControl;
     public int FPingDelay;
     public bool FChatScrollPending;
 
     // AoWScenSetup.pas:526
-    public void Execute(TSetupControl Control)
+    public void Execute(SetupControl Control)
     {
         byte Availability;
         FSetupControl = Control;
@@ -271,7 +271,7 @@ public partial class TScenSetup : TDataModule
             for (int availabilityOrdinal = 0; availabilityOrdinal <= 2; availabilityOrdinal++)
             {
                 Availability = (byte)availabilityOrdinal;
-                var tacticalCombatAvailability = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.TTacticalCombatAvailabilityRStr[Availability]);
+                var tacticalCombatAvailability = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.TTacticalCombatAvailabilityRStr[Availability]);
                 TacticalCombatCB.Items.AddObject(tacticalCombatAvailability, IntToObject(Availability));
             }
         }
@@ -286,7 +286,7 @@ public partial class TScenSetup : TDataModule
             CustomizeLeadersLbl.TextColor = 8421504;
             CustomizeLeaders.FCaptureInput = false;
             PlayModeCB.Items.Clear();
-            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.ClassicRStr);
+            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.ClassicRStr);
             PlayModeCB.Items.AddObject(classic, IntToObject(1));
         }
         else
@@ -294,9 +294,9 @@ public partial class TScenSetup : TDataModule
             CustomizeLeadersLbl.TextColor = AlliedVictoryLbl.TextColor;
             CustomizeLeaders.FCaptureInput = true;
             PlayModeCB.Items.Clear();
-            var simultaneous = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.SimultaneousRStr);
+            var simultaneous = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.SimultaneousRStr);
             PlayModeCB.Items.AddObject(simultaneous, IntToObject(2));
-            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.ClassicRStr);
+            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.ClassicRStr);
             PlayModeCB.Items.AddObject(classic, IntToObject(1));
         }
 
@@ -314,7 +314,7 @@ public partial class TScenSetup : TDataModule
             Aow.Game.Audio.AudioHost.SongPlayer.Play(0);
         }
 
-        Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioSetup(this);
+        Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioSetup(this);
     }
 
     // AoWScenSetup.pas:579
@@ -335,7 +335,7 @@ public partial class TScenSetup : TDataModule
     public void ExitGameClick()
     {
         int I;
-        TSetupSettings Settings;
+        SetupSettings Settings;
         try
         {
             Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
@@ -386,7 +386,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:295
-    public void PlayerListDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
+    public void PlayerListDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SD)
     {
         int I;
         if (DrawItem < PlayerList.Items.Count)
@@ -395,14 +395,14 @@ public partial class TScenSetup : TDataModule
             I = FSetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(ObjectToInt(objectValue));
             if (I != -1)
             {
-                if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == TMapValidationInfo.mviInvalid)
+                if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == MapValidationInfo.Invalid)
                 {
                     Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s.Color = 255;
                     Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, "X", SD);
                 }
                 else
                 {
-                    if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == TMapValidationInfo.mviInvalidMap)
+                    if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == MapValidationInfo.InvalidMap)
                     {
                         Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s.Color = 32768;
                         Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, "X", SD);
@@ -474,7 +474,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:399
-    public void PlayerListChange(TAOWListBox Sender)
+    public void PlayerListChange(AOWListBox Sender)
     {
         SelectPlayer(Sender.Selected);
     }
@@ -487,7 +487,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:409
-    public void TurnsCBChange(TAOWCheckBox Sender)
+    public void TurnsCBChange(AOWCheckBox Sender)
     {
         TurnsSlChange();
         if (Sender.Checked)
@@ -524,10 +524,10 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:428
-    public void RacePlayerCBChange(TAOWComboBox Sender, int Slot)
+    public void RacePlayerCBChange(AOWComboBox Sender, int Slot)
     {
-        TSetupPlayerBehavior Behavior = default;
-        TAOWComboBox Combo;
+        SetupPlayerBehavior Behavior = default;
+        AOWComboBox Combo;
         Combo = Sender;
         var item = Combo.Items[Combo.Selected];
         if (FSetupControl.PlayerNameToPlayerID(item, ref Behavior))
@@ -540,9 +540,9 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:437
-    public void RaceBehaviorCBChange(TAOWComboBox Sender, int Slot)
+    public void RaceBehaviorCBChange(AOWComboBox Sender, int Slot)
     {
-        TAOWComboBox Control;
+        AOWComboBox Control;
         Control = Sender;
         var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Slot);
         FSetupControl.hSetPlayerBehavior(indexOfRace, (byte)Control.Selected);
@@ -550,7 +550,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:444
-    public void LeadersOnMapCBChange(TAOWCheckBox Sender)
+    public void LeadersOnMapCBChange(AOWCheckBox Sender)
     {
         FSetupControl.hSetLeadersOnMap(LeadersOnMapCB.Checked);
         if (Sender.Checked)
@@ -564,7 +564,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:450
-    public void CustomizeLeadersChange(TAOWCheckBox Sender)
+    public void CustomizeLeadersChange(AOWCheckBox Sender)
     {
         FSetupControl.hSetCustomizeLeaders(CustomizeLeaders.Checked);
         if (Sender.Checked)
@@ -578,7 +578,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:456
-    public void AlliedVictoryCBChange(TAOWCheckBox Sender)
+    public void AlliedVictoryCBChange(AOWCheckBox Sender)
     {
         FSetupControl.hSetAlliedVictory(AlliedVictoryCB.Checked);
         if (Sender.Checked)
@@ -592,7 +592,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:462
-    public void ExplorationChange(TAOWCheckBox Sender)
+    public void ExplorationChange(AOWCheckBox Sender)
     {
         FSetupControl.hSetExplorationEnabled(Exploration.Checked);
         if (Sender.Checked)
@@ -639,12 +639,12 @@ public partial class TScenSetup : TDataModule
     {
         if (TurnTimeSl.Position == 0)
         {
-            var noTimer = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.NoTimerRStr);
+            var noTimer = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.NoTimerRStr);
             TurnTimeVal.Text = LowerCase(noTimer);
         }
         else
         {
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.XMinutesRStr), [IntToStr(TurnTimeSl.Position)]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.XMinutesRStr), [IntToStr(TurnTimeSl.Position)]);
             TurnTimeVal.Text = format;
         }
     }
@@ -654,7 +654,7 @@ public partial class TScenSetup : TDataModule
     {
         if (TurnsSl.Position == 0)
         {
-            var noLimit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.NoLimitRStr);
+            var noLimit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.NoLimitRStr);
             TurnsVal.Text = LowerCase(noLimit);
         }
         else
@@ -700,13 +700,13 @@ public partial class TScenSetup : TDataModule
 
     private static readonly string XMinutesRStr = "%s minutes";
 
-    internal static void HideScenarioSetup(TScenSetup Setup)
+    internal static void HideScenarioSetup(ScenSetup Setup)
     {
         Setup.ScenSetupPnl.Visible = false;
         Setup.FSetupControl = null;
     }
 
-    internal static void InitializeScenarioSetup(TScenSetup Setup, TSetupControl Control)
+    internal static void InitializeScenarioSetup(ScenSetup Setup, SetupControl Control)
     {
         byte B;
         Setup.FSetupControl = Control;
@@ -735,7 +735,7 @@ public partial class TScenSetup : TDataModule
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
                 B = (byte)bOrdinal;
-                var tacticalCombatAvailability = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.TTacticalCombatAvailabilityRStr[B]);
+                var tacticalCombatAvailability = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.TTacticalCombatAvailabilityRStr[B]);
                 Setup.TacticalCombatCB.Items.AddObject(tacticalCombatAvailability, IntToObject(B));
             }
         }
@@ -750,7 +750,7 @@ public partial class TScenSetup : TDataModule
             Setup.CustomizeLeadersLbl.TextColor = 8421504;
             Setup.CustomizeLeaders.CaptureInput = false;
             Setup.PlayModeCB.Items.Clear();
-            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.ClassicRStr);
+            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.ClassicRStr);
             Setup.PlayModeCB.Items.AddObject(classic, IntToObject(1));
         }
         else
@@ -758,9 +758,9 @@ public partial class TScenSetup : TDataModule
             Setup.CustomizeLeadersLbl.TextColor = Setup.AlliedVictoryLbl.TextColor;
             Setup.CustomizeLeaders.CaptureInput = true;
             Setup.PlayModeCB.Items.Clear();
-            var simultaneous = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.SimultaneousRStr);
+            var simultaneous = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.SimultaneousRStr);
             Setup.PlayModeCB.Items.AddObject(simultaneous, IntToObject(2));
-            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TScenSetup.ClassicRStr);
+            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.ClassicRStr);
             Setup.PlayModeCB.Items.AddObject(classic, IntToObject(1));
         }
 
@@ -778,16 +778,16 @@ public partial class TScenSetup : TDataModule
             Aow.Game.Audio.AudioHost.SongPlayer.Play(0);
         }
 
-        Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioSetup(Setup);
+        Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioSetup(Setup);
     }
 
-    internal static void UpdateScenarioSetup(TScenSetup Setup)
+    internal static void UpdateScenarioSetup(ScenSetup Setup)
     {
         int HostIndex;
         string HostName;
         string Connection;
-        TRemotePlayer Player;
-        TSetupControl Control;
+        RemotePlayer Player;
+        SetupControl Control;
         if (Setup.FSetupControl != null)
         {
             Control = Setup.FSetupControl;
@@ -856,7 +856,7 @@ public partial class TScenSetup : TDataModule
                 Setup.PreferredRaceCB.Items.AddObject(none, IntToObject(-1));
                 for (int I = 0, last = Setup.FSetupControl.FSettings.Count - 1; I <= last; I++)
                 {
-                    if (!Setup.FSetupControl.FSettings.GetSettings(I).FStatus.Contains(TPlayerSetupStatusElement.pssFixed))
+                    if (!Setup.FSetupControl.FSettings.GetSettings(I).FStatus.Contains(PlayerSetupStatusElement.Fixed))
                     {
                         var settingRace = Setup.FSetupControl.FSettings.GetSettings(I);
                         var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[settingRace.FRace]);
@@ -872,43 +872,43 @@ public partial class TScenSetup : TDataModule
             }
 
             var indexOfRace = Control.FSettings.IndexOfRace(0);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace), Setup.R1PlayerCB, Setup.R1BehaviorCB, Setup.R1PlayerIcon, Setup.R1PlayerLbl, Setup.R1InfoLbl, Setup.R1FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace), Setup.R1PlayerCB, Setup.R1BehaviorCB, Setup.R1PlayerIcon, Setup.R1PlayerLbl, Setup.R1InfoLbl, Setup.R1FogPnl);
             var fSettingsIndexOfRace = Control.FSettings.IndexOfRace(1);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(fSettingsIndexOfRace), Setup.R2PlayerCB, Setup.R2BehaviorCB, Setup.R2PlayerIcon, Setup.R2PlayerLbl, Setup.R2InfoLbl, Setup.R2FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(fSettingsIndexOfRace), Setup.R2PlayerCB, Setup.R2BehaviorCB, Setup.R2PlayerIcon, Setup.R2PlayerLbl, Setup.R2InfoLbl, Setup.R2FogPnl);
             var indexOfRace2 = Control.FSettings.IndexOfRace(2);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace2), Setup.R3PlayerCB, Setup.R3BehaviorCB, Setup.R3PlayerIcon, Setup.R3PlayerLbl, Setup.R3InfoLbl, Setup.R3FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace2), Setup.R3PlayerCB, Setup.R3BehaviorCB, Setup.R3PlayerIcon, Setup.R3PlayerLbl, Setup.R3InfoLbl, Setup.R3FogPnl);
             var indexOfRace3 = Control.FSettings.IndexOfRace(3);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace3), Setup.R4PlayerCB, Setup.R4BehaviorCB, Setup.R4PlayerIcon, Setup.R4PlayerLbl, Setup.R4InfoLbl, Setup.R4FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace3), Setup.R4PlayerCB, Setup.R4BehaviorCB, Setup.R4PlayerIcon, Setup.R4PlayerLbl, Setup.R4InfoLbl, Setup.R4FogPnl);
             var indexOfRace4 = Control.FSettings.IndexOfRace(4);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace4), Setup.R5PlayerCB, Setup.R5BehaviorCB, Setup.R5PlayerIcon, Setup.R5PlayerLbl, Setup.R5InfoLbl, Setup.R5FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace4), Setup.R5PlayerCB, Setup.R5BehaviorCB, Setup.R5PlayerIcon, Setup.R5PlayerLbl, Setup.R5InfoLbl, Setup.R5FogPnl);
             var indexOfRace5 = Control.FSettings.IndexOfRace(5);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace5), Setup.R6PlayerCB, Setup.R6BehaviorCB, Setup.R6PlayerIcon, Setup.R6PlayerLbl, Setup.R6InfoLbl, Setup.R6FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace5), Setup.R6PlayerCB, Setup.R6BehaviorCB, Setup.R6PlayerIcon, Setup.R6PlayerLbl, Setup.R6InfoLbl, Setup.R6FogPnl);
             var indexOfRace6 = Control.FSettings.IndexOfRace(6);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace6), Setup.R7PlayerCB, Setup.R7BehaviorCB, Setup.R7PlayerIcon, Setup.R7PlayerLbl, Setup.R7InfoLbl, Setup.R7FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace6), Setup.R7PlayerCB, Setup.R7BehaviorCB, Setup.R7PlayerIcon, Setup.R7PlayerLbl, Setup.R7InfoLbl, Setup.R7FogPnl);
             var indexOfRace7 = Control.FSettings.IndexOfRace(7);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace7), Setup.R8PlayerCB, Setup.R8BehaviorCB, Setup.R8PlayerIcon, Setup.R8PlayerLbl, Setup.R8InfoLbl, Setup.R8FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace7), Setup.R8PlayerCB, Setup.R8BehaviorCB, Setup.R8PlayerIcon, Setup.R8PlayerLbl, Setup.R8InfoLbl, Setup.R8FogPnl);
             var indexOfRace8 = Control.FSettings.IndexOfRace(8);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace8), Setup.R9PlayerCB, Setup.R9BehaviorCB, Setup.R9PlayerIcon, Setup.R9PlayerLbl, Setup.R9InfoLbl, Setup.R9FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace8), Setup.R9PlayerCB, Setup.R9BehaviorCB, Setup.R9PlayerIcon, Setup.R9PlayerLbl, Setup.R9InfoLbl, Setup.R9FogPnl);
             var indexOfRace9 = Control.FSettings.IndexOfRace(9);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace9), Setup.R10PlayerCB, Setup.R10BehaviorCB, Setup.R10PlayerIcon, Setup.R10PlayerLbl, Setup.R10InfoLbl, Setup.R10FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace9), Setup.R10PlayerCB, Setup.R10BehaviorCB, Setup.R10PlayerIcon, Setup.R10PlayerLbl, Setup.R10InfoLbl, Setup.R10FogPnl);
             var indexOfRace10 = Control.FSettings.IndexOfRace(10);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace10), Setup.R11PlayerCB, Setup.R11BehaviorCB, Setup.R11PlayerIcon, Setup.R11PlayerLbl, Setup.R11InfoLbl, Setup.R11FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace10), Setup.R11PlayerCB, Setup.R11BehaviorCB, Setup.R11PlayerIcon, Setup.R11PlayerLbl, Setup.R11InfoLbl, Setup.R11FogPnl);
             var indexOfRace11 = Control.FSettings.IndexOfRace(11);
-            Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace11), Setup.R12PlayerCB, Setup.R12BehaviorCB, Setup.R12PlayerIcon, Setup.R12PlayerLbl, Setup.R12InfoLbl, Setup.R12FogPnl);
+            Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace11), Setup.R12PlayerCB, Setup.R12BehaviorCB, Setup.R12PlayerIcon, Setup.R12PlayerLbl, Setup.R12InfoLbl, Setup.R12FogPnl);
             if (Setup.FSetupControl.GetRemote())
             {
                 switch (Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.ConnectionType)
                 {
-                    case TConnectionType.conTCP:
+                    case ConnectionType.TCP:
                         Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TCPIPRStr);
                         break;
-                    case TConnectionType.conIPX:
+                    case ConnectionType.IPX:
                         Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.IPXRStr);
                         break;
-                    case TConnectionType.conModem:
+                    case ConnectionType.Modem:
                         Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ModemRStr);
                         break;
-                    case TConnectionType.conSerial:
+                    case ConnectionType.Serial:
                         Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SerialRStr);
                         break;
                     default:
@@ -937,7 +937,7 @@ public partial class TScenSetup : TDataModule
                 Setup.PlayerNameLbl.Text = aoWEFormat;
                 var format2 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FileNameXRStr), [Setup.FSetupControl.FSettings.FMapName]);
                 Setup.FileNameLbl.Text = format2;
-                if (Setup.FSetupControl.FRemotePlayer.FMapValidation == TMapValidationInfo.mviInvalid)
+                if (Setup.FSetupControl.FRemotePlayer.FMapValidation == MapValidationInfo.Invalid)
                 {
                     Setup.FileNameLbl.TextColor = 255;
                 }
@@ -959,16 +959,16 @@ public partial class TScenSetup : TDataModule
         }
     }
 
-    internal static void UpdateScenarioRow(TScenSetup Setup, TPlayerSetupSettings Settings, TAOWComboBox PlayerBox, TAOWComboBox BehaviorBox, TAOWImage Icon, TAOWLabel PlayerName, TAOWLabel Info, TAOWPanel Fog)
+    internal static void UpdateScenarioRow(ScenSetup Setup, PlayerSetupSettings Settings, AOWComboBox PlayerBox, AOWComboBox BehaviorBox, AOWImage Icon, AOWLabel PlayerName, AOWLabel Info, AOWPanel Fog)
     {
-        TSetupPlayerBehavior Behavior = default;
+        SetupPlayerBehavior Behavior = default;
         byte B;
         int I;
         bool Visible;
         bool Found;
         if (Settings != null)
         {
-            Visible = Setup.FSetupControl.GetHost() && !Settings.FStatus.Contains(TPlayerSetupStatusElement.pssFixed);
+            Visible = Setup.FSetupControl.GetHost() && !Settings.FStatus.Contains(PlayerSetupStatusElement.Fixed);
             if (Visible != PlayerBox.Visible)
             {
                 PlayerBox.Visible = Visible;
@@ -1025,16 +1025,16 @@ public partial class TScenSetup : TDataModule
             }
 
             Info.Text = "";
-            Info.Visible = Setup.FSetupControl.GetRemote() || Settings.FStatus.Contains(TPlayerSetupStatusElement.pssFixed);
+            Info.Visible = Setup.FSetupControl.GetRemote() || Settings.FStatus.Contains(PlayerSetupStatusElement.Fixed);
             if (Info.Visible)
             {
-                if (Settings.FStatus.Contains(TPlayerSetupStatusElement.pssFixed))
+                if (Settings.FStatus.Contains(PlayerSetupStatusElement.Fixed))
                 {
                     Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FixedRStr);
                 }
                 else
                 {
-                    if (Setup.FSetupControl.GetRemote() && Settings.FStatus.Contains(TPlayerSetupStatusElement.pssForced) && Settings.FBehavior.PlayerType == 0)
+                    if (Setup.FSetupControl.GetRemote() && Settings.FStatus.Contains(PlayerSetupStatusElement.Forced) && Settings.FBehavior.PlayerType == 0)
                     {
                         I = Setup.FSetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(Settings.FBehavior.Flags);
                         if (I != -1)
@@ -1058,16 +1058,16 @@ public partial class TScenSetup : TDataModule
                         }
                         else
                         {
-                            if (TSet<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType))
+                            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType))
                             {
-                                Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)(TPlayerBehavior)Settings.FBehaviorMode]);
+                                Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)(Aow.Game.Session.Player.Behavior)Settings.FBehaviorMode]);
                             }
                         }
                     }
                 }
             }
 
-            BehaviorBox.Visible = Setup.FSetupControl.GetHost() && TSet<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType);
+            BehaviorBox.Visible = Setup.FSetupControl.GetHost() && Set<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType);
             if (BehaviorBox.Visible)
             {
                 BehaviorBox.Items.BeginUpdate();
@@ -1075,7 +1075,7 @@ public partial class TScenSetup : TDataModule
                 for (int bOrdinal = 0; bOrdinal <= 5; bOrdinal++)
                 {
                     B = (byte)bOrdinal;
-                    var playerBehavior = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)(TPlayerBehavior)B]);
+                    var playerBehavior = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)(Aow.Game.Session.Player.Behavior)B]);
                     BehaviorBox.Items.AddObject(playerBehavior, IntToObject(B));
                 }
 
@@ -1083,7 +1083,7 @@ public partial class TScenSetup : TDataModule
                 BehaviorBox.Selected = Settings.FBehaviorMode;
             }
 
-            Icon.Visible = TSet<byte>.WithBounds(0, 255).WithRange(0, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType);
+            Icon.Visible = Set<byte>.WithBounds(0, 255).WithRange(0, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType);
             if (Icon.Visible)
             {
                 switch (Settings.FBehavior.PlayerType)
@@ -1109,7 +1109,7 @@ public partial class TScenSetup : TDataModule
                 }
             }
 
-            Fog.Visible = Settings.FStatus.Contains(TPlayerSetupStatusElement.pssFixed);
+            Fog.Visible = Settings.FStatus.Contains(PlayerSetupStatusElement.Fixed);
         }
         else
         {

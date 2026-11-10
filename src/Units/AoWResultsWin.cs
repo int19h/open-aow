@@ -15,50 +15,50 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // player indices, checkbox controls
-public partial class TResultsWin : TDataModule
+public partial class ResultsWin : DataModule
 {
-    public TResultsWin(TComponent owner) : base(owner)
+    public ResultsWin(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWCheckBox P1CB;
-    public TAOWCheckBox P2CB;
-    public TAOWCheckBox P3CB;
-    public TAOWCheckBox P4CB;
-    public TAOWCheckBox P5CB;
-    public TAOWCheckBox P6CB;
-    public TAOWCheckBox P7CB;
-    public TAOWCheckBox P8CB;
-    public TAOWCheckBox P9CB;
-    public TAOWCheckBox P10CB;
-    public TAOWCheckBox P11CB;
-    public TAOWCheckBox P12CB;
-    public TAOWLabel StrLbl;
-    public TAOWLabel TurnLbl;
-    public TAOWMemo ResNames;
-    public TAOWMemo ResValues;
-    public TAOWLabel SideLbl;
-    public TAOWImage Axis;
-    public TAOWButton ExitBtn;
-    public TAOWImage FaceGrid;
-    public TAOWButton LoadBtn;
-    public TAOWButton ContinueBtn;
-    public TAOWPanel ResultsPnl;
-    public TAOWCheckBox StrengthCB;
-    public TAOWPanel AgendaPnl;
-    public TAOWLabel StrengthLbl;
-    public TAOWCheckBox GoldCB;
-    public TAOWLabel GoldLbl;
-    public TAOWCheckBox ArmiesCB;
-    public TAOWLabel ArmiesLbl;
-    public TAOWCheckBox HeroesCB;
-    public TAOWLabel HeroesLbl;
-    public TAOWCheckBox StructuresCB;
-    public TAOWLabel StructuresLbl;
-    public TAOWLabel KeyMax;
-    public TAOWLabel KeyMin;
-    public TAOWCheckBox ManaCB;
-    public TAOWLabel ManaLbl;
-    public TIvTranslator Translator;
+    public AOWCheckBox P1CB;
+    public AOWCheckBox P2CB;
+    public AOWCheckBox P3CB;
+    public AOWCheckBox P4CB;
+    public AOWCheckBox P5CB;
+    public AOWCheckBox P6CB;
+    public AOWCheckBox P7CB;
+    public AOWCheckBox P8CB;
+    public AOWCheckBox P9CB;
+    public AOWCheckBox P10CB;
+    public AOWCheckBox P11CB;
+    public AOWCheckBox P12CB;
+    public AOWLabel StrLbl;
+    public AOWLabel TurnLbl;
+    public AOWMemo ResNames;
+    public AOWMemo ResValues;
+    public AOWLabel SideLbl;
+    public AOWImage Axis;
+    public AOWButton ExitBtn;
+    public AOWImage FaceGrid;
+    public AOWButton LoadBtn;
+    public AOWButton ContinueBtn;
+    public AOWPanel ResultsPnl;
+    public AOWCheckBox StrengthCB;
+    public AOWPanel AgendaPnl;
+    public AOWLabel StrengthLbl;
+    public AOWCheckBox GoldCB;
+    public AOWLabel GoldLbl;
+    public AOWCheckBox ArmiesCB;
+    public AOWLabel ArmiesLbl;
+    public AOWCheckBox HeroesCB;
+    public AOWLabel HeroesLbl;
+    public AOWCheckBox StructuresCB;
+    public AOWLabel StructuresLbl;
+    public AOWLabel KeyMax;
+    public AOWLabel KeyMin;
+    public AOWCheckBox ManaCB;
+    public AOWLabel ManaLbl;
+    public IvTranslator Translator;
     public int FMaxTurns;
     public int FMaxGold;
     public int FMaxMana;
@@ -67,13 +67,13 @@ public partial class TResultsWin : TDataModule
     public int FMaxHeroes;
     public int FMaxStructures;
     public int FMaxStrength;
-    public TByteList FPlayers;
-    public TList FControls;
+    public ByteList FPlayers;
+    public DelphiList FControls;
 
     // AoWResultsWin.pas:93
     public void UpdateSelection()
     {
-        TPlayerStatistics Stats;
+        PlayerStatistics Stats;
         FMaxTurns = 1;
         FMaxGold = 1;
         FMaxMana = 1;
@@ -85,7 +85,7 @@ public partial class TResultsWin : TDataModule
         for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
         {
             var player = FPlayers[I];
-            Stats = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player).FStatistics;
+            Stats = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player).FStatistics;
             var count = Stats.FTurnInfo.GetCount();
             if (FMaxTurns < count)
             {
@@ -132,14 +132,14 @@ public partial class TResultsWin : TDataModule
             }
         }
 
-        var turn = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TResultsWin.TurnRStr);
+        var turn = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ResultsWin.TurnRStr);
         TurnLbl.Text = turn + " " + IntToStr(FMaxTurns);
     }
 
     // AoWResultsWin.pas:250
-    public void DrawGraphs(in TSurfaceDesc Surface)
+    public void DrawGraphs(in SurfaceDesc Surface)
     {
-        TRect Bounds = default;
+        global::Aow.Rtl.Rect Bounds = default;
         Bounds.Left = ResultsPnl.WinLeft + Axis.WinLeft + 5;
         Bounds.Top = ResultsPnl.WinTop + Axis.WinTop + 4;
         Bounds.Right = ResultsPnl.WinLeft + Axis.WinLeft + 338;
@@ -179,7 +179,7 @@ public partial class TResultsWin : TDataModule
     }
 
     // AoWResultsWin.pas:123
-    public void DrawGraph(Aow.Game.Draw.Images.TLibraryImage Image, TIntegerList Values, int Turns, int Maximum, in TRect R, in TSurfaceDesc Surface)
+    public void DrawGraph(Aow.Game.Draw.Images.LibraryImage Image, IntegerList Values, int Turns, int Maximum, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
     {
         int Width;
         int LastY;
@@ -214,7 +214,7 @@ public partial class TResultsWin : TDataModule
                 // { Original advances from the rounded previous x coordinate. }
                 X2 = Round((double)X1 + XStep);
                 Y2 = Round((double)NextY * YStep);
-                Aow.Game.Ui.Dialogs.TResultsWin.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
+                Aow.Game.Ui.Dialogs.ResultsWin.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
                 LastY = NextY;
             }
 
@@ -227,114 +227,114 @@ public partial class TResultsWin : TDataModule
                 // { Original repeats the rounding and discards its result. }
                 Round((double)LastY * YStep);
                 Y2 = NextY;
-                Aow.Game.Ui.Dialogs.TResultsWin.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
+                Aow.Game.Ui.Dialogs.ResultsWin.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
             }
         }
     }
 
     // AoWResultsWin.pas:160
-    public void DrawGold(sbyte Player, in TRect R, in TSurfaceDesc Surface)
+    public void DrawGold(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
     {
-        TIntegerList Values;
-        TTurnInfo Info;
-        Values = new TIntegerList();
-        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        IntegerList Values;
+        TurnInfo Info;
+        Values = new IntegerList();
+        Info = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FGold);
         }
 
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
         DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxGold, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxGold);
     }
 
     // AoWResultsWin.pas:175
-    public void DrawMana(sbyte Player, in TRect R, in TSurfaceDesc Surface)
+    public void DrawMana(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
     {
-        TIntegerList Values;
-        TTurnInfo Info;
-        Values = new TIntegerList();
-        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        IntegerList Values;
+        TurnInfo Info;
+        Values = new IntegerList();
+        Info = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FMana);
         }
 
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
         DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxMana, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxMana);
     }
 
     // AoWResultsWin.pas:190
-    public void DrawHeroes(sbyte Player, in TRect R, in TSurfaceDesc Surface)
+    public void DrawHeroes(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
     {
-        TIntegerList Values;
-        TTurnInfo Info;
-        Values = new TIntegerList();
-        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        IntegerList Values;
+        TurnInfo Info;
+        Values = new IntegerList();
+        Info = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FHeroes);
         }
 
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
         DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxHeroes, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxHeroes);
     }
 
     // AoWResultsWin.pas:205
-    public void DrawArmies(sbyte Player, in TRect R, in TSurfaceDesc Surface)
+    public void DrawArmies(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
     {
-        TIntegerList Values;
-        TTurnInfo Info;
-        Values = new TIntegerList();
-        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        IntegerList Values;
+        TurnInfo Info;
+        Values = new IntegerList();
+        Info = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FArmyStrength);
         }
 
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
         DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxArmies, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxArmies);
     }
 
     // AoWResultsWin.pas:220
-    public void DrawStructures(sbyte Player, in TRect R, in TSurfaceDesc Surface)
+    public void DrawStructures(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
     {
-        TIntegerList Values;
-        TTurnInfo Info;
-        Values = new TIntegerList();
-        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        IntegerList Values;
+        TurnInfo Info;
+        Values = new IntegerList();
+        Info = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FStructures);
         }
 
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
         DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStructures, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxStructures);
     }
 
     // AoWResultsWin.pas:235
-    public void DrawStrength(sbyte Player, in TRect R, in TSurfaceDesc Surface)
+    public void DrawStrength(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
     {
-        TIntegerList Values;
-        TTurnInfo Info;
-        Values = new TIntegerList();
-        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        IntegerList Values;
+        TurnInfo Info;
+        Values = new IntegerList();
+        Info = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).GetSuperiority());
         }
 
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
         DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStrength, R, Surface);
         Values?.Dispose();
         // { Original strength graph labels the structures maximum. }
@@ -344,8 +344,8 @@ public partial class TResultsWin : TDataModule
     // AoWResultsWin.pas:270
     public void ResultsWinCreate()
     {
-        FPlayers = new TByteList();
-        FControls = new TList();
+        FPlayers = new ByteList();
+        FControls = new DelphiList();
         FControls.Add(P1CB);
         FControls.Add(P2CB);
         FControls.Add(P3CB);
@@ -370,11 +370,11 @@ public partial class TResultsWin : TDataModule
     // AoWResultsWin.pas:294
     public void ContinueBtnClick()
     {
-        Aow.Game.Ui.Dialogs.TResultsWin.FinishPyre(Aow.Game.Ui.Dialogs.DialogHosts.PyreScreen);
+        Aow.Game.Ui.Dialogs.ResultsWin.FinishPyre(Aow.Game.Ui.Dialogs.DialogHosts.PyreScreen);
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Aow.Game.Ui.Dialogs.DialogHosts.ResultsWin.ResultsPnl.Visible = false;
         Aow.Game.Audio.AudioPlayback.FadeMusicVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.MusicVolume.Position, 2);
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameStatus == TGameStatus.gsTerminated)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FGameStatus == Aow.Game.World.Map.AoWHSMap.GameStatus.Terminated)
         {
             if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign == null)
             {
@@ -382,13 +382,13 @@ public partial class TResultsWin : TDataModule
             }
             else
             {
-                Aow.Game.Ui.Dialogs.TWorldMap.ShowCampaignMap(Aow.Game.Ui.Dialogs.DialogHosts.WorldMap);
+                Aow.Game.Ui.Dialogs.WorldMap.ShowCampaignMap(Aow.Game.Ui.Dialogs.DialogHosts.WorldMap);
             }
         }
         else
         {
             Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = false;
-            Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmGame);
+            Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, Aow.Game.Ui.Dialogs.VideoDialog.ScreenMode.Game);
             Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         }
     }
@@ -407,7 +407,7 @@ public partial class TResultsWin : TDataModule
     }
 
     // AoWResultsWin.pas:324
-    public void AxisDraw(TSurfaceDesc Surface)
+    public void AxisDraw(SurfaceDesc Surface)
     {
         DrawGraphs(Surface);
     }
@@ -425,37 +425,37 @@ public partial class TResultsWin : TDataModule
     }
 
     // AoWResultsWin.pas:339
-    public void P1CBPreDraw(TAOWCheckBox Sender, TSurfaceDesc Surface, int Slot)
+    public void P1CBPreDraw(AOWCheckBox Sender, SurfaceDesc Surface, int Slot)
     {
-        TRect R;
+        global::Aow.Rtl.Rect R;
         var component = Sender;
         if (Slot < FPlayers.Count)
         {
-            R = Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
+            R = global::Aow.Rtl.RtlUnit.Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
             var player = FPlayers[Slot];
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player).GetFace() != null)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player).GetFace() != null)
             {
                 var player2 = FPlayers[Slot];
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player2).FLeader.ShowFace(R, Surface);
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player2).FLeader.ShowFace(R, Surface);
             }
 
             var player3 = FPlayers[Slot];
-            var playerPlayerRace = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player3);
+            var playerPlayerRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player3);
             Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[playerPlayerRace.FPlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
         }
     }
 
     // AoWResultsWin.pas:355
-    public void P1CBChange(TAOWCheckBox Sender, int Slot)
+    public void P1CBChange(AOWCheckBox Sender, int Slot)
     {
-        TAOWCheckBox Control;
+        AOWCheckBox Control;
         Control = Sender;
         if (Control.Checked)
         {
             if (FPlayers.Count > Slot)
             {
                 var player = FPlayers[Slot];
-                var nameEx = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player).GetNameEx();
+                var nameEx = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player).GetNameEx();
                 SideLbl.Text = nameEx;
             }
 
@@ -469,26 +469,26 @@ public partial class TResultsWin : TDataModule
 
     private static readonly string TurnRStr = "Turn";
 
-    private static void FinishPyre(global::Aow.Game.Ui.Dialogs.TPyreScreen Dialog)
+    private static void FinishPyre(global::Aow.Game.Ui.Dialogs.PyreScreen Dialog)
     {
         global::Aow.Game.Audio.AudioPlayback.SetSFXVolume(global::Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.SFXVolume.Position);
         Dialog.ClearFire();
         if (Dialog.FSavedSongStatus != null)
         {
-            global::Aow.Game.Audio.TSongStatus.RestoreSongStatus(Dialog.FSavedSongStatus);
+            global::Aow.Game.Audio.SongStatus.RestoreSongStatus(Dialog.FSavedSongStatus);
             Dialog.FSavedSongStatus = null;
         }
         Dialog.FGameOverEvent.Handled();
         global::Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
-        global::Aow.Game.Events.TExecuteDoneEvent fDone = Dialog.FDone;
-        global::Aow.Game.Events.TGameOverEventLog fGameOverEvent = Dialog.FGameOverEvent;
+        global::Aow.Game.Events.ExecuteDoneEvent fDone = Dialog.FDone;
+        global::Aow.Game.Events.GameOverEventLog fGameOverEvent = Dialog.FGameOverEvent;
         Dialog.FDone = null;
         Dialog.FGameOverEvent = null;
         fDone?.Invoke(fGameOverEvent);
         fGameOverEvent?.Release();
     }
 
-    private static void DrawImageLine(global::Aow.Game.Draw.Images.TLibraryImage Image, int X1, int Y1, int X2, int Y2, int Spacing, in global::Aow.Game.Draw.TSurfaceDesc SD)
+    private static void DrawImageLine(global::Aow.Game.Draw.Images.LibraryImage Image, int X1, int Y1, int X2, int Y2, int Spacing, in global::Aow.Game.Draw.SurfaceDesc SD)
     {
         int num = 0;
         int i;

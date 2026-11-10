@@ -2,7 +2,7 @@ using System.Buffers.Binary;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Xunit.Abstractions;
-using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
+using LibraryImage = Aow.Game.Draw.Images.LibraryImage;
 
 namespace Aow.Units.Tests;
 
@@ -24,7 +24,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 {
     static ShowInfoTests() => LibraryImageClass.Register<BlendRecorder>();
 
-    private static readonly TRect Square = new() { Right = 4, Bottom = 4 };
+    private static readonly Rect Square = new() { Right = 4, Bottom = 4 };
 
     [Fact]
     public void BlendValueHoldsOnePercentageOrOneTable()
@@ -33,14 +33,14 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         Assert.False(empty.HasValue);
         Assert.Null(empty.Value);
         Assert.Equal(0, empty.Percentage);
-        Assert.False(empty is TBlendTable);
+        Assert.False(empty is BlendTable);
         Assert.False(empty is int);
 
         BlendValue percentage = 37;
         Assert.True(percentage.HasValue);
         Assert.Equal(37, percentage.Percentage);
         Assert.True(percentage is int p && p == 37);
-        Assert.False(percentage is TBlendTable);
+        Assert.False(percentage is BlendTable);
         Assert.Equal(37, percentage.Value);
 
         byte small = 9;
@@ -51,34 +51,34 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         Assert.True(zero.HasValue);
         Assert.Equal(0, zero.Percentage);
 
-        var table = new TBlendTable5Bit();
+        var table = new BlendTable5Bit();
         {
             BlendValue user = table;
             Assert.True(user.HasValue);
-            Assert.True(user is TBlendTable t && ReferenceEquals(t, table));
+            Assert.True(user is BlendTable t && ReferenceEquals(t, table));
             Assert.False(user is int);
             Assert.Same(table, user.Value);
             Assert.Throws<InvalidCastException>(() => user.Percentage);
 
-            BlendValue nil = (TBlendTable)null!;
+            BlendValue nil = (BlendTable)null!;
             Assert.False(nil.HasValue);
             Assert.Equal(0, nil.Percentage);
         }
     }
 
-    private static byte[] Written(TShowInfo info)
+    private static byte[] Written(ShowInfo info)
     {
         using var stream = new MemoryStream();
         Assert.Equal(8, info.WriteImage(stream, true));
         return stream.ToArray();
     }
 
-    private static TShowInfo Read(byte[] image)
+    private static ShowInfo Read(byte[] image)
     {
         using var stream = new MemoryStream();
         stream.Write(image);
         stream.Position = 0;
-        TShowInfo info = default;
+        ShowInfo info = default;
         Assert.Equal(8, info.ReadImage(stream, true));
         return info;
     }
@@ -86,45 +86,45 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     [Fact]
     public void TheFileImageKeepsModesPaddingAndPercentage()
     {
-        byte[] image = [(byte)TShowMode.smBlended, (byte)TBlendMode.bmShadow, 0x5A, 0xA5, 0x78, 0x56, 0x34, 0x12];
+        byte[] image = [(byte)ShowMode.Blended, (byte)BlendMode.Shadow, 0x5A, 0xA5, 0x78, 0x56, 0x34, 0x12];
         var info = Read(image);
-        Assert.Equal(TShowMode.smBlended, info.ShowMode);
-        Assert.Equal(TBlendMode.bmShadow, info.BlendMode);
+        Assert.Equal(ShowMode.Blended, info.ShowMode);
+        Assert.Equal(BlendMode.Shadow, info.BlendMode);
         Assert.True(info.Blend is int percentage && percentage == 0x12345678);
         Assert.Equal(image, Written(info));
 
         Assert.Equal(new byte[8], Written(default));
         Assert.True(Read(new byte[8]).Blend is int read && read == 0);
 
-        var table = new TBlendTable5Bit();
+        var table = new BlendTable5Bit();
         {
             // A table writes 0 where the original wrote its address, and reads back as the percentage 0.
-            var user = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmUser, Blend = table };
+            var user = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = table };
             byte[] written = Written(user);
             Assert.Equal(new byte[] { 2, 0, 0, 0, 0, 0, 0, 0 }, written);
             var back = Read(written);
-            Assert.Equal(TBlendMode.bmUser, back.BlendMode);
-            Assert.False(back.Blend is TBlendTable);
+            Assert.Equal(BlendMode.User, back.BlendMode);
+            Assert.False(back.Blend is BlendTable);
             Assert.Equal(0, back.Blend.Percentage);
         }
     }
 
     private sealed class BlendRecorder : LibraryImage, ILibraryImageClass
     {
-        static LibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new BlendRecorder(owner);
+        static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new BlendRecorder(owner);
 
-        public readonly List<TBlendTable> Drawn = [];
+        public readonly List<BlendTable> Drawn = [];
 
-        internal BlendRecorder(TCustomImageLibrary owner) : base(owner) { }
+        internal BlendRecorder(CustomImageLibrary owner) : base(owner) { }
 
-        public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => true;
-        public override void ShowBlended(int X, int Y, in TSurfaceDesc SD, TBlendTable Table) => Drawn.Add(Table);
-        public override void ShowBlendedStretched(in TRect R, in TSurfaceDesc SD, TBlendTable Table) => Drawn.Add(Table);
+        public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => true;
+        public override void ShowBlended(int X, int Y, in SurfaceDesc SD, BlendTable Table) => Drawn.Add(Table);
+        public override void ShowBlendedStretched(in Rect R, in SurfaceDesc SD, BlendTable Table) => Drawn.Add(Table);
     }
 
     // Writes the image header with the given show info and reads it into a fresh image, the path
     // of an image in a library file (TLibraryImage.ReadImageData).
-    private static BlendRecorder FromFile(TShowInfo info)
+    private static BlendRecorder FromFile(ShowInfo info)
     {
         using var writer = new BlendRecorder(null!);
         using var stream = new MemoryStream();
@@ -141,30 +141,30 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     [Fact]
     public void AUserImageReadFromAFileCarriesAnIntAndDrawsNothing()
     {
-        var image = FromFile(new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmUser, Blend = 1234 });
-        var table = new TBlendTable5Bit();
+        var image = FromFile(new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = 1234 });
+        var table = new BlendTable5Bit();
         try
         {
-            Assert.Equal(TBlendMode.bmUser, image.ShowInfo.BlendMode);
+            Assert.Equal(BlendMode.User, image.ShowInfo.BlendMode);
             Assert.True(image.ShowInfo.Blend is int value && value == 1234);
-            TSurfaceDesc sd = default;
+            SurfaceDesc sd = default;
             image.Show(0, 0, sd);
             image.ShowStretched(Square, sd);
-            image.ShowEx(0, 0, sd, new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmUser, Blend = 50 });
-            image.ShowEx(0, 0, sd, new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmAlpha, Blend = 50 });
+            image.ShowEx(0, 0, sd, new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = 50 });
+            image.ShowEx(0, 0, sd, new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Alpha, Blend = 50 });
             Assert.Empty(image.Drawn);
 
             // ShowEx reads the image's own blend mode with the caller's blend value
             // (transpiler.md 4.3): a caller's table draws through the image's bmUser arm.
-            image.ShowEx(0, 0, sd, new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmAlpha, Blend = table });
-            Assert.Equal(new TBlendTable[] { table }, image.Drawn);
+            image.ShowEx(0, 0, sd, new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Alpha, Blend = table });
+            Assert.Equal(new BlendTable[] { table }, image.Drawn);
 
             // The image's own table, set in memory, draws through Show and ShowStretched.
             image.Drawn.Clear();
-            image.ShowInfo = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmUser, Blend = table };
+            image.ShowInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = table };
             image.Show(0, 0, sd);
             image.ShowStretched(Square, sd);
-            Assert.Equal(new TBlendTable[] { table, table }, image.Drawn);
+            Assert.Equal(new BlendTable[] { table, table }, image.Drawn);
         }
         finally
         {
@@ -175,33 +175,33 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     [Fact]
     public void ThePercentageArmsDrawTheTableOfTheirCollection() => WithBlendTables(() =>
     {
-        var table = new TBlendTable5Bit();
+        var table = new BlendTable5Bit();
         {
-            var collections = new (TBlendMode Mode, TLookupBlendTableCollection100 Tables)[]
+            var collections = new (BlendMode Mode, LookupBlendTableCollection100 Tables)[]
             {
-                (TBlendMode.bmAlpha, Aow.Game.Draw.GfxState.AlphaBlendTable), (TBlendMode.bmBrighten, Aow.Game.Draw.GfxState.BrightenBlendTable),
-                (TBlendMode.bmIntensity, Aow.Game.Draw.GfxState.IntensityBlendTable), (TBlendMode.bmShadow, Aow.Game.Draw.GfxState.ShadowBlendTable),
-                (TBlendMode.bmLinearAlpha, Aow.Game.Draw.GfxState.LinearAlphaBlendTable),
+                (BlendMode.Alpha, Aow.Game.Draw.GfxState.AlphaBlendTable), (BlendMode.Brighten, Aow.Game.Draw.GfxState.BrightenBlendTable),
+                (BlendMode.Intensity, Aow.Game.Draw.GfxState.IntensityBlendTable), (BlendMode.Shadow, Aow.Game.Draw.GfxState.ShadowBlendTable),
+                (BlendMode.LinearAlpha, Aow.Game.Draw.GfxState.LinearAlphaBlendTable),
             };
-            TSurfaceDesc sd = default;
+            SurfaceDesc sd = default;
             foreach (var (mode, tables) in collections)
             {
-                var image = FromFile(new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = mode, Blend = 30 });
+                var image = FromFile(new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = mode, Blend = 30 });
                 try
                 {
                     image.Show(0, 0, sd);
                     image.ShowStretched(Square, sd);
-                    var expected = new List<TBlendTable> { tables.Lookup[30], tables.Lookup[30] };
+                    var expected = new List<BlendTable> { tables.Lookup[30], tables.Lookup[30] };
                     // ShowEx has no bmLinearAlpha arm in the original.
-                    image.ShowEx(0, 0, sd, new TShowInfo { ShowMode = TShowMode.smBlended, Blend = 70 });
-                    if (mode != TBlendMode.bmLinearAlpha) expected.Add(tables.Lookup[70]);
+                    image.ShowEx(0, 0, sd, new ShowInfo { ShowMode = ShowMode.Blended, Blend = 70 });
+                    if (mode != BlendMode.LinearAlpha) expected.Add(tables.Lookup[70]);
                     Assert.Equal(expected, image.Drawn);
                     Assert.DoesNotContain(null, image.Drawn);
 
                     // A table in a percentage arm has no percentage to read.
-                    if (mode != TBlendMode.bmLinearAlpha)
-                        Assert.Throws<InvalidCastException>(() => image.ShowEx(0, 0, sd, new TShowInfo { ShowMode = TShowMode.smBlended, Blend = table }));
-                    image.ShowInfo = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = mode, Blend = table };
+                    if (mode != BlendMode.LinearAlpha)
+                        Assert.Throws<InvalidCastException>(() => image.ShowEx(0, 0, sd, new ShowInfo { ShowMode = ShowMode.Blended, Blend = table }));
+                    image.ShowInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = mode, Blend = table };
                     Assert.Throws<InvalidCastException>(() => image.Show(0, 0, sd));
                 }
                 finally { image.Dispose(); }
@@ -214,9 +214,9 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     public void DrawingThroughTheBlendSlotAllocatesNothing() => WithBlendTables(() =>
     {
         using var image = new LibraryImage(null!);
-        image.FShowInfo = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmShadow, Blend = 40 };
-        var caller = new TShowInfo { ShowMode = TShowMode.smBlended, Blend = 60 };
-        TSurfaceDesc sd = default;
+        image.FShowInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Shadow, Blend = 40 };
+        var caller = new ShowInfo { ShowMode = ShowMode.Blended, Blend = 60 };
+        SurfaceDesc sd = default;
         image.Show(0, 0, sd);
         image.ShowEx(0, 0, sd, caller);
         long before = GC.GetAllocatedBytesForCurrentThread();
@@ -267,15 +267,15 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
         var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
         var tally = new Tally();
         try
         {
-            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>()]);
+            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>()]);
             Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
-                LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(),
-                LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(),
-                LibraryImageClass.Of<TShadow>(), LibraryImageClass.Of<TImageNode>(), LibraryImageClass.Of<TSprite16>()]);
+                LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
+                LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
+                LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
             foreach (string file in files) CheckLibrary(file, tally);
         }
         finally
@@ -296,7 +296,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     private static void CheckLibrary(string file, Tally tally)
     {
         byte[] bytes = File.ReadAllBytes(file);
-        using var library = new TImageLibrary(null!);
+        using var library = new ImageLibrary(null!);
         library.LoadFromFile(file);
         tally.Libraries++;
         int from = 0;
@@ -306,7 +306,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 
     private static void CheckImage(string file, byte[] bytes, LibraryImage image, ref int from, Tally tally)
     {
-        if (image is TImageNode node)
+        if (image is ImageNode node)
         {
             for (int i = 0; i < node.FCount; i++) CheckImage(file, bytes, node.FImages[i], ref from, tally);
             return;
@@ -323,8 +323,8 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         Assert.True(info.Blend is int, $"{file}: a show info read from a file holds a percentage");
         tally.Modes.TryGetValue($"{info.ShowMode} {info.BlendMode}", out int seen);
         tally.Modes[$"{info.ShowMode} {info.BlendMode}"] = seen + 1;
-        if (info.BlendMode == TBlendMode.bmUser) tally.User++;
-        if (info.ShowMode == TShowMode.smBlended) tally.Blended++;
+        if (info.BlendMode == BlendMode.User) tally.User++;
+        if (info.ShowMode == ShowMode.Blended) tally.Blended++;
 
         byte[] header = Header(image);
         int at = bytes.AsSpan(from).IndexOf(header);

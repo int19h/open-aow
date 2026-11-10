@@ -8,61 +8,44 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-public enum TDDrawSurfaceStatusElement : byte
+public enum DDrawSurfaceStatusElement : byte
 {
-    ssVideoMemory = 0,
-    ssLocked = 1,
-    ssPrimary = 2,
-    ssCreated = 3,
-    ssComplex = 4
+    VideoMemory = 0,
+    Locked = 1,
+    Primary = 2,
+    Created = 3,
+    Complex = 4
 }
 
-public enum TDDSCreationFlagsElement : byte
+public enum DDSCreationFlagsElement : byte
 {
-    cfVideoMemory = 0,
-    cfSystemMemory = 1
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 4)]
-public struct TPaletteEntry
-{
-    [FieldOffset(0)]
-    public byte R;
-    [FieldOffset(1)]
-    public byte G;
-    [FieldOffset(2)]
-    public byte B;
-    [FieldOffset(3)]
-    public byte Reserved;
-    [FieldOffset(0)]
-    public ushort W;
-    [FieldOffset(0)]
-    public int Value;
+    VideoMemory = 0,
+    SystemMemory = 1
 }
 
 [LegacyObject]
-public partial class TGFXEPalette
+public partial class GFXEPalette
 {
     public int PixelFormatID;
-    public TPaletteEntry[] Entries = new TPaletteEntry[256];
+    public PaletteEntry[] Entries = new PaletteEntry[256];
 
     // GFXE.pas:11050
     public void LoadFromStream(Stream Stream)
     {
         Stream.ReadBytes(Bytes.Of(ref PixelFormatID, 4));
-        Stream.ReadBytes(MemoryMarshal.AsBytes((Span<TPaletteEntry>)Entries).Slice(0, 1024));
+        Stream.ReadBytes(MemoryMarshal.AsBytes((Span<PaletteEntry>)Entries).Slice(0, 1024));
     }
 
     // GFXE.pas:11056
     public void SaveToStream(Stream Stream)
     {
         Stream.Write(Bytes.Of(ref PixelFormatID, 4));
-        Stream.Write(MemoryMarshal.AsBytes((ReadOnlySpan<TPaletteEntry>)Entries).Slice(0, 1024));
+        Stream.Write(MemoryMarshal.AsBytes((ReadOnlySpan<PaletteEntry>)Entries).Slice(0, 1024));
     }
 
     // GFXE.pas:11068
     // The original returns a pointer to the entry, a reference here.
-    public ref TPaletteEntry GetEntry(int Index) => ref Entries[Index];
+    public ref PaletteEntry GetEntry(int Index) => ref Entries[Index];
 
     // GFXE.pas:11073
     public int Remap(int NewPixelFormatID)
@@ -79,7 +62,7 @@ public partial class TGFXEPalette
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
-                                    ref var paletteEntry = ref Entries[I];
+                                    ref PaletteEntry paletteEntry = ref Entries[I];
                                     paletteEntry.W = (ushort)(((paletteEntry.R & 248) << 8) + ((paletteEntry.G & 252) << 3) + (int)(((uint)paletteEntry.B) >> 3));
                                 }
                             }
@@ -89,7 +72,7 @@ public partial class TGFXEPalette
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
-                                    ref var paletteEntry = ref Entries[I];
+                                    ref PaletteEntry paletteEntry = ref Entries[I];
                                     paletteEntry.W = (ushort)(((paletteEntry.R & 248) << 7) + ((paletteEntry.G & 248) << 2) + (int)(((uint)paletteEntry.B) >> 3));
                                 }
                             }
@@ -111,7 +94,7 @@ public partial class TGFXEPalette
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
-                                    ref var paletteEntry = ref Entries[I];
+                                    ref PaletteEntry paletteEntry = ref Entries[I];
                                     paletteEntry.W = (ushort)(((paletteEntry.B & 248) << 8) + ((paletteEntry.G & 252) << 3) + (int)(((uint)paletteEntry.R) >> 3));
                                 }
                             }
@@ -121,7 +104,7 @@ public partial class TGFXEPalette
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
-                                    ref var paletteEntry = ref Entries[I];
+                                    ref PaletteEntry paletteEntry = ref Entries[I];
                                     paletteEntry.W = (ushort)(((paletteEntry.B & 248) << 7) + ((paletteEntry.G & 248) << 2) + (int)(((uint)paletteEntry.R) >> 3));
                                 }
                             }
@@ -155,7 +138,7 @@ public partial class TGFXEPalette
     }
 
     // GFXE.pas:11140
-    public bool Compare(TGFXEPalette Palette)
+    public bool Compare(GFXEPalette Palette)
     {
         bool Result;
         int I;
@@ -194,7 +177,7 @@ public partial class TGFXEPalette
 
                     break;
                 case 32:
-                    Result = CompareMem(MemoryMarshal.AsBytes((ReadOnlySpan<TPaletteEntry>)Entries).Slice(0, 1024), MemoryMarshal.AsBytes((ReadOnlySpan<TPaletteEntry>)Palette.Entries).Slice(0, 1024), 1024);
+                    Result = CompareMem(MemoryMarshal.AsBytes((ReadOnlySpan<PaletteEntry>)Entries).Slice(0, 1024), MemoryMarshal.AsBytes((ReadOnlySpan<PaletteEntry>)Palette.Entries).Slice(0, 1024), 1024);
                     break;
                 default:
                     Result = false;
@@ -209,21 +192,38 @@ public partial class TGFXEPalette
         return Result;
     }
 
-    public TGFXEPalette()
+    public GFXEPalette()
     {
         CaptureAddress.Assign(this);
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 4)]
+    public struct PaletteEntry
+    {
+        [FieldOffset(0)]
+        public byte R;
+        [FieldOffset(1)]
+        public byte G;
+        [FieldOffset(2)]
+        public byte B;
+        [FieldOffset(3)]
+        public byte Reserved;
+        [FieldOffset(0)]
+        public ushort W;
+        [FieldOffset(0)]
+        public int Value;
     }
 }
 
 [LegacyObject]
 // the abstract surface. GetWidth and GetHeight are abstract
-public partial class TSurface : IDisposable
+public partial class Surface : IDisposable
 {
     // GFXE.pas:11964
     public virtual int GetColor(int X, int Y)
     {
         int Result = default;
-        TSurfaceDesc SD = default;
+        SurfaceDesc SD = default;
         int V;
         ushort W;
         byte Index;
@@ -246,7 +246,7 @@ public partial class TSurface : IDisposable
                     case Aow.Game.Draw.PixelFormats.pfPAL8:
                         Assert(SD.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                         Index = SD.View().Byte(X + Y * SD.Pitch);
-                        ref readonly var E = ref SD.Palette.Entries[Index];
+                        ref readonly Aow.Game.Draw.GFXEPalette.PaletteEntry E = ref SD.Palette.Entries[Index];
                         Result = E.R + (E.G << 8) + (E.B << 16);
                         break;
                     case Aow.Game.Draw.PixelFormats.pfRGB24:
@@ -282,7 +282,7 @@ public partial class TSurface : IDisposable
     public virtual int GetPixelInfo(int X, int Y)
     {
         int Result = default;
-        TSurfaceDesc SD = default;
+        SurfaceDesc SD = default;
         int P;
         if (Succeeded(Lock(ref SD)))
         {
@@ -335,20 +335,20 @@ public partial class TSurface : IDisposable
     // GFXE.pas:398
     public virtual int GetWidth()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // GFXE.pas:399
     public virtual int GetHeight()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // GFXE.pas:11954
     public virtual int GetPixelFormatID()
     {
         int Result;
-        TSurfaceDesc SD = default;
+        SurfaceDesc SD = default;
         if (Succeeded(Lock(ref SD)))
         {
             Result = SD.PixelFormatID;
@@ -363,12 +363,12 @@ public partial class TSurface : IDisposable
     }
 
     // GFXE.pas:12007
-    public virtual int Blt(TSurface Dest, TRect? SrcRect, int X, int Y)
+    public virtual int Blt(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y)
     {
         int Result;
-        TSurfaceDesc DSD = default;
-        TSurfaceDesc SSD = default;
-        TRect R = default;
+        SurfaceDesc DSD = default;
+        SurfaceDesc SSD = default;
+        global::Aow.Rtl.Rect R = default;
         SurfaceView S;
         SurfaceView D;
         if (Dest.PixelFormatID == PixelFormatID)
@@ -394,14 +394,14 @@ public partial class TSurface : IDisposable
                 }
                 else
                 {
-                    Result = Aow.Game.Draw.TSurface.GFXE_CANNOTLOCK;
+                    Result = Aow.Game.Draw.Surface.GFXE_CANNOTLOCK;
                 }
 
                 Dest.Unlock();
             }
             else
             {
-                Result = Aow.Game.Draw.TSurface.GFXE_CANNOTLOCK;
+                Result = Aow.Game.Draw.Surface.GFXE_CANNOTLOCK;
             }
         }
         else
@@ -413,12 +413,12 @@ public partial class TSurface : IDisposable
     }
 
     // GFXE.pas:12045
-    public virtual int BltClipped(TSurface Dest, TRect? SrcRect, int X, int Y)
+    public virtual int BltClipped(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y)
     {
         int Result;
         int W;
         int H;
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         if (SrcRect is null)
         {
             R.Left = 0;
@@ -497,12 +497,12 @@ public partial class TSurface : IDisposable
     }
 
     // GFXE.pas:12130
-    public virtual int BltColorKey(TSurface Dest, TRect? SrcRect, int X, int Y, int ColorKey)
+    public virtual int BltColorKey(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y, int ColorKey)
     {
         int Result;
-        TSurfaceDesc DSD = default;
-        TSurfaceDesc SSD = default;
-        TRect R = default;
+        SurfaceDesc DSD = default;
+        SurfaceDesc SSD = default;
+        global::Aow.Rtl.Rect R = default;
         SurfaceView S;
         SurfaceView D;
         if (Dest.PixelFormatID == PixelFormatID && (PixelFormatID & 255) == 16)
@@ -528,14 +528,14 @@ public partial class TSurface : IDisposable
                 }
                 else
                 {
-                    Result = Aow.Game.Draw.TSurface.GFXE_CANNOTLOCK;
+                    Result = Aow.Game.Draw.Surface.GFXE_CANNOTLOCK;
                 }
 
                 Dest.Unlock();
             }
             else
             {
-                Result = Aow.Game.Draw.TSurface.GFXE_CANNOTLOCK;
+                Result = Aow.Game.Draw.Surface.GFXE_CANNOTLOCK;
             }
         }
         else
@@ -547,12 +547,12 @@ public partial class TSurface : IDisposable
     }
 
     // GFXE.pas:12168
-    public virtual int BltColorKeyClipped(TSurface Dest, TRect? SrcRect, int X, int Y, int ColorKey)
+    public virtual int BltColorKeyClipped(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y, int ColorKey)
     {
         int Result;
         int W;
         int H;
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         if (SrcRect is null)
         {
             R.Left = 0;
@@ -631,11 +631,11 @@ public partial class TSurface : IDisposable
     }
 
     // GFXE.pas:12102
-    public virtual int BltStretch(TSurface Dest, TRect? SrcRect, TRect? DestRect)
+    public virtual int BltStretch(Surface Dest, global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect)
     {
         int Result;
-        TRect R = default;
-        TRect DR = default;
+        global::Aow.Rtl.Rect R = default;
+        global::Aow.Rtl.Rect DR = default;
         if (SrcRect is null)
         {
             R.Left = 0;
@@ -671,13 +671,13 @@ public partial class TSurface : IDisposable
     }
 
     // GFXE.pas:12225
-    public virtual int Lock(ref TSurfaceDesc SD) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+    public virtual int Lock(ref SurfaceDesc SD) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12248
     public virtual int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12230
-    public virtual int LockEx(ref TSurfaceDesc SD, in TRect R)
+    public virtual int LockEx(ref SurfaceDesc SD, in global::Aow.Rtl.Rect R)
     {
         int Result;
         bool condition = R.Left >= 0 && R.Top >= 0;
@@ -715,7 +715,7 @@ public partial class TSurface : IDisposable
     }
 
     // GFXE.pas:12253
-    public virtual int UnlockEx(in TSurfaceDesc SD) => Unlock();
+    public virtual int UnlockEx(in SurfaceDesc SD) => Unlock();
 
     // GFXE.pas:12220
     public virtual int UpdatePalette() => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
@@ -731,7 +731,7 @@ public partial class TSurface : IDisposable
     {
     }
 
-    public TSurface()
+    public Surface()
     {
         CaptureAddress.Assign(this);
     }
@@ -743,7 +743,7 @@ public partial class TSurface : IDisposable
 // FPitch, FPixelFormatID, FX, FY (origin of the captured rectangle), FPalette. The port's FMem
 // is the pixel array and its first byte is the first pixel, so FData has no field of its own
 // (graphics.md 3.4).
-public partial class TDataSurface : TSurface
+public partial class DataSurface : Surface
 {
 
     internal int FWidth;
@@ -754,10 +754,10 @@ public partial class TDataSurface : TSurface
     internal int FPixelFormatID;
     internal int FX;
     internal int FY;
-    internal TGFXEPalette FPalette;
+    internal GFXEPalette FPalette;
 
     // GFXE.pas:12387
-    public TDataSurface(int AWidth, int AHeight, int APixelFormatID, TGFXEPalette APalette)
+    public DataSurface(int AWidth, int AHeight, int APixelFormatID, GFXEPalette APalette)
     {
         FBitCount = (byte)(APixelFormatID & 255);
         FPixelFormatID = APixelFormatID;
@@ -766,7 +766,7 @@ public partial class TDataSurface : TSurface
     }
 
     // GFXE.pas:12396
-    public TDataSurface(TSurface Surface, TRect? R)
+    public DataSurface(Surface Surface, global::Aow.Rtl.Rect? R)
     {
         CaptureSurface(Surface, R);
     }
@@ -792,10 +792,10 @@ public partial class TDataSurface : TSurface
     public override int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_OK;
 
     // GFXE.pas:12446
-    public int CaptureSurface(TSurface Surface, TRect? R)
+    public int CaptureSurface(Surface Surface, global::Aow.Rtl.Rect? R)
     {
-        TSurfaceDesc SD = default;
-        TRect RR = default;
+        SurfaceDesc SD = default;
+        global::Aow.Rtl.Rect RR = default;
         int W;
         int H;
         int Result = Surface.Lock(ref SD);
@@ -838,13 +838,13 @@ public partial class TDataSurface : TSurface
     }
 
     // GFXE.pas:12485
-    public void SetPalette(TGFXEPalette Palette)
+    public void SetPalette(GFXEPalette Palette)
     {
         if (Palette != null)
         {
             if (FPalette == null)
             {
-                FPalette = new TGFXEPalette();
+                FPalette = new GFXEPalette();
             }
 
             FPalette.Assign(Palette);
@@ -883,13 +883,13 @@ public partial class TDataSurface : TSurface
 
     public byte[] Data { get => FMem; }
     public int Pitch { get => FPitch; }
-    public TGFXEPalette Palette { get => FPalette; set => SetPalette(value); }
+    public GFXEPalette Palette { get => FPalette; set => SetPalette(value); }
 
 }
 
 // a DIB section of any format (8, 16 or 24 bit). FHandle, FWidth, FHeight, FMem, FBits, FPitch,
 // FPixelFormatID, FInfo (BITMAPINFOHEADER and 256 colors), FPalette
-public partial class TDIBSurface : TSurface
+public partial class DIBSurface : Surface
 {
     internal int FHandle;
     internal int FWidth;
@@ -898,9 +898,9 @@ public partial class TDIBSurface : TSurface
     internal byte[] FBits;
     internal int FPitch;
     internal int FPixelFormatID;
-    internal TBitmapInfoHeader FInfo;
+    internal BitmapInfoHeader FInfo;
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
-    internal TGFXEPalette FPalette;
+    internal GFXEPalette FPalette;
 
     // GFXE.pas:6407
     public override int GetWidth() => FWidth;
@@ -911,17 +911,17 @@ public partial class TDIBSurface : TSurface
     // GFXE.pas:6767
     public void SaveToBMP24(string FileName)
     {
-        TSurfaceDesc SD = default;
+        SurfaceDesc SD = default;
         Lock(ref SD);
-        Aow.Game.Draw.TDIBSurface.SaveSurfaceDescToBMP24(SD, SD.ClipRect, FileName);
+        Aow.Game.Draw.DIBSurface.SaveSurfaceDescToBMP24(SD, SD.ClipRect, FileName);
         Unlock();
     }
 
     public byte[] Bits { get => FBits; }
     public int Pitch { get => FPitch; }
-    public TGFXEPalette Palette { get => FPalette; }
+    public GFXEPalette Palette { get => FPalette; }
 
-    private static int SaveSurfaceDescToBMP24(in global::Aow.Game.Draw.TSurfaceDesc SD, TRect R, string FileName)
+    private static int SaveSurfaceDescToBMP24(in global::Aow.Game.Draw.SurfaceDesc SD, global::Aow.Rtl.Rect R, string FileName)
     {
         throw new NotImplementedException();
     }
@@ -929,16 +929,16 @@ public partial class TDIBSurface : TSurface
 
 // an 8 bit bitmap in memory (bottom-up: the pitch is negative). FWidth, FHeight, FMem, FBits,
 // FPitch, FInfo (header and 256 colors), FPalette
-public partial class TDIB08Surface : TSurface
+public partial class DIB08Surface : Surface
 {
     internal int FWidth;
     internal int FHeight;
     internal byte[] FMem;
     internal byte[] FBits;
     internal int FPitch;
-    internal TBitmapInfoHeader FInfo;
+    internal BitmapInfoHeader FInfo;
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
-    internal TGFXEPalette FPalette;
+    internal GFXEPalette FPalette;
 
     // GFXE.pas:6805
     public override int GetPixelFormatID() => Aow.Game.Draw.PixelFormats.pfPAL8;
@@ -949,13 +949,13 @@ public partial class TDIB08Surface : TSurface
     // GFXE.pas:6815
     public override int GetHeight() => FHeight;
 
-    public TGFXEPalette Palette { get => FPalette; set => SetPalette(value); }
+    public GFXEPalette Palette { get => FPalette; set => SetPalette(value); }
 
 }
 
 // a 16 bit DIB section (555 or 565). FHandle, FWidth, FHeight, FBits, FPitch, FPixelFormatID,
 // FInfo, FMasks
-public partial class TDIB16Surface : TSurface
+public partial class DIB16Surface : Surface
 {
     internal int FHandle;
     internal int FWidth;
@@ -963,7 +963,7 @@ public partial class TDIB16Surface : TSurface
     internal byte[] FBits;
     internal int FPitch;
     internal int FPixelFormatID;
-    internal TBitmapInfoHeader FInfo;
+    internal BitmapInfoHeader FInfo;
     internal FixedArray_int_3 FMasks;
 
     // GFXE.pas:6991
@@ -980,14 +980,14 @@ public partial class TDIB16Surface : TSurface
 }
 
 // a 24 bit DIB section. FHandle, FWidth, FHeight, FBits, FPitch, FInfo
-public partial class TDIB24Surface : TSurface
+public partial class DIB24Surface : Surface
 {
     internal int FHandle;
     internal int FWidth;
     internal int FHeight;
     internal byte[] FBits;
     internal int FPitch;
-    internal TBitmapInfoHeader FInfo;
+    internal BitmapInfoHeader FInfo;
 
     // GFXE.pas:7238
     public override int GetWidth() => FWidth;
@@ -998,14 +998,14 @@ public partial class TDIB24Surface : TSurface
 }
 
 // a 32 bit bitmap in memory (bottom-up). FWidth, FHeight, FMem, FBits, FPitch, FInfo
-public partial class TDIB32Surface : TSurface
+public partial class DIB32Surface : Surface
 {
     internal int FWidth;
     internal int FHeight;
     internal byte[] FMem;
     internal byte[] FBits;
     internal int FPitch;
-    internal TBitmapInfoHeader FInfo;
+    internal BitmapInfoHeader FInfo;
 
     // GFXE.pas:7446
     public override int GetWidth() => FWidth;
@@ -1016,13 +1016,13 @@ public partial class TDIB32Surface : TSurface
 }
 
 // a window drawn through GDI. FHandle. Two more virtuals: GetHandle, SetHandle
-public partial class TGDISurface : TSurface
+public partial class GDISurface : Surface
 {
 
     internal int FHandle;
 
     // GFXE.pas:12293
-    public TGDISurface(int AHandle)
+    public GDISurface(int AHandle)
     {
         FHandle = AHandle;
     }
@@ -1051,10 +1051,10 @@ public partial class TGDISurface : TSurface
     }
 
     // GFXE.pas:12329
-    public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+    public override int Blt(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12334
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect)
+    public override int BltDC(int DC, global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect)
     {
         /* TODO: Implement Windows.GetDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -1080,17 +1080,17 @@ public partial class TGDISurface : TSurface
 
 // a DirectDraw surface. FOnSurfaceLost, FPixelFormatID, FWidth, FHeight, FSurface,
 // FCreationFlags, FStatus, FLockCount, FLockExCount, FSurfaceDesc (the description of the lock)
-public partial class TDDrawSurface : TSurface
+public partial class DDrawSurface : Surface
 {
-    protected internal TNotifyEvent<object> FOnSurfaceLost;
+    protected internal NotifyEvent<object> FOnSurfaceLost;
     protected internal int FPixelFormatID;
     protected internal int FWidth;
     protected internal int FHeight;
-    protected internal TSet<TDDSCreationFlagsElement> FCreationFlags;
-    protected internal TSet<TDDrawSurfaceStatusElement> FStatus;
+    protected internal Set<DDSCreationFlagsElement> FCreationFlags;
+    protected internal Set<DDrawSurfaceStatusElement> FStatus;
     protected internal int FLockCount;
     protected internal int FLockExCount;
-    protected internal TSurfaceDesc FSurfaceDesc;
+    protected internal SurfaceDesc FSurfaceDesc;
 
     // GFXE.pas:9279
     public override int GetPixelFormatID() => FPixelFormatID;
@@ -1101,21 +1101,21 @@ public partial class TDDrawSurface : TSurface
     // GFXE.pas:9289
     public override int GetHeight() => FHeight;
 
-    public TSet<TDDrawSurfaceStatusElement> Status { get => FStatus; }
-    public TSet<TDDSCreationFlagsElement> CreationFlags { get => FCreationFlags; }
-    public TNotifyEvent<object> OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
+    public Set<DDrawSurfaceStatusElement> Status { get => FStatus; }
+    public Set<DDSCreationFlagsElement> CreationFlags { get => FCreationFlags; }
+    public NotifyEvent<object> OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
 
-    public const global::Aow.Game.Draw.TDDrawSurfaceStatusElement ssSystemMemory = global::Aow.Game.Draw.TDDrawSurfaceStatusElement.ssCreated;
+    public const global::Aow.Game.Draw.DDrawSurfaceStatusElement ssSystemMemory = global::Aow.Game.Draw.DDrawSurfaceStatusElement.Created;
 }
 
 [LegacyObject]
 // Rect
-public partial class TRectangle
+public partial class Rectangle
 {
-    public TRect Rect;
+    public global::Aow.Rtl.Rect Rect;
 
     // GFXE.pas:2432
-    public TRectangle(int ALeft, int ATop, int ARight, int ABottom)
+    public Rectangle(int ALeft, int ATop, int ARight, int ABottom)
     {
         CaptureAddress.Assign(this);
         Rect.Left = ALeft;
@@ -1125,7 +1125,7 @@ public partial class TRectangle
     }
 
     // GFXE.pas:2440
-    public TRectangle(in TRect R)
+    public Rectangle(in global::Aow.Rtl.Rect R)
     {
         CaptureAddress.Assign(this);
         Rect = R;
@@ -1133,10 +1133,10 @@ public partial class TRectangle
 }
 
 // a TList of TRectangle, owning them
-public partial class TRectangleList : TList
+public partial class RectangleList : DelphiList
 {
     // GFXE.pas:2458
-    internal TRectangle GetRectangle(int Index) => (TRectangle)List[Index];
+    internal Rectangle GetRectangle(int Index) => (Rectangle)List[Index];
 
     // GFXE.pas:2447
     public override void Dispose()
@@ -1148,24 +1148,22 @@ public partial class TRectangleList : TList
         }
     }
 
-    public sealed class RectanglesAccessor(TRectangleList target)
+    public sealed class RectanglesAccessor(RectangleList target)
     {
-        public TRectangle this[int Index] { get => target.GetRectangle(Index); }
+        public Rectangle this[int Index] { get => target.GetRectangle(Index); }
     }
 
     public RectanglesAccessor Rectangles => new RectanglesAccessor(this);
 }
 
-public delegate void TOnDrawRectEvent(object Sender, in TRect R);
-
 // a panel that paints through OnDraw. FEraseBkgndEnabled, FOnDraw
-public partial class TDrawPanel : TCustomPanel
+public partial class DrawPanel : CustomPanel
 {
     internal bool FEraseBkgndEnabled;
-    internal TOnDrawRectEvent FOnDraw;
+    internal OnDrawRectEvent FOnDraw;
 
     // GFXE.pas:8730
-    protected internal override void WndProc(ref TMessage Message)
+    protected internal override void WndProc(ref Message Message)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
@@ -1180,51 +1178,53 @@ public partial class TDrawPanel : TCustomPanel
 
     // GFXE.pas:8721
 
-    public TDrawPanel(TComponent owner) : base(owner)
+    public DrawPanel(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement ExtCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     [Published]
-    public TOnDrawRectEvent OnDraw { get => FOnDraw; set => FOnDraw = value; }
+    public OnDrawRectEvent OnDraw { get => FOnDraw; set => FOnDraw = value; }
 
     [Published]
     public bool EraseBkgndEnabled { get => FEraseBkgndEnabled; set => FEraseBkgndEnabled = value; }
+
+    public delegate void OnDrawRectEvent(object Sender, in global::Aow.Rtl.Rect R);
 }
 
 [LegacyObject]
 // an image file format, all class functions
-public partial class TImageFile : IImageFileClass
+public partial class ImageFile : IImageFileClass
 {
     // GFXE.pas:693
-    public static string Name => throw EAbstractError.Create("Abstract Error");
+    public static string Name => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:694
-    public static string Extension => throw EAbstractError.Create("Abstract Error");
+    public static string Extension => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:695
-    public static string Description => throw EAbstractError.Create("Abstract Error");
+    public static string Description => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:696
     public static int GetPixelFormatID(string FileName)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // GFXE.pas:697
-    public static TSurface CreateSurface(string FileName)
+    public static Surface CreateSurface(string FileName)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // GFXE.pas:698
-    public static int LoadToSurfaceDesc(string FileName, ref TSurfaceDesc SD, int X, int Y)
+    public static int LoadToSurfaceDesc(string FileName, ref SurfaceDesc SD, int X, int Y)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
-    public TImageFile()
+    public ImageFile()
     {
         CaptureAddress.Assign(this);
     }
@@ -1232,7 +1232,7 @@ public partial class TImageFile : IImageFileClass
 }
 
 // a TOpenDialog whose filter lists the registered image file classes
-public partial class TOpenImageFileDialog : TOpenDialog
+public partial class OpenImageFileDialog : OpenDialog
 {
     // GFXE.pas:972
     public override void Loaded()
@@ -1243,7 +1243,7 @@ public partial class TOpenImageFileDialog : TOpenDialog
 
     // GFXE.pas:966
 
-    public TOpenImageFileDialog(TComponent owner) : base(owner)
+    public OpenImageFileDialog(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement Dialogs.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -1252,13 +1252,13 @@ public partial class TOpenImageFileDialog : TOpenDialog
 
 [LegacyObject]
 // PixelFormatID, Width, Height
-public partial class TDisplayModeItem
+public partial class DisplayModeItem
 {
     public int PixelFormatID;
     public int Width;
     public int Height;
 
-    public TDisplayModeItem()
+    public DisplayModeItem()
     {
         CaptureAddress.Assign(this);
     }
@@ -1266,21 +1266,21 @@ public partial class TDisplayModeItem
 
 [LegacyObject]
 // FList
-public partial class TDisplayModeList : IDisposable
+public partial class DisplayModeList : IDisposable
 {
-    internal TList FList;
+    internal DelphiList FList;
 
     // GFXE.pas:12629
-    internal TDisplayModeItem GetItems(int Index) => (TDisplayModeItem)FList.List[Index];
+    internal DisplayModeItem GetItems(int Index) => (DisplayModeItem)FList.List[Index];
 
     // GFXE.pas:12634
     internal int GetCount() => FList.Count;
 
     // GFXE.pas:12611
-    public TDisplayModeList()
+    public DisplayModeList()
     {
         CaptureAddress.Assign(this);
-        FList = new TList();
+        FList = new DelphiList();
     }
 
     // GFXE.pas:12617
@@ -1302,8 +1302,8 @@ public partial class TDisplayModeList : IDisposable
     // GFXE.pas:12639
     public void Add(int AWidth, int AHeight, int APixelFormatID)
     {
-        TDisplayModeItem Item;
-        Item = new TDisplayModeItem();
+        DisplayModeItem Item;
+        Item = new DisplayModeItem();
         Item.Width = AWidth;
         Item.Height = AHeight;
         Item.PixelFormatID = APixelFormatID;
@@ -1316,9 +1316,9 @@ public partial class TDisplayModeList : IDisposable
         FList.Delete(Index);
     }
 
-    public sealed class ItemsAccessor(TDisplayModeList target)
+    public sealed class ItemsAccessor(DisplayModeList target)
     {
-        public TDisplayModeItem this[int Index] { get => target.GetItems(Index); }
+        public DisplayModeItem this[int Index] { get => target.GetItems(Index); }
     }
 
     public ItemsAccessor Items => new ItemsAccessor(this);
@@ -1329,21 +1329,21 @@ public partial class TDisplayModeList : IDisposable
 [LegacyObject]
 // FBits, FTable (the bytes of the table, which the original addresses with a pointer into the
 // derived class's own field)
-public partial class TBlendTable
+public partial class BlendTable
 {
     internal int FBits;
     internal byte[] FTable;
 
     // GFXE.pas:741
-    public virtual TBlendTable Copy()
+    public virtual BlendTable Copy()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // GFXE.pas:742
-    public virtual void Assign(TBlendTable Source)
+    public virtual void Assign(BlendTable Source)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // GFXE.pas:9601
@@ -1356,20 +1356,20 @@ public partial class TBlendTable
     public int Bits { get => FBits; }
     public byte[] Table { get => FTable; }
 
-    public TBlendTable()
+    public BlendTable()
     {
         CaptureAddress.Assign(this);
     }
 
-    internal static void GenerateAlphaBlendTable(TBlendTable Table, float Alpha)
+    internal static void GenerateAlphaBlendTable(BlendTable Table, float Alpha)
     {
-        if (Table is TBlendTable5Bit)
+        if (Table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
                 for (int J = 0; J <= 31; J++)
                 {
-                    ((TBlendTable5Bit)Table).Table[I][J] = (byte)Round((double)((double)I * Alpha) + (double)((double)1 - Alpha) * J);
+                    ((BlendTable5Bit)Table).Table[I][J] = (byte)Round((double)((double)I * Alpha) + (double)((double)1 - Alpha) * J);
                 }
             }
         }
@@ -1379,11 +1379,11 @@ public partial class TBlendTable
         }
     }
 
-    internal static void GenerateIntensityBlendTable(TBlendTable Table, float Intensity)
+    internal static void GenerateIntensityBlendTable(BlendTable Table, float Intensity)
     {
         int V;
         float F;
-        if (Table is TBlendTable5Bit)
+        if (Table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
@@ -1404,17 +1404,17 @@ public partial class TBlendTable
                         V = 31;
                     }
 
-                    ((TBlendTable5Bit)Table).Table[I][J] = (byte)V;
+                    ((BlendTable5Bit)Table).Table[I][J] = (byte)V;
                 }
             }
         }
     }
 
-    internal static void GenerateShadowBlendTable(TBlendTable Table, float Shadow)
+    internal static void GenerateShadowBlendTable(BlendTable Table, float Shadow)
     {
         int V;
         float F;
-        if (Table is TBlendTable5Bit)
+        if (Table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
@@ -1432,16 +1432,16 @@ public partial class TBlendTable
                         V = J;
                     }
 
-                    ((TBlendTable5Bit)Table).Table[I][J] = (byte)V;
+                    ((BlendTable5Bit)Table).Table[I][J] = (byte)V;
                 }
             }
         }
     }
 
-    internal static void GenerateBrightenBlendTable(TBlendTable Table, float Brighten)
+    internal static void GenerateBrightenBlendTable(BlendTable Table, float Brighten)
     {
         int V;
-        if (Table is TBlendTable5Bit)
+        if (Table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
@@ -1453,16 +1453,16 @@ public partial class TBlendTable
                         V = J;
                     }
 
-                    ((TBlendTable5Bit)Table).Table[I][J] = (byte)V;
+                    ((BlendTable5Bit)Table).Table[I][J] = (byte)V;
                 }
             }
         }
     }
 
-    internal static void GenerateLinearAlphaBlendTable(TBlendTable Table, float Alpha)
+    internal static void GenerateLinearAlphaBlendTable(BlendTable Table, float Alpha)
     {
         float F;
-        if (Table is TBlendTable5Bit)
+        if (Table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
@@ -1482,7 +1482,7 @@ public partial class TBlendTable
 
                 for (int J = 0; J <= 31; J++)
                 {
-                    ((TBlendTable5Bit)Table).Table[I][J] = (byte)Round((double)((double)I * F) + (double)((double)1 - F) * J);
+                    ((BlendTable5Bit)Table).Table[I][J] = (byte)Round((double)((double)I * F) + (double)((double)1 - F) * J);
                 }
             }
         }
@@ -1495,7 +1495,7 @@ public partial class TBlendTable
 }
 
 // Table (32 x 32 bytes, row I at byte I * 32)
-public partial class TBlendTable5Bit : TBlendTable
+public partial class BlendTable5Bit : BlendTable
 {
     // The rows of the table, so Table[I][J] reads and writes the byte of `Table[I, J]`.
     public readonly struct Rows(byte[] bytes)
@@ -1509,15 +1509,15 @@ public partial class TBlendTable5Bit : TBlendTable
     public ReadOnlySpan<byte> Bytes => FTable;
 
     // GFXE.pas:9609
-    public TBlendTable5Bit()
+    public BlendTable5Bit()
     {
         Initialize(5, new byte[32 * 32]);
     }
 
     // GFXE.pas:9621
-    public override TBlendTable Copy()
+    public override BlendTable Copy()
     {
-        TBlendTable Result = new TBlendTable5Bit();
+        BlendTable Result = new BlendTable5Bit();
         Result.Assign(this);
         return Result;
     }
@@ -1526,21 +1526,21 @@ public partial class TBlendTable5Bit : TBlendTable
 
 [LegacyObject]
 // FList
-public partial class TBlendTableList : IDisposable
+public partial class BlendTableList : IDisposable
 {
-    internal TList FList;
+    internal DelphiList FList;
 
     // GFXE.pas:9642
     internal int GetCount() => FList.Count;
 
     // GFXE.pas:9656
-    internal TBlendTable GetTables(int Index) => (TBlendTable)FList.List[Index];
+    internal BlendTable GetTables(int Index) => (BlendTable)FList.List[Index];
 
     // GFXE.pas:9629
-    public TBlendTableList()
+    public BlendTableList()
     {
         CaptureAddress.Assign(this);
-        FList = new TList();
+        FList = new DelphiList();
     }
 
     // GFXE.pas:9635
@@ -1560,7 +1560,7 @@ public partial class TBlendTableList : IDisposable
     }
 
     // GFXE.pas:9661
-    public void Add(TBlendTable Table)
+    public void Add(BlendTable Table)
     {
         FList.Add(Table);
     }
@@ -1573,33 +1573,31 @@ public partial class TBlendTableList : IDisposable
 
     public int Count { get => GetCount(); }
 
-    public sealed class TablesAccessor(TBlendTableList target)
+    public sealed class TablesAccessor(BlendTableList target)
     {
-        public TBlendTable this[int Index] { get => target.GetTables(Index); }
+        public BlendTable this[int Index] { get => target.GetTables(Index); }
     }
 
     public TablesAccessor Tables => new TablesAccessor(this);
 
 }
 
-public delegate void TGenerateBlendTableProc(TBlendTable Table, float Value);
-
 [LegacyObject]
 // FTables, Lookup (101 tables, indexed by percentage)
-public partial class TLookupBlendTableCollection100 : IDisposable
+public partial class LookupBlendTableCollection100 : IDisposable
 {
-    internal TBlendTableList FTables;
+    internal BlendTableList FTables;
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
     public FixedArray_Aow_Units_GFXE_TBlendTable_101 Lookup;
 
     // GFXE.pas:9687
-    public TBlendTable GetLookupTables(int Index) => Lookup[Index];
+    public BlendTable GetLookupTables(int Index) => Lookup[Index];
 
     // GFXE.pas:9674
-    public TLookupBlendTableCollection100()
+    public LookupBlendTableCollection100()
     {
         CaptureAddress.Assign(this);
-        FTables = new TBlendTableList();
+        FTables = new BlendTableList();
     }
 
     // GFXE.pas:9680
@@ -1617,10 +1615,10 @@ public partial class TLookupBlendTableCollection100 : IDisposable
     }
 
     // GFXE.pas:9698
-    public bool GenerateLookupTables(int Bits, TGenerateBlendTableProc Proc, int Count)
+    public bool GenerateLookupTables(int Bits, GenerateBlendTableProc Proc, int Count)
     {
         bool Result;
-        TBlendTable T;
+        BlendTable T;
         float V;
         int J;
         Clear();
@@ -1631,7 +1629,7 @@ public partial class TLookupBlendTableCollection100 : IDisposable
                 switch (Bits)
                 {
                     case 5:
-                        T = new TBlendTable5Bit();
+                        T = new BlendTable5Bit();
                         break;
                     default:
                         T = null;
@@ -1673,21 +1671,23 @@ public partial class TLookupBlendTableCollection100 : IDisposable
         return Result;
     }
 
-    public TBlendTableList Tables { get => FTables; }
+    public BlendTableList Tables { get => FTables; }
 
-    public sealed class LookupTablesAccessor(TLookupBlendTableCollection100 target)
+    public sealed class LookupTablesAccessor(LookupBlendTableCollection100 target)
     {
-        public TBlendTable this[int Index] { get => target.GetLookupTables(Index); }
+        public BlendTable this[int Index] { get => target.GetLookupTables(Index); }
     }
 
     public LookupTablesAccessor LookupTables => new LookupTablesAccessor(this);
 
+    public delegate void GenerateBlendTableProc(BlendTable Table, float Value);
+
 }
 
-public delegate void TProgressEvent(object Sender, int Percent, int Param);
+public delegate void ProgressEvent(object Sender, int Percent, int Param);
 
 // { The implementation list of image file classes (TList of TImageFileClass). }
-public partial class TImageFileClassList : TList
+public partial class ImageFileClassList : DelphiList
 {
     // GFXE.pas:941
     internal ImageFileClass GetClasses(int Index)
@@ -1725,7 +1725,7 @@ public partial class TImageFileClassList : TList
         return Result;
     }
 
-    public sealed class ClassesAccessor(TImageFileClassList target)
+    public sealed class ClassesAccessor(ImageFileClassList target)
     {
         public ImageFileClass this[int Index] { get => target.GetClasses(Index); }
     }
@@ -1734,7 +1734,7 @@ public partial class TImageFileClassList : TList
 }
 
 // the Windows bitmap file format
-public partial class TBMPImageFile : TImageFile, IImageFileClass
+public partial class BMPImageFile : ImageFile, IImageFileClass
 {
     // GFXE.pas:9043
     public static new string Extension => "BMP";
@@ -1743,20 +1743,20 @@ public partial class TBMPImageFile : TImageFile, IImageFileClass
     public static new string Description => "Bitmap files (*.bmp)";
 
     // GFXE.pas:9053
-    public static new int GetPixelFormatID(string FileName) => Aow.Game.Draw.TBMPImageFile.GetBMPPixelFormat(FileName);
+    public static new int GetPixelFormatID(string FileName) => Aow.Game.Draw.BMPImageFile.GetBMPPixelFormat(FileName);
 
     // GFXE.pas:9058
-    public static new TSurface CreateSurface(string FileName) => Aow.Game.Draw.TBMPImageFile.CreateSurfaceFromBMP(FileName);
+    public static new Surface CreateSurface(string FileName) => Aow.Game.Draw.BMPImageFile.CreateSurfaceFromBMP(FileName);
 
     // GFXE.pas:9063
-    public static new int LoadToSurfaceDesc(string FileName, ref TSurfaceDesc SD, int X, int Y) => Aow.Game.Draw.TBMPImageFile.LoadBMP(FileName, ref SD, X, Y);
+    public static new int LoadToSurfaceDesc(string FileName, ref SurfaceDesc SD, int X, int Y) => Aow.Game.Draw.BMPImageFile.LoadBMP(FileName, ref SD, X, Y);
 
-    private static int LoadBMP(string FileName, ref global::Aow.Game.Draw.TSurfaceDesc SD, int X, int Y)
+    private static int LoadBMP(string FileName, ref global::Aow.Game.Draw.SurfaceDesc SD, int X, int Y)
     {
         throw new NotImplementedException();
     }
 
-    private static global::Aow.Game.Draw.TSurface CreateSurfaceFromBMP(string FileName)
+    private static global::Aow.Game.Draw.Surface CreateSurfaceFromBMP(string FileName)
     {
         throw new NotImplementedException();
     }

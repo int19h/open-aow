@@ -15,41 +15,41 @@ public sealed class WallCrushingFastCombatTests
     // TAbility's constructor reads the game set's image library manager.
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWHSSet previousSet = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        private readonly TImageLibraryManager manager = new TImageLibraryManager(null!);
+        private readonly AoWHSSet previousSet = Aow.Game.Engine.AoWHSSet.Current;
+        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly ImageLibraryManager manager = new ImageLibraryManager(null!);
 
         internal Fixture()
         {
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet = EngineFixture.CreateGameSet(manager);
+            Aow.Game.Engine.AoWHSSet.Current = EngineFixture.CreateGameSet(manager);
             Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
         }
 
         public void Dispose()
         {
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet = previousSet;
+            Aow.Game.Engine.AoWHSSet.Current = previousSet;
             Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
             manager.Dispose();
         }
     }
 
-    private sealed class Attacker(TECustomNode owner) : TCombatObject(owner);
+    private sealed class Attacker(ECustomNode owner) : CombatObject(owner);
 
-    private sealed class RecordingWall(TECustomNode owner) : TCombatWall(owner)
+    private sealed class RecordingWall(ECustomNode owner) : CombatWall(owner)
     {
-        internal readonly List<(int Attack, int Damage, TSet<TDamageType> Types)> Rolls = [];
+        internal readonly List<(int Attack, int Damage, Set<DamageType> Types)> Rolls = [];
 
-        public override int ExecuteDamageRole(int AAttack, int Damage, TSet<TDamageType> DamageTypes)
+        public override int ExecuteDamageRole(int AAttack, int Damage, Set<DamageType> DamageTypes)
         {
             Rolls.Add((AAttack, Damage, DamageTypes));
             return base.ExecuteDamageRole(AAttack, Damage, DamageTypes);
         }
     }
 
-    private static (TCombat Combat, Attacker Source, RecordingWall Wall) Build()
+    private static (Combat Combat, Attacker Source, RecordingWall Wall) Build()
     {
-        var combat = new TCombat(null!);
-        combat.FStatus = combat.FStatus + TSet<TCombatStatusElement>.Of(TCombatStatusElement.cLogCombatActions);
+        var combat = new Combat(null!);
+        combat.FStatus = combat.FStatus + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         var objects = combat.FCombatData.FCombatObjects;
         var source = new Attacker(objects) { FCombat = combat, FID = 1 };
         var wall = new RecordingWall(objects) { FCombat = combat };
@@ -62,8 +62,8 @@ public sealed class WallCrushingFastCombatTests
     {
         using var fixture = new Fixture();
         var (combat, source, wall) = Build();
-        var ability = new TWallCrushingAbility(null!);
-        var command = new TFastCombatCommand(117) { FTarget = wall };
+        var ability = new WallCrushingAbility(null!);
+        var command = new FastCombatCommand(117) { FTarget = wall };
         Assert.Equal(10, wall.GetHitPoints());
         int seed = RtlUnit.RandSeed;
         try
@@ -80,17 +80,17 @@ public sealed class WallCrushingFastCombatTests
         var roll = Assert.Single(wall.Rolls);
         Assert.Equal(6, roll.Attack);
         Assert.Equal(6, roll.Damage);
-        Assert.Equal(TSet<TDamageType>.Of(TDamageType.dtWall), roll.Types);
+        Assert.Equal(Set<DamageType>.Of(DamageType.Wall), roll.Types);
         Assert.Equal(1, combat.FLogbook.FActions.Count);
-        var action = Assert.IsType<TDamageCA>(combat.FLogbook.FActions.GetCombatActions(0));
+        var action = Assert.IsType<DamageCA>(combat.FLogbook.FActions.GetCombatActions(0));
         Assert.Equal(1, action.FSourceID);
         Assert.Equal(2, action.FTargetID);
         Assert.Equal(4, action.FDamage);
         Assert.Equal(4, action.FDamageDone);
-        Assert.Equal(TSet<TDamageType>.Of(TDamageType.dtWall), action.FDamageTypes.Value);
-        Assert.Equal(TSet<TDamageType>.Of(), action.FEffects.Value);
+        Assert.Equal(Set<DamageType>.Of(DamageType.Wall), action.FDamageTypes.Value);
+        Assert.Equal(Set<DamageType>.Of(), action.FEffects.Value);
         Assert.Equal(6, wall.GetHitPoints());
-        Assert.True(wall.FStatus.Contains(TCombatObjectStatusElement.csDamaged));
+        Assert.True(wall.FStatus.Contains(CombatObjectStatusElement.Damaged));
     }
 
     [Fact]
@@ -98,9 +98,9 @@ public sealed class WallCrushingFastCombatTests
     {
         using var fixture = new Fixture();
         var (combat, source, wall) = Build();
-        wall.FStatus = wall.FStatus + TSet<TCombatObjectStatusElement>.Of(TCombatObjectStatusElement.csDestroyed);
-        var ability = new TWallCrushingAbility(null!);
-        var command = new TFastCombatCommand(117) { FTarget = wall };
+        wall.FStatus = wall.FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        var ability = new WallCrushingAbility(null!);
+        var command = new FastCombatCommand(117) { FTarget = wall };
         Assert.True(ability.fcExecuteCombatCommand(source, command));
         Assert.Empty(wall.Rolls);
         Assert.Equal(0, combat.FLogbook.FActions.Count);

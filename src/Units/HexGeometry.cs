@@ -152,7 +152,7 @@ public static class HexGeometry
         NewXhx = dXhx + Xhx;
     }
 
-    internal static void GenerateWalkAroundRoute(int Xhx, int Yhx, TWalkAroundRouteCallBack CallBack)
+    internal static void GenerateWalkAroundRoute(int Xhx, int Yhx, WalkAroundRouteCallBack CallBack)
     {
         int NXhx;
         int NYhx = default;
@@ -198,9 +198,9 @@ public static class HexGeometry
         }
     }
 
-    internal static TXYL PackXYL(sbyte X, sbyte Y, sbyte L)
+    internal static XYL PackXYL(sbyte X, sbyte Y, sbyte L)
     {
-        TXYL Result = default;
+        XYL Result = default;
         Result.X = X;
         Result.Y = Y;
         Result.L = L;

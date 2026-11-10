@@ -12,7 +12,7 @@ public sealed class ListsProbeTests
     public void ListsFixture()
     {
         var p = new ProbeLines("lists");
-        var l = new TList();
+        var l = new DelphiList();
         Item[] items = Enumerable.Range(0, 257).Select(i => new Item(i, i % 3)).ToArray();
         void State(string tag)
         {
@@ -38,7 +38,7 @@ public sealed class ListsProbeTests
             for (int i = 0; i < n; i++) { p.Fact($"sort_{pattern}_{n}_id_{i}", ((Item)l[i]!).Id); p.Fact($"sort_{pattern}_{n}_key_{i}", ((Item)l[i]!).Key); }
             p.Fact($"sort_{pattern}_{n}_count", l.Count);
         }
-        var sl = new TStringList();
+        var sl = new StringList();
         void StringState(string tag)
         {
             p.Fact(tag + "_count", sl.Count);
@@ -56,7 +56,7 @@ public sealed class ListsProbeTests
         p.Fact("default_sorted", Ord(sl.Sorted)); p.Fact("default_duplicates", (int)sl.Duplicates);
         for (int d = 0; d < 3; d++)
         {
-            sl.Sorted = false; sl.Clear(); sl.Duplicates = (TDuplicates)d;
+            sl.Sorted = false; sl.Clear(); sl.Duplicates = (Duplicates)d;
             Add($"unsorted_{d}_z", "zeta", 1); Add($"unsorted_{d}_b", "Beta", 2); Add($"unsorted_{d}_a", "alpha", 3); Add($"unsorted_{d}_duplicate", "ALPHA", 4);
             Lookup($"unsorted_{d}_lookup", "Alpha"); Lookup($"unsorted_{d}_missing", "delta"); sl.Sorted = true; StringState($"enabled_sorted_{d}"); Lookup($"enabled_{d}_lookup", "alpha");
             sl.Clear(); Add($"sorted_{d}_z", "zeta", 1); Add($"sorted_{d}_b", "Beta", 2); Add($"sorted_{d}_a", "alpha", 3); Add($"sorted_{d}_duplicate", "ALPHA", 4); Add($"sorted_{d}_same", "alpha", 5); Add($"sorted_{d}_empty", "", 6); Add($"sorted_{d}_prefix", "alp", 7);

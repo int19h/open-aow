@@ -4,14 +4,14 @@
   "lists": true,
   "classes": [
     {
-      "name": "TInner",
+      "name": "TreeTests.TInner",
       "inherits": false,
       "properties": [
         {"name": "N", "codec": "i32"}
       ]
     },
     {
-      "name": "TSample",
+      "name": "TreeTests.TSample",
       "inherits": false,
       "properties": [
         {"name": "Number", "codec": "i32"},
@@ -26,8 +26,8 @@
         {"name": "Message", "codec": "strings"},
         {"name": "Editors", "codec": "strings-ex"},
         {"name": "Blob", "codec": "data", "size": 4},
-        {"name": "Fixed", "codec": "object", "class": "TInner"},
-        {"name": "Made", "codec": "created", "family": "TInner"},
+        {"name": "Fixed", "codec": "object", "class": "TreeTests.TInner"},
+        {"name": "Made", "codec": "created", "family": "TreeTests.TInner"},
         {"name": "Children", "codec": "children"},
         {"name": "Player", "codec": "i32", "domain": "player-slot"},
         {"name": "Scores", "codec": "list", "element": {"codec": "i32"}},

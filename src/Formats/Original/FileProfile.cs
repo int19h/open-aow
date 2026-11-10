@@ -22,12 +22,12 @@ public abstract class FileProfile
 
     public static IReadOnlyList<FileProfile> All { get; } =
     [
-        new HsmProfile("world-hsm", "game", ["save", "map", "campaign-map"], "TAoWHSMap"),
-        new HsmProfile("tactical-hsm", "tactical", ["map"], "TAoWCombatMap"),
+        new HsmProfile("world-hsm", "game", ["save", "map", "campaign-map"], "AoWHSMap"),
+        new HsmProfile("tactical-hsm", "tactical", ["map"], "AoWCombatMap"),
         new StoredObjectProfile(),
         new ScenarioSetProfile(),
-        new WrittenObjectProfile("hero-list", ["hero-list"], "THeroLibrary"),
-        new WrittenObjectProfile("item-list", ["item-list"], "TItemLibrary"),
+        new WrittenObjectProfile("hero-list", ["hero-list"], "HeroLibrary"),
+        new WrittenObjectProfile("item-list", ["item-list"], "ItemLibrary"),
     ];
 
     /// <summary>The names of the document kinds (DocumentKind.All), which own the extensions.</summary>
@@ -319,7 +319,7 @@ public sealed class ScenarioSetProfile : FileProfile
     public override string Name => "scenario-set";
     public override string Engine => "game";
     public override IReadOnlyList<string> Kinds => ["scenario-set"];
-    public override string RootFamily => "TAoWHSSet";
+    public override string RootFamily => "AoWHSSet";
     public override bool RootHasClass => false;
 
     private const int HeaderSize = 52;
@@ -396,7 +396,7 @@ public sealed class StoredObjectProfile : FileProfile
     public override string Name => "campaign";
     public override string Engine => "campaign";
     public override IReadOnlyList<string> Kinds => ["campaign", "campaign-save"];
-    public override string RootFamily => "TAoWCampaign";
+    public override string RootFamily => "AoWCampaign";
     public override bool RootHasClass => true;
 
     internal override (JsonObject Container, JsonObject Root) Import(byte[] file, ImportSession session)

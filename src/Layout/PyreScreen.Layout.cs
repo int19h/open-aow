@@ -7,7 +7,7 @@ using Aow.Game.Ui.Windows;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TPyreScreen : ILayoutModule
+public partial class PyreScreen : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -18,7 +18,7 @@ public partial class TPyreScreen : ILayoutModule
     {
         session.Begin(this);
         Name = "PyreScreen";
-        DeadPnl = new TAOWPanel(this);
+        DeadPnl = new AOWPanel(this);
         session.BeginRead(DeadPnl);
         DeadPnl.Name = "DeadPnl";
         DeadPnl.OnMouseDown = (_, button, shift, x, y) => DeadPnlMouseDown(button, shift, x, y);
@@ -30,8 +30,8 @@ public partial class TPyreScreen : ILayoutModule
         DeadPnl.WinTop = 0;
         DeadPnl.WinWidth = 640;
         DeadPnl.Masked = true;
-        DeadPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        DeadPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        DeadPnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        DeadPnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         DeadPnl.Alignment.HeightPercent = 0;
         DeadPnl.Alignment.WidthPercent = 0;
         DeadPnl.Alignment.LeftOffPercent = 0;
@@ -49,15 +49,15 @@ public partial class TPyreScreen : ILayoutModule
         DeadPnl.MinWidth = 640;
         DeadPnl.MinHeight = 480;
         session.EndRead(DeadPnl);
-        PyreTop = new TAOWImage(this);
+        PyreTop = new AOWImage(this);
         session.BeginRead(PyreTop);
         PyreTop.Name = "PyreTop";
         PyreTop.Priority = 0;
         PyreTop.WinLeft = 0;
         PyreTop.WinTop = 0;
         PyreTop.CaptureInput = false;
-        PyreTop.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PyreTop.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        PyreTop.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PyreTop.Alignment.AlignHeight = AOWAlignHeight.Top;
         PyreTop.Alignment.HeightPercent = 0;
         PyreTop.Alignment.WidthPercent = 0;
         PyreTop.Alignment.LeftOffPercent = 0;
@@ -77,7 +77,7 @@ public partial class TPyreScreen : ILayoutModule
         PyreTop.Animate = false;
         PyreTop.AnimFrameDelay = 0;
         session.EndRead(PyreTop);
-        LeaderFaceFr = new TAOWImage(this);
+        LeaderFaceFr = new AOWImage(this);
         session.BeginRead(LeaderFaceFr);
         LeaderFaceFr.Name = "LeaderFaceFr";
         LeaderFaceFr.OnPreDraw = (_, SurfDesc) => LeaderFaceFrPreDraw(SurfDesc);
@@ -85,8 +85,8 @@ public partial class TPyreScreen : ILayoutModule
         LeaderFaceFr.WinLeft = 225;
         LeaderFaceFr.WinTop = 5;
         LeaderFaceFr.CaptureInput = true;
-        LeaderFaceFr.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LeaderFaceFr.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LeaderFaceFr.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LeaderFaceFr.Alignment.AlignHeight = AOWAlignHeight.Top;
         LeaderFaceFr.Alignment.HeightPercent = 0;
         LeaderFaceFr.Alignment.WidthPercent = 0;
         LeaderFaceFr.Alignment.LeftOffPercent = 0;
@@ -115,8 +115,8 @@ public partial class TPyreScreen : ILayoutModule
         PyreAnimation.WinLeft = 0;
         PyreAnimation.WinTop = 0;
         PyreAnimation.CaptureInput = true;
-        PyreAnimation.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PyreAnimation.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        PyreAnimation.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PyreAnimation.Alignment.AlignHeight = AOWAlignHeight.Top;
         PyreAnimation.Alignment.HeightPercent = 0;
         PyreAnimation.Alignment.WidthPercent = 0;
         PyreAnimation.Alignment.LeftOffPercent = 0;

@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TRealmWin
+public partial class RealmWin
 {
     public override void Loaded()
     {

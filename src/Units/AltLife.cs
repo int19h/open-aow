@@ -6,38 +6,38 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TAltarOfLife : TAltar
+public partial class AltarOfLife : Altar
 {
-    public TAltarOfLife(TECustomNode owner) : base(owner)
+    public AltarOfLife(ECustomNode owner) : base(owner)
     { }
 
     // AltLife.pas:36
     public new const int ClassID = 131635;
 
     // AltLife.pas:39
-    public override TStorm CreateStorm() => new TDivineStorm(null);
+    public override Storm CreateStorm() => new DivineStorm(null);
 
-}
-
-public partial class TAltarOfLifeResource : TAltarResource
-{
-    public TAltarOfLifeResource(TECustomNode owner) : base(owner)
+    public new partial class Resource : AltarResource
     {
+        public Resource(ECustomNode owner) : base(owner)
+        {
+        }
+
+        // AltLife.pas:52
+        public new const int ClassID = 131636;
+
+        // AltLife.pas:44
+
+        // AltLife.pas:55
+        public override int ResourceUserClassID() => 131635;
+
+        // AltLife.pas:26
+
+        // AltLife.pas:49
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.AltarOfLife.Resource.AltarOfLifeRStr);
+
+        private static readonly string AltarOfLifeRStr = "Altar of Life";
+
     }
-
-    // AltLife.pas:52
-    public new const int ClassID = 131636;
-
-    // AltLife.pas:44
-
-    // AltLife.pas:55
-    public override int ResourceUserClassID() => 131635;
-
-    // AltLife.pas:26
-
-    // AltLife.pas:49
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfLifeResource.AltarOfLifeRStr);
-
-    private static readonly string AltarOfLifeRStr = "Altar of Life";
 
 }

@@ -11,9 +11,9 @@ using Aow.Rtl;
 namespace Aow.Game.Units
 {
 
-    public partial class TArmyID
+    public partial class ArmyID
     {
-        public override void ReadWrite(TEStorageStream stream)
+        public override void ReadWrite(EStorageStream stream)
         {
             base.ReadWrite(stream);
             stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 10);
@@ -31,9 +31,9 @@ namespace Aow.Game.Units
 namespace Aow.Game.Combat
 {
 
-    public partial class TCombatPredictorUnit
+    public partial class CombatPredictorUnit
     {
-        public void Setup(TAbstractUnit unit, TCombatPredictor predictor, byte side)
+        public void Setup(AbstractUnit unit, CombatPredictor predictor, byte side)
         {
             FUnit = unit;
             unit.AddRef();
@@ -52,15 +52,15 @@ namespace Aow.Game.Combat
 namespace Aow.Game.Magic.Abilities
 {
 
-    public partial class TWallCrushingAbility
+    public partial class WallCrushingAbility
     {
         // AoWAb.PAS:2081
-        public override bool fcExecuteCombatCommand(TCombatObject source, TFastCombatCommand command)
+        public override bool fcExecuteCombatCommand(CombatObject source, FastCombatCommand command)
         {
             var target = command.FTarget;
             if (target.GetEnabled())
             {
-                var action = Aow.Game.Magic.Abilities.TWallCrushingAbility.CreateDamageCA(source, target, 6, 6, TSet<TDamageType>.Of(TDamageType.dtWall));
+                var action = Aow.Game.Magic.Abilities.WallCrushingAbility.CreateDamageCA(source, target, 6, 6, Set<DamageType>.Of(DamageType.Wall));
                 source.FCombat.ExecuteCombatAction(action);
                 action.Release();
             }

@@ -8,9 +8,9 @@ namespace Aow.Game.Ui.Windows;
 // { The AoWWinGeneric unit of aowInt.dpl: TAOWGenericWindow, the base window class that publishes
 //   the window manager's settings (the ancestor of TAOWWindow, TAOWToolTip and TAOWMenu). }
 // no fields of its own
-public partial class TAOWGenericWindow : TAOWBaseWindow
+public partial class AOWGenericWindow : AOWBaseWindow
 {
-    public TAOWGenericWindow(TComponent owner) : base(owner)
+    public AOWGenericWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
     // AoWWinGeneric.pas:39
@@ -21,10 +21,10 @@ public partial class TAOWGenericWindow : TAOWBaseWindow
     }
 
     // AoWWinGeneric.pas:45
-    public override void SetOwner(TAoWComponent Value)
+    public override void SetOwner(AoWComponent Value)
     {
         base.SetOwner(Value);
-        FWinManager = (TAOWWinManager)FAOWOwner;
+        FWinManager = (AOWWinManager)FAOWOwner;
     }
 
     // AoWWinGeneric.pas:51
@@ -60,7 +60,7 @@ public partial class TAOWGenericWindow : TAOWBaseWindow
     }
 
     [Published]
-    public TAOWWinManager WinManager { get => FWinManager; set => SetManager(value); }
+    public AOWWinManager WinManager { get => FWinManager; set => SetManager(value); }
 
     [Published]
     public bool UseVMem { get => FUseVMem; set => FUseVMem = value; }
@@ -81,7 +81,7 @@ public partial class TAOWGenericWindow : TAOWBaseWindow
     public bool DoubleBuffered { get => FDoubleBuffered; set => SetBuffer(value); }
 
     [Published]
-    public TNotifyEvent<TAOWGenericWindow> OnChangeCursor
+    public NotifyEvent<AOWGenericWindow> OnChangeCursor
     {
         get => EventSlot.Get(this, FOnChangeCursor);
         set => EventSlot.Set(this, ref FOnChangeCursor, value);
@@ -91,14 +91,14 @@ public partial class TAOWGenericWindow : TAOWBaseWindow
     public int MaskColor { get => FMaskColor; set => FMaskColor = value; }
 
     [Published]
-    public TAoWOnDrawSurface<TAOWGenericWindow> OnDrawSurface
+    public AoWOnDrawSurface<AOWGenericWindow> OnDrawSurface
     {
         get => EventSlot.Get(this, FOnDrawSurface);
         set => EventSlot.Set(this, ref FOnDrawSurface, value);
     }
 
     [Published]
-    public TAoWOnDrawSurface<TAOWGenericWindow> OnPreDrawSurface
+    public AoWOnDrawSurface<AOWGenericWindow> OnPreDrawSurface
     {
         get => EventSlot.Get(this, FOnPreDrawSurface);
         set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
@@ -107,85 +107,85 @@ public partial class TAOWGenericWindow : TAOWBaseWindow
     [Published]
     public bool FreeSurfaceOnHide { get => FFreeSurfaceOnHide; set => FFreeSurfaceOnHide = value; }
 
-    public new TNotifyEvent<TAOWGenericWindow> OnChange
+    public new NotifyEvent<AOWGenericWindow> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWGenericWindow> OnMouseDown
+    public new MouseEvent<AOWGenericWindow> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWGenericWindow> OnMouseUp
+    public new MouseEvent<AOWGenericWindow> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWGenericWindow> OnMouseMove
+    public new MouseMoveEvent<AOWGenericWindow> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWGenericWindow> OnKeyPress
+    public new KeyPressEvent<AOWGenericWindow> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWGenericWindow> OnKeyDown
+    public new KeyEvent<AOWGenericWindow> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWGenericWindow> OnPreDraw
+    public new AoWOnDrawEvent<AOWGenericWindow> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWGenericWindow> OnDraw
+    public new AoWOnDrawEvent<AOWGenericWindow> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWGenericWindow> OnUpdate
+    public new NotifyEvent<AOWGenericWindow> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
-    public new TAoWOnDrawBackEvent<TAOWGenericWindow> OnDrawBack
+    public new AoWOnDrawBackEvent<AOWGenericWindow> OnDrawBack
     {
         get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
-    public new TNotifyEvent<TAOWGenericWindow> OnEnter
+    public new NotifyEvent<AOWGenericWindow> OnEnter
     {
         get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
-    public new TNotifyEvent<TAOWGenericWindow> OnExit
+    public new NotifyEvent<AOWGenericWindow> OnExit
     {
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
 
-    public new TNotifyEvent<TAOWGenericWindow> OnHide
+    public new NotifyEvent<AOWGenericWindow> OnHide
     {
         get => EventSlot.Get(this, FOnHide);
         set => EventSlot.Set(this, ref FOnHide, value);
     }
 
-    public new TNotifyEvent<TAOWGenericWindow> OnShow
+    public new NotifyEvent<AOWGenericWindow> OnShow
     {
         get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);

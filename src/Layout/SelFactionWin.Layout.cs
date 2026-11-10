@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSelFactionWin : ILayoutModule
+public partial class SelFactionWin : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TSelFactionWin : ILayoutModule
     {
         session.Begin(this);
         Name = "SelFactionWin";
-        FactionPnl = new TAOWPanel(this);
+        FactionPnl = new AOWPanel(this);
         session.BeginRead(FactionPnl);
         FactionPnl.Name = "FactionPnl";
         FactionPnl.OnMouseMove = (_, shift, x, y) => FactionPnlMouseMove(shift, x, y);
@@ -31,8 +31,8 @@ public partial class TSelFactionWin : ILayoutModule
         FactionPnl.WinTop = 0;
         FactionPnl.WinWidth = 640;
         FactionPnl.Masked = false;
-        FactionPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        FactionPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        FactionPnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        FactionPnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         FactionPnl.Alignment.HeightPercent = 0;
         FactionPnl.Alignment.WidthPercent = 0;
         FactionPnl.Alignment.LeftOffPercent = 0;
@@ -50,15 +50,15 @@ public partial class TSelFactionWin : ILayoutModule
         FactionPnl.MinWidth = 640;
         FactionPnl.MinHeight = 480;
         session.EndRead(FactionPnl);
-        TopLbl = new TAOWLabel(this);
+        TopLbl = new AOWLabel(this);
         session.BeginRead(TopLbl);
         TopLbl.Name = "TopLbl";
         TopLbl.Priority = 1000;
         TopLbl.WinLeft = 256;
         TopLbl.WinTop = 12;
         TopLbl.CaptureInput = true;
-        TopLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TopLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TopLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TopLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         TopLbl.Alignment.HeightPercent = 0;
         TopLbl.Alignment.WidthPercent = 0;
         TopLbl.Alignment.LeftOffPercent = 0;
@@ -73,7 +73,7 @@ public partial class TSelFactionWin : ILayoutModule
         TopLbl.Text = "Choose a Faction";
         TopLbl.TextColor = 0;
         session.EndRead(TopLbl);
-        LightPnl = new TAOWPanel(this);
+        LightPnl = new AOWPanel(this);
         session.BeginRead(LightPnl);
         LightPnl.Name = "LightPnl";
         LightPnl.OnMouseDown = (_, button, shift, x, y) => LightPnlMouseDown(button, shift, x, y);
@@ -83,8 +83,8 @@ public partial class TSelFactionWin : ILayoutModule
         LightPnl.WinTop = 0;
         LightPnl.WinWidth = 288;
         LightPnl.Masked = true;
-        LightPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        LightPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        LightPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        LightPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         LightPnl.Alignment.HeightPercent = 0;
         LightPnl.Alignment.WidthPercent = 0;
         LightPnl.Alignment.LeftOffPercent = 0;
@@ -102,7 +102,7 @@ public partial class TSelFactionWin : ILayoutModule
         LightPnl.MinWidth = 0;
         LightPnl.MinHeight = 0;
         session.EndRead(LightPnl);
-        LText = new TAOWMemo(this);
+        LText = new AOWMemo(this);
         session.BeginRead(LText);
         LText.Name = "LText";
         LText.Visible = false;
@@ -110,8 +110,8 @@ public partial class TSelFactionWin : ILayoutModule
         LText.WinLeft = 0;
         LText.WinTop = 140;
         LText.CaptureInput = false;
-        LText.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        LText.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        LText.Alignment.AlignWidth = AOWAlignWidth.Both;
+        LText.Alignment.AlignHeight = AOWAlignHeight.Both;
         LText.Alignment.HeightPercent = 0;
         LText.Alignment.WidthPercent = 0;
         LText.Alignment.LeftOffPercent = 0;
@@ -146,9 +146,9 @@ public partial class TSelFactionWin : ILayoutModule
         LText.ILIndexTexture = 0;
         LText.ItemHeight = 20;
         LText.ColorChangeChar = 0;
-        LText.TextAlign = TaowTextAlign.taCenter;
+        LText.TextAlign = TaowTextAlign.Center;
         session.EndRead(LText);
-        LStart = new TAOWButton(this);
+        LStart = new AOWButton(this);
         session.BeginRead(LStart);
         LStart.Name = "LStart";
         LStart.Visible = false;
@@ -156,8 +156,8 @@ public partial class TSelFactionWin : ILayoutModule
         LStart.WinLeft = 149;
         LStart.WinTop = 450;
         LStart.CaptureInput = true;
-        LStart.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        LStart.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        LStart.Alignment.AlignWidth = AOWAlignWidth.Both;
+        LStart.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         LStart.Alignment.HeightPercent = 0;
         LStart.Alignment.WidthPercent = 0;
         LStart.Alignment.LeftOffPercent = 52;
@@ -180,7 +180,7 @@ public partial class TSelFactionWin : ILayoutModule
         LStart.WinWidth = 109;
         LStart.OnClick = _ => LStartClick(0);
         session.EndRead(LStart);
-        LBack = new TAOWButton(this);
+        LBack = new AOWButton(this);
         session.BeginRead(LBack);
         LBack.Name = "LBack";
         LBack.Visible = false;
@@ -188,8 +188,8 @@ public partial class TSelFactionWin : ILayoutModule
         LBack.WinLeft = 30;
         LBack.WinTop = 450;
         LBack.CaptureInput = true;
-        LBack.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        LBack.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        LBack.Alignment.AlignWidth = AOWAlignWidth.Both;
+        LBack.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         LBack.Alignment.HeightPercent = 0;
         LBack.Alignment.WidthPercent = 0;
         LBack.Alignment.LeftOffPercent = 0;
@@ -212,7 +212,7 @@ public partial class TSelFactionWin : ILayoutModule
         LBack.WinWidth = 109;
         LBack.OnClick = _ => Layout_LBackClick_1();
         session.EndRead(LBack);
-        LSphere = new TAOWImage(this);
+        LSphere = new AOWImage(this);
         session.BeginRead(LSphere);
         LSphere.Name = "LSphere";
         LSphere.Visible = false;
@@ -220,8 +220,8 @@ public partial class TSelFactionWin : ILayoutModule
         LSphere.WinLeft = 271;
         LSphere.WinTop = 32;
         LSphere.CaptureInput = true;
-        LSphere.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LSphere.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LSphere.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LSphere.Alignment.AlignHeight = AOWAlignHeight.Top;
         LSphere.Alignment.HeightPercent = 0;
         LSphere.Alignment.WidthPercent = 0;
         LSphere.Alignment.LeftOffPercent = 0;
@@ -241,7 +241,7 @@ public partial class TSelFactionWin : ILayoutModule
         LSphere.Animate = false;
         LSphere.AnimFrameDelay = 0;
         session.EndRead(LSphere);
-        DarkPnl = new TAOWPanel(this);
+        DarkPnl = new AOWPanel(this);
         session.BeginRead(DarkPnl);
         DarkPnl.Name = "DarkPnl";
         DarkPnl.OnMouseDown = (_, button, shift, x, y) => DarkPnlMouseDown(button, shift, x, y);
@@ -251,8 +251,8 @@ public partial class TSelFactionWin : ILayoutModule
         DarkPnl.WinTop = 0;
         DarkPnl.WinWidth = 288;
         DarkPnl.Masked = true;
-        DarkPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DarkPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        DarkPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        DarkPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         DarkPnl.Alignment.HeightPercent = 0;
         DarkPnl.Alignment.WidthPercent = 0;
         DarkPnl.Alignment.LeftOffPercent = 0;
@@ -270,7 +270,7 @@ public partial class TSelFactionWin : ILayoutModule
         DarkPnl.MinWidth = 0;
         DarkPnl.MinHeight = 0;
         session.EndRead(DarkPnl);
-        DStart = new TAOWButton(this);
+        DStart = new AOWButton(this);
         session.BeginRead(DStart);
         DStart.Name = "DStart";
         DStart.Visible = false;
@@ -278,8 +278,8 @@ public partial class TSelFactionWin : ILayoutModule
         DStart.WinLeft = 149;
         DStart.WinTop = 450;
         DStart.CaptureInput = true;
-        DStart.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        DStart.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DStart.Alignment.AlignWidth = AOWAlignWidth.Both;
+        DStart.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DStart.Alignment.HeightPercent = 0;
         DStart.Alignment.WidthPercent = 0;
         DStart.Alignment.LeftOffPercent = 52;
@@ -302,7 +302,7 @@ public partial class TSelFactionWin : ILayoutModule
         DStart.WinWidth = 109;
         DStart.OnClick = _ => LStartClick(1);
         session.EndRead(DStart);
-        DBack = new TAOWButton(this);
+        DBack = new AOWButton(this);
         session.BeginRead(DBack);
         DBack.Name = "DBack";
         DBack.Visible = false;
@@ -310,8 +310,8 @@ public partial class TSelFactionWin : ILayoutModule
         DBack.WinLeft = 30;
         DBack.WinTop = 450;
         DBack.CaptureInput = true;
-        DBack.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        DBack.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DBack.Alignment.AlignWidth = AOWAlignWidth.Both;
+        DBack.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DBack.Alignment.HeightPercent = 0;
         DBack.Alignment.WidthPercent = 0;
         DBack.Alignment.LeftOffPercent = 0;
@@ -334,7 +334,7 @@ public partial class TSelFactionWin : ILayoutModule
         DBack.WinWidth = 109;
         DBack.OnClick = _ => Layout_DBackClick_2();
         session.EndRead(DBack);
-        LName = new TAOWLabel(this);
+        LName = new AOWLabel(this);
         session.BeginRead(LName);
         LName.Name = "LName";
         LName.Visible = false;
@@ -342,8 +342,8 @@ public partial class TSelFactionWin : ILayoutModule
         LName.WinLeft = 97;
         LName.WinTop = 110;
         LName.CaptureInput = true;
-        LName.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LName.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LName.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LName.Alignment.AlignHeight = AOWAlignHeight.Top;
         LName.Alignment.HeightPercent = 0;
         LName.Alignment.WidthPercent = 0;
         LName.Alignment.LeftOffPercent = 0;
@@ -358,7 +358,7 @@ public partial class TSelFactionWin : ILayoutModule
         LName.Text = "The Keepers";
         LName.TextColor = 0;
         session.EndRead(LName);
-        DText = new TAOWMemo(this);
+        DText = new AOWMemo(this);
         session.BeginRead(DText);
         DText.Name = "DText";
         DText.Visible = false;
@@ -366,8 +366,8 @@ public partial class TSelFactionWin : ILayoutModule
         DText.WinLeft = 0;
         DText.WinTop = 140;
         DText.CaptureInput = false;
-        DText.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        DText.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        DText.Alignment.AlignWidth = AOWAlignWidth.Both;
+        DText.Alignment.AlignHeight = AOWAlignHeight.Both;
         DText.Alignment.HeightPercent = 0;
         DText.Alignment.WidthPercent = 0;
         DText.Alignment.LeftOffPercent = 0;
@@ -403,9 +403,9 @@ public partial class TSelFactionWin : ILayoutModule
         DText.ILIndexTexture = 0;
         DText.ItemHeight = 20;
         DText.ColorChangeChar = 0;
-        DText.TextAlign = TaowTextAlign.taCenter;
+        DText.TextAlign = TaowTextAlign.Center;
         session.EndRead(DText);
-        DName = new TAOWLabel(this);
+        DName = new AOWLabel(this);
         session.BeginRead(DName);
         DName.Name = "DName";
         DName.Visible = false;
@@ -413,8 +413,8 @@ public partial class TSelFactionWin : ILayoutModule
         DName.WinLeft = 97;
         DName.WinTop = 110;
         DName.CaptureInput = true;
-        DName.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        DName.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        DName.Alignment.AlignWidth = AOWAlignWidth.Center;
+        DName.Alignment.AlignHeight = AOWAlignHeight.Top;
         DName.Alignment.HeightPercent = 0;
         DName.Alignment.WidthPercent = 0;
         DName.Alignment.LeftOffPercent = 0;
@@ -429,7 +429,7 @@ public partial class TSelFactionWin : ILayoutModule
         DName.Text = "The Cult of Storms";
         DName.TextColor = 0;
         session.EndRead(DName);
-        DSphere = new TAOWImage(this);
+        DSphere = new AOWImage(this);
         session.BeginRead(DSphere);
         DSphere.Name = "DSphere";
         DSphere.Visible = false;
@@ -437,8 +437,8 @@ public partial class TSelFactionWin : ILayoutModule
         DSphere.WinLeft = 271;
         DSphere.WinTop = 32;
         DSphere.CaptureInput = true;
-        DSphere.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        DSphere.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        DSphere.Alignment.AlignWidth = AOWAlignWidth.Left;
+        DSphere.Alignment.AlignHeight = AOWAlignHeight.Top;
         DSphere.Alignment.HeightPercent = 0;
         DSphere.Alignment.WidthPercent = 0;
         DSphere.Alignment.LeftOffPercent = 0;

@@ -16,39 +16,29 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw.Animation
 {
 
-    public enum TAnimationControlModeElement : byte
+    public enum AnimationControlModeElement : byte
     {
-        amLinkToNewFrame = 0,
-        amFixedVisible = 1,
-        amSelectable = 2,
-        amSaveable = 3,
-        amOwnedByMap = 4,
-        amLinkToOnDestroy = 5
+        LinkToNewFrame = 0,
+        FixedVisible = 1,
+        Selectable = 2,
+        Saveable = 3,
+        OwnedByMap = 4,
+        LinkToOnDestroy = 5
     }
 
-    public enum TAnimationStateElement : byte
+    public enum TwinkleModeElement : byte
     {
-        asVisible = 0,
-        asEditMode = 1,
-        asSelected = 2,
-        asLinkedToTE = 3,
-        asActivated = 4,
-        asPlaced = 5
-    }
-
-    public enum TTwinkleModeElement : byte
-    {
-        tmRotate = 0,
-        tmExpand = 1,
-        tmExplode = 2,
-        tmImplode = 3
+        Rotate = 0,
+        Expand = 1,
+        Explode = 2,
+        Implode = 3
     }
 
     // { ot=1 }
     // hex position, display level, state, frame, dimensions, callbacks, tag, map
-    public partial class TAnimation : Aow.Game.Draw.THexagonSprite
+    public partial class Animation : Aow.Game.Draw.HexagonSprite
     {
-        public TAnimation(TECustomNode owner) : base(owner)
+        public Animation(ECustomNode owner) : base(owner)
         {
             FAnimationLevel = 26;
         }
@@ -60,32 +50,32 @@ namespace Aow.Game.Draw.Animation
         public sbyte FYhx;
         public sbyte FLhx;
         public byte FAnimationLevel;
-        public TSet<TAnimationStateElement> FState;
+        public Set<StateElement> FState;
         public int FFrameCounter;
-        public TRect FDimensions;
-        public TShowAnimationEvent FOnShow;
-        public TNewFrameAnimationEvent FOnNewFrame;
+        public global::Aow.Rtl.Rect FDimensions;
+        public ShowAnimationEvent FOnShow;
+        public NewFrameAnimationEvent FOnNewFrame;
         public int FTag;
-        public THSMap FAnimationMap;
+        public HSMap FAnimationMap;
 
         // Animation.pas:153
-        public override TSet<TEControlStyleElement> GetControlStyle()
+        public override Set<EControlStyleElement> GetControlStyle()
         {
-            TSet<TEControlStyleElement> Result;
-            if (AnimationControlMode().Contains(TAnimationControlModeElement.amSaveable))
+            Set<EControlStyleElement> Result;
+            if (AnimationControlMode().Contains(AnimationControlModeElement.Saveable))
             {
-                Result = TSet<TEControlStyleElement>.Of(TEControlStyleElement.csSaveLoad);
+                Result = Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad);
             }
             else
             {
-                Result = TSet<TEControlStyleElement>.Of();
+                Result = Set<EControlStyleElement>.Of();
             }
 
             return Result;
         }
 
         // Animation.pas:276
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwData(Bytes.Of(ref FDimensions, 16), 16, 10);
@@ -115,19 +105,19 @@ namespace Aow.Game.Draw.Animation
         {
             if (Value)
             {
-                FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asVisible);
+                FState = FState + Set<StateElement>.Of(StateElement.Visible);
             }
             else
             {
-                FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asVisible);
+                FState = FState - Set<StateElement>.Of(StateElement.Visible);
             }
         }
 
         // Animation.pas:213
-        public override bool GetVisible() => FState.Contains(TAnimationStateElement.asVisible);
+        public override bool GetVisible() => FState.Contains(StateElement.Visible);
 
         // Animation.pas:250
-        public override bool GetSelected() => FState.Contains(TAnimationStateElement.asSelected);
+        public override bool GetSelected() => FState.Contains(StateElement.Selected);
 
         // Animation.pas:261
         public override sbyte GetXhx() => FXhx;
@@ -139,18 +129,18 @@ namespace Aow.Game.Draw.Animation
         public override sbyte GetLhx() => FLhx;
 
         // Animation.pas:227
-        public override bool GetEditMode() => FState.Contains(TAnimationStateElement.asEditMode);
+        public override bool GetEditMode() => FState.Contains(StateElement.EditMode);
 
         // Animation.pas:232
         public override void SetEditMode(bool Value)
         {
             if (Value)
             {
-                FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asEditMode);
+                FState = FState + Set<StateElement>.Of(StateElement.EditMode);
             }
             else
             {
-                FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asEditMode);
+                FState = FState - Set<StateElement>.Of(StateElement.EditMode);
             }
         }
 
@@ -168,10 +158,10 @@ namespace Aow.Game.Draw.Animation
         {
             int X = default;
             int Y = default;
-            if (!FState.Contains(TAnimationStateElement.asPlaced))
+            if (!FState.Contains(StateElement.Placed))
             {
                 Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-                if (AnimationControlMode().Contains(TAnimationControlModeElement.amOwnedByMap))
+                if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
                 {
                     PlaceOnMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
@@ -180,7 +170,7 @@ namespace Aow.Game.Draw.Animation
                     PlaceUserOnMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
 
-                FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asPlaced);
+                FState = FState + Set<StateElement>.Of(StateElement.Placed);
             }
         }
 
@@ -189,10 +179,10 @@ namespace Aow.Game.Draw.Animation
         {
             int X = default;
             int Y = default;
-            if (FState.Contains(TAnimationStateElement.asPlaced))
+            if (FState.Contains(StateElement.Placed))
             {
                 Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-                if (AnimationControlMode().Contains(TAnimationControlModeElement.amOwnedByMap))
+                if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
                 {
                     RemoveFromMapEx(X + FDimensions.Left, Y + FDimensions.Top, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
@@ -201,12 +191,12 @@ namespace Aow.Game.Draw.Animation
                     RemoveUserFromMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
                 }
 
-                FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asPlaced);
+                FState = FState - Set<StateElement>.Of(StateElement.Placed);
             }
         }
 
         // Animation.pas:383
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
         {
             if (FOnShow != null)
             {
@@ -215,7 +205,7 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Animation.pas:349
-        public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public override bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             int X = default;
             int Y = default;
@@ -246,18 +236,18 @@ namespace Aow.Game.Draw.Animation
         public override void Activate()
         {
             base.Activate();
-            FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asActivated);
-            if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToNewFrame))
+            FState = FState + Set<StateElement>.Of(StateElement.Activated);
+            if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
             {
                 FAnimationMap.NewFrameEvents += NewFrameEvent;
             }
 
-            if (AnimationControlMode().Contains(TAnimationControlModeElement.amFixedVisible))
+            if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
             {
                 FAnimationMap.DynamicFixedVisibleHS.AddChild(this);
             }
 
-            if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToOnDestroy))
+            if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToOnDestroy))
             {
                 FAnimationMap.DestroyEvents += DestroyEvent;
             }
@@ -267,21 +257,21 @@ namespace Aow.Game.Draw.Animation
         public override void Deactivate()
         {
             base.Deactivate();
-            if (FState.Contains(TAnimationStateElement.asActivated))
+            if (FState.Contains(StateElement.Activated))
             {
-                FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asActivated);
-                if (AnimationControlMode().Contains(TAnimationControlModeElement.amFixedVisible))
+                FState = FState - Set<StateElement>.Of(StateElement.Activated);
+                if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
                 {
                     FAnimationMap.DynamicFixedVisibleHS.RemoveChild(this);
                     FAnimationMap.DynamicVisibleHS.RemoveChild(this);
                 }
 
-                if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToNewFrame))
+                if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
                 {
                     FAnimationMap.NewFrameEvents -= NewFrameEvent;
                 }
 
-                if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToOnDestroy))
+                if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToOnDestroy))
                 {
                     FAnimationMap.DestroyEvents -= DestroyEvent;
                 }
@@ -289,11 +279,11 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Animation.pas:218
-        public override void MakeVisible(TVisibilityList VisibilityList)
+        public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FState.Contains(TAnimationStateElement.asVisible))
+            if (!FState.Contains(StateElement.Visible))
             {
-                FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asVisible);
+                FState = FState + Set<StateElement>.Of(StateElement.Visible);
                 VisibilityList.AddSortChild(this, GetShowPriority());
             }
         }
@@ -302,31 +292,31 @@ namespace Aow.Game.Draw.Animation
         public override void Select()
         {
             base.Select();
-            FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asSelected);
+            FState = FState + Set<StateElement>.Of(StateElement.Selected);
         }
 
         // Animation.pas:244
         public override void Unselect()
         {
             base.Unselect();
-            FState = FState - TSet<TAnimationStateElement>.Of(TAnimationStateElement.asSelected);
+            FState = FState - Set<StateElement>.Of(StateElement.Selected);
         }
 
         // Animation.pas:286
-        public virtual bool PlaceTE(TAnimationTE Event, TTokenExecuter Executer) => PlaceHX(FAnimationMap.MapContainer, FXhx, FYhx, FLhx);
+        public virtual bool PlaceTE(AnimationTE Event, TokenExecuter Executer) => PlaceHX(FAnimationMap.MapContainer, FXhx, FYhx, FLhx);
 
         // Animation.pas:291
-        public virtual bool RemoveTE(TAnimationTE Event, TTokenExecuter Executer)
+        public virtual bool RemoveTE(AnimationTE Event, TokenExecuter Executer)
         {
             MainRemove();
             return true;
         }
 
         // Animation.pas:297
-        public virtual bool ExecuteTE(TAnimationTE Event, TTokenExecuter Executer) => false;
+        public virtual bool ExecuteTE(AnimationTE Event, TokenExecuter Executer) => false;
 
         // Animation.pas:308
-        public virtual bool CanPlace(TMapContainer Map, sbyte X, sbyte Y, sbyte L)
+        public virtual bool CanPlace(MapContainer Map, sbyte X, sbyte Y, sbyte L)
         {
             bool Result;
             if (X < 0 || Y < 0 || L < 0 || X >= Map.Width || Y >= Map.Height || L >= Map.LevelCount)
@@ -342,7 +332,7 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Animation.pas:357
-        public virtual bool PlaceHX(TMapContainer Map, sbyte X, sbyte Y, sbyte L)
+        public virtual bool PlaceHX(MapContainer Map, sbyte X, sbyte Y, sbyte L)
         {
             bool Result;
             if (GetEditMode() || CanPlace(Map, X, Y, L))
@@ -389,9 +379,9 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Animation.pas:255
-        public void SetDimensions(TRect R)
+        public void SetDimensions(global::Aow.Rtl.Rect R)
         {
-            if (!FState.Contains(TAnimationStateElement.asPlaced))
+            if (!FState.Contains(StateElement.Placed))
             {
                 FDimensions = R;
             }
@@ -404,7 +394,14 @@ namespace Aow.Game.Draw.Animation
         // Animation.pas:43
 
         // Animation.pas:159
-        public virtual TSet<TAnimationControlModeElement> AnimationControlMode() => TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amFixedVisible, TAnimationControlModeElement.amLinkToOnDestroy);
+        public virtual Set<AnimationControlModeElement> AnimationControlMode() => Set<AnimationControlModeElement>.Of(AnimationControlModeElement.LinkToNewFrame, AnimationControlModeElement.FixedVisible, AnimationControlModeElement.LinkToOnDestroy);
+
+        public enum StateElement : byte
+        {
+            Visible = 0, EditMode = 1, Selected = 2, LinkedToTE = 3, Activated = 4, Placed = 5
+        }
+
+        public delegate void NewFrameAnimationEvent(global::Aow.Game.Draw.Animation.Animation Animation, int FrameCounter);
 
     }
 }
@@ -413,66 +410,66 @@ namespace Aow.Game.Commands
 {
 
     // state, animation
-    public partial class TAnimationTE : TTokenEvent
+    public partial class AnimationTE : TokenEvent
     {
-        public TAnimationTE(TECustomNode owner) : base(owner)
+        public AnimationTE(ECustomNode owner) : base(owner)
         { }
 
         // Animation.pas:388
         public new const int ClassID = 135433;
 
-        public TAnimationTEState FState;
-        public TAnimation FAnimation;
+        public State FState;
+        public Animation FAnimation;
 
         // Animation.pas:399
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwCreateEObject(ref FAnimation, null, 15);
         }
 
         // Animation.pas:405
-        public override TExecuteResult Execute(TTokenExecuter TE)
+        public override ExecuteResult Execute(TokenExecuter TE)
         {
-            TExecuteResult Result = base.Execute(TE);
+            ExecuteResult Result = base.Execute(TE);
             if (FAnimation != null)
             {
-                if (FState == TAnimationTEState.atIdle)
+                if (FState == State.Idle)
                 {
                     if (FAnimation.PlaceTE(this, TE))
                     {
-                        FState = TAnimationTEState.atPlaying;
+                        FState = State.Playing;
                     }
                     else
                     {
-                        Result = TExecuteResult.erDoneHalt;
+                        Result = ExecuteResult.DoneHalt;
                     }
                 }
 
-                if (FState == TAnimationTEState.atPlaying)
+                if (FState == State.Playing)
                 {
                     if (!FAnimation.ExecuteTE(this, TE))
                     {
                         FAnimation.RemoveTE(this, TE);
-                        FState = TAnimationTEState.atDone;
+                        FState = State.Done;
                     }
                 }
 
-                if (FState == TAnimationTEState.atDone)
+                if (FState == State.Done)
                 {
-                    Result = TExecuteResult.erDone;
+                    Result = ExecuteResult.Done;
                 }
             }
             else
             {
-                Result = TExecuteResult.erDone;
+                Result = ExecuteResult.Done;
             }
 
             return Result;
         }
 
         // Animation.pas:393
-        public void Initialize(TAnimation Animation)
+        public void Initialize(Animation Animation)
         {
             if (FAnimation != null)
             {
@@ -482,6 +479,11 @@ namespace Aow.Game.Commands
             FAnimation = Animation;
         }
 
+        public enum State : byte
+        {
+            Idle = 0, Playing = 1, Done = 2
+        }
+
     }
 }
 
@@ -489,16 +491,16 @@ namespace Aow.Game.Draw.Animation
 {
 
     // sequence, pixel offsets, last frame, loop flag
-    public partial class TImageSequenceAnimation : TAnimation
+    public partial class ImageSequenceAnimation : global::Aow.Game.Draw.Animation.Animation
     {
-        public TImageSequenceAnimation(TECustomNode owner) : base(owner)
+        public ImageSequenceAnimation(ECustomNode owner) : base(owner)
         {
             FFrameCount = -1;
             FXhpOffset = 0;
             FYhpOffset = 0;
         }
 
-        public TImageSequence FImageSequence;
+        public ImageSequence FImageSequence;
         public int FXhpOffset;
         public int FYhpOffset;
         public int FFrameCount;
@@ -507,9 +509,9 @@ namespace Aow.Game.Draw.Animation
         // Animation.pas:424
 
         // Animation.pas:493
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
         {
-            TImageSequence Sequence;
+            ImageSequence Sequence;
             int X = default;
             int Y = default;
             int Index;
@@ -566,8 +568,8 @@ namespace Aow.Game.Draw.Animation
         // Animation.pas:432
         public void UpdateDimensions()
         {
-            TImageSequence Sequence;
-            TRect R = default;
+            ImageSequence Sequence;
+            global::Aow.Rtl.Rect R = default;
             FDimensions.Left = 0;
             FDimensions.Right = 0;
             FDimensions.Top = 0;
@@ -587,9 +589,9 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Animation.pas:454
-        public void SetImageSequence(TImageSequence Sequence)
+        public void SetImageSequence(ImageSequence Sequence)
         {
-            TImageSequence Current;
+            ImageSequence Current;
             int Frames;
             FImageSequence = Sequence;
             UpdateDimensions();
@@ -634,26 +636,26 @@ namespace Aow.Game.Draw.Animation
     }
 
     // sequence, particle count, radius, lifetime, random start delay, mode
-    public partial class TTwinkleAnimation : TAnimation
+    public partial class TwinkleAnimation : global::Aow.Game.Draw.Animation.Animation
     {
-        public TTwinkleAnimation(TECustomNode owner) : base(owner)
+        public TwinkleAnimation(ECustomNode owner) : base(owner)
         {
             FAnimationLevel = 28;
         }
 
-        public TImageSequence FImageSequence;
+        public ImageSequence FImageSequence;
         public int FCount;
         public int FRadius;
         public int FDuration;
         public int FStartDelay;
-        public TSet<TTwinkleModeElement> FMode;
+        public Set<TwinkleModeElement> FMode;
 
         // Animation.pas:532
 
         // Animation.pas:538
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
         {
-            TImageSequence Sequence;
+            ImageSequence Sequence;
             int OldSeed;
             int Delay;
             int X = default;
@@ -669,7 +671,7 @@ namespace Aow.Game.Draw.Animation
             YhpSurf = Y - YhpSurf + 16;
             var xhx = GetXhx();
             var yhx = GetYhx();
-            RandSeed = xhx + Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FInitialRandomSeed + yhx * 3;
+            RandSeed = xhx + Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed + yhx * 3;
             for (int I = 0, last = FCount - 1; I <= last; I++)
             {
                 Radius = Random(FRadius);
@@ -677,22 +679,22 @@ namespace Aow.Game.Draw.Animation
                 Delay = Random(FStartDelay);
                 if (FFrameCounter - Delay >= 0)
                 {
-                    if (FMode.Contains(TTwinkleModeElement.tmExpand))
+                    if (FMode.Contains(TwinkleModeElement.Expand))
                     {
                         Radius = Round((double)(Radius * FFrameCounter) / FDuration) + Radius / 2;
                     }
 
-                    if (FMode.Contains(TTwinkleModeElement.tmExplode))
+                    if (FMode.Contains(TwinkleModeElement.Explode))
                     {
                         Radius += Round((FFrameCounter - Delay) * (FFrameCounter - Delay));
                     }
 
-                    if (FMode.Contains(TTwinkleModeElement.tmImplode))
+                    if (FMode.Contains(TwinkleModeElement.Implode))
                     {
                         Radius += Round(FDuration - (FFrameCounter - Delay));
                     }
 
-                    if (FMode.Contains(TTwinkleModeElement.tmRotate))
+                    if (FMode.Contains(TwinkleModeElement.Rotate))
                     {
                         Angle += FFrameCounter * 4;
                     }
@@ -720,7 +722,7 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Animation.pas:575
-        public void Setup(TImageSequence Sequence, TSet<TTwinkleModeElement> Mode, int Count, int Radius, int Duration, int StartDelay)
+        public void Setup(ImageSequence Sequence, Set<TwinkleModeElement> Mode, int Count, int Radius, int Duration, int StartDelay)
         {
             FImageSequence = Sequence;
             FCount = Count;
@@ -734,17 +736,5 @@ namespace Aow.Game.Draw.Animation
 
     }
 
-    public delegate void TShowAnimationEvent(TAnimation Animation, int XhpSurf, int YhpSurf, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc);
-    public delegate void TNewFrameAnimationEvent(TAnimation Animation, int FrameCounter);
-}
-
-namespace Aow.Game.Commands
-{
-
-    public enum TAnimationTEState : byte
-    {
-        atIdle = 0,
-        atPlaying = 1,
-        atDone = 2
-    }
+    public delegate void ShowAnimationEvent(global::Aow.Game.Draw.Animation.Animation Animation, int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc);
 }

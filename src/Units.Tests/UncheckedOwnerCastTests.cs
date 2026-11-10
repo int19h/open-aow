@@ -19,30 +19,30 @@ public sealed class UncheckedOwnerCastTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly TAoWHSMap previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        private readonly AoWHSMap previous = Aow.Game.World.Map.AoWHSMap.Current;
 
         public MapScope()
         {
-            Map = new TAoWHSMap(null!);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
+            Map = new AoWHSMap(null!);
+            Aow.Game.World.Map.AoWHSMap.Current = Map;
         }
 
-        public TAoWHSMap Map { get; }
+        public AoWHSMap Map { get; }
 
-        public void Dispose() => Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
+        public void Dispose() => Aow.Game.World.Map.AoWHSMap.Current = previous;
     }
 
     // The list is the owner without going through AddChild.
-    private sealed class PlacedUnit : TAbstractUnit
+    private sealed class PlacedUnit : AbstractUnit
     {
-        public PlacedUnit(int id, TUnitList list) : base(null!)
+        public PlacedUnit(int id, UnitList list) : base(null!)
         {
             FUnitID = id;
             FOwner = list;
         }
     }
 
-    private sealed class RecordingUnit : TAbstractUnit
+    private sealed class RecordingUnit : AbstractUnit
     {
         public RecordingUnit() : base(null!)
         {
@@ -59,36 +59,36 @@ public sealed class UncheckedOwnerCastTests
     [Fact]
     public void PossessStrengthLeavesAnItemAloneAndComputesAUnit()
     {
-        var ability = new TPossessAbility(null!);
-        var item = new TItem(null!);
-        var unit = new TAbstractUnit(null!);
+        var ability = new PossessAbility(null!);
+        var item = new Item(null!);
+        var unit = new AbstractUnit(null!);
         int strength = 7;
-        var types = TSet<TDamageType>.Of(TDamageType.dtFire);
+        var types = Set<DamageType>.Of(DamageType.Fire);
         ability.GetOffensiveStrength(item, ref strength, ref types);
         Assert.Equal(7, strength);
-        Assert.Equal(TSet<TDamageType>.Of(TDamageType.dtFire), types);
+        Assert.Equal(Set<DamageType>.Of(DamageType.Fire), types);
 
         ability.GetOffensiveStrength(unit, ref strength, ref types);
         Assert.Equal(0, strength);
-        Assert.Equal(TSet<TDamageType>.Of(TDamageType.dtNone), types);
+        Assert.Equal(Set<DamageType>.Of(DamageType.None), types);
     }
 
     [Fact]
     public void EnchantedWeaponPriorityIsZeroForAnItem()
     {
-        var ability = new TEnchantedWeaponAbility(null!);
-        Assert.Equal(0, ability.GetAIUpkeepPriority(new TItem(null!)));
-        Assert.Equal(225, ability.GetAIUpkeepPriority(new TAbstractUnit(null!)));
+        var ability = new EnchantedWeaponAbility(null!);
+        Assert.Equal(0, ability.GetAIUpkeepPriority(new Item(null!)));
+        Assert.Equal(225, ability.GetAIUpkeepPriority(new AbstractUnit(null!)));
     }
 
     [Fact]
     public void CrusaderRemoveSkipsKilledOnAnItem()
     {
-        var ability = new TCrusaderAbility(null!);
-        Assert.False(ability.Remove(new TItem(null!)));
+        var ability = new CrusaderAbility(null!);
+        Assert.False(ability.Remove(new Item(null!)));
 
         var unit = new RecordingUnit();
-        var data = new TDurationAbilityData(null!);
+        var data = new DurationAbilityData(null!);
         data.FAbilityID = (ushort)ability.FAbilityID;
         unit.AddAbilityData(data);
         Assert.True(ability.Remove(unit));
@@ -99,21 +99,21 @@ public sealed class UncheckedOwnerCastTests
     public void HealingActivateSkipsSetupForAnItemAndRecordsAUnit()
     {
         using var scope = new MapScope();
-        var list = new TUnitUserList(null!);
+        var list = new UnitUserList(null!);
         var unit = new PlacedUnit(9, list);
         int id = -1;
         int source = -1;
         bool fired = false;
         scope.Map.FOnActivateAbility += sender =>
         {
-            var info = (TUnitSelectorAAI)sender;
+            var info = (UnitSelectorAAI)sender;
             fired = true;
             id = info.FUnitID;
             source = info.FUnitSelector.FSourceUnitID;
         };
-        var ability = new THealingAbility(null!);
+        var ability = new HealingAbility(null!);
         string reason = "";
-        Assert.True(ability.Activate(new TItem(null!), ref reason));
+        Assert.True(ability.Activate(new Item(null!), ref reason));
         Assert.True(fired);
         Assert.Equal(0, id);
         Assert.Equal(0, source);
@@ -129,9 +129,9 @@ public sealed class UncheckedOwnerCastTests
     public void RequiredManaOfANonHeroIsTheMissingHeroResult()
     {
         using var scope = new MapScope();
-        var unit = new TAbstractUnit(null!) { FUnitID = 42 };
+        var unit = new AbstractUnit(null!) { FUnitID = 42 };
         scope.Map.FUnitControl.RegisterUnit(unit);
-        var caster = new TUnitSpellCaster(null!) { FCasterSourceID = 42 };
+        var caster = new UnitSpellCaster(null!) { FCasterSourceID = 42 };
         Assert.Equal(-1, caster.GetRequiredMana());
         Assert.True(caster.Valid());
         caster.FCasterSourceID = 99;
@@ -143,28 +143,28 @@ public sealed class UncheckedOwnerCastTests
     public void UpgradeTokenSkipsANonHeroAndStillUpgradesAHero()
     {
         using var scope = new MapScope();
-        var unit = new TUnit(null!) { FUnitID = 42, FAbAttack = 4 };
-        var hero = new THero(null!)
+        var unit = new Unit(null!) { FUnitID = 42, FAbAttack = 4 };
+        var hero = new Hero(null!)
         {
             FUnitID = 43,
             FPlayer = 0,
             FHitPoints = 1,
             FUnitAttack = 0,
             FUpgradePending = true,
-            FHeroResource = new THeroResource(null!),
+            FHeroResource = new HeroResource(null!),
         };
         scope.Map.FUnitControl.RegisterUnit(unit);
         scope.Map.FUnitControl.RegisterUnit(hero);
 
-        var skipped = new THeroUpgradeTE(null!) { FUnitID = 42, FPlayer = 0, FAttack = 1 };
-        Assert.Equal(TExecuteResult.erDone, skipped.Execute(null!));
-        Assert.Null(scope.Map.FUnitControl.FindUnit<THero>(42));
+        var skipped = new HeroUpgradeTE(null!) { FUnitID = 42, FPlayer = 0, FAttack = 1 };
+        Assert.Equal(ExecuteResult.Done, skipped.Execute(null!));
+        Assert.Null(scope.Map.FUnitControl.FindUnit<Hero>(42));
         Assert.Equal(4, unit.FAbAttack);
         Assert.Equal(0, hero.FUnitAttack);
         Assert.True(hero.FUpgradePending);
 
-        var applied = new THeroUpgradeTE(null!) { FUnitID = 43, FPlayer = 0, FAttack = 1 };
-        Assert.Equal(TExecuteResult.erDone, applied.Execute(null!));
+        var applied = new HeroUpgradeTE(null!) { FUnitID = 43, FPlayer = 0, FAttack = 1 };
+        Assert.Equal(ExecuteResult.Done, applied.Execute(null!));
         Assert.False(hero.FUpgradePending);
         Assert.Equal(1, hero.FUnitAttack);
     }
@@ -173,10 +173,10 @@ public sealed class UncheckedOwnerCastTests
     public void UpdateTokenHaltsForANonHeroAndAMissingId()
     {
         using var scope = new MapScope();
-        var unit = new TAbstractUnit(null!) { FUnitID = 42 };
+        var unit = new AbstractUnit(null!) { FUnitID = 42 };
         scope.Map.FUnitControl.RegisterUnit(unit);
-        var token = new THeroUpdateTE(null!) { FUnitID = 42, FMode = THeroUpdateMode.hmCancelCasting };
-        Assert.Equal(TExecuteResult.erDoneHalt, token.Execute(null!));
+        var token = new HeroUpdateTE(null!) { FUnitID = 42, FMode = Aow.Game.Commands.HeroUpdateTE.HeroUpdateMode.CancelCasting };
+        Assert.Equal(ExecuteResult.DoneHalt, token.Execute(null!));
 
         token.FUnitID = 99;
         Assert.Throws<NullReferenceException>(() => token.Execute(null!));
@@ -185,8 +185,8 @@ public sealed class UncheckedOwnerCastTests
         Runtime.MessageHandler = message => shown = message;
         try
         {
-            var executer = new TTokenExecuter(null!);
-            Assert.Equal(TExecuteResult.erDone, executer.ExecuteTokenEvent(token));
+            var executer = new TokenExecuter(null!);
+            Assert.Equal(ExecuteResult.Done, executer.ExecuteTokenEvent(token));
             Assert.Contains("Exception occured during ", shown);
         }
         finally
@@ -200,23 +200,23 @@ public sealed class UncheckedOwnerCastTests
     {
         using var scope = new MapScope();
         var player = scope.Map.FPlayers.GetPlayers(1);
-        player.FPlayerType = TPlayerType.ptHuman;
+        player.FPlayerType = PlayerType.Human;
         player.FMagicControl.FCheatEnabled = true;
-        var unit = new TAbstractUnit(null!) { FUnitID = 42, FPlayer = 1 };
+        var unit = new AbstractUnit(null!) { FUnitID = 42, FPlayer = 1 };
         scope.Map.FUnitControl.RegisterUnit(unit);
-        var enchantment = new TGlobalEnchantment(null!)
+        var enchantment = new GlobalEnchantment(null!)
         {
             FEnchantmentID = 7,
-            FEnchantmentType = TGlobalEnchantmentType.getFlood,
+            FEnchantmentType = GlobalEnchantmentType.Flood,
         };
         scope.Map.FGlobalMagicControl.FEnchantments.FChildren.Add(enchantment);
-        scope.Map.FGlobalMagicControl.FActiveEnchantments = TSet<TGlobalEnchantmentType>.Of(TGlobalEnchantmentType.getSpellWard);
-        var caster = new TDisjunctionSpellCaster(null!) { FCasterSourceID = 42, FEnchantmentID = 7 };
+        scope.Map.FGlobalMagicControl.FActiveEnchantments = Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.SpellWard);
+        var caster = new DisjunctionSpellCaster(null!) { FCasterSourceID = 42, FEnchantmentID = 7 };
         string reason = "";
         Assert.False(caster.CanCast(ref reason));
-        Assert.Equal(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Global.TDisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveRStr), reason);
+        Assert.Equal(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Global.DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveRStr), reason);
 
-        scope.Map.FGlobalMagicControl.FActiveEnchantments = TSet<TGlobalEnchantmentType>.Of();
+        scope.Map.FGlobalMagicControl.FActiveEnchantments = Set<GlobalEnchantmentType>.Of();
         Assert.True(caster.CanCast(ref reason));
         Assert.True(caster.GetEnoughMana());
     }

@@ -5,7 +5,7 @@ using Aow.Game.Ui.Grids;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTCMapEvents : ILayoutModule
+public partial class TCMapEvents : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -16,7 +16,7 @@ public partial class TTCMapEvents : ILayoutModule
     {
         session.Begin(this);
         Name = "TCMapEvents";
-        TCMap = new TAoWCombatMapControl(this);
+        TCMap = new AoWCombatMapControl(this);
         session.BeginRead(TCMap);
         TCMap.Name = "TCMap";
         TCMap.OnSelected = TCMapSelected;

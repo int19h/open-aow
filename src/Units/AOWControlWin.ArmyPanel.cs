@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TControlWin
+public partial class ControlWin
 {
     // Original AoW.exe loads the three-space string. The recovered UpdateArmy source has one space
     // at all eight labels
@@ -28,7 +28,7 @@ public partial class TControlWin
         }
         PartyActionLbl1.Visible = PartyActionLbl2.Visible = false;
         var army = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList;
-        bool readOnly = army.FPlayer != Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
+        bool readOnly = army.FPlayer != Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
         if (army.FPlayer == 0)
         {
             PartyBPnl.Visible = false;
@@ -36,26 +36,26 @@ public partial class TControlWin
             PartyILbl.Text = "";
             readOnly = true;
             PartyActionLbl1.Visible = PartyActionLbl2.Visible = true;
-            PartyActionLbl1.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TControlWin.PartyActionRStr);
+            PartyActionLbl1.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ControlWin.PartyActionRStr);
             PartyActionLbl2.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(((int)army.GetBehavior(255) & 127) switch
             {
-                1 => Aow.Game.Ui.Dialogs.TControlWin.PatrollingRStr,
-                2 or 3 => Aow.Game.Ui.Dialogs.TControlWin.GuardingRStr,
-                4 => Aow.Game.Ui.Dialogs.TControlWin.ScoutingRStr,
-                5 => Aow.Game.Ui.Dialogs.TControlWin.SeekingRefugeRStr,
-                6 => Aow.Game.Ui.Dialogs.TControlWin.RaidingRStr,
-                7 => Aow.Game.Ui.Dialogs.TControlWin.HuntingRStr,
-                8 => Aow.Game.Ui.Dialogs.TControlWin.ProtectingRStr,
-                9 => Aow.Game.Ui.Dialogs.TControlWin.FortifiedRStr,
-                10 => Aow.Game.Ui.Dialogs.TControlWin.BerserkRStr,
-                _ => Aow.Game.Ui.Dialogs.TControlWin.WanderingRStr
+                1 => Aow.Game.Ui.Dialogs.ControlWin.PatrollingRStr,
+                2 or 3 => Aow.Game.Ui.Dialogs.ControlWin.GuardingRStr,
+                4 => Aow.Game.Ui.Dialogs.ControlWin.ScoutingRStr,
+                5 => Aow.Game.Ui.Dialogs.ControlWin.SeekingRefugeRStr,
+                6 => Aow.Game.Ui.Dialogs.ControlWin.RaidingRStr,
+                7 => Aow.Game.Ui.Dialogs.ControlWin.HuntingRStr,
+                8 => Aow.Game.Ui.Dialogs.ControlWin.ProtectingRStr,
+                9 => Aow.Game.Ui.Dialogs.ControlWin.FortifiedRStr,
+                10 => Aow.Game.Ui.Dialogs.ControlWin.BerserkRStr,
+                _ => Aow.Game.Ui.Dialogs.ControlWin.WanderingRStr
             });
         }
         else if (readOnly)
         {
             PartyBPnl.Visible = false;
             PartyIPnl.Visible = true;
-            PartyILbl.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TControlWin.PartyOwnerXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
+            PartyILbl.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ControlWin.PartyOwnerXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
             PControlPnl.Visible = false;
         }
         else
@@ -67,7 +67,7 @@ public partial class TControlWin
             MovesLbl.Text = RtlUnit.IntToStr(army.MovePoints(255));
             Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.CheckEnd();
             PControlPnl.Visible = true;
-            PGuard.Checked = army.FUserMode.Contains(TArmyUserModeElement.aumGuard);
+            PGuard.Checked = army.FUserMode.Contains(ArmyUserModeElement.Guard);
         }
         for (int i = 0; i < 8; i++)
         {

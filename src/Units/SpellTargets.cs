@@ -33,19 +33,19 @@ namespace Aow.Game.Magic.Spells.GlobalTarget;
 internal static class SpellTargets
 {
 
-    internal static Type SpellStructureClass = typeof(TStructure);
+    internal static Type SpellStructureClass = typeof(Structure);
 
     internal static readonly string SpellCancelRStr = "Cancel";
 
     internal static readonly string SpellXCastRStr = "%s cast";
 
-    internal static void NotifySpellSphere(sbyte Player, Aow.Game.Magic.TMagicSphere Sphere)
+    internal static void NotifySpellSphere(sbyte Player, Aow.Game.Magic.MagicSphere Sphere)
     {
-        TEMsg Msg = default;
-        Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 537002242, null);
+        EMsg Msg = default;
+        Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 537002242, null);
         Msg.Param[0] = Player;
         Msg.Param[1] = (int)Sphere;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SendMsg(ref Msg, null);
+        Aow.Game.World.Map.AoWHSMap.Current.SendMsg(ref Msg, null);
     }
 
 }

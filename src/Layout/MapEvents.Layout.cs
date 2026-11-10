@@ -5,7 +5,7 @@ using Aow.Game.Ui.Grids;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TMapEvents : ILayoutModule
+public partial class MapEvents : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -16,7 +16,7 @@ public partial class TMapEvents : ILayoutModule
     {
         session.Begin(this);
         Name = "MapEvents";
-        TheMap = new TAoWMapControl(this);
+        TheMap = new AoWMapControl(this);
         session.BeginRead(TheMap);
         TheMap.Name = "TheMap";
         TheMap.OnArmySelected = TheMapArmySelected;

@@ -36,7 +36,7 @@ public sealed class JsonSettingsStore : ISettingsStore
     public static string ReadText(string key, string value) => PathKeys.Contains(Normalize(key), StringComparer.OrdinalIgnoreCase) ? value : Cp1252.Normalize(value);
     private static bool Allowed(string key) => !key.StartsWith("Software/", StringComparison.OrdinalIgnoreCase) && !key.StartsWith('{');
 
-    public object? Read(string key) => values.GetValueOrDefault(Normalize(key)) is { } value ? value is TRect rect
+    public object? Read(string key) => values.GetValueOrDefault(Normalize(key)) is { } value ? value is Rect rect
         ? $"{rect.Left},{rect.Top},{rect.Right},{rect.Bottom}" : Clone(value) : null;
 
     public void Write(string key, object value)
@@ -73,7 +73,7 @@ public sealed class JsonSettingsStore : ISettingsStore
             bool boolean => new { kind = "boolean", value = (object)boolean },
             string text => new { kind = "string", value = (object)text },
             byte[] bytes => new { kind = "bytes", value = (object)Convert.ToBase64String(bytes) },
-            TRect rect => new { kind = "rectangle", value = (object)new[] { rect.Left, rect.Top, rect.Right, rect.Bottom } },
+            Rect rect => new { kind = "rectangle", value = (object)new[] { rect.Left, rect.Top, rect.Right, rect.Bottom } },
             _ => throw new ArgumentException("Unsupported registry value type.")
         };
     }

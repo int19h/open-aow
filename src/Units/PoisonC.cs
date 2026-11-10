@@ -16,9 +16,9 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.World;
 
 // FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated
-public partial class TPoisonCloud : TMultiHexMO
+public partial class PoisonCloud : MultiHexMO
 {
-    public TPoisonCloud(TECustomNode owner) : base(owner)
+    public PoisonCloud(ECustomNode owner) : base(owner)
     {
         FDrifting = false;
     }
@@ -33,7 +33,7 @@ public partial class TPoisonCloud : TMultiHexMO
     public bool FUpdated;
 
     // PoisonC.pas:149
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 15);
@@ -45,7 +45,7 @@ public partial class TPoisonCloud : TMultiHexMO
     // PoisonC.pas:58
 
     // PoisonC.pas:275
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer && !FUpdated)
@@ -71,7 +71,7 @@ public partial class TPoisonCloud : TMultiHexMO
         {
             var yhx = GetYhx();
             var xhx = GetXhx();
-            UpdateMapFields((TMapLevel)Owner.Owner, xhx, yhx);
+            UpdateMapFields((MapLevel)Owner.Owner, xhx, yhx);
         }
 
         return Result;
@@ -80,16 +80,16 @@ public partial class TPoisonCloud : TMultiHexMO
     // PoisonC.pas:111
     public override void RemoveFromMap()
     {
-        TMapLevel Level;
-        Level = (TMapLevel)Owner.Owner;
+        MapLevel Level;
+        Level = (MapLevel)Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(Level, FXhx, FYhx);
     }
 
     // PoisonC.pas:182
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
     {
-        if (Msg.MsgID != 16 || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+        if (Msg.MsgID != 16 || Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
             base.MapFieldMsgProc(ref Msg);
         }
@@ -98,13 +98,13 @@ public partial class TPoisonCloud : TMultiHexMO
         {
             if (Msg.MsgID == 4418)
             {
-                ArmyPlaced(Msg.Param[0].As<TArmyHS>());
+                ArmyPlaced(Msg.Param[0].As<ArmyHS>());
             }
             else
             {
                 if (Msg.MsgID == 4384)
                 {
-                    if (!Msg.Param[0].As<TArmyHS>().FArmy.ImmunityTypes(255).Contains(TDamageType.dtPoison))
+                    if (!Msg.Param[0].As<ArmyHS>().FArmy.ImmunityTypes(255).Contains(DamageType.Poison))
                     {
                         Msg.Result = 1;
                     }
@@ -124,12 +124,12 @@ public partial class TPoisonCloud : TMultiHexMO
     }
 
     // PoisonC.pas:119
-    public override int CanMoveOver(in THSSenderInfo Info)
+    public override int CanMoveOver(in HSSenderInfo Info)
     {
         int Result;
         if (FResource.TerrainList.Terrain[Info.HN] >= -1)
         {
-            if (!CanDoDamage(((TMoveControl)Info.Sender).FSettings.FUnits))
+            if (!CanDoDamage(((MoveControl)Info.Sender).FSettings.FUnits))
             {
                 Result = 1;
             }
@@ -152,16 +152,16 @@ public partial class TPoisonCloud : TMultiHexMO
         base.Activate();
         if (FDirection == 0)
         {
-            FDirection = (byte)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(6) + 1);
+            FDirection = (byte)(Aow.Game.World.Map.AoWHSMap.Current.Random(6) + 1);
         }
     }
 
     // PoisonC.pas:83
-    public override void UpdateMapField(in THSMapFieldInfo Info)
+    public override void UpdateMapField(in HSMapFieldInfo Info)
     {
         if (FResource.TerrainList.Terrain[Info.HN] >= -1)
         {
-            ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 8192;
+            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 8192;
         }
     }
 
@@ -172,10 +172,10 @@ public partial class TPoisonCloud : TMultiHexMO
         int Xhx = default;
         int Yhx = default;
         int HN;
-        if (FResource.Engine.HSMap.Status.Contains(THSMapStatusElement.msEditting))
+        if (FResource.Engine.HSMap.Status.Contains(HSMapStatusElement.Editting))
         {
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            HN = Aow.Game.World.Map.HexGeometry.dHXtoHN(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx);
+            HN = Aow.Game.World.Map.HexGeometry.dHXtoHN(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx);
             Result = HN < FResource.TerrainList.Count && FResource.TerrainList.Terrain[HN] >= -1;
         }
         else
@@ -187,12 +187,12 @@ public partial class TPoisonCloud : TMultiHexMO
     }
 
     // PoisonC.pas:95
-    public new void UpdateMapFields(TMapLevel Level, int Xhx, int Yhx)
+    public new void UpdateMapFields(MapLevel Level, int Xhx, int Yhx)
     {
-        THNWalkData Walk = default;
+        HNWalkData Walk = default;
         int Count;
         Count = FResource.TerrainList.Count;
-        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.HN != Count)
         {
             if (GetTerrain(Walk.HN) >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -200,48 +200,48 @@ public partial class TPoisonCloud : TMultiHexMO
                 Level.GetField(Walk.X, Walk.Y).UpdateMapField();
             }
 
-            Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
         }
     }
 
     // PoisonC.pas:129
-    public bool CanDoDamage(TUnitList Units)
+    public bool CanDoDamage(UnitList Units)
     {
         int I;
-        TAbstractUnit AUnit;
+        AbstractUnit AUnit;
         bool Result = false;
         I = Units.GetCount();
         while (!Result && I != 0)
         {
             I -= 1;
             AUnit = Units.GetUnit(I);
-            Result = !AUnit.GetImmunityTypes().Contains(TDamageType.dtPoison) && !AUnit.GetAbilityEnabled(1);
+            Result = !AUnit.GetImmunityTypes().Contains(DamageType.Poison) && !AUnit.GetAbilityEnabled(1);
         }
 
         return Result;
     }
 
     // PoisonC.pas:142
-    public void ArmyPlaced(TArmyHS ArmyHS)
+    public void ArmyPlaced(ArmyHS ArmyHS)
     {
-        if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) && !((TAoWMapField)ArmyHS.Owner).GetMagicShieldActive())
+        if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && !((AoWMapField)ArmyHS.Owner).GetMagicShieldActive())
         {
-            ArmyHS.FArmy.IncommingStorm(TStormType.stPestilence, 0, ArmyHS.FArmy.FPlayer);
+            ArmyHS.FArmy.IncommingStorm(StormType.Pestilence, 0, ArmyHS.FArmy.FPlayer);
         }
     }
 
     // PoisonC.pas:158
     public void TriggerDamage()
     {
-        TMapFieldMsg Msg = default;
-        THNWalkData Walk = default;
-        TMapLevel Level;
-        Level = (TMapLevel)Owner.Owner;
+        MapFieldMsg Msg = default;
+        HNWalkData Walk = default;
+        MapLevel Level;
+        Level = (MapLevel)Owner.Owner;
         var yhx = GetYhx();
         var xhx = GetXhx();
-        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
+        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
         Msg.MsgID = 4432;
-        Msg.Param[0] = (int)TStormType.stPestilence;
+        Msg.Param[0] = (int)StormType.Pestilence;
         Msg.Param[2] = FPlayer;
         ref var walk = ref Walk;
         while (FResource.TerrainList.Count > walk.HN)
@@ -252,7 +252,7 @@ public partial class TPoisonCloud : TMultiHexMO
                 Level.GetField(walk.X, walk.Y).SendMapFieldMsg(ref Msg);
             }
 
-            Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
         }
     }
 
@@ -261,8 +261,8 @@ public partial class TPoisonCloud : TMultiHexMO
     {
         int Xhx = default;
         int Yhx = default;
-        TMapLevel Level;
-        Level = (TMapLevel)Owner.Owner;
+        MapLevel Level;
+        Level = (MapLevel)Owner.Owner;
         var yhx = GetYhx();
         Aow.Game.World.Map.HexGeometry.CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
         Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
@@ -274,7 +274,7 @@ public partial class TPoisonCloud : TMultiHexMO
     {
         int Xhx = default;
         int Yhx = default;
-        TByteList Directions;
+        ByteList Directions;
         bool Valid;
         int Direction;
         int Tries;
@@ -292,7 +292,7 @@ public partial class TPoisonCloud : TMultiHexMO
             if (FDrifting)
             {
                 Direction = 0;
-                Directions = new TByteList();
+                Directions = new ByteList();
                 Valid = false;
                 Directions.Add(FDirection);
                 if (FDirection != 1)
@@ -315,7 +315,7 @@ public partial class TPoisonCloud : TMultiHexMO
 
                 while (Directions.Count != 0 && !Valid)
                 {
-                    Direction = Directions[Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(Directions.Count)];
+                    Direction = Directions[Aow.Game.World.Map.AoWHSMap.Current.Random(Directions.Count)];
                     Valid = ValidMoveDir(Direction);
                     if (!Valid)
                     {
@@ -329,7 +329,7 @@ public partial class TPoisonCloud : TMultiHexMO
                     Tries = 20;
                     while (!Valid && Tries != 0)
                     {
-                        Direction = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(6) + 1;
+                        Direction = Aow.Game.World.Map.AoWHSMap.Current.Random(6) + 1;
                         Valid = ValidMoveDir(Direction);
                         Tries -= 1;
                     }
@@ -345,12 +345,12 @@ public partial class TPoisonCloud : TMultiHexMO
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
                     Disconnect();
-                    UpdateMapFields(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(Lhx), OldXhx, OldYhx);
+                    UpdateMapFields(Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Lhx), OldXhx, OldYhx);
                     FXhx = (sbyte)Xhx;
                     FYhx = (sbyte)Yhx;
-                    Owner = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Xhx, Yhx, Lhx);
+                    Owner = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx);
                     Connect();
-                    UpdateMapFields(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
+                    UpdateMapFields(Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
                 }
             }
 
@@ -362,24 +362,24 @@ public partial class TPoisonCloud : TMultiHexMO
         }
     }
 
+    public new partial class Resource : MultiHexMOR
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        { }
+
+        // PoisonC.pas:286
+        public new const int ClassID = 135744;
+
+        // PoisonC.pas:292
+        public override int ResourceUserClassID() => 135743;
+
+        // PoisonC.pas:289
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.PoisonCloud.Resource.PoisonCloudRStr);
+
+        private static readonly string PoisonCloudRStr = "Poison Cloud";
+
+    }
+
     // PoisonC.pas:27
-
-}
-
-public partial class TPoisonCloudResource : TMultiHexMOR
-{
-    public TPoisonCloudResource(TECustomNode owner) : base(owner)
-    { }
-
-    // PoisonC.pas:286
-    public new const int ClassID = 135744;
-
-    // PoisonC.pas:292
-    public override int ResourceUserClassID() => 135743;
-
-    // PoisonC.pas:289
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.TPoisonCloudResource.PoisonCloudRStr);
-
-    private static readonly string PoisonCloudRStr = "Poison Cloud";
 
 }

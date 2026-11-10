@@ -7,7 +7,7 @@ using Aow.Game.Ui.Windows;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TInfoBanner : ILayoutModule
+public partial class InfoBanner : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -18,15 +18,15 @@ public partial class TInfoBanner : ILayoutModule
     {
         session.Begin(this);
         Name = "InfoBanner";
-        HeaderLbl = new TAOWLabel(this);
+        HeaderLbl = new AOWLabel(this);
         session.BeginRead(HeaderLbl);
         HeaderLbl.Name = "HeaderLbl";
         HeaderLbl.Priority = 0;
         HeaderLbl.WinLeft = 71;
         HeaderLbl.WinTop = 30;
         HeaderLbl.CaptureInput = true;
-        HeaderLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        HeaderLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        HeaderLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        HeaderLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         HeaderLbl.Alignment.HeightPercent = 0;
         HeaderLbl.Alignment.WidthPercent = 0;
         HeaderLbl.Alignment.LeftOffPercent = 0;
@@ -41,15 +41,15 @@ public partial class TInfoBanner : ILayoutModule
         HeaderLbl.Text = "######";
         HeaderLbl.TextColor = 1321830;
         session.EndRead(HeaderLbl);
-        InfoMemo = new TAOWMemo(this);
+        InfoMemo = new AOWMemo(this);
         session.BeginRead(InfoMemo);
         InfoMemo.Name = "InfoMemo";
         InfoMemo.Priority = 0;
         InfoMemo.WinLeft = 30;
         InfoMemo.WinTop = 45;
         InfoMemo.CaptureInput = true;
-        InfoMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        InfoMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        InfoMemo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        InfoMemo.Alignment.AlignHeight = AOWAlignHeight.Both;
         InfoMemo.Alignment.HeightPercent = 0;
         InfoMemo.Alignment.WidthPercent = 0;
         InfoMemo.Alignment.LeftOffPercent = 0;
@@ -77,9 +77,9 @@ public partial class TInfoBanner : ILayoutModule
         InfoMemo.ILIndexTexture = 0;
         InfoMemo.ItemHeight = 10;
         InfoMemo.ColorChangeChar = 0;
-        InfoMemo.TextAlign = TaowTextAlign.taCenter;
+        InfoMemo.TextAlign = TaowTextAlign.Center;
         session.EndRead(InfoMemo);
-        BannerPopup = new TAOWMenu(this);
+        BannerPopup = new AOWMenu(this);
         session.BeginRead(BannerPopup);
         BannerPopup.Name = "BannerPopup";
         BannerPopup.OnMouseDown = (_, button, shift, x, y) => BannerPopupMouseDown(button, shift, x, y);
@@ -89,8 +89,8 @@ public partial class TInfoBanner : ILayoutModule
         BannerPopup.WinTop = 0;
         BannerPopup.WinWidth = 238;
         BannerPopup.Masked = true;
-        BannerPopup.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        BannerPopup.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        BannerPopup.Alignment.AlignWidth = AOWAlignWidth.None;
+        BannerPopup.Alignment.AlignHeight = AOWAlignHeight.None;
         BannerPopup.Alignment.HeightPercent = 0;
         BannerPopup.Alignment.WidthPercent = 0;
         BannerPopup.Alignment.LeftOffPercent = 0;
@@ -119,15 +119,15 @@ public partial class TInfoBanner : ILayoutModule
         BannerPopup.SubMenuShowDelay = 0;
         BannerPopup.WinHeight = 155;
         session.EndRead(BannerPopup);
-        InfoMemoSB = new TAOWVScrollBar(this);
+        InfoMemoSB = new AOWVScrollBar(this);
         session.BeginRead(InfoMemoSB);
         InfoMemoSB.Name = "InfoMemoSB";
         InfoMemoSB.Priority = 0;
         InfoMemoSB.WinLeft = 117;
         InfoMemoSB.WinTop = 45;
         InfoMemoSB.CaptureInput = true;
-        InfoMemoSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        InfoMemoSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        InfoMemoSB.Alignment.AlignWidth = AOWAlignWidth.None;
+        InfoMemoSB.Alignment.AlignHeight = AOWAlignHeight.None;
         InfoMemoSB.Alignment.HeightPercent = 0;
         InfoMemoSB.Alignment.WidthPercent = 0;
         InfoMemoSB.Alignment.LeftOffPercent = 0;

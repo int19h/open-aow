@@ -10,7 +10,7 @@ public static partial class Blit
         return ((p >> 1) & m1) + ((p & m2) >> 2);
     }
 
-    private static bool Visible(int x, int y, in TRect clip) => x >= clip.Left && x < clip.Right && y >= clip.Top && y < clip.Bottom;
+    private static bool Visible(int x, int y, in Rect clip) => x >= clip.Left && x < clip.Right && y >= clip.Top && y < clip.Bottom;
     public static void BltRLE16(int x, int y, SurfaceView dst, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, dst, data, w, h, key, false, false);
     public static void BlendRLE555(int x, int y, SurfaceView dst, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, dst, data, w, h, key, true, false);
     public static void BlendRLE565(int x, int y, SurfaceView dst, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, dst, data, w, h, key, true, true);

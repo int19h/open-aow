@@ -6,36 +6,36 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Movement;
 
-public partial class TMoveControlSettings
+public partial class MoveControlSettings
 {
     public int GetMovePoints(int x, int y, int level) => FLevelData[level] is null ? 0xffffff : FLevelData[level][y * FWidth + x];
     public void SetMovePoints(int x, int y, int level, int value) => FLevelData[level][y * FWidth + x] = value;
 
     public int GetMovePointsXYL(int packed)
     {
-        var location = new TXYL { XYL = packed };
+        var location = new XYL { Packed = packed };
         return GetMovePoints(location.X, location.Y, location.L);
     }
 
     public void SetMovePointsXYL(int packed, int value)
     {
-        var location = new TXYL { XYL = packed };
+        var location = new XYL { Packed = packed };
         SetMovePoints(location.X, location.Y, location.L, value);
     }
 }
 
-public partial class TMoveControl
+public partial class MoveControl
 {
-    public void CalculatePathEx(TMovepath path, sbyte x, sbyte y, sbyte level)
+    public void CalculatePathEx(Movepath path, sbyte x, sbyte y, sbyte level)
     {
-        RtlUnit.Assert(FStatus.Contains(TMoveControlStatusElement.mcsActivated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
+        RtlUnit.Assert(FStatus.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
         path.Clear();
         if (level >= FMap.MapContainer.LevelCount) return;
         SetMapL(FMap.MapContainer.GetMapLevel(level));
-        var field = (TAoWMapField)FMapLevel.GetField(x, y);
+        var field = (AoWMapField)FMapLevel.GetField(x, y);
         int points = FSettings.GetMovePoints(field.Xhx, field.Yhx, field.Lhx);
         bool failed = points == 0xffffff;
-        TAoWMapField neighbor = null;
+        AoWMapField neighbor = null;
         while (field != null && (field.Xhx != FSourceX || field.Yhx != FSourceY || field.Lhx != FSourceL) && !failed)
         {
             path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
@@ -49,7 +49,7 @@ public partial class TMoveControl
                 int over = source || (neighbor.FFieldFlags & 0x2000) == 0 ? 1 : neighbor.CanMoveOver(this);
                 found = over != 0 && ((field.FFieldFlags & 0x4000) == 0 || field.CanMoveOn(this, cost, over) != -1);
             }
-            TAoWMapField previous;
+            AoWMapField previous;
             if (found)
             {
                 points = FSettings.GetMovePoints(neighbor.Xhx, neighbor.Yhx, neighbor.Lhx);
@@ -61,7 +61,7 @@ public partial class TMoveControl
                 if (previous != null && path.IndexOfXYL(previous.Xhx, previous.Yhx, previous.Lhx) == -1)
                 {
                     points = FSettings.GetMovePoints(previous.Xhx, previous.Yhx, previous.Lhx);
-                    SetMapL((TMapLevel)previous.Owner);
+                    SetMapL((MapLevel)previous.Owner);
                     found = true;
                 }
             }
@@ -72,16 +72,16 @@ public partial class TMoveControl
         }
         if (failed) path.Clear();
         else if (field != null && points == 0) path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAIExecuter.FStatus.Contains(TAIExecuterStatusElement.aesExecuting)) Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAIExecuter.UseProcessTime(path.Count);
+        if (Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.FStatus.Contains(AIExecuterStatusElement.Executing)) Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.UseProcessTime(path.Count);
     }
 
-    private TAoWMapField NeighborField(TAoWMapField field, int direction)
+    private AoWMapField NeighborField(AoWMapField field, int direction)
     {
         var delta = Aow.Game.World.Map.HexGeometry.HNtoXYTable[field.Xhx & 1][direction];
-        return (TAoWMapField)((TMapLevel)field.Owner).GetField(field.Xhx + delta.X, field.Yhx + delta.Y);
+        return (AoWMapField)((MapLevel)field.Owner).GetField(field.Xhx + delta.X, field.Yhx + delta.Y);
     }
 
-    public int CalculateMovePointLine(TAoWMapField origin, int direction, int moveOverCode)
+    public int CalculateMovePointLine(AoWMapField origin, int direction, int moveOverCode)
     {
         int initialOverCode = moveOverCode;
         int count = 0, points = FSettings.GetMovePoints(origin.Xhx, origin.Yhx, origin.Lhx);
@@ -95,7 +95,7 @@ public partial class TMoveControl
             points += cost;
             int old = FSettings.GetMovePoints(field.Xhx, field.Yhx, field.Lhx);
             if (old <= points || points > FMovePointsLimit) break;
-            if (FMode.Contains(TMoveModeElement.mmLogProcessedMapFields) && old == 0xffffff) FProcessedMapFields.Add(field);
+            if (FMode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff) FProcessedMapFields.Add(field);
             if (field.Xhx == FDestinationX && field.Yhx == FDestinationY && field.Lhx == FDestinationL) FMovePointsLimit = points;
             FSettings.SetMovePoints(field.Xhx, field.Yhx, field.Lhx, points);
             if ((field.FFieldFlags & 0x2000) == 0) moveOverCode = 1;
@@ -107,11 +107,11 @@ public partial class TMoveControl
         return count;
     }
 
-    public void ProcessHexagon(TAoWMapField field, int direction, int count)
+    public void ProcessHexagon(AoWMapField field, int direction, int count)
     {
         FProcessedCount++;
         int over = (field.FFieldFlags & 0x2000) == 0 ? 1 : field.CanMoveOver(this);
-        int left = Aow.Game.World.Movement.TMoveControl.P5SideDirections[direction][0], right = Aow.Game.World.Movement.TMoveControl.P5SideDirections[direction][1];
+        int left = Aow.Game.World.Movement.MoveControl.P5SideDirections[direction][0], right = Aow.Game.World.Movement.MoveControl.P5SideDirections[direction][1];
         int leftCount = CalculateMovePointLine(field, left, over);
         int rightCount = CalculateMovePointLine(field, right, over);
         if ((count & 0xff) != 0) ProcessHexagon(NeighborField(field, direction), direction, over == 2 ? count + 0xff : count - 1);
@@ -119,9 +119,9 @@ public partial class TMoveControl
         if (rightCount != 0) ProcessHexagon(NeighborField(field, right), right, over == 2 ? rightCount + 0xff : rightCount - 1);
         if ((count & 0x100) != 0)
         {
-            int opposite = Aow.Game.World.Movement.TMoveControl.P5OppositeDirections[direction];
-            left = Aow.Game.World.Movement.TMoveControl.P5SideDirections[opposite][0];
-            right = Aow.Game.World.Movement.TMoveControl.P5SideDirections[opposite][1];
+            int opposite = Aow.Game.World.Movement.MoveControl.P5OppositeDirections[direction];
+            left = Aow.Game.World.Movement.MoveControl.P5SideDirections[opposite][0];
+            right = Aow.Game.World.Movement.MoveControl.P5SideDirections[opposite][1];
             leftCount = CalculateMovePointLine(field, left, over);
             rightCount = CalculateMovePointLine(field, right, over);
             if (leftCount != 0) ProcessHexagon(NeighborField(field, left), left, leftCount - 1);

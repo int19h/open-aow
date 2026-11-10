@@ -8,22 +8,22 @@ namespace Aow.Game.World.Hexes;
 // { The RndHex unit of HSEPack.dpl: the random hexagon resource (TRndHexagonResource, ClassID
 //   $20154): placing it changes the terrain under the cursor to its terrain type through the map,
 //   which picks one of the hexagons of that terrain; its resource user is created the same way. }
-public partial class TRndHexagonResource : THexagonResource
+public partial class RndHexagonResource : HexagonResource
 {
-    public TRndHexagonResource(TECustomNode owner) : base(owner)
+    public RndHexagonResource(ECustomNode owner) : base(owner)
     { }
 
     public new const int ClassID = 131412;
 
     // RndHex.pas:38
-    public override TEObject CreateResourceUser()
+    public override EObject CreateResourceUser()
     {
         var terrain = FTerrainList.GetTerrain(0);
         return FEngine.HSSet.HexagonControl.CreateMO(terrain);
     }
 
     // RndHex.pas:43
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         int Lhx;
         int Radius;

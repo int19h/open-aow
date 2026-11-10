@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Aow.Game.Engine.Collections;
 
-public partial class TBitList
+public partial class BitList
 {
     // Engine.pas:4646. The unsigned comparison sends negative indices to the default.
     internal bool Get(int index) => (uint)index < (uint)FCount

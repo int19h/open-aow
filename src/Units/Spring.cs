@@ -12,9 +12,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw.Animation
 {
 
-    public partial class TSpringOfLifeAnimation : TAnimation
+    public partial class SpringOfLifeAnimation : global::Aow.Game.Draw.Animation.Animation
     {
-        public TSpringOfLifeAnimation(TECustomNode owner) : base(owner)
+        public SpringOfLifeAnimation(ECustomNode owner) : base(owner)
         { }
 
         // Spring.pas:64
@@ -30,9 +30,9 @@ namespace Aow.Game.Draw.Animation
         // Animation.pas:43
 
         // Spring.pas:59
-        public override TSet<TAnimationControlModeElement> AnimationControlMode() => Aow.Game.Draw.Animation.TSpringOfLifeAnimation.SpringMode;
+        public override Set<AnimationControlModeElement> AnimationControlMode() => Aow.Game.Draw.Animation.SpringOfLifeAnimation.SpringMode;
 
-        private static TSet<global::Aow.Game.Draw.Animation.TAnimationControlModeElement> SpringMode = TSet<global::Aow.Game.Draw.Animation.TAnimationControlModeElement>.FromMask(17uL);
+        private static Set<global::Aow.Game.Draw.Animation.AnimationControlModeElement> SpringMode = Set<global::Aow.Game.Draw.Animation.AnimationControlModeElement>.FromMask(17uL);
 
     }
 }
@@ -40,9 +40,9 @@ namespace Aow.Game.Draw.Animation
 namespace Aow.Game.World.Structures
 {
 
-    public partial class TSpringOfLife : TStructure
+    public partial class SpringOfLife : Structure
     {
-        public TSpringOfLife(TECustomNode owner) : base(owner)
+        public SpringOfLife(ECustomNode owner) : base(owner)
         {
         }
 
@@ -52,17 +52,17 @@ namespace Aow.Game.World.Structures
         // Spring.pas:70
 
         // Spring.pas:111
-        public override void ArmyPlaced(TArmyHS PlacedArmy)
+        public override void ArmyPlaced(ArmyHS PlacedArmy)
         {
             base.ArmyPlaced(PlacedArmy);
-            if (!TSet<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)((TMapField)Owner).TerrainType))
+            if (!Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)((MapField)Owner).TerrainType))
             {
                 ExecuteNaturesBlessing(PlacedArmy);
             }
         }
 
         // Spring.pas:76
-        public void ShowBlessingAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowBlessingAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
@@ -73,23 +73,23 @@ namespace Aow.Game.World.Structures
         }
 
         // Spring.pas:86
-        public void ExecuteNaturesBlessing(TArmyHS ArmyHS)
+        public void ExecuteNaturesBlessing(ArmyHS ArmyHS)
         {
-            TSpringOfLifeAnimation Anim = default;
-            TRect R = default;
+            SpringOfLifeAnimation Anim = default;
+            global::Aow.Rtl.Rect R = default;
             // { Keep the parameter in its original stack slot. }
             for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
             {
                 ArmyHS.FArmy.GetUnit(I).ExpandAbility(99);
             }
 
-            bool condition = ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
+            bool condition = ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(xhx, yhx, lhx, 0);
+                condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
@@ -100,45 +100,45 @@ namespace Aow.Game.World.Structures
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             var xhx2 = GetXhx();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Visible(xhx2, yhx2, lhx2, 0))
+            if (Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
             {
-                Anim = new TSpringOfLifeAnimation(null);
-                R = Rect(-16, -8, 32, 40);
+                Anim = new SpringOfLifeAnimation(null);
+                R = global::Aow.Rtl.RtlUnit.Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowBlessingAnimation;
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
+                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
             }
         }
 
-        // Spring.pas:27
-
-    }
-
-    public partial class TSpringOfLifeResource : TStructureResource
-    {
-        public TSpringOfLifeResource(TECustomNode owner) : base(owner)
+        public new partial class Resource : StructureResource
         {
-            FTerrainBound = false;
+            public Resource(ECustomNode owner) : base(owner)
+            {
+                FTerrainBound = false;
+            }
+
+            // Spring.pas:123
+            public new const int ClassID = 131329;
+
+            // Spring.pas:117
+
+            // Spring.pas:129
+            public override int ResourceUserClassID() => 131328;
+
+            // Spring.pas:37
+
+            // Spring.pas:126
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.SpringOfLife.Resource.SpringOfLifeRStr);
+
+            private static readonly string SpringOfLifeRStr = "Spring of Life";
+
         }
 
-        // Spring.pas:123
-        public new const int ClassID = 131329;
-
-        // Spring.pas:117
-
-        // Spring.pas:129
-        public override int ResourceUserClassID() => 131328;
-
-        // Spring.pas:37
-
-        // Spring.pas:126
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TSpringOfLifeResource.SpringOfLifeRStr);
-
-        private static readonly string SpringOfLifeRStr = "Spring of Life";
+        // Spring.pas:27
 
     }
 }
@@ -146,9 +146,9 @@ namespace Aow.Game.World.Structures
 namespace Aow.Game.Draw.Animation
 {
 
-    public struct TSpringAnimationCallback
+    public struct SpringAnimationCallback
     {
         public FixedArray_byte_36 Reserved;
-        public TShowAnimationEvent OnShow;
+        public ShowAnimationEvent OnShow;
     }
 }

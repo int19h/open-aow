@@ -11,14 +11,14 @@ namespace Aow.Game.Draw
 {
 
     // FStructure. FFadeEndFrame
-    public partial class TMagicSanctuaryOverlayHS : TSingleHS
+    public partial class MagicSanctuaryOverlayHS : SingleHS
     {
-        public TMagicSanctuaryOverlayHS(TECustomNode owner) : base(owner)
+        public MagicSanctuaryOverlayHS(ECustomNode owner) : base(owner)
         {
             FFadeEndFrame = -1;
         }
 
-        public TMagicSanctuary FStructure;
+        public MagicSanctuary FStructure;
         public int FFadeEndFrame;
 
         // MagicSanctuary.pas:67
@@ -27,9 +27,9 @@ namespace Aow.Game.Draw
         public override int GetShowPriority() => FStructure.GetShowPriority() + 134217728;
 
         // MagicSanctuary.pas:78
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            TImageSequence Sequence;
+            ImageSequence Sequence;
             int FrameIndex;
             int Blend;
             int Xhp = default;
@@ -42,9 +42,9 @@ namespace Aow.Game.Draw
             if (Sequence != null)
             {
                 Blend = 50;
-                if (FFadeEndFrame != -1 && FFadeEndFrame > Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame)
+                if (FFadeEndFrame != -1 && FFadeEndFrame > Aow.Game.World.Map.AoWHSMap.Current.Frame)
                 {
-                    FramesLeft = FFadeEndFrame - Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame;
+                    FramesLeft = FFadeEndFrame - Aow.Game.World.Map.AoWHSMap.Current.Frame;
                     if (FramesLeft <= 20)
                     {
                         Blend += (10 - Math.Abs(FramesLeft - 10)) * 3;
@@ -67,7 +67,7 @@ namespace Aow.Game.Draw
         // MagicSanctuary.pas:105
         public void FadeUp()
         {
-            FFadeEndFrame = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame + 20;
+            FFadeEndFrame = Aow.Game.World.Map.AoWHSMap.Current.Frame + 20;
         }
 
         // MagicSanctuary.pas:22
@@ -79,23 +79,23 @@ namespace Aow.Game.World.Structures
 {
 
     // FOverlayHS
-    public partial class TMagicSanctuary : TStructure
+    public partial class MagicSanctuary : Structure
     {
-        public TMagicSanctuary(TECustomNode owner) : base(owner)
+        public MagicSanctuary(ECustomNode owner) : base(owner)
         {
-            FOverlayHS = new TMagicSanctuaryOverlayHS(null);
+            FOverlayHS = new MagicSanctuaryOverlayHS(null);
             FOverlayHS.FStructure = this;
         }
 
         // MagicSanctuary.pas:124
         public new const int ClassID = 133274;
 
-        public TMagicSanctuaryOverlayHS FOverlayHS;
+        public MagicSanctuaryOverlayHS FOverlayHS;
 
         // MagicSanctuary.pas:117
         public override void Dispose()
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
+            Aow.Game.World.Map.AoWHSMap.Current.DynamicVisibleHS.RemoveChild(FOverlayHS);
             FOverlayHS?.Dispose();
             base.Dispose();
         }
@@ -103,7 +103,7 @@ namespace Aow.Game.World.Structures
         // MagicSanctuary.pas:110
 
         // MagicSanctuary.pas:136
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
@@ -116,9 +116,9 @@ namespace Aow.Game.World.Structures
         }
 
         // MagicSanctuary.pas:127
-        public override void MakeVisible(TVisibilityList VisibilityList)
+        public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moVisible))
+            if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Visible))
             {
                 base.MakeVisible(VisibilityList);
                 FOverlayHS.MakeVisible(VisibilityList);
@@ -126,39 +126,39 @@ namespace Aow.Game.World.Structures
         }
 
         // MagicSanctuary.pas:143
-        public override void ArmyPlaced(TArmyHS PlacedArmy)
+        public override void ArmyPlaced(ArmyHS PlacedArmy)
         {
             base.ArmyPlaced(PlacedArmy);
             FOverlayHS.FadeUp();
         }
 
-        // MagicSanctuary.pas:33
-
-    }
-
-    public partial class TMagicSanctuaryResource : TStructureResource
-    {
-        public TMagicSanctuaryResource(TECustomNode owner) : base(owner)
+        public new partial class Resource : StructureResource
         {
-            FTerrainBound = false;
-            FRazeable = false;
-            FConnectRoads = false;
+            public Resource(ECustomNode owner) : base(owner)
+            {
+                FTerrainBound = false;
+                FRazeable = false;
+                FConnectRoads = false;
+            }
+
+            // MagicSanctuary.pas:160
+            public new const int ClassID = 133275;
+
+            // MagicSanctuary.pas:149
+
+            // MagicSanctuary.pas:163
+            public override int ResourceUserClassID() => 133274;
+
+            // MagicSanctuary.pas:43
+
+            // MagicSanctuary.pas:157
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.MagicSanctuary.Resource.MagicSanctuaryRStr);
+
+            private static readonly string MagicSanctuaryRStr = "Magic Sanctuary";
+
         }
 
-        // MagicSanctuary.pas:160
-        public new const int ClassID = 133275;
-
-        // MagicSanctuary.pas:149
-
-        // MagicSanctuary.pas:163
-        public override int ResourceUserClassID() => 133274;
-
-        // MagicSanctuary.pas:43
-
-        // MagicSanctuary.pas:157
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMagicSanctuaryResource.MagicSanctuaryRStr);
-
-        private static readonly string MagicSanctuaryRStr = "Magic Sanctuary";
+        // MagicSanctuary.pas:33
 
     }
 }

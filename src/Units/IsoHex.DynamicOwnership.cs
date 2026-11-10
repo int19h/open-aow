@@ -8,16 +8,16 @@ using Aow.Rtl;
 namespace Aow.Game.World.Hexes
 {
 
-    public partial class TIsometricHexagon
+    public partial class IsometricHexagon
     {
         protected void UpdateTransitionCore(Type peer, bool water, Action<int, int> shore = null)
         {
             FOpenSides = 0;
             FSides &= 0xC0;
-            var field = (TMapField)Owner;
-            var level = (TMapLevel)field.Owner;
-            THNWalkData walk = default;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref walk, field.Xhx, field.Yhx, 1);
+            var field = (MapField)Owner;
+            var level = (MapLevel)field.Owner;
+            HNWalkData walk = default;
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref walk, field.Xhx, field.Yhx, 1);
             while (walk.HN <= 6)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -25,7 +25,7 @@ namespace Aow.Game.World.Hexes
                     var neighbour = level.GetField(walk.X, walk.Y);
                     var sprite = neighbour.FindOwnedHS(peer);
                     bool peerFound = sprite != null;
-                    sprite ??= neighbour.FindOwnedHS(typeof(TBorderHexagon));
+                    sprite ??= neighbour.FindOwnedHS(typeof(BorderHexagon));
                     if (sprite == null)
                     {
                         FOpenSides |= (byte)(1 << (walk.HN - 1));
@@ -34,11 +34,11 @@ namespace Aow.Game.World.Hexes
                     else if ((!water || peerFound) && neighbour.TerrainType != GetTerrain(0))
                         FSides |= (byte)(1 << (walk.HN - 1));
                 }
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
             }
             if (water || FOpenSides != 0)
             {
-                if (FDynamic == null) FDynamic = new TDynamicIsometricHexagon(this);
+                if (FDynamic == null) FDynamic = new DynamicIsometricHexagon(this);
             }
             else if (FDynamic != null)
             {
@@ -50,36 +50,36 @@ namespace Aow.Game.World.Hexes
         }
     }
 
-    public partial class TUpperIsometricHexagon
+    public partial class UpperIsometricHexagon
     {
-        public override void UpdateTransitions() => UpdateTransitionCore(typeof(TUpperIsometricHexagon), false);
+        public override void UpdateTransitions() => UpdateTransitionCore(typeof(UpperIsometricHexagon), false);
     }
 
-    public partial class TLowerIsometricHexagon
+    public partial class LowerIsometricHexagon
     {
-        public override void UpdateTransitions() => UpdateTransitionCore(typeof(TLowerIsometricHexagon), false);
+        public override void UpdateTransitions() => UpdateTransitionCore(typeof(LowerIsometricHexagon), false);
     }
 }
 
 namespace Aow.Game.Draw
 {
 
-    public partial class TDynamicIsometricHexagon
+    public partial class DynamicIsometricHexagon
     {
-        private TIsometricHexagon hexagon;
+        private IsometricHexagon hexagon;
 
-        private TMapField Field => (TMapField)hexagon.Owner;
+        private MapField Field => (MapField)hexagon.Owner;
 
         // IsoHex.pas:109. The TEObject body runs with a null owner (the hexagon owns the sprite directly,
         // not as a child), then the sprite is attached and the field of the hexagon shows it.
-        public TDynamicIsometricHexagon(TIsometricHexagon owner) : base(null)
+        public DynamicIsometricHexagon(IsometricHexagon owner) : base(null)
         {
             hexagon = owner;
             Field.AddHS(this, 0);
         }
 
-        public override TEngine GetEngine() => hexagon.GetEngine();
-        public override byte GetLevel() => ((TIsometricHexagonResource)hexagon.FResource).FDynamicLevel;
+        public override global::Aow.Game.Engine.Engine GetEngine() => hexagon.GetEngine();
+        public override byte GetLevel() => ((IsometricHexagonResource)hexagon.FResource).FDynamicLevel;
         public override sbyte GetXhx() => Field.Xhx;
         public override sbyte GetYhx() => Field.Yhx;
         public override sbyte GetLhx() => Field.Lhx;
@@ -91,13 +91,13 @@ namespace Aow.Game.Draw
             return (GetLevel() << 26) + ((y + 32) << 13) + x + 8;
         }
 
-        public override void Show(int x, int y, in TSurfaceDesc surface) => hexagon.ShowDynamic(x, y, surface);
+        public override void Show(int x, int y, in SurfaceDesc surface) => hexagon.ShowDynamic(x, y, surface);
 
         public override void Dispose()
         {
             if (hexagon != null)
             {
-                if (hexagon.GetVisible()) ((TMapLevel)Field.Owner).Map.DynamicVisibleHS.RemoveChild(this);
+                if (hexagon.GetVisible()) ((MapLevel)Field.Owner).Map.DynamicVisibleHS.RemoveChild(this);
                 Field.RemoveHS(this);
                 hexagon.FDynamic = null;
                 hexagon = null;

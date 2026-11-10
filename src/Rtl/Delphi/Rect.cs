@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 namespace Aow.Rtl;
 
 [StructLayout(LayoutKind.Explicit, Size = 16)]
-public struct TRect
+public struct Rect
 {
     [FieldOffset(0)] public int Left;
     [FieldOffset(4)] public int Top;
@@ -13,22 +13,22 @@ public struct TRect
 
 public static partial class RtlUnit
 {
-    public static TRect Rect(int left, int top, int right, int bottom) => new() { Left = left, Top = top, Right = right, Bottom = bottom };
+    public static global::Aow.Rtl.Rect Rect(int left, int top, int right, int bottom) => new() { Left = left, Top = top, Right = right, Bottom = bottom };
 
-    public static bool EqualRect(in TRect left, in TRect right) => left.Left == right.Left && left.Top == right.Top && left.Right == right.Right && left.Bottom == right.Bottom;
+    public static bool EqualRect(in global::Aow.Rtl.Rect left, in global::Aow.Rtl.Rect right) => left.Left == right.Left && left.Top == right.Top && left.Right == right.Right && left.Bottom == right.Bottom;
 
-    public static bool IntersectRect(ref TRect result, in TRect left, in TRect right)
+    public static bool IntersectRect(ref global::Aow.Rtl.Rect result, in global::Aow.Rtl.Rect left, in global::Aow.Rtl.Rect right)
     {
-        var intersection = new TRect { Left = Math.Max(left.Left, right.Left), Top = Math.Max(left.Top, right.Top), Right = Math.Min(left.Right, right.Right), Bottom = Math.Min(left.Bottom, right.Bottom) };
+        var intersection = new global::Aow.Rtl.Rect { Left = Math.Max(left.Left, right.Left), Top = Math.Max(left.Top, right.Top), Right = Math.Min(left.Right, right.Right), Bottom = Math.Min(left.Bottom, right.Bottom) };
         bool nonempty = intersection.Right > intersection.Left && intersection.Bottom > intersection.Top;
         result = nonempty ? intersection : default;
         return nonempty;
     }
 
-    public static bool UnionRect(ref TRect result, in TRect left, in TRect right)
+    public static bool UnionRect(ref global::Aow.Rtl.Rect result, in global::Aow.Rtl.Rect left, in global::Aow.Rtl.Rect right)
     {
         bool a = left.Right > left.Left && left.Bottom > left.Top, b = right.Right > right.Left && right.Bottom > right.Top;
-        result = !a ? b ? right : default : !b ? left : new TRect { Left = Math.Min(left.Left, right.Left), Top = Math.Min(left.Top, right.Top), Right = Math.Max(left.Right, right.Right), Bottom = Math.Max(left.Bottom, right.Bottom) };
+        result = !a ? b ? right : default : !b ? left : new global::Aow.Rtl.Rect { Left = Math.Min(left.Left, right.Left), Top = Math.Min(left.Top, right.Top), Right = Math.Max(left.Right, right.Right), Bottom = Math.Max(left.Bottom, right.Bottom) };
         return a || b;
     }
 }

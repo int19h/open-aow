@@ -7,9 +7,9 @@ using Aow.Game.World.Terrain;
 namespace Aow.Game.World.Terrain;
 
 // FPadActive
-public partial class TPad : TFixedILTerrainMO
+public partial class Pad : FixedILTerrainMO
 {
-    public TPad(TECustomNode owner) : base(owner)
+    public Pad(ECustomNode owner) : base(owner)
     {
         FPadActive = true;
     }
@@ -25,7 +25,7 @@ public partial class TPad : TFixedILTerrainMO
     public override bool CanSelect(int Xhp, int Yhp) => false;
 
     // Pad.pas:58
-    public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
+    public override sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx)
     {
         sbyte Result;
         if (MapLevel.Lhx != 0)
@@ -40,79 +40,79 @@ public partial class TPad : TFixedILTerrainMO
         return Result;
     }
 
-    // Pad.pas:20
-
-}
-
-// FPadSize
-public partial class TPadResource : TFixedILTerrainMOR
-{
-    public TPadResource(TECustomNode owner) : base(owner)
+    // FPadSize
+    public new partial class Resource : FixedILTerrainMOR
     {
-        SetLevel(10);
-    }
-
-    // Pad.pas:76
-    public new const int ClassID = 131335;
-
-    public byte FPadSize;
-
-    // Pad.pas:69
-    public override void Dispose()
-    {
-        if (Engine != null && !Engine.HSSet.Status.Contains(THSSetStatusElement.ssDestroying))
+        public Resource(ECustomNode owner) : base(owner)
         {
-            ((TAoWHSSet)Engine.HSSet).FPadControl.UnregisterPadResource(this, FPadSize);
+            SetLevel(10);
         }
 
-        base.Dispose();
-    }
+        // Pad.pas:76
+        public new const int ClassID = 131335;
 
-    // Pad.pas:63
+        public byte FPadSize;
 
-    // Pad.pas:101
-    public override EditorClass Editor()
-    {
-        EditorClass Result = Engine.Editors.FindEditor(131335);
-        if (Result == null)
+        // Pad.pas:69
+        public override void Dispose()
         {
-            Result = base.Editor();
-        }
-
-        return Result;
-    }
-
-    // Pad.pas:95
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
-    {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
-        {
-            ActivateMsg();
-        }
-    }
-
-    // Pad.pas:82
-    public override int ResourceUserClassID() => 131334;
-
-    // Pad.pas:85
-    public void ActivateMsg()
-    {
-        FPadSize = 0;
-        for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
-        {
-            if (TerrainList.GetTerrain(I) >= -1)
+            if (Engine != null && !Engine.HSSet.Status.Contains(HSSetStatusElement.Destroying))
             {
-                FPadSize = (byte)(FPadSize + 1);
+                ((AoWHSSet)Engine.HSSet).FPadControl.UnregisterPadResource(this, FPadSize);
+            }
+
+            base.Dispose();
+        }
+
+        // Pad.pas:63
+
+        // Pad.pas:101
+        public override EditorClass Editor()
+        {
+            EditorClass Result = Engine.Editors.FindEditor(131335);
+            if (Result == null)
+            {
+                Result = base.Editor();
+            }
+
+            return Result;
+        }
+
+        // Pad.pas:95
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
+        {
+            base.MsgProc(ref Msg, Sender);
+            if (Msg.MsgID == 536870920)
+            {
+                ActivateMsg();
             }
         }
 
-        ((TAoWHSSet)Engine.HSSet).FPadControl.RegisterPadResource(this, FPadSize);
+        // Pad.pas:82
+        public override int ResourceUserClassID() => 131334;
+
+        // Pad.pas:85
+        public void ActivateMsg()
+        {
+            FPadSize = 0;
+            for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
+            {
+                if (TerrainList.GetTerrain(I) >= -1)
+                {
+                    FPadSize = (byte)(FPadSize + 1);
+                }
+            }
+
+            ((AoWHSSet)Engine.HSSet).FPadControl.RegisterPadResource(this, FPadSize);
+        }
+
+        // Pad.pas:32
+
+        // Pad.pas:79
+        public override string ResourceEditName() => "Pad";
+
     }
 
-    // Pad.pas:32
-
-    // Pad.pas:79
-    public override string ResourceEditName() => "Pad";
+    // Pad.pas:20
 
 }

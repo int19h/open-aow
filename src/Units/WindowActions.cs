@@ -19,7 +19,7 @@ public static class WindowActions
 {
     internal static void RestoreWindowLayout(object Controller)
     {
-        TRect R;
+        global::Aow.Rtl.Rect R;
         R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(6);
         var scanner = Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerWindow;
         if (R.Right != 0)
@@ -59,8 +59,8 @@ public static class WindowActions
         if (R.Right != 0)
         {
             var alignment = unitWindow.Alignment;
-            alignment.AlignWidth = TAOWAlignWidth.awLeft;
-            alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            alignment.AlignWidth = AOWAlignWidth.Left;
+            alignment.AlignHeight = AOWAlignHeight.Top;
             alignment.TopOffset = R.Top;
             alignment.LeftOffset = R.Left;
 
@@ -70,8 +70,8 @@ public static class WindowActions
         else
         {
             var alignment = unitWindow.Alignment;
-            alignment.AlignWidth = TAOWAlignWidth.awCenter;
-            alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+            alignment.AlignWidth = AOWAlignWidth.Center;
+            alignment.AlignHeight = AOWAlignHeight.Center;
 
             unitWindow.WinWidth = unitWindow.MinWidth;
             unitWindow.WinHeight = unitWindow.MinHeight;
@@ -84,8 +84,8 @@ public static class WindowActions
         if (R.Right != 0)
         {
             var alignment = realm.Alignment;
-            alignment.AlignWidth = TAOWAlignWidth.awLeft;
-            alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            alignment.AlignWidth = AOWAlignWidth.Left;
+            alignment.AlignHeight = AOWAlignHeight.Top;
             alignment.TopOffset = R.Top;
             alignment.LeftOffset = R.Left;
 
@@ -98,8 +98,8 @@ public static class WindowActions
             alignment.BottomOffset = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.WinWidth;
-            alignment.AlignWidth = TAOWAlignWidth.awBoth;
-            alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+            alignment.AlignWidth = AOWAlignWidth.Both;
+            alignment.AlignHeight = AOWAlignHeight.Bottom;
 
             realm.WinWidth = realm.MinWidth;
             realm.WinHeight = realm.MinHeight;
@@ -110,8 +110,8 @@ public static class WindowActions
         if (R.Right != 0)
         {
             var alignment = magic.Alignment;
-            alignment.AlignWidth = TAOWAlignWidth.awLeft;
-            alignment.AlignHeight = TAOWAlignHeight.ahTop;
+            alignment.AlignWidth = AOWAlignWidth.Left;
+            alignment.AlignHeight = AOWAlignHeight.Top;
             alignment.TopOffset = R.Top;
             alignment.LeftOffset = R.Left;
 
@@ -124,8 +124,8 @@ public static class WindowActions
             alignment.BottomOffset = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.WinWidth;
-            alignment.AlignWidth = TAOWAlignWidth.awBoth;
-            alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+            alignment.AlignWidth = AOWAlignWidth.Both;
+            alignment.AlignHeight = AOWAlignHeight.Bottom;
 
             magic.WinWidth = magic.MinWidth;
             magic.WinHeight = magic.MinHeight;
@@ -170,7 +170,7 @@ public static class WindowActions
         if (R.Right != 0)
         {
             var alignment = chat.Alignment;
-            alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            alignment.AlignWidth = AOWAlignWidth.Left;
             alignment.BottomOffset = R.Top;
             alignment.LeftOffset = R.Left;
 
@@ -180,7 +180,7 @@ public static class WindowActions
         else
         {
             var alignment = chat.Alignment;
-            alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            alignment.AlignWidth = AOWAlignWidth.Both;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.MinWidth;
             alignment.BottomOffset = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight;
@@ -227,14 +227,14 @@ public static class WindowActions
         if (R.Right != 0)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapRect = R;
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignHeight = TAOWAlignHeight.ahTop;
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignWidth = TAOWAlignWidth.awLeft;
+            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignHeight = AOWAlignHeight.Top;
+            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignWidth = AOWAlignWidth.Left;
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignHeight = TAOWAlignHeight.ahBoth;
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignWidth = TAOWAlignWidth.awBoth;
-            var rect = Rect(0, 0, tcScanner.MinWidth, Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight);
+            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignHeight = AOWAlignHeight.Both;
+            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignWidth = AOWAlignWidth.Both;
+            var rect = global::Aow.Rtl.RtlUnit.Rect(0, 0, tcScanner.MinWidth, Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight);
             Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapRect = rect;
         }
 
@@ -243,8 +243,8 @@ public static class WindowActions
         if (R.Right != 0)
         {
             var alignment = map.Alignment;
-            alignment.AlignHeight = TAOWAlignHeight.ahTop;
-            alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            alignment.AlignHeight = AOWAlignHeight.Top;
+            alignment.AlignWidth = AOWAlignWidth.Left;
             alignment.TopOffset = R.Top;
             alignment.LeftOffset = R.Left;
 
@@ -254,8 +254,8 @@ public static class WindowActions
         else
         {
             var alignment = map.Alignment;
-            alignment.AlignHeight = TAOWAlignHeight.ahBoth;
-            alignment.AlignWidth = TAOWAlignWidth.awBoth;
+            alignment.AlignHeight = AOWAlignHeight.Both;
+            alignment.AlignWidth = AOWAlignWidth.Both;
             alignment.TopOffset = 0;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.MinWidth;
@@ -273,6 +273,6 @@ public static class WindowActions
         Form.FCursor = (short)Math.Abs(Cursor);
     }
 
-    internal static void ShowTitleScene(TTitleScene scene, bool music) => scene.ShowScene(music);
+    internal static void ShowTitleScene(TitleScene scene, bool music) => scene.ShowScene(music);
 
 }

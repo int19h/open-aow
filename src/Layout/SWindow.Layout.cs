@@ -9,7 +9,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSWindow : ILayoutModule
+public partial class SWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -20,7 +20,7 @@ public partial class TSWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "SWindow";
-        ScannerWindow = new TAOWWindow(this);
+        ScannerWindow = new AOWWindow(this);
         session.BeginRead(ScannerWindow);
         ScannerWindow.Name = "ScannerWindow";
         ScannerWindow.Visible = false;
@@ -29,8 +29,8 @@ public partial class TSWindow : ILayoutModule
         ScannerWindow.WinTop = 0;
         ScannerWindow.WinWidth = 200;
         ScannerWindow.Masked = false;
-        ScannerWindow.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        ScannerWindow.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ScannerWindow.Alignment.AlignWidth = AOWAlignWidth.Right;
+        ScannerWindow.Alignment.AlignHeight = AOWAlignHeight.Top;
         ScannerWindow.Alignment.HeightPercent = 0;
         ScannerWindow.Alignment.WidthPercent = 0;
         ScannerWindow.Alignment.LeftOffPercent = 0;
@@ -65,15 +65,15 @@ public partial class TSWindow : ILayoutModule
         ScannerWindow.WinHeight = 216;
         ScannerWindow.Dockable = false;
         session.EndRead(ScannerWindow);
-        ScannerFrame = new TAoWFrame(this);
+        ScannerFrame = new AoWFrame(this);
         session.BeginRead(ScannerFrame);
         ScannerFrame.Name = "ScannerFrame";
         ScannerFrame.Priority = 50;
         ScannerFrame.WinLeft = -2;
         ScannerFrame.WinTop = 10;
         ScannerFrame.CaptureInput = false;
-        ScannerFrame.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ScannerFrame.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        ScannerFrame.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ScannerFrame.Alignment.AlignHeight = AOWAlignHeight.Both;
         ScannerFrame.Alignment.HeightPercent = 0;
         ScannerFrame.Alignment.WidthPercent = 0;
         ScannerFrame.Alignment.LeftOffPercent = 0;
@@ -87,12 +87,12 @@ public partial class TSWindow : ILayoutModule
         ScannerFrame.Masked = false;
         ScannerFrame.WinWidth = 196;
         ScannerFrame.WinHeight = 202;
-        ScannerFrame.FrameType = TFrameType.frHollowBox;
+        ScannerFrame.FrameType = FrameType.HollowBox;
         ScannerFrame.ILIndexFrame = 0;
         ScannerFrame.ILIndexLine = 0;
         ScannerFrame.ILIndexTexture = 0;
         session.EndRead(ScannerFrame);
-        ScannerTab = new TAOWTabPanel(this);
+        ScannerTab = new AOWTabPanel(this);
         session.BeginRead(ScannerTab);
         ScannerTab.Name = "ScannerTab";
         ScannerTab.OnMouseDown = (_, button, shift, x, y) => ScannerTabMouseDown(button, shift, x, y);
@@ -104,8 +104,8 @@ public partial class TSWindow : ILayoutModule
             "Selects one of the three map layers."
         };
         ScannerTab.CaptureInput = true;
-        ScannerTab.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ScannerTab.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ScannerTab.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ScannerTab.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ScannerTab.Alignment.HeightPercent = 0;
         ScannerTab.Alignment.WidthPercent = 0;
         ScannerTab.Alignment.LeftOffPercent = 0;
@@ -127,7 +127,7 @@ public partial class TSWindow : ILayoutModule
         ScannerTab.ILIndexUp = 14;
         ScannerTab.BorderHeightSelected = 3;
         session.EndRead(ScannerTab);
-        BuildingCheck = new TAOWCheckBox(this);
+        BuildingCheck = new AOWCheckBox(this);
         session.BeginRead(BuildingCheck);
         BuildingCheck.Name = "BuildingCheck";
         BuildingCheck.Priority = 1001;
@@ -138,8 +138,8 @@ public partial class TSWindow : ILayoutModule
             "Toggles player structures on and off."
         };
         BuildingCheck.CaptureInput = true;
-        BuildingCheck.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        BuildingCheck.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BuildingCheck.Alignment.AlignWidth = AOWAlignWidth.Right;
+        BuildingCheck.Alignment.AlignHeight = AOWAlignHeight.Top;
         BuildingCheck.Alignment.HeightPercent = 0;
         BuildingCheck.Alignment.WidthPercent = 0;
         BuildingCheck.Alignment.LeftOffPercent = 0;
@@ -163,7 +163,7 @@ public partial class TSWindow : ILayoutModule
         BuildingCheck.OnChange = BuildingCheckChange;
         BuildingCheck.RadioIndex = 0;
         session.EndRead(BuildingCheck);
-        ArmyCheck = new TAOWCheckBox(this);
+        ArmyCheck = new AOWCheckBox(this);
         session.BeginRead(ArmyCheck);
         ArmyCheck.Name = "ArmyCheck";
         ArmyCheck.Priority = 1002;
@@ -174,8 +174,8 @@ public partial class TSWindow : ILayoutModule
             "Toggles parties on and off."
         };
         ArmyCheck.CaptureInput = true;
-        ArmyCheck.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        ArmyCheck.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ArmyCheck.Alignment.AlignWidth = AOWAlignWidth.Right;
+        ArmyCheck.Alignment.AlignHeight = AOWAlignHeight.Top;
         ArmyCheck.Alignment.HeightPercent = 0;
         ArmyCheck.Alignment.WidthPercent = 0;
         ArmyCheck.Alignment.LeftOffPercent = 0;
@@ -199,7 +199,7 @@ public partial class TSWindow : ILayoutModule
         ArmyCheck.OnChange = ArmyCheckChange;
         ArmyCheck.RadioIndex = 0;
         session.EndRead(ArmyCheck);
-        NaturalCheck = new TAOWCheckBox(this);
+        NaturalCheck = new AOWCheckBox(this);
         session.BeginRead(NaturalCheck);
         NaturalCheck.Name = "NaturalCheck";
         NaturalCheck.Priority = 1003;
@@ -210,8 +210,8 @@ public partial class TSWindow : ILayoutModule
             "Toggles natural structures on and off."
         };
         NaturalCheck.CaptureInput = true;
-        NaturalCheck.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        NaturalCheck.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        NaturalCheck.Alignment.AlignWidth = AOWAlignWidth.Right;
+        NaturalCheck.Alignment.AlignHeight = AOWAlignHeight.Top;
         NaturalCheck.Alignment.HeightPercent = 0;
         NaturalCheck.Alignment.WidthPercent = 0;
         NaturalCheck.Alignment.LeftOffPercent = 0;
@@ -235,15 +235,15 @@ public partial class TSWindow : ILayoutModule
         NaturalCheck.OnChange = NaturalCheckChange;
         NaturalCheck.RadioIndex = 0;
         session.EndRead(NaturalCheck);
-        Scanner = new TScanner(this);
+        Scanner = new global::Aow.Game.Ui.Grids.Scanner(this);
         session.BeginRead(Scanner);
         Scanner.Name = "Scanner";
         Scanner.Priority = 5;
         Scanner.WinLeft = 30;
         Scanner.WinTop = 32;
         Scanner.CaptureInput = true;
-        Scanner.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        Scanner.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        Scanner.Alignment.AlignWidth = AOWAlignWidth.Both;
+        Scanner.Alignment.AlignHeight = AOWAlignHeight.Both;
         Scanner.Alignment.HeightPercent = 0;
         Scanner.Alignment.WidthPercent = 0;
         Scanner.Alignment.LeftOffPercent = 0;
@@ -269,15 +269,15 @@ public partial class TSWindow : ILayoutModule
         Scanner.MapDrawSteps = 5;
         Scanner.ILIndexFrame = 20;
         session.EndRead(Scanner);
-        STitleIcon = new TAOWImage(this);
+        STitleIcon = new AOWImage(this);
         session.BeginRead(STitleIcon);
         STitleIcon.Name = "STitleIcon";
         STitleIcon.Priority = 0;
         STitleIcon.WinLeft = 2;
         STitleIcon.WinTop = 2;
         STitleIcon.CaptureInput = false;
-        STitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        STitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        STitleIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        STitleIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         STitleIcon.Alignment.HeightPercent = 0;
         STitleIcon.Alignment.WidthPercent = 0;
         STitleIcon.Alignment.LeftOffPercent = 0;
@@ -297,15 +297,15 @@ public partial class TSWindow : ILayoutModule
         STitleIcon.Animate = false;
         STitleIcon.AnimFrameDelay = 0;
         session.EndRead(STitleIcon);
-        STitleLabel = new TAOWLabel(this);
+        STitleLabel = new AOWLabel(this);
         session.BeginRead(STitleLabel);
         STitleLabel.Name = "STitleLabel";
         STitleLabel.Priority = 0;
         STitleLabel.WinLeft = 25;
         STitleLabel.WinTop = 4;
         STitleLabel.CaptureInput = false;
-        STitleLabel.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        STitleLabel.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        STitleLabel.Alignment.AlignWidth = AOWAlignWidth.Left;
+        STitleLabel.Alignment.AlignHeight = AOWAlignHeight.Top;
         STitleLabel.Alignment.HeightPercent = 0;
         STitleLabel.Alignment.WidthPercent = 0;
         STitleLabel.Alignment.LeftOffPercent = 0;
@@ -320,7 +320,7 @@ public partial class TSWindow : ILayoutModule
         STitleLabel.Text = "World Map";
         STitleLabel.TextColor = 0;
         session.EndRead(STitleLabel);
-        SMinIcon = new TAOWButton(this);
+        SMinIcon = new AOWButton(this);
         session.BeginRead(SMinIcon);
         SMinIcon.Name = "SMinIcon";
         SMinIcon.Priority = 1000;
@@ -331,8 +331,8 @@ public partial class TSWindow : ILayoutModule
             "Minimizes the window"
         };
         SMinIcon.CaptureInput = true;
-        SMinIcon.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        SMinIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SMinIcon.Alignment.AlignWidth = AOWAlignWidth.Right;
+        SMinIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         SMinIcon.Alignment.HeightPercent = 0;
         SMinIcon.Alignment.WidthPercent = 0;
         SMinIcon.Alignment.LeftOffPercent = 0;
@@ -354,7 +354,7 @@ public partial class TSWindow : ILayoutModule
         SMinIcon.WinWidth = 15;
         SMinIcon.OnClick = _ => Layout_SMinIconClick_6();
         session.EndRead(SMinIcon);
-        Help = new TAOWButton(this);
+        Help = new AOWButton(this);
         session.BeginRead(Help);
         Help.Name = "Help";
         Help.Priority = 0;
@@ -365,8 +365,8 @@ public partial class TSWindow : ILayoutModule
             "Displays Help for this window."
         };
         Help.CaptureInput = true;
-        Help.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Help.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Help.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Help.Alignment.AlignHeight = AOWAlignHeight.Top;
         Help.Alignment.HeightPercent = 0;
         Help.Alignment.WidthPercent = 0;
         Help.Alignment.LeftOffPercent = 0;

@@ -15,8 +15,8 @@ using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
-using HolySummoning = Aow.Game.Magic.Spells.HolyG.AnonymousEnum_hgSummoning;
-using UnholySummoning = Aow.Game.Magic.Spells.UnHolyG.AnonymousEnum_hgSummoning;
+using HolySummoning = Aow.Game.Magic.Spells.HolySummoning;
+using UnholySummoning = Aow.Game.Magic.Spells.UnholySummoning;
 
 namespace Aow.Units.Tests;
 
@@ -27,28 +27,28 @@ public sealed class ObjectCastCrashTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly TAoWHSMap previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        private readonly AoWHSMap previous = Aow.Game.World.Map.AoWHSMap.Current;
 
         public MapScope()
         {
-            Map = new TAoWHSMap(null!);
-            var container = new TMapContainer(null!);
-            var level = new TMapLevel(container);
+            Map = new AoWHSMap(null!);
+            var container = new MapContainer(null!);
+            var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
             container.FMap = Map;
             Map.FMapContainer = container;
             Field = container.GetField(0, 0, 0);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
+            Aow.Game.World.Map.AoWHSMap.Current = Map;
         }
 
-        public TAoWHSMap Map { get; }
+        public AoWHSMap Map { get; }
 
-        public TMapField Field { get; }
+        public MapField Field { get; }
 
-        public void Dispose() => Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
+        public void Dispose() => Aow.Game.World.Map.AoWHSMap.Current = previous;
     }
 
-    private sealed class MasteryUnit : TAbstractUnit
+    private sealed class MasteryUnit : AbstractUnit
     {
         public MasteryUnit() : base(null!)
         {
@@ -56,9 +56,9 @@ public sealed class ObjectCastCrashTests
 
         public override bool ExpandAbility(int AbilityID)
         {
-            var data = new TUnitEnchantmentAbilityData(null!);
+            var data = new UnitEnchantmentAbilityData(null!);
             data.FEnchantmentAbilityID = (ushort)AbilityID;
-            data.FEnchantment = new TUnitEnchantment(null!);
+            data.FEnchantment = new UnitEnchantment(null!);
             data.FEnchantment.FUpkeep = 5;
             data.FEnchantment.FSource = -3;
             AddAbilityData(data);
@@ -66,7 +66,7 @@ public sealed class ObjectCastCrashTests
         }
     }
 
-    private sealed class RecordingRelWindow : TRelWindow
+    private sealed class RecordingRelWindow : RelWindow
     {
         public RecordingRelWindow() : base(null!)
         {
@@ -83,31 +83,31 @@ public sealed class ObjectCastCrashTests
         }
     }
 
-    private sealed class ListedTerrain : TTerrainMO
+    private sealed class ListedTerrain : TerrainMO
     {
-        public ListedTerrain(TMapObjectResourceList list) : base(null!)
+        public ListedTerrain(MapObjectResourceList list) : base(null!)
         {
             Resources = list;
         }
 
-        public TMapObjectResourceList Resources { get; }
+        public MapObjectResourceList Resources { get; }
 
         public bool Destroyed { get; private set; }
 
-        public override TMapObjectResourceList GetResourceList(TEngine engine) => Resources;
+        public override MapObjectResourceList GetResourceList(Engine engine) => Resources;
 
         public override void Dispose() => Destroyed = true;
     }
 
-    private static void Own(TMapObject sprite, TMapField field)
+    private static void Own(MapObject sprite, MapField field)
     {
-        sprite.FResource = new TMapObjectResource(null!);
+        sprite.FResource = new MapObjectResource(null!);
         sprite.Owner = field;
     }
 
-    private static TAnimation AnimationAtOrigin()
+    private static Animation AnimationAtOrigin()
     {
-        var animation = new TAnimation(null!);
+        var animation = new Animation(null!);
         animation.FXhx = 0;
         animation.FYhx = 0;
         animation.FLhx = 0;
@@ -120,45 +120,45 @@ public sealed class ObjectCastCrashTests
         using var scope = new MapScope();
         var animation = AnimationAtOrigin();
 
-        var holy = new THolyGround(null!);
+        var holy = new HolyGround(null!);
         Own(holy, scope.Field);
-        holy.FMode = TSet<HolySummoning>.Of(HolySummoning.hgSummoning);
+        holy.FMode = Set<HolySummoning>.Of(HolySummoning.Summoning);
         holy.NewFrameSummonAnimation(animation, 8);
-        Assert.True(holy.FMode.Contains(HolySummoning.hgSummoning));
+        Assert.True(holy.FMode.Contains(HolySummoning.Summoning));
         holy.NewFrameSummonAnimation(animation, 9);
-        Assert.False(holy.FMode.Contains(HolySummoning.hgSummoning));
+        Assert.False(holy.FMode.Contains(HolySummoning.Summoning));
 
-        var unholy = new TUnHolyGround(null!);
+        var unholy = new UnHolyGround(null!);
         Own(unholy, scope.Field);
-        unholy.FMode = TSet<UnholySummoning>.Of(UnholySummoning.hgSummoning);
+        unholy.FMode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
         unholy.NewFrameSummonAnimation(animation, 8);
-        Assert.True(unholy.FMode.Contains(UnholySummoning.hgSummoning));
+        Assert.True(unholy.FMode.Contains(UnholySummoning.Summoning));
         unholy.NewFrameSummonAnimation(animation, 9);
-        Assert.False(unholy.FMode.Contains(UnholySummoning.hgSummoning));
+        Assert.False(unholy.FMode.Contains(UnholySummoning.Summoning));
 
-        var plant = new TPoisonPlant(null!);
+        var plant = new PoisonPlant(null!);
         Own(plant, scope.Field);
-        plant.FPlantStatus = TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
+        plant.FPlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
         plant.NewFrameSummonAnimation(animation, 8);
-        Assert.True(plant.FPlantStatus.Contains(TPoisonPlantStatusElement.ppsSummoning));
+        Assert.True(plant.FPlantStatus.Contains(PoisonPlantStatusElement.Summoning));
         plant.NewFrameSummonAnimation(animation, 9);
-        Assert.False(plant.FPlantStatus.Contains(TPoisonPlantStatusElement.ppsSummoning));
+        Assert.False(plant.FPlantStatus.Contains(PoisonPlantStatusElement.Summoning));
 
-        var mountain = new TRaisedMountain(null!);
+        var mountain = new RaisedMountain(null!);
         Own(mountain, scope.Field);
-        mountain.FMode = TSet<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.rmRaising);
+        mountain.FMode = Set<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.Raising);
         mountain.NewFrameRaiseTerrainAnimation(animation, 8);
-        Assert.True(mountain.FMode.Contains(AnonymousEnum_rmRaising.rmRaising));
+        Assert.True(mountain.FMode.Contains(AnonymousEnum_rmRaising.Raising));
         mountain.NewFrameRaiseTerrainAnimation(animation, 9);
-        Assert.False(mountain.FMode.Contains(AnonymousEnum_rmRaising.rmRaising));
+        Assert.False(mountain.FMode.Contains(AnonymousEnum_rmRaising.Raising));
     }
 
     [Fact]
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
-        var control = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl;
-        control.RegisterSpell(new TStoneSkin(null!));
-        control.RegisterSpell(new TBless(null!));
+        var control = Aow.Game.Engine.AoWHSSet.Current.FSpellControl;
+        control.RegisterSpell(new StoneSkin(null!));
+        control.RegisterSpell(new Bless(null!));
         try
         {
             var unit = new MasteryUnit();
@@ -166,9 +166,9 @@ public sealed class ObjectCastCrashTests
             unit.SetFireMasteryProtection();
             unit.SetLifeMasteryBlessing();
 
-            var earth = ((TUnitEnchantmentAbilityData)unit.GetAbilityData(153)).FEnchantment;
-            var fire = ((TUnitEnchantmentAbilityData)unit.GetAbilityData(167)).FEnchantment;
-            var life = ((TUnitEnchantmentAbilityData)unit.GetAbilityData(158)).FEnchantment;
+            var earth = ((UnitEnchantmentAbilityData)unit.GetAbilityData(153)).FEnchantment;
+            var fire = ((UnitEnchantmentAbilityData)unit.GetAbilityData(167)).FEnchantment;
+            var life = ((UnitEnchantmentAbilityData)unit.GetAbilityData(158)).FEnchantment;
             Assert.Equal(0, earth.FUpkeep);
             Assert.Equal(-2, earth.FSource);
             Assert.Equal(3, earth.FDispelResistance);
@@ -199,23 +199,23 @@ public sealed class ObjectCastCrashTests
         int seed = Runtime.RandSeed;
         try
         {
-            var list = new TMapObjectResourceList(null!);
-            list.FChildren.Add(new TMapObjectResource(null!));
-            var match = new TTerrainMOR(null!);
+            var list = new MapObjectResourceList(null!);
+            list.FChildren.Add(new MapObjectResource(null!));
+            var match = new TerrainMOR(null!);
             match.FTerrainType = 4;
             match.FDecorationType = 2;
             list.FChildren.Add(match);
 
-            var resource = new TTerrainMOR(null!);
+            var resource = new TerrainMOR(null!);
             resource.FTerrainType = 4;
             resource.FDecorationType = 9;
             var finder = new ListedTerrain(list);
             finder.FResource = resource;
             Assert.Same(match, finder.FindDecorationResource(2));
 
-            var clearing = new TMapObjectResourceList(null!);
-            clearing.FChildren.Add(new TMapObjectResource(null!));
-            var wide = new TTerrainMOR(null!);
+            var clearing = new MapObjectResourceList(null!);
+            clearing.FChildren.Add(new MapObjectResource(null!));
+            var wide = new TerrainMOR(null!);
             wide.TerrainList.SetTerrain(0, 1);
             wide.TerrainList.SetTerrain(1, 1);
             var terrain = new ListedTerrain(clearing);
@@ -236,72 +236,72 @@ public sealed class ObjectCastCrashTests
         var previousGeneral = Aow.Game.Ui.Dialogs.DialogHosts.General;
         var previousSound = Aow.Game.Audio.AudioHost.SoundSystem;
         Aow.Game.Audio.AudioHost.SoundSystem = null;
-        Aow.Game.Ui.Dialogs.DialogHosts.General = new TGeneral(null!);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager = new TAOWWinManager(null!);
+        Aow.Game.Ui.Dialogs.DialogHosts.General = new General(null!);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager = new AOWWinManager(null!);
         try
         {
             var window = new RecordingRelWindow();
-            window.P1I = new TAOWImage(null!);
-            window.P2I = new TAOWImage(null!);
-            window.P3I = new TAOWImage(null!);
-            window.P4I = new TAOWImage(null!);
-            window.P5I = new TAOWImage(null!);
-            window.P6I = new TAOWImage(null!);
-            window.P7I = new TAOWImage(null!);
-            window.P8I = new TAOWImage(null!);
-            window.P9I = new TAOWImage(null!);
-            window.P10I = new TAOWImage(null!);
-            window.P11I = new TAOWImage(null!);
-            window.P12I = new TAOWImage(null!);
-            window.R1I = new TAOWImage(null!);
-            window.R2I = new TAOWImage(null!);
-            window.R3I = new TAOWImage(null!);
-            window.R4I = new TAOWImage(null!);
-            window.R5I = new TAOWImage(null!);
-            window.R6I = new TAOWImage(null!);
-            window.R7I = new TAOWImage(null!);
-            window.R8I = new TAOWImage(null!);
-            window.R9I = new TAOWImage(null!);
-            window.R10I = new TAOWImage(null!);
-            window.R11I = new TAOWImage(null!);
-            window.R12I = new TAOWImage(null!);
-            window.P1CB = new TAOWCheckBox(null!);
-            window.P2CB = new TAOWCheckBox(null!);
-            window.P3CB = new TAOWCheckBox(null!);
-            window.P4CB = new TAOWCheckBox(null!);
-            window.P5CB = new TAOWCheckBox(null!);
-            window.P6CB = new TAOWCheckBox(null!);
-            window.P7CB = new TAOWCheckBox(null!);
-            window.P8CB = new TAOWCheckBox(null!);
-            window.P9CB = new TAOWCheckBox(null!);
-            window.P10CB = new TAOWCheckBox(null!);
-            window.P11CB = new TAOWCheckBox(null!);
-            window.P12CB = new TAOWCheckBox(null!);
-            window.R1CB = new TAOWCheckBox(null!);
-            window.R2CB = new TAOWCheckBox(null!);
-            window.R3CB = new TAOWCheckBox(null!);
-            window.R4CB = new TAOWCheckBox(null!);
-            window.R5CB = new TAOWCheckBox(null!);
-            window.R6CB = new TAOWCheckBox(null!);
-            window.R7CB = new TAOWCheckBox(null!);
-            window.R8CB = new TAOWCheckBox(null!);
-            window.R9CB = new TAOWCheckBox(null!);
-            window.R10CB = new TAOWCheckBox(null!);
-            window.R11CB = new TAOWCheckBox(null!);
-            window.R12CB = new TAOWCheckBox(null!);
-            window.RelWin = new TAOWWindow(null!);
-            window.RelPnl = new TAOWPanel(null!);
-            window.PlyrGlow = new TAOWImage(null!);
-            window.RNewActionPnl = new TAOWPanel(null!);
-            window.RIncomingPnl = new TAOWPanel(null!);
-            window.RMsgEditPnl = new TAOWPanel(null!);
-            window.RSBribePnl = new TAOWPanel(null!);
-            window.RMsgRecPnl = new TAOWPanel(null!);
-            window.IncommingInfoPnl = new TAOWPanel(null!);
-            window.ActionsLB = new TAOWListBox(null!);
-            window.SMemo = new TAOWMemo(null!);
-            window.MMemo = new TAOWMemo(null!);
-            window.ASelect = new TAOWButton(null!);
+            window.P1I = new AOWImage(null!);
+            window.P2I = new AOWImage(null!);
+            window.P3I = new AOWImage(null!);
+            window.P4I = new AOWImage(null!);
+            window.P5I = new AOWImage(null!);
+            window.P6I = new AOWImage(null!);
+            window.P7I = new AOWImage(null!);
+            window.P8I = new AOWImage(null!);
+            window.P9I = new AOWImage(null!);
+            window.P10I = new AOWImage(null!);
+            window.P11I = new AOWImage(null!);
+            window.P12I = new AOWImage(null!);
+            window.R1I = new AOWImage(null!);
+            window.R2I = new AOWImage(null!);
+            window.R3I = new AOWImage(null!);
+            window.R4I = new AOWImage(null!);
+            window.R5I = new AOWImage(null!);
+            window.R6I = new AOWImage(null!);
+            window.R7I = new AOWImage(null!);
+            window.R8I = new AOWImage(null!);
+            window.R9I = new AOWImage(null!);
+            window.R10I = new AOWImage(null!);
+            window.R11I = new AOWImage(null!);
+            window.R12I = new AOWImage(null!);
+            window.P1CB = new AOWCheckBox(null!);
+            window.P2CB = new AOWCheckBox(null!);
+            window.P3CB = new AOWCheckBox(null!);
+            window.P4CB = new AOWCheckBox(null!);
+            window.P5CB = new AOWCheckBox(null!);
+            window.P6CB = new AOWCheckBox(null!);
+            window.P7CB = new AOWCheckBox(null!);
+            window.P8CB = new AOWCheckBox(null!);
+            window.P9CB = new AOWCheckBox(null!);
+            window.P10CB = new AOWCheckBox(null!);
+            window.P11CB = new AOWCheckBox(null!);
+            window.P12CB = new AOWCheckBox(null!);
+            window.R1CB = new AOWCheckBox(null!);
+            window.R2CB = new AOWCheckBox(null!);
+            window.R3CB = new AOWCheckBox(null!);
+            window.R4CB = new AOWCheckBox(null!);
+            window.R5CB = new AOWCheckBox(null!);
+            window.R6CB = new AOWCheckBox(null!);
+            window.R7CB = new AOWCheckBox(null!);
+            window.R8CB = new AOWCheckBox(null!);
+            window.R9CB = new AOWCheckBox(null!);
+            window.R10CB = new AOWCheckBox(null!);
+            window.R11CB = new AOWCheckBox(null!);
+            window.R12CB = new AOWCheckBox(null!);
+            window.RelWin = new AOWWindow(null!);
+            window.RelPnl = new AOWPanel(null!);
+            window.PlyrGlow = new AOWImage(null!);
+            window.RNewActionPnl = new AOWPanel(null!);
+            window.RIncomingPnl = new AOWPanel(null!);
+            window.RMsgEditPnl = new AOWPanel(null!);
+            window.RSBribePnl = new AOWPanel(null!);
+            window.RMsgRecPnl = new AOWPanel(null!);
+            window.IncommingInfoPnl = new AOWPanel(null!);
+            window.ActionsLB = new AOWListBox(null!);
+            window.SMemo = new AOWMemo(null!);
+            window.MMemo = new AOWMemo(null!);
+            window.ASelect = new AOWButton(null!);
             window.RelWindowCreate();
 
             window.ShowRelations(0);
@@ -318,7 +318,7 @@ public sealed class ObjectCastCrashTests
 
             var player = scope.Map.FPlayers.GetPlayers(1);
             player.FPlayerIndex = 1;
-            player.FStatus = TPlayerStatus.psPlaying;
+            player.FStatus = Aow.Game.Session.Player.Status.Playing;
             scope.Map.FSeatedPlayer = 1;
             window.ShowRelations(1);
             Assert.Equal(1, window.ShowCount);
@@ -338,15 +338,15 @@ public sealed class ObjectCastCrashTests
     {
         using (var scope = new MapScope())
         {
-            var level = (TMapLevel)scope.Field.Owner;
-            var marker = new TMapField(level);
+            var level = (MapLevel)scope.Field.Owner;
+            var marker = new MapField(level);
             marker.FXhx = 20;
             marker.FYhx = 20;
             marker.OverlayType = 4;
             var holder = new EngineFixture.Owner();
             holder.FOwner = marker;
-            var bridge = new THexagonBridge(holder);
-            bridge.FResource = new TMapObjectResource(null!);
+            var bridge = new HexagonBridge(holder);
+            bridge.FResource = new MapObjectResource(null!);
             Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(-1, marker.OverlayType);
@@ -354,15 +354,15 @@ public sealed class ObjectCastCrashTests
 
         using (var scope = new MapScope())
         {
-            var level = (TMapLevel)scope.Field.Owner;
-            var marker = new TMapField(level);
+            var level = (MapLevel)scope.Field.Owner;
+            var marker = new MapField(level);
             marker.FXhx = 20;
             marker.FYhx = 20;
             marker.OverlayType = 4;
             var holder = new EngineFixture.Owner();
             holder.FOwner = level;
-            var bridge = new THexagonBridge(holder);
-            bridge.FResource = new TMapObjectResource(null!);
+            var bridge = new HexagonBridge(holder);
+            bridge.FResource = new MapObjectResource(null!);
             Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(4, marker.OverlayType);
@@ -373,32 +373,32 @@ public sealed class ObjectCastCrashTests
     public void MasteryGuardianDefaultsNeedNoSummonedSpell()
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
-        Assert.Null(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(155));
-        var unit = new TUnit(null!);
-        unit.FUnitResource = new TUnitResource(null!) { FLevel = 2 };
-        Assert.Equal(6, TSummonedAbility.GetDefaultManaUpkeep(unit));
-        Assert.Equal(5, TSummonedAbility.GetDefaultDispelResistance(unit));
-        Assert.Equal(5, new TSummonSyron(null!).GetDispelResistance(unit));
-        Assert.Equal(0, TSummonedAbility.GetDefaultManaUpkeep(new MasteryUnit()));
+        Assert.Null(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(155));
+        var unit = new Unit(null!);
+        unit.FUnitResource = new UnitResource(null!) { FLevel = 2 };
+        Assert.Equal(6, SummonedAbility.GetDefaultManaUpkeep(unit));
+        Assert.Equal(5, SummonedAbility.GetDefaultDispelResistance(unit));
+        Assert.Equal(5, new SummonSyron(null!).GetDispelResistance(unit));
+        Assert.Equal(0, SummonedAbility.GetDefaultManaUpkeep(new MasteryUnit()));
     }
 
     [Fact]
     public void MovingAPlacedBridgeSkipsTheLevelOverlay()
     {
-        TAoWHSMap previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        AoWHSMap previous = Aow.Game.World.Map.AoWHSMap.Current;
         try
         {
-            var map = new TAoWHSMap(null!);
-            var container = new TMapContainer(null!);
-            var level = new TMapLevel(container);
+            var map = new AoWHSMap(null!);
+            var container = new MapContainer(null!);
+            var level = new MapLevel(container);
             level.CreateMapFieldList(2, 1);
             container.FMap = map;
             map.FMapContainer = container;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
+            Aow.Game.World.Map.AoWHSMap.Current = map;
             var first = container.GetField(0, 0, 0);
             var second = container.GetField(1, 0, 0);
-            var bridge = new TBridge(null!);
-            bridge.FResource = new TBridgeResource(null!);
+            var bridge = new Bridge(null!);
+            bridge.FResource = new Aow.Game.World.Bridge.Resource(null!);
             Assert.True(bridge.PlaceHX(container, 0, 0, 0));
             Assert.Same(first, bridge.Owner);
             Assert.True(bridge.PlaceHX(container, 1, 0, 0));
@@ -407,7 +407,7 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
+            Aow.Game.World.Map.AoWHSMap.Current = previous;
         }
     }
 }

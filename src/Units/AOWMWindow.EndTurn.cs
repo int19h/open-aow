@@ -8,22 +8,22 @@ namespace Aow.Game.Ui.Dialogs;
 // end-turn button instead, the same path as a click, so the button shows its
 // pressed frame and a second press cancels. A port addition the original does
 // not have. Combat keeps its own Ctrl+E and Ctrl+Enter in MapWindowKeyDown.
-public partial class TMWindow
+public partial class MWindow
 {
-    private void PressEndTurnShortcut(ushort key, TSet<TShiftState> shift)
+    private void PressEndTurnShortcut(ushort key, Set<ShiftState> shift)
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap == null || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.Combat.AoWCombatMap.Current != null)
         {
             return;
         }
 
-        var keyboard = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FKeyboard;
-        if (keyboard.FLockCount != 0 || keyboard.FMode != TAoWHSMapKeyboardMode.kmDefault)
+        var keyboard = Aow.Game.World.Map.AoWHSMap.Current.FKeyboard;
+        if (keyboard.FLockCount != 0 || keyboard.FMode != Aow.Game.World.Map.AoWHSMapKeyboard.Mode.Default)
         {
             return;
         }
 
-        if (!shift.Contains(TShiftState.ssCtrl) || (key != 69 && key != 13))
+        if (!shift.Contains(ShiftState.Ctrl) || (key != 69 && key != 13))
         {
             return;
         }

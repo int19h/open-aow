@@ -3,72 +3,72 @@
     "$jsonText": {
       "State": {
         "$jsonText": {
-          "$type": "Aow.Game.Draw.TArmyHS",
-          "TArmyHS.FArmy": {
-            "$type": "Aow.Game.Units.TArmy",
-            "TArmy.FConcealedUnits": 0,
-            "TArmy.FDestinationL": -1,
-            "TArmy.FDestinationX": -1,
-            "TArmy.FDestinationY": -1,
-            "TArmy.FIndependentRelation": -1,
-            "TArmy.FL": -1,
-            "TArmy.FMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+          "$type": "Aow.Game.Draw.ArmyHS",
+          "ArmyHS.FArmy": {
+            "$type": "Aow.Game.Units.Army",
+            "Army.FConcealedUnits": 0,
+            "Army.FDestinationL": -1,
+            "Army.FDestinationX": -1,
+            "Army.FDestinationY": -1,
+            "Army.FIndependentRelation": -1,
+            "Army.FL": -1,
+            "Army.FMode": {
+              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set`1.a": 0,
+              "Set`1.b": 0,
+              "Set`1.bounded": false,
+              "Set`1.c": 0,
+              "Set`1.d": 0,
+              "Set`1.high": 0,
+              "Set`1.low": 0
             },
-            "TArmy.FOldAIBehavior": 0,
-            "TArmy.FOnUpdate": null,
-            "TArmy.FPlayer": 0,
-            "TArmy.FStatus": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+            "Army.FOldAIBehavior": 0,
+            "Army.FOnUpdate": null,
+            "Army.FPlayer": 0,
+            "Army.FStatus": {
+              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set`1.a": 0,
+              "Set`1.b": 0,
+              "Set`1.bounded": false,
+              "Set`1.c": 0,
+              "Set`1.d": 0,
+              "Set`1.high": 0,
+              "Set`1.low": 0
             },
-            "TArmy.FUnfogRange": 0,
-            "TArmy.FUpkeep": 0,
-            "TArmy.FUserMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+            "Army.FUnfogRange": 0,
+            "Army.FUpkeep": 0,
+            "Army.FUserMode": {
+              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set`1.a": 0,
+              "Set`1.b": 0,
+              "Set`1.bounded": false,
+              "Set`1.c": 0,
+              "Set`1.d": 0,
+              "Set`1.high": 0,
+              "Set`1.low": 0
             },
-            "TArmy.FVisibilityRanges": 0,
-            "TArmy.FX": -1,
-            "TArmy.FY": -1,
-            "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
-              "TList.count": 0,
-              "TList.items": []
+            "Army.FVisibilityRanges": 0,
+            "Army.FX": -1,
+            "Army.FY": -1,
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
             },
-            "TEChangeNotifyNode.FUpdateCount": 0,
-            "TEObject.FOwner": null
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null
           },
-          "TArmyHS.FMoveSteps": 0,
-          "TArmyHS.FUnitIndex": 0,
-          "TArmyHS.FUnitYOffset": 0,
-          "TEObject.FOwner": null,
-          "TUnitHS.FDirection": 3,
-          "TUnitHS.FFlagID": 0,
-          "TUnitHS.FMoveStep": -1,
-          "TUnitHS.FShadow": null,
-          "TUnitHS.FShowPriority": 1744830464,
-          "TUnitHS.FStatus": 0,
-          "TUnitHS.FUnitGFXResource": null
+          "ArmyHS.FMoveSteps": 0,
+          "ArmyHS.FUnitIndex": 0,
+          "ArmyHS.FUnitYOffset": 0,
+          "EObject.FOwner": null,
+          "UnitHS.FDirection": 3,
+          "UnitHS.FFlagID": 0,
+          "UnitHS.FMoveStep": -1,
+          "UnitHS.FShadow": null,
+          "UnitHS.FShowPriority": 1744830464,
+          "UnitHS.FStatus": 0,
+          "UnitHS.FUnitGFXResource": null
         }
       },
       "Events": null,
@@ -89,90 +89,90 @@
     "$jsonText": {
       "State": {
         "$jsonText": {
-          "$type": "Aow.Game.Draw.TArmyHS",
-          "TArmyHS.FArmy": {
-            "$type": "Aow.Game.Units.TArmy",
-            "TArmy.FConcealedUnits": 0,
-            "TArmy.FDestinationL": -1,
-            "TArmy.FDestinationX": -1,
-            "TArmy.FDestinationY": -1,
-            "TArmy.FIndependentRelation": -1,
-            "TArmy.FL": -1,
-            "TArmy.FMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+          "$type": "Aow.Game.Draw.ArmyHS",
+          "ArmyHS.FArmy": {
+            "$type": "Aow.Game.Units.Army",
+            "Army.FConcealedUnits": 0,
+            "Army.FDestinationL": -1,
+            "Army.FDestinationX": -1,
+            "Army.FDestinationY": -1,
+            "Army.FIndependentRelation": -1,
+            "Army.FL": -1,
+            "Army.FMode": {
+              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set`1.a": 0,
+              "Set`1.b": 0,
+              "Set`1.bounded": false,
+              "Set`1.c": 0,
+              "Set`1.d": 0,
+              "Set`1.high": 0,
+              "Set`1.low": 0
             },
-            "TArmy.FOldAIBehavior": 0,
-            "TArmy.FOnUpdate": null,
-            "TArmy.FPlayer": 0,
-            "TArmy.FStatus": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+            "Army.FOldAIBehavior": 0,
+            "Army.FOnUpdate": null,
+            "Army.FPlayer": 0,
+            "Army.FStatus": {
+              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set`1.a": 0,
+              "Set`1.b": 0,
+              "Set`1.bounded": false,
+              "Set`1.c": 0,
+              "Set`1.d": 0,
+              "Set`1.high": 0,
+              "Set`1.low": 0
             },
-            "TArmy.FUnfogRange": 0,
-            "TArmy.FUpkeep": 0,
-            "TArmy.FUserMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Units.TArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+            "Army.FUnfogRange": 0,
+            "Army.FUpkeep": 0,
+            "Army.FUserMode": {
+              "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set`1.a": 0,
+              "Set`1.b": 0,
+              "Set`1.bounded": false,
+              "Set`1.c": 0,
+              "Set`1.d": 0,
+              "Set`1.high": 0,
+              "Set`1.low": 0
             },
-            "TArmy.FVisibilityRanges": 0,
-            "TArmy.FX": -1,
-            "TArmy.FY": -1,
-            "TEChangeNotifyNode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
-              "TList.count": 0,
-              "TList.items": []
+            "Army.FVisibilityRanges": 0,
+            "Army.FX": -1,
+            "Army.FY": -1,
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
             },
-            "TEChangeNotifyNode.FUpdateCount": 0,
-            "TEObject.FOwner": null
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null
           },
-          "TArmyHS.FMoveSteps": 0,
-          "TArmyHS.FUnitIndex": 0,
-          "TArmyHS.FUnitYOffset": 0,
-          "TEObject.FOwner": "$owner",
-          "TUnitHS.FDirection": 3,
-          "TUnitHS.FFlagID": 0,
-          "TUnitHS.FMoveStep": -1,
-          "TUnitHS.FShadow": null,
-          "TUnitHS.FShowPriority": 1744830464,
-          "TUnitHS.FStatus": 0,
-          "TUnitHS.FUnitGFXResource": null
+          "ArmyHS.FMoveSteps": 0,
+          "ArmyHS.FUnitIndex": 0,
+          "ArmyHS.FUnitYOffset": 0,
+          "EObject.FOwner": "$owner",
+          "UnitHS.FDirection": 3,
+          "UnitHS.FFlagID": 0,
+          "UnitHS.FMoveStep": -1,
+          "UnitHS.FShadow": null,
+          "UnitHS.FShowPriority": 1744830464,
+          "UnitHS.FStatus": 0,
+          "UnitHS.FUnitGFXResource": null
         }
       },
       "Events": [
         {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.TArmyHS",
-            "TArmyHS.FArmy": null,
-            "TArmyHS.FMoveSteps": 0,
-            "TArmyHS.FUnitIndex": 0,
-            "TArmyHS.FUnitYOffset": 0,
-            "TEObject.FOwner": "$owner",
-            "TUnitHS.FDirection": 0,
-            "TUnitHS.FFlagID": 0,
-            "TUnitHS.FMoveStep": 0,
-            "TUnitHS.FShadow": null,
-            "TUnitHS.FShowPriority": 0,
-            "TUnitHS.FStatus": 0,
-            "TUnitHS.FUnitGFXResource": null
+            "$type": "Aow.Game.Draw.ArmyHS",
+            "ArmyHS.FArmy": null,
+            "ArmyHS.FMoveSteps": 0,
+            "ArmyHS.FUnitIndex": 0,
+            "ArmyHS.FUnitYOffset": 0,
+            "EObject.FOwner": "$owner",
+            "UnitHS.FDirection": 0,
+            "UnitHS.FFlagID": 0,
+            "UnitHS.FMoveStep": 0,
+            "UnitHS.FShadow": null,
+            "UnitHS.FShowPriority": 0,
+            "UnitHS.FStatus": 0,
+            "UnitHS.FUnitGFXResource": null
           }
         }
       ],

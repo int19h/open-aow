@@ -12,10 +12,10 @@ public sealed class SurfaceRectangleTests
 
     private static int Source(int x, int y) => 0x100 * y + x + 1;
 
-    private static TDataSurface MakeSource()
+    private static DataSurface MakeSource()
     {
-        var surface = new TDataSurface(SourceWidth, SourceHeight, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
-        TSurfaceDesc sd = default;
+        var surface = new DataSurface(SourceWidth, SourceHeight, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        SurfaceDesc sd = default;
         Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
         for (int y = 0; y < SourceHeight; y++)
             for (int x = 0; x < SourceWidth; x++) sd.View().Word(y * sd.Pitch + x * 2, Source(x, y));
@@ -34,17 +34,17 @@ public sealed class SurfaceRectangleTests
         return result;
     }
 
-    private static void Check(int[,] expected, TSurface dest)
+    private static void Check(int[,] expected, Surface dest)
     {
         for (int y = 0; y < DestHeight; y++)
             for (int x = 0; x < DestWidth; x++)
                 Assert.True(expected[x, y] == dest.GetPixelInfo(x, y), $"pixel {x}, {y}: expected {expected[x, y]:X}, actual {dest.GetPixelInfo(x, y):X}");
     }
 
-    private static void Run(Func<TSurface, TSurface, int> copy, int[,] expected, int result = Aow.Game.Draw.PixelFormats.GFXE_OK)
+    private static void Run(Func<Surface, Surface, int> copy, int[,] expected, int result = Aow.Game.Draw.PixelFormats.GFXE_OK)
     {
         var source = MakeSource();
-        var dest = new TDataSurface(DestWidth, DestHeight, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        var dest = new DataSurface(DestWidth, DestHeight, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
         try
         {
             Assert.Equal(result, copy(source, dest));
@@ -126,8 +126,8 @@ public sealed class SurfaceRectangleTests
     public void CapturedSurfaceTakesTheWholeSourceOrTheRectangle()
     {
         var source = MakeSource();
-        var whole = new TDataSurface(source, null);
-        var part = new TDataSurface(source, RtlUnit.Rect(1, 1, 3, 3));
+        var whole = new DataSurface(source, null);
+        var part = new DataSurface(source, RtlUnit.Rect(1, 1, 3, 3));
         try
         {
             Assert.Equal((SourceWidth, SourceHeight), (whole.Width, whole.Height));
@@ -153,7 +153,7 @@ public sealed class SurfaceRectangleTests
         var source = MakeSource();
         try
         {
-            TSurfaceDesc full = default, part = default, sub = default;
+            SurfaceDesc full = default, part = default, sub = default;
             Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, source.Lock(ref full));
             source.Unlock();
             Assert.Equal(0, full.DataIndex);
@@ -164,7 +164,7 @@ public sealed class SurfaceRectangleTests
             Assert.Equal((3, 2), (part.Width, part.Height));
             Assert.Equal(Source(1, 1), part.View().Word(0));
             Assert.Equal(Source(3, 2), part.View().Word(part.Pitch + 4));
-            Aow.Game.Draw.TSurfaceDesc.CreateSDfromSD(full, RtlUnit.Rect(2, 1, 4, 3), ref sub);
+            Aow.Game.Draw.SurfaceDesc.CreateSDfromSD(full, RtlUnit.Rect(2, 1, 4, 3), ref sub);
             Assert.Same(full.Data, sub.Data);
             Assert.Equal(full.Pitch + 4, sub.DataIndex);
             Assert.Equal(RtlUnit.Rect(0, 0, 2, 2), sub.ClipRect);
@@ -179,9 +179,9 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void ControllersReturnThePrimaryRegion()
     {
-        using var owner = new TComponent(null!);
-        var dc = new TDisplayCtrl(owner);
-        var sdl = new TSdlDC(new NullDisplayHost(), owner);
+        using var owner = new global::Aow.Rtl.Component(null!);
+        var dc = new DisplayCtrl(owner);
+        var sdl = new SdlDC(new NullDisplayHost(), owner);
         var region = RtlUnit.Rect(3, 4, 643, 484);
         dc.SetPrimarySurfaceRgn(region);
         sdl.SetPrimarySurfaceRgn(region);
@@ -196,7 +196,7 @@ public sealed class SurfaceRectangleTests
         public bool Fullscreen { get; set; }
         public bool HasFocus => true;
 
-        public void Present(in TSurfaceDesc surface) { }
+        public void Present(in SurfaceDesc surface) { }
 
         public (int X, int Y, bool Inside) PointerPosition() => (0, 0, true);
 

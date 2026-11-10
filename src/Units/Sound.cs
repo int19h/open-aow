@@ -9,49 +9,38 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Audio;
 
-public enum TSampleStatusElement : byte
+public enum SoundOutputModeElement : byte
 {
-    ssRunning = 0
-}
-
-public enum TSoundOutputModeElement : byte
-{
-    omMono = 0,
-    omStereo = 1,
+    Mono = 0,
+    Stereo = 1,
     om8bit = 2,
     om16bit = 3,
-    omHighQuality = 4
+    HighQuality = 4
 }
 
-public enum TSoundSystemStatusElement : byte
+public enum SoundSystemStatusElement : byte
 {
-    ssActivated = 0,
-    ssDirectSoundEnabled = 1
+    Activated = 0,
+    DirectSoundEnabled = 1
 }
 
-public enum TSongPlayerStatusElement : byte
+public enum SampleCallBackMode : byte
 {
-    spPlaying = 0,
-    spPaused = 1
-}
-
-public enum TSampleCallBackMode : byte
-{
-    scRestartLoop = 0,
-    scDone = 1
+    RestartLoop = 0,
+    Done = 1
 }
 
 [LegacyObject]
 // FDelay (Update ticks before it plays), FSampleData, FCallBack, FStatus. One playing sound
 // effect, in SampleList
-public partial class TSample : IDisposable
+public partial class Sample : IDisposable
 {
-    public static SampleClass Descriptor { get; } = new("TSample", Create);
+    public static SampleClass Descriptor { get; } = new("Sample", Create);
 
     internal int FDelay;
-    internal TSampleData FSampleData;
-    internal TSampleCallBack FCallBack;
-    internal TSet<TSampleStatusElement> FStatus;
+    internal global::Aow.Game.Audio.SampleData FSampleData;
+    internal SampleCallBack FCallBack;
+    internal Set<StatusElement> FStatus;
 
     // Sound.pas:746
     protected internal virtual bool GetPlaying() => FDelay != 0;
@@ -59,37 +48,37 @@ public partial class TSample : IDisposable
     // Sound.pas:81
     protected internal virtual int GetVolume()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:82
     protected internal virtual void SetVolume(int Value)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:83
     protected internal virtual bool GetLooped()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:84
     protected internal virtual void SetLooped(bool Value)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:85
-    protected internal virtual TSamplePanning GetPanning()
+    protected internal virtual SamplePanning GetPanning()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:86
-    protected internal virtual void SetPanning(TSamplePanning Value)
+    protected internal virtual void SetPanning(SamplePanning Value)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:761
@@ -97,7 +86,7 @@ public partial class TSample : IDisposable
     //   does not loop destroys itself. }
     public virtual void Update()
     {
-        if (FStatus.Contains(TSampleStatusElement.ssRunning) && !GetPlaying())
+        if (FStatus.Contains(StatusElement.Running) && !GetPlaying())
         {
             if (FDelay != 0)
             {
@@ -118,7 +107,7 @@ public partial class TSample : IDisposable
     }
 
     // Sound.pas:727
-    protected TSample(ConstructionContext context, TSampleData ASampleData)
+    protected Sample(ConstructionContext context, global::Aow.Game.Audio.SampleData ASampleData)
     {
         CaptureAddress.Assign(this);
         context.Capture(this);
@@ -142,7 +131,7 @@ public partial class TSample : IDisposable
     {
         if (FCallBack != null)
         {
-            FCallBack(this, TSampleCallBackMode.scDone);
+            FCallBack(this, SampleCallBackMode.Done);
         }
 
         if (FSampleData != null)
@@ -157,46 +146,51 @@ public partial class TSample : IDisposable
     // Sound.pas:774
     public void Execute()
     {
-        if (!FStatus.Contains(TSampleStatusElement.ssRunning))
+        if (!FStatus.Contains(StatusElement.Running))
         {
             if (FDelay == 0)
             {
                 Play();
             }
 
-            FStatus = FStatus + TSet<TSampleStatusElement>.Of(TSampleStatusElement.ssRunning);
+            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Running);
         }
     }
 
-    public TSampleData SampleData { get => FSampleData; }
+    public global::Aow.Game.Audio.SampleData SampleData { get => FSampleData; }
     public int Delay { get => FDelay; set => FDelay = value; }
-    public TSampleCallBack CallBack { get => FCallBack; set => FCallBack = value; }
-    public TSet<TSampleStatusElement> Status { get => FStatus; }
+    public SampleCallBack CallBack { get => FCallBack; set => FCallBack = value; }
+    public Set<StatusElement> Status { get => FStatus; }
     public bool Playing { get => GetPlaying(); }
     public int Volume { get => GetVolume(); set => SetVolume(value); }
     public bool Looped { get => GetLooped(); set => SetLooped(value); }
-    public TSamplePanning Panning { get => GetPanning(); set => SetPanning(value); }
+    public SamplePanning Panning { get => GetPanning(); set => SetPanning(value); }
 
     // Sound.pas:89
-    public static TSample Create(TSampleData data) =>
-        ConstructionContext.Create(data, static (context, value) => new TSample(context, value));
+    public static Sample Create(global::Aow.Game.Audio.SampleData data) =>
+        ConstructionContext.Create(data, static (context, value) => new Sample(context, value));
+
+    public enum StatusElement : byte
+    {
+        Running = 0
+    }
 
 }
 
 [LegacyObject]
 // FFileName. What BackupSongStatus saves. the sound system adds its own position
-public partial class TSongStatus
+public partial class SongStatus
 {
     protected internal string FFileName = "";
 
     public string FileName { get => FFileName; }
 
-    public TSongStatus()
+    public SongStatus()
     {
         CaptureAddress.Assign(this);
     }
 
-    internal static bool RestoreSongStatus(TSongStatus Status)
+    internal static bool RestoreSongStatus(SongStatus Status)
     {
         bool Result;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null)
@@ -213,26 +207,26 @@ public partial class TSongStatus
 
 }
 
-public delegate void TSampleCallBack(TSample Sample, TSampleCallBackMode Mode);
+public delegate void SampleCallBack(Sample Sample, SampleCallBackMode Mode);
 
-public enum TSamplePanning : byte
+public enum SamplePanning : byte
 {
-    spLeft = 0,
-    spCenter = 1,
-    spRight = 2,
-    spSurround = 3
+    Left = 0,
+    Center = 1,
+    Right = 2,
+    Surround = 3
 }
 
 // { The settings a sound system is activated with (24 bytes): +0 OutputMode, +4 SampleRate, +8
 //     MusicEnabled, +9 UseDirectSound, +$C Window (the DirectSound window; the active window when
 //     0), +$10 SFXEnabled, +$14 SampleVoices. }
 [StructLayout(LayoutKind.Explicit, Size = 24)]
-public struct TSoundSettings
+public struct SoundSettings
 {
     [FieldOffset(0)]
     public byte OutputMode__image;
 
-    public TSet<TSoundOutputModeElement> OutputMode { get => TSet<TSoundOutputModeElement>.FromMask(OutputMode__image); set => OutputMode__image = (byte)value.Image; }
+    public Set<SoundOutputModeElement> OutputMode { get => Set<SoundOutputModeElement>.FromMask(OutputMode__image); set => OutputMode__image = (byte)value.Image; }
 
     [FieldOffset(4)]
     public int SampleRate;
@@ -251,15 +245,15 @@ public struct TSoundSettings
 [LegacyObject]
 // FName, FRefCount. The sound data of one wave file, in SampleDataList while it is loaded.
 // Create counts the first reference
-public partial class TSampleData : IDisposable
+public partial class SampleData : IDisposable
 {
-    public static SampleDataClass Descriptor { get; } = new("TSampleData", Create, CreateEx);
+    public static SampleDataClass Descriptor { get; } = new("SampleData", Create, CreateEx);
 
     internal string FName = "";
     internal int FRefCount;
 
     // Sound.pas:674
-    protected TSampleData(ConstructionContext context, string Name)
+    protected SampleData(ConstructionContext context, string Name)
     {
         CaptureAddress.Assign(this);
         context.Capture(this);
@@ -270,7 +264,7 @@ public partial class TSampleData : IDisposable
 
     // Sound.pas:683
     // { Sound data from memory; it is not put in SampleDataList. }
-    protected TSampleData(ConstructionContext context, in TWaveFormatEx Format, object Data, int Size)
+    protected SampleData(ConstructionContext context, in WaveFormatEx Format, object Data, int Size)
     {
         CaptureAddress.Assign(this);
         context.Capture(this);
@@ -304,17 +298,17 @@ public partial class TSampleData : IDisposable
     public int RefCount { get => FRefCount; }
 
     // Sound.pas:60
-    public static TSampleData Create(string name) =>
-        ConstructionContext.Create(name, static (context, value) => new TSampleData(context, value));
+    public static SampleData Create(string name) =>
+        ConstructionContext.Create(name, static (context, value) => new SampleData(context, value));
 
     // Sound.pas:61
-    public static TSampleData CreateEx(in TWaveFormatEx format, object data, int size) =>
+    public static SampleData CreateEx(in WaveFormatEx format, object data, int size) =>
         ConstructionContext.Create((format, data, size), static (context, value) =>
-            new TSampleData(context, value.format, value.data, value.size));
+            new SampleData(context, value.format, value.data, value.size));
 
-    public static TSample CreateSample(TSampleData SampleData)
+    public static Sample CreateSample(SampleData SampleData)
     {
-        TSample Result;
+        Sample Result;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null)
         {
             Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleClass().Create(SampleData);
@@ -332,79 +326,79 @@ public partial class TSampleData : IDisposable
 [LegacyObject]
 // FRefCount, FStatus. The abstract sound system. GetName is a class function
 // (RegisterSoundSystem calls it on the class)
-public partial class TSoundSystem : IDisposable
+public partial class SoundSystem : IDisposable
 {
     protected internal int FRefCount;
-    protected internal TSet<TSoundSystemStatusElement> FStatus;
+    protected internal Set<SoundSystemStatusElement> FStatus;
 
     // Sound.pas:115
     protected internal virtual SampleClass SampleClass()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:116
     protected internal virtual SampleDataClass SampleDataClass()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:117
-    protected internal virtual bool Activate(in TSoundSettings Settings)
+    protected internal virtual bool Activate(in SoundSettings Settings)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:118
     protected internal virtual bool Deactivate()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:119
     protected internal virtual void Process()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:120
     protected internal virtual int GetMusicVolume()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:121
     protected internal virtual int GetSFXVolume()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:122
     protected internal virtual bool GetPlayingSong()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:123
     protected internal virtual string GetPlayingSongFileName()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:124
     protected internal virtual bool GetSFXEnabled()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:125
     protected internal virtual bool GetMusicEnabled()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:1152
-    public TSoundSystem()
+    public SoundSystem()
     {
         CaptureAddress.Assign(this);
         FRefCount = 1;
@@ -433,91 +427,91 @@ public partial class TSoundSystem : IDisposable
     // Sound.pas:130
     public virtual bool SetSFXEnabled(bool Value)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:131
     public virtual bool SetMusicEnabled(bool Value)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:132
-    public virtual bool SetSoundSettings(in TSoundSettings Settings)
+    public virtual bool SetSoundSettings(in SoundSettings Settings)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:133
-    public virtual TSoundSettings GetSoundSettings()
+    public virtual SoundSettings GetSoundSettings()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:134
     public virtual bool FadeMusicVolume(int Volume, int Speed)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:135
     public virtual bool SetMusicVolume(int Volume)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:136
     public virtual bool FadeSFXVolume(int Volume, int Speed)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:137
     public virtual bool SetSFXVolume(int Volume)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:138
     public virtual bool PlaySong(string FileName)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:139
     public virtual bool PlaySongEx(string FileName, int FadeOut, int FadeIn, bool Loop)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:141
     public virtual bool StopSong()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:142
-    public virtual TSongStatus BackupSongStatus()
+    public virtual SongStatus BackupSongStatus()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:143
-    public virtual bool RestoreSongStatus(TSongStatus Status)
+    public virtual bool RestoreSongStatus(SongStatus Status)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Sound.pas:1158
     public virtual void Dispose()
     {
-        if (FStatus.Contains(TSoundSystemStatusElement.ssActivated))
+        if (FStatus.Contains(SoundSystemStatusElement.Activated))
         {
             Deactivate();
         }
     }
 
-    public TSet<TSoundSystemStatusElement> Status { get => FStatus; }
+    public Set<SoundSystemStatusElement> Status { get => FStatus; }
     public int MusicVolume { get => GetMusicVolume(); }
     public int SFXVolume { get => GetSFXVolume(); }
     public bool PlayingSong { get => GetPlayingSong(); }
@@ -528,22 +522,22 @@ public partial class TSoundSystem : IDisposable
 }
 
 // the wave files TSFXManager found
-public partial class TSFXList : TStringList
+public partial class SFXList : StringList
 {
 
 }
 
 // FSearchPath, FSFX. ExecutePathSearch lists every wave file under a directory (with its
 // subdirectories) relative to the search path
-public partial class TSFXManager : TComponent
+public partial class SFXManager : global::Aow.Rtl.Component
 {
     internal string FSearchPath = "";
-    internal TSFXList FSFX;
+    internal SFXList FSFX;
 
     // Sound.pas:407
-    public TSFXManager(TComponent owner) : base(owner)
+    public SFXManager(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FSFX = new TSFXList();
+        FSFX = new SFXList();
     }
 
     // Sound.pas:413
@@ -566,10 +560,10 @@ public partial class TSFXManager : TComponent
         string OldDir;
         void Search(string Dir)
         {
-            TSearchRec SR = default;
-            TStringList Dirs;
+            SearchRec SR = default;
+            StringList Dirs;
             bool Found;
-            Found = FindFirst(FSearchPath + Dir + "*." + Aow.Game.Audio.TSFXManager.SFXExtension, 63 & ~16, ref SR) == 0;
+            Found = FindFirst(FSearchPath + Dir + "*." + Aow.Game.Audio.SFXManager.SFXExtension, 63 & ~16, ref SR) == 0;
             while (Found)
             {
                 FSFX.Add(UpperCase(Dir + SR.Name));
@@ -577,7 +571,7 @@ public partial class TSFXManager : TComponent
             }
 
             FindClose(ref SR);
-            Dirs = new TStringList();
+            Dirs = new StringList();
             Found = FindFirst(Dir + "*.*", 16, ref SR) == 0;
             while (Found)
             {
@@ -616,22 +610,22 @@ public partial class TSFXManager : TComponent
     public string SearchPath { get => FSearchPath; set => FSearchPath = value; }
 
     [Published]
-    public TSFXList SFX { get => FSFX; }
+    public SFXList SFX { get => FSFX; }
 
     private static readonly string SFXExtension = "WAV";
 
 }
 
 // FSFXManager, FSubDirectory, FSkipDirectories ('.'-separated), FEmptySFXName
-public partial class TSFXManagerComboBox : TComboBox
+public partial class SFXManagerComboBox : ComboBox
 {
-    internal TSFXManager FSFXManager;
+    internal global::Aow.Game.Audio.SFXManager FSFXManager;
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptySFXName = "";
 
     // Sound.pas:472
-    internal void SetSFXManager(TSFXManager Value)
+    internal void SetSFXManager(global::Aow.Game.Audio.SFXManager Value)
     {
         FSFXManager = Value;
         GenerateItems();
@@ -663,7 +657,7 @@ public partial class TSFXManagerComboBox : TComboBox
 
     // Sound.pas:485
 
-    public TSFXManagerComboBox(TComponent owner) : base(owner)
+    public SFXManagerComboBox(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -681,7 +675,7 @@ public partial class TSFXManagerComboBox : TComboBox
     public string SFXName { get => GetSFXName(); set => SetSFXName(value); }
 
     [Published]
-    public TSFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
+    public global::Aow.Game.Audio.SFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
 
     [Published]
     public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
@@ -694,15 +688,15 @@ public partial class TSFXManagerComboBox : TComboBox
 }
 
 // FSFXManager, FSubDirectory, FSkipDirectories, FEmptySFXName. The same as the combo box
-public partial class TSFXManagerListBox : TListBox
+public partial class SFXManagerListBox : ListBox
 {
-    internal TSFXManager FSFXManager;
+    internal global::Aow.Game.Audio.SFXManager FSFXManager;
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptySFXName = "";
 
     // Sound.pas:566
-    internal void SetSFXManager(TSFXManager Value)
+    internal void SetSFXManager(global::Aow.Game.Audio.SFXManager Value)
     {
         FSFXManager = Value;
         GenerateItems();
@@ -734,7 +728,7 @@ public partial class TSFXManagerListBox : TListBox
 
     // Sound.pas:579
 
-    public TSFXManagerListBox(TComponent owner) : base(owner)
+    public SFXManagerListBox(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -750,7 +744,7 @@ public partial class TSFXManagerListBox : TListBox
     public string SFXName { get => GetSFXName(); set => SetSFXName(value); }
 
     [Published]
-    public TSFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
+    public global::Aow.Game.Audio.SFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
 
     [Published]
     public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
@@ -763,23 +757,23 @@ public partial class TSFXManagerListBox : TListBox
 }
 
 // FSongs, FSongNames (the titles, from the files). An engine object with a list of music files
-public partial class TSonglist : TEObject
+public partial class Songlist : EObject
 {
     // Sound.pas:801
     public new const int ClassID = 2162692;
 
-    public TSonglist(TECustomNode owner) : base(owner)
+    public Songlist(ECustomNode owner) : base(owner)
     {
-        FSongs = new TStringList();
+        FSongs = new StringList();
         FSongs.OnChange = SongsChanged;
-        FSongNames = new TStringList();
+        FSongNames = new StringList();
     }
 
-    internal TStringList FSongs;
-    internal TStringList FSongNames;
+    internal StringList FSongs;
+    internal StringList FSongNames;
 
     // Sound.pas:813
-    internal void SetSongs(TStringList Value)
+    internal void SetSongs(StringList Value)
     {
         FSongs.Assign(Value);
     }
@@ -804,7 +798,7 @@ public partial class TSonglist : TEObject
     }
 
     // Sound.pas:806
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
@@ -826,7 +820,7 @@ public partial class TSonglist : TEObject
     // Sound.pas:832
     public void Search(string Path, string Ext)
     {
-        TSearchRec SR = default;
+        SearchRec SR = default;
         string FullPath;
         bool Found;
         if (Path[Path.Length - 1] != 92)
@@ -847,27 +841,27 @@ public partial class TSonglist : TEObject
         FSongs.EndUpdate();
     }
 
-    public TStringList Songs { get => FSongs; set => SetSongs(value); }
-    public TStringList SongNames { get => FSongNames; }
+    public StringList Songs { get => FSongs; set => SetSongs(value); }
+    public StringList SongNames { get => FSongNames; }
 
 }
 
 [LegacyObject]
 // FCurrentSong, FStatus, FSongs, FSongNames, FCurrentIndex, FOnSongChange, FBackup (Pause),
 // FPauseCount. Plays the songs in turn (Update starts the next one)
-public partial class TSongPlayer : IDisposable
+public partial class SongPlayer : IDisposable
 {
     internal string FCurrentSong = "";
-    internal TSet<TSongPlayerStatusElement> FStatus;
-    internal TStringList FSongs;
-    internal TStringList FSongNames;
+    internal Set<StatusElement> FStatus;
+    internal StringList FSongs;
+    internal StringList FSongNames;
     internal int FCurrentIndex;
-    internal TNotifyEvent<TSongPlayer> FOnSongChange;
-    internal TSongStatus FBackup;
+    internal NotifyEvent<SongPlayer> FOnSongChange;
+    internal SongStatus FBackup;
     internal int FPauseCount;
 
     // Sound.pas:870
-    internal void SetSongs(TStringList Value)
+    internal void SetSongs(StringList Value)
     {
         FSongs.Assign(Value);
     }
@@ -889,7 +883,7 @@ public partial class TSongPlayer : IDisposable
             }
         }
 
-        if (FStatus.Contains(TSongPlayerStatusElement.spPlaying))
+        if (FStatus.Contains(StatusElement.Playing))
         {
             if (FSongs.Count != 0)
             {
@@ -906,7 +900,7 @@ public partial class TSongPlayer : IDisposable
                     }
                 }
 
-                if (FCurrentIndex == -1 && !FStatus.Contains(TSongPlayerStatusElement.spPaused))
+                if (FCurrentIndex == -1 && !FStatus.Contains(StatusElement.Paused))
                 {
                     Play(0);
                 }
@@ -925,12 +919,12 @@ public partial class TSongPlayer : IDisposable
     }
 
     // Sound.pas:854
-    public TSongPlayer()
+    public SongPlayer()
     {
         CaptureAddress.Assign(this);
-        FSongs = new TStringList();
+        FSongs = new StringList();
         FSongs.OnChange = SongsChanged;
-        FSongNames = new TStringList();
+        FSongNames = new StringList();
         FCurrentIndex = -1;
     }
 
@@ -945,7 +939,7 @@ public partial class TSongPlayer : IDisposable
     // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
     public void Update()
     {
-        if (Aow.Game.Audio.AudioHost.SoundSystem != null && FStatus.Contains(TSongPlayerStatusElement.spPlaying) && !FStatus.Contains(TSongPlayerStatusElement.spPaused) && !Aow.Game.Audio.AudioHost.SoundSystem.PlayingSong && Aow.Game.Audio.AudioHost.SoundSystem.MusicEnabled)
+        if (Aow.Game.Audio.AudioHost.SoundSystem != null && FStatus.Contains(StatusElement.Playing) && !FStatus.Contains(StatusElement.Paused) && !Aow.Game.Audio.AudioHost.SoundSystem.PlayingSong && Aow.Game.Audio.AudioHost.SoundSystem.MusicEnabled)
         {
             FCurrentIndex += 1;
             if (FSongs.Count <= FCurrentIndex)
@@ -971,7 +965,7 @@ public partial class TSongPlayer : IDisposable
         bool Result;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
         {
-            FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
+            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Playing);
             var item = FSongs[Index];
             Result = Aow.Game.Audio.AudioHost.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
             if (Result)
@@ -1003,7 +997,7 @@ public partial class TSongPlayer : IDisposable
         bool Result;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
         {
-            FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
+            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Playing);
             var item = FSongs[Index];
             Result = Aow.Game.Audio.AudioHost.SoundSystem.PlaySongEx(item, 2, 0, false);
             if (Result)
@@ -1044,7 +1038,7 @@ public partial class TSongPlayer : IDisposable
                 Result = false;
             }
 
-            FStatus = FStatus - TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPlaying);
+            FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Playing);
         }
         else
         {
@@ -1065,7 +1059,7 @@ public partial class TSongPlayer : IDisposable
             }
 
             FBackup = Aow.Game.Audio.AudioPlayback.BackupSongStatus();
-            FStatus = FStatus + TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPaused);
+            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Paused);
             if (StopMusic)
             {
                 Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
@@ -1091,38 +1085,43 @@ public partial class TSongPlayer : IDisposable
                 }
                 else
                 {
-                    Aow.Game.Audio.TSongStatus.RestoreSongStatus(FBackup);
+                    Aow.Game.Audio.SongStatus.RestoreSongStatus(FBackup);
                 }
                 FBackup = null;
             }
 
-            FStatus = FStatus - TSet<TSongPlayerStatusElement>.Of(TSongPlayerStatusElement.spPaused);
+            FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Paused);
         }
 
         return true;
     }
 
     public string CurrentSong { get => FCurrentSong; }
-    public TSet<TSongPlayerStatusElement> Status { get => FStatus; }
-    public TStringList Songs { get => FSongs; set => SetSongs(value); }
-    public TStringList SongNames { get => FSongNames; }
+    public Set<StatusElement> Status { get => FStatus; }
+    public StringList Songs { get => FSongs; set => SetSongs(value); }
+    public StringList SongNames { get => FSongNames; }
     public int CurrentIndex { get => FCurrentIndex; }
-    public TNotifyEvent<TSongPlayer> OnSongChange { get => FOnSongChange; set => FOnSongChange = value; }
+    public NotifyEvent<SongPlayer> OnSongChange { get => FOnSongChange; set => FOnSongChange = value; }
+
+    public enum StatusElement : byte
+    {
+        Playing = 0, Paused = 1
+    }
 
 }
 
 // FFileName. One wave file of a sequence
-public partial class TSFX : TEObject
+public partial class SFX : EObject
 {
     public new const int ClassID = 2162689;
 
-    public TSFX(TECustomNode owner) : base(owner)
+    public SFX(ECustomNode owner) : base(owner)
     { }
 
     internal string FFileName = "";
 
     // Sound.pas:1027
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
@@ -1132,43 +1131,43 @@ public partial class TSFX : TEObject
     }
 
     // Sound.pas:1034
-    public TSample Play() => Aow.Game.Audio.AudioPlayback.PlaySample(FFileName);
+    public Sample Play() => Aow.Game.Audio.AudioPlayback.PlaySample(FFileName);
 
     // Sound.pas:1039
-    public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack) => Aow.Game.Audio.AudioPlayback.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
+    public Sample PlayEx(int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack) => Aow.Game.Audio.AudioPlayback.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
 
     public string FileName { get => FFileName; set => FFileName = value; }
 
 }
 
 // FID. A sound effect: its children are TSFX, one of them plays (at random)
-public partial class TSFXSequence : TENode
+public partial class SFXSequence : ENode
 {
     public new const int ClassID = 2162690;
 
-    public TSFXSequence(TECustomNode owner) : base(owner)
+    public SFXSequence(ECustomNode owner) : base(owner)
     { }
 
     internal int FID;
 
     // Sound.pas:1057
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FID, 5);
     }
 
     // Sound.pas:1052
-    public TSFX GetSFX(int Index) => (TSFX)this.FChildren.List[Index];
+    public global::Aow.Game.Audio.SFX GetSFX(int Index) => (global::Aow.Game.Audio.SFX)this.FChildren.List[Index];
 
     // Sound.pas:1063
-    public TSample Play()
+    public Sample Play()
     {
-        TSample Result;
+        Sample Result;
         if (this.FChildren.Count != 0)
         {
             var random = Random(this.FChildren.Count);
-            Result = ((TSFX)this.FChildren.List[random]).Play();
+            Result = ((global::Aow.Game.Audio.SFX)this.FChildren.List[random]).Play();
         }
         else
         {
@@ -1179,13 +1178,13 @@ public partial class TSFXSequence : TENode
     }
 
     // Sound.pas:1071
-    public TSample PlayEx(int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
+    public Sample PlayEx(int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack)
     {
-        TSample Result = default;
+        Sample Result = default;
         if (this.FChildren.Count != 0)
         {
             var random = Random(this.FChildren.Count);
-            Result = ((TSFX)this.FChildren.List[random]).PlayEx(Volume, Looped, Delay, Panning, CallBack);
+            Result = ((global::Aow.Game.Audio.SFX)this.FChildren.List[random]).PlayEx(Volume, Looped, Delay, Panning, CallBack);
         }
         else
         {
@@ -1197,9 +1196,9 @@ public partial class TSFXSequence : TENode
 
     public int ID { get => FID; set => FID = value; }
 
-    public sealed class SFXAccessor(TSFXSequence target)
+    public sealed class SFXAccessor(SFXSequence target)
     {
-        public TSFX this[int Index] { get => target.GetSFX(Index); }
+        public global::Aow.Game.Audio.SFX this[int Index] { get => target.GetSFX(Index); }
     }
 
     public SFXAccessor SFX => new SFXAccessor(this);
@@ -1207,20 +1206,20 @@ public partial class TSFXSequence : TENode
 }
 
 // the sound effects (TSFXSequence children) by ID
-public partial class TSFXLibrary : TENode
+public partial class SFXLibrary : ENode
 {
     public new const int ClassID = 2162691;
 
-    public TSFXLibrary(TECustomNode owner) : base(owner)
+    public SFXLibrary(ECustomNode owner) : base(owner)
     { }
 
     // Sound.pas:1088
-    public TSFXSequence GetSFXSequence(int Index)
+    public SFXSequence GetSFXSequence(int Index)
     {
-        TSFXSequence Result;
+        SFXSequence Result;
         if (Index >= 0 && Index < this.FChildren.Count)
         {
-            Result = (TSFXSequence)this.FChildren.List[Index];
+            Result = (SFXSequence)this.FChildren.List[Index];
         }
         else
         {
@@ -1231,10 +1230,10 @@ public partial class TSFXLibrary : TENode
     }
 
     // Sound.pas:1096
-    public TSample Play(int ID)
+    public Sample Play(int ID)
     {
-        TSample Result;
-        TSFXSequence S;
+        Sample Result;
+        SFXSequence S;
         S = Find(ID);
         if (S != null)
         {
@@ -1249,10 +1248,10 @@ public partial class TSFXLibrary : TENode
     }
 
     // Sound.pas:1107
-    public TSample PlayEx(int ID, int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
+    public Sample PlayEx(int ID, int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack)
     {
-        TSample Result = default;
-        TSFXSequence S;
+        Sample Result = default;
+        SFXSequence S;
         S = Find(ID);
         if (S != null)
         {
@@ -1267,16 +1266,16 @@ public partial class TSFXLibrary : TENode
     }
 
     // Sound.pas:1119
-    public TSFXSequence Find(int ID)
+    public SFXSequence Find(int ID)
     {
         int I;
         I = 0;
-        TSFXSequence Result = null;
+        SFXSequence Result = null;
         while (I != this.FChildren.Count && Result == null)
         {
-            if (((TSFXSequence)this.FChildren.List[I]).FID == ID)
+            if (((SFXSequence)this.FChildren.List[I]).FID == ID)
             {
-                Result = (TSFXSequence)this.FChildren.List[I];
+                Result = (SFXSequence)this.FChildren.List[I];
             }
 
             I += 1;
@@ -1295,10 +1294,10 @@ public partial class TSFXLibrary : TENode
         int Result = -1;
         while (Result == -1 && I != Count)
         {
-            ID = ((TSFXSequence)this.FChildren.List[I]).FID;
+            ID = ((SFXSequence)this.FChildren.List[I]).FID;
             for (int J = I + 1, last = Count - 1; J <= last; J++)
             {
-                if (ID == ((TSFXSequence)this.FChildren.List[J]).FID)
+                if (ID == ((SFXSequence)this.FChildren.List[J]).FID)
                 {
                     Result = ID;
                 }
@@ -1310,9 +1309,9 @@ public partial class TSFXLibrary : TENode
         return Result;
     }
 
-    public sealed class SFXSequencesAccessor(TSFXLibrary target)
+    public sealed class SFXSequencesAccessor(SFXLibrary target)
     {
-        public TSFXSequence this[int Index] { get => target.GetSFXSequence(Index); }
+        public SFXSequence this[int Index] { get => target.GetSFXSequence(Index); }
     }
 
     public SFXSequencesAccessor SFXSequences => new SFXSequencesAccessor(this);
@@ -1320,7 +1319,7 @@ public partial class TSFXLibrary : TENode
 }
 
 // every TSample (ProcessSound updates them)
-public partial class TSampleList : TList
+public partial class SampleList : DelphiList
 {
     // Sound.pas:710
     public override void Dispose()
@@ -1343,22 +1342,22 @@ public partial class TSampleList : TList
 }
 
 // the loaded TSampleData
-public partial class TSampleDataList : TList
+public partial class SampleDataList : DelphiList
 {
     // Sound.pas:659
-    public TSampleData Find(string Name)
+    public SampleData Find(string Name)
     {
-        TSampleData Result;
+        SampleData Result;
         int I;
         I = 0;
-        while (I != Count && CompareText(Name, ((TSampleData)List[I]).FName) != 0)
+        while (I != Count && CompareText(Name, ((SampleData)List[I]).FName) != 0)
         {
             I += 1;
         }
 
         if (I != Count)
         {
-            Result = (TSampleData)List[I];
+            Result = (SampleData)List[I];
         }
         else
         {
@@ -1373,16 +1372,16 @@ public partial class TSampleDataList : TList
 // { TENode keeps its child list private in Engine.pas: the sequences and the library reach it
 //     through this copy of TENode's layout (+8 FChildren). The code is the same as with a
 //     protected FChildren, which is probably what the original Engine unit had. }
-public partial class TENodeAccess : TECustomNode
+public partial class ENodeAccess : ECustomNode
 {
-    public TENodeAccess(TECustomNode owner) : base(owner)
+    public ENodeAccess(ECustomNode owner) : base(owner)
     { }
 
-    internal TEObjectList FChildren;
+    internal EObjectList FChildren;
 }
 
 // the registered sound system classes
-public partial class TSoundSystemList : TList
+public partial class SoundSystemList : DelphiList
 {
     // Sound.pas:1293
     public SoundSystemClass Find(string Name)

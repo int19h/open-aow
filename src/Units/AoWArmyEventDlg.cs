@@ -16,31 +16,31 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // completion callback. army event. frame. visible unit indices
-public partial class TArmyEventDlg : TDataModule
+public partial class ArmyEventDlg : DataModule
 {
-    public TArmyEventDlg(TComponent owner) : base(owner)
+    public ArmyEventDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow ArmyEventWin;
-    public TAoWFrame BGoldSq;
-    public TAOWPanel UnitPnl;
-    public TAOWLabel EventText;
-    public TAOWImage DamagePic;
-    public TAOWButton CloseBut;
-    public TAOWImage TitleIcon;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAoWFrame BCeltL;
-    public TAOWImage DecoL;
-    public TAOWImage DecoR;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FOnClose;
-    public TArmyEventLog FEvent;
+    public AOWWindow ArmyEventWin;
+    public AoWFrame BGoldSq;
+    public AOWPanel UnitPnl;
+    public AOWLabel EventText;
+    public AOWImage DamagePic;
+    public AOWButton CloseBut;
+    public AOWImage TitleIcon;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AoWFrame BCeltL;
+    public AOWImage DecoL;
+    public AOWImage DecoR;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FOnClose;
+    public ArmyEventLog FEvent;
     public int FFrame;
-    public TByteList FUnits;
+    public ByteList FUnits;
 
     // AoWArmyEventDlg.pas:113
-    public void DrawUnits(int X, int Y, in TSurfaceDesc SD)
+    public void DrawUnits(int X, int Y, in SurfaceDesc SD)
     {
         int Offset;
         var byteList = FUnits;
@@ -52,11 +52,11 @@ public partial class TArmyEventDlg : TDataModule
     }
 
     // AoWArmyEventDlg.pas:121
-    public void DrawUnit(int Index, int X, int Y, TSurfaceDesc SD)
+    public void DrawUnit(int Index, int X, int Y, SurfaceDesc SD)
     {
-        TArmyEventLog Event;
+        ArmyEventLog Event;
         int Frame;
-        TP2UnitShowInfo Info;
+        P2UnitShowInfo Info;
         Event = FEvent;
         var unit = FUnits[Index];
         if (Event.FDamageValues[unit] != 0)
@@ -68,7 +68,7 @@ public partial class TArmyEventDlg : TDataModule
             Info = default;
             Info.Frame = (int)(((uint)Frame) >> 1) - 1;
             Info.Direction = 3;
-            Info.Animation = TUnitAnimation.uaHit;
+            Info.Animation = UnitAnimation.Hit;
             var unit3 = FUnits[Index];
             Event.FArmyView.GetUnit(unit3).ShowEx(X, Y, SD, Info);
             if (Frame == 5)
@@ -78,14 +78,14 @@ public partial class TArmyEventDlg : TDataModule
                 {
                     var unit5 = FUnits[Index];
                     var unitGFXResourceIndex = Event.FArmyView.GetUnit(unit5).GetUnitGFXResourceIndex();
-                    var unitGFXResource = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
+                    var unitGFXResource = Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
                     unitGFXResource.FSFXLibraries[3].Play(0);
                 }
                 else
                 {
                     var unit5 = FUnits[Index];
                     var unitGFXResourceIndex = Event.FArmyView.GetUnit(unit5).GetUnitGFXResourceIndex();
-                    var unitGFXResource = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
+                    var unitGFXResource = Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
                     unitGFXResource.FSFXLibraries[4].Play(0);
                 }
             }
@@ -96,7 +96,7 @@ public partial class TArmyEventDlg : TDataModule
                 var damageValue = Event.FDamageValues[unit4];
                 var unit5 = FUnits[Index];
                 var damageType = Event.FDamageTypes[unit5];
-                Aow.Game.Magic.Abilities.AbilityRules.ShowDamageIcon(X, Y + 8, SD, damageValue, (TDamageType)damageType);
+                Aow.Game.Magic.Abilities.AbilityRules.ShowDamageIcon(X, Y + 8, SD, damageValue, (DamageType)damageType);
                 var unit6 = FUnits[Index];
                 var hitPoints = Event.FArmyView.GetUnit(unit6).GetHitPoints();
                 var unit7 = FUnits[Index];
@@ -124,8 +124,8 @@ public partial class TArmyEventDlg : TDataModule
     // AoWArmyEventDlg.pas:153
     public void ClearEvent()
     {
-        TArmyEventLog Event;
-        TExecuteDoneEvent Notify;
+        ArmyEventLog Event;
+        ExecuteDoneEvent Notify;
         int Resource = default;
         Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         for (int I = 0, last = FUnits.Count - 1; I <= last; I++)
@@ -134,7 +134,7 @@ public partial class TArmyEventDlg : TDataModule
             Resource = FEvent.FArmyView.GetUnit(unit).GetUnitGFXResourceIndex();
             if (Resource != -1)
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Resource).Release();
+                Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Resource).Release();
             }
         }
 
@@ -156,7 +156,7 @@ public partial class TArmyEventDlg : TDataModule
     // AoWArmyEventDlg.pas:171
     public void ArmyEventDlgCreate()
     {
-        FUnits = new TByteList();
+        FUnits = new ByteList();
     }
 
     // AoWArmyEventDlg.pas:176
@@ -173,7 +173,7 @@ public partial class TArmyEventDlg : TDataModule
     }
 
     // AoWArmyEventDlg.pas:187
-    public void UnitPnlDrawBack(TSurfaceDesc SD)
+    public void UnitPnlDrawBack(SurfaceDesc SD)
     {
         if (FFrame < 1000)
         {
@@ -197,7 +197,7 @@ public partial class TArmyEventDlg : TDataModule
     }
 
     // AoWArmyEventDlg.pas:203
-    public void ArmyEventWinKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void ArmyEventWinKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {
@@ -205,10 +205,10 @@ public partial class TArmyEventDlg : TDataModule
         }
     }
 
-    internal static void ShowArmyEvent(TArmyEventDlg Dialog, TArmyEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowArmyEvent(ArmyEventDlg Dialog, ArmyEventLog Event, ExecuteDoneEvent Done)
     {
-        TArmyEventLog Log;
-        TArmyView Army;
+        ArmyEventLog Log;
+        ArmyView Army;
         int Image;
         Assert(Dialog.FEvent == null, "", "AoWArmyEventDlg.pas", 92);
         Dialog.FOnClose = Done;
@@ -222,13 +222,13 @@ public partial class TArmyEventDlg : TDataModule
         Dialog.FUnits.Clear();
         for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
         {
-            if (!Army.GetUnitConcealedForPlayer(I, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer) || Log.FDamageValues[I] != 0)
+            if (!Army.GetUnitConcealedForPlayer(I, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) || Log.FDamageValues[I] != 0)
             {
                 Dialog.FUnits.Add((byte)I);
                 Image = Log.FArmyView.GetUnit(I).GetUnitGFXResourceIndex();
                 if (Image != -1)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Image).AddRef();
+                    Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Image).AddRef();
                 }
             }
         }

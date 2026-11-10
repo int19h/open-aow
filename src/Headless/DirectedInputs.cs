@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Headless;
 
 // The directed inputs mirror equip_test_items and cast_test_global in playtest.py.
-internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
+internal sealed class DirectedInputs(AoWHSMap map, bool items, int spell)
 {
     public List<object> ItemActions { get; } = [];
     public List<object> GlobalRequests { get; } = [];
@@ -43,7 +43,7 @@ internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
     {
         var player = map.FPlayers.GetPlayers(caster);
         var hero = player.FLeader;
-        if (hero is null || hero.FHeroStatus.Contains(THeroStatusElement.hsDied))
+        if (hero is null || hero.FHeroStatus.Contains(HeroStatusElement.Died))
         {
             GlobalRequests.Add(new { dead = true });
             return;
@@ -80,7 +80,7 @@ internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
             int? firstRing = null;
             foreach (int kind in new[] { 0, 1, 2, 3, 4, 4, 5, 6 })
             {
-                var item = control.GenerateItem(TSet<TItemType>.Of((TItemType)kind), 1, 100000);
+                var item = control.GenerateItem(Set<ItemType>.Of((ItemType)kind), 1, 100000);
                 if (item is null)
                 {
                     ItemActions.Add(new { player = index, type = kind, available = false });
@@ -91,7 +91,7 @@ internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
                 bool? stored = null, reequipped = null, swapped = null, queued = null, executed = null, consumed = null;
                 if (placed && kind <= 3)
                 {
-                    stored = hero.ExecutePlaceItem(id, (THeroItemPosition)6);
+                    stored = hero.ExecutePlaceItem(id, (HeroItemPosition)6);
                     reequipped = hero.AutoPlaceItem(item);
                 }
                 if (placed && kind == 4)

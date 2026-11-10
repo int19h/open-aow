@@ -10,10 +10,10 @@ namespace Aow.Game.Engine.Nodes
     // The engine side of the persistence tree. Formats does not name these types.
     public sealed class EnginePersistableFactory : IPersistableFactory
     {
-        private readonly Aow.Game.Engine.TAoWEngine engine;
+        private readonly Aow.Game.Engine.AoWEngine engine;
         private readonly Dictionary<string, Aow.Game.Engine.EClass> byName;
 
-        public EnginePersistableFactory(Aow.Game.Engine.TAoWEngine engine)
+        public EnginePersistableFactory(Aow.Game.Engine.AoWEngine engine)
         {
             this.engine = engine ?? throw new InvalidOperationException("The engine is not running.");
             byName = new Dictionary<string, Aow.Game.Engine.EClass>();
@@ -40,7 +40,7 @@ namespace Aow.Game.Engine.Nodes
         }
     }
 
-    public sealed class NodeChildren(TECustomNode node) : IChildCollection
+    public sealed class NodeChildren(ECustomNode node) : IChildCollection
     {
         public int Count => node.GetCount();
 
@@ -58,11 +58,11 @@ namespace Aow.Game.Engine.Nodes
 
         public bool KeepIndex => node.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex);
 
-        public void Attach(IPersistable child) => ((TEObject)child).FOwner = node;
+        public void Attach(IPersistable child) => ((EObject)child).FOwner = node;
 
         public void Place(int slot, IPersistable child)
         {
-            var obj = (TEObject)child;
+            var obj = (EObject)child;
             obj.FOwner = null;
             if (KeepIndex) obj.SetArrayOwner(node, slot);
             else obj.SetOwner(node);
@@ -107,7 +107,7 @@ namespace Aow.Game.Engine
             for (int i = 0; i < values.Length; i++) values[i] = i < list.Count ? list[i] : (ushort)0;
         }
 
-        public static void Lines(IPersister persister, string name, TStrings lines)
+        public static void Lines(IPersister persister, string name, StringCollection lines)
         {
             var copy = new List<string>(lines.Count);
             for (int i = 0; i < lines.Count; i++) copy.Add(lines[i]);
@@ -125,7 +125,7 @@ namespace Aow.Game.Engine
             }
         }
 
-        public static void LinesEx(IPersister persister, string name, TStrings lines)
+        public static void LinesEx(IPersister persister, string name, StringCollection lines)
         {
             var copy = new List<string>(lines.Count);
             var objects = new List<int>(lines.Count);

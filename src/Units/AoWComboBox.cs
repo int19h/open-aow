@@ -18,12 +18,12 @@ namespace Aow.Game.Ui.Controls;
 // FILFrame, FILTextureNormal, FILTextureSelected, FItemHeight, FOnOpen, FOnClose, FILEIndex,
 // FILFIndex, FILTnIndex, FILTsIndex, FDrawItem, FDrawItemRect (the item and its rectangle while
 // OnDrawItem runs)
-public partial class TAOWComboBox : TAOWControl
+public partial class AOWComboBox : AOWControl
 {
     public bool F114;
     public bool FOpen;
-    public TStringList FItems;
-    public TAOWVScrollBar FVScrollBar;
+    public StringList FItems;
+    public AOWVScrollBar FVScrollBar;
     public int F124;
     public int FNumberVisible;
     public int F12C;
@@ -33,27 +33,27 @@ public partial class TAOWComboBox : TAOWControl
     public int F13C;
     public int FPriorityOpened;
     public int F144;
-    public TNotifyEvent<TAOWComboBox> FOnDrawItem;
+    public NotifyEvent<AOWComboBox> FOnDrawItem;
     public int F150;
     public bool F154;
-    public TInterfaceIL FILEdit;
-    public TInterfaceIL FILFrame;
-    public TInterfaceIL FILTextureNormal;
-    public TInterfaceIL FILTextureSelected;
+    public InterfaceIL FILEdit;
+    public InterfaceIL FILFrame;
+    public InterfaceIL FILTextureNormal;
+    public InterfaceIL FILTextureSelected;
     public int FItemHeight;
-    public TNotifyEvent<TAOWComboBox> FOnOpen;
-    public TNotifyEvent<TAOWComboBox> FOnClose;
+    public NotifyEvent<AOWComboBox> FOnOpen;
+    public NotifyEvent<AOWComboBox> FOnClose;
     public int FILEIndex;
     public int FILFIndex;
     public int FILTnIndex;
     public int FILTsIndex;
     public int FDrawItem;
-    public TRect FDrawItemRect;
+    public global::Aow.Rtl.Rect FDrawItemRect;
 
     // AoWComboBox.pas:114
-    public TAOWComboBox(TComponent owner) : base(owner)
+    public AOWComboBox(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FItems = new TStringList();
+        FItems = new StringList();
         FItems.OnChange = OnChangeText;
         F13C = -1;
     }
@@ -195,9 +195,9 @@ public partial class TAOWComboBox : TAOWControl
     // { Draw draws the edit field with the selected item and, when the list is open, the frame, the
     //   texture of the list, the highlight of the item under the mouse and the items, clipped short of
     //   the scroll bar; OnDrawItem is called for every item with FDrawItem and FDrawItemRect set }
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect OldClip = default;
+        global::Aow.Rtl.Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -209,7 +209,7 @@ public partial class TAOWComboBox : TAOWControl
 
                 FAOWFont.Color = FColor;
                 OldClip = SurfDesc.ClipRect;
-                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                 FILEdit.DrawILLh(FILEIndex, rect, ref SurfDesc);
                 if (FSelected > -1 && FItems.Count > FSelected)
                 {
@@ -223,14 +223,14 @@ public partial class TAOWComboBox : TAOWControl
                     var ilFrameHeight = FILFrame[FILFIndex + 1];
                     var ilFrame = FILFrame[FILFIndex + 6];
                     var ilEditHeight = FILEdit[FILEIndex];
-                    var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + ilEditHeight.Height, FWinWidth, ilFrameHeight.Height + ilFrame.Height + FItemHeight * F124 + FListBorderHeight);
+                    var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + ilEditHeight.Height, FWinWidth, ilFrameHeight.Height + ilFrame.Height + FItemHeight * F124 + FListBorderHeight);
                     FILFrame.DrawILF(FILFIndex, rect2, ref SurfDesc);
                     var ilFrameWidth = FILFrame[FILFIndex + 3];
                     var ilFrame2 = FILFrame[FILFIndex + 4];
                     var ilEdit = FILEdit[FILEIndex];
                     var ilFrame3 = FILFrame[FILFIndex + 1];
                     var ilFrame4 = FILFrame[FILFIndex + 3];
-                    var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilEdit.Height + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FItemHeight * F124 + FListBorderHeight);
+                    var rect3 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilEdit.Height + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FItemHeight * F124 + FListBorderHeight);
                     FILTextureNormal.DrawILT(FILTnIndex, rect3, ref SurfDesc);
                     if (F13C >= F12C && F13C < F124 + F12C)
                     {
@@ -239,7 +239,7 @@ public partial class TAOWComboBox : TAOWControl
                         var ilEdit2 = FILEdit[FILEIndex];
                         var ilFrame7 = FILFrame[FILFIndex + 1];
                         var ilFrame8 = FILFrame[FILFIndex + 3];
-                        var rect4 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilEdit2.Height + ilFrame7.Height + (F13C - F12C) * FItemHeight, FWinWidth - ilFrame5.Width - ilFrame6.Width, FItemHeight);
+                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilEdit2.Height + ilFrame7.Height + (F13C - F12C) * FItemHeight, FWinWidth - ilFrame5.Width - ilFrame6.Width, FItemHeight);
                         FILTextureSelected.DrawILT(FILTsIndex, rect4, ref SurfDesc);
                     }
 
@@ -273,7 +273,7 @@ public partial class TAOWComboBox : TAOWControl
                             var ilFrame7 = FILFrame[FILFIndex + 1];
                             var ilFrame8 = FILFrame[FILFIndex + 3];
                             var ilFrame9 = FILFrame[FILFIndex + 3];
-                            FDrawItemRect = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame9.Width, FAOWWindow.FWinTop + FWinTop + ilEdit4.Height + ilFrame7.Height + FItemHeight * I, FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width + FWinWidth, FAOWWindow.FWinTop + FWinTop + ilEdit3.Height + ilFrame6.Height + (I + 1) * FItemHeight);
+                            FDrawItemRect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame9.Width, FAOWWindow.FWinTop + FWinTop + ilEdit4.Height + ilFrame7.Height + FItemHeight * I, FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width + FWinWidth, FAOWWindow.FWinTop + FWinTop + ilEdit3.Height + ilFrame6.Height + (I + 1) * FItemHeight);
                             if (FOnDrawItem != null)
                             {
                                 FOnDrawItem(this);
@@ -299,7 +299,7 @@ public partial class TAOWComboBox : TAOWControl
     // AoWComboBox.pas:375
     // { CheckMouseDown opens or closes the list with a click on the edit field and closes it with a
     //   click outside the control }
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -313,7 +313,7 @@ public partial class TAOWComboBox : TAOWControl
         if (condition)
         {
             FHandled = true;
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 FMouseDown = true;
                 F114 = true;
@@ -464,7 +464,7 @@ public partial class TAOWComboBox : TAOWControl
 
     // AoWComboBox.pas:476
     // { CheckMouseUp selects the item under the mouse in the open list and closes the list }
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         int I = default;
         FHandled = false;
@@ -488,7 +488,7 @@ public partial class TAOWComboBox : TAOWControl
         }
         else
         {
-            if (Button == TMouseButton.mbLeft && FValid == true && FVisible == true && FOpen == true)
+            if (Button == MouseButton.Left && FValid == true && FVisible == true && FOpen == true)
             {
                 bool test = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth;
                 if (test)
@@ -549,7 +549,7 @@ public partial class TAOWComboBox : TAOWControl
 
     // AoWComboBox.pas:530
     // { CheckMouseMove tracks the item under the mouse in the open list }
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         int OldItem;
         base.CheckMouseMove(Shift, X, Y);
@@ -593,7 +593,7 @@ public partial class TAOWComboBox : TAOWControl
     }
 
     // AoWComboBox.pas:211
-    public virtual void SetILEdit(TInterfaceIL Value)
+    public virtual void SetILEdit(InterfaceIL Value)
     {
         if (Value != FILEdit)
         {
@@ -613,7 +613,7 @@ public partial class TAOWComboBox : TAOWControl
     }
 
     // AoWComboBox.pas:229
-    public virtual void SetILFrame(TInterfaceIL Value)
+    public virtual void SetILFrame(InterfaceIL Value)
     {
         if (Value != FILFrame)
         {
@@ -633,7 +633,7 @@ public partial class TAOWComboBox : TAOWControl
     }
 
     // AoWComboBox.pas:247
-    public virtual void SetILTNorm(TInterfaceIL Value)
+    public virtual void SetILTNorm(InterfaceIL Value)
     {
         if (Value != FILTextureNormal)
         {
@@ -653,7 +653,7 @@ public partial class TAOWComboBox : TAOWControl
     }
 
     // AoWComboBox.pas:265
-    public virtual void SetILTSel(TInterfaceIL Value)
+    public virtual void SetILTSel(InterfaceIL Value)
     {
         if (Value != FILTextureSelected)
         {
@@ -688,14 +688,14 @@ public partial class TAOWComboBox : TAOWControl
     }
 
     // AoWComboBox.pas:190
-    public void SetFStrings(TStringList Value)
+    public void SetFStrings(StringList Value)
     {
         FItems.Clear();
         FItems.AddStrings(Value);
     }
 
     // AoWComboBox.pas:196
-    public void SetVScroll(TAOWVScrollBar Value)
+    public void SetVScroll(AOWVScrollBar Value)
     {
         FVScrollBar = Value;
         if (Value != null)
@@ -707,10 +707,10 @@ public partial class TAOWComboBox : TAOWControl
     }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
     [Published]
-    public TStringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => FItems; set => SetFStrings(value); }
 
     [Published]
     public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
@@ -725,7 +725,7 @@ public partial class TAOWComboBox : TAOWControl
     public int ListBorderHeight { get => FListBorderHeight; set => FListBorderHeight = value; }
 
     [Published]
-    public TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+    public AOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
 
     [Published]
     public int NumberVisible { get => FNumberVisible; set => FNumberVisible = value; }
@@ -737,28 +737,28 @@ public partial class TAOWComboBox : TAOWControl
     public int PriorityOpened { get => FPriorityOpened; set => FPriorityOpened = value; }
 
     [Published]
-    public TNotifyEvent<TAOWComboBox> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public NotifyEvent<AOWComboBox> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
-    public TInterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
+    public InterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
 
     [Published]
     public int ILEIndex { get => FILEIndex; set => SetILEIndex(value); }
 
     [Published]
-    public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
     [Published]
     public int ILFIndex { get => FILFIndex; set => SetILFIndex(value); }
 
     [Published]
-    public TInterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
+    public InterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
 
     [Published]
     public int ILTnIndex { get => FILTnIndex; set => SetILTnIndex(value); }
 
     [Published]
-    public TInterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+    public InterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
 
     [Published]
     public int ILTsIndex { get => FILTsIndex; set => SetILTsIndex(value); }
@@ -767,60 +767,60 @@ public partial class TAOWComboBox : TAOWControl
     public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
 
     [Published]
-    public TNotifyEvent<TAOWComboBox> OnOpen { get => FOnOpen; set => FOnOpen = value; }
+    public NotifyEvent<AOWComboBox> OnOpen { get => FOnOpen; set => FOnOpen = value; }
 
     [Published]
-    public TNotifyEvent<TAOWComboBox> OnClose { get => FOnClose; set => FOnClose = value; }
+    public NotifyEvent<AOWComboBox> OnClose { get => FOnClose; set => FOnClose = value; }
 
-    public new TNotifyEvent<TAOWComboBox> OnChange
+    public new NotifyEvent<AOWComboBox> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWComboBox> OnMouseDown
+    public new MouseEvent<AOWComboBox> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWComboBox> OnMouseUp
+    public new MouseEvent<AOWComboBox> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWComboBox> OnMouseMove
+    public new MouseMoveEvent<AOWComboBox> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWComboBox> OnKeyPress
+    public new KeyPressEvent<AOWComboBox> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWComboBox> OnKeyDown
+    public new KeyEvent<AOWComboBox> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWComboBox> OnPreDraw
+    public new AoWOnDrawEvent<AOWComboBox> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWComboBox> OnDraw
+    public new AoWOnDrawEvent<AOWComboBox> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWComboBox> OnUpdate
+    public new NotifyEvent<AOWComboBox> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

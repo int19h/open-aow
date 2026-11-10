@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTCFCDialog : ILayoutModule
+public partial class TCFCDialog : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TTCFCDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "TCFCDialog";
-        Dlg = new TAOWWindow(this);
+        Dlg = new AOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
         Dlg.Visible = false;
@@ -29,8 +29,8 @@ public partial class TTCFCDialog : ILayoutModule
         Dlg.WinWidth = 421;
         Dlg.Masked = true;
         Dlg.OnHide = _ => Layout_DlgHide_0();
-        Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        Dlg.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Dlg.Alignment.AlignHeight = AOWAlignHeight.Center;
         Dlg.Alignment.HeightPercent = 0;
         Dlg.Alignment.WidthPercent = 0;
         Dlg.Alignment.LeftOffPercent = 0;
@@ -63,15 +63,15 @@ public partial class TTCFCDialog : ILayoutModule
         Dlg.WinHeight = 350;
         Dlg.Dockable = false;
         session.EndRead(Dlg);
-        DTitle = new TAOWLabel(this);
+        DTitle = new AOWLabel(this);
         session.BeginRead(DTitle);
         DTitle.Name = "DTitle";
         DTitle.Priority = 0;
         DTitle.WinLeft = 25;
         DTitle.WinTop = 7;
         DTitle.CaptureInput = false;
-        DTitle.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DTitle.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        DTitle.Alignment.AlignWidth = AOWAlignWidth.None;
+        DTitle.Alignment.AlignHeight = AOWAlignHeight.None;
         DTitle.Alignment.HeightPercent = 0;
         DTitle.Alignment.WidthPercent = 0;
         DTitle.Alignment.LeftOffPercent = 0;
@@ -86,15 +86,15 @@ public partial class TTCFCDialog : ILayoutModule
         DTitle.Text = "Combat Selection";
         DTitle.TextColor = 0;
         session.EndRead(DTitle);
-        DMessage = new TAOWLabel(this);
+        DMessage = new AOWLabel(this);
         session.BeginRead(DMessage);
         DMessage.Name = "DMessage";
         DMessage.Priority = 555;
         DMessage.WinLeft = 68;
         DMessage.WinTop = 173;
         DMessage.CaptureInput = true;
-        DMessage.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        DMessage.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        DMessage.Alignment.AlignWidth = AOWAlignWidth.Center;
+        DMessage.Alignment.AlignHeight = AOWAlignHeight.None;
         DMessage.Alignment.HeightPercent = 0;
         DMessage.Alignment.WidthPercent = 0;
         DMessage.Alignment.LeftOffPercent = 0;
@@ -109,7 +109,7 @@ public partial class TTCFCDialog : ILayoutModule
         DMessage.Text = "How do you want to fight this battle?";
         DMessage.TextColor = 13165253;
         session.EndRead(DMessage);
-        FightBtn = new TAOWButton(this);
+        FightBtn = new AOWButton(this);
         session.BeginRead(FightBtn);
         FightBtn.Name = "FightBtn";
         FightBtn.Priority = 1000;
@@ -120,8 +120,8 @@ public partial class TTCFCDialog : ILayoutModule
             "Starts battle in selected mode"
         };
         FightBtn.CaptureInput = true;
-        FightBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        FightBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        FightBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        FightBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         FightBtn.Alignment.HeightPercent = 0;
         FightBtn.Alignment.WidthPercent = 0;
         FightBtn.Alignment.LeftOffPercent = 0;
@@ -144,7 +144,7 @@ public partial class TTCFCDialog : ILayoutModule
         FightBtn.WinWidth = 130;
         FightBtn.OnClick = _ => Layout_FightBtnClick_1();
         session.EndRead(FightBtn);
-        CancelBtn = new TAOWButton(this);
+        CancelBtn = new AOWButton(this);
         session.BeginRead(CancelBtn);
         CancelBtn.Name = "CancelBtn";
         CancelBtn.Priority = 1000;
@@ -155,8 +155,8 @@ public partial class TTCFCDialog : ILayoutModule
             "Cancels the attack"
         };
         CancelBtn.CaptureInput = true;
-        CancelBtn.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        CancelBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CancelBtn.Alignment.AlignWidth = AOWAlignWidth.Right;
+        CancelBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CancelBtn.Alignment.HeightPercent = 0;
         CancelBtn.Alignment.WidthPercent = 0;
         CancelBtn.Alignment.LeftOffPercent = 0;
@@ -179,15 +179,15 @@ public partial class TTCFCDialog : ILayoutModule
         CancelBtn.WinWidth = 130;
         CancelBtn.OnClick = _ => Layout_CancelBtnClick_2();
         session.EndRead(CancelBtn);
-        BCeltL = new TAoWFrame(this);
+        BCeltL = new AoWFrame(this);
         session.BeginRead(BCeltL);
         BCeltL.Name = "BCeltL";
         BCeltL.Priority = 0;
         BCeltL.WinLeft = 21;
         BCeltL.WinTop = 313;
         BCeltL.CaptureInput = true;
-        BCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        BCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        BCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        BCeltL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         BCeltL.Alignment.HeightPercent = 0;
         BCeltL.Alignment.WidthPercent = 0;
         BCeltL.Alignment.LeftOffPercent = 0;
@@ -201,20 +201,20 @@ public partial class TTCFCDialog : ILayoutModule
         BCeltL.Masked = false;
         BCeltL.WinWidth = 379;
         BCeltL.WinHeight = 27;
-        BCeltL.FrameType = TFrameType.frHorizLine;
+        BCeltL.FrameType = FrameType.HorizLine;
         BCeltL.ILIndexFrame = 0;
         BCeltL.ILIndexLine = 55;
         BCeltL.ILIndexTexture = 0;
         session.EndRead(BCeltL);
-        TCeltL = new TAoWFrame(this);
+        TCeltL = new AoWFrame(this);
         session.BeginRead(TCeltL);
         TCeltL.Name = "TCeltL";
         TCeltL.Priority = 0;
         TCeltL.WinLeft = 21;
         TCeltL.WinTop = 22;
         TCeltL.CaptureInput = true;
-        TCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TCeltL.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCeltL.Alignment.HeightPercent = 0;
         TCeltL.Alignment.WidthPercent = 0;
         TCeltL.Alignment.LeftOffPercent = 0;
@@ -228,20 +228,20 @@ public partial class TTCFCDialog : ILayoutModule
         TCeltL.Masked = false;
         TCeltL.WinWidth = 379;
         TCeltL.WinHeight = 27;
-        TCeltL.FrameType = TFrameType.frHorizLine;
+        TCeltL.FrameType = FrameType.HorizLine;
         TCeltL.ILIndexFrame = 0;
         TCeltL.ILIndexLine = 55;
         TCeltL.ILIndexTexture = 0;
         session.EndRead(TCeltL);
-        TCeltLineL = new TAOWImage(this);
+        TCeltLineL = new AOWImage(this);
         session.BeginRead(TCeltLineL);
         TCeltLineL.Name = "TCeltLineL";
         TCeltLineL.Priority = 100;
         TCeltLineL.WinLeft = 28;
         TCeltLineL.WinTop = 22;
         TCeltLineL.CaptureInput = true;
-        TCeltLineL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TCeltLineL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCeltLineL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TCeltLineL.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCeltLineL.Alignment.HeightPercent = 0;
         TCeltLineL.Alignment.WidthPercent = 0;
         TCeltLineL.Alignment.LeftOffPercent = 0;
@@ -261,15 +261,15 @@ public partial class TTCFCDialog : ILayoutModule
         TCeltLineL.Animate = false;
         TCeltLineL.AnimFrameDelay = 0;
         session.EndRead(TCeltLineL);
-        AOWImage1 = new TAOWImage(this);
+        AOWImage1 = new AOWImage(this);
         session.BeginRead(AOWImage1);
         AOWImage1.Name = "AOWImage1";
         AOWImage1.Priority = 100;
         AOWImage1.WinLeft = 28;
         AOWImage1.WinTop = 313;
         AOWImage1.CaptureInput = true;
-        AOWImage1.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        AOWImage1.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AOWImage1.Alignment.AlignWidth = AOWAlignWidth.Left;
+        AOWImage1.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AOWImage1.Alignment.HeightPercent = 0;
         AOWImage1.Alignment.WidthPercent = 0;
         AOWImage1.Alignment.LeftOffPercent = 0;
@@ -289,15 +289,15 @@ public partial class TTCFCDialog : ILayoutModule
         AOWImage1.Animate = false;
         AOWImage1.AnimFrameDelay = 0;
         session.EndRead(AOWImage1);
-        AOWImage2 = new TAOWImage(this);
+        AOWImage2 = new AOWImage(this);
         session.BeginRead(AOWImage2);
         AOWImage2.Name = "AOWImage2";
         AOWImage2.Priority = 100;
         AOWImage2.WinLeft = 366;
         AOWImage2.WinTop = 313;
         AOWImage2.CaptureInput = true;
-        AOWImage2.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        AOWImage2.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AOWImage2.Alignment.AlignWidth = AOWAlignWidth.Right;
+        AOWImage2.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AOWImage2.Alignment.HeightPercent = 0;
         AOWImage2.Alignment.WidthPercent = 0;
         AOWImage2.Alignment.LeftOffPercent = 0;
@@ -317,15 +317,15 @@ public partial class TTCFCDialog : ILayoutModule
         AOWImage2.Animate = false;
         AOWImage2.AnimFrameDelay = 0;
         session.EndRead(AOWImage2);
-        Tactical = new TAOWLabel(this);
+        Tactical = new AOWLabel(this);
         session.BeginRead(Tactical);
         Tactical.Name = "Tactical";
         Tactical.Priority = 0;
         Tactical.WinLeft = 82;
         Tactical.WinTop = 277;
         Tactical.CaptureInput = true;
-        Tactical.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Tactical.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Tactical.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Tactical.Alignment.AlignHeight = AOWAlignHeight.None;
         Tactical.Alignment.HeightPercent = 0;
         Tactical.Alignment.WidthPercent = 0;
         Tactical.Alignment.LeftOffPercent = 0;
@@ -340,15 +340,15 @@ public partial class TTCFCDialog : ILayoutModule
         Tactical.Text = "Tactical";
         Tactical.TextColor = 13165253;
         session.EndRead(Tactical);
-        Automatic = new TAOWLabel(this);
+        Automatic = new AOWLabel(this);
         session.BeginRead(Automatic);
         Automatic.Name = "Automatic";
         Automatic.Priority = 0;
         Automatic.WinLeft = 273;
         Automatic.WinTop = 280;
         Automatic.CaptureInput = true;
-        Automatic.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Automatic.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Automatic.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Automatic.Alignment.AlignHeight = AOWAlignHeight.None;
         Automatic.Alignment.HeightPercent = 0;
         Automatic.Alignment.WidthPercent = 0;
         Automatic.Alignment.LeftOffPercent = 0;
@@ -363,7 +363,7 @@ public partial class TTCFCDialog : ILayoutModule
         Automatic.Text = "Automatic";
         Automatic.TextColor = 13165253;
         session.EndRead(Automatic);
-        TCchk = new TAOWCheckBox(this);
+        TCchk = new AOWCheckBox(this);
         session.BeginRead(TCchk);
         TCchk.Name = "TCchk";
         TCchk.Priority = 0;
@@ -374,8 +374,8 @@ public partial class TTCFCDialog : ILayoutModule
             "Select tactical (manual) battle resolvement."
         };
         TCchk.CaptureInput = true;
-        TCchk.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TCchk.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCchk.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TCchk.Alignment.AlignHeight = AOWAlignHeight.None;
         TCchk.Alignment.HeightPercent = 0;
         TCchk.Alignment.WidthPercent = 0;
         TCchk.Alignment.LeftOffPercent = 0;
@@ -400,7 +400,7 @@ public partial class TTCFCDialog : ILayoutModule
         TCchk.RadioIndex = 1;
         TCchk.OnDoubleClick = TCchkDoubleClick;
         session.EndRead(TCchk);
-        FCchk = new TAOWCheckBox(this);
+        FCchk = new AOWCheckBox(this);
         session.BeginRead(FCchk);
         FCchk.Name = "FCchk";
         FCchk.Priority = 0;
@@ -411,8 +411,8 @@ public partial class TTCFCDialog : ILayoutModule
             "Select automatic (fast) battle resolvement."
         };
         FCchk.CaptureInput = true;
-        FCchk.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        FCchk.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        FCchk.Alignment.AlignWidth = AOWAlignWidth.Right;
+        FCchk.Alignment.AlignHeight = AOWAlignHeight.None;
         FCchk.Alignment.HeightPercent = 0;
         FCchk.Alignment.WidthPercent = 0;
         FCchk.Alignment.LeftOffPercent = 0;
@@ -437,7 +437,7 @@ public partial class TTCFCDialog : ILayoutModule
         FCchk.RadioIndex = 1;
         FCchk.OnDoubleClick = FCchkDoubleClick;
         session.EndRead(FCchk);
-        MapViewPnl = new TAOWPanel(this);
+        MapViewPnl = new AOWPanel(this);
         session.BeginRead(MapViewPnl);
         MapViewPnl.Name = "MapViewPnl";
         MapViewPnl.Visible = false;
@@ -446,8 +446,8 @@ public partial class TTCFCDialog : ILayoutModule
         MapViewPnl.WinTop = 48;
         MapViewPnl.WinWidth = 381;
         MapViewPnl.Masked = true;
-        MapViewPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        MapViewPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        MapViewPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        MapViewPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         MapViewPnl.Alignment.HeightPercent = 0;
         MapViewPnl.Alignment.WidthPercent = 0;
         MapViewPnl.Alignment.LeftOffPercent = 0;
@@ -474,8 +474,8 @@ public partial class TTCFCDialog : ILayoutModule
         MapView.WinLeft = 21;
         MapView.WinTop = 50;
         MapView.CaptureInput = true;
-        MapView.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        MapView.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        MapView.Alignment.AlignWidth = AOWAlignWidth.None;
+        MapView.Alignment.AlignHeight = AOWAlignHeight.None;
         MapView.Alignment.HeightPercent = 0;
         MapView.Alignment.WidthPercent = 0;
         MapView.Alignment.LeftOffPercent = 0;
@@ -490,15 +490,15 @@ public partial class TTCFCDialog : ILayoutModule
         MapView.WinWidth = 381;
         MapView.WinHeight = 114;
         session.EndRead(MapView);
-        InfoSep = new TAOWImage(this);
+        InfoSep = new AOWImage(this);
         session.BeginRead(InfoSep);
         InfoSep.Name = "InfoSep";
         InfoSep.Priority = 1500;
         InfoSep.WinLeft = 19;
         InfoSep.WinTop = 162;
         InfoSep.CaptureInput = true;
-        InfoSep.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        InfoSep.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        InfoSep.Alignment.AlignWidth = AOWAlignWidth.None;
+        InfoSep.Alignment.AlignHeight = AOWAlignHeight.None;
         InfoSep.Alignment.HeightPercent = 0;
         InfoSep.Alignment.WidthPercent = 0;
         InfoSep.Alignment.LeftOffPercent = 0;

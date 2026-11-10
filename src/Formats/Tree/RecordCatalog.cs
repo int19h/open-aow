@@ -174,7 +174,7 @@ internal sealed partial class RecordTypeInfo
         var residue = new List<(int Offset, int Length)>();
         foreach (var property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
-            if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(TSet<>)) continue;
+            if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Set<>)) continue;
             var image = raw.FirstOrDefault(field => field.Field.Name == property.Name + "__image").Field
                 ?? throw new InvalidOperationException(type.Name + "." + property.Name + " has no image field.");
             consumed.Add(image);
@@ -325,6 +325,6 @@ internal sealed partial class RecordTypeInfo
     private static int SetStorage(Type setType)
     {
         object value = Activator.CreateInstance(setType)!;
-        return (int)setType.GetProperty(nameof(TSet<byte>.StorageSize))!.GetValue(value)!;
+        return (int)setType.GetProperty(nameof(Set<byte>.StorageSize))!.GetValue(value)!;
     }
 }

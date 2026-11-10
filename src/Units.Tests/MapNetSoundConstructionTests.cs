@@ -6,8 +6,8 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.Net;
 using Aow.Game.World;
 using Aow.Game.World.Map;
-using MovePath = Aow.Game.World.Movement.TMovepath;
-using UnitSfxManager = Aow.Game.Audio.TSFXManager;
+using MovePath = Aow.Game.World.Movement.Movepath;
+using UnitSfxManager = Aow.Game.Audio.SFXManager;
 
 namespace Aow.Units.Tests;
 
@@ -16,7 +16,7 @@ public sealed class MapNetSoundConstructionTests
     private sealed class MapOwner : EngineFixture.Owner
     {
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             Assert.Same(this, child.Owner);
             base.AddChild(child);
@@ -26,15 +26,15 @@ public sealed class MapNetSoundConstructionTests
 
     public static IEnumerable<object[]> EngineCases()
     {
-        Type[] types = [typeof(TMapField), typeof(TMapContainer), typeof(TVisibilityList), typeof(THSMap),
-            typeof(THexagonSprite), typeof(TMapObject), typeof(TAbstractHexagon), typeof(TAbstractBorderHexagon), typeof(TAbstractRoad),
-            typeof(TSFX), typeof(TSFXSequence), typeof(TMapObjectResource), typeof(TMapObjectResourceList), typeof(TMapLevel),
-            typeof(THexagonSpriteSelection), typeof(TMORTerrainControl), typeof(THexagonControl),
-            typeof(TRoadControl), typeof(THSSet), typeof(TCustomFixedVisibleHS), typeof(TLibraryImageHS),
-            typeof(THPBasedHS), typeof(TMultiHexMOR), typeof(TAbstractHexagonResource),
-            typeof(TPlayerCommunicator), typeof(TTokenEvent), typeof(TTokenEventList), typeof(TDataPackage),
-            typeof(TPlayerCommunicationSettings), typeof(TPlayerCommunicationSettingsList),
-            typeof(TTokenPackage), typeof(TPassTokenTE), typeof(TSyncTE), typeof(TSonglist), typeof(TSFXLibrary)];
+        Type[] types = [typeof(MapField), typeof(MapContainer), typeof(VisibilityList), typeof(HSMap),
+            typeof(HexagonSprite), typeof(MapObject), typeof(AbstractHexagon), typeof(AbstractBorderHexagon), typeof(AbstractRoad),
+            typeof(SFX), typeof(SFXSequence), typeof(MapObjectResource), typeof(MapObjectResourceList), typeof(MapLevel),
+            typeof(HexagonSpriteSelection), typeof(MORTerrainControl), typeof(HexagonControl),
+            typeof(RoadControl), typeof(HSSet), typeof(CustomFixedVisibleHS), typeof(LibraryImageHS),
+            typeof(HPBasedHS), typeof(MultiHexMOR), typeof(AbstractHexagonResource),
+            typeof(PlayerCommunicator), typeof(TokenEvent), typeof(TokenEventList), typeof(DataPackage),
+            typeof(PlayerCommunicationSettings), typeof(PlayerCommunicationSettingsList),
+            typeof(TokenPackage), typeof(PassTokenTE), typeof(SyncTE), typeof(Songlist), typeof(SFXLibrary)];
         foreach (Type type in types)
             foreach (bool owned in new[] { false, true }) yield return [type, owned];
     }
@@ -44,16 +44,16 @@ public sealed class MapNetSoundConstructionTests
     public void DirectMetaAndSavedIdKeepExactTypeOwnerAndState(Type type, bool owned)
     {
         if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-        var engine = new TEngine(null!);
+        var engine = new Engine(null!);
         var owner = new MapOwner();
-        TECustomNode argument = owned ? type == typeof(TMapContainer) ? new THSMap(null!) : owner : null!;
+        ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : owner : null!;
         var meta = EClass.Of(type);
         var previous = (EClass?)engine.FClassTable.Find(meta.ClassID);
         if (previous is not null) engine.UnregisterEClasses([previous]);
         engine.RegisterEClasses([EClass.Of(type)]);
-        var direct = type == typeof(TMapLevel) ? new TMapLevel(argument)
-            : (TEObject)Activator.CreateInstance(type, [argument])!;
-        TEObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
+        var direct = type == typeof(MapLevel) ? new MapLevel(argument)
+            : (EObject)Activator.CreateInstance(type, [argument])!;
+        EObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
         try
         {
             foreach (var value in values)
@@ -63,33 +63,33 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Same(meta, value.EClass);
                 AssertState(value);
             }
-            Assert.Equal(owned && type != typeof(TMapField) && type != typeof(TMapContainer) ? 3 : 0, owner.Members.Count);
+            Assert.Equal(owned && type != typeof(MapField) && type != typeof(MapContainer) ? 3 : 0, owner.Members.Count);
         }
         finally
         {
             foreach (var value in values) value.Dispose();
-            if (argument is THSMap mapOwner) mapOwner.Dispose();
+            if (argument is HSMap mapOwner) mapOwner.Dispose();
             engine.Dispose();
         }
         Assert.Empty(owner.Members);
     }
 
-    private static void AssertState(TEObject value)
+    private static void AssertState(EObject value)
     {
         switch (value)
         {
-            case TMapField field:
+            case MapField field:
                 Assert.Equal(-1, field.TerrainType);
                 Assert.Equal(-1, field.OverlayType);
                 Assert.Equal(3, field.FCapacity);
                 Assert.Equal(0, field.Count);
                 Assert.Equal(24, field.EClass.InstanceSize);
                 break;
-            case TMapContainer container:
+            case MapContainer container:
                 Assert.Equal(0, container.Count);
                 break;
-            case THSMap map:
-                Assert.IsType<THSMapMouse>(map.Mouse);
+            case HSMap map:
+                Assert.IsType<HSMapMouse>(map.Mouse);
                 Assert.Same(map, map.Mouse.FHSMap);
                 Assert.Same(map, map.Selection.Owner);
                 Assert.Same(map, map.Timer.Owner);
@@ -103,32 +103,32 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(0, map.StaticFixedVisibleHS.Count);
                 Assert.Equal(0, map.DynamicFixedVisibleHS.Count);
                 break;
-            case TMapObjectResource resource:
+            case MapObjectResource resource:
                 Assert.NotNull(resource.FTerrainList);
                 Assert.NotNull(resource.FImageLibrary);
-                Assert.Equal(value is TAbstractHexagonResource ? 0 : 26, resource.Level);
-                if (value is TMultiHexMOR multi)
+                Assert.Equal(value is AbstractHexagonResource ? 0 : 26, resource.Level);
+                if (value is MultiHexMOR multi)
                 {
                     Assert.Equal(16, multi.dXmainP);
                     Assert.Equal(32, multi.dYmainP);
                 }
                 break;
-            case TMapLevel level:
+            case MapLevel level:
                 Assert.Equal(65793, level.MapFieldCID);
                 Assert.Equal(0, level.Fields.Length);
                 Assert.Equal(124, level.EClass.InstanceSize);
                 break;
-            case THexagonSpriteSelection selection:
+            case HexagonSpriteSelection selection:
                 Assert.Equal(0, selection.LocationHS.Count);
                 Assert.Equal(0, selection.FOnSelectStore.Count);
                 Assert.Equal(0, selection.FOnDeselectStore.Count);
                 break;
-            case TMORTerrainControl control:
-                Assert.Equal(typeof(TMapObject), control.MOClass);
+            case MORTerrainControl control:
+                Assert.Equal(typeof(MapObject), control.MOClass);
                 Assert.Equal(5, control.Tries);
                 Assert.Equal(0, control.FResources.Count);
                 break;
-            case THSSet set:
+            case HSSet set:
                 Assert.NotNull(set.FPlugInControl);
                 Assert.Equal(0, set.FTerrainTypes.Count);
                 Assert.Equal(0, set.FOverlayTypes.Count);
@@ -140,50 +140,50 @@ public sealed class MapNetSoundConstructionTests
                 Assert.NotNull(set.FImageLibraryManager);
                 Assert.Equal(0, set.FSFXManager.SFX.Count);
                 break;
-            case TLibraryImageHS image:
+            case LibraryImageHS image:
                 Assert.Equal(26, image.Level);
-                Assert.Equal(TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsMapIsOwner), image.FStatus);
+                Assert.Equal(Set<Aow.Game.Draw.LibraryImageHS.StatusElement>.Of(Aow.Game.Draw.LibraryImageHS.StatusElement.MapIsOwner), image.FStatus);
                 break;
-            case THPBasedHS hp:
+            case HPBasedHS hp:
                 Assert.Equal(int.MinValue, hp.FXhp);
                 Assert.Equal(int.MinValue, hp.FYhp);
                 Assert.Equal(-1, hp.FLhx);
                 break;
-            case TMapObject sprite:
+            case MapObject sprite:
                 Assert.Null(sprite.FResource);
                 Assert.Equal(default, sprite.FStatus);
                 break;
-            case TSFX effect:
+            case SFX effect:
                 Assert.Equal("", effect.FileName);
                 break;
-            case TPlayerCommunicator player:
+            case PlayerCommunicator player:
                 Assert.Null(player.FReceivedPackage);
                 Assert.Equal(0L, player.FSendStream.Length);
                 Assert.Equal(0L, player.FReceiveStream.Length);
                 Assert.Equal(0, player.FOnReceiveStore.Count);
                 Assert.Equal(0, player.FOnProcessStore.Count);
                 break;
-            case TTokenEvent token:
+            case TokenEvent token:
                 Assert.Equal(1, token.FRefCount);
                 Assert.Equal(-1, token.TokenCounter);
                 break;
-            case TTokenEventList events:
+            case TokenEventList events:
                 Assert.Equal(0, events.Count);
                 Assert.NotNull(events.FList);
                 break;
-            case TDataPackage package:
+            case DataPackage package:
                 Assert.Equal(1, package.FRefCount);
-                if (package is TTokenPackage tokens) Assert.Equal(0, tokens.TokenEvents.Count);
+                if (package is TokenPackage tokens) Assert.Equal(0, tokens.TokenEvents.Count);
                 break;
-            case TPlayerCommunicationSettings settings:
-                Assert.Equal(TConnectionMode.cmLocal, settings.FConnectionMode);
+            case PlayerCommunicationSettings settings:
+                Assert.Equal(ConnectionMode.Local, settings.FConnectionMode);
                 break;
-            case TSonglist songs:
+            case Songlist songs:
                 Assert.Equal(0, songs.Songs.Count);
                 Assert.NotNull(songs.Songs.OnChange);
                 Assert.Equal(0, songs.SongNames.Count);
                 break;
-            case TECustomNode node:
+            case ECustomNode node:
                 Assert.Equal(0, node.Count);
                 break;
         }
@@ -214,38 +214,38 @@ public sealed class MapNetSoundConstructionTests
     {
         object value = kind switch
         {
-            0 => new TNewHSMapSettings(),
-            1 => new TTerrainList(),
-            2 => new THSMapMouse(),
-            3 => new TXYLList(),
-            4 => new TTokenControl(null!, 7),
-            5 => new TTokenExecuter(null!),
-            6 => new TTokenManager(null!),
-            7 => new TPlayerCommunicationControl(),
-            8 => new TPackageDataList(),
-            9 => new TRemotePCC(),
-            10 => new TLocalPCC(),
-            11 => new TTokenPackageDistributer(null!),
-            12 => new TSoundSystem(),
-            13 => new TSFXList(),
+            0 => new NewHSMapSettings(),
+            1 => new TerrainList(),
+            2 => new HSMapMouse(),
+            3 => new XYLList(),
+            4 => new TokenControl(null!, 7),
+            5 => new TokenExecuter(null!),
+            6 => new TokenManager(null!),
+            7 => new PlayerCommunicationControl(),
+            8 => new PackageDataList(),
+            9 => new RemotePCC(),
+            10 => new LocalPCC(),
+            11 => new TokenPackageDistributer(null!),
+            12 => new SoundSystem(),
+            13 => new SFXList(),
             14 => new UnitSfxManager(null!),
-            15 => new TSongPlayer(),
-            16 => new TSampleList(),
-            17 => new TSampleDataList(),
-            18 => new TSoundSystemList(),
+            15 => new SongPlayer(),
+            16 => new SampleList(),
+            17 => new SampleDataList(),
+            18 => new SoundSystemList(),
             _ => new MovePath()
         };
         try
         {
             switch (value)
             {
-                case TNewHSMapSettings map:
+                case NewHSMapSettings map:
                     Assert.Equal((64, 64, 1, 66048, 65795, 65794),
                         (map.Width, map.Height, map.Levels, map.HSMapClassID, map.MapContainerClassID, map.MapLevelClassID));
                     Assert.Equal("", map.HSSFileName);
                     break;
-                case TTerrainList terrain: Assert.Equal(0, terrain.Count); break;
-                case THSMapMouse mouse:
+                case TerrainList terrain: Assert.Equal(0, terrain.Count); break;
+                case HSMapMouse mouse:
                     Assert.Equal(int.MinValue, mouse.FX);
                     Assert.Equal(int.MinValue, mouse.FY);
                     Assert.Equal(0, mouse.FOnUpStore.Count);
@@ -254,49 +254,49 @@ public sealed class MapNetSoundConstructionTests
                     Assert.Equal(0, mouse.FOnDblClickStore.Count);
                     Assert.Equal(0, mouse.FOnCaptureChangedStore.Count);
                     break;
-                case TXYLList list:
+                case XYLList list:
                     Assert.Equal(-1, list.FDefault.X);
                     Assert.Equal(-1, list.FDefault.Y);
                     Assert.Equal(-1, list.FDefault.L);
                     Assert.Equal(0, list.FDefault.Flag);
                     Assert.Equal(0, list.Count);
                     break;
-                case TTokenControl control:
+                case TokenControl control:
                     Assert.Equal(7, control.FPlayer);
                     Assert.True(control.FActive);
                     Assert.Equal(0, control.Count);
                     break;
-                case TTokenExecuter executer:
+                case TokenExecuter executer:
                     Assert.Equal(0, executer.FEvents.Count);
                     Assert.Equal(0, executer.FSystemEvents.Count);
                     Assert.Equal(0, executer.FTCList.Count);
                     Assert.Equal(0, executer.FOnEventsExecutedStore.Count);
                     Assert.Equal(0, executer.FOnActivateTCStore.Count);
                     break;
-                case TTokenManager manager:
+                case TokenManager manager:
                     Assert.Null(manager.Owner);
                     Assert.Equal(0, manager.Count);
                     Assert.Same(manager, manager.FTokenExecuter.FTokenManager);
                     Assert.Same(manager, manager.FTokenPackageDistributer.FTokenManager);
                     break;
-                case TPlayerCommunicationControl communication:
+                case PlayerCommunicationControl communication:
                     Assert.Equal(1, communication.FRefCount);
                     Assert.Equal(0, communication.Count);
-                    if (value is TRemotePCC remote) Assert.Equal(0, remote.FPackageDataList.Count);
-                    if (value is TLocalPCC local) Assert.Equal(0, local.FPackageDataList.Count);
+                    if (value is RemotePCC remote) Assert.Equal(0, remote.FPackageDataList.Count);
+                    if (value is LocalPCC local) Assert.Equal(0, local.FPackageDataList.Count);
                     break;
-                case TPackageDataList packages: Assert.Equal(0, packages.Count); break;
-                case TTokenPackageDistributer distributer: Assert.Null(distributer.FTokenManager); break;
-                case TSoundSystem sound: Assert.Equal(1, sound.FRefCount); break;
+                case PackageDataList packages: Assert.Equal(0, packages.Count); break;
+                case TokenPackageDistributer distributer: Assert.Null(distributer.FTokenManager); break;
+                case SoundSystem sound: Assert.Equal(1, sound.FRefCount); break;
                 case UnitSfxManager sfx: Assert.Equal(0, sfx.SFX.Count); break;
-                case TSongPlayer song:
+                case SongPlayer song:
                     Assert.Equal(-1, song.CurrentIndex);
                     Assert.Equal(0, song.Songs.Count);
                     Assert.NotNull(song.Songs.OnChange);
                     Assert.Equal(0, song.SongNames.Count);
                     break;
-                case TStringList strings: Assert.Equal(0, strings.Count); break;
-                case TList list: Assert.Equal(0, list.Count); break;
+                case StringList strings: Assert.Equal(0, strings.Count); break;
+                case DelphiList list: Assert.Equal(0, list.Count); break;
             }
         }
         finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
@@ -305,8 +305,8 @@ public sealed class MapNetSoundConstructionTests
     [Fact]
     public void TokenControlPublicationHasNoLaterConstructorWork()
     {
-        using var manager = new TTokenManager(null!);
-        var control = new TTokenControl(manager, 7);
+        using var manager = new TokenManager(null!);
+        var control = new TokenControl(manager, 7);
         Assert.Same(control, manager.FTokenExecuter.FTCList[0]);
         Assert.Equal(1, manager.FTokenExecuter.FTCList.Count);
         control.Dispose();
@@ -325,13 +325,13 @@ public sealed class MapNetSoundConstructionTests
         Assert.Equal(0, owner.ComponentCount);
     }
 
-    private sealed class ObservingComponent : TComponent
+    private sealed class ObservingComponent : global::Aow.Rtl.Component
     {
         internal bool Observed;
 
-        public override void Notification(TComponent child, TOperation operation)
+        public override void Notification(global::Aow.Rtl.Component child, Aow.Rtl.Component.Operation operation)
         {
-            if (operation == TOperation.opInsert && child is UnitSfxManager manager)
+            if (operation == Aow.Rtl.Component.Operation.Insert && child is UnitSfxManager manager)
             {
                 Assert.Null(manager.FSFX);
                 Observed = true;

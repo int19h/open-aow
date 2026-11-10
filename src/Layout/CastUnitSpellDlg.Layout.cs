@@ -9,7 +9,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TCastUnitSpellDlg : ILayoutModule
+public partial class CastUnitSpellDlg : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -20,7 +20,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "CastUnitSpellDlg";
-        Unit1Gge = new TAoWGauge(this);
+        Unit1Gge = new AoWGauge(this);
         session.BeginRead(Unit1Gge);
         Unit1Gge.Name = "Unit1Gge";
         Unit1Gge.Visible = false;
@@ -28,8 +28,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit1Gge.WinLeft = 10;
         Unit1Gge.WinTop = 62;
         Unit1Gge.CaptureInput = false;
-        Unit1Gge.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Unit1Gge.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Unit1Gge.Alignment.AlignWidth = AOWAlignWidth.None;
+        Unit1Gge.Alignment.AlignHeight = AOWAlignHeight.None;
         Unit1Gge.Alignment.HeightPercent = 0;
         Unit1Gge.Alignment.WidthPercent = 0;
         Unit1Gge.Alignment.LeftOffPercent = 0;
@@ -50,7 +50,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit1Gge.ILIndexTNormal = 4;
         Unit1Gge.ILIndexTSelected = 5;
         session.EndRead(Unit1Gge);
-        Unit2Gge = new TAoWGauge(this);
+        Unit2Gge = new AoWGauge(this);
         session.BeginRead(Unit2Gge);
         Unit2Gge.Name = "Unit2Gge";
         Unit2Gge.Visible = false;
@@ -58,8 +58,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit2Gge.WinLeft = 65;
         Unit2Gge.WinTop = 62;
         Unit2Gge.CaptureInput = false;
-        Unit2Gge.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Unit2Gge.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Unit2Gge.Alignment.AlignWidth = AOWAlignWidth.None;
+        Unit2Gge.Alignment.AlignHeight = AOWAlignHeight.None;
         Unit2Gge.Alignment.HeightPercent = 0;
         Unit2Gge.Alignment.WidthPercent = 0;
         Unit2Gge.Alignment.LeftOffPercent = 0;
@@ -80,7 +80,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit2Gge.ILIndexTNormal = 4;
         Unit2Gge.ILIndexTSelected = 5;
         session.EndRead(Unit2Gge);
-        Unit3Gge = new TAoWGauge(this);
+        Unit3Gge = new AoWGauge(this);
         session.BeginRead(Unit3Gge);
         Unit3Gge.Name = "Unit3Gge";
         Unit3Gge.Visible = false;
@@ -88,8 +88,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit3Gge.WinLeft = 120;
         Unit3Gge.WinTop = 62;
         Unit3Gge.CaptureInput = false;
-        Unit3Gge.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Unit3Gge.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Unit3Gge.Alignment.AlignWidth = AOWAlignWidth.None;
+        Unit3Gge.Alignment.AlignHeight = AOWAlignHeight.None;
         Unit3Gge.Alignment.HeightPercent = 0;
         Unit3Gge.Alignment.WidthPercent = 0;
         Unit3Gge.Alignment.LeftOffPercent = 0;
@@ -110,7 +110,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit3Gge.ILIndexTNormal = 4;
         Unit3Gge.ILIndexTSelected = 5;
         session.EndRead(Unit3Gge);
-        Unit4Gge = new TAoWGauge(this);
+        Unit4Gge = new AoWGauge(this);
         session.BeginRead(Unit4Gge);
         Unit4Gge.Name = "Unit4Gge";
         Unit4Gge.Visible = false;
@@ -118,8 +118,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit4Gge.WinLeft = 175;
         Unit4Gge.WinTop = 62;
         Unit4Gge.CaptureInput = false;
-        Unit4Gge.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Unit4Gge.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Unit4Gge.Alignment.AlignWidth = AOWAlignWidth.None;
+        Unit4Gge.Alignment.AlignHeight = AOWAlignHeight.None;
         Unit4Gge.Alignment.HeightPercent = 0;
         Unit4Gge.Alignment.WidthPercent = 0;
         Unit4Gge.Alignment.LeftOffPercent = 0;
@@ -140,7 +140,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit4Gge.ILIndexTNormal = 4;
         Unit4Gge.ILIndexTSelected = 5;
         session.EndRead(Unit4Gge);
-        Unit5Gg = new TAoWGauge(this);
+        Unit5Gg = new AoWGauge(this);
         session.BeginRead(Unit5Gg);
         Unit5Gg.Name = "Unit5Gg";
         Unit5Gg.Visible = false;
@@ -148,8 +148,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit5Gg.WinLeft = 230;
         Unit5Gg.WinTop = 62;
         Unit5Gg.CaptureInput = false;
-        Unit5Gg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Unit5Gg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Unit5Gg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Unit5Gg.Alignment.AlignHeight = AOWAlignHeight.None;
         Unit5Gg.Alignment.HeightPercent = 0;
         Unit5Gg.Alignment.WidthPercent = 0;
         Unit5Gg.Alignment.LeftOffPercent = 0;
@@ -170,7 +170,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit5Gg.ILIndexTNormal = 4;
         Unit5Gg.ILIndexTSelected = 5;
         session.EndRead(Unit5Gg);
-        Unit6Gg = new TAoWGauge(this);
+        Unit6Gg = new AoWGauge(this);
         session.BeginRead(Unit6Gg);
         Unit6Gg.Name = "Unit6Gg";
         Unit6Gg.Visible = false;
@@ -178,8 +178,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit6Gg.WinLeft = 285;
         Unit6Gg.WinTop = 62;
         Unit6Gg.CaptureInput = false;
-        Unit6Gg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Unit6Gg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Unit6Gg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Unit6Gg.Alignment.AlignHeight = AOWAlignHeight.None;
         Unit6Gg.Alignment.HeightPercent = 0;
         Unit6Gg.Alignment.WidthPercent = 0;
         Unit6Gg.Alignment.LeftOffPercent = 0;
@@ -200,7 +200,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit6Gg.ILIndexTNormal = 4;
         Unit6Gg.ILIndexTSelected = 5;
         session.EndRead(Unit6Gg);
-        Unit7Gg = new TAoWGauge(this);
+        Unit7Gg = new AoWGauge(this);
         session.BeginRead(Unit7Gg);
         Unit7Gg.Name = "Unit7Gg";
         Unit7Gg.Visible = false;
@@ -208,8 +208,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit7Gg.WinLeft = 340;
         Unit7Gg.WinTop = 62;
         Unit7Gg.CaptureInput = false;
-        Unit7Gg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Unit7Gg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Unit7Gg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Unit7Gg.Alignment.AlignHeight = AOWAlignHeight.None;
         Unit7Gg.Alignment.HeightPercent = 0;
         Unit7Gg.Alignment.WidthPercent = 0;
         Unit7Gg.Alignment.LeftOffPercent = 0;
@@ -230,7 +230,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit7Gg.ILIndexTNormal = 4;
         Unit7Gg.ILIndexTSelected = 5;
         session.EndRead(Unit7Gg);
-        Unit8Gg = new TAoWGauge(this);
+        Unit8Gg = new AoWGauge(this);
         session.BeginRead(Unit8Gg);
         Unit8Gg.Name = "Unit8Gg";
         Unit8Gg.Visible = false;
@@ -238,8 +238,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit8Gg.WinLeft = 395;
         Unit8Gg.WinTop = 62;
         Unit8Gg.CaptureInput = false;
-        Unit8Gg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Unit8Gg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Unit8Gg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Unit8Gg.Alignment.AlignHeight = AOWAlignHeight.None;
         Unit8Gg.Alignment.HeightPercent = 0;
         Unit8Gg.Alignment.WidthPercent = 0;
         Unit8Gg.Alignment.LeftOffPercent = 0;
@@ -260,15 +260,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Unit8Gg.ILIndexTNormal = 4;
         Unit8Gg.ILIndexTSelected = 5;
         session.EndRead(Unit8Gg);
-        CastBut = new TAOWButton(this);
+        CastBut = new AOWButton(this);
         session.BeginRead(CastBut);
         CastBut.Name = "CastBut";
         CastBut.Priority = 100;
         CastBut.WinLeft = 118;
         CastBut.WinTop = 198;
         CastBut.CaptureInput = true;
-        CastBut.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        CastBut.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CastBut.Alignment.AlignWidth = AOWAlignWidth.None;
+        CastBut.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CastBut.Alignment.HeightPercent = 0;
         CastBut.Alignment.WidthPercent = 0;
         CastBut.Alignment.LeftOffPercent = 0;
@@ -291,15 +291,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         CastBut.WinWidth = 128;
         CastBut.OnClick = _ => Layout_CastButClick_0();
         session.EndRead(CastBut);
-        TitleIcon = new TAOWImage(this);
+        TitleIcon = new AOWImage(this);
         session.BeginRead(TitleIcon);
         TitleIcon.Name = "TitleIcon";
         TitleIcon.Priority = 0;
         TitleIcon.WinLeft = 20;
         TitleIcon.WinTop = 5;
         TitleIcon.CaptureInput = false;
-        TitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TitleIcon.Alignment.AlignWidth = AOWAlignWidth.None;
+        TitleIcon.Alignment.AlignHeight = AOWAlignHeight.None;
         TitleIcon.Alignment.HeightPercent = 0;
         TitleIcon.Alignment.WidthPercent = 0;
         TitleIcon.Alignment.LeftOffPercent = 0;
@@ -319,7 +319,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         TitleIcon.Animate = false;
         TitleIcon.AnimFrameDelay = 0;
         session.EndRead(TitleIcon);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
@@ -330,8 +330,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
             "Closes the window."
         };
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Close.Alignment.AlignWidth = AOWAlignWidth.None;
+        Close.Alignment.AlignHeight = AOWAlignHeight.Top;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;
@@ -353,15 +353,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Close.WinWidth = 15;
         Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
-        Title = new TAOWLabel(this);
+        Title = new AOWLabel(this);
         session.BeginRead(Title);
         Title.Name = "Title";
         Title.Priority = 0;
         Title.WinLeft = 42;
         Title.WinTop = 7;
         Title.CaptureInput = false;
-        Title.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Title.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Title.Alignment.AlignWidth = AOWAlignWidth.None;
+        Title.Alignment.AlignHeight = AOWAlignHeight.None;
         Title.Alignment.HeightPercent = 0;
         Title.Alignment.WidthPercent = 0;
         Title.Alignment.LeftOffPercent = 0;
@@ -376,15 +376,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Title.Text = "Cast Unit Spell";
         Title.TextColor = 0;
         session.EndRead(Title);
-        CancelBut = new TAOWButton(this);
+        CancelBut = new AOWButton(this);
         session.BeginRead(CancelBut);
         CancelBut.Name = "CancelBut";
         CancelBut.Priority = 100;
         CancelBut.WinLeft = 246;
         CancelBut.WinTop = 198;
         CancelBut.CaptureInput = true;
-        CancelBut.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        CancelBut.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CancelBut.Alignment.AlignWidth = AOWAlignWidth.None;
+        CancelBut.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CancelBut.Alignment.HeightPercent = 0;
         CancelBut.Alignment.WidthPercent = 0;
         CancelBut.Alignment.LeftOffPercent = 0;
@@ -407,7 +407,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         CancelBut.WinWidth = 128;
         CancelBut.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(CancelBut);
-        Dlg = new TAOWWindow(this);
+        Dlg = new AOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
         Dlg.OnUpdate = _ => Layout_DlgUpdate_2();
@@ -418,8 +418,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Dlg.WinWidth = 492;
         Dlg.Masked = true;
         Dlg.OnHide = _ => Layout_DlgHide_3();
-        Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        Dlg.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Dlg.Alignment.AlignHeight = AOWAlignHeight.Center;
         Dlg.Alignment.HeightPercent = 0;
         Dlg.Alignment.WidthPercent = 0;
         Dlg.Alignment.LeftOffPercent = 0;
@@ -452,15 +452,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Dlg.WinHeight = 236;
         Dlg.Dockable = false;
         session.EndRead(Dlg);
-        SelectLbl = new TAOWLabel(this);
+        SelectLbl = new AOWLabel(this);
         session.BeginRead(SelectLbl);
         SelectLbl.Name = "SelectLbl";
         SelectLbl.Priority = 100;
         SelectLbl.WinLeft = 196;
         SelectLbl.WinTop = 90;
         SelectLbl.CaptureInput = true;
-        SelectLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SelectLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SelectLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SelectLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         SelectLbl.Alignment.HeightPercent = 0;
         SelectLbl.Alignment.WidthPercent = 0;
         SelectLbl.Alignment.LeftOffPercent = 0;
@@ -475,7 +475,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SelectLbl.Text = "Select Unit(s)";
         SelectLbl.TextColor = 16777215;
         session.EndRead(SelectLbl);
-        UnitPnl = new TAOWPanel(this);
+        UnitPnl = new AOWPanel(this);
         session.BeginRead(UnitPnl);
         UnitPnl.Name = "UnitPnl";
         UnitPnl.Priority = 1;
@@ -483,8 +483,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         UnitPnl.WinTop = 115;
         UnitPnl.WinWidth = 437;
         UnitPnl.Masked = true;
-        UnitPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        UnitPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        UnitPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        UnitPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         UnitPnl.Alignment.HeightPercent = 0;
         UnitPnl.Alignment.WidthPercent = 0;
         UnitPnl.Alignment.LeftOffPercent = 0;
@@ -502,7 +502,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         UnitPnl.MinWidth = 0;
         UnitPnl.MinHeight = 0;
         session.EndRead(UnitPnl);
-        TopPnl = new TAOWPanel(this);
+        TopPnl = new AOWPanel(this);
         session.BeginRead(TopPnl);
         TopPnl.Name = "TopPnl";
         TopPnl.Priority = 0;
@@ -510,8 +510,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         TopPnl.WinTop = 30;
         TopPnl.WinWidth = 432;
         TopPnl.Masked = true;
-        TopPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TopPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TopPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        TopPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         TopPnl.Alignment.HeightPercent = 0;
         TopPnl.Alignment.WidthPercent = 0;
         TopPnl.Alignment.LeftOffPercent = 0;
@@ -529,15 +529,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         TopPnl.MinWidth = 0;
         TopPnl.MinHeight = 0;
         session.EndRead(TopPnl);
-        SpellUpkeepLbl = new TAOWLabel(this);
+        SpellUpkeepLbl = new AOWLabel(this);
         session.BeginRead(SpellUpkeepLbl);
         SpellUpkeepLbl.Name = "SpellUpkeepLbl";
         SpellUpkeepLbl.Priority = 100;
         SpellUpkeepLbl.WinLeft = 90;
         SpellUpkeepLbl.WinTop = 70;
         SpellUpkeepLbl.CaptureInput = true;
-        SpellUpkeepLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SpellUpkeepLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SpellUpkeepLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SpellUpkeepLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         SpellUpkeepLbl.Alignment.HeightPercent = 0;
         SpellUpkeepLbl.Alignment.WidthPercent = 0;
         SpellUpkeepLbl.Alignment.LeftOffPercent = 0;
@@ -552,15 +552,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SpellUpkeepLbl.Text = "##########";
         SpellUpkeepLbl.TextColor = 0;
         session.EndRead(SpellUpkeepLbl);
-        SpellManaLbl = new TAOWLabel(this);
+        SpellManaLbl = new AOWLabel(this);
         session.BeginRead(SpellManaLbl);
         SpellManaLbl.Name = "SpellManaLbl";
         SpellManaLbl.Priority = 100;
         SpellManaLbl.WinLeft = 90;
         SpellManaLbl.WinTop = 55;
         SpellManaLbl.CaptureInput = true;
-        SpellManaLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SpellManaLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SpellManaLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SpellManaLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         SpellManaLbl.Alignment.HeightPercent = 0;
         SpellManaLbl.Alignment.WidthPercent = 0;
         SpellManaLbl.Alignment.LeftOffPercent = 0;
@@ -575,15 +575,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SpellManaLbl.Text = "#########";
         SpellManaLbl.TextColor = 0;
         session.EndRead(SpellManaLbl);
-        CastingManaLbl = new TAOWLabel(this);
+        CastingManaLbl = new AOWLabel(this);
         session.BeginRead(CastingManaLbl);
         CastingManaLbl.Name = "CastingManaLbl";
         CastingManaLbl.Priority = 100;
         CastingManaLbl.WinLeft = 338;
         CastingManaLbl.WinTop = 70;
         CastingManaLbl.CaptureInput = true;
-        CastingManaLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        CastingManaLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        CastingManaLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        CastingManaLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         CastingManaLbl.Alignment.HeightPercent = 0;
         CastingManaLbl.Alignment.WidthPercent = 0;
         CastingManaLbl.Alignment.LeftOffPercent = 0;
@@ -598,15 +598,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         CastingManaLbl.Text = "########";
         CastingManaLbl.TextColor = 0;
         session.EndRead(CastingManaLbl);
-        SpellNameLbl = new TAOWLabel(this);
+        SpellNameLbl = new AOWLabel(this);
         session.BeginRead(SpellNameLbl);
         SpellNameLbl.Name = "SpellNameLbl";
         SpellNameLbl.Priority = 100;
         SpellNameLbl.WinLeft = 90;
         SpellNameLbl.WinTop = 30;
         SpellNameLbl.CaptureInput = true;
-        SpellNameLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SpellNameLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SpellNameLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SpellNameLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         SpellNameLbl.Alignment.HeightPercent = 0;
         SpellNameLbl.Alignment.WidthPercent = 0;
         SpellNameLbl.Alignment.LeftOffPercent = 0;
@@ -621,15 +621,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SpellNameLbl.Text = "###########";
         SpellNameLbl.TextColor = 16777215;
         session.EndRead(SpellNameLbl);
-        CasterNameLbl = new TAOWLabel(this);
+        CasterNameLbl = new AOWLabel(this);
         session.BeginRead(CasterNameLbl);
         CasterNameLbl.Name = "CasterNameLbl";
         CasterNameLbl.Priority = 100;
         CasterNameLbl.WinLeft = 282;
         CasterNameLbl.WinTop = 30;
         CasterNameLbl.CaptureInput = true;
-        CasterNameLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        CasterNameLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        CasterNameLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        CasterNameLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         CasterNameLbl.Alignment.HeightPercent = 0;
         CasterNameLbl.Alignment.WidthPercent = 0;
         CasterNameLbl.Alignment.LeftOffPercent = 0;
@@ -644,15 +644,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         CasterNameLbl.Text = "############";
         CasterNameLbl.TextColor = 16777215;
         session.EndRead(CasterNameLbl);
-        CastingPointsLbl = new TAOWLabel(this);
+        CastingPointsLbl = new AOWLabel(this);
         session.BeginRead(CastingPointsLbl);
         CastingPointsLbl.Name = "CastingPointsLbl";
         CastingPointsLbl.Priority = 100;
         CastingPointsLbl.WinLeft = 322;
         CastingPointsLbl.WinTop = 55;
         CastingPointsLbl.CaptureInput = true;
-        CastingPointsLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        CastingPointsLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        CastingPointsLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        CastingPointsLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         CastingPointsLbl.Alignment.HeightPercent = 0;
         CastingPointsLbl.Alignment.WidthPercent = 0;
         CastingPointsLbl.Alignment.LeftOffPercent = 0;
@@ -667,7 +667,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         CastingPointsLbl.Text = "##########";
         CastingPointsLbl.TextColor = 0;
         session.EndRead(CastingPointsLbl);
-        U1 = new TAOWCheckBox(this);
+        U1 = new AOWCheckBox(this);
         session.BeginRead(U1);
         U1.Name = "U1";
         U1.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
@@ -676,8 +676,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U1.WinLeft = 0;
         U1.WinTop = 0;
         U1.CaptureInput = true;
-        U1.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U1.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U1.Alignment.AlignWidth = AOWAlignWidth.None;
+        U1.Alignment.AlignHeight = AOWAlignHeight.None;
         U1.Alignment.HeightPercent = 0;
         U1.Alignment.WidthPercent = 0;
         U1.Alignment.LeftOffPercent = 0;
@@ -701,7 +701,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U1.OnChange = sender => U1Change(sender, 0);
         U1.RadioIndex = 0;
         session.EndRead(U1);
-        U2 = new TAOWCheckBox(this);
+        U2 = new AOWCheckBox(this);
         session.BeginRead(U2);
         U2.Name = "U2";
         U2.Tag = 1;
@@ -711,8 +711,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U2.WinLeft = 55;
         U2.WinTop = 0;
         U2.CaptureInput = true;
-        U2.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U2.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U2.Alignment.AlignWidth = AOWAlignWidth.None;
+        U2.Alignment.AlignHeight = AOWAlignHeight.None;
         U2.Alignment.HeightPercent = 0;
         U2.Alignment.WidthPercent = 0;
         U2.Alignment.LeftOffPercent = 0;
@@ -736,7 +736,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U2.OnChange = sender => U1Change(sender, 1);
         U2.RadioIndex = 0;
         session.EndRead(U2);
-        U3 = new TAOWCheckBox(this);
+        U3 = new AOWCheckBox(this);
         session.BeginRead(U3);
         U3.Name = "U3";
         U3.Tag = 2;
@@ -746,8 +746,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U3.WinLeft = 110;
         U3.WinTop = 0;
         U3.CaptureInput = true;
-        U3.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U3.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U3.Alignment.AlignWidth = AOWAlignWidth.None;
+        U3.Alignment.AlignHeight = AOWAlignHeight.None;
         U3.Alignment.HeightPercent = 0;
         U3.Alignment.WidthPercent = 0;
         U3.Alignment.LeftOffPercent = 0;
@@ -771,7 +771,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U3.OnChange = sender => U1Change(sender, 2);
         U3.RadioIndex = 0;
         session.EndRead(U3);
-        U4 = new TAOWCheckBox(this);
+        U4 = new AOWCheckBox(this);
         session.BeginRead(U4);
         U4.Name = "U4";
         U4.Tag = 3;
@@ -781,8 +781,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U4.WinLeft = 165;
         U4.WinTop = 0;
         U4.CaptureInput = true;
-        U4.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U4.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U4.Alignment.AlignWidth = AOWAlignWidth.None;
+        U4.Alignment.AlignHeight = AOWAlignHeight.None;
         U4.Alignment.HeightPercent = 0;
         U4.Alignment.WidthPercent = 0;
         U4.Alignment.LeftOffPercent = 0;
@@ -806,7 +806,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U4.OnChange = sender => U1Change(sender, 3);
         U4.RadioIndex = 0;
         session.EndRead(U4);
-        U5 = new TAOWCheckBox(this);
+        U5 = new AOWCheckBox(this);
         session.BeginRead(U5);
         U5.Name = "U5";
         U5.Tag = 4;
@@ -816,8 +816,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U5.WinLeft = 220;
         U5.WinTop = 0;
         U5.CaptureInput = true;
-        U5.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U5.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U5.Alignment.AlignWidth = AOWAlignWidth.None;
+        U5.Alignment.AlignHeight = AOWAlignHeight.None;
         U5.Alignment.HeightPercent = 0;
         U5.Alignment.WidthPercent = 0;
         U5.Alignment.LeftOffPercent = 0;
@@ -841,7 +841,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U5.OnChange = sender => U1Change(sender, 4);
         U5.RadioIndex = 0;
         session.EndRead(U5);
-        U6 = new TAOWCheckBox(this);
+        U6 = new AOWCheckBox(this);
         session.BeginRead(U6);
         U6.Name = "U6";
         U6.Tag = 5;
@@ -851,8 +851,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U6.WinLeft = 275;
         U6.WinTop = 0;
         U6.CaptureInput = true;
-        U6.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U6.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U6.Alignment.AlignWidth = AOWAlignWidth.None;
+        U6.Alignment.AlignHeight = AOWAlignHeight.None;
         U6.Alignment.HeightPercent = 0;
         U6.Alignment.WidthPercent = 0;
         U6.Alignment.LeftOffPercent = 0;
@@ -876,7 +876,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U6.OnChange = sender => U1Change(sender, 5);
         U6.RadioIndex = 0;
         session.EndRead(U6);
-        U7 = new TAOWCheckBox(this);
+        U7 = new AOWCheckBox(this);
         session.BeginRead(U7);
         U7.Name = "U7";
         U7.Tag = 6;
@@ -886,8 +886,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U7.WinLeft = 330;
         U7.WinTop = 0;
         U7.CaptureInput = true;
-        U7.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U7.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U7.Alignment.AlignWidth = AOWAlignWidth.None;
+        U7.Alignment.AlignHeight = AOWAlignHeight.None;
         U7.Alignment.HeightPercent = 0;
         U7.Alignment.WidthPercent = 0;
         U7.Alignment.LeftOffPercent = 0;
@@ -911,7 +911,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U7.OnChange = sender => U1Change(sender, 6);
         U7.RadioIndex = 0;
         session.EndRead(U7);
-        U8 = new TAOWCheckBox(this);
+        U8 = new AOWCheckBox(this);
         session.BeginRead(U8);
         U8.Name = "U8";
         U8.Tag = 7;
@@ -921,8 +921,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U8.WinLeft = 386;
         U8.WinTop = 0;
         U8.CaptureInput = true;
-        U8.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U8.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U8.Alignment.AlignWidth = AOWAlignWidth.None;
+        U8.Alignment.AlignHeight = AOWAlignHeight.None;
         U8.Alignment.HeightPercent = 0;
         U8.Alignment.WidthPercent = 0;
         U8.Alignment.LeftOffPercent = 0;
@@ -946,15 +946,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U8.OnChange = sender => U1Change(sender, 7);
         U8.RadioIndex = 0;
         session.EndRead(U8);
-        DecoL = new TAOWImage(this);
+        DecoL = new AOWImage(this);
         session.BeginRead(DecoL);
         DecoL.Name = "DecoL";
         DecoL.Priority = 1000;
         DecoL.WinLeft = 35;
         DecoL.WinTop = 198;
         DecoL.CaptureInput = true;
-        DecoL.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DecoL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DecoL.Alignment.AlignWidth = AOWAlignWidth.None;
+        DecoL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DecoL.Alignment.HeightPercent = 0;
         DecoL.Alignment.WidthPercent = 0;
         DecoL.Alignment.LeftOffPercent = 0;
@@ -974,15 +974,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         DecoL.Animate = false;
         DecoL.AnimFrameDelay = 0;
         session.EndRead(DecoL);
-        DecoR = new TAOWImage(this);
+        DecoR = new AOWImage(this);
         session.BeginRead(DecoR);
         DecoR.Name = "DecoR";
         DecoR.Priority = 1000;
         DecoR.WinLeft = 375;
         DecoR.WinTop = 198;
         DecoR.CaptureInput = true;
-        DecoR.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DecoR.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DecoR.Alignment.AlignWidth = AOWAlignWidth.None;
+        DecoR.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DecoR.Alignment.HeightPercent = 0;
         DecoR.Alignment.WidthPercent = 0;
         DecoR.Alignment.LeftOffPercent = 0;
@@ -1002,7 +1002,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         DecoR.Animate = false;
         DecoR.AnimFrameDelay = 0;
         session.EndRead(DecoR);
-        SpellFr = new TAOWImage(this);
+        SpellFr = new AOWImage(this);
         session.BeginRead(SpellFr);
         SpellFr.Name = "SpellFr";
         SpellFr.OnPreDraw = (_, SurfDesc) => SpellFrPreDraw(SurfDesc);
@@ -1010,8 +1010,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SpellFr.WinLeft = 0;
         SpellFr.WinTop = 0;
         SpellFr.CaptureInput = true;
-        SpellFr.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        SpellFr.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SpellFr.Alignment.AlignWidth = AOWAlignWidth.None;
+        SpellFr.Alignment.AlignHeight = AOWAlignHeight.None;
         SpellFr.Alignment.HeightPercent = 0;
         SpellFr.Alignment.WidthPercent = 0;
         SpellFr.Alignment.LeftOffPercent = 0;
@@ -1031,7 +1031,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SpellFr.Animate = false;
         SpellFr.AnimFrameDelay = 0;
         session.EndRead(SpellFr);
-        FaceFrame = new TAOWImage(this);
+        FaceFrame = new AOWImage(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
         FaceFrame.OnPreDraw = (_, SurfDesc) => FaceFramePreDraw(SurfDesc);
@@ -1039,8 +1039,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         FaceFrame.WinLeft = 382;
         FaceFrame.WinTop = 0;
         FaceFrame.CaptureInput = true;
-        FaceFrame.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        FaceFrame.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        FaceFrame.Alignment.AlignWidth = AOWAlignWidth.None;
+        FaceFrame.Alignment.AlignHeight = AOWAlignHeight.None;
         FaceFrame.Alignment.HeightPercent = 0;
         FaceFrame.Alignment.WidthPercent = 0;
         FaceFrame.Alignment.LeftOffPercent = 0;
@@ -1060,15 +1060,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         FaceFrame.Animate = false;
         FaceFrame.AnimFrameDelay = 0;
         session.EndRead(FaceFrame);
-        AoWFrame1 = new TAoWFrame(this);
+        AoWFrame1 = new AoWFrame(this);
         session.BeginRead(AoWFrame1);
         AoWFrame1.Name = "AoWFrame1";
         AoWFrame1.Priority = 0;
         AoWFrame1.WinLeft = 26;
         AoWFrame1.WinTop = 198;
         AoWFrame1.CaptureInput = true;
-        AoWFrame1.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        AoWFrame1.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AoWFrame1.Alignment.AlignWidth = AOWAlignWidth.Both;
+        AoWFrame1.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AoWFrame1.Alignment.HeightPercent = 0;
         AoWFrame1.Alignment.WidthPercent = 0;
         AoWFrame1.Alignment.LeftOffPercent = 0;
@@ -1082,12 +1082,12 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         AoWFrame1.Masked = false;
         AoWFrame1.WinWidth = 440;
         AoWFrame1.WinHeight = 27;
-        AoWFrame1.FrameType = TFrameType.frHorizLine;
+        AoWFrame1.FrameType = FrameType.HorizLine;
         AoWFrame1.ILIndexFrame = 0;
         AoWFrame1.ILIndexLine = 55;
         AoWFrame1.ILIndexTexture = 0;
         session.EndRead(AoWFrame1);
-        SelectionInfoPnl = new TAOWPanel(this);
+        SelectionInfoPnl = new AOWPanel(this);
         session.BeginRead(SelectionInfoPnl);
         SelectionInfoPnl.Name = "SelectionInfoPnl";
         SelectionInfoPnl.Priority = 1;
@@ -1095,8 +1095,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SelectionInfoPnl.WinTop = 180;
         SelectionInfoPnl.WinWidth = 437;
         SelectionInfoPnl.Masked = true;
-        SelectionInfoPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        SelectionInfoPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SelectionInfoPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        SelectionInfoPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         SelectionInfoPnl.Alignment.HeightPercent = 0;
         SelectionInfoPnl.Alignment.WidthPercent = 0;
         SelectionInfoPnl.Alignment.LeftOffPercent = 0;
@@ -1114,15 +1114,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SelectionInfoPnl.MinWidth = 0;
         SelectionInfoPnl.MinHeight = 0;
         session.EndRead(SelectionInfoPnl);
-        SelectionInfoLbl = new TAOWLabel(this);
+        SelectionInfoLbl = new AOWLabel(this);
         session.BeginRead(SelectionInfoLbl);
         SelectionInfoLbl.Name = "SelectionInfoLbl";
         SelectionInfoLbl.Priority = 100;
         SelectionInfoLbl.WinLeft = 182;
         SelectionInfoLbl.WinTop = 0;
         SelectionInfoLbl.CaptureInput = true;
-        SelectionInfoLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SelectionInfoLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SelectionInfoLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SelectionInfoLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         SelectionInfoLbl.Alignment.HeightPercent = 0;
         SelectionInfoLbl.Alignment.WidthPercent = 0;
         SelectionInfoLbl.Alignment.LeftOffPercent = 0;
@@ -1296,7 +1296,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         DlgHide();
     }
 
-    private void Layout_U1Draw_4(TSurfaceDesc p1)
+    private void Layout_U1Draw_4(SurfaceDesc p1)
     {
         U1Draw();
     }

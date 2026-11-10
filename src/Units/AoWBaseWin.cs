@@ -13,29 +13,29 @@ namespace Aow.Game.Ui.Windows;
 //   windows above it and to its owner. }
 // Fields: FBuffer (freed by TAOWGenericWindow.Destroy), FFreeSurfaceOnHide, FWinManager,
 // FOnShow, FOnHide
-public partial class TAOWBaseWindow : TAOWWindowControl
+public partial class AOWBaseWindow : AOWWindowControl
 {
-    public TAOWBaseWindow(TComponent owner) : base(owner)
+    public AOWBaseWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
     public object FBuffer;
     public bool FFreeSurfaceOnHide;
-    public TAOWWinManager FWinManager;
-    public TNotifyEvent<TAOWBaseWindow> FOnShow;
-    public TNotifyEvent<TAOWBaseWindow> FOnHide;
+    public AOWWinManager FWinManager;
+    public NotifyEvent<AOWBaseWindow> FOnShow;
+    public NotifyEvent<AOWBaseWindow> FOnHide;
 
     // AoWBaseWin.pas:56
-    public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
+    public override void InvalidateRect(int Index, ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
     {
-        TAoWComponent C;
+        AoWComponent C;
         if (Index > -1 && FValid && FVisible)
         {
             for (int I = Index, last = FChildren.Count - 1; I <= last; I++)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 if (C.FValid && C.FVisible && ARect.Right >= C.FWinLeft && C.FWinLeft + C.FWinWidth >= ARect.Left && ARect.Bottom >= C.FWinTop && C.FWinTop + C.FWinHeight >= ARect.Top && C != Sender)
                 {
-                    if (C is TAOWBaseWindow)
+                    if (C is AOWBaseWindow)
                     {
                         C.InvalidateRect(0, ref ARect, this);
                     }
@@ -46,7 +46,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                 }
             }
 
-            if (FAOWOwner != Sender && FAOWOwner is TAOWBaseWindow)
+            if (FAOWOwner != Sender && FAOWOwner is AOWBaseWindow)
             {
                 var indexOf = FAOWOwner.FChildren.IndexOf(this);
                 FAOWOwner.InvalidateRect(indexOf + 1, ref ARect, this);
@@ -55,7 +55,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     }
 
     // AoWBaseWin.pas:50
-    public override void AddBltRect(ref TRect ARect, TAoWComponent Sender)
+    public override void AddBltRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
     {
         if (FDoubleBuffered && FSurfaceValid)
         {
@@ -131,15 +131,15 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     //   drawn or only the rectangles of its draw list, then lets the controls draw themselves and
     //   blits the dirty rectangles of its blit list to Surface, telling the window manager about each
     //   one. A window without a back surface draws itself and its controls straight into Surface. }
-    public override void DrawSurface(TSurface Surface)
+    public override void DrawSurface(Surface Surface)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         TaowRect D = default;
         int OldLeft;
         int OldTop;
         bool Locked;
-        TSurfaceDesc SD = default;
-        TRect R = default;
+        SurfaceDesc SD = default;
+        global::Aow.Rtl.Rect R = default;
         try
         {
             if (FValid && FVisible)
@@ -193,7 +193,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                                 {
                                     D = (TaowRect)FDrawList[J];
                                     R = SD.ClipRect;
-                                    var rect = Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                    var rect = global::Aow.Rtl.RtlUnit.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                     SD.ClipRect = rect;
                                     Draw(SD);
                                     SD.ClipRect = R;
@@ -215,10 +215,10 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                         {
                             for (int I = 0, lastI = FChildren.Count - 1; I <= lastI; I++)
                             {
-                                C = (TAoWComponent)FChildren[I];
+                                C = (AoWComponent)FChildren[I];
                                 if (C.FValid && C.FVisible && (!FDrawn || !C.FDrawn))
                                 {
-                                    if (!FDrawn && C is TAOWBaseWindow)
+                                    if (!FDrawn && C is AOWBaseWindow)
                                     {
                                         C.FSurfaceValid = false;
                                     }
@@ -236,12 +236,12 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                                     {
                                         if (FSurfaceValid)
                                         {
-                                            R = Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
+                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
                                             AddBltRect(ref R, C);
                                         }
 
                                         C.FFirstDraw = C.FDrawn;
-                                        R = Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth - 1, FWinTop + C.FWinTop + C.FWinHeight - 1);
+                                        R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth - 1, FWinTop + C.FWinTop + C.FWinHeight - 1);
                                         InvalidateRect(I + 1, ref R, C);
                                     }
 
@@ -276,7 +276,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                                     for (int J = 0, last = FBltCount - 1; J <= last; J++)
                                     {
                                         D = (TaowRect)FBltList[J];
-                                        R = Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                        R = global::Aow.Rtl.RtlUnit.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                         if (!FMasked)
                                         {
                                             FBackSurface.BltAreaClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop);
@@ -288,7 +288,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                                             FBackSurface.BltAreaColorKeyClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop, color2PixelInfo);
                                         }
 
-                                        R = Rect(D.R.Left + OldLeft, D.R.Top + OldTop, D.R.Right + OldLeft, D.R.Bottom + OldTop);
+                                        R = global::Aow.Rtl.RtlUnit.Rect(D.R.Left + OldLeft, D.R.Top + OldTop, D.R.Right + OldLeft, D.R.Bottom + OldTop);
                                         FWinManager.AddBltRect(ref R, this);
                                     }
 
@@ -312,8 +312,8 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                     {
                         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                         {
-                            C = (TAoWComponent)FChildren[I];
-                            if (!FDrawn || !C.FDrawn || C is TAOWBaseWindow)
+                            C = (AoWComponent)FChildren[I];
+                            if (!FDrawn || !C.FDrawn || C is AOWBaseWindow)
                             {
                                 C.Draw(SD);
                                 C.FDrawn = true;
@@ -362,15 +362,15 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     // { DrawSurfDesc draws the window and its controls into SurfDesc. A double-buffered window draws
     //   into its back surface instead (created, or created again when the pixel format changed) and
     //   copies it into SurfDesc, masked with FMaskColor for a masked window. }
-    public override void DrawSurfDesc(TSurfaceDesc SurfDesc)
+    public override void DrawSurfDesc(SurfaceDesc SurfDesc)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         int OldLeft;
         int OldTop;
         bool Ok;
-        TSurfaceDesc DestSD = default;
-        TRect SrcRect = default;
-        TRect DestRect = default;
+        SurfaceDesc DestSD = default;
+        global::Aow.Rtl.Rect SrcRect = default;
+        global::Aow.Rtl.Rect DestRect = default;
         try
         {
             OldLeft = FWinLeft;
@@ -381,7 +381,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                 DestSD = SurfDesc;
                 if (FBackSurface == null)
                 {
-                    FBackSurface = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                    FBackSurface = new DataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                     if (FMasked)
                     {
                         FBackSurface.Cls(FMaskColor);
@@ -398,7 +398,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                         {
                             FBackSurface.Unlock();
                             FBackSurface?.Dispose();
-                            FBackSurface = new TDataSurface(FWinWidth, FWinHeight, DestSD.PixelFormatID, null);
+                            FBackSurface = new DataSurface(FWinWidth, FWinHeight, DestSD.PixelFormatID, null);
                             if (FMasked)
                             {
                                 FBackSurface.Cls(FMaskColor);
@@ -421,7 +421,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                 Draw(SurfDesc);
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    C = (TAoWComponent)FChildren[I];
+                    C = (AoWComponent)FChildren[I];
                     if (C.FValid && C.FVisible && (!FDrawn || !C.FDrawn))
                     {
                         C.Draw(SurfDesc);
@@ -438,18 +438,18 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                 {
                     FWinLeft = OldLeft;
                     FWinTop = OldTop;
-                    SrcRect = Rect(0, 0, FWinWidth, FWinHeight);
+                    SrcRect = global::Aow.Rtl.RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
                     // { not used }
-                    DestRect = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth, FWinTop + FWinHeight);
+                    DestRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth, FWinTop + FWinHeight);
                     try
                     {
                         if (FMasked == true)
                         {
-                            Aow.Game.Draw.TSurfaceDesc.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
+                            Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
                         }
                         else
                         {
-                            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
+                            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
                         }
                     }
                     catch
@@ -467,7 +467,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     }
 
     // AoWBaseWin.pas:341
-    public virtual void SetILFrame(TInterfaceIL Value)
+    public virtual void SetILFrame(InterfaceIL Value)
     {
         if (Value != FILFrame)
         {
@@ -477,7 +477,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     }
 
     // AoWBaseWin.pas:350
-    public virtual void SetILTexture(TInterfaceIL Value)
+    public virtual void SetILTexture(InterfaceIL Value)
     {
         if (Value != FILTexture)
         {
@@ -507,89 +507,89 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     }
 
     // AoWBaseWin.pas:359
-    public void SetManager(TAOWWinManager Value)
+    public void SetManager(AOWWinManager Value)
     {
         SetOwner(Value);
     }
 
-    public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
-    public TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
+    public InterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
     public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
     public int ILIndexTexture { get => FILIndexTexture; set => SetILTIndex(value); }
 
     [Published]
-    public TNotifyEvent<TAOWBaseWindow> OnHide { get => FOnHide; set => FOnHide = value; }
+    public NotifyEvent<AOWBaseWindow> OnHide { get => FOnHide; set => FOnHide = value; }
 
     [Published]
-    public TNotifyEvent<TAOWBaseWindow> OnShow { get => FOnShow; set => FOnShow = value; }
+    public NotifyEvent<AOWBaseWindow> OnShow { get => FOnShow; set => FOnShow = value; }
 
-    public new TNotifyEvent<TAOWBaseWindow> OnChange
+    public new NotifyEvent<AOWBaseWindow> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWBaseWindow> OnMouseDown
+    public new MouseEvent<AOWBaseWindow> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWBaseWindow> OnMouseUp
+    public new MouseEvent<AOWBaseWindow> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWBaseWindow> OnMouseMove
+    public new MouseMoveEvent<AOWBaseWindow> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWBaseWindow> OnKeyPress
+    public new KeyPressEvent<AOWBaseWindow> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWBaseWindow> OnKeyDown
+    public new KeyEvent<AOWBaseWindow> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWBaseWindow> OnPreDraw
+    public new AoWOnDrawEvent<AOWBaseWindow> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWBaseWindow> OnDraw
+    public new AoWOnDrawEvent<AOWBaseWindow> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWBaseWindow> OnUpdate
+    public new NotifyEvent<AOWBaseWindow> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
-    public new TAoWOnDrawBackEvent<TAOWBaseWindow> OnDrawBack
+    public new AoWOnDrawBackEvent<AOWBaseWindow> OnDrawBack
     {
         get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
-    public new TNotifyEvent<TAOWBaseWindow> OnEnter
+    public new NotifyEvent<AOWBaseWindow> OnEnter
     {
         get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
-    public new TNotifyEvent<TAOWBaseWindow> OnExit
+    public new NotifyEvent<AOWBaseWindow> OnExit
     {
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);

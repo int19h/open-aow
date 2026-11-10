@@ -7,21 +7,21 @@ namespace Aow.Units.Tests;
 
 public sealed class CombatDataTests
 {
-    private sealed class ObservedNode() : TENode(null!)
+    private sealed class ObservedNode() : ENode(null!)
     {
         internal int DestroyCount;
 
         public override void Dispose() { DestroyCount++; base.Dispose(); }
     }
 
-    private sealed class ObservedList : TByteList
+    private sealed class ObservedList : ByteList
     {
         internal int DestroyCount;
 
         public override void Dispose() { DestroyCount++; base.Dispose(); }
     }
 
-    private sealed class ObservedChild(TECustomNode owner) : TCombatObject(owner)
+    private sealed class ObservedChild(ECustomNode owner) : CombatObject(owner)
     {
         internal int DestroyCount;
 
@@ -33,7 +33,7 @@ public sealed class CombatDataTests
     [InlineData(true)]
     public void DestroyFreesCombatObjectsAndBothLists(bool countCalls)
     {
-        var data = new TCombatData(null!);
+        var data = new CombatData(null!);
         if (countCalls)
         {
             data.FCombatObjects?.Dispose();
@@ -64,17 +64,17 @@ public sealed class CombatDataTests
         }
     }
 
-    private static byte[] Save(TCombatData data)
+    private static byte[] Save(CombatData data)
     {
         using var memory = new MemoryStream();
-        using (var writer = new TEWriteStorageStream(memory, null!, false)) { writer.rwEObject(data, 4); }
+        using (var writer = new EWriteStorageStream(memory, null!, false)) { writer.rwEObject(data, 4); }
         return memory.ToArray();
     }
 
     [Fact]
     public void BinaryStateMatchesBeforeTypedFieldsAndRoundTrips()
     {
-        var data = new TCombatData(null!)
+        var data = new CombatData(null!)
         {
             FX = 12,
             FY = 34,
@@ -105,8 +105,8 @@ public sealed class CombatDataTests
             using var memory = new MemoryStream();
             memory.Write(before);
             memory.Position = 0;
-            using var loaded = new TCombatData(null!);
-            using var reader = new TEReadStorageStream(memory, null!, false);
+            using var loaded = new CombatData(null!);
+            using var reader = new EReadStorageStream(memory, null!, false);
             reader.rwEObject(loaded, 4);
             Assert.Equal(before, Save(loaded));
         }

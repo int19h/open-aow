@@ -10,9 +10,9 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.World
 {
 
-    public partial class TFleeLocation : TMapObject
+    public partial class FleeLocation : MapObject
     {
-        public TFleeLocation(TECustomNode owner) : base(owner)
+        public FleeLocation(ECustomNode owner) : base(owner)
         {
         }
 
@@ -29,29 +29,29 @@ namespace Aow.Game.World
         public override int GetShowPriority() => 1744830464 + (Yhx << 13) + Xhx;
 
         // FleeLoc.pas:151
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
             if (FAlpha > 0)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+                Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
                 FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[FAlpha]);
             }
         }
 
         // FleeLoc.pas:120
-        public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
+        public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
         {
             if (Info.HN == 0)
             {
-                if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == TCombatSideIndex.csAttacker)
+                if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == CombatSideIndex.Attacker)
                 {
                     MoveResult.Code = 25;
                 }
                 else
                 {
-                    MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
+                    MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
                 }
 
                 MoveResult.Done = true;
@@ -62,8 +62,8 @@ namespace Aow.Game.World
         public override void Activate()
         {
             base.Activate();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents += NewFrame;
-            FHighlighted = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting);
+            Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents += NewFrame;
+            FHighlighted = Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting);
             if (FHighlighted)
             {
                 FAlpha = 50;
@@ -73,13 +73,13 @@ namespace Aow.Game.World
                 FAlpha = 0;
             }
 
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FFleeLocations.Add(this);
+            Aow.Game.Combat.AoWCombatMap.Current.FFleeLocations.Add(this);
         }
 
         // FleeLoc.pas:65
         public override void Deactivate()
         {
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents -= NewFrame;
+            Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents -= NewFrame;
             base.Deactivate();
         }
 
@@ -87,16 +87,16 @@ namespace Aow.Game.World
         public override bool CanSelect(int Xhp, int Yhp) => true;
 
         // FleeLoc.pas:79
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
+        public override MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
 
         // FleeLoc.pas:87
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
 
         // FleeLoc.pas:93
-        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            TEObject OldHexagon;
-            TMapField MapField;
+            EObject OldHexagon;
+            MapField MapField;
             if (!GetEditMode())
             {
                 MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
@@ -104,7 +104,7 @@ namespace Aow.Game.World
                 if (OldHexagon != null)
                 {
                     OldHexagon?.Dispose();
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatHexagons.Place(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer, Xhx, Yhx, 0, 1);
+                    Aow.Game.Engine.AoWHSSet.Current.FCombatHexagons.Place(Aow.Game.Combat.AoWCombatMap.Current.MapContainer, Xhx, Yhx, 0, 1);
                 }
             }
 
@@ -116,13 +116,13 @@ namespace Aow.Game.World
         {
             bool Highlight;
             Highlight = false;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 Highlight = true;
             }
             else
             {
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.GetTCUnitHS() != null && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FDefenderPlayer)
+                if (Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS() != null && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
                 {
                     Highlight = true;
                 }
@@ -149,23 +149,23 @@ namespace Aow.Game.World
             }
         }
 
+        public new partial class Resource : MapObjectResource
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
+
+            // FleeLoc.pas:163
+            public new const int ClassID = 2229545;
+
+            // FleeLoc.pas:169
+            public override int ResourceUserClassID() => 2229544;
+
+            // FleeLoc.pas:166
+            public override string ResourceEditName() => "Combat Flee Location";
+
+        }
+
         // FleeLoc.pas:27
-
-    }
-
-    public partial class TFleeLocationResource : TMapObjectResource
-    {
-        public TFleeLocationResource(TECustomNode owner) : base(owner)
-        { }
-
-        // FleeLoc.pas:163
-        public new const int ClassID = 2229545;
-
-        // FleeLoc.pas:169
-        public override int ResourceUserClassID() => 2229544;
-
-        // FleeLoc.pas:166
-        public override string ResourceEditName() => "Combat Flee Location";
 
     }
 }
@@ -173,9 +173,9 @@ namespace Aow.Game.World
 namespace Aow.Game.Draw
 {
 
-    public partial class TMovementHS : TSingleHS
+    public partial class MovementHS : SingleHS
     {
-        public TMovementHS(TECustomNode owner) : base(owner)
+        public MovementHS(ECustomNode owner) : base(owner)
         { }
 
         // FleeLoc.pas:172
@@ -187,12 +187,12 @@ namespace Aow.Game.Draw
         public override int GetShowPriority() => 32;
 
         // FleeLoc.pas:187
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
         }
 
         // FleeLoc.pas:178
-        public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
+        public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
         {
             if (Info.HN == 0 && !FEnabled)
             {

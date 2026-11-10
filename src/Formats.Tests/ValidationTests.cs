@@ -38,7 +38,7 @@ public sealed class ValidationTests : FormatsTest
     public void ADanglingReferenceIsLocatedAndNamesItsDomain()
     {
         var text = GameFiles.Write(Map()).AsSpan().ToArray();
-        var edited = System.Text.Encoding.UTF8.GetString(text).Replace("\"$class\": \"TAoWHSMap\",", "\"$class\": \"TAoWHSMap\",\n    \"CurrentPlayer\": 17,", StringComparison.Ordinal);
+        var edited = System.Text.Encoding.UTF8.GetString(text).Replace("\"$class\": \"AoWHSMap\",", "\"$class\": \"AoWHSMap\",\n    \"CurrentPlayer\": 17,", StringComparison.Ordinal);
         var document = GameFiles.Read(System.Text.Encoding.UTF8.GetBytes(edited), "edited.hsm").Document;
         var finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()], "edited.hsm"));
         Assert.Equal(Codes.Reference, finding.Code);

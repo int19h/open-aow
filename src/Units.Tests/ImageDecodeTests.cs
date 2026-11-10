@@ -3,8 +3,8 @@ using System.Text.Json;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Xunit.Abstractions;
-using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
-using TPaletteEntry = Aow.Game.Draw.TPaletteEntry;
+using LibraryImage = Aow.Game.Draw.Images.LibraryImage;
+using TPaletteEntry = Aow.Game.Draw.GFXEPalette.PaletteEntry;
 
 namespace Aow.Units.Tests;
 
@@ -49,7 +49,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         output.WriteLine($"{entries.Count} libraries, {entries.Sum(e => e.Images)} images");
         // The image classes the shipped libraries hold. They hold no 8 bit picture, no transparent
         // 16 bit picture, no mask and no shadow: GrabbedImagesDecodeAndDrawAsRecorded covers those.
-        Assert.Equal(["TPicture16", "TRLESprite08", "TRLESprite16", "TSprite16", "TTransparentRLESprite16"], classes.Keys);
+        Assert.Equal(["Picture16", "RLESprite08", "RLESprite16", "Sprite16", "TransparentRLESprite16"], classes.Keys);
         Check("Installed", entries);
     }
 
@@ -111,18 +111,18 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static void GrabAll(LibraryImage source, string label, List<Entry> entries)
     {
         int w = Math.Min(source.Width, 120), h = Math.Min(source.Height, 90);
-        var palette = new TGFXEPalette();
-        for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { R = (byte)(i * 5), G = (byte)(i * 7 + 3), B = (byte)(i * 13 + 1) };
+        var palette = new GFXEPalette();
+        for (int i = 0; i < 256; i++) palette.Entries[i] = new Aow.Game.Draw.GFXEPalette.PaletteEntry { R = (byte)(i * 5), G = (byte)(i * 7 + 3), B = (byte)(i * 13 + 1) };
         palette.PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24;
-        var s555 = new TDataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
-        var s565 = new TDataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB565, null!);
-        var s8 = new TDataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
-        var s24 = new TDataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB24, null!);
+        var s555 = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        var s565 = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB565, null!);
+        var s8 = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
+        var s24 = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB24, null!);
         var hash = new Fnv();
         int grabs = 0;
         try
         {
-            TSurfaceDesc d555 = default, d565 = default, d8 = default, d24 = default;
+            SurfaceDesc d555 = default, d565 = default, d8 = default, d24 = default;
             s555.Lock(ref d555);
             s565.Lock(ref d565);
             s8.Lock(ref d8);
@@ -146,12 +146,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 }
 
             int key565 = 0xF81F, key24 = 0xF800F8;
-            var sources = new (string Name, TSurfaceDesc SD, int Key)[] { ("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24) };
+            var sources = new (string Name, SurfaceDesc SD, int Key)[] { ("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24) };
             var rects = new[] { RtlUnit.Rect(0, 0, w, h), RtlUnit.Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1)) };
             var grabbers = new Func<LibraryImage>[]
             {
-                () => new TPicture08(null!), () => new TRLESprite08(null!), () => new TPicture16(null!),
-                () => new TSprite16(null!), () => new TRLESprite16(null!), () => new TBitMask(null!), () => new TShadow(null!),
+                () => new Picture08(null!), () => new RLESprite08(null!), () => new Picture16(null!),
+                () => new Sprite16(null!), () => new RLESprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
             };
             foreach (var (name, sd, key) in sources)
                 foreach (var rect in rects)
@@ -159,7 +159,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                         foreach (bool inverse in new[] { false, true })
                         {
                             var image = create();
-                            if (!image.SupportGrabPixelFormat(sd.PixelFormatID) || (inverse && image is not TBitMask))
+                            if (!image.SupportGrabPixelFormat(sd.PixelFormatID) || (inverse && image is not BitMask))
                             {
                                 image.Dispose();
                                 continue;
@@ -169,7 +169,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             var grab = image.CreateGrabInfo();
                             grab.TransparentPixel = key;
                             grab.FileName = "grab.bmp";
-                            if (grab is TBitMaskGrabInfo mask) mask.Inverse = inverse;
+                            if (grab is Aow.Game.Draw.Images.BitMask.GrabInfo mask) mask.Inverse = inverse;
                             try
                             {
                                 bool grabbed;
@@ -208,7 +208,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         using var stream = new MemoryStream();
         try
         {
-            Aow.Game.Draw.Images.TLibraryImage.WriteImageToStream(image, stream);
+            Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(image, stream);
             hash.Add(stream.GetBuffer().AsSpan(0, (int)stream.Length));
             stream.Position = 0;
             var copy = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(stream, null!);
@@ -229,19 +229,19 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     public void PixelReadersReadEveryFormatAsRecorded()
     {
         var entries = new List<Entry>();
-        var palette = new TGFXEPalette();
-        for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { R = (byte)i, G = (byte)(i * 3), B = (byte)(i * 11) };
+        var palette = new GFXEPalette();
+        for (int i = 0; i < 256; i++) palette.Entries[i] = new Aow.Game.Draw.GFXEPalette.PaletteEntry { R = (byte)i, G = (byte)(i * 3), B = (byte)(i * 11) };
         palette.PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24;
         {
             foreach (int format in new[] { Aow.Game.Draw.PixelFormats.pfPAL8, Aow.Game.Draw.PixelFormats.pfRGB555, Aow.Game.Draw.PixelFormats.pfRGB565, Aow.Game.Draw.PixelFormats.pfRGB24, Aow.Game.Draw.PixelFormats.pfRGB32 })
                 for (int w = 1; w <= 17; w++)
                 {
                     int h = 3 + w % 3;
-                    var surface = new TDataSurface(w, h, format, format == Aow.Game.Draw.PixelFormats.pfPAL8 ? palette : null!);
+                    var surface = new DataSurface(w, h, format, format == Aow.Game.Draw.PixelFormats.pfPAL8 ? palette : null!);
                     var hash = new Fnv();
                     try
                     {
-                        TSurfaceDesc sd = default;
+                        SurfaceDesc sd = default;
                         surface.Lock(ref sd);
                         var bytes = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
                         for (int i = 0; i < bytes.Length; i++) bytes[i] = (byte)((i * 7 + w) % 5 == 0 ? 0xC3 : i * 29 + 1);
@@ -251,22 +251,22 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             {
                                 hash.Add(Read(() => surface.GetPixelInfo(x, y)));
                                 hash.Add(Read(() => surface.GetColor(x, y)));
-                                hash.Add(Read(() => Aow.Game.Draw.Images.TBitMask.GetPixelInfo(sd, x, y)));
+                                hash.Add(Read(() => Aow.Game.Draw.Images.BitMask.GetPixelInfo(sd, x, y)));
                             }
-                        foreach (int key in new[] { Read(() => Aow.Game.Draw.Images.TBitMask.GetPixelInfo(sd, 0, 0)), Read(() => surface.GetPixelInfo(w - 1, h - 1)), 0xC3, 0xC3C3 })
+                        foreach (int key in new[] { Read(() => Aow.Game.Draw.Images.BitMask.GetPixelInfo(sd, 0, 0)), Read(() => surface.GetPixelInfo(w - 1, h - 1)), 0xC3, 0xC3C3 })
                         {
                             var whole = RtlUnit.Rect(0, 0, w, h);
                             var inset = RtlUnit.Rect(0, 1, Math.Max(0, w - 1), h);
                             foreach (var rect in new[] { whole, inset })
                             {
-                                TRect found = default;
-                                hash.Add(Read(() => { Aow.Game.Draw.TSurfaceDesc.MinimizeTransparentRect(sd, rect, key, ref found); return 0; }));
+                                Rect found = default;
+                                hash.Add(Read(() => { Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(sd, rect, key, ref found); return 0; }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom }) hash.Add(value);
                                 found = default;
-                                hash.Add(Read(() => { Aow.Game.Draw.Images.TBitMask.MinimizeInvTransparentRect(sd, rect, key, ref found); return 0; }));
+                                hash.Add(Read(() => { Aow.Game.Draw.Images.BitMask.MinimizeInvTransparentRect(sd, rect, key, ref found); return 0; }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom }) hash.Add(value);
                             }
-                            TRectangleList? list = null;
+                            RectangleList? list = null;
                             hash.Add(Read(() => { list = Aow.Game.Draw.Images.LibraryImageClass.GetSurfaceRectangles(sd, key, null!); return 0; }));
                             hash.Add(list?.Count ?? -1);
                             if (list is not null)
@@ -299,10 +299,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 var hash = new Fnv();
                 for (int k = 0; k < collection.Tables.Count; k++)
                 {
-                    var table = (TBlendTable5Bit)collection.Tables.Tables[k];
+                    var table = (BlendTable5Bit)collection.Tables.Tables[k];
                     Assert.Equal(5, table.Bits);
                     hash.Add(table.Bytes);
-                    var copy = (TBlendTable5Bit)table.Copy();
+                    var copy = (BlendTable5Bit)table.Copy();
                     {
                         for (int i = 0; i < 32; i++)
                             for (int j = 0; j < 32; j++)
@@ -322,7 +322,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         Check("Blend", entries);
     }
 
-    private static int IndexOf(TLookupBlendTableCollection100 collection, TBlendTable table)
+    private static int IndexOf(LookupBlendTableCollection100 collection, BlendTable table)
     {
         for (int k = 0; k < collection.Tables.Count; k++)
             if (ReferenceEquals(collection.Tables.Tables[k], table)) return k;
@@ -344,7 +344,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // Loads a library and hands every image to the action, the images of the nodes in order.
     private static void Decode(string file, bool onDemand, Action<LibraryImage> action)
     {
-        using var library = new TImageLibrary(null!);
+        using var library = new ImageLibrary(null!);
         library.LoadOnDemand = onDemand;
         library.LoadFromFile(file);
         for (int i = 0; i < library.Count; i++)
@@ -354,7 +354,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static void Visit(LibraryImage? image, Action<LibraryImage> action)
     {
         if (image is null) return;
-        if (image is TImageNode node)
+        if (image is ImageNode node)
         {
             for (int i = 0; i < node.Count; i++) Visit(node[i], action);
             return;
@@ -374,7 +374,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         int w = image.Width, h = image.Height;
         var stretched = RtlUnit.Rect(1, 1, 1 + Math.Max(1, w * 3 / 2), 1 + Math.Max(1, h * 2 / 3));
         var shrunk = RtlUnit.Rect(-w / 4, 2, -w / 4 + Math.Max(1, w / 2), 2 + Math.Max(1, h * 5 / 4));
-        if (image is TImage08)
+        if (image is Image08)
         {
             hash.Add(Draw(image, Aow.Game.Draw.PixelFormats.pfPAL8, 3, 2, d => image.ShowOpaque(3, 2, d)));
             hash.Add(Draw(image, Aow.Game.Draw.PixelFormats.pfPAL8, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
@@ -416,15 +416,15 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // A surface two pixels wider and taller on each side than the image, filled with a pattern,
     // clipped one pixel in from its edges, after the draw: the hash of its pixels, or the name of
     // the exception the draw raised.
-    private static ulong Draw(LibraryImage image, int format, int x, int y, Action<TSurfaceDesc> draw)
+    private static ulong Draw(LibraryImage image, int format, int x, int y, Action<SurfaceDesc> draw)
     {
         int w = Math.Max(1, image.Width + 6), h = Math.Max(1, image.Height + 4);
-        var palette = new TGFXEPalette();
-        var surface = new TDataSurface(w, h, format, palette);
+        var palette = new GFXEPalette();
+        var surface = new DataSurface(w, h, format, palette);
         var hash = new Fnv();
         try
         {
-            TSurfaceDesc sd = default;
+            SurfaceDesc sd = default;
             Assert.Equal(0, surface.Lock(ref sd));
             var pixels = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
             for (int i = 0; i < pixels.Length; i++) pixels[i] = (byte)(i * 37 + x * 5 + y);
@@ -452,16 +452,16 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         var previousTables = (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable);
         (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
         try
         {
             Aow.Game.Draw.GfxState.InitBlendTables(5, 31);
             Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
-                LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>(),
-                LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(),
-                LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(),
-                LibraryImageClass.Of<TShadow>(), LibraryImageClass.Of<TImageNode>(), LibraryImageClass.Of<TSprite16>(),
-                LibraryImageClass.Of<TBitMask>()]);
+                LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>(),
+                LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
+                LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
+                LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>(),
+                LibraryImageClass.Of<BitMask>()]);
             body();
         }
         finally

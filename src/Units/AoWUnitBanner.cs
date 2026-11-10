@@ -8,32 +8,32 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // published labels, popup and ability-list controls
-public partial class TUnitBanner : TDataModule
+public partial class UnitBanner : DataModule
 {
-    public TUnitBanner(TComponent owner) : base(owner)
+    public UnitBanner(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWLabel UnitNameLbl;
-    public TAOWImage AttackIcon;
-    public TAOWImage DefenseIcon;
-    public TAOWImage MovesIcon;
-    public TAOWImage DamageIcon;
-    public TAOWImage ResistanceIcon;
-    public TAOWImage HitsIcon;
-    public TAOWLabel Attack;
-    public TAOWLabel Defense;
-    public TAOWLabel Moves;
-    public TAOWLabel Damage;
-    public TAOWLabel Resistance;
-    public TAOWLabel Hits;
-    public TAOWMenu BannerPopup;
-    public TAOWListBox AbLB;
-    public TAOWVScrollBar AbVSB;
+    public AOWLabel UnitNameLbl;
+    public AOWImage AttackIcon;
+    public AOWImage DefenseIcon;
+    public AOWImage MovesIcon;
+    public AOWImage DamageIcon;
+    public AOWImage ResistanceIcon;
+    public AOWImage HitsIcon;
+    public AOWLabel Attack;
+    public AOWLabel Defense;
+    public AOWLabel Moves;
+    public AOWLabel Damage;
+    public AOWLabel Resistance;
+    public AOWLabel Hits;
+    public AOWMenu BannerPopup;
+    public AOWListBox AbLB;
+    public AOWVScrollBar AbVSB;
 
     // AoWUnitBanner.pas:53
     public void BannerPopupShow()
     {
-        TTCAbility A;
+        TCAbility A;
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
             var name = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetName();
@@ -60,8 +60,8 @@ public partial class TUnitBanner : TDataModule
             Aow.Game.Ui.Dialogs.DialogHosts.General.BuildAbilities();
             for (int I = 0, last = Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities.Count - 1; I <= last; I++)
             {
-                A = (TTCAbility)Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities[I];
-                var name2 = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(A.Ability).GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
+                A = (TCAbility)Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities[I];
+                var name2 = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(A.Ability).GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
                 AbLB.Items.Add(name2);
             }
 
@@ -81,7 +81,7 @@ public partial class TUnitBanner : TDataModule
     }
 
     // AoWUnitBanner.pas:85
-    public void AbLBMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public void AbLBMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && AbLB.F188 >= Aow.Game.Ui.Dialogs.DialogHosts.General.FActiveAbilityCount)
         {
@@ -99,7 +99,7 @@ public partial class TUnitBanner : TDataModule
     }
 
     // AoWUnitBanner.pas:95
-    public void AbLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void AbLBMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         string Reason = "";
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
@@ -107,7 +107,7 @@ public partial class TUnitBanner : TDataModule
             if (AbLB.Selected > -1 && AbLB.Selected < Aow.Game.Ui.Dialogs.DialogHosts.General.FActiveAbilityCount)
             {
                 var ability = Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities[AbLB.Selected];
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).Activate(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit, ref Reason);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((TCAbility)ability).Ability).Activate(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit, ref Reason);
                 BannerPopup.Visible = false;
             }
             else

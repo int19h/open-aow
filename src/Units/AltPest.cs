@@ -6,38 +6,38 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TAltarOfPestilence : TAltar
+public partial class AltarOfPestilence : Altar
 {
-    public TAltarOfPestilence(TECustomNode owner) : base(owner)
+    public AltarOfPestilence(ECustomNode owner) : base(owner)
     { }
 
     // AltPest.pas:36
     public new const int ClassID = 131852;
 
     // AltPest.pas:39
-    public override TStorm CreateStorm() => new TPestilenceStorm(null);
+    public override Storm CreateStorm() => new PestilenceStorm(null);
 
-}
-
-public partial class TAltarOfPestilenceResource : TAltarResource
-{
-    public TAltarOfPestilenceResource(TECustomNode owner) : base(owner)
+    public new partial class Resource : AltarResource
     {
+        public Resource(ECustomNode owner) : base(owner)
+        {
+        }
+
+        // AltPest.pas:52
+        public new const int ClassID = 131853;
+
+        // AltPest.pas:44
+
+        // AltPest.pas:55
+        public override int ResourceUserClassID() => 131852;
+
+        // AltPest.pas:26
+
+        // AltPest.pas:49
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.AltarOfPestilence.Resource.AltarOfPestilenceRStr);
+
+        private static readonly string AltarOfPestilenceRStr = "Altar of Pestilence";
+
     }
-
-    // AltPest.pas:52
-    public new const int ClassID = 131853;
-
-    // AltPest.pas:44
-
-    // AltPest.pas:55
-    public override int ResourceUserClassID() => 131852;
-
-    // AltPest.pas:26
-
-    // AltPest.pas:49
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfPestilenceResource.AltarOfPestilenceRStr);
-
-    private static readonly string AltarOfPestilenceRStr = "Altar of Pestilence";
 
 }

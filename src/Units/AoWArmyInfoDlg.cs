@@ -25,44 +25,44 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // unit-info window open. completion callback. army-info event
-public partial class TArmyInfoDlg : TDataModule
+public partial class ArmyInfoDlg : DataModule
 {
-    public TArmyInfoDlg(TComponent owner) : base(owner)
+    public ArmyInfoDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWPanel UnitPnl;
-    public TAoWFrame U1;
-    public TAoWFrame U2;
-    public TAoWFrame U4;
-    public TAoWFrame U5;
-    public TAoWFrame U3;
-    public TAoWFrame U6;
-    public TAoWFrame U7;
-    public TAoWFrame U8;
-    public TAOWButton CloseBtn;
-    public TAOWImage TitleIcon;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAoWFrame BCeltL;
-    public TAOWWindow Dlg;
-    public TAoWFrame UnitLine1;
-    public TAoWFrame UnitLine2;
-    public TAOWMemo Message;
-    public TAOWImage FaceFrame;
-    public TAOWLabel DetailsLbl;
-    public TAOWLabel HeaderLbl;
-    public TIvTranslator Translator;
+    public AOWPanel UnitPnl;
+    public AoWFrame U1;
+    public AoWFrame U2;
+    public AoWFrame U4;
+    public AoWFrame U5;
+    public AoWFrame U3;
+    public AoWFrame U6;
+    public AoWFrame U7;
+    public AoWFrame U8;
+    public AOWButton CloseBtn;
+    public AOWImage TitleIcon;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AoWFrame BCeltL;
+    public AOWWindow Dlg;
+    public AoWFrame UnitLine1;
+    public AoWFrame UnitLine2;
+    public AOWMemo Message;
+    public AOWImage FaceFrame;
+    public AOWLabel DetailsLbl;
+    public AOWLabel HeaderLbl;
+    public IvTranslator Translator;
     public bool FUnitInfoShown;
-    public TExecuteDoneEvent FOnClose;
-    public TArmyInfoEventLog FEvent;
+    public ExecuteDoneEvent FOnClose;
+    public ArmyInfoEventLog FEvent;
 
     // AoWArmyInfoDlg.pas:63
-    public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc SD)
+    public void DrawUnit(int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc SD)
     {
-        TRect SaveRect;
-        TP2UnitShowInfo Info;
-        Aow.Game.Draw.Images.TLibraryImage Img;
-        TAlignment Alignment;
+        global::Aow.Rtl.Rect SaveRect;
+        P2UnitShowInfo Info;
+        Aow.Game.Draw.Images.LibraryImage Img;
+        Alignment Alignment;
         int X;
         int Y;
         if (Index < FEvent.FArmyView.GetCount())
@@ -81,7 +81,7 @@ public partial class TArmyInfoDlg : TDataModule
 
             Info = default;
             Info.Direction = 3;
-            Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
+            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             FEvent.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, SD, Info);
             if ((((int)(((uint)FEvent.FSelection) >> Index)) & 1) == 0)
             {
@@ -96,8 +96,8 @@ public partial class TArmyInfoDlg : TDataModule
     // AoWArmyInfoDlg.pas:92
     public void ClearEvent()
     {
-        TArmyInfoEventLog Event;
-        TExecuteDoneEvent Notify;
+        ArmyInfoEventLog Event;
+        ExecuteDoneEvent Notify;
         if (FUnitInfoShown)
         {
             FUnitInfoShown = false;
@@ -135,14 +135,14 @@ public partial class TArmyInfoDlg : TDataModule
     }
 
     // AoWArmyInfoDlg.pas:121
-    public void U1MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
+    public void U1MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
     {
         var count = FEvent.FArmyView.GetCount();
         if (Slot < count)
         {
             var unit = FEvent.FArmyView.GetUnit(Slot);
             Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 FUnitInfoShown = true;
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
@@ -152,9 +152,9 @@ public partial class TArmyInfoDlg : TDataModule
     }
 
     // AoWArmyInfoDlg.pas:134
-    public void U1PreDraw(TAoWFrame Sender, TSurfaceDesc SD, int Slot)
+    public void U1PreDraw(AoWFrame Sender, SurfaceDesc SD, int Slot)
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
         R.Right = Sender.WinWidth + R.Left;
         R.Top = Sender.WinTop + UnitPnl.WinTop;
@@ -163,9 +163,9 @@ public partial class TArmyInfoDlg : TDataModule
     }
 
     // AoWArmyInfoDlg.pas:146
-    public void FaceFramePreDraw(TSurfaceDesc SD)
+    public void FaceFramePreDraw(SurfaceDesc SD)
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         int I;
         R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
         R.Right = this.FaceFrame.WinWidth + R.Left;
@@ -191,7 +191,7 @@ public partial class TArmyInfoDlg : TDataModule
     }
 
     // AoWArmyInfoDlg.pas:166
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {
@@ -199,7 +199,7 @@ public partial class TArmyInfoDlg : TDataModule
         }
     }
 
-    internal static void ShowArmyInfo(TArmyInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowArmyInfo(ArmyInfoDlg Dialog, ArmyInfoEventLog Event, ExecuteDoneEvent Done)
     {
         Dialog.FOnClose = Done;
         Dialog.FEvent = Event;

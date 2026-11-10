@@ -14,25 +14,25 @@ namespace Aow.Game.Ui.Windows;
 // FShowing, FControlRect (the control on the screen. the tip shows at its bottom right),
 // FItemIndex, FItemRect (the line being drawn, for OnDrawItem), FLines (Items broken into lines
 // that fit)
-public partial class TAOWToolTip : TAOWGenericWindow
+public partial class AOWToolTip : AOWGenericWindow
 {
-    public TStringList FItems;
-    public TNotifyEvent<TAOWToolTip> FOnDrawItem;
+    public StringList FItems;
+    public NotifyEvent<AOWToolTip> FOnDrawItem;
     public bool FToolTipStatic;
     public int FToolTipDelay;
     public int FShowDuration;
     public int FItemHeight;
     public bool FShowing;
-    public TRect FControlRect;
+    public global::Aow.Rtl.Rect FControlRect;
     public int FItemIndex;
-    public TRect FItemRect;
-    public TStringList FLines;
+    public global::Aow.Rtl.Rect FItemRect;
+    public StringList FLines;
 
     // AOWToolTip.pas:62
-    public TAOWToolTip(TComponent owner) : base(owner)
+    public AOWToolTip(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FLines = new TStringList();
-        FItems = new TStringList();
+        FLines = new StringList();
+        FItems = new StringList();
         FItems.OnChange = OnChangeText;
         FShowDuration = 100;
         FItemHeight = 10;
@@ -281,14 +281,14 @@ public partial class TAOWToolTip : TAOWGenericWindow
     }
 
     // AOWToolTip.pas:223
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect OldClip;
+        global::Aow.Rtl.Rect OldClip;
         try
         {
             if (FValid && FVisible)
             {
-                var rect = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                 FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                 var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                 var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -296,7 +296,7 @@ public partial class TAOWToolTip : TAOWGenericWindow
                 var ilFrame2 = FILFrame[FILIndexFrame + 4];
                 var ilFrame3 = FILFrame[FILIndexFrame + 1];
                 var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                var rect2 = Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                 FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                 FAOWFont.Color = FColor;
                 OldClip = SurfDesc.ClipRect;
@@ -321,7 +321,7 @@ public partial class TAOWToolTip : TAOWGenericWindow
                             var ilFrame8 = FILFrame[FILIndexFrame + 1];
                             var ilFrame9 = FILFrame[FILIndexFrame + 1];
                             var libraryImage = FILFrame[FILIndexFrame + 3];
-                            FItemRect = Rect(FWinLeft + libraryImage.Width, FWinTop + ilFrame9.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame8.Height + (I + 1) * FItemHeight);
+                            FItemRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + libraryImage.Width, FWinTop + ilFrame9.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame8.Height + (I + 1) * FItemHeight);
                             if (FOnDrawItem != null)
                             {
                                 FOnDrawItem(this);
@@ -345,14 +345,14 @@ public partial class TAOWToolTip : TAOWGenericWindow
     }
 
     // AOWToolTip.pas:266
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FShowing = false;
         SetVisible(false);
     }
 
     // AOWToolTip.pas:172
-    public void SetFStrings(TStringList Value)
+    public void SetFStrings(StringList Value)
     {
         FLines.Clear();
         FItems.Clear();
@@ -368,13 +368,13 @@ public partial class TAOWToolTip : TAOWGenericWindow
     }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
     [Published]
-    public TStringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => FItems; set => SetFStrings(value); }
 
     [Published]
-    public TNotifyEvent<TAOWToolTip> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public NotifyEvent<AOWToolTip> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
     public bool ToolTipStatic { get => FToolTipStatic; set => FToolTipStatic = value; }
@@ -388,103 +388,103 @@ public partial class TAOWToolTip : TAOWGenericWindow
     [Published]
     public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
 
-    public new TNotifyEvent<TAOWToolTip> OnChange
+    public new NotifyEvent<AOWToolTip> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWToolTip> OnMouseDown
+    public new MouseEvent<AOWToolTip> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWToolTip> OnMouseUp
+    public new MouseEvent<AOWToolTip> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWToolTip> OnMouseMove
+    public new MouseMoveEvent<AOWToolTip> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWToolTip> OnKeyPress
+    public new KeyPressEvent<AOWToolTip> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWToolTip> OnKeyDown
+    public new KeyEvent<AOWToolTip> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWToolTip> OnPreDraw
+    public new AoWOnDrawEvent<AOWToolTip> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWToolTip> OnDraw
+    public new AoWOnDrawEvent<AOWToolTip> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWToolTip> OnUpdate
+    public new NotifyEvent<AOWToolTip> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
-    public new TAoWOnDrawBackEvent<TAOWToolTip> OnDrawBack
+    public new AoWOnDrawBackEvent<AOWToolTip> OnDrawBack
     {
         get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
-    public new TNotifyEvent<TAOWToolTip> OnEnter
+    public new NotifyEvent<AOWToolTip> OnEnter
     {
         get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
-    public new TNotifyEvent<TAOWToolTip> OnExit
+    public new NotifyEvent<AOWToolTip> OnExit
     {
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
 
-    public new TNotifyEvent<TAOWToolTip> OnChangeCursor
+    public new NotifyEvent<AOWToolTip> OnChangeCursor
     {
         get => EventSlot.Get(this, FOnChangeCursor);
         set => EventSlot.Set(this, ref FOnChangeCursor, value);
     }
 
-    public new TAoWOnDrawSurface<TAOWToolTip> OnDrawSurface
+    public new AoWOnDrawSurface<AOWToolTip> OnDrawSurface
     {
         get => EventSlot.Get(this, FOnDrawSurface);
         set => EventSlot.Set(this, ref FOnDrawSurface, value);
     }
 
-    public new TAoWOnDrawSurface<TAOWToolTip> OnPreDrawSurface
+    public new AoWOnDrawSurface<AOWToolTip> OnPreDrawSurface
     {
         get => EventSlot.Get(this, FOnPreDrawSurface);
         set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
     }
 
-    public new TNotifyEvent<TAOWToolTip> OnHide
+    public new NotifyEvent<AOWToolTip> OnHide
     {
         get => EventSlot.Get(this, FOnHide);
         set => EventSlot.Set(this, ref FOnHide, value);
     }
 
-    public new TNotifyEvent<TAOWToolTip> OnShow
+    public new NotifyEvent<AOWToolTip> OnShow
     {
         get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);

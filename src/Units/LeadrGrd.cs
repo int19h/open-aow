@@ -10,149 +10,143 @@ using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Ui.Grids
-{
+namespace Aow.Game.Ui.Grids;
 
-    // show level, show status, stream, map
-    public partial class TLeaderGrid : TCustomImageDrawGrid
+// show level, show status, stream, map
+public partial class LeaderGrid : CustomImageDrawGrid
+{
+    public bool FShowLevel;
+    public bool FReserved1DD;
+    public bool FShowStatus;
+    public MemoryStream FStream;
+    public AoWHSMap FMap;
+
+    // LeadrGrd.pas:111
+    public override void Dispose()
     {
-        public bool FShowLevel;
-        public bool FReserved1DD;
-        public bool FShowStatus;
-        public MemoryStream FStream;
-        public TAoWHSMap FMap;
-
-        // LeadrGrd.pas:111
-        public override void Dispose()
-        {
-            /* TODO: Implement Grids.Destroy in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // LeadrGrd.pas:101
-        // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public TLeaderGrid(TComponent owner) : base(owner)
-        {
-
-            DefaultColWidth = 155;
-            DefaultRowHeight = 56;
-            GrowDirection = TILGrowDirection.ilVertical;
-            ScrollBars = TScrollStyle.ssVertical;
-            FStream = new MemoryStream();
-        }
-
-        // LeadrGrd.pas:166
-        protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
-        {
-            /* TODO: Implement Controls.Canvas in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // LeadrGrd.pas:118
-        public void LeadersUpdated()
-        {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // LeadrGrd.pas:123
-        public void SetAoWHSMap(TAoWHSMap Value)
-        {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // LeadrGrd.pas:134
-        public TLeader GetLeader(sbyte Player)
-        {
-            TLeader Result;
-            TAoWHSMap Map;
-            Map = FMap;
-            if (Map != null && Player > 0 && Map.FPlayers.Count > Player)
-            {
-                Result = FMap.FPlayers.GetPlayers(Player).FLeader;
-            }
-            else
-            {
-                Result = null;
-            }
-
-            return Result;
-        }
-
-        // LeadrGrd.pas:144
-        public TLeader GetSelectedLeader()
-        {
-            /* TODO: Implement Grids.Col in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // LeadrGrd.pas:155
-        public void SetSelectedLeader(TLeader Value)
-        {
-            int I;
-            if (FMap != null)
-            {
-                I = FMap.FPlayers.RaceToPlayer((sbyte)(byte)Value.FRace);
-                if (I != -1)
-                {
-                    SelectIndex(I - 1);
-                }
-            }
-        }
-
-        // LeadrGrd.pas:263
-        public void RemoveFromMap()
-        {
-            TLeader Leader;
-            Leader = GetSelectedLeader();
-            if (Leader != null)
-            {
-                Leader.SetOwner(null);
-            }
-        }
-
-        [Published]
-        public bool EditLeaderEnabled { get => FReserved1DD; set => FReserved1DD = value; }
-
-        [Published]
-        public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
-
-        [Published]
-        public bool ShowLevel { get => FShowLevel; set => FShowLevel = value; }
+        /* TODO: Implement Grids.Destroy in the platform or editor service. */
+        throw new NotImplementedException();
     }
-}
 
-namespace Aow.Game.Ui.Grids.LeadrGrd
-{
+    // LeadrGrd.pas:101
+    // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
+    public LeaderGrid(global::Aow.Rtl.Component owner) : base(owner)
+    {
+
+        DefaultColWidth = 155;
+        DefaultRowHeight = 56;
+        GrowDirection = Aow.Game.Draw.Images.CustomImageDrawGrid.ILGrowDirection.Vertical;
+        ScrollBars = Aow.Rtl.CustomGrid.ScrollStyle.Vertical;
+        FStream = new MemoryStream();
+    }
+
+    // LeadrGrd.pas:166
+    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
+    {
+        /* TODO: Implement Controls.Canvas in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // LeadrGrd.pas:118
+    public void LeadersUpdated()
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // LeadrGrd.pas:123
+    public void SetAoWHSMap(AoWHSMap Value)
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // LeadrGrd.pas:134
+    public Leader GetLeader(sbyte Player)
+    {
+        Leader Result;
+        AoWHSMap Map;
+        Map = FMap;
+        if (Map != null && Player > 0 && Map.FPlayers.Count > Player)
+        {
+            Result = FMap.FPlayers.GetPlayers(Player).FLeader;
+        }
+        else
+        {
+            Result = null;
+        }
+
+        return Result;
+    }
+
+    // LeadrGrd.pas:144
+    public Leader GetSelectedLeader()
+    {
+        /* TODO: Implement Grids.Col in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // LeadrGrd.pas:155
+    public void SetSelectedLeader(Leader Value)
+    {
+        int I;
+        if (FMap != null)
+        {
+            I = FMap.FPlayers.RaceToPlayer((sbyte)(byte)Value.FRace);
+            if (I != -1)
+            {
+                SelectIndex(I - 1);
+            }
+        }
+    }
+
+    // LeadrGrd.pas:263
+    public void RemoveFromMap()
+    {
+        Leader Leader;
+        Leader = GetSelectedLeader();
+        if (Leader != null)
+        {
+            Leader.SetOwner(null);
+        }
+    }
+
+    [Published]
+    public bool EditLeaderEnabled { get => FReserved1DD; set => FReserved1DD = value; }
+
+    [Published]
+    public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
+
+    [Published]
+    public bool ShowLevel { get => FShowLevel; set => FShowLevel = value; }
 
     [LegacyObject]
-    public partial class TGridMapView
+    public partial class GridMapView
     {
-        public TItemControl ItemControl;
-        public THeroControl HeroControl;
-        public TPlayerList Players;
-        public TEventList LeaderEvent;
+        public global::Aow.Game.Units.ItemControl ItemControl;
+        public global::Aow.Game.Units.HeroControl HeroControl;
+        public PlayerList Players;
+        public EventList LeaderEvent;
 
-        public TGridMapView()
+        public GridMapView()
         {
             CaptureAddress.Assign(this);
         }
     }
 
-    public struct TRawView
+    public struct RawView
     {
         public FixedArray_object_512 Fields;
     }
 
-    public struct TNodeView
+    public struct NodeView
     {
         public FixedArray_byte_8 Reserved;
-        public TList Children;
+        public DelphiList Children;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 49)]
-    public struct TEngineView
+    public struct EngineView
     {
         [FieldOffset(0)]
         public FixedArray_byte_48 Reserved;
@@ -160,7 +154,7 @@ namespace Aow.Game.Ui.Grids.LeadrGrd
         public byte Status;
     }
 
-    public struct THeroView
+    public struct HeroView
     {
         public FixedArray_byte_96 Reserved00;
         private string name;
@@ -173,7 +167,7 @@ namespace Aow.Game.Ui.Grids.LeadrGrd
         public bool Hidden;
     }
 
-    public struct TItemView
+    public struct ItemView
     {
         public FixedArray_byte_24 Reserved00;
         private string name;

@@ -28,14 +28,14 @@ public static class ImageLibraries
 
     internal static string BaseImageLibraryPath = "";
 
-    public static TList LibraryImageClasses;
+    public static DelphiList LibraryImageClasses;
 
     public static void Initialize()
     {
-        BaseImageLibraryPath = ExtractFilePath(Application.ExeName);
-        LibraryImageClasses = new TList();
-        RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>()]);
-        RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(), LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(), LibraryImageClass.Of<TShadow>(), LibraryImageClass.Of<TImageNode>(), LibraryImageClass.Of<TSprite16>()]);
+        BaseImageLibraryPath = ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName);
+        LibraryImageClasses = new DelphiList();
+        RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>()]);
+        RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(), LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(), LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
     }
 
     public static void Finalize()

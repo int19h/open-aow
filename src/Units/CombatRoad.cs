@@ -10,9 +10,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class TCombatRoad : TAbstractRoad
+public partial class CombatRoad : AbstractRoad
 {
-    public TCombatRoad(TECustomNode owner) : base(owner)
+    public CombatRoad(ECustomNode owner) : base(owner)
     { }
 
     // CombatRoad.pas:51
@@ -22,7 +22,7 @@ public partial class TCombatRoad : TAbstractRoad
 
     // main image, neighbour images
     // CombatRoad.pas:108
-    public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Msg)
+    public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Msg)
     {
         if (HN == 0)
         {
@@ -31,12 +31,12 @@ public partial class TCombatRoad : TAbstractRoad
     }
 
     // CombatRoad.pas:113
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
-        TCustomImageLibrary Images;
+        CustomImageLibrary Images;
         int X = default;
         int Y = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
         X = X - XhpSurf - 8;
         Y = Y - YhpSurf;
         Images = FResource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -59,10 +59,10 @@ public partial class TCombatRoad : TAbstractRoad
     }
 
     // CombatRoad.pas:54
-    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
+    public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
 
     // CombatRoad.pas:57
-    public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         bool Result;
         if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.Width && Yhx < MapContainer.Height && Lhx < MapContainer.LevelCount)
@@ -78,12 +78,12 @@ public partial class TCombatRoad : TAbstractRoad
     }
 
     // CombatRoad.pas:66
-    public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        THexagonSprite OldRoad;
-        TMapField MapField;
+        HexagonSprite OldRoad;
+        MapField MapField;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-        OldRoad = MapField.FindHS(typeof(TAbstractRoad));
+        OldRoad = MapField.FindHS(typeof(AbstractRoad));
         if (OldRoad != null)
         {
             OldRoad.Dispose();
@@ -104,12 +104,12 @@ public partial class TCombatRoad : TAbstractRoad
     // CombatRoad.pas:77
     public void UpdateTransition(byte HN)
     {
-        TMapLevel MapLevel;
+        MapLevel MapLevel;
         sbyte Overlay;
         int X = default;
         int Y = default;
-        MapLevel = (TMapLevel)Owner.Owner;
-        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, HN, ref X, ref Y);
+        MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, HN, ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
         {
             Overlay = MapLevel.GetField(X, Y).OverlayType;
@@ -147,50 +147,50 @@ public partial class TCombatRoad : TAbstractRoad
         }
     }
 
-}
-
-public partial class TCombatRoadResource : TAbstractRoadResource
-{
-    public TCombatRoadResource(TECustomNode owner) : base(owner)
-    { }
-
-    // CombatRoad.pas:133
-    public new const int ClassID = 2229507;
-
-    // CombatRoad.pas:144
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public new partial class Resource : AbstractRoadResource
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 65621)
+        public Resource(ECustomNode owner) : base(owner)
+        { }
+
+        // CombatRoad.pas:133
+        public new const int ClassID = 2229507;
+
+        // CombatRoad.pas:144
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
-            Msg.Result = 5;
+            base.MsgProc(ref Msg, Sender);
+            if (Msg.MsgID == 65621)
+            {
+                Msg.Result = 5;
+            }
         }
+
+        // CombatRoad.pas:153
+        public override Aow.Game.Draw.Images.LibraryImage GetCellImage()
+        {
+            Aow.Game.Draw.Images.LibraryImage Result = null;
+            if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
+            {
+                Result = ImageSequenceList.GetImageSequence(0).ImageLibrary.Get(10);
+            }
+
+            if (Result == null)
+            {
+                Result = base.GetCellImage();
+            }
+
+            return Result;
+        }
+
+        // CombatRoad.pas:150
+        public override int ResourceUserClassID() => 2229506;
+
+        // CombatRoad.pas:139
+        public override RoadControl GetRoadControl() => ((AoWHSSet)Engine.HSSet).FCombatRoads;
+
+        // CombatRoad.pas:136
+        public override string ResourceEditName() => "Combat Road";
+
     }
-
-    // CombatRoad.pas:153
-    public override Aow.Game.Draw.Images.TLibraryImage GetCellImage()
-    {
-        Aow.Game.Draw.Images.TLibraryImage Result = null;
-        if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
-        {
-            Result = ImageSequenceList.GetImageSequence(0).ImageLibrary.Get(10);
-        }
-
-        if (Result == null)
-        {
-            Result = base.GetCellImage();
-        }
-
-        return Result;
-    }
-
-    // CombatRoad.pas:150
-    public override int ResourceUserClassID() => 2229506;
-
-    // CombatRoad.pas:139
-    public override TRoadControl GetRoadControl() => ((TAoWHSSet)Engine.HSSet).FCombatRoads;
-
-    // CombatRoad.pas:136
-    public override string ResourceEditName() => "Combat Road";
 
 }

@@ -13,9 +13,9 @@ namespace Aow.Game.World.Hexes
 
     // FDynamic, FOpenSides (bit HN-1: the neighbour HN is no hexagon of this kind), FSides (bits
     // 0.5: the neighbour HN has another terrain, bits 6.7: the image variant)
-    public partial class TIsometricHexagon : TAbstractHexagon
+    public partial class IsometricHexagon : AbstractHexagon
     {
-        public TIsometricHexagon(TECustomNode owner) : base(owner)
+        public IsometricHexagon(ECustomNode owner) : base(owner)
         {
             FSides = (byte)(Random(4) << 6);
         }
@@ -23,7 +23,7 @@ namespace Aow.Game.World.Hexes
         // IsoHex.pas:214
         public new const int ClassID = 131437;
 
-        protected internal TDynamicIsometricHexagon FDynamic;
+        protected internal DynamicIsometricHexagon FDynamic;
         protected internal byte FOpenSides;
         protected internal byte FSides;
 
@@ -54,18 +54,18 @@ namespace Aow.Game.World.Hexes
         }
 
         // IsoHex.pas:234
-        public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
+        public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Info)
         {
             UpdateTransitions();
         }
 
         // IsoHex.pas:239
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            TCustomImageLibrary IL;
+            CustomImageLibrary IL;
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -89,7 +89,7 @@ namespace Aow.Game.World.Hexes
         }
 
         // IsoHex.pas:256
-        public virtual void ShowDynamic(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public virtual void ShowDynamic(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
         }
 
@@ -103,13 +103,13 @@ namespace Aow.Game.Draw
 
     // owned by its TIsometricHexagon (FOwner set directly, so it is not added as a child) and shown
     // from the map field of that hexagon
-    public partial class TDynamicIsometricHexagon : THexagonSprite
+    public partial class DynamicIsometricHexagon : HexagonSprite
     {
         // IsoHex.pas:126
         public new const int ClassID = 131439;
 
         // IsoHex.pas:136
-        public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of();
+        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of();
 
         // IsoHex.pas:161
         public override void SetVisible(bool Value)
@@ -123,7 +123,7 @@ namespace Aow.Game.Draw
         public override bool CanSelect(int Xhp, int Yhp) => false;
 
         // IsoHex.pas:141
-        public override TSet<TControlModeElement> ControlMode() => TSet<TControlModeElement>.Of();
+        public override Set<ControlModeElement> ControlMode() => Set<ControlModeElement>.Of();
 
     }
 }
@@ -132,9 +132,9 @@ namespace Aow.Game.World.Hexes
 {
 
     // FDynamicLevel (26)
-    public partial class TIsometricHexagonResource : TAbstractHexagonResource
+    public partial class IsometricHexagonResource : AbstractHexagonResource
     {
-        public TIsometricHexagonResource(TECustomNode owner) : base(owner)
+        public IsometricHexagonResource(ECustomNode owner) : base(owner)
         {
             FDynamicLevel = 26;
         }
@@ -147,7 +147,7 @@ namespace Aow.Game.World.Hexes
         // IsoHex.pas:262
 
         // IsoHex.pas:302
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65621)
@@ -157,18 +157,18 @@ namespace Aow.Game.World.Hexes
         }
 
         // IsoHex.pas:273
-        public override Aow.Game.World.TMapObject PlaceResourceUser(THSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override Aow.Game.World.MapObject PlaceResourceUser(HSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            TMapField MapField;
+            MapField MapField;
             MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-            Aow.Game.World.TMapObject Result = (Aow.Game.World.TMapObject)MapField.FindOwnedHS(typeof(TIsometricHexagon));
+            Aow.Game.World.MapObject Result = (Aow.Game.World.MapObject)MapField.FindOwnedHS(typeof(IsometricHexagon));
             if (Result != null)
             {
                 if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
                 {
                     Result.SetResource(this);
                     MapField.UpdateTerrainType();
-                    ((TAbstractHexagon)Result).UpdateTransitions();
+                    ((AbstractHexagon)Result).UpdateTransitions();
                 }
                 else
                 {
@@ -179,7 +179,7 @@ namespace Aow.Game.World.Hexes
             }
             else
             {
-                Result = (Aow.Game.World.TMapObject)CreateResourceUser();
+                Result = (Aow.Game.World.MapObject)CreateResourceUser();
                 if (!Map.PlaceHX(Result, Xhx, Yhx, Lhx))
                 {
                     Result?.Dispose();
@@ -194,22 +194,22 @@ namespace Aow.Game.World.Hexes
 
     }
 
-    public partial class TUpperIsometricHexagon : TIsometricHexagon
+    public partial class UpperIsometricHexagon : IsometricHexagon
     {
-        public TUpperIsometricHexagon(TECustomNode owner) : base(owner)
+        public UpperIsometricHexagon(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 131440;
 
         // IsoHex.pas:355
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            TCustomImageLibrary IL;
+            CustomImageLibrary IL;
             int Xhp = default;
             int Yhp = default;
             if (FDynamic == null)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+                Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
                 Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf;
                 IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -233,48 +233,48 @@ namespace Aow.Game.World.Hexes
             }
         }
 
+        public new partial class Resource : IsometricHexagonResource
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
+
+            public new const int ClassID = 131441;
+
+            // IsoHex.pas:443
+            public override int ResourceUserClassID() => 131440;
+
+            // IsoHex.pas:448
+            public override string ResourceEditName() => Aow.Game.World.Hexes.UpperIsometricHexagon.Resource.UpperIsometricHexagonStr;
+
+            private static readonly string UpperIsometricHexagonStr = "Upper Isometric Hexagon";
+
+        }
+
     }
 
-    public partial class TUpperIsometricHexagonResource : TIsometricHexagonResource
+    public partial class LowerIsometricHexagon : IsometricHexagon
     {
-        public TUpperIsometricHexagonResource(TECustomNode owner) : base(owner)
-        { }
-
-        public new const int ClassID = 131441;
-
-        // IsoHex.pas:443
-        public override int ResourceUserClassID() => 131440;
-
-        // IsoHex.pas:448
-        public override string ResourceEditName() => Aow.Game.World.Hexes.TUpperIsometricHexagonResource.UpperIsometricHexagonStr;
-
-        private static readonly string UpperIsometricHexagonStr = "Upper Isometric Hexagon";
-
-    }
-
-    public partial class TLowerIsometricHexagon : TIsometricHexagon
-    {
-        public TLowerIsometricHexagon(TECustomNode owner) : base(owner)
+        public LowerIsometricHexagon(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 131442;
 
-    }
+        public new partial class Resource : IsometricHexagonResource
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
 
-    public partial class TLowerIsometricHexagonResource : TIsometricHexagonResource
-    {
-        public TLowerIsometricHexagonResource(TECustomNode owner) : base(owner)
-        { }
+            public new const int ClassID = 131443;
 
-        public new const int ClassID = 131443;
+            // IsoHex.pas:581
+            public override int ResourceUserClassID() => 131442;
 
-        // IsoHex.pas:581
-        public override int ResourceUserClassID() => 131442;
+            // IsoHex.pas:576
+            public override string ResourceEditName() => Aow.Game.World.Hexes.LowerIsometricHexagon.Resource.LowerIsometricHexagonStr;
 
-        // IsoHex.pas:576
-        public override string ResourceEditName() => Aow.Game.World.Hexes.TLowerIsometricHexagonResource.LowerIsometricHexagonStr;
+            private static readonly string LowerIsometricHexagonStr = "Lower Isometric Hexagon";
 
-        private static readonly string LowerIsometricHexagonStr = "Lower Isometric Hexagon";
+        }
 
     }
 }

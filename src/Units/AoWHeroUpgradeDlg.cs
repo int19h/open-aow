@@ -25,119 +25,119 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // close callback, referenced hero, list sort orders, live hero, editable copy
-public partial class THeroUpgradeDlg : TDataModule
+public partial class HeroUpgradeDlg : DataModule
 {
-    public THeroUpgradeDlg(TComponent owner) : base(owner)
+    public HeroUpgradeDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWButton CancelBtn;
-    public TAoWFrame BCeltL;
-    public TAOWButton Done;
-    public TAOWLabel Title;
-    public TAOWButton Close;
-    public TAOWImage TitleIcon;
-    public TAOWImage CeltM;
-    public TAOWImage CeltL;
-    public TAOWImage CeltR;
-    public TAoWFrame TCeltL;
-    public TAOWImage TCelt;
-    public TAOWPanel UpgradePnl;
-    public TAOWLabel HeaderLbl;
-    public TAOWLabel SkillPointsLbl;
-    public TAOWListBox AvailableAbilities;
-    public TAOWVScrollBar AvailableAbilitiesSB;
-    public TAOWListBox SelectedAbilities;
-    public TAOWVScrollBar SelectedAbilitiesSB;
-    public TAOWButton SelectedAbilitiesSort;
-    public TAOWButton AvailableAbilityCostSort;
-    public TAOWListBox AvailableAbilitiesCost;
-    public TAOWButton AvailableAbilitiesSort;
-    public TAOWButton AddAbilityBtn;
-    public TAOWButton RemoveBtn;
-    public TAOWImage FaceFrame;
-    public TAOWEdit UnitName;
-    public TAOWEdit Alignment;
-    public TAOWPanel TopPnl;
-    public TAOWPanel StatisicsPnl;
-    public TAOWLabel AttValue;
-    public TAOWLabel AttLbl;
-    public TAOWPanel AttPnl;
-    public TAOWLabel DamValue;
-    public TAOWLabel DamLbl;
-    public TAOWPanel DamPnl;
-    public TAOWLabel DefValue;
-    public TAOWLabel DefLbl;
-    public TAOWPanel DefPnl;
-    public TAOWLabel ResValue;
-    public TAOWLabel ResLbl;
-    public TAOWPanel ResPnl;
-    public TAOWLabel HitValue;
-    public TAOWLabel HitLbl;
-    public TAOWPanel HitPnl;
-    public TAOWLabel MovValue;
-    public TAOWLabel MovLbl;
-    public TAOWPanel MovPnl;
-    public TAOWLabel AttI;
-    public TAOWLabel DamI;
-    public TAOWLabel DefI;
-    public TAOWLabel ResI;
-    public TAOWLabel HitI;
-    public TAOWLabel MovI;
-    public TAOWLabel AttA;
-    public TAOWLabel DamA;
-    public TAOWLabel DefA;
-    public TAOWLabel ResA;
-    public TAOWLabel HitA;
-    public TAOWLabel MovA;
-    public TAOWLabel AttP;
-    public TAOWLabel DamP;
-    public TAOWLabel DefP;
-    public TAOWLabel ResP;
-    public TAOWLabel HitP;
-    public TAOWLabel MovP;
-    public TAOWLabel AttB;
-    public TAOWLabel DamB;
-    public TAOWLabel DefB;
-    public TAOWLabel ResB;
-    public TAOWLabel HitB;
-    public TAOWLabel MovB;
-    public TAOWButton AttUp;
-    public TAOWButton AttDn;
-    public TAOWButton DamUp;
-    public TAOWButton DamDn;
-    public TAOWButton DefUp;
-    public TAOWButton DefDn;
-    public TAOWButton ResUp;
-    public TAOWButton ResDn;
-    public TAOWButton HitUp;
-    public TAOWButton HitDn;
-    public TAOWButton MovUp;
-    public TAOWButton MovDn;
-    public TAOWImage AttIc;
-    public TAOWImage DamIcn;
-    public TAOWImage DefIc;
-    public TAOWImage ResIc;
-    public TAOWImage HitIc;
-    public TAOWImage MovIc;
-    public TAOWButton SelectedAbilitiesCostSort;
-    public TAOWListBox SelectedAbilitiesCost;
-    public TAOWPanel InfoPnl;
-    public TAOWLabel LevelLbl;
-    public TAOWLabel SkillPoints;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FOnClose;
-    public THeroUpgradeEventLog FReferencedHero;
+    public AOWWindow Dlg;
+    public AOWButton CancelBtn;
+    public AoWFrame BCeltL;
+    public AOWButton Done;
+    public AOWLabel Title;
+    public AOWButton Close;
+    public AOWImage TitleIcon;
+    public AOWImage CeltM;
+    public AOWImage CeltL;
+    public AOWImage CeltR;
+    public AoWFrame TCeltL;
+    public AOWImage TCelt;
+    public AOWPanel UpgradePnl;
+    public AOWLabel HeaderLbl;
+    public AOWLabel SkillPointsLbl;
+    public AOWListBox AvailableAbilities;
+    public AOWVScrollBar AvailableAbilitiesSB;
+    public AOWListBox SelectedAbilities;
+    public AOWVScrollBar SelectedAbilitiesSB;
+    public AOWButton SelectedAbilitiesSort;
+    public AOWButton AvailableAbilityCostSort;
+    public AOWListBox AvailableAbilitiesCost;
+    public AOWButton AvailableAbilitiesSort;
+    public AOWButton AddAbilityBtn;
+    public AOWButton RemoveBtn;
+    public AOWImage FaceFrame;
+    public AOWEdit UnitName;
+    public AOWEdit Alignment;
+    public AOWPanel TopPnl;
+    public AOWPanel StatisicsPnl;
+    public AOWLabel AttValue;
+    public AOWLabel AttLbl;
+    public AOWPanel AttPnl;
+    public AOWLabel DamValue;
+    public AOWLabel DamLbl;
+    public AOWPanel DamPnl;
+    public AOWLabel DefValue;
+    public AOWLabel DefLbl;
+    public AOWPanel DefPnl;
+    public AOWLabel ResValue;
+    public AOWLabel ResLbl;
+    public AOWPanel ResPnl;
+    public AOWLabel HitValue;
+    public AOWLabel HitLbl;
+    public AOWPanel HitPnl;
+    public AOWLabel MovValue;
+    public AOWLabel MovLbl;
+    public AOWPanel MovPnl;
+    public AOWLabel AttI;
+    public AOWLabel DamI;
+    public AOWLabel DefI;
+    public AOWLabel ResI;
+    public AOWLabel HitI;
+    public AOWLabel MovI;
+    public AOWLabel AttA;
+    public AOWLabel DamA;
+    public AOWLabel DefA;
+    public AOWLabel ResA;
+    public AOWLabel HitA;
+    public AOWLabel MovA;
+    public AOWLabel AttP;
+    public AOWLabel DamP;
+    public AOWLabel DefP;
+    public AOWLabel ResP;
+    public AOWLabel HitP;
+    public AOWLabel MovP;
+    public AOWLabel AttB;
+    public AOWLabel DamB;
+    public AOWLabel DefB;
+    public AOWLabel ResB;
+    public AOWLabel HitB;
+    public AOWLabel MovB;
+    public AOWButton AttUp;
+    public AOWButton AttDn;
+    public AOWButton DamUp;
+    public AOWButton DamDn;
+    public AOWButton DefUp;
+    public AOWButton DefDn;
+    public AOWButton ResUp;
+    public AOWButton ResDn;
+    public AOWButton HitUp;
+    public AOWButton HitDn;
+    public AOWButton MovUp;
+    public AOWButton MovDn;
+    public AOWImage AttIc;
+    public AOWImage DamIcn;
+    public AOWImage DefIc;
+    public AOWImage ResIc;
+    public AOWImage HitIc;
+    public AOWImage MovIc;
+    public AOWButton SelectedAbilitiesCostSort;
+    public AOWListBox SelectedAbilitiesCost;
+    public AOWPanel InfoPnl;
+    public AOWLabel LevelLbl;
+    public AOWLabel SkillPoints;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FOnClose;
+    public HeroUpgradeEventLog FReferencedHero;
     public int FSelectedSort;
     public int FAvailableSort;
-    public THero FHero;
-    public THero FEditedHero;
+    public Hero FHero;
+    public Hero FEditedHero;
 
     // AoWHeroUpgradeDlg.pas:287
     public void ClearHero()
     {
-        TExecuteDoneEvent OnClose;
-        THeroUpgradeEventLog Hero;
+        ExecuteDoneEvent OnClose;
+        HeroUpgradeEventLog Hero;
         OnClose = FOnClose;
         Hero = FReferencedHero;
         FOnClose = null;
@@ -159,7 +159,7 @@ public partial class THeroUpgradeDlg : TDataModule
     // AoWHeroUpgradeDlg.pas:280
     public bool ValidateHero()
     {
-        FHero = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit<THero>(FReferencedHero.FUnitID);
+        FHero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FReferencedHero.FUnitID);
         bool Result = FHero != null;
         if (!Result)
         {
@@ -258,13 +258,13 @@ public partial class THeroUpgradeDlg : TDataModule
     {
         string Name;
         string Cost;
-        TAbility Ability;
+        Ability Ability;
         AvailableAbilities.Items.Clear();
         AvailableAbilitiesCost.Items.Clear();
-        for (int I = 1, last = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetCount() - 1; I <= last; I++)
+        for (int I = 1, last = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetCount() - 1; I <= last; I++)
         {
-            Ability = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I);
-            if (Ability != null && Ability.CanExpand(FEditedHero) && Ability.FSelectionTypes.Contains(TAbilitySelectionType.astHeroUpgrade))
+            Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I);
+            if (Ability != null && Ability.CanExpand(FEditedHero) && Ability.FSelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 var expandName = Ability.ExpandName(FEditedHero);
                 AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
@@ -279,7 +279,7 @@ public partial class THeroUpgradeDlg : TDataModule
         {
             if (FEditedHero.GetInherentAbility(I))
             {
-                Ability = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I);
+                Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I);
                 Name = Ability.GetName(FEditedHero);
                 if (FHero.GetAbEnabled(I) && FHero.GetInherentAbilityLevel(I) == FEditedHero.GetInherentAbilityLevel(I))
                 {
@@ -322,7 +322,7 @@ public partial class THeroUpgradeDlg : TDataModule
     public bool CanAddAbility(int AbilityID)
     {
         bool Result;
-        if (!Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(AbilityID).CanExpand(FEditedHero) || Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(AbilityID).ExpandCost(FEditedHero) > FEditedHero.GetSkillPoints())
+        if (!Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).CanExpand(FEditedHero) || Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ExpandCost(FEditedHero) > FEditedHero.GetSkillPoints())
         {
             Result = false;
         }
@@ -342,13 +342,13 @@ public partial class THeroUpgradeDlg : TDataModule
     }
 
     // AoWHeroUpgradeDlg.pas:308
-    public void FaceFramePreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void FaceFramePreDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
-        TRect R;
+        global::Aow.Rtl.Rect R;
         if (ValidateHero())
         {
             var image = Sender;
-            R = Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
+            R = global::Aow.Rtl.RtlUnit.Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
 
             FHero.GetFace().ShowStretched(R, SurfDesc);
         }
@@ -515,7 +515,7 @@ public partial class THeroUpgradeDlg : TDataModule
     // AoWHeroUpgradeDlg.pas:445
     public void AddAbilityBtnClick()
     {
-        TAOWListBox List;
+        AOWListBox List;
         int Index;
         int AbilityID;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
@@ -536,7 +536,7 @@ public partial class THeroUpgradeDlg : TDataModule
     // AoWHeroUpgradeDlg.pas:465
     public void RemoveBtnClick()
     {
-        TAOWListBox List;
+        AOWListBox List;
         int Index;
         int AbilityID;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
@@ -626,12 +626,12 @@ public partial class THeroUpgradeDlg : TDataModule
     // AoWHeroUpgradeDlg.pas:517
     public void DoneClick()
     {
-        THeroUpgradeTE Event;
+        HeroUpgradeTE Event;
         if (ValidateHero())
         {
-            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FHero.FPlayer).GetBusy())
+            if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FHero.FPlayer).GetBusy())
             {
-                Event = new THeroUpgradeTE(null);
+                Event = new HeroUpgradeTE(null);
                 Event.Setup(FHero);
                 Event.FAttack = (sbyte)(FEditedHero.FUnitAttack - FHero.FUnitAttack);
                 Event.FDefense = (sbyte)(FEditedHero.FUnitDefense - FHero.FUnitDefense);
@@ -640,7 +640,7 @@ public partial class THeroUpgradeDlg : TDataModule
                 Event.FHits = (sbyte)(FEditedHero.FUnitHits - FHero.FUnitHits);
                 Event.FMoves = (sbyte)(FEditedHero.FUnitMoves - FHero.FUnitMoves);
                 Event.FAbilities.AssignAb(FEditedHero);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(FHero.FPlayer).AddEvent(Event);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FHero.FPlayer).AddEvent(Event);
                 Event.Release();
                 Dlg.Visible = false;
             }
@@ -654,39 +654,39 @@ public partial class THeroUpgradeDlg : TDataModule
     }
 
     // AoWHeroUpgradeDlg.pas:544
-    public void AvailableAbilitiesMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void AvailableAbilitiesMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAbility Ability;
-        if (Button == TMouseButton.mbRight && AvailableAbilities.Selected != -1)
+        Ability Ability;
+        if (Button == MouseButton.Right && AvailableAbilities.Selected != -1)
         {
             var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-            Ability = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                Aow.Game.Ui.Dialogs.TInfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
+                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
 
     // AoWHeroUpgradeDlg.pas:556
-    public void SelectedAbilitiesMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void SelectedAbilitiesMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAbility Ability;
-        if (Button == TMouseButton.mbRight && SelectedAbilities.Selected != -1)
+        Ability Ability;
+        if (Button == MouseButton.Right && SelectedAbilities.Selected != -1)
         {
             var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-            Ability = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                Aow.Game.Ui.Dialogs.TInfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
+                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
 
     // AoWHeroUpgradeDlg.pas:568
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -694,14 +694,14 @@ public partial class THeroUpgradeDlg : TDataModule
         }
     }
 
-    internal static void ShowHeroUpgrade(THeroUpgradeDlg Dialog, THeroUpgradeEventLog Event, TExecuteDoneEvent Completed)
+    internal static void ShowHeroUpgrade(HeroUpgradeDlg Dialog, HeroUpgradeEventLog Event, ExecuteDoneEvent Completed)
     {
         Dialog.FReferencedHero = Event;
         Dialog.FReferencedHero.AddRef();
         Dialog.FOnClose = Completed;
         if (Dialog.ValidateHero())
         {
-            Dialog.FEditedHero = (THero)Dialog.FHero.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            Dialog.FEditedHero = (Hero)Dialog.FHero.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             Dialog.UpdateStatistics();
             Dialog.RefreshAbilities();
             Dialog.UnitName.Text = Dialog.FHero.FHeroName;

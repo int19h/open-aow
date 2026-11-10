@@ -100,9 +100,9 @@ internal static class TacticalTables
 
     internal static FixedArray_int_18 raDir = FixedArray_int_18.From([0, 0, 0, 1, 0, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-    internal static FixedArray_Aow_Units_AoWTC_TfxType_170 AbilTypes = FixedArray_Aow_Units_AoWTC_TfxType_170.From([TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxArrow, TfxType.fxNone, TfxType.fxRock, TfxType.fxRock, TfxType.fxNone, TfxType.fxTouch, TfxType.fxTouch, TfxType.fxTouch, TfxType.fxBreath, TfxType.fxEffect, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxTouch, TfxType.fxNone, TfxType.fxNone, TfxType.fxTouch, TfxType.fxNone, TfxType.fxTouch, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxRock, TfxType.fxRock, TfxType.fxNone, TfxType.fxTouch, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxRay, TfxType.fxNone, TfxType.fxArrow, TfxType.fxArrow, TfxType.fxNone, TfxType.fxTouch, TfxType.fxArrow, TfxType.fxComet, TfxType.fxNone, TfxType.fxNone, TfxType.fxTouch, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxBreath, TfxType.fxBreath, TfxType.fxBreath, TfxType.fxBreath, TfxType.fxBreath, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxTouch, TfxType.fxTouch, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxTouch, TfxType.fxNone, TfxType.fxNone, TfxType.fxTouch, TfxType.fxNone, TfxType.fxNone, TfxType.fxComet, TfxType.fxComet, TfxType.fxComet, TfxType.fxComet, TfxType.fxComet, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxTouch, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone]);
+    internal static FixedArray_Aow_Units_AoWTC_TfxType_170 AbilTypes = FixedArray_Aow_Units_AoWTC_TfxType_170.From([TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Arrow, TfxType.None, TfxType.Rock, TfxType.Rock, TfxType.None, TfxType.Touch, TfxType.Touch, TfxType.Touch, TfxType.Breath, TfxType.Effect, TfxType.None, TfxType.None, TfxType.None, TfxType.Touch, TfxType.None, TfxType.None, TfxType.Touch, TfxType.None, TfxType.Touch, TfxType.None, TfxType.None, TfxType.None, TfxType.Rock, TfxType.Rock, TfxType.None, TfxType.Touch, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Ray, TfxType.None, TfxType.Arrow, TfxType.Arrow, TfxType.None, TfxType.Touch, TfxType.Arrow, TfxType.Comet, TfxType.None, TfxType.None, TfxType.Touch, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Breath, TfxType.Breath, TfxType.Breath, TfxType.Breath, TfxType.Breath, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Touch, TfxType.Touch, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Touch, TfxType.None, TfxType.None, TfxType.Touch, TfxType.None, TfxType.None, TfxType.Comet, TfxType.Comet, TfxType.Comet, TfxType.Comet, TfxType.Comet, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Touch, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None]);
 
-    internal static FixedArray_Aow_Units_AoWTC_TfxType_131 SpellTypes = FixedArray_Aow_Units_AoWTC_TfxType_131.From([TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxEffect, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxNone, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxNone, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxEffect, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxEffect, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxNone, TfxType.fxCometBall, TfxType.fxEffect, TfxType.fxHighPrayer, TfxType.fxRay, TfxType.fxCloud, TfxType.fxScreenNESW, TfxType.fxMindDecay, TfxType.fxChain, TfxType.fxBreath, TfxType.fxNone, TfxType.fxEffect, TfxType.fxEffect, TfxType.fxTremors, TfxType.fxEffect, TfxType.fxBreath, TfxType.fxScreenSwarm, TfxType.fxScreenNS, TfxType.fxRock, TfxType.fxGeyser, TfxType.fxAltArrow, TfxType.fxFrostBeam, TfxType.fxEffect, TfxType.fxRock, TfxType.fxCometBall, TfxType.fxScreenNS, TfxType.fxSacredWrath, TfxType.fxWinds, TfxType.fxShockWave, TfxType.fxSacFlame, TfxType.fxResurrect, TfxType.fxResurrect]);
+    internal static FixedArray_Aow_Units_AoWTC_TfxType_131 SpellTypes = FixedArray_Aow_Units_AoWTC_TfxType_131.From([TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Effect, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Effect, TfxType.Effect, TfxType.Effect, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Effect, TfxType.Effect, TfxType.None, TfxType.Effect, TfxType.Effect, TfxType.Effect, TfxType.None, TfxType.Effect, TfxType.Effect, TfxType.Effect, TfxType.Effect, TfxType.Effect, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Effect, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Effect, TfxType.Effect, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.Effect, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.None, TfxType.CometBall, TfxType.Effect, TfxType.HighPrayer, TfxType.Ray, TfxType.Cloud, TfxType.ScreenNESW, TfxType.MindDecay, TfxType.Chain, TfxType.Breath, TfxType.None, TfxType.Effect, TfxType.Effect, TfxType.Tremors, TfxType.Effect, TfxType.Breath, TfxType.ScreenSwarm, TfxType.ScreenNS, TfxType.Rock, TfxType.Geyser, TfxType.AltArrow, TfxType.FrostBeam, TfxType.Effect, TfxType.Rock, TfxType.CometBall, TfxType.ScreenNS, TfxType.SacredWrath, TfxType.Winds, TfxType.ShockWave, TfxType.SacFlame, TfxType.Resurrect, TfxType.Resurrect]);
 
     internal static FixedArray_int_72 BreathHN = FixedArray_int_72.From([1, 18, 7, 8, 36, 19, 20, 59, 60, 37, 38, 39, 2, 8, 9, 10, 21, 22, 23, 39, 40, 41, 42, 43, 3, 10, 11, 12, 24, 25, 26, 43, 44, 45, 46, 47, 4, 12, 13, 14, 27, 28, 29, 47, 48, 49, 50, 51, 5, 14, 15, 16, 30, 31, 32, 51, 52, 53, 54, 55, 6, 16, 17, 18, 33, 34, 35, 55, 56, 57, 58, 59]);
 
@@ -110,7 +110,7 @@ internal static class TacticalTables
 
     internal static FixedArray_int_2 WallMaxHP = FixedArray_int_2.From([7, 13]);
 
-    internal static void MakeAbilPath(TCombatSideIndex Side, short Ability, short Spell, short X1, short Y1, short X2, short Y2, ref TXYZList Path, ref TList Obstacles)
+    internal static void MakeAbilPath(CombatSideIndex Side, short Ability, short Spell, short X1, short Y1, short X2, short Y2, ref XYZList Path, ref DelphiList Obstacles)
     {
         int X = default;
         int Y = default;
@@ -134,7 +134,7 @@ internal static class TacticalTables
             case 30:
             case 31:
             case >= 86 and <= 90:
-                var xyz = new TXYZ();
+                var xyz = new XYZ();
                 Path.Add(xyz);
                 Aow.Game.World.Map.HexGeometry.HXtoHP(X2, Y2, ref X, ref Y);
                 Path[0].X = X + 12;
@@ -163,20 +163,20 @@ internal static class TacticalTables
                     default:
                         switch (Aow.Game.Combat.TacticalTables.SpellTypes[Spell])
                         {
-                            case TfxType.fxBreath:
-                            case TfxType.fxEffect:
-                            case TfxType.fxScreenNS:
-                            case TfxType.fxScreenSwarm:
-                            case TfxType.fxGeyser:
-                            case TfxType.fxTremors:
-                            case TfxType.fxCloud:
-                            case TfxType.fxResurrect:
-                            case TfxType.fxFrostBeam:
-                            case TfxType.fxMindDecay:
-                            case TfxType.fxShockWave:
-                            case TfxType.fxSacFlame:
-                            case TfxType.fxWinds:
-                                var xyz2 = new TXYZ();
+                            case TfxType.Breath:
+                            case TfxType.Effect:
+                            case TfxType.ScreenNS:
+                            case TfxType.ScreenSwarm:
+                            case TfxType.Geyser:
+                            case TfxType.Tremors:
+                            case TfxType.Cloud:
+                            case TfxType.Resurrect:
+                            case TfxType.FrostBeam:
+                            case TfxType.MindDecay:
+                            case TfxType.ShockWave:
+                            case TfxType.SacFlame:
+                            case TfxType.Winds:
+                                var xyz2 = new XYZ();
                                 Path.Add(xyz2);
                                 Aow.Game.World.Map.HexGeometry.HXtoHP(X2, Y2, ref X, ref Y);
                                 Path[0].X = X + 12;
@@ -198,7 +198,7 @@ internal static class TacticalTables
         }
     }
 
-    internal static void MakeRangedPath(TCombatSideIndex Side, short Speed, short Arc, short UnusedHeight, short X1, short Y1, short X2, short Y2, short OffsetX, short OffsetY, bool IncludeUnits, ref TXYZList Path, ref TList Obstacles)
+    internal static void MakeRangedPath(CombatSideIndex Side, short Speed, short Arc, short UnusedHeight, short X1, short Y1, short X2, short Y2, short OffsetX, short OffsetY, bool IncludeUnits, ref XYZList Path, ref DelphiList Obstacles)
     {
         int I;
         int A;
@@ -214,11 +214,11 @@ internal static class TacticalTables
         int StartY = default;
         int EndX = default;
         int EndY = default;
-        TXYZ Point;
+        XYZ Point;
         float Height;
-        TROb Obstacle;
-        TTacticalCombatUnitHS UnitHS;
-        TCityWall Wall;
+        ROb Obstacle;
+        TacticalCombatUnitHS UnitHS;
+        CityWall Wall;
         Path.Clear();
         Obstacles.Clear();
         Aow.Game.World.Map.HexGeometry.HXtoHP(X1, Y1, ref X, ref Y);
@@ -238,7 +238,7 @@ internal static class TacticalTables
 
         while (I <= Steps)
         {
-            Point = new TXYZ();
+            Point = new XYZ();
             Path.Add(Point);
             Point.X = (LastX - X) * I / Steps + X;
             Point.Y = (LastY - Y) * I / Steps + Y;
@@ -288,13 +288,13 @@ internal static class TacticalTables
             if ((X != StartX || Y != StartY) && (X != EndX || Y != EndY))
             {
                 Steps = 0;
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 15)
+                if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 15)
                 {
                     Steps = 3;
                 }
                 else
                 {
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 7)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 7)
                     {
                         Steps = 3;
                     }
@@ -307,13 +307,13 @@ internal static class TacticalTables
                         }
                         else
                         {
-                            UnitHS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                            UnitHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
                         }
 
-                        Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
-                        if (Wall == null && Side == TCombatSideIndex.csAttacker)
+                        Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
+                        if (Wall == null && Side == CombatSideIndex.Attacker)
                         {
-                            Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
+                            Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
                         }
 
                         if (A == 1)
@@ -323,7 +323,7 @@ internal static class TacticalTables
                                 Steps = 1;
                             }
 
-                            if (Wall != null && Wall.FHitPoints > 0 && Side == TCombatSideIndex.csAttacker)
+                            if (Wall != null && Wall.FHitPoints > 0 && Side == CombatSideIndex.Attacker)
                             {
                                 Steps = 4;
                             }
@@ -339,7 +339,7 @@ internal static class TacticalTables
 
                                 if (Wall == null)
                                 {
-                                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].OverlayType == 8)
+                                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType == 8)
                                     {
                                         Steps = 1;
                                     }
@@ -359,10 +359,10 @@ internal static class TacticalTables
                                             while (Wall == null && B < 7)
                                             {
                                                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(StartX, StartY, B, ref NX, ref NY);
-                                                Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
+                                                Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
                                                 if (Wall == null)
                                                 {
-                                                    Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
+                                                    Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
                                                 }
 
                                                 B += 1;
@@ -415,7 +415,7 @@ internal static class TacticalTables
                     {
                         if (X != LastX || Y != LastY)
                         {
-                            Obstacle = new TROb();
+                            Obstacle = new ROb();
                             Obstacle.PathIndex = I;
                             Obstacles.Add(Obstacle);
                             LastX = X;
@@ -424,7 +424,7 @@ internal static class TacticalTables
                         }
                         else
                         {
-                            Obstacle = (TROb)Obstacles[Obstacles.Count - 1];
+                            Obstacle = (ROb)Obstacles[Obstacles.Count - 1];
                             if (Steps == 2 && Obstacle.Chance < A)
                             {
                                 Obstacle.Chance = A;

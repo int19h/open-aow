@@ -13,14 +13,14 @@ public sealed class MapNetSoundFailureTests
 
         internal readonly List<string> Events = [];
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             Events.Add("insert");
             base.AddChild(child);
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(TEObject child)
+        public override int RemoveChild(EObject child)
         {
             Events.Add("remove");
             int index = Members.IndexOf(child);
@@ -29,30 +29,30 @@ public sealed class MapNetSoundFailureTests
         }
     }
 
-    private sealed class FailingSample : Aow.Game.Audio.TSample
+    private sealed class FailingSample : Aow.Game.Audio.Sample
     {
-        private FailingSample(ConstructionContext context, TSampleData data) : base(context, data)
+        private FailingSample(ConstructionContext context, global::Aow.Game.Audio.SampleData data) : base(context, data)
         {
             Assert.Equal(2, data.RefCount);
             Assert.Equal(1, Aow.Game.Audio.AudioHost.SampleList.Count);
             throw new InvalidDataException("sample");
         }
 
-        internal static new FailingSample Create(TSampleData data) =>
+        internal static new FailingSample Create(global::Aow.Game.Audio.SampleData data) =>
             ConstructionContext.Create(data, static (context, value) => new FailingSample(context, value));
     }
 
-    private sealed class Container(THSMap map) : TMapContainer(map)
+    private sealed class Container(HSMap map) : MapContainer(map)
     {
         internal readonly List<string> Events = [];
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             Events.Add("insert");
             return base.AddChild(child);
         }
 
-        public override int RemoveChild(TEObject child)
+        public override int RemoveChild(EObject child)
         {
             Events.Add("remove");
             return base.RemoveChild(child);
@@ -67,7 +67,7 @@ public sealed class MapNetSoundFailureTests
 
     private sealed class ObservingFiles(IFileSystem inner, string name) : IFileSystem
     {
-        internal TSampleData? Published;
+        internal SampleData? Published;
 
         public Stream Open(string path, int mode)
         {
@@ -93,7 +93,7 @@ public sealed class MapNetSoundFailureTests
     public void PlainDynamicLevelRemainsPublishedUntilDestroy()
     {
         var owner = new SoundOwner();
-        var level = new TMapLevel(owner);
+        var level = new MapLevel(owner);
         Assert.Same(level, Assert.Single(owner.Members));
         Assert.Same(owner, level.Owner);
         Assert.Equal(0, level.Count);
@@ -106,10 +106,10 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void PlainWorldAndCombatLevelsKeepTheRegisteredTypeAndOwner()
     {
-        foreach (var descriptor in new[] { EClass.Of<Aow.Game.World.Map.TAoWMapLevel>(), EClass.Of<Aow.Game.Combat.TAoWCombatMapLevel>() })
+        foreach (var descriptor in new[] { EClass.Of<Aow.Game.World.Map.AoWMapLevel>(), EClass.Of<Aow.Game.Combat.AoWCombatMapLevel>() })
         {
             var owner = new SoundOwner();
-            var level = Assert.IsAssignableFrom<TMapLevel>(descriptor.Create(owner));
+            var level = Assert.IsAssignableFrom<MapLevel>(descriptor.Create(owner));
             Assert.IsType(descriptor.Type, level);
             Assert.Same(level, Assert.Single(owner.Members));
             Assert.Same(owner, level.Owner);
@@ -125,11 +125,11 @@ public sealed class MapNetSoundFailureTests
     {
         var oldSamples = Aow.Game.Audio.AudioHost.SampleList;
         var oldData = Aow.Game.Audio.AudioHost.SampleDataList;
-        Aow.Game.Audio.AudioHost.SampleList = new TSampleList();
-        Aow.Game.Audio.AudioHost.SampleDataList = new TSampleDataList();
+        Aow.Game.Audio.AudioHost.SampleList = new SampleList();
+        Aow.Game.Audio.AudioHost.SampleDataList = new SampleDataList();
         try
         {
-            var data = TSampleData.Create("reference");
+            var data = SampleData.Create("reference");
             Assert.Equal(1, data.RefCount);
             Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).Create(data));
             Assert.Empty(Aow.Game.Audio.AudioHost.SampleList.List.Take(Aow.Game.Audio.AudioHost.SampleList.Count));
@@ -151,9 +151,9 @@ public sealed class MapNetSoundFailureTests
         var oldSystems = Aow.Game.Audio.AudioHost.SoundSystems;
         var oldPath = Aow.Game.Audio.AudioHost.BaseSoundEnginePath;
         var oldFiles = Runtime.Files;
-        Aow.Game.Audio.AudioHost.SampleList = new TSampleList();
-        Aow.Game.Audio.AudioHost.SampleDataList = new TSampleDataList();
-        Aow.Game.Audio.AudioHost.SoundSystems = new TSoundSystemList();
+        Aow.Game.Audio.AudioHost.SampleList = new SampleList();
+        Aow.Game.Audio.AudioHost.SampleDataList = new SampleDataList();
+        Aow.Game.Audio.AudioHost.SoundSystems = new SoundSystemList();
         string path = Path.Combine(AppContext.BaseDirectory, "9.3b-8-corrupt.wav");
         if (corrupt) File.WriteAllBytes(path, [1, 2, 3]);
         else path += ".missing";
@@ -164,7 +164,7 @@ public sealed class MapNetSoundFailureTests
         {
             TSdlSoundSystem.Install(mute: true, audioOutput: false);
             var meta = TSdlSoundSystem.SampleData;
-            TSampleData? previous = null;
+            SampleData? previous = null;
             for (int i = 0; i < 2; i++)
             {
                 var error = Record.Exception(() => meta.Create(path));

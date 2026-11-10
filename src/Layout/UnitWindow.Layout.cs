@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TUnitWindow : ILayoutModule
+public partial class UnitWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -20,7 +20,7 @@ public partial class TUnitWindow : ILayoutModule
         session.Begin(this);
         Name = "UnitWindow";
         LayoutOnCreate = _ => UnitWindowCreate();
-        UnitWin = new TAOWWindow(this);
+        UnitWin = new AOWWindow(this);
         session.BeginRead(UnitWin);
         UnitWin.Name = "UnitWin";
         UnitWin.OnMouseDown = (_, button, shift, x, y) => UnitWinMouseDown(button, shift, x, y);
@@ -36,8 +36,8 @@ public partial class TUnitWindow : ILayoutModule
         UnitWin.Masked = true;
         UnitWin.OnHide = _ => UnitWinShow();
         UnitWin.OnShow = _ => UnitWinShow();
-        UnitWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UnitWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        UnitWin.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UnitWin.Alignment.AlignHeight = AOWAlignHeight.Center;
         UnitWin.Alignment.HeightPercent = 0;
         UnitWin.Alignment.WidthPercent = 0;
         UnitWin.Alignment.LeftOffPercent = 0;
@@ -72,15 +72,15 @@ public partial class TUnitWindow : ILayoutModule
         UnitWin.WinHeight = 417;
         UnitWin.Dockable = false;
         session.EndRead(UnitWin);
-        UnitFrameLeft = new TAOWImage(this);
+        UnitFrameLeft = new AOWImage(this);
         session.BeginRead(UnitFrameLeft);
         UnitFrameLeft.Name = "UnitFrameLeft";
         UnitFrameLeft.Priority = 200;
         UnitFrameLeft.WinLeft = 0;
         UnitFrameLeft.WinTop = 0;
         UnitFrameLeft.CaptureInput = true;
-        UnitFrameLeft.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UnitFrameLeft.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UnitFrameLeft.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UnitFrameLeft.Alignment.AlignHeight = AOWAlignHeight.Top;
         UnitFrameLeft.Alignment.HeightPercent = 0;
         UnitFrameLeft.Alignment.WidthPercent = 0;
         UnitFrameLeft.Alignment.LeftOffPercent = 0;
@@ -100,15 +100,15 @@ public partial class TUnitWindow : ILayoutModule
         UnitFrameLeft.Animate = false;
         UnitFrameLeft.AnimFrameDelay = 0;
         session.EndRead(UnitFrameLeft);
-        UnitTab = new TAOWTabPanel(this);
+        UnitTab = new AOWTabPanel(this);
         session.BeginRead(UnitTab);
         UnitTab.Name = "UnitTab";
         UnitTab.Priority = 3000;
         UnitTab.WinLeft = 21;
         UnitTab.WinTop = 163;
         UnitTab.CaptureInput = true;
-        UnitTab.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        UnitTab.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UnitTab.Alignment.AlignWidth = AOWAlignWidth.Both;
+        UnitTab.Alignment.AlignHeight = AOWAlignHeight.Top;
         UnitTab.Alignment.HeightPercent = 0;
         UnitTab.Alignment.WidthPercent = 0;
         UnitTab.Alignment.LeftOffPercent = 0;
@@ -130,7 +130,7 @@ public partial class TUnitWindow : ILayoutModule
         UnitTab.ILIndexUp = 70;
         UnitTab.BorderHeightSelected = 7;
         session.EndRead(UnitTab);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
@@ -141,8 +141,8 @@ public partial class TUnitWindow : ILayoutModule
             "Closes the window."
         };
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Close.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Close.Alignment.AlignHeight = AOWAlignHeight.Top;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;
@@ -164,15 +164,15 @@ public partial class TUnitWindow : ILayoutModule
         Close.WinWidth = 15;
         Close.OnClick = _ => CloseClick();
         session.EndRead(Close);
-        Title = new TAOWLabel(this);
+        Title = new AOWLabel(this);
         session.BeginRead(Title);
         Title.Name = "Title";
         Title.Priority = 0;
         Title.WinLeft = 42;
         Title.WinTop = 7;
         Title.CaptureInput = false;
-        Title.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Title.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Title.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Title.Alignment.AlignHeight = AOWAlignHeight.Top;
         Title.Alignment.HeightPercent = 0;
         Title.Alignment.WidthPercent = 0;
         Title.Alignment.LeftOffPercent = 0;
@@ -187,7 +187,7 @@ public partial class TUnitWindow : ILayoutModule
         Title.Text = "Unit ";
         Title.TextColor = 0;
         session.EndRead(Title);
-        Help = new TAOWButton(this);
+        Help = new AOWButton(this);
         session.BeginRead(Help);
         Help.Name = "Help";
         Help.Visible = false;
@@ -199,8 +199,8 @@ public partial class TUnitWindow : ILayoutModule
             "Displays help on this window"
         };
         Help.CaptureInput = true;
-        Help.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Help.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Help.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Help.Alignment.AlignHeight = AOWAlignHeight.Top;
         Help.Alignment.HeightPercent = 0;
         Help.Alignment.WidthPercent = 0;
         Help.Alignment.LeftOffPercent = 0;
@@ -222,15 +222,15 @@ public partial class TUnitWindow : ILayoutModule
         Help.WinWidth = 15;
         Help.OnClick = _ => HelpClick();
         session.EndRead(Help);
-        TitleIcon = new TAOWImage(this);
+        TitleIcon = new AOWImage(this);
         session.BeginRead(TitleIcon);
         TitleIcon.Name = "TitleIcon";
         TitleIcon.Priority = 0;
         TitleIcon.WinLeft = 20;
         TitleIcon.WinTop = 5;
         TitleIcon.CaptureInput = false;
-        TitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TitleIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TitleIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         TitleIcon.Alignment.HeightPercent = 0;
         TitleIcon.Alignment.WidthPercent = 0;
         TitleIcon.Alignment.LeftOffPercent = 0;
@@ -250,15 +250,15 @@ public partial class TUnitWindow : ILayoutModule
         TitleIcon.Animate = false;
         TitleIcon.AnimFrameDelay = 0;
         session.EndRead(TitleIcon);
-        BCloseBtn = new TAOWButton(this);
+        BCloseBtn = new AOWButton(this);
         session.BeginRead(BCloseBtn);
         BCloseBtn.Name = "BCloseBtn";
         BCloseBtn.Priority = 250;
         BCloseBtn.WinLeft = 212;
         BCloseBtn.WinTop = 380;
         BCloseBtn.CaptureInput = true;
-        BCloseBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        BCloseBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        BCloseBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        BCloseBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         BCloseBtn.Alignment.HeightPercent = 0;
         BCloseBtn.Alignment.WidthPercent = 0;
         BCloseBtn.Alignment.LeftOffPercent = 50;
@@ -281,15 +281,15 @@ public partial class TUnitWindow : ILayoutModule
         BCloseBtn.WinWidth = 119;
         BCloseBtn.OnClick = _ => CloseClick();
         session.EndRead(BCloseBtn);
-        CeltLineR = new TAOWImage(this);
+        CeltLineR = new AOWImage(this);
         session.BeginRead(CeltLineR);
         CeltLineR.Name = "CeltLineR";
         CeltLineR.Priority = 100;
         CeltLineR.WinLeft = 339;
         CeltLineR.WinTop = 380;
         CeltLineR.CaptureInput = true;
-        CeltLineR.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        CeltLineR.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CeltLineR.Alignment.AlignWidth = AOWAlignWidth.Right;
+        CeltLineR.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CeltLineR.Alignment.HeightPercent = 0;
         CeltLineR.Alignment.WidthPercent = 0;
         CeltLineR.Alignment.LeftOffPercent = 0;
@@ -309,15 +309,15 @@ public partial class TUnitWindow : ILayoutModule
         CeltLineR.Animate = false;
         CeltLineR.AnimFrameDelay = 0;
         session.EndRead(CeltLineR);
-        T2Memo = new TAOWMemo(this);
+        T2Memo = new AOWMemo(this);
         session.BeginRead(T2Memo);
         T2Memo.Name = "T2Memo";
         T2Memo.Priority = 200;
         T2Memo.WinLeft = 1;
         T2Memo.WinTop = 0;
         T2Memo.CaptureInput = true;
-        T2Memo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T2Memo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        T2Memo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T2Memo.Alignment.AlignHeight = AOWAlignHeight.Both;
         T2Memo.Alignment.HeightPercent = 0;
         T2Memo.Alignment.WidthPercent = 0;
         T2Memo.Alignment.LeftOffPercent = 0;
@@ -341,9 +341,9 @@ public partial class TUnitWindow : ILayoutModule
         T2Memo.ILIndexTexture = 18;
         T2Memo.ItemHeight = 15;
         T2Memo.ColorChangeChar = 126;
-        T2Memo.TextAlign = TaowTextAlign.taLeft;
+        T2Memo.TextAlign = TaowTextAlign.Left;
         session.EndRead(T2Memo);
-        ManaIcon = new TAOWImage(this);
+        ManaIcon = new AOWImage(this);
         session.BeginRead(ManaIcon);
         ManaIcon.Name = "ManaIcon";
         ManaIcon.Priority = 0;
@@ -354,8 +354,8 @@ public partial class TUnitWindow : ILayoutModule
             "Channeling is the amount of mana the Hero can pull from their Leader's pool (Current/Maximum)."
         };
         ManaIcon.CaptureInput = true;
-        ManaIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ManaIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ManaIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ManaIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         ManaIcon.Alignment.HeightPercent = 0;
         ManaIcon.Alignment.WidthPercent = 0;
         ManaIcon.Alignment.LeftOffPercent = 52;
@@ -375,7 +375,7 @@ public partial class TUnitWindow : ILayoutModule
         ManaIcon.Animate = false;
         ManaIcon.AnimFrameDelay = 0;
         session.EndRead(ManaIcon);
-        Mana = new TAOWLabel(this);
+        Mana = new AOWLabel(this);
         session.BeginRead(Mana);
         Mana.Name = "Mana";
         Mana.Priority = 0;
@@ -386,8 +386,8 @@ public partial class TUnitWindow : ILayoutModule
             "Channeling is the amount of mana the Hero can pull from their Leader's pool (Current/Maximum)."
         };
         Mana.CaptureInput = true;
-        Mana.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Mana.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Mana.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Mana.Alignment.AlignHeight = AOWAlignHeight.Top;
         Mana.Alignment.HeightPercent = 0;
         Mana.Alignment.WidthPercent = 0;
         Mana.Alignment.LeftOffPercent = 0;
@@ -401,7 +401,7 @@ public partial class TUnitWindow : ILayoutModule
         Mana.Masked = true;
         Mana.TextColor = 16777215;
         session.EndRead(Mana);
-        T1AbilityLB = new TAOWListBox(this);
+        T1AbilityLB = new AOWListBox(this);
         session.BeginRead(T1AbilityLB);
         T1AbilityLB.Name = "T1AbilityLB";
         T1AbilityLB.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
@@ -409,8 +409,8 @@ public partial class TUnitWindow : ILayoutModule
         T1AbilityLB.WinLeft = 1;
         T1AbilityLB.WinTop = 14;
         T1AbilityLB.CaptureInput = true;
-        T1AbilityLB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T1AbilityLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        T1AbilityLB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T1AbilityLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         T1AbilityLB.Alignment.HeightPercent = 0;
         T1AbilityLB.Alignment.WidthPercent = 0;
         T1AbilityLB.Alignment.LeftOffPercent = 0;
@@ -436,17 +436,17 @@ public partial class TUnitWindow : ILayoutModule
         T1AbilityLB.ILIndexTNormal = 21;
         T1AbilityLB.ILIndexTSelected = 8;
         T1AbilityLB.ItemHeight = 17;
-        T1AbilityLB.TextAlign = TaowTextAlign.taLeft;
+        T1AbilityLB.TextAlign = TaowTextAlign.Left;
         session.EndRead(T1AbilityLB);
-        T1UseBut = new TAOWButton(this);
+        T1UseBut = new AOWButton(this);
         session.BeginRead(T1UseBut);
         T1UseBut.Name = "T1UseBut";
         T1UseBut.Priority = 100;
         T1UseBut.WinLeft = 63;
         T1UseBut.WinTop = 174;
         T1UseBut.CaptureInput = true;
-        T1UseBut.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        T1UseBut.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        T1UseBut.Alignment.AlignWidth = AOWAlignWidth.Center;
+        T1UseBut.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         T1UseBut.Alignment.HeightPercent = 0;
         T1UseBut.Alignment.WidthPercent = 0;
         T1UseBut.Alignment.LeftOffPercent = 0;
@@ -469,15 +469,15 @@ public partial class TUnitWindow : ILayoutModule
         T1UseBut.WinWidth = 250;
         T1UseBut.OnClick = _ => Layout_UseAbility_0();
         session.EndRead(T1UseBut);
-        T1SortName = new TAOWButton(this);
+        T1SortName = new AOWButton(this);
         session.BeginRead(T1SortName);
         T1SortName.Name = "T1SortName";
         T1SortName.Priority = 1000;
         T1SortName.WinLeft = 1;
         T1SortName.WinTop = 0;
         T1SortName.CaptureInput = true;
-        T1SortName.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T1SortName.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        T1SortName.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T1SortName.Alignment.AlignHeight = AOWAlignHeight.Top;
         T1SortName.Alignment.HeightPercent = 0;
         T1SortName.Alignment.WidthPercent = 0;
         T1SortName.Alignment.LeftOffPercent = 0;
@@ -500,15 +500,15 @@ public partial class TUnitWindow : ILayoutModule
         T1SortName.WinWidth = 168;
         T1SortName.OnClick = _ => Layout_T1SortNameClick_1();
         session.EndRead(T1SortName);
-        T1SortType = new TAOWButton(this);
+        T1SortType = new AOWButton(this);
         session.BeginRead(T1SortType);
         T1SortType.Name = "T1SortType";
         T1SortType.Priority = 1000;
         T1SortType.WinLeft = 164;
         T1SortType.WinTop = 0;
         T1SortType.CaptureInput = true;
-        T1SortType.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T1SortType.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        T1SortType.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T1SortType.Alignment.AlignHeight = AOWAlignHeight.Top;
         T1SortType.Alignment.HeightPercent = 0;
         T1SortType.Alignment.WidthPercent = 0;
         T1SortType.Alignment.LeftOffPercent = 45;
@@ -531,15 +531,15 @@ public partial class TUnitWindow : ILayoutModule
         T1SortType.WinWidth = 85;
         T1SortType.OnClick = _ => Layout_T1SortTypeClick_2();
         session.EndRead(T1SortType);
-        T1SortSource = new TAOWButton(this);
+        T1SortSource = new AOWButton(this);
         session.BeginRead(T1SortSource);
         T1SortSource.Name = "T1SortSource";
         T1SortSource.Priority = 1000;
         T1SortSource.WinLeft = 248;
         T1SortSource.WinTop = 0;
         T1SortSource.CaptureInput = true;
-        T1SortSource.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T1SortSource.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        T1SortSource.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T1SortSource.Alignment.AlignHeight = AOWAlignHeight.Top;
         T1SortSource.Alignment.HeightPercent = 0;
         T1SortSource.Alignment.WidthPercent = 0;
         T1SortSource.Alignment.LeftOffPercent = 68;
@@ -562,7 +562,7 @@ public partial class TUnitWindow : ILayoutModule
         T1SortSource.WinWidth = 118;
         T1SortSource.OnClick = _ => Layout_T1SortSourceClick_3();
         session.EndRead(T1SortSource);
-        T1UseMsg = new TAOWLabel(this);
+        T1UseMsg = new AOWLabel(this);
         session.BeginRead(T1UseMsg);
         T1UseMsg.Name = "T1UseMsg";
         T1UseMsg.Visible = false;
@@ -570,8 +570,8 @@ public partial class TUnitWindow : ILayoutModule
         T1UseMsg.WinLeft = 109;
         T1UseMsg.WinTop = 175;
         T1UseMsg.CaptureInput = true;
-        T1UseMsg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        T1UseMsg.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        T1UseMsg.Alignment.AlignWidth = AOWAlignWidth.Center;
+        T1UseMsg.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         T1UseMsg.Alignment.HeightPercent = 0;
         T1UseMsg.Alignment.WidthPercent = 0;
         T1UseMsg.Alignment.LeftOffPercent = 0;
@@ -586,7 +586,7 @@ public partial class TUnitWindow : ILayoutModule
         T1UseMsg.Text = "Can only be used in Combat!";
         T1UseMsg.TextColor = 13165253;
         session.EndRead(T1UseMsg);
-        T1Panel = new TAOWPanel(this);
+        T1Panel = new AOWPanel(this);
         session.BeginRead(T1Panel);
         T1Panel.Name = "T1Panel";
         T1Panel.Priority = 900;
@@ -594,8 +594,8 @@ public partial class TUnitWindow : ILayoutModule
         T1Panel.WinTop = 178;
         T1Panel.WinWidth = 376;
         T1Panel.Masked = true;
-        T1Panel.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T1Panel.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        T1Panel.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T1Panel.Alignment.AlignHeight = AOWAlignHeight.Both;
         T1Panel.Alignment.HeightPercent = 0;
         T1Panel.Alignment.WidthPercent = 0;
         T1Panel.Alignment.LeftOffPercent = 0;
@@ -613,7 +613,7 @@ public partial class TUnitWindow : ILayoutModule
         T1Panel.MinWidth = 0;
         T1Panel.MinHeight = 0;
         session.EndRead(T1Panel);
-        T2Panel = new TAOWPanel(this);
+        T2Panel = new AOWPanel(this);
         session.BeginRead(T2Panel);
         T2Panel.Name = "T2Panel";
         T2Panel.Visible = false;
@@ -622,8 +622,8 @@ public partial class TUnitWindow : ILayoutModule
         T2Panel.WinTop = 178;
         T2Panel.WinWidth = 376;
         T2Panel.Masked = true;
-        T2Panel.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T2Panel.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        T2Panel.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T2Panel.Alignment.AlignHeight = AOWAlignHeight.Both;
         T2Panel.Alignment.HeightPercent = 0;
         T2Panel.Alignment.WidthPercent = 0;
         T2Panel.Alignment.LeftOffPercent = 0;
@@ -641,7 +641,7 @@ public partial class TUnitWindow : ILayoutModule
         T2Panel.MinWidth = 0;
         T2Panel.MinHeight = 0;
         session.EndRead(T2Panel);
-        T1TypeLB = new TAOWListBox(this);
+        T1TypeLB = new AOWListBox(this);
         session.BeginRead(T1TypeLB);
         T1TypeLB.Name = "T1TypeLB";
         T1TypeLB.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
@@ -649,8 +649,8 @@ public partial class TUnitWindow : ILayoutModule
         T1TypeLB.WinLeft = 164;
         T1TypeLB.WinTop = 14;
         T1TypeLB.CaptureInput = true;
-        T1TypeLB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T1TypeLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        T1TypeLB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T1TypeLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         T1TypeLB.Alignment.HeightPercent = 0;
         T1TypeLB.Alignment.WidthPercent = 0;
         T1TypeLB.Alignment.LeftOffPercent = 45;
@@ -676,9 +676,9 @@ public partial class TUnitWindow : ILayoutModule
         T1TypeLB.ILIndexTNormal = 21;
         T1TypeLB.ILIndexTSelected = 8;
         T1TypeLB.ItemHeight = 17;
-        T1TypeLB.TextAlign = TaowTextAlign.taLeft;
+        T1TypeLB.TextAlign = TaowTextAlign.Left;
         session.EndRead(T1TypeLB);
-        T1SrcLB = new TAOWListBox(this);
+        T1SrcLB = new AOWListBox(this);
         session.BeginRead(T1SrcLB);
         T1SrcLB.Name = "T1SrcLB";
         T1SrcLB.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
@@ -686,8 +686,8 @@ public partial class TUnitWindow : ILayoutModule
         T1SrcLB.WinLeft = 248;
         T1SrcLB.WinTop = 14;
         T1SrcLB.CaptureInput = true;
-        T1SrcLB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T1SrcLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        T1SrcLB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T1SrcLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         T1SrcLB.Alignment.HeightPercent = 0;
         T1SrcLB.Alignment.WidthPercent = 0;
         T1SrcLB.Alignment.LeftOffPercent = 68;
@@ -713,9 +713,9 @@ public partial class TUnitWindow : ILayoutModule
         T1SrcLB.ILIndexTNormal = 21;
         T1SrcLB.ILIndexTSelected = 8;
         T1SrcLB.ItemHeight = 17;
-        T1SrcLB.TextAlign = TaowTextAlign.taLeft;
+        T1SrcLB.TextAlign = TaowTextAlign.Left;
         session.EndRead(T1SrcLB);
-        T1ListPnl = new TAOWPanel(this);
+        T1ListPnl = new AOWPanel(this);
         session.BeginRead(T1ListPnl);
         T1ListPnl.Name = "T1ListPnl";
         T1ListPnl.Priority = 100;
@@ -723,8 +723,8 @@ public partial class TUnitWindow : ILayoutModule
         T1ListPnl.WinTop = 15;
         T1ListPnl.WinWidth = 366;
         T1ListPnl.Masked = true;
-        T1ListPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T1ListPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        T1ListPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T1ListPnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         T1ListPnl.Alignment.HeightPercent = 0;
         T1ListPnl.Alignment.WidthPercent = 0;
         T1ListPnl.Alignment.LeftOffPercent = 0;
@@ -742,7 +742,7 @@ public partial class TUnitWindow : ILayoutModule
         T1ListPnl.MinWidth = 0;
         T1ListPnl.MinHeight = 0;
         session.EndRead(T1ListPnl);
-        T1SBar = new TAOWVScrollBar(this);
+        T1SBar = new AOWVScrollBar(this);
         session.BeginRead(T1SBar);
         T1SBar.Name = "T1SBar";
         T1SBar.Visible = false;
@@ -750,8 +750,8 @@ public partial class TUnitWindow : ILayoutModule
         T1SBar.WinLeft = 349;
         T1SBar.WinTop = 14;
         T1SBar.CaptureInput = true;
-        T1SBar.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        T1SBar.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        T1SBar.Alignment.AlignWidth = AOWAlignWidth.None;
+        T1SBar.Alignment.AlignHeight = AOWAlignHeight.None;
         T1SBar.Alignment.HeightPercent = 0;
         T1SBar.Alignment.WidthPercent = 0;
         T1SBar.Alignment.LeftOffPercent = 0;
@@ -780,7 +780,7 @@ public partial class TUnitWindow : ILayoutModule
         T1SBar.ILIndexBack = 101;
         T1SBar.ILIndexTab = 98;
         session.EndRead(T1SBar);
-        T2SBar = new TAOWVScrollBar(this);
+        T2SBar = new AOWVScrollBar(this);
         session.BeginRead(T2SBar);
         T2SBar.Name = "T2SBar";
         T2SBar.Visible = false;
@@ -788,8 +788,8 @@ public partial class TUnitWindow : ILayoutModule
         T2SBar.WinLeft = 349;
         T2SBar.WinTop = 0;
         T2SBar.CaptureInput = true;
-        T2SBar.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        T2SBar.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        T2SBar.Alignment.AlignWidth = AOWAlignWidth.None;
+        T2SBar.Alignment.AlignHeight = AOWAlignHeight.None;
         T2SBar.Alignment.HeightPercent = 0;
         T2SBar.Alignment.WidthPercent = 0;
         T2SBar.Alignment.LeftOffPercent = 0;
@@ -817,7 +817,7 @@ public partial class TUnitWindow : ILayoutModule
         T2SBar.ILIndexBack = 101;
         T2SBar.ILIndexTab = 98;
         session.EndRead(T2SBar);
-        T2Text = new TAOWPanel(this);
+        T2Text = new AOWPanel(this);
         session.BeginRead(T2Text);
         T2Text.Name = "T2Text";
         T2Text.Priority = 100;
@@ -825,8 +825,8 @@ public partial class TUnitWindow : ILayoutModule
         T2Text.WinTop = 15;
         T2Text.WinWidth = 366;
         T2Text.Masked = true;
-        T2Text.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T2Text.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        T2Text.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T2Text.Alignment.AlignHeight = AOWAlignHeight.Top;
         T2Text.Alignment.HeightPercent = 0;
         T2Text.Alignment.WidthPercent = 0;
         T2Text.Alignment.LeftOffPercent = 0;
@@ -844,7 +844,7 @@ public partial class TUnitWindow : ILayoutModule
         T2Text.MinWidth = 0;
         T2Text.MinHeight = 0;
         session.EndRead(T2Text);
-        T2Leader = new TAOWPanel(this);
+        T2Leader = new AOWPanel(this);
         session.BeginRead(T2Leader);
         T2Leader.Name = "T2Leader";
         T2Leader.Priority = 1000;
@@ -852,8 +852,8 @@ public partial class TUnitWindow : ILayoutModule
         T2Leader.WinTop = 15;
         T2Leader.WinWidth = 366;
         T2Leader.Masked = true;
-        T2Leader.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T2Leader.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        T2Leader.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T2Leader.Alignment.AlignHeight = AOWAlignHeight.Top;
         T2Leader.Alignment.HeightPercent = 0;
         T2Leader.Alignment.WidthPercent = 0;
         T2Leader.Alignment.LeftOffPercent = 0;
@@ -871,15 +871,15 @@ public partial class TUnitWindow : ILayoutModule
         T2Leader.MinWidth = 0;
         T2Leader.MinHeight = 0;
         session.EndRead(T2Leader);
-        Sel4 = new TAOWButton(this);
+        Sel4 = new AOWButton(this);
         session.BeginRead(Sel4);
         Sel4.Name = "Sel4";
         Sel4.Priority = 10;
         Sel4.WinLeft = 157;
         Sel4.WinTop = 0;
         Sel4.CaptureInput = false;
-        Sel4.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Sel4.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Sel4.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Sel4.Alignment.AlignHeight = AOWAlignHeight.Top;
         Sel4.Alignment.HeightPercent = 0;
         Sel4.Alignment.WidthPercent = 0;
         Sel4.Alignment.LeftOffPercent = 0;
@@ -900,7 +900,7 @@ public partial class TUnitWindow : ILayoutModule
         Sel4.TextSelColor = 0;
         Sel4.WinWidth = 52;
         session.EndRead(Sel4);
-        SelPnl = new TAOWPanel(this);
+        SelPnl = new AOWPanel(this);
         session.BeginRead(SelPnl);
         SelPnl.Name = "SelPnl";
         SelPnl.Priority = 10;
@@ -908,8 +908,8 @@ public partial class TUnitWindow : ILayoutModule
         SelPnl.WinTop = 8;
         SelPnl.WinWidth = 366;
         SelPnl.Masked = true;
-        SelPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SelPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        SelPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SelPnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         SelPnl.Alignment.HeightPercent = 0;
         SelPnl.Alignment.WidthPercent = 0;
         SelPnl.Alignment.LeftOffPercent = 0;
@@ -927,15 +927,15 @@ public partial class TUnitWindow : ILayoutModule
         SelPnl.MinWidth = 0;
         SelPnl.MinHeight = 0;
         session.EndRead(SelPnl);
-        Sel3 = new TAOWButton(this);
+        Sel3 = new AOWButton(this);
         session.BeginRead(Sel3);
         Sel3.Name = "Sel3";
         Sel3.Priority = 10;
         Sel3.WinLeft = 110;
         Sel3.WinTop = 0;
         Sel3.CaptureInput = false;
-        Sel3.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Sel3.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Sel3.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Sel3.Alignment.AlignHeight = AOWAlignHeight.Top;
         Sel3.Alignment.HeightPercent = 0;
         Sel3.Alignment.WidthPercent = 0;
         Sel3.Alignment.LeftOffPercent = 0;
@@ -956,15 +956,15 @@ public partial class TUnitWindow : ILayoutModule
         Sel3.TextSelColor = 0;
         Sel3.WinWidth = 52;
         session.EndRead(Sel3);
-        Sel2 = new TAOWButton(this);
+        Sel2 = new AOWButton(this);
         session.BeginRead(Sel2);
         Sel2.Name = "Sel2";
         Sel2.Priority = 10;
         Sel2.WinLeft = 62;
         Sel2.WinTop = 0;
         Sel2.CaptureInput = false;
-        Sel2.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Sel2.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Sel2.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Sel2.Alignment.AlignHeight = AOWAlignHeight.Top;
         Sel2.Alignment.HeightPercent = 0;
         Sel2.Alignment.WidthPercent = 0;
         Sel2.Alignment.LeftOffPercent = 0;
@@ -985,15 +985,15 @@ public partial class TUnitWindow : ILayoutModule
         Sel2.TextSelColor = 0;
         Sel2.WinWidth = 52;
         session.EndRead(Sel2);
-        Sel1 = new TAOWButton(this);
+        Sel1 = new AOWButton(this);
         session.BeginRead(Sel1);
         Sel1.Name = "Sel1";
         Sel1.Priority = 10;
         Sel1.WinLeft = 15;
         Sel1.WinTop = 0;
         Sel1.CaptureInput = false;
-        Sel1.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Sel1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Sel1.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Sel1.Alignment.AlignHeight = AOWAlignHeight.Top;
         Sel1.Alignment.HeightPercent = 0;
         Sel1.Alignment.WidthPercent = 0;
         Sel1.Alignment.LeftOffPercent = 0;
@@ -1014,15 +1014,15 @@ public partial class TUnitWindow : ILayoutModule
         Sel1.TextSelColor = 0;
         Sel1.WinWidth = 52;
         session.EndRead(Sel1);
-        Sel5 = new TAOWButton(this);
+        Sel5 = new AOWButton(this);
         session.BeginRead(Sel5);
         Sel5.Name = "Sel5";
         Sel5.Priority = 10;
         Sel5.WinLeft = 204;
         Sel5.WinTop = 0;
         Sel5.CaptureInput = false;
-        Sel5.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Sel5.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Sel5.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Sel5.Alignment.AlignHeight = AOWAlignHeight.Top;
         Sel5.Alignment.HeightPercent = 0;
         Sel5.Alignment.WidthPercent = 0;
         Sel5.Alignment.LeftOffPercent = 0;
@@ -1043,15 +1043,15 @@ public partial class TUnitWindow : ILayoutModule
         Sel5.TextSelColor = 0;
         Sel5.WinWidth = 52;
         session.EndRead(Sel5);
-        Sel6 = new TAOWButton(this);
+        Sel6 = new AOWButton(this);
         session.BeginRead(Sel6);
         Sel6.Name = "Sel6";
         Sel6.Priority = 10;
         Sel6.WinLeft = 252;
         Sel6.WinTop = 0;
         Sel6.CaptureInput = false;
-        Sel6.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Sel6.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Sel6.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Sel6.Alignment.AlignHeight = AOWAlignHeight.Top;
         Sel6.Alignment.HeightPercent = 0;
         Sel6.Alignment.WidthPercent = 0;
         Sel6.Alignment.LeftOffPercent = 0;
@@ -1072,15 +1072,15 @@ public partial class TUnitWindow : ILayoutModule
         Sel6.TextSelColor = 0;
         Sel6.WinWidth = 52;
         session.EndRead(Sel6);
-        Sel7 = new TAOWButton(this);
+        Sel7 = new AOWButton(this);
         session.BeginRead(Sel7);
         Sel7.Name = "Sel7";
         Sel7.Priority = 10;
         Sel7.WinLeft = 299;
         Sel7.WinTop = 0;
         Sel7.CaptureInput = false;
-        Sel7.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Sel7.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Sel7.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Sel7.Alignment.AlignHeight = AOWAlignHeight.Top;
         Sel7.Alignment.HeightPercent = 0;
         Sel7.Alignment.WidthPercent = 0;
         Sel7.Alignment.LeftOffPercent = 0;
@@ -1101,15 +1101,15 @@ public partial class TUnitWindow : ILayoutModule
         Sel7.TextSelColor = 0;
         Sel7.WinWidth = 52;
         session.EndRead(Sel7);
-        AAlignment = new TAOWImage(this);
+        AAlignment = new AOWImage(this);
         session.BeginRead(AAlignment);
         AAlignment.Name = "AAlignment";
         AAlignment.Priority = 0;
         AAlignment.WinLeft = 6;
         AAlignment.WinTop = 10;
         AAlignment.CaptureInput = true;
-        AAlignment.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        AAlignment.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        AAlignment.Alignment.AlignWidth = AOWAlignWidth.Center;
+        AAlignment.Alignment.AlignHeight = AOWAlignHeight.Top;
         AAlignment.Alignment.HeightPercent = 0;
         AAlignment.Alignment.WidthPercent = 0;
         AAlignment.Alignment.LeftOffPercent = 0;
@@ -1129,15 +1129,15 @@ public partial class TUnitWindow : ILayoutModule
         AAlignment.Animate = false;
         AAlignment.AnimFrameDelay = 0;
         session.EndRead(AAlignment);
-        AAlignmentLbl = new TAOWLabel(this);
+        AAlignmentLbl = new AOWLabel(this);
         session.BeginRead(AAlignmentLbl);
         AAlignmentLbl.Name = "AAlignmentLbl";
         AAlignmentLbl.Priority = 0;
         AAlignmentLbl.WinLeft = 62;
         AAlignmentLbl.WinTop = 80;
         AAlignmentLbl.CaptureInput = true;
-        AAlignmentLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        AAlignmentLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AAlignmentLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        AAlignmentLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AAlignmentLbl.Alignment.HeightPercent = 0;
         AAlignmentLbl.Alignment.WidthPercent = 0;
         AAlignmentLbl.Alignment.LeftOffPercent = 0;
@@ -1151,7 +1151,7 @@ public partial class TUnitWindow : ILayoutModule
         AAlignmentLbl.Masked = true;
         AAlignmentLbl.TextColor = 9415072;
         session.EndRead(AAlignmentLbl);
-        T2Alignnl = new TAOWPanel(this);
+        T2Alignnl = new AOWPanel(this);
         session.BeginRead(T2Alignnl);
         T2Alignnl.Name = "T2Alignnl";
         T2Alignnl.Priority = 10;
@@ -1159,8 +1159,8 @@ public partial class TUnitWindow : ILayoutModule
         T2Alignnl.WinTop = 109;
         T2Alignnl.WinWidth = 125;
         T2Alignnl.Masked = true;
-        T2Alignnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        T2Alignnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        T2Alignnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        T2Alignnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         T2Alignnl.Alignment.HeightPercent = 0;
         T2Alignnl.Alignment.WidthPercent = 0;
         T2Alignnl.Alignment.LeftOffPercent = 0;
@@ -1178,15 +1178,15 @@ public partial class TUnitWindow : ILayoutModule
         T2Alignnl.MinWidth = 0;
         T2Alignnl.MinHeight = 0;
         session.EndRead(T2Alignnl);
-        AlFr = new TAoWFrame(this);
+        AlFr = new AoWFrame(this);
         session.BeginRead(AlFr);
         AlFr.Name = "AlFr";
         AlFr.Priority = 0;
         AlFr.WinLeft = 1;
         AlFr.WinTop = 0;
         AlFr.CaptureInput = true;
-        AlFr.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        AlFr.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        AlFr.Alignment.AlignWidth = AOWAlignWidth.Both;
+        AlFr.Alignment.AlignHeight = AOWAlignHeight.Both;
         AlFr.Alignment.HeightPercent = 0;
         AlFr.Alignment.WidthPercent = 0;
         AlFr.Alignment.LeftOffPercent = 0;
@@ -1200,20 +1200,20 @@ public partial class TUnitWindow : ILayoutModule
         AlFr.Masked = false;
         AlFr.WinWidth = 124;
         AlFr.WinHeight = 86;
-        AlFr.FrameType = TFrameType.frHollowBox;
+        AlFr.FrameType = FrameType.HollowBox;
         AlFr.ILIndexFrame = 113;
         AlFr.ILIndexLine = 0;
         AlFr.ILIndexTexture = 0;
         session.EndRead(AlFr);
-        TypeIcn = new TAOWImage(this);
+        TypeIcn = new AOWImage(this);
         session.BeginRead(TypeIcn);
         TypeIcn.Name = "TypeIcn";
         TypeIcn.Priority = 0;
         TypeIcn.WinLeft = 39;
         TypeIcn.WinTop = 10;
         TypeIcn.CaptureInput = true;
-        TypeIcn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TypeIcn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TypeIcn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TypeIcn.Alignment.AlignHeight = AOWAlignHeight.Top;
         TypeIcn.Alignment.HeightPercent = 0;
         TypeIcn.Alignment.WidthPercent = 0;
         TypeIcn.Alignment.LeftOffPercent = 0;
@@ -1233,15 +1233,15 @@ public partial class TUnitWindow : ILayoutModule
         TypeIcn.Animate = false;
         TypeIcn.AnimFrameDelay = 0;
         session.EndRead(TypeIcn);
-        TypeV = new TAOWLabel(this);
+        TypeV = new AOWLabel(this);
         session.BeginRead(TypeV);
         TypeV.Name = "TypeV";
         TypeV.Priority = 0;
         TypeV.WinLeft = 58;
         TypeV.WinTop = 80;
         TypeV.CaptureInput = true;
-        TypeV.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TypeV.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TypeV.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TypeV.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TypeV.Alignment.HeightPercent = 0;
         TypeV.Alignment.WidthPercent = 0;
         TypeV.Alignment.LeftOffPercent = 0;
@@ -1255,7 +1255,7 @@ public partial class TUnitWindow : ILayoutModule
         TypeV.Masked = true;
         TypeV.TextColor = 9415072;
         session.EndRead(TypeV);
-        T2TypePnl = new TAOWPanel(this);
+        T2TypePnl = new AOWPanel(this);
         session.BeginRead(T2TypePnl);
         T2TypePnl.Name = "T2TypePnl";
         T2TypePnl.Priority = 10;
@@ -1263,8 +1263,8 @@ public partial class TUnitWindow : ILayoutModule
         T2TypePnl.WinTop = 109;
         T2TypePnl.WinWidth = 116;
         T2TypePnl.Masked = true;
-        T2TypePnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        T2TypePnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        T2TypePnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        T2TypePnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         T2TypePnl.Alignment.HeightPercent = 0;
         T2TypePnl.Alignment.WidthPercent = 0;
         T2TypePnl.Alignment.LeftOffPercent = 0;
@@ -1282,15 +1282,15 @@ public partial class TUnitWindow : ILayoutModule
         T2TypePnl.MinWidth = 0;
         T2TypePnl.MinHeight = 0;
         session.EndRead(T2TypePnl);
-        TypeFr = new TAoWFrame(this);
+        TypeFr = new AoWFrame(this);
         session.BeginRead(TypeFr);
         TypeFr.Name = "TypeFr";
         TypeFr.Priority = 0;
         TypeFr.WinLeft = 1;
         TypeFr.WinTop = 0;
         TypeFr.CaptureInput = true;
-        TypeFr.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TypeFr.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        TypeFr.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TypeFr.Alignment.AlignHeight = AOWAlignHeight.Both;
         TypeFr.Alignment.HeightPercent = 0;
         TypeFr.Alignment.WidthPercent = 0;
         TypeFr.Alignment.LeftOffPercent = 0;
@@ -1304,20 +1304,20 @@ public partial class TUnitWindow : ILayoutModule
         TypeFr.Masked = false;
         TypeFr.WinWidth = 115;
         TypeFr.WinHeight = 86;
-        TypeFr.FrameType = TFrameType.frHollowBox;
+        TypeFr.FrameType = FrameType.HollowBox;
         TypeFr.ILIndexFrame = 113;
         TypeFr.ILIndexLine = 0;
         TypeFr.ILIndexTexture = 0;
         session.EndRead(TypeFr);
-        LdrFr = new TAoWFrame(this);
+        LdrFr = new AoWFrame(this);
         session.BeginRead(LdrFr);
         LdrFr.Name = "LdrFr";
         LdrFr.Priority = 0;
         LdrFr.WinLeft = 1;
         LdrFr.WinTop = 0;
         LdrFr.CaptureInput = true;
-        LdrFr.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        LdrFr.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        LdrFr.Alignment.AlignWidth = AOWAlignWidth.Both;
+        LdrFr.Alignment.AlignHeight = AOWAlignHeight.Both;
         LdrFr.Alignment.HeightPercent = 0;
         LdrFr.Alignment.WidthPercent = 0;
         LdrFr.Alignment.LeftOffPercent = 0;
@@ -1331,20 +1331,20 @@ public partial class TUnitWindow : ILayoutModule
         LdrFr.Masked = false;
         LdrFr.WinWidth = 365;
         LdrFr.WinHeight = 86;
-        LdrFr.FrameType = TFrameType.frHollowBox;
+        LdrFr.FrameType = FrameType.HollowBox;
         LdrFr.ILIndexFrame = 113;
         LdrFr.ILIndexLine = 0;
         LdrFr.ILIndexTexture = 0;
         session.EndRead(LdrFr);
-        SphereLbl = new TAOWLabel(this);
+        SphereLbl = new AOWLabel(this);
         session.BeginRead(SphereLbl);
         SphereLbl.Name = "SphereLbl";
         SphereLbl.Priority = 0;
         SphereLbl.WinLeft = 131;
         SphereLbl.WinTop = 66;
         SphereLbl.CaptureInput = true;
-        SphereLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SphereLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        SphereLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SphereLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         SphereLbl.Alignment.HeightPercent = 0;
         SphereLbl.Alignment.WidthPercent = 0;
         SphereLbl.Alignment.LeftOffPercent = 0;
@@ -1359,7 +1359,7 @@ public partial class TUnitWindow : ILayoutModule
         SphereLbl.Text = "Leader's magic spheres";
         SphereLbl.TextColor = 9415072;
         session.EndRead(SphereLbl);
-        T3Panel = new TAOWPanel(this);
+        T3Panel = new AOWPanel(this);
         session.BeginRead(T3Panel);
         T3Panel.Name = "T3Panel";
         T3Panel.Visible = false;
@@ -1368,8 +1368,8 @@ public partial class TUnitWindow : ILayoutModule
         T3Panel.WinTop = 178;
         T3Panel.WinWidth = 376;
         T3Panel.Masked = false;
-        T3Panel.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        T3Panel.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        T3Panel.Alignment.AlignWidth = AOWAlignWidth.Both;
+        T3Panel.Alignment.AlignHeight = AOWAlignHeight.Both;
         T3Panel.Alignment.HeightPercent = 0;
         T3Panel.Alignment.WidthPercent = 0;
         T3Panel.Alignment.LeftOffPercent = 0;
@@ -1387,7 +1387,7 @@ public partial class TUnitWindow : ILayoutModule
         T3Panel.MinWidth = 0;
         T3Panel.MinHeight = 0;
         session.EndRead(T3Panel);
-        BP1 = new TAOWCheckBox(this);
+        BP1 = new AOWCheckBox(this);
         session.BeginRead(BP1);
         BP1.Name = "BP1";
         BP1.OnMouseDown = Gnd3MouseDown;
@@ -1400,8 +1400,8 @@ public partial class TUnitWindow : ILayoutModule
             "Regular inventory, any item can be place here."
         };
         BP1.CaptureInput = true;
-        BP1.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        BP1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BP1.Alignment.AlignWidth = AOWAlignWidth.Left;
+        BP1.Alignment.AlignHeight = AOWAlignHeight.Top;
         BP1.Alignment.HeightPercent = 0;
         BP1.Alignment.WidthPercent = 0;
         BP1.Alignment.LeftOffPercent = 0;
@@ -1425,7 +1425,7 @@ public partial class TUnitWindow : ILayoutModule
         BP1.OnChange = Gnd1Change;
         BP1.RadioIndex = 1;
         session.EndRead(BP1);
-        BPLbl1 = new TAOWLabel(this);
+        BPLbl1 = new AOWLabel(this);
         session.BeginRead(BPLbl1);
         BPLbl1.Name = "BPLbl1";
         BPLbl1.Visible = false;
@@ -1433,8 +1433,8 @@ public partial class TUnitWindow : ILayoutModule
         BPLbl1.WinLeft = 15;
         BPLbl1.WinTop = 15;
         BPLbl1.CaptureInput = true;
-        BPLbl1.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        BPLbl1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BPLbl1.Alignment.AlignWidth = AOWAlignWidth.Left;
+        BPLbl1.Alignment.AlignHeight = AOWAlignHeight.Top;
         BPLbl1.Alignment.HeightPercent = 0;
         BPLbl1.Alignment.WidthPercent = 0;
         BPLbl1.Alignment.LeftOffPercent = 0;
@@ -1449,7 +1449,7 @@ public partial class TUnitWindow : ILayoutModule
         BPLbl1.Text = "Backpack";
         BPLbl1.TextColor = 2370853;
         session.EndRead(BPLbl1);
-        BP2 = new TAOWCheckBox(this);
+        BP2 = new AOWCheckBox(this);
         session.BeginRead(BP2);
         BP2.Name = "BP2";
         BP2.OnMouseDown = Gnd3MouseDown;
@@ -1462,8 +1462,8 @@ public partial class TUnitWindow : ILayoutModule
             "Regular inventory, any item can be place here."
         };
         BP2.CaptureInput = true;
-        BP2.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        BP2.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BP2.Alignment.AlignWidth = AOWAlignWidth.Left;
+        BP2.Alignment.AlignHeight = AOWAlignHeight.Top;
         BP2.Alignment.HeightPercent = 0;
         BP2.Alignment.WidthPercent = 0;
         BP2.Alignment.LeftOffPercent = 0;
@@ -1487,7 +1487,7 @@ public partial class TUnitWindow : ILayoutModule
         BP2.OnChange = Gnd1Change;
         BP2.RadioIndex = 1;
         session.EndRead(BP2);
-        BP3 = new TAOWCheckBox(this);
+        BP3 = new AOWCheckBox(this);
         session.BeginRead(BP3);
         BP3.Name = "BP3";
         BP3.OnMouseDown = Gnd3MouseDown;
@@ -1500,8 +1500,8 @@ public partial class TUnitWindow : ILayoutModule
             "Regular inventory, any item can be place here."
         };
         BP3.CaptureInput = true;
-        BP3.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        BP3.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BP3.Alignment.AlignWidth = AOWAlignWidth.Left;
+        BP3.Alignment.AlignHeight = AOWAlignHeight.Top;
         BP3.Alignment.HeightPercent = 0;
         BP3.Alignment.WidthPercent = 0;
         BP3.Alignment.LeftOffPercent = 0;
@@ -1525,7 +1525,7 @@ public partial class TUnitWindow : ILayoutModule
         BP3.OnChange = Gnd1Change;
         BP3.RadioIndex = 1;
         session.EndRead(BP3);
-        BP4 = new TAOWCheckBox(this);
+        BP4 = new AOWCheckBox(this);
         session.BeginRead(BP4);
         BP4.Name = "BP4";
         BP4.OnMouseDown = Gnd3MouseDown;
@@ -1538,8 +1538,8 @@ public partial class TUnitWindow : ILayoutModule
             "Regular inventory, any item can be place here."
         };
         BP4.CaptureInput = true;
-        BP4.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        BP4.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BP4.Alignment.AlignWidth = AOWAlignWidth.Left;
+        BP4.Alignment.AlignHeight = AOWAlignHeight.Top;
         BP4.Alignment.HeightPercent = 0;
         BP4.Alignment.WidthPercent = 0;
         BP4.Alignment.LeftOffPercent = 0;
@@ -1563,7 +1563,7 @@ public partial class TUnitWindow : ILayoutModule
         BP4.OnChange = Gnd1Change;
         BP4.RadioIndex = 1;
         session.EndRead(BP4);
-        BP5 = new TAOWCheckBox(this);
+        BP5 = new AOWCheckBox(this);
         session.BeginRead(BP5);
         BP5.Name = "BP5";
         BP5.OnMouseDown = Gnd3MouseDown;
@@ -1576,8 +1576,8 @@ public partial class TUnitWindow : ILayoutModule
             "Regular inventory, any item can be place here."
         };
         BP5.CaptureInput = true;
-        BP5.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        BP5.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BP5.Alignment.AlignWidth = AOWAlignWidth.Right;
+        BP5.Alignment.AlignHeight = AOWAlignHeight.Top;
         BP5.Alignment.HeightPercent = 0;
         BP5.Alignment.WidthPercent = 0;
         BP5.Alignment.LeftOffPercent = 0;
@@ -1601,7 +1601,7 @@ public partial class TUnitWindow : ILayoutModule
         BP5.OnChange = Gnd1Change;
         BP5.RadioIndex = 1;
         session.EndRead(BP5);
-        BP6 = new TAOWCheckBox(this);
+        BP6 = new AOWCheckBox(this);
         session.BeginRead(BP6);
         BP6.Name = "BP6";
         BP6.OnMouseDown = Gnd3MouseDown;
@@ -1614,8 +1614,8 @@ public partial class TUnitWindow : ILayoutModule
             "Regular inventory, any item can be place here."
         };
         BP6.CaptureInput = true;
-        BP6.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        BP6.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BP6.Alignment.AlignWidth = AOWAlignWidth.Right;
+        BP6.Alignment.AlignHeight = AOWAlignHeight.Top;
         BP6.Alignment.HeightPercent = 0;
         BP6.Alignment.WidthPercent = 0;
         BP6.Alignment.LeftOffPercent = 0;
@@ -1639,7 +1639,7 @@ public partial class TUnitWindow : ILayoutModule
         BP6.OnChange = Gnd1Change;
         BP6.RadioIndex = 1;
         session.EndRead(BP6);
-        BP7 = new TAOWCheckBox(this);
+        BP7 = new AOWCheckBox(this);
         session.BeginRead(BP7);
         BP7.Name = "BP7";
         BP7.OnMouseDown = Gnd3MouseDown;
@@ -1652,8 +1652,8 @@ public partial class TUnitWindow : ILayoutModule
             "Regular inventory, any item can be place here."
         };
         BP7.CaptureInput = true;
-        BP7.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        BP7.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BP7.Alignment.AlignWidth = AOWAlignWidth.Right;
+        BP7.Alignment.AlignHeight = AOWAlignHeight.Top;
         BP7.Alignment.HeightPercent = 0;
         BP7.Alignment.WidthPercent = 0;
         BP7.Alignment.LeftOffPercent = 0;
@@ -1677,7 +1677,7 @@ public partial class TUnitWindow : ILayoutModule
         BP7.OnChange = Gnd1Change;
         BP7.RadioIndex = 1;
         session.EndRead(BP7);
-        BP8 = new TAOWCheckBox(this);
+        BP8 = new AOWCheckBox(this);
         session.BeginRead(BP8);
         BP8.Name = "BP8";
         BP8.OnMouseDown = Gnd3MouseDown;
@@ -1690,8 +1690,8 @@ public partial class TUnitWindow : ILayoutModule
             "Regular inventory, any item can be place here."
         };
         BP8.CaptureInput = true;
-        BP8.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        BP8.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BP8.Alignment.AlignWidth = AOWAlignWidth.Right;
+        BP8.Alignment.AlignHeight = AOWAlignHeight.Top;
         BP8.Alignment.HeightPercent = 0;
         BP8.Alignment.WidthPercent = 0;
         BP8.Alignment.LeftOffPercent = 0;
@@ -1715,7 +1715,7 @@ public partial class TUnitWindow : ILayoutModule
         BP8.OnChange = Gnd1Change;
         BP8.RadioIndex = 1;
         session.EndRead(BP8);
-        BPLbl2 = new TAOWLabel(this);
+        BPLbl2 = new AOWLabel(this);
         session.BeginRead(BPLbl2);
         BPLbl2.Name = "BPLbl2";
         BPLbl2.Visible = false;
@@ -1723,8 +1723,8 @@ public partial class TUnitWindow : ILayoutModule
         BPLbl2.WinLeft = 322;
         BPLbl2.WinTop = 15;
         BPLbl2.CaptureInput = true;
-        BPLbl2.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        BPLbl2.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BPLbl2.Alignment.AlignWidth = AOWAlignWidth.Right;
+        BPLbl2.Alignment.AlignHeight = AOWAlignHeight.Top;
         BPLbl2.Alignment.HeightPercent = 0;
         BPLbl2.Alignment.WidthPercent = 0;
         BPLbl2.Alignment.LeftOffPercent = 0;
@@ -1739,15 +1739,15 @@ public partial class TUnitWindow : ILayoutModule
         BPLbl2.Text = "Backpack";
         BPLbl2.TextColor = 2370853;
         session.EndRead(BPLbl2);
-        BodyLbl = new TAOWLabel(this);
+        BodyLbl = new AOWLabel(this);
         session.BeginRead(BodyLbl);
         BodyLbl.Name = "BodyLbl";
         BodyLbl.Priority = 10;
         BodyLbl.WinLeft = 164;
         BodyLbl.WinTop = 15;
         BodyLbl.CaptureInput = true;
-        BodyLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        BodyLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BodyLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        BodyLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         BodyLbl.Alignment.HeightPercent = 0;
         BodyLbl.Alignment.WidthPercent = 0;
         BodyLbl.Alignment.LeftOffPercent = 0;
@@ -1762,7 +1762,7 @@ public partial class TUnitWindow : ILayoutModule
         BodyLbl.Text = "Body Slots";
         BodyLbl.TextColor = 2370853;
         session.EndRead(BodyLbl);
-        Head = new TAOWCheckBox(this);
+        Head = new AOWCheckBox(this);
         session.BeginRead(Head);
         Head.Name = "Head";
         Head.OnMouseDown = Gnd3MouseDown;
@@ -1776,8 +1776,8 @@ public partial class TUnitWindow : ILayoutModule
             ""
         };
         Head.CaptureInput = true;
-        Head.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Head.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Head.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Head.Alignment.AlignHeight = AOWAlignHeight.Top;
         Head.Alignment.HeightPercent = 0;
         Head.Alignment.WidthPercent = 0;
         Head.Alignment.LeftOffPercent = 0;
@@ -1801,7 +1801,7 @@ public partial class TUnitWindow : ILayoutModule
         Head.OnChange = Gnd1Change;
         Head.RadioIndex = 1;
         session.EndRead(Head);
-        Torso = new TAOWCheckBox(this);
+        Torso = new AOWCheckBox(this);
         session.BeginRead(Torso);
         Torso.Name = "Torso";
         Torso.OnMouseDown = Gnd3MouseDown;
@@ -1814,8 +1814,8 @@ public partial class TUnitWindow : ILayoutModule
             "Torso slot"
         };
         Torso.CaptureInput = true;
-        Torso.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Torso.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Torso.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Torso.Alignment.AlignHeight = AOWAlignHeight.Top;
         Torso.Alignment.HeightPercent = 0;
         Torso.Alignment.WidthPercent = 0;
         Torso.Alignment.LeftOffPercent = 0;
@@ -1839,7 +1839,7 @@ public partial class TUnitWindow : ILayoutModule
         Torso.OnChange = Gnd1Change;
         Torso.RadioIndex = 1;
         session.EndRead(Torso);
-        Attack = new TAOWCheckBox(this);
+        Attack = new AOWCheckBox(this);
         session.BeginRead(Attack);
         Attack.Name = "Attack";
         Attack.OnMouseDown = Gnd3MouseDown;
@@ -1852,8 +1852,8 @@ public partial class TUnitWindow : ILayoutModule
             "Melee weapon slot"
         };
         Attack.CaptureInput = true;
-        Attack.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Attack.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Attack.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Attack.Alignment.AlignHeight = AOWAlignHeight.Top;
         Attack.Alignment.HeightPercent = 0;
         Attack.Alignment.WidthPercent = 0;
         Attack.Alignment.LeftOffPercent = 0;
@@ -1877,7 +1877,7 @@ public partial class TUnitWindow : ILayoutModule
         Attack.OnChange = Gnd1Change;
         Attack.RadioIndex = 1;
         session.EndRead(Attack);
-        Defend = new TAOWCheckBox(this);
+        Defend = new AOWCheckBox(this);
         session.BeginRead(Defend);
         Defend.Name = "Defend";
         Defend.OnMouseDown = Gnd3MouseDown;
@@ -1890,8 +1890,8 @@ public partial class TUnitWindow : ILayoutModule
             "Defensive weapon slot"
         };
         Defend.CaptureInput = true;
-        Defend.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Defend.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Defend.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Defend.Alignment.AlignHeight = AOWAlignHeight.Top;
         Defend.Alignment.HeightPercent = 0;
         Defend.Alignment.WidthPercent = 0;
         Defend.Alignment.LeftOffPercent = 0;
@@ -1915,7 +1915,7 @@ public partial class TUnitWindow : ILayoutModule
         Defend.OnChange = Gnd1Change;
         Defend.RadioIndex = 1;
         session.EndRead(Defend);
-        RingL = new TAOWCheckBox(this);
+        RingL = new AOWCheckBox(this);
         session.BeginRead(RingL);
         RingL.Name = "RingL";
         RingL.OnMouseDown = Gnd3MouseDown;
@@ -1928,8 +1928,8 @@ public partial class TUnitWindow : ILayoutModule
             "Ring slot"
         };
         RingL.CaptureInput = true;
-        RingL.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        RingL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RingL.Alignment.AlignWidth = AOWAlignWidth.Right;
+        RingL.Alignment.AlignHeight = AOWAlignHeight.Top;
         RingL.Alignment.HeightPercent = 0;
         RingL.Alignment.WidthPercent = 0;
         RingL.Alignment.LeftOffPercent = 0;
@@ -1953,7 +1953,7 @@ public partial class TUnitWindow : ILayoutModule
         RingL.OnChange = Gnd1Change;
         RingL.RadioIndex = 1;
         session.EndRead(RingL);
-        RingR = new TAOWCheckBox(this);
+        RingR = new AOWCheckBox(this);
         session.BeginRead(RingR);
         RingR.Name = "RingR";
         RingR.OnMouseDown = Gnd3MouseDown;
@@ -1967,8 +1967,8 @@ public partial class TUnitWindow : ILayoutModule
             ""
         };
         RingR.CaptureInput = true;
-        RingR.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        RingR.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RingR.Alignment.AlignWidth = AOWAlignWidth.Left;
+        RingR.Alignment.AlignHeight = AOWAlignHeight.Top;
         RingR.Alignment.HeightPercent = 0;
         RingR.Alignment.WidthPercent = 0;
         RingR.Alignment.LeftOffPercent = 0;
@@ -1992,7 +1992,7 @@ public partial class TUnitWindow : ILayoutModule
         RingR.OnChange = Gnd1Change;
         RingR.RadioIndex = 1;
         session.EndRead(RingR);
-        Gnd3 = new TAOWCheckBox(this);
+        Gnd3 = new AOWCheckBox(this);
         session.BeginRead(Gnd3);
         Gnd3.Name = "Gnd3";
         Gnd3.OnMouseDown = Gnd3MouseDown;
@@ -2005,8 +2005,8 @@ public partial class TUnitWindow : ILayoutModule
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
         };
         Gnd3.CaptureInput = true;
-        Gnd3.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Gnd3.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Gnd3.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Gnd3.Alignment.AlignHeight = AOWAlignHeight.Top;
         Gnd3.Alignment.HeightPercent = 0;
         Gnd3.Alignment.WidthPercent = 0;
         Gnd3.Alignment.LeftOffPercent = 0;
@@ -2030,7 +2030,7 @@ public partial class TUnitWindow : ILayoutModule
         Gnd3.OnChange = Gnd1Change;
         Gnd3.RadioIndex = 1;
         session.EndRead(Gnd3);
-        Gnd2 = new TAOWCheckBox(this);
+        Gnd2 = new AOWCheckBox(this);
         session.BeginRead(Gnd2);
         Gnd2.Name = "Gnd2";
         Gnd2.OnMouseDown = Gnd3MouseDown;
@@ -2043,8 +2043,8 @@ public partial class TUnitWindow : ILayoutModule
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
         };
         Gnd2.CaptureInput = true;
-        Gnd2.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Gnd2.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Gnd2.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Gnd2.Alignment.AlignHeight = AOWAlignHeight.Top;
         Gnd2.Alignment.HeightPercent = 0;
         Gnd2.Alignment.WidthPercent = 0;
         Gnd2.Alignment.LeftOffPercent = 0;
@@ -2068,7 +2068,7 @@ public partial class TUnitWindow : ILayoutModule
         Gnd2.OnChange = Gnd1Change;
         Gnd2.RadioIndex = 1;
         session.EndRead(Gnd2);
-        Gnd1 = new TAOWCheckBox(this);
+        Gnd1 = new AOWCheckBox(this);
         session.BeginRead(Gnd1);
         Gnd1.Name = "Gnd1";
         Gnd1.OnMouseDown = Gnd3MouseDown;
@@ -2081,8 +2081,8 @@ public partial class TUnitWindow : ILayoutModule
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
         };
         Gnd1.CaptureInput = true;
-        Gnd1.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Gnd1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Gnd1.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Gnd1.Alignment.AlignHeight = AOWAlignHeight.Top;
         Gnd1.Alignment.HeightPercent = 0;
         Gnd1.Alignment.WidthPercent = 0;
         Gnd1.Alignment.LeftOffPercent = 0;
@@ -2106,7 +2106,7 @@ public partial class TUnitWindow : ILayoutModule
         Gnd1.OnChange = Gnd1Change;
         Gnd1.RadioIndex = 1;
         session.EndRead(Gnd1);
-        Gnd4 = new TAOWCheckBox(this);
+        Gnd4 = new AOWCheckBox(this);
         session.BeginRead(Gnd4);
         Gnd4.Name = "Gnd4";
         Gnd4.OnMouseDown = Gnd3MouseDown;
@@ -2119,8 +2119,8 @@ public partial class TUnitWindow : ILayoutModule
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
         };
         Gnd4.CaptureInput = true;
-        Gnd4.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Gnd4.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Gnd4.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Gnd4.Alignment.AlignHeight = AOWAlignHeight.Top;
         Gnd4.Alignment.HeightPercent = 0;
         Gnd4.Alignment.WidthPercent = 0;
         Gnd4.Alignment.LeftOffPercent = 0;
@@ -2144,7 +2144,7 @@ public partial class TUnitWindow : ILayoutModule
         Gnd4.OnChange = Gnd1Change;
         Gnd4.RadioIndex = 1;
         session.EndRead(Gnd4);
-        Gnd5 = new TAOWCheckBox(this);
+        Gnd5 = new AOWCheckBox(this);
         session.BeginRead(Gnd5);
         Gnd5.Name = "Gnd5";
         Gnd5.OnMouseDown = Gnd3MouseDown;
@@ -2157,8 +2157,8 @@ public partial class TUnitWindow : ILayoutModule
             "Ground item slot.  Moving items from here to the hero slots picks them up.  Placing items here will drop them"
         };
         Gnd5.CaptureInput = true;
-        Gnd5.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Gnd5.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Gnd5.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Gnd5.Alignment.AlignHeight = AOWAlignHeight.Top;
         Gnd5.Alignment.HeightPercent = 0;
         Gnd5.Alignment.WidthPercent = 0;
         Gnd5.Alignment.LeftOffPercent = 0;
@@ -2182,15 +2182,15 @@ public partial class TUnitWindow : ILayoutModule
         Gnd5.OnChange = Gnd1Change;
         Gnd5.RadioIndex = 1;
         session.EndRead(Gnd5);
-        GndLbl = new TAOWLabel(this);
+        GndLbl = new AOWLabel(this);
         session.BeginRead(GndLbl);
         GndLbl.Name = "GndLbl";
         GndLbl.Priority = 1000;
         GndLbl.WinLeft = 141;
         GndLbl.WinTop = 143;
         GndLbl.CaptureInput = true;
-        GndLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        GndLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        GndLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        GndLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         GndLbl.Alignment.HeightPercent = 0;
         GndLbl.Alignment.WidthPercent = 0;
         GndLbl.Alignment.LeftOffPercent = 0;
@@ -2205,15 +2205,15 @@ public partial class TUnitWindow : ILayoutModule
         GndLbl.Text = "Items on the Ground";
         GndLbl.TextColor = 2370853;
         session.EndRead(GndLbl);
-        SlotBack = new TAOWImage(this);
+        SlotBack = new AOWImage(this);
         session.BeginRead(SlotBack);
         SlotBack.Name = "SlotBack";
         SlotBack.Priority = 0;
         SlotBack.WinLeft = 9;
         SlotBack.WinTop = 2;
         SlotBack.CaptureInput = true;
-        SlotBack.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SlotBack.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SlotBack.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SlotBack.Alignment.AlignHeight = AOWAlignHeight.Top;
         SlotBack.Alignment.HeightPercent = 0;
         SlotBack.Alignment.WidthPercent = 0;
         SlotBack.Alignment.LeftOffPercent = 0;
@@ -2233,15 +2233,15 @@ public partial class TUnitWindow : ILayoutModule
         SlotBack.Animate = false;
         SlotBack.AnimFrameDelay = 0;
         session.EndRead(SlotBack);
-        DisbandBtn = new TAOWButton(this);
+        DisbandBtn = new AOWButton(this);
         session.BeginRead(DisbandBtn);
         DisbandBtn.Name = "DisbandBtn";
         DisbandBtn.Priority = 250;
         DisbandBtn.WinLeft = 89;
         DisbandBtn.WinTop = 380;
         DisbandBtn.CaptureInput = true;
-        DisbandBtn.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        DisbandBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DisbandBtn.Alignment.AlignWidth = AOWAlignWidth.Right;
+        DisbandBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DisbandBtn.Alignment.HeightPercent = 0;
         DisbandBtn.Alignment.WidthPercent = 0;
         DisbandBtn.Alignment.LeftOffPercent = 32;
@@ -2264,7 +2264,7 @@ public partial class TUnitWindow : ILayoutModule
         DisbandBtn.WinWidth = 119;
         DisbandBtn.OnClick = _ => Layout_DisbandBtnClick_4();
         session.EndRead(DisbandBtn);
-        ItemUsePnl = new TAOWPanel(this);
+        ItemUsePnl = new AOWPanel(this);
         session.BeginRead(ItemUsePnl);
         ItemUsePnl.Name = "ItemUsePnl";
         ItemUsePnl.Visible = false;
@@ -2273,8 +2273,8 @@ public partial class TUnitWindow : ILayoutModule
         ItemUsePnl.WinTop = 0;
         ItemUsePnl.WinWidth = 376;
         ItemUsePnl.Masked = false;
-        ItemUsePnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ItemUsePnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        ItemUsePnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ItemUsePnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         ItemUsePnl.Alignment.HeightPercent = 0;
         ItemUsePnl.Alignment.WidthPercent = 0;
         ItemUsePnl.Alignment.LeftOffPercent = 0;
@@ -2292,7 +2292,7 @@ public partial class TUnitWindow : ILayoutModule
         ItemUsePnl.MinWidth = 0;
         ItemUsePnl.MinHeight = 0;
         session.EndRead(ItemUsePnl);
-        ItemUseBtn = new TAOWButton(this);
+        ItemUseBtn = new AOWButton(this);
         session.BeginRead(ItemUseBtn);
         ItemUseBtn.Name = "ItemUseBtn";
         ItemUseBtn.Priority = 100;
@@ -2303,8 +2303,8 @@ public partial class TUnitWindow : ILayoutModule
             "Uses selected item"
         };
         ItemUseBtn.CaptureInput = true;
-        ItemUseBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        ItemUseBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ItemUseBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        ItemUseBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ItemUseBtn.Alignment.HeightPercent = 0;
         ItemUseBtn.Alignment.WidthPercent = 0;
         ItemUseBtn.Alignment.LeftOffPercent = 0;
@@ -2326,15 +2326,15 @@ public partial class TUnitWindow : ILayoutModule
         ItemUseBtn.WinWidth = 210;
         ItemUseBtn.OnClick = _ => UseItemClick();
         session.EndRead(ItemUseBtn);
-        ItemPic = new TAOWImage(this);
+        ItemPic = new AOWImage(this);
         session.BeginRead(ItemPic);
         ItemPic.Name = "ItemPic";
         ItemPic.Priority = 0;
         ItemPic.WinLeft = 9;
         ItemPic.WinTop = 2;
         ItemPic.CaptureInput = true;
-        ItemPic.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        ItemPic.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ItemPic.Alignment.AlignWidth = AOWAlignWidth.Center;
+        ItemPic.Alignment.AlignHeight = AOWAlignHeight.Top;
         ItemPic.Alignment.HeightPercent = 0;
         ItemPic.Alignment.WidthPercent = 0;
         ItemPic.Alignment.LeftOffPercent = 0;
@@ -2354,7 +2354,7 @@ public partial class TUnitWindow : ILayoutModule
         ItemPic.Animate = false;
         ItemPic.AnimFrameDelay = 0;
         session.EndRead(ItemPic);
-        UnitMainPnl = new TAOWPanel(this);
+        UnitMainPnl = new AOWPanel(this);
         session.BeginRead(UnitMainPnl);
         UnitMainPnl.Name = "UnitMainPnl";
         UnitMainPnl.Priority = 0;
@@ -2362,8 +2362,8 @@ public partial class TUnitWindow : ILayoutModule
         UnitMainPnl.WinTop = 22;
         UnitMainPnl.WinWidth = 378;
         UnitMainPnl.Masked = true;
-        UnitMainPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        UnitMainPnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UnitMainPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        UnitMainPnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         UnitMainPnl.Alignment.HeightPercent = 0;
         UnitMainPnl.Alignment.WidthPercent = 0;
         UnitMainPnl.Alignment.LeftOffPercent = 0;
@@ -2381,15 +2381,15 @@ public partial class TUnitWindow : ILayoutModule
         UnitMainPnl.MinWidth = 0;
         UnitMainPnl.MinHeight = 0;
         session.EndRead(UnitMainPnl);
-        UnitName = new TAOWLabel(this);
+        UnitName = new AOWLabel(this);
         session.BeginRead(UnitName);
         UnitName.Name = "UnitName";
         UnitName.Priority = 1500;
         UnitName.WinLeft = 189;
         UnitName.WinTop = 8;
         UnitName.CaptureInput = true;
-        UnitName.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UnitName.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UnitName.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UnitName.Alignment.AlignHeight = AOWAlignHeight.Top;
         UnitName.Alignment.HeightPercent = 0;
         UnitName.Alignment.WidthPercent = 0;
         UnitName.Alignment.LeftOffPercent = 0;
@@ -2403,15 +2403,15 @@ public partial class TUnitWindow : ILayoutModule
         UnitName.Masked = true;
         UnitName.TextColor = 13299411;
         session.EndRead(UnitName);
-        UnitFrRight = new TAOWImage(this);
+        UnitFrRight = new AOWImage(this);
         session.BeginRead(UnitFrRight);
         UnitFrRight.Name = "UnitFrRight";
         UnitFrRight.Priority = 200;
         UnitFrRight.WinLeft = 260;
         UnitFrRight.WinTop = 0;
         UnitFrRight.CaptureInput = true;
-        UnitFrRight.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        UnitFrRight.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UnitFrRight.Alignment.AlignWidth = AOWAlignWidth.Right;
+        UnitFrRight.Alignment.AlignHeight = AOWAlignHeight.Top;
         UnitFrRight.Alignment.HeightPercent = 0;
         UnitFrRight.Alignment.WidthPercent = 0;
         UnitFrRight.Alignment.LeftOffPercent = 0;
@@ -2431,7 +2431,7 @@ public partial class TUnitWindow : ILayoutModule
         UnitFrRight.Animate = false;
         UnitFrRight.AnimFrameDelay = 0;
         session.EndRead(UnitFrRight);
-        UAttackIcon = new TAOWImage(this);
+        UAttackIcon = new AOWImage(this);
         session.BeginRead(UAttackIcon);
         UAttackIcon.Name = "UAttackIcon";
         UAttackIcon.Priority = 0;
@@ -2442,8 +2442,8 @@ public partial class TUnitWindow : ILayoutModule
             "Attack is the ability of a unit to hit a target with a melee strike."
         };
         UAttackIcon.CaptureInput = true;
-        UAttackIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UAttackIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UAttackIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UAttackIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         UAttackIcon.Alignment.HeightPercent = 0;
         UAttackIcon.Alignment.WidthPercent = 0;
         UAttackIcon.Alignment.LeftOffPercent = 0;
@@ -2463,7 +2463,7 @@ public partial class TUnitWindow : ILayoutModule
         UAttackIcon.Animate = false;
         UAttackIcon.AnimFrameDelay = 0;
         session.EndRead(UAttackIcon);
-        UDefenseIcon = new TAOWImage(this);
+        UDefenseIcon = new AOWImage(this);
         session.BeginRead(UDefenseIcon);
         UDefenseIcon.Name = "UDefenseIcon";
         UDefenseIcon.Priority = 0;
@@ -2474,8 +2474,8 @@ public partial class TUnitWindow : ILayoutModule
             "Defense is the ability of a unit to avoid being hit by physical attacks."
         };
         UDefenseIcon.CaptureInput = true;
-        UDefenseIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UDefenseIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UDefenseIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UDefenseIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         UDefenseIcon.Alignment.HeightPercent = 0;
         UDefenseIcon.Alignment.WidthPercent = 0;
         UDefenseIcon.Alignment.LeftOffPercent = 0;
@@ -2495,7 +2495,7 @@ public partial class TUnitWindow : ILayoutModule
         UDefenseIcon.Animate = false;
         UDefenseIcon.AnimFrameDelay = 0;
         session.EndRead(UDefenseIcon);
-        UMovesIcon = new TAOWImage(this);
+        UMovesIcon = new AOWImage(this);
         session.BeginRead(UMovesIcon);
         UMovesIcon.Name = "UMovesIcon";
         UMovesIcon.Priority = 0;
@@ -2506,8 +2506,8 @@ public partial class TUnitWindow : ILayoutModule
             "Moves are the range a unit can move in a turn (Current/Maximum)."
         };
         UMovesIcon.CaptureInput = true;
-        UMovesIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UMovesIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UMovesIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UMovesIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         UMovesIcon.Alignment.HeightPercent = 0;
         UMovesIcon.Alignment.WidthPercent = 0;
         UMovesIcon.Alignment.LeftOffPercent = 0;
@@ -2527,7 +2527,7 @@ public partial class TUnitWindow : ILayoutModule
         UMovesIcon.Animate = false;
         UMovesIcon.AnimFrameDelay = 0;
         session.EndRead(UMovesIcon);
-        UDamageIcon = new TAOWImage(this);
+        UDamageIcon = new AOWImage(this);
         session.BeginRead(UDamageIcon);
         UDamageIcon.Name = "UDamageIcon";
         UDamageIcon.Priority = 0;
@@ -2538,8 +2538,8 @@ public partial class TUnitWindow : ILayoutModule
             "Damage is the maximum strength of a unit's melee attack."
         };
         UDamageIcon.CaptureInput = true;
-        UDamageIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UDamageIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UDamageIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UDamageIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         UDamageIcon.Alignment.HeightPercent = 0;
         UDamageIcon.Alignment.WidthPercent = 0;
         UDamageIcon.Alignment.LeftOffPercent = 52;
@@ -2559,7 +2559,7 @@ public partial class TUnitWindow : ILayoutModule
         UDamageIcon.Animate = false;
         UDamageIcon.AnimFrameDelay = 0;
         session.EndRead(UDamageIcon);
-        UResistanceIcon = new TAOWImage(this);
+        UResistanceIcon = new AOWImage(this);
         session.BeginRead(UResistanceIcon);
         UResistanceIcon.Name = "UResistanceIcon";
         UResistanceIcon.Priority = 0;
@@ -2570,8 +2570,8 @@ public partial class TUnitWindow : ILayoutModule
             "Resistance is the ability of a unit to repel non-physical attacks."
         };
         UResistanceIcon.CaptureInput = true;
-        UResistanceIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UResistanceIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UResistanceIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UResistanceIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         UResistanceIcon.Alignment.HeightPercent = 0;
         UResistanceIcon.Alignment.WidthPercent = 0;
         UResistanceIcon.Alignment.LeftOffPercent = 52;
@@ -2591,7 +2591,7 @@ public partial class TUnitWindow : ILayoutModule
         UResistanceIcon.Animate = false;
         UResistanceIcon.AnimFrameDelay = 0;
         session.EndRead(UResistanceIcon);
-        UHitsIcon = new TAOWImage(this);
+        UHitsIcon = new AOWImage(this);
         session.BeginRead(UHitsIcon);
         UHitsIcon.Name = "UHitsIcon";
         UHitsIcon.Priority = 0;
@@ -2602,8 +2602,8 @@ public partial class TUnitWindow : ILayoutModule
             "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
         };
         UHitsIcon.CaptureInput = true;
-        UHitsIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UHitsIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UHitsIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UHitsIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         UHitsIcon.Alignment.HeightPercent = 0;
         UHitsIcon.Alignment.WidthPercent = 0;
         UHitsIcon.Alignment.LeftOffPercent = 52;
@@ -2623,7 +2623,7 @@ public partial class TUnitWindow : ILayoutModule
         UHitsIcon.Animate = false;
         UHitsIcon.AnimFrameDelay = 0;
         session.EndRead(UHitsIcon);
-        UAttack = new TAOWLabel(this);
+        UAttack = new AOWLabel(this);
         session.BeginRead(UAttack);
         UAttack.Name = "UAttack";
         UAttack.Priority = 0;
@@ -2634,8 +2634,8 @@ public partial class TUnitWindow : ILayoutModule
             "Attack is the ability of a unit to hit a target with a melee strike."
         };
         UAttack.CaptureInput = true;
-        UAttack.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UAttack.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UAttack.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UAttack.Alignment.AlignHeight = AOWAlignHeight.Top;
         UAttack.Alignment.HeightPercent = 0;
         UAttack.Alignment.WidthPercent = 0;
         UAttack.Alignment.LeftOffPercent = 0;
@@ -2649,7 +2649,7 @@ public partial class TUnitWindow : ILayoutModule
         UAttack.Masked = true;
         UAttack.TextColor = 16777215;
         session.EndRead(UAttack);
-        UDefense = new TAOWLabel(this);
+        UDefense = new AOWLabel(this);
         session.BeginRead(UDefense);
         UDefense.Name = "UDefense";
         UDefense.Priority = 0;
@@ -2660,8 +2660,8 @@ public partial class TUnitWindow : ILayoutModule
             "Defense is the ability of a unit to avoid being hit by physical attacks."
         };
         UDefense.CaptureInput = true;
-        UDefense.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UDefense.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UDefense.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UDefense.Alignment.AlignHeight = AOWAlignHeight.Top;
         UDefense.Alignment.HeightPercent = 0;
         UDefense.Alignment.WidthPercent = 0;
         UDefense.Alignment.LeftOffPercent = 0;
@@ -2675,7 +2675,7 @@ public partial class TUnitWindow : ILayoutModule
         UDefense.Masked = true;
         UDefense.TextColor = 16777215;
         session.EndRead(UDefense);
-        UMoves = new TAOWLabel(this);
+        UMoves = new AOWLabel(this);
         session.BeginRead(UMoves);
         UMoves.Name = "UMoves";
         UMoves.Priority = 0;
@@ -2686,8 +2686,8 @@ public partial class TUnitWindow : ILayoutModule
             "Moves are the range a unit can move in a turn (Current/Maximum)."
         };
         UMoves.CaptureInput = true;
-        UMoves.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UMoves.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UMoves.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UMoves.Alignment.AlignHeight = AOWAlignHeight.Top;
         UMoves.Alignment.HeightPercent = 0;
         UMoves.Alignment.WidthPercent = 0;
         UMoves.Alignment.LeftOffPercent = 0;
@@ -2701,7 +2701,7 @@ public partial class TUnitWindow : ILayoutModule
         UMoves.Masked = true;
         UMoves.TextColor = 16777215;
         session.EndRead(UMoves);
-        UDamage = new TAOWLabel(this);
+        UDamage = new AOWLabel(this);
         session.BeginRead(UDamage);
         UDamage.Name = "UDamage";
         UDamage.Priority = 0;
@@ -2712,8 +2712,8 @@ public partial class TUnitWindow : ILayoutModule
             "Damage is the maximum strength of a unit's melee attack."
         };
         UDamage.CaptureInput = true;
-        UDamage.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UDamage.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UDamage.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UDamage.Alignment.AlignHeight = AOWAlignHeight.Top;
         UDamage.Alignment.HeightPercent = 0;
         UDamage.Alignment.WidthPercent = 0;
         UDamage.Alignment.LeftOffPercent = 0;
@@ -2727,7 +2727,7 @@ public partial class TUnitWindow : ILayoutModule
         UDamage.Masked = true;
         UDamage.TextColor = 16777215;
         session.EndRead(UDamage);
-        UResistance = new TAOWLabel(this);
+        UResistance = new AOWLabel(this);
         session.BeginRead(UResistance);
         UResistance.Name = "UResistance";
         UResistance.Priority = 0;
@@ -2738,8 +2738,8 @@ public partial class TUnitWindow : ILayoutModule
             "Resistance is the ability of a unit to repel non-physical attacks."
         };
         UResistance.CaptureInput = true;
-        UResistance.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UResistance.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UResistance.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UResistance.Alignment.AlignHeight = AOWAlignHeight.Top;
         UResistance.Alignment.HeightPercent = 0;
         UResistance.Alignment.WidthPercent = 0;
         UResistance.Alignment.LeftOffPercent = 0;
@@ -2753,7 +2753,7 @@ public partial class TUnitWindow : ILayoutModule
         UResistance.Masked = true;
         UResistance.TextColor = 16777215;
         session.EndRead(UResistance);
-        UHits = new TAOWLabel(this);
+        UHits = new AOWLabel(this);
         session.BeginRead(UHits);
         UHits.Name = "UHits";
         UHits.Priority = 0;
@@ -2764,8 +2764,8 @@ public partial class TUnitWindow : ILayoutModule
             "Hitpoints are the amount of damage a unit can withstand before dying (Current/Maximum)."
         };
         UHits.CaptureInput = true;
-        UHits.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UHits.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UHits.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UHits.Alignment.AlignHeight = AOWAlignHeight.Top;
         UHits.Alignment.HeightPercent = 0;
         UHits.Alignment.WidthPercent = 0;
         UHits.Alignment.LeftOffPercent = 0;
@@ -2779,7 +2779,7 @@ public partial class TUnitWindow : ILayoutModule
         UHits.Masked = true;
         UHits.TextColor = 16777215;
         session.EndRead(UHits);
-        UStatPnl = new TAOWPanel(this);
+        UStatPnl = new AOWPanel(this);
         session.BeginRead(UStatPnl);
         UStatPnl.Name = "UStatPnl";
         UStatPnl.Priority = 0;
@@ -2787,8 +2787,8 @@ public partial class TUnitWindow : ILayoutModule
         UStatPnl.WinTop = 28;
         UStatPnl.WinWidth = 144;
         UStatPnl.Masked = true;
-        UStatPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UStatPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        UStatPnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UStatPnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         UStatPnl.Alignment.HeightPercent = 0;
         UStatPnl.Alignment.WidthPercent = 0;
         UStatPnl.Alignment.LeftOffPercent = 0;
@@ -2806,7 +2806,7 @@ public partial class TUnitWindow : ILayoutModule
         UStatPnl.MinWidth = 0;
         UStatPnl.MinHeight = 0;
         session.EndRead(UStatPnl);
-        UStatP1 = new TAOWPanel(this);
+        UStatP1 = new AOWPanel(this);
         session.BeginRead(UStatP1);
         UStatP1.Name = "UStatP1";
         UStatP1.Priority = 0;
@@ -2814,8 +2814,8 @@ public partial class TUnitWindow : ILayoutModule
         UStatP1.WinTop = 0;
         UStatP1.WinWidth = 44;
         UStatP1.Masked = true;
-        UStatP1.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        UStatP1.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        UStatP1.Alignment.AlignWidth = AOWAlignWidth.Both;
+        UStatP1.Alignment.AlignHeight = AOWAlignHeight.Both;
         UStatP1.Alignment.HeightPercent = 0;
         UStatP1.Alignment.WidthPercent = 0;
         UStatP1.Alignment.LeftOffPercent = 0;
@@ -2833,7 +2833,7 @@ public partial class TUnitWindow : ILayoutModule
         UStatP1.MinWidth = 0;
         UStatP1.MinHeight = 0;
         session.EndRead(UStatP1);
-        UStatP2 = new TAOWPanel(this);
+        UStatP2 = new AOWPanel(this);
         session.BeginRead(UStatP2);
         UStatP2.Name = "UStatP2";
         UStatP2.Priority = 0;
@@ -2841,8 +2841,8 @@ public partial class TUnitWindow : ILayoutModule
         UStatP2.WinTop = 0;
         UStatP2.WinWidth = 51;
         UStatP2.Masked = true;
-        UStatP2.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        UStatP2.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        UStatP2.Alignment.AlignWidth = AOWAlignWidth.Both;
+        UStatP2.Alignment.AlignHeight = AOWAlignHeight.Both;
         UStatP2.Alignment.HeightPercent = 0;
         UStatP2.Alignment.WidthPercent = 0;
         UStatP2.Alignment.LeftOffPercent = 65;
@@ -2860,7 +2860,7 @@ public partial class TUnitWindow : ILayoutModule
         UStatP2.MinWidth = 0;
         UStatP2.MinHeight = 0;
         session.EndRead(UStatP2);
-        UnitFr = new TAOWPanel(this);
+        UnitFr = new AOWPanel(this);
         session.BeginRead(UnitFr);
         UnitFr.Name = "UnitFr";
         UnitFr.Priority = 0;
@@ -2868,8 +2868,8 @@ public partial class TUnitWindow : ILayoutModule
         UnitFr.WinTop = 7;
         UnitFr.WinWidth = 50;
         UnitFr.Masked = false;
-        UnitFr.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UnitFr.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UnitFr.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UnitFr.Alignment.AlignHeight = AOWAlignHeight.Top;
         UnitFr.Alignment.HeightPercent = 0;
         UnitFr.Alignment.WidthPercent = 0;
         UnitFr.Alignment.LeftOffPercent = 0;
@@ -2887,15 +2887,15 @@ public partial class TUnitWindow : ILayoutModule
         UnitFr.MinWidth = 0;
         UnitFr.MinHeight = 0;
         session.EndRead(UnitFr);
-        Level = new TAOWLabel(this);
+        Level = new AOWLabel(this);
         session.BeginRead(Level);
         Level.Name = "Level";
         Level.Priority = 1000000;
         Level.WinLeft = 59;
         Level.WinTop = 18;
         Level.CaptureInput = true;
-        Level.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Level.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Level.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Level.Alignment.AlignHeight = AOWAlignHeight.Top;
         Level.Alignment.HeightPercent = 0;
         Level.Alignment.WidthPercent = 0;
         Level.Alignment.LeftOffPercent = 0;
@@ -2909,15 +2909,15 @@ public partial class TUnitWindow : ILayoutModule
         Level.Masked = true;
         Level.TextColor = 1514524;
         session.EndRead(Level);
-        UnitLine1 = new TAOWImage(this);
+        UnitLine1 = new AOWImage(this);
         session.BeginRead(UnitLine1);
         UnitLine1.Name = "UnitLine1";
         UnitLine1.Priority = 1000;
         UnitLine1.WinLeft = 118;
         UnitLine1.WinTop = 0;
         UnitLine1.CaptureInput = true;
-        UnitLine1.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UnitLine1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UnitLine1.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UnitLine1.Alignment.AlignHeight = AOWAlignHeight.Top;
         UnitLine1.Alignment.HeightPercent = 0;
         UnitLine1.Alignment.WidthPercent = 0;
         UnitLine1.Alignment.LeftOffPercent = 0;
@@ -2937,15 +2937,15 @@ public partial class TUnitWindow : ILayoutModule
         UnitLine1.Animate = false;
         UnitLine1.AnimFrameDelay = 0;
         session.EndRead(UnitLine1);
-        UnitLine2 = new TAOWImage(this);
+        UnitLine2 = new AOWImage(this);
         session.BeginRead(UnitLine2);
         UnitLine2.Name = "UnitLine2";
         UnitLine2.Priority = 1000;
         UnitLine2.WinLeft = 118;
         UnitLine2.WinTop = 116;
         UnitLine2.CaptureInput = true;
-        UnitLine2.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UnitLine2.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        UnitLine2.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UnitLine2.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         UnitLine2.Alignment.HeightPercent = 0;
         UnitLine2.Alignment.WidthPercent = 0;
         UnitLine2.Alignment.LeftOffPercent = 0;
@@ -2965,7 +2965,7 @@ public partial class TUnitWindow : ILayoutModule
         UnitLine2.Animate = false;
         UnitLine2.AnimFrameDelay = 0;
         session.EndRead(UnitLine2);
-        FrLSh = new TAOWImage(this);
+        FrLSh = new AOWImage(this);
         session.BeginRead(FrLSh);
         FrLSh.Name = "FrLSh";
         FrLSh.OnPreDraw = FrLShPreDraw;
@@ -2973,8 +2973,8 @@ public partial class TUnitWindow : ILayoutModule
         FrLSh.WinLeft = 1;
         FrLSh.WinTop = 0;
         FrLSh.CaptureInput = true;
-        FrLSh.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        FrLSh.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        FrLSh.Alignment.AlignWidth = AOWAlignWidth.Left;
+        FrLSh.Alignment.AlignHeight = AOWAlignHeight.Top;
         FrLSh.Alignment.HeightPercent = 0;
         FrLSh.Alignment.WidthPercent = 0;
         FrLSh.Alignment.LeftOffPercent = 0;
@@ -2994,7 +2994,7 @@ public partial class TUnitWindow : ILayoutModule
         FrLSh.Animate = false;
         FrLSh.AnimFrameDelay = 0;
         session.EndRead(FrLSh);
-        FrRSh = new TAOWImage(this);
+        FrRSh = new AOWImage(this);
         session.BeginRead(FrRSh);
         FrRSh.Name = "FrRSh";
         FrRSh.OnPreDraw = FrRShPreDraw;
@@ -3002,8 +3002,8 @@ public partial class TUnitWindow : ILayoutModule
         FrRSh.WinLeft = 260;
         FrRSh.WinTop = 0;
         FrRSh.CaptureInput = true;
-        FrRSh.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        FrRSh.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        FrRSh.Alignment.AlignWidth = AOWAlignWidth.Right;
+        FrRSh.Alignment.AlignHeight = AOWAlignHeight.Top;
         FrRSh.Alignment.HeightPercent = 0;
         FrRSh.Alignment.WidthPercent = 0;
         FrRSh.Alignment.LeftOffPercent = 0;
@@ -3023,7 +3023,7 @@ public partial class TUnitWindow : ILayoutModule
         FrRSh.Animate = false;
         FrRSh.AnimFrameDelay = 0;
         session.EndRead(FrRSh);
-        RightFramePnl = new TAOWPanel(this);
+        RightFramePnl = new AOWPanel(this);
         session.BeginRead(RightFramePnl);
         RightFramePnl.Name = "RightFramePnl";
         RightFramePnl.Priority = 0;
@@ -3031,8 +3031,8 @@ public partial class TUnitWindow : ILayoutModule
         RightFramePnl.WinTop = 0;
         RightFramePnl.WinWidth = 118;
         RightFramePnl.Masked = true;
-        RightFramePnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        RightFramePnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RightFramePnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        RightFramePnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         RightFramePnl.Alignment.HeightPercent = 0;
         RightFramePnl.Alignment.WidthPercent = 0;
         RightFramePnl.Alignment.LeftOffPercent = 0;
@@ -3050,7 +3050,7 @@ public partial class TUnitWindow : ILayoutModule
         RightFramePnl.MinWidth = 0;
         RightFramePnl.MinHeight = 0;
         session.EndRead(RightFramePnl);
-        MoraleLbl = new TAOWLabel(this);
+        MoraleLbl = new AOWLabel(this);
         session.BeginRead(MoraleLbl);
         MoraleLbl.Name = "MoraleLbl";
         MoraleLbl.Priority = 1500;
@@ -3061,8 +3061,8 @@ public partial class TUnitWindow : ILayoutModule
             "Morale modifiers: High [-], Good[-], Okay [-], Poor [Def-1/Res-1], Terrible [Def-2/Res-2]"
         };
         MoraleLbl.CaptureInput = true;
-        MoraleLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        MoraleLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        MoraleLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        MoraleLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         MoraleLbl.Alignment.HeightPercent = 0;
         MoraleLbl.Alignment.WidthPercent = 0;
         MoraleLbl.Alignment.LeftOffPercent = 0;
@@ -3076,7 +3076,7 @@ public partial class TUnitWindow : ILayoutModule
         MoraleLbl.Masked = true;
         MoraleLbl.TextColor = 13299411;
         session.EndRead(MoraleLbl);
-        UpkeepIcon = new TAOWImage(this);
+        UpkeepIcon = new AOWImage(this);
         session.BeginRead(UpkeepIcon);
         UpkeepIcon.Name = "UpkeepIcon";
         UpkeepIcon.Priority = 0;
@@ -3087,8 +3087,8 @@ public partial class TUnitWindow : ILayoutModule
             "Upkeep is the cost to maintain the unit, in Gold or Mana, per turn."
         };
         UpkeepIcon.CaptureInput = true;
-        UpkeepIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UpkeepIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UpkeepIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UpkeepIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         UpkeepIcon.Alignment.HeightPercent = 0;
         UpkeepIcon.Alignment.WidthPercent = 0;
         UpkeepIcon.Alignment.LeftOffPercent = 0;
@@ -3108,7 +3108,7 @@ public partial class TUnitWindow : ILayoutModule
         UpkeepIcon.Animate = false;
         UpkeepIcon.AnimFrameDelay = 0;
         session.EndRead(UpkeepIcon);
-        UpKeep = new TAOWLabel(this);
+        UpKeep = new AOWLabel(this);
         session.BeginRead(UpKeep);
         UpKeep.Name = "UpKeep";
         UpKeep.Priority = 0;
@@ -3119,8 +3119,8 @@ public partial class TUnitWindow : ILayoutModule
             "Upkeep is the cost to maintain the unit, in Gold or Mana, per turn."
         };
         UpKeep.CaptureInput = true;
-        UpKeep.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        UpKeep.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UpKeep.Alignment.AlignWidth = AOWAlignWidth.Center;
+        UpKeep.Alignment.AlignHeight = AOWAlignHeight.Top;
         UpKeep.Alignment.HeightPercent = 0;
         UpKeep.Alignment.WidthPercent = 0;
         UpKeep.Alignment.LeftOffPercent = 0;
@@ -3134,15 +3134,15 @@ public partial class TUnitWindow : ILayoutModule
         UpKeep.Masked = true;
         UpKeep.TextColor = 16777215;
         session.EndRead(UpKeep);
-        BCeltL = new TAoWFrame(this);
+        BCeltL = new AoWFrame(this);
         session.BeginRead(BCeltL);
         BCeltL.Name = "BCeltL";
         BCeltL.Priority = 0;
         BCeltL.WinLeft = 21;
         BCeltL.WinTop = 380;
         BCeltL.CaptureInput = true;
-        BCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        BCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        BCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        BCeltL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         BCeltL.Alignment.HeightPercent = 0;
         BCeltL.Alignment.WidthPercent = 0;
         BCeltL.Alignment.LeftOffPercent = 0;
@@ -3156,20 +3156,20 @@ public partial class TUnitWindow : ILayoutModule
         BCeltL.Masked = false;
         BCeltL.WinWidth = 378;
         BCeltL.WinHeight = 27;
-        BCeltL.FrameType = TFrameType.frHorizLine;
+        BCeltL.FrameType = FrameType.HorizLine;
         BCeltL.ILIndexFrame = 0;
         BCeltL.ILIndexLine = 55;
         BCeltL.ILIndexTexture = 0;
         session.EndRead(BCeltL);
-        CeltLineL = new TAOWImage(this);
+        CeltLineL = new AOWImage(this);
         session.BeginRead(CeltLineL);
         CeltLineL.Name = "CeltLineL";
         CeltLineL.Priority = 100;
         CeltLineL.WinLeft = 27;
         CeltLineL.WinTop = 380;
         CeltLineL.CaptureInput = true;
-        CeltLineL.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        CeltLineL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CeltLineL.Alignment.AlignWidth = AOWAlignWidth.Left;
+        CeltLineL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CeltLineL.Alignment.HeightPercent = 0;
         CeltLineL.Alignment.WidthPercent = 0;
         CeltLineL.Alignment.LeftOffPercent = 0;
@@ -3189,7 +3189,7 @@ public partial class TUnitWindow : ILayoutModule
         CeltLineL.Animate = false;
         CeltLineL.AnimFrameDelay = 0;
         session.EndRead(CeltLineL);
-        GroundL = new TAOWButton(this);
+        GroundL = new AOWButton(this);
         session.BeginRead(GroundL);
         GroundL.Name = "GroundL";
         GroundL.Visible = false;
@@ -3201,8 +3201,8 @@ public partial class TUnitWindow : ILayoutModule
             "Displays help on this window"
         };
         GroundL.CaptureInput = true;
-        GroundL.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        GroundL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        GroundL.Alignment.AlignWidth = AOWAlignWidth.Left;
+        GroundL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         GroundL.Alignment.HeightPercent = 0;
         GroundL.Alignment.WidthPercent = 0;
         GroundL.Alignment.LeftOffPercent = 0;
@@ -3224,7 +3224,7 @@ public partial class TUnitWindow : ILayoutModule
         GroundL.WinWidth = 13;
         GroundL.OnClick = _ => GroundLClick();
         session.EndRead(GroundL);
-        GroundR = new TAOWButton(this);
+        GroundR = new AOWButton(this);
         session.BeginRead(GroundR);
         GroundR.Name = "GroundR";
         GroundR.Visible = false;
@@ -3236,8 +3236,8 @@ public partial class TUnitWindow : ILayoutModule
             "Displays help on this window"
         };
         GroundR.CaptureInput = true;
-        GroundR.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        GroundR.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        GroundR.Alignment.AlignWidth = AOWAlignWidth.Right;
+        GroundR.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         GroundR.Alignment.HeightPercent = 0;
         GroundR.Alignment.WidthPercent = 0;
         GroundR.Alignment.LeftOffPercent = 0;
@@ -3259,15 +3259,15 @@ public partial class TUnitWindow : ILayoutModule
         GroundR.WinWidth = 13;
         GroundR.OnClick = _ => GroundRClick();
         session.EndRead(GroundR);
-        RelationIcn = new TAOWImage(this);
+        RelationIcn = new AOWImage(this);
         session.BeginRead(RelationIcn);
         RelationIcn.Name = "RelationIcn";
         RelationIcn.Priority = 0;
         RelationIcn.WinLeft = 32;
         RelationIcn.WinTop = 10;
         RelationIcn.CaptureInput = true;
-        RelationIcn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        RelationIcn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RelationIcn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        RelationIcn.Alignment.AlignHeight = AOWAlignHeight.Top;
         RelationIcn.Alignment.HeightPercent = 0;
         RelationIcn.Alignment.WidthPercent = 0;
         RelationIcn.Alignment.LeftOffPercent = 0;
@@ -3287,15 +3287,15 @@ public partial class TUnitWindow : ILayoutModule
         RelationIcn.Animate = false;
         RelationIcn.AnimFrameDelay = 0;
         session.EndRead(RelationIcn);
-        RelationV = new TAOWLabel(this);
+        RelationV = new AOWLabel(this);
         session.BeginRead(RelationV);
         RelationV.Name = "RelationV";
         RelationV.Priority = 0;
         RelationV.WinLeft = 57;
         RelationV.WinTop = 80;
         RelationV.CaptureInput = true;
-        RelationV.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        RelationV.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        RelationV.Alignment.AlignWidth = AOWAlignWidth.Center;
+        RelationV.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         RelationV.Alignment.HeightPercent = 0;
         RelationV.Alignment.WidthPercent = 0;
         RelationV.Alignment.LeftOffPercent = 0;
@@ -3309,7 +3309,7 @@ public partial class TUnitWindow : ILayoutModule
         RelationV.Masked = true;
         RelationV.TextColor = 9415072;
         session.EndRead(RelationV);
-        T2RelPnl = new TAOWPanel(this);
+        T2RelPnl = new AOWPanel(this);
         session.BeginRead(T2RelPnl);
         T2RelPnl.Name = "T2RelPnl";
         T2RelPnl.Priority = 10;
@@ -3317,8 +3317,8 @@ public partial class TUnitWindow : ILayoutModule
         T2RelPnl.WinTop = 109;
         T2RelPnl.WinWidth = 115;
         T2RelPnl.Masked = true;
-        T2RelPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        T2RelPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        T2RelPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        T2RelPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         T2RelPnl.Alignment.HeightPercent = 0;
         T2RelPnl.Alignment.WidthPercent = 0;
         T2RelPnl.Alignment.LeftOffPercent = 0;
@@ -3336,15 +3336,15 @@ public partial class TUnitWindow : ILayoutModule
         T2RelPnl.MinWidth = 0;
         T2RelPnl.MinHeight = 0;
         session.EndRead(T2RelPnl);
-        RelFr = new TAoWFrame(this);
+        RelFr = new AoWFrame(this);
         session.BeginRead(RelFr);
         RelFr.Name = "RelFr";
         RelFr.Priority = 0;
         RelFr.WinLeft = 1;
         RelFr.WinTop = 0;
         RelFr.CaptureInput = true;
-        RelFr.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        RelFr.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        RelFr.Alignment.AlignWidth = AOWAlignWidth.Both;
+        RelFr.Alignment.AlignHeight = AOWAlignHeight.Both;
         RelFr.Alignment.HeightPercent = 0;
         RelFr.Alignment.WidthPercent = 0;
         RelFr.Alignment.LeftOffPercent = 0;
@@ -3358,20 +3358,20 @@ public partial class TUnitWindow : ILayoutModule
         RelFr.Masked = false;
         RelFr.WinWidth = 114;
         RelFr.WinHeight = 86;
-        RelFr.FrameType = TFrameType.frHollowBox;
+        RelFr.FrameType = FrameType.HollowBox;
         RelFr.ILIndexFrame = 113;
         RelFr.ILIndexLine = 0;
         RelFr.ILIndexTexture = 0;
         session.EndRead(RelFr);
-        RelRing = new TAOWImage(this);
+        RelRing = new AOWImage(this);
         session.BeginRead(RelRing);
         RelRing.Name = "RelRing";
         RelRing.Priority = 0;
         RelRing.WinLeft = 37;
         RelRing.WinTop = 10;
         RelRing.CaptureInput = true;
-        RelRing.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        RelRing.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RelRing.Alignment.AlignWidth = AOWAlignWidth.Left;
+        RelRing.Alignment.AlignHeight = AOWAlignHeight.Top;
         RelRing.Alignment.HeightPercent = 0;
         RelRing.Alignment.WidthPercent = 0;
         RelRing.Alignment.LeftOffPercent = 0;
@@ -3391,15 +3391,15 @@ public partial class TUnitWindow : ILayoutModule
         RelRing.Animate = false;
         RelRing.AnimFrameDelay = 0;
         session.EndRead(RelRing);
-        RelationLbl = new TAOWLabel(this);
+        RelationLbl = new AOWLabel(this);
         session.BeginRead(RelationLbl);
         RelationLbl.Name = "RelationLbl";
         RelationLbl.Priority = 0;
         RelationLbl.WinLeft = 27;
         RelationLbl.WinTop = 56;
         RelationLbl.CaptureInput = true;
-        RelationLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        RelationLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        RelationLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        RelationLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         RelationLbl.Alignment.HeightPercent = 0;
         RelationLbl.Alignment.WidthPercent = 0;
         RelationLbl.Alignment.LeftOffPercent = 0;
@@ -3414,15 +3414,15 @@ public partial class TUnitWindow : ILayoutModule
         RelationLbl.Text = "Race Relation";
         RelationLbl.TextColor = 9415072;
         session.EndRead(RelationLbl);
-        AlignLbl = new TAOWLabel(this);
+        AlignLbl = new AOWLabel(this);
         session.BeginRead(AlignLbl);
         AlignLbl.Name = "AlignLbl";
         AlignLbl.Priority = 0;
         AlignLbl.WinLeft = 42;
         AlignLbl.WinTop = 56;
         AlignLbl.CaptureInput = true;
-        AlignLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        AlignLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AlignLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        AlignLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AlignLbl.Alignment.HeightPercent = 0;
         AlignLbl.Alignment.WidthPercent = 0;
         AlignLbl.Alignment.LeftOffPercent = 0;
@@ -3437,15 +3437,15 @@ public partial class TUnitWindow : ILayoutModule
         AlignLbl.Text = "Alignment";
         AlignLbl.TextColor = 9415072;
         session.EndRead(AlignLbl);
-        TypeLbl = new TAOWLabel(this);
+        TypeLbl = new AOWLabel(this);
         session.BeginRead(TypeLbl);
         TypeLbl.Name = "TypeLbl";
         TypeLbl.Priority = 0;
         TypeLbl.WinLeft = 48;
         TypeLbl.WinTop = 56;
         TypeLbl.CaptureInput = true;
-        TypeLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TypeLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TypeLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TypeLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TypeLbl.Alignment.HeightPercent = 0;
         TypeLbl.Alignment.WidthPercent = 0;
         TypeLbl.Alignment.LeftOffPercent = 0;
@@ -3460,7 +3460,7 @@ public partial class TUnitWindow : ILayoutModule
         TypeLbl.Text = "Type";
         TypeLbl.TextColor = 9415072;
         session.EndRead(TypeLbl);
-        XP = new TAOWLabel(this);
+        XP = new AOWLabel(this);
         session.BeginRead(XP);
         XP.Name = "XP";
         XP.Priority = 1000000;
@@ -3471,8 +3471,8 @@ public partial class TUnitWindow : ILayoutModule
             "Indicates combat experience needed for next level."
         };
         XP.CaptureInput = true;
-        XP.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        XP.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        XP.Alignment.AlignWidth = AOWAlignWidth.Center;
+        XP.Alignment.AlignHeight = AOWAlignHeight.Top;
         XP.Alignment.HeightPercent = 0;
         XP.Alignment.WidthPercent = 0;
         XP.Alignment.LeftOffPercent = 0;
@@ -3486,7 +3486,7 @@ public partial class TUnitWindow : ILayoutModule
         XP.Masked = true;
         XP.TextColor = 1514524;
         session.EndRead(XP);
-        PNext = new TAOWButton(this);
+        PNext = new AOWButton(this);
         session.BeginRead(PNext);
         PNext.Name = "PNext";
         PNext.Priority = 50000;
@@ -3497,8 +3497,8 @@ public partial class TUnitWindow : ILayoutModule
             "Selects the next unit in the party."
         };
         PNext.CaptureInput = true;
-        PNext.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        PNext.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        PNext.Alignment.AlignWidth = AOWAlignWidth.Right;
+        PNext.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         PNext.Alignment.HeightPercent = 0;
         PNext.Alignment.WidthPercent = 0;
         PNext.Alignment.LeftOffPercent = 85;
@@ -3520,7 +3520,7 @@ public partial class TUnitWindow : ILayoutModule
         PNext.WinWidth = 12;
         PNext.OnClick = _ => Layout_PNextClick_5();
         session.EndRead(PNext);
-        PPrev = new TAOWButton(this);
+        PPrev = new AOWButton(this);
         session.BeginRead(PPrev);
         PPrev.Name = "PPrev";
         PPrev.Priority = 50000;
@@ -3531,8 +3531,8 @@ public partial class TUnitWindow : ILayoutModule
             "Selects the previous unit in the party."
         };
         PPrev.CaptureInput = true;
-        PPrev.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        PPrev.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        PPrev.Alignment.AlignWidth = AOWAlignWidth.Right;
+        PPrev.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         PPrev.Alignment.HeightPercent = 0;
         PPrev.Alignment.WidthPercent = 0;
         PPrev.Alignment.LeftOffPercent = 0;
@@ -3830,7 +3830,7 @@ public partial class TUnitWindow : ILayoutModule
         T1AbilityLB.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
         T1AbilityLB.ILTextureNormal = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
         T1AbilityLB.ILTextureSelected = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Menus;
-        session.Defer("InfoBanner", (TInfoBanner module) => T1AbilityLB.PopupMenu = module.BannerPopup);
+        session.Defer("InfoBanner", (InfoBanner module) => T1AbilityLB.PopupMenu = module.BannerPopup);
         T1UseBut.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
         T1UseBut.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
         T1SortName.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
@@ -3846,12 +3846,12 @@ public partial class TUnitWindow : ILayoutModule
         T1TypeLB.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
         T1TypeLB.ILTextureNormal = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
         T1TypeLB.ILTextureSelected = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Menus;
-        session.Defer("InfoBanner", (TInfoBanner module) => T1TypeLB.PopupMenu = module.BannerPopup);
+        session.Defer("InfoBanner", (InfoBanner module) => T1TypeLB.PopupMenu = module.BannerPopup);
         T1SrcLB.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
         T1SrcLB.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
         T1SrcLB.ILTextureNormal = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
         T1SrcLB.ILTextureSelected = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Menus;
-        session.Defer("InfoBanner", (TInfoBanner module) => T1SrcLB.PopupMenu = module.BannerPopup);
+        session.Defer("InfoBanner", (InfoBanner module) => T1SrcLB.PopupMenu = module.BannerPopup);
         T1ListPnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
         T1ListPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
         T1SBar.ILIInc = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;

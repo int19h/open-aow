@@ -8,12 +8,12 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Controls;
 
 // top, middle, bottom, copied line image library
-public partial class TAoWArnoLine : TAOWControl
+public partial class AoWArnoLine : AOWControl
 {
-    public Aow.Game.Draw.Images.TLibraryImage FImageTop;
-    public Aow.Game.Draw.Images.TLibraryImage FImageMiddle;
-    public Aow.Game.Draw.Images.TLibraryImage FImageBottom;
-    public TInterfaceIL FLineLibrary;
+    public Aow.Game.Draw.Images.LibraryImage FImageTop;
+    public Aow.Game.Draw.Images.LibraryImage FImageMiddle;
+    public Aow.Game.Draw.Images.LibraryImage FImageBottom;
+    public InterfaceIL FLineLibrary;
 
     // AoWArnoLine.pas:47
     public override void Dispose()
@@ -23,9 +23,9 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     // AoWArnoLine.pas:41
-    public TAoWArnoLine(TComponent owner) : base(owner)
+    public AoWArnoLine(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FLineLibrary = new TInterfaceIL(this);
+        FLineLibrary = new InterfaceIL(this);
     }
 
     // AoWArnoLine.pas:53
@@ -54,9 +54,9 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     // AoWArnoLine.pas:99
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect OldClip = default;
+        global::Aow.Rtl.Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -72,7 +72,7 @@ public partial class TAoWArnoLine : TAOWControl
                     SurfDesc.ClipRect.Top = FWinTop;
                 }
 
-                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                 FLineLibrary.DrawILLv(0, rect, ref SurfDesc);
                 if (FOnDraw != null)
                 {
@@ -89,7 +89,7 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     // AoWArnoLine.pas:66
-    public void SetITop(Aow.Game.Draw.Images.TLibraryImage Value)
+    public void SetITop(Aow.Game.Draw.Images.LibraryImage Value)
     {
         if (Value != FImageTop)
         {
@@ -99,7 +99,7 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     // AoWArnoLine.pas:75
-    public void SetIMiddle(Aow.Game.Draw.Images.TLibraryImage Value)
+    public void SetIMiddle(Aow.Game.Draw.Images.LibraryImage Value)
     {
         if (Value != FImageMiddle)
         {
@@ -109,7 +109,7 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     // AoWArnoLine.pas:84
-    public void SetIBottom(Aow.Game.Draw.Images.TLibraryImage Value)
+    public void SetIBottom(Aow.Game.Draw.Images.LibraryImage Value)
     {
         if (Value != FImageBottom)
         {
@@ -119,63 +119,63 @@ public partial class TAoWArnoLine : TAOWControl
     }
 
     [Published]
-    public Aow.Game.Draw.Images.TLibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
+    public Aow.Game.Draw.Images.LibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
 
     [Published]
-    public Aow.Game.Draw.Images.TLibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
+    public Aow.Game.Draw.Images.LibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
 
     [Published]
-    public Aow.Game.Draw.Images.TLibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
+    public Aow.Game.Draw.Images.LibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
 
-    public new TNotifyEvent<TAoWArnoLine> OnChange
+    public new NotifyEvent<AoWArnoLine> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAoWArnoLine> OnMouseDown
+    public new MouseEvent<AoWArnoLine> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAoWArnoLine> OnMouseUp
+    public new MouseEvent<AoWArnoLine> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAoWArnoLine> OnMouseMove
+    public new MouseMoveEvent<AoWArnoLine> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAoWArnoLine> OnKeyPress
+    public new KeyPressEvent<AoWArnoLine> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAoWArnoLine> OnKeyDown
+    public new KeyEvent<AoWArnoLine> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWArnoLine> OnPreDraw
+    public new AoWOnDrawEvent<AoWArnoLine> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWArnoLine> OnDraw
+    public new AoWOnDrawEvent<AoWArnoLine> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAoWArnoLine> OnUpdate
+    public new NotifyEvent<AoWArnoLine> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

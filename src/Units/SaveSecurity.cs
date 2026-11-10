@@ -12,7 +12,7 @@ public static class SaveSecurity
     public static bool GetFileSecurityID(string FileName, ref string ID)
     {
         bool Result;
-        TSecurityData Data = default;
+        SecurityData Data = default;
         if (Aow.Game.Saves.SaveSecurity.ReadSecurityData(FileName, ref Data))
         {
             ID = Aow.Game.Saves.SaveSecurity.EncodeSecurityID(Data.ID, Data.Key);
@@ -29,7 +29,7 @@ public static class SaveSecurity
 
     internal static bool SetFileSecurityID(string FileName, string ID)
     {
-        TSecurityData Data;
+        SecurityData Data;
         byte Key;
         Data = default;
         Key = (byte)Random(256);
@@ -52,7 +52,7 @@ public static class SaveSecurity
         return Result;
     }
 
-    internal static bool WriteSecurityData(string FileName, in TSecurityData Data)
+    internal static bool WriteSecurityData(string FileName, in SecurityData Data)
     {
         /* TODO: Implement Windows.CreateFile in the platform or editor service. */
         throw new NotImplementedException();
@@ -64,7 +64,7 @@ public static class SaveSecurity
         throw new NotImplementedException();
     }
 
-    public static bool ReadSecurityData(string fileName, ref TSecurityData data)
+    public static bool ReadSecurityData(string fileName, ref SecurityData data)
     {
         data = default;
         try

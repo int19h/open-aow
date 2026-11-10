@@ -12,148 +12,148 @@ public sealed partial class SpellConstructionTests
 {
     private interface IOwnerProbe { int OwnerCalls { get; } }
 
-    private sealed class ProbeTAbility : TAbility, IOwnerProbe
+    private sealed class ProbeTAbility : Ability, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTAbility(TECustomNode owner) : base(owner) { }
+        public ProbeTAbility(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTAdjustableAbility : TAdjustableAbility, IOwnerProbe
+    private sealed class ProbeTAdjustableAbility : AdjustableAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTAdjustableAbility(TECustomNode owner) : base(owner) { }
+        public ProbeTAdjustableAbility(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTCombatAction : TCombatAction, IOwnerProbe
+    private sealed class ProbeTCombatAction : CombatAction, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTCombatAction(TECustomNode owner) : base(owner) { }
+        public ProbeTCombatAction(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTDamageCA : TDamageCA, IOwnerProbe
+    private sealed class ProbeTDamageCA : DamageCA, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTDamageCA(TECustomNode owner) : base(owner) { }
+        public ProbeTDamageCA(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTDispelMagicCA : TDispelMagicCA, IOwnerProbe
+    private sealed class ProbeTDispelMagicCA : DispelMagicCA, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTDispelMagicCA(TECustomNode owner) : base(owner) { }
+        public ProbeTDispelMagicCA(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTDurationAbility : TDurationAbility, IOwnerProbe
+    private sealed class ProbeTDurationAbility : DurationAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTDurationAbility(TECustomNode owner) : base(owner) { }
+        public ProbeTDurationAbility(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTEnhancementAbility : TEnhancementAbility, IOwnerProbe
+    private sealed class ProbeTEnhancementAbility : EnhancementAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTEnhancementAbility(TECustomNode owner) : base(owner) { }
+        public ProbeTEnhancementAbility(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTGlobalEnchantment : TGlobalEnchantment, IOwnerProbe
+    private sealed class ProbeTGlobalEnchantment : GlobalEnchantment, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTGlobalEnchantment(TECustomNode owner) : base(owner) { }
+        public ProbeTGlobalEnchantment(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTMultiLevelAbility : TMultiLevelAbility, IOwnerProbe
+    private sealed class ProbeTMultiLevelAbility : MultiLevelAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTMultiLevelAbility(TECustomNode owner) : base(owner) { }
+        public ProbeTMultiLevelAbility(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTSingleTargetCA : TSingleTargetCA, IOwnerProbe
+    private sealed class ProbeTSingleTargetCA : SingleTargetCA, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTSingleTargetCA(TECustomNode owner) : base(owner) { }
+        public ProbeTSingleTargetCA(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTSpell : TSpell, IOwnerProbe
+    private sealed class ProbeTSpell : Spell, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTSpell(TECustomNode owner) : base(owner) { }
+        public ProbeTSpell(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTSpellCaster : TSpellCaster, IOwnerProbe
+    private sealed class ProbeTSpellCaster : SpellCaster, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTSpellCaster(TECustomNode owner) : base(owner) { }
+        public ProbeTSpellCaster(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTUnitEnchantmentAbility : TUnitEnchantmentAbility, IOwnerProbe
+    private sealed class ProbeTUnitEnchantmentAbility : UnitEnchantmentAbility, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTUnitEnchantmentAbility(TECustomNode owner) : base(owner) { }
+        public ProbeTUnitEnchantmentAbility(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ProbeTUnitSpell : TUnitSpell, IOwnerProbe
+    private sealed class ProbeTUnitSpell : UnitSpell, IOwnerProbe
     {
         public int OwnerCalls { get; private set; }
 
-        public ProbeTUnitSpell(TECustomNode owner) : base(owner) { }
+        public ProbeTUnitSpell(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
     [Theory]
-    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.THolyGroundSpell))]
-    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.TUnholyGroundSpell))]
-    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.TRaiseTerrain))]
-    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.TPoisonPlantSpell))]
+    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell))]
+    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell))]
+    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain))]
+    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell))]
     public void ConvertedGlobalTargetDescendantsUseCompletedConstruction(Type type)
     {
         using var fixture = new Fixture();
         var owner = new SpellOwner();
-        var raw = (TSpell)EClass.Of(type).Create(owner);
+        var raw = (Spell)EClass.Of(type).Create(owner);
         Assert.IsType(type, raw);
         Assert.NotNull(raw.FSpellText);
         try
         {
             Assert.Same(raw, Assert.Single(owner.Members));
-            Assert.Equal(TSpellType.stGlobal, raw.FSpellType);
+            Assert.Equal(SpellType.Global, raw.FSpellType);
             Assert.Equal(1, raw.FResearchCost);
             Assert.Same(fixture.Manager, raw.FCastImages.FILManager);
         }

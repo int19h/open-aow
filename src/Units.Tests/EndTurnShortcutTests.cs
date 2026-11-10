@@ -26,7 +26,7 @@ public sealed class EndTurnShortcutTests
 
         Assert.True(play.Button.Checked);
         Assert.False(play.Window.MapWindow.FHandled);
-        Assert.Equal(TEndTurnMode.emEndTurn, play.QueuedMode());
+        Assert.Equal(Aow.Game.Commands.EndTurnTE.EndTurnMode.EndTurn, play.QueuedMode());
 
         // The end-turn token sets the cycle when it runs. A second press then cancels,
         // the state a second click sees while the turn waits. Running that token on this
@@ -37,7 +37,7 @@ public sealed class EndTurnShortcutTests
         play.Press(13);
 
         Assert.False(play.Button.Checked);
-        Assert.Equal(TEndTurnMode.emCancelEndTurn, play.QueuedMode());
+        Assert.Equal(Aow.Game.Commands.EndTurnTE.EndTurnMode.CancelEndTurn, play.QueuedMode());
     }
 
     [Fact]
@@ -75,63 +75,63 @@ public sealed class EndTurnShortcutTests
 
     private sealed class Play : IDisposable
     {
-        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        private readonly TAoWCombatMap previousCombat = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
-        private readonly TTBWindow previousWindow = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow;
-        private TAoWCombatMap? combat;
+        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        private readonly AoWCombatMap previousCombat = Aow.Game.Combat.AoWCombatMap.Current;
+        private readonly TBWindow previousWindow = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow;
+        private AoWCombatMap? combat;
 
-        internal TAoWHSMap Map { get; }
-        internal TMWindow Window { get; }
-        internal TAOWTurnButton Button { get; }
+        internal AoWHSMap Map { get; }
+        internal MWindow Window { get; }
+        internal AOWTurnButton Button { get; }
 
         public Play()
         {
-            Map = new TAoWHSMap(null!);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
-            var pcc = new TLocalPCC();
+            Map = new AoWHSMap(null!);
+            Aow.Game.World.Map.AoWHSMap.Current = Map;
+            var pcc = new LocalPCC();
             pcc.Setup(Map.FPlayers.Count);
             for (int i = 0; i < Map.FPlayers.Count; i++)
             {
-                var mode = Map.FPlayers.GetPlayers(i).FPlayerType == TPlayerType.ptHuman
-                    ? TConnectionMode.cmLocal
-                    : TConnectionMode.cmGlobal;
+                var mode = Map.FPlayers.GetPlayers(i).FPlayerType == PlayerType.Human
+                    ? ConnectionMode.Local
+                    : ConnectionMode.Global;
                 pcc.SetConnectionMode(i, mode);
             }
 
             Map.FPlayerCommunicator.ActivatePCC(pcc);
             pcc.Release();
             Map.FTokenManager.Initialize(Map.FPlayerCommunicator);
-            Window = new TMWindow(null!);
-            Window.MapWindow = new TAOWWindow(null!);
+            Window = new MWindow(null!);
+            Window.MapWindow = new AOWWindow(null!);
             Window.MapWindow.FVisible = true;
             Window.MapWindow.OnKeyDown = Window.MapWindowKeyDown;
-            Window.MapViewer = new THSMapViewer(null!);
-            var bar = new TTBWindow(null!);
-            Button = new TAOWTurnButton(null!);
+            Window.MapViewer = new HSMapViewer(null!);
+            var bar = new TBWindow(null!);
+            Button = new AOWTurnButton(null!);
             bar.TurnButton = Button;
             Button.OnChange = _ => bar.TurnButtonChange();
             Aow.Game.Ui.Dialogs.DialogHosts.TBWindow = bar;
         }
 
-        private TTBWindow Bar => Aow.Game.Ui.Dialogs.DialogHosts.TBWindow;
+        private TBWindow Bar => Aow.Game.Ui.Dialogs.DialogHosts.TBWindow;
 
         public void Press(ushort key)
         {
-            Window.MapWindow.CheckKeyDown(ref key, TSet<TShiftState>.Of(TShiftState.ssCtrl));
+            Window.MapWindow.CheckKeyDown(ref key, Set<ShiftState>.Of(ShiftState.Ctrl));
         }
 
         public void BeginCombat()
         {
-            combat = new TAoWCombatMap(null!);
+            combat = new AoWCombatMap(null!);
         }
 
         public int QueuedCount() => Control().GetCount();
 
-        public TEndTurnMode QueuedMode()
+        public Aow.Game.Commands.EndTurnTE.EndTurnMode QueuedMode()
         {
             var events = Control().FEvents;
             Assert.Equal(1, events.Count);
-            return Assert.IsType<TEndTurnTE>(events.GetEvent(0)).FMode;
+            return Assert.IsType<EndTurnTE>(events.GetEvent(0)).FMode;
         }
 
         public void LeaveTurnWaiting()
@@ -146,19 +146,19 @@ public sealed class EndTurnShortcutTests
             Button.Checked = true;
         }
 
-        private TTokenControl Control() => Map.FTokenManager.GetTokenControl(Map.FSeatedPlayer);
+        private TokenControl Control() => Map.FTokenManager.GetTokenControl(Map.FSeatedPlayer);
 
         public void Dispose()
         {
             combat?.Dispose();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = previousCombat;
+            Aow.Game.Combat.AoWCombatMap.Current = previousCombat;
             Window.MapViewer.Dispose();
             Window.MapWindow.Dispose();
             Window.Dispose();
             Button.Dispose();
             Bar.Dispose();
             Aow.Game.Ui.Dialogs.DialogHosts.TBWindow = previousWindow;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
+            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
             Map.Dispose();
         }
     }

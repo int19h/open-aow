@@ -52,17 +52,17 @@ internal static class LocalizationFrameChecks
         foreach (var module in layouts.Modules.Values)
             for (int index = 0; index < module.ComponentCount; index++)
             {
-                if (module.Components[index] is not Aow.Game.Ui.Controls.TAOWControl control ||
+                if (module.Components[index] is not Aow.Game.Ui.Controls.AOWControl control ||
                     !control.Visible || control.FAOWWindow is not { Visible: true } || control.FAOWFont is not { } font) continue;
                 var texts = new List<string> { control.FText };
-                if (control.GetType().GetProperty("Items")?.GetValue(control) is TStrings items)
+                if (control.GetType().GetProperty("Items")?.GetValue(control) is StringCollection items)
                     for (int item = 0; item < items.Count; item++) texts.Add(items[item]);
                 foreach (var text in texts)
                 {
                     string cased = font.CharCase switch
                     {
-                        TEditCharCase.ecUpperCase => RtlUnit.UpperCase(text),
-                        TEditCharCase.ecLowerCase => RtlUnit.LowerCase(text),
+                        EditCharCase.UpperCase => RtlUnit.UpperCase(text),
+                        EditCharCase.LowerCase => RtlUnit.LowerCase(text),
                         _ => text
                     };
                     for (int character = 1; character <= cased.Length; character++)
@@ -98,13 +98,13 @@ internal static class LocalizationFrameChecks
         if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
         if (language == 1)
         {
-            var left = new TDIB16Surface(120, 40, Aow.Game.Draw.PixelFormats.pfRGB555);
-            var right = new TDIB16Surface(120, 40, Aow.Game.Draw.PixelFormats.pfRGB555);
+            var left = new DIB16Surface(120, 40, Aow.Game.Draw.PixelFormats.pfRGB555);
+            var right = new DIB16Surface(120, 40, Aow.Game.Draw.PixelFormats.pfRGB555);
             try
             {
                 left.Cls(0);
                 right.Cls(0);
-                Aow.Game.Draw.TSurfaceDesc l = default, r = default;
+                Aow.Game.Draw.SurfaceDesc l = default, r = default;
                 left.Lock(ref l);
                 right.Lock(ref r);
                 try

@@ -31,8 +31,8 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) PredictRound()
     {
-        var attacker = new TCombatPredictorUnit { FEnabled = 1, FTargets = new TQuadItemList<TCombatPredictorUnit>() };
-        var target = new TCombatPredictorUnit { FEnabled = 1, FHitPoints = 10, FCPUID = 7 };
+        var attacker = new CombatPredictorUnit { FEnabled = 1, FTargets = new QuadItemList<CombatPredictorUnit>() };
+        var target = new CombatPredictorUnit { FEnabled = 1, FHitPoints = 10, FCPUID = 7 };
         attacker.FTargets.AddABCD(target, 4, target.FCPUID, 0);
         attacker.SetupRoundTargets(0);
         attacker.SortRoundTargets();
@@ -59,9 +59,9 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) Target()
     {
-        using var owner = new TENode(null!);
-        var attacker = new TCombatObject(owner);
-        var target = new TCombatObject(owner);
+        using var owner = new ENode(null!);
+        var attacker = new CombatObject(owner);
+        var target = new CombatObject(owner);
         attacker.AddTarget(target, 5, 0, 2);
         Assert.Equal(0, attacker.FTargets.IndexOfItemA(target));
         Assert.Equal(0, target.FTargetedBy.IndexOfItemA(attacker));
@@ -91,8 +91,8 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static WeakReference ShowParticle()
     {
-        var particle = new TWorldFXHS(null!) { FEffectType = TworldFXType.fxEMParticle, FFrame = 0 };
-        particle.FPath.Add(new TXYZ { X = 1, Y = 2, Z = 3 });
+        var particle = new WorldFXHS(null!) { FEffectType = TworldFXType.EMParticle, FFrame = 0 };
+        particle.FPath.Add(new XYZ { X = 1, Y = 2, Z = 3 });
         Runtime.Dialogs = null;
         particle.Show(0, 0, default);
         return new WeakReference(particle);
@@ -101,8 +101,8 @@ public sealed class ObjectLifetimeTests
     [Fact]
     public void DrawnEffectsAreCollectibleOnceDropped()
     {
-        var control = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl;
-        var spell = new TEarthMastery(null!);
+        var control = Aow.Game.Engine.AoWHSSet.Current.FSpellControl;
+        var spell = new EarthMastery(null!);
         WeakReference particle;
         control.RegisterSpell(spell);
         try

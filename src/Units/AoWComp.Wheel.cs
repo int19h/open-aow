@@ -5,16 +5,16 @@ namespace Aow.Game.Ui.Controls;
 
 // Port links for the mouse wheel. They are not instance fields. The construction recordings walk
 // every instance field, and these links are state the original components do not have.
-public partial class TAoWComponent
+public partial class AoWComponent
 {
     private sealed class WheelLink
     {
-        public TAOWVScrollBar Bar;
-        public TAOWButton Back;
-        public TAOWButton Forward;
+        public AOWVScrollBar Bar;
+        public AOWButton Back;
+        public AOWButton Forward;
     }
 
-    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<TAoWComponent, WheelLink> wheelLinks = new();
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<AoWComponent, WheelLink> wheelLinks = new();
 
     internal static bool PointInside(int X, int Y, int Left, int Top, int Width, int Height) =>
         X > Left - 1 && X < Left + Width && Y > Top - 1 && Y < Top + Height;
@@ -24,21 +24,21 @@ public partial class TAoWComponent
     // Visible and willing to take a click. A wheel follows that, then bubbles to the parent.
     public virtual bool WantsMouseWheel => FVisible && FCaptureInput;
 
-    public virtual bool CheckMouseWheel(int Steps, TSet<TShiftState> Shift, int X, int Y) => false;
+    public virtual bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y) => false;
 
-    internal TAOWVScrollBar WheelScrollBar
+    internal AOWVScrollBar WheelScrollBar
     {
         get => wheelLinks.TryGetValue(this, out var link) ? link.Bar : null;
         set => Link().Bar = value;
     }
 
-    internal TAOWButton PageBack
+    internal AOWButton PageBack
     {
         get => wheelLinks.TryGetValue(this, out var link) ? link.Back : null;
         set => Link().Back = value;
     }
 
-    internal TAOWButton PageForward
+    internal AOWButton PageForward
     {
         get => wheelLinks.TryGetValue(this, out var link) ? link.Forward : null;
         set => Link().Forward = value;
@@ -46,11 +46,11 @@ public partial class TAoWComponent
 
     private WheelLink Link() => wheelLinks.GetOrCreateValue(this);
 
-    protected TAoWComponent TopWheelChild(int X, int Y)
+    protected AoWComponent TopWheelChild(int X, int Y)
     {
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            var child = (TAoWComponent)FChildren[I];
+            var child = (AoWComponent)FChildren[I];
             if (child.WantsMouseWheel && child.ContainsPoint(X, Y)) return child;
         }
 
@@ -68,10 +68,10 @@ public partial class TAoWComponent
             return true;
         }
 
-        TAOWVScrollBar bar = null;
+        AOWVScrollBar bar = null;
         for (int I = 0; I < FChildren.Count; I++)
         {
-            if (FChildren[I] is TAOWVScrollBar candidate && candidate.FVisible && candidate.FCaptureInput)
+            if (FChildren[I] is AOWVScrollBar candidate && candidate.FVisible && candidate.FCaptureInput)
             {
                 if (bar != null) return false;
                 bar = candidate;

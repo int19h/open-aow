@@ -10,47 +10,47 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw.Images;
 
-public enum TImageLibraryStatusElement : byte
+public enum ImageLibraryStatusElement : byte
 {
-    isLoadingFromFile = 0,
-    isLoading = 1,
-    isModified = 2,
-    isSaving = 3,
-    isSavingToFile = 4
+    LoadingFromFile = 0,
+    Loading = 1,
+    Modified = 2,
+    Saving = 3,
+    SavingToFile = 4
 }
 
-public enum TSetTextModeElement : byte
+public enum SetTextModeElement : byte
 {
-    stmCenter = 0
+    Center = 0
 }
 
-public enum TILGridEditModeElement : byte
+public enum ILGridEditModeElement : byte
 {
-    igCut = 0,
-    igCopy = 1,
-    igPaste = 2,
-    igDelete = 3,
-    igIns = 4,
-    igDel = 5
+    Cut = 0,
+    Copy = 1,
+    Paste = 2,
+    Delete = 3,
+    Ins = 4,
+    Del = 5
 }
 
-public enum TILManagerCategoryElement : byte
+public enum ILManagerCategoryElement : byte
 {
-    icDisk = 0,
-    icOwned = 1
+    Disk = 0,
+    Owned = 1
 }
 
-public enum TILManagerOptionsElement : byte
+public enum ILManagerOptionsElement : byte
 {
-    ioAutoSearchPath = 0
+    AutoSearchPath = 0
 }
 
-public enum TBltMode : byte
+public enum BltMode : byte
 {
-    bmNone = 0,
-    bmStretch = 1,
-    bmStretchToFit = 2,
-    bmCenter = 3
+    None = 0,
+    Stretch = 1,
+    StretchToFit = 2,
+    Center = 3
 }
 
 // an image of an image library. FOwner, FDataLoaded (the discardable data, the pixels, are in
@@ -58,13 +58,13 @@ public enum TBltMode : byte
 // FReloadingEnabled, FVersion, FLoadMode, FDataWidth, FDataHeight (of the pixels), FWidth,
 // FHeight (the visual size), FXshift, FYshift (of the pixels in the visual rectangle),
 // FFileName, FFileIndex (where the image was grabbed), FShowInfo
-public partial class TLibraryImage : TPersistent, ILibraryImageClass
+public partial class LibraryImage : Persistent, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 0;
     static byte ILibraryImageClass.ClassVersion => 3;
     static string ILibraryImageClass.Name => "Abstract Library Image";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TLibraryImage(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new LibraryImage(owner);
 
     private LibraryImageClass imageClass;
 
@@ -73,13 +73,13 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     public virtual byte ClassVersion() => ImageClass.ClassVersion;
     public virtual string Name() => ImageClass.Name;
 
-    internal TCustomImageLibrary FOwner;
+    internal CustomImageLibrary FOwner;
     internal bool FDataLoaded;
     internal int FDataPosition;
     internal int FDataSize;
     internal bool FReloadingEnabled;
     internal byte FVersion;
-    internal TLoadMode FLoadMode;
+    internal global::Aow.Game.Draw.Images.LoadMode FLoadMode;
     internal int FDataWidth;
     internal int FDataHeight;
     internal int FWidth;
@@ -88,10 +88,10 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     internal int FYshift;
     internal string FFileName = "";
     internal int FFileIndex;
-    internal TShowInfo FShowInfo;
+    internal global::Aow.Game.Draw.Images.ShowInfo FShowInfo;
 
     // ImageLib.pas:1613
-    public virtual void SetOwner(TCustomImageLibrary AOwner)
+    public virtual void SetOwner(CustomImageLibrary AOwner)
     {
         if (AOwner != FOwner && FOwner != null && !FDataLoaded)
         {
@@ -102,20 +102,20 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1877
-    public virtual void SetLoadMode(TLoadMode Value)
+    public virtual void SetLoadMode(global::Aow.Game.Draw.Images.LoadMode Value)
     {
         FLoadMode = Value;
-        if (FLoadMode == TLoadMode.lmLoadAlways && !FDataLoaded)
+        if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadAlways && !FDataLoaded)
         {
             LoadDiscardableImageData();
         }
     }
 
     // ImageLib.pas:1883
-    public virtual Aow.Game.Draw.TGFXEPalette GetPalette() => null;
+    public virtual Aow.Game.Draw.GFXEPalette GetPalette() => null;
 
     // ImageLib.pas:1888
-    public virtual Aow.Game.Draw.TGFXEPalette GetRemapPalette() => null;
+    public virtual Aow.Game.Draw.GFXEPalette GetRemapPalette() => null;
 
     // ImageLib.pas:1893
     public virtual bool GetTransparent() => false;
@@ -139,7 +139,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1991
-    public virtual void SetDefaultShowInfo(TShowInfo Value)
+    public virtual void SetDefaultShowInfo(global::Aow.Game.Draw.Images.ShowInfo Value)
     {
         if (SupportShowMode(Value.ShowMode, 0))
         {
@@ -172,7 +172,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1640
-    public virtual void GetVisualDimensions(ref TRect R)
+    public virtual void GetVisualDimensions(ref global::Aow.Rtl.Rect R)
     {
         R.Left = 0;
         R.Right = FWidth;
@@ -257,7 +257,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         Stream Stream;
         if (!FDataLoaded)
         {
-            Stream = new TFastLoadFileStream(FOwner.FLoadedFileName);
+            Stream = new FastLoadFileStream(FOwner.FLoadedFileName);
             try
             {
                 Stream.Seek(FDataPosition + FOwner.FDataOffset, SeekOrigin.Begin);
@@ -283,7 +283,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         {
             LoadDiscardableImageData();
             WriteDiscardableImageData(DataStream);
-            if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -300,7 +300,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         ReadImageData(Stream);
         if (FVersion >= 2)
         {
-            if (FLoadMode == TLoadMode.lmLoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile) || FDataPosition == -1)
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) || FDataPosition == -1)
             {
                 if (FDataPosition != -1)
                 {
@@ -350,13 +350,13 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1596
-    public TLibraryImage(TCustomImageLibrary owner)
+    public LibraryImage(CustomImageLibrary owner)
     {
         FDataPosition = -1;
         FReloadingEnabled = false;
-        FLoadMode = TLoadMode.lmLoadOnDemand;
-        FShowInfo.ShowMode = TShowMode.smOpaque;
-        FShowInfo.BlendMode = TBlendMode.bmAlpha;
+        FLoadMode = global::Aow.Game.Draw.Images.LoadMode.LoadOnDemand;
+        FShowInfo.ShowMode = ShowMode.Opaque;
+        FShowInfo.BlendMode = BlendMode.Alpha;
         SetOwner(owner);
     }
 
@@ -373,14 +373,14 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1670
-    public virtual TLibraryImage Copy()
+    public virtual LibraryImage Copy()
     {
-        TLibraryImage Result = default;
+        LibraryImage Result = default;
         MemoryStream Stream;
         Stream = new MemoryStream();
         try
         {
-            Aow.Game.Draw.Images.TLibraryImage.WriteImageToStream(this, Stream);
+            Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(this, Stream);
             Stream.Position = 0;
             Result = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(Stream, FOwner);
             Result.SetOwner(null);
@@ -405,7 +405,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         {
             LoadDiscardableImageData();
             WriteDiscardableImageData(Stream);
-            if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -425,7 +425,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         if (FVersion < 2)
         {
             FDataPosition = (int)(Stream.Position);
-            if (FLoadMode == TLoadMode.lmLoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile))
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
                 ReadDiscardableImageData(Stream);
                 FReloadingEnabled = false;
@@ -438,7 +438,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         }
         else
         {
-            if (FLoadMode == TLoadMode.lmLoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile) || FDataPosition == -1)
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) || FDataPosition == -1)
             {
                 if (FDataPosition != -1)
                 {
@@ -462,39 +462,39 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1996
-    public virtual void Show(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public virtual void Show(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         switch (FShowInfo.ShowMode)
         {
-            case TShowMode.smOpaque:
+            case ShowMode.Opaque:
                 ShowOpaque(X, Y, SD);
                 break;
-            case TShowMode.smTransparent:
+            case ShowMode.Transparent:
                 ShowTransparent(X, Y, SD);
                 break;
-            case TShowMode.smBlended:
+            case ShowMode.Blended:
                 switch (FShowInfo.BlendMode)
                 {
-                    case TBlendMode.bmUser:
-                        if (FShowInfo.Blend is Aow.Game.Draw.TBlendTable table)
+                    case BlendMode.User:
+                        if (FShowInfo.Blend is Aow.Game.Draw.BlendTable table)
                         {
                             ShowBlended(X, Y, SD, table);
                         }
 
                         break;
-                    case TBlendMode.bmAlpha:
+                    case BlendMode.Alpha:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmBrighten:
+                    case BlendMode.Brighten:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmIntensity:
+                    case BlendMode.Intensity:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmShadow:
+                    case BlendMode.Shadow:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmLinearAlpha:
+                    case BlendMode.LinearAlpha:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                 }
@@ -504,36 +504,36 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2040
-    public virtual void ShowStretched(in TRect R, in Aow.Game.Draw.TSurfaceDesc SD)
+    public virtual void ShowStretched(in global::Aow.Rtl.Rect R, in Aow.Game.Draw.SurfaceDesc SD)
     {
         switch (FShowInfo.ShowMode)
         {
-            case TShowMode.smOpaque:
+            case ShowMode.Opaque:
                 ShowOpaqueStretched(R, SD);
                 break;
-            case TShowMode.smBlended:
+            case ShowMode.Blended:
                 switch (FShowInfo.BlendMode)
                 {
-                    case TBlendMode.bmUser:
-                        if (FShowInfo.Blend is Aow.Game.Draw.TBlendTable table)
+                    case BlendMode.User:
+                        if (FShowInfo.Blend is Aow.Game.Draw.BlendTable table)
                         {
                             ShowBlendedStretched(R, SD, table);
                         }
 
                         break;
-                    case TBlendMode.bmAlpha:
+                    case BlendMode.Alpha:
                         ShowBlendedStretched(R, SD, Aow.Game.Draw.GfxState.AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmBrighten:
+                    case BlendMode.Brighten:
                         ShowBlendedStretched(R, SD, Aow.Game.Draw.GfxState.BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmIntensity:
+                    case BlendMode.Intensity:
                         ShowBlendedStretched(R, SD, Aow.Game.Draw.GfxState.IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmShadow:
+                    case BlendMode.Shadow:
                         ShowBlendedStretched(R, SD, Aow.Game.Draw.GfxState.ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmLinearAlpha:
+                    case BlendMode.LinearAlpha:
                         ShowBlendedStretched(R, SD, Aow.Game.Draw.GfxState.LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                 }
@@ -543,63 +543,63 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2066
-    public virtual void ShowOpaque(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public virtual void ShowOpaque(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
     }
 
     // ImageLib.pas:2070
-    public virtual void ShowOpaqueStretched(in TRect R, in Aow.Game.Draw.TSurfaceDesc SD)
+    public virtual void ShowOpaqueStretched(in global::Aow.Rtl.Rect R, in Aow.Game.Draw.SurfaceDesc SD)
     {
     }
 
     // ImageLib.pas:2078
-    public virtual void ShowBlended(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD, Aow.Game.Draw.TBlendTable Table)
+    public virtual void ShowBlended(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD, Aow.Game.Draw.BlendTable Table)
     {
     }
 
     // ImageLib.pas:2082
-    public virtual void ShowBlendedStretched(in TRect R, in Aow.Game.Draw.TSurfaceDesc SD, Aow.Game.Draw.TBlendTable Table)
+    public virtual void ShowBlendedStretched(in global::Aow.Rtl.Rect R, in Aow.Game.Draw.SurfaceDesc SD, Aow.Game.Draw.BlendTable Table)
     {
     }
 
     // ImageLib.pas:2074
-    public virtual void ShowTransparent(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public virtual void ShowTransparent(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
     }
 
     // ImageLib.pas:2020
     // { ShowEx: the blend mode comes from the image's own show info (an original bug: ShowInfo only
     //   gives the show mode and the blend value), and bmLinearAlpha is not handled. }
-    public virtual void ShowEx(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD, in TShowInfo ShowInfo)
+    public virtual void ShowEx(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Game.Draw.Images.ShowInfo ShowInfo)
     {
         switch (ShowInfo.ShowMode)
         {
-            case TShowMode.smOpaque:
+            case ShowMode.Opaque:
                 ShowOpaque(X, Y, SD);
                 break;
-            case TShowMode.smTransparent:
+            case ShowMode.Transparent:
                 ShowTransparent(X, Y, SD);
                 break;
-            case TShowMode.smBlended:
+            case ShowMode.Blended:
                 switch (FShowInfo.BlendMode)
                 {
-                    case TBlendMode.bmUser:
-                        if (ShowInfo.Blend is Aow.Game.Draw.TBlendTable table)
+                    case BlendMode.User:
+                        if (ShowInfo.Blend is Aow.Game.Draw.BlendTable table)
                         {
                             ShowBlended(X, Y, SD, table);
                         }
 
                         break;
-                    case TBlendMode.bmAlpha:
+                    case BlendMode.Alpha:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.AlphaBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmBrighten:
+                    case BlendMode.Brighten:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.BrightenBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmIntensity:
+                    case BlendMode.Intensity:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.IntensityBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
-                    case TBlendMode.bmShadow:
+                    case BlendMode.Shadow:
                         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.ShadowBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                 }
@@ -609,24 +609,24 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2087
-    public virtual void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
+    public virtual void ShowDC(global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect, int DC, int BkColor)
     {
     }
 
     // ImageLib.pas:2091
-    public virtual bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => false;
+    public virtual bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => false;
 
     // ImageLib.pas:1903
     public virtual bool SupportGrabPixelFormat(int PixelFormatID) => false;
 
     // ImageLib.pas:1908
-    public virtual TForm CreateGrabForm(TComponent AOwner, in Aow.Game.Draw.TSurfaceDesc SD, TImagesGrabbedEvent OnImagesGrabbed) => null;
+    public virtual Form CreateGrabForm(global::Aow.Rtl.Component AOwner, in Aow.Game.Draw.SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:1914
-    public virtual bool GrabImage(in Aow.Game.Draw.TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo) => false;
+    public virtual bool GrabImage(in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Rtl.Rect R, GrabInfo GrabInfo) => false;
 
     // ImageLib.pas:1920
-    public virtual TGrabInfo CreateGrabInfo() => new TGrabInfo();
+    public virtual GrabInfo CreateGrabInfo() => new GrabInfo();
 
     // ImageLib.pas:1607
     public override void Dispose()
@@ -636,7 +636,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1648
-    public void GetDimensions(ref TRect R)
+    public void GetDimensions(ref global::Aow.Rtl.Rect R)
     {
         R.Left = 0;
         R.Right = FWidth;
@@ -645,18 +645,18 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2061
-    public void ShowClipped(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public void ShowClipped(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         Show(X, Y, SD);
     }
 
-    public TCustomImageLibrary Owner { get => FOwner; set => SetOwner(value); }
+    public CustomImageLibrary Owner { get => FOwner; set => SetOwner(value); }
     public bool DataLoaded { get => FDataLoaded; }
     public int DataPosition { get => FDataPosition; }
     public int DataSize { get => FDataSize; }
     public bool ReloadingEnabled { get => FReloadingEnabled; set => SetReloadingEnabled(value); }
     public byte Version { get => FVersion; }
-    public TLoadMode LoadMode { get => FLoadMode; set => SetLoadMode(value); }
+    public global::Aow.Game.Draw.Images.LoadMode LoadMode { get => FLoadMode; set => SetLoadMode(value); }
     public int DataWidth { get => FDataWidth; }
     public int DataHeight { get => FDataHeight; }
     public int Width { get => FWidth; set => SetWidth(value); }
@@ -665,12 +665,12 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     public int Yshift { get => FYshift; set => SetYshift(value); }
     public string FileName { get => FFileName; set => FFileName = value; }
     public int FileIndex { get => FFileIndex; set => FFileIndex = value; }
-    public TShowInfo ShowInfo { get => FShowInfo; set => SetDefaultShowInfo(value); }
-    public Aow.Game.Draw.TGFXEPalette Palette { get => GetPalette(); }
-    public Aow.Game.Draw.TGFXEPalette RemapPalette { get => GetRemapPalette(); }
+    public global::Aow.Game.Draw.Images.ShowInfo ShowInfo { get => FShowInfo; set => SetDefaultShowInfo(value); }
+    public Aow.Game.Draw.GFXEPalette Palette { get => GetPalette(); }
+    public Aow.Game.Draw.GFXEPalette RemapPalette { get => GetRemapPalette(); }
     public bool Transparent { get => GetTransparent(); }
 
-    public static void WriteImageToStream(TLibraryImage Image, Stream Stream)
+    public static void WriteImageToStream(LibraryImage Image, Stream Stream)
     {
         int ID = default;
         if (Image != null)
@@ -686,7 +686,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         }
     }
 
-    internal static void WriteImageToStreamEx(TLibraryImage Image, Stream Stream, Stream DataStream)
+    internal static void WriteImageToStreamEx(LibraryImage Image, Stream Stream, Stream DataStream)
     {
         int ID = default;
         if (Image != null)
@@ -706,17 +706,17 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
 
 // FIndex, FPalette, FRemapPalette (the palette remapped to a pixel format, made on demand),
 // FRefCount
-public partial class TLibraryImagePalette : TPersistent
+public partial class LibraryImagePalette : Persistent
 {
     internal int FIndex;
-    internal Aow.Game.Draw.TGFXEPalette FPalette;
-    internal Aow.Game.Draw.TGFXEPalette FRemapPalette;
+    internal Aow.Game.Draw.GFXEPalette FPalette;
+    internal Aow.Game.Draw.GFXEPalette FRemapPalette;
     internal int FRefCount;
 
     // ImageLib.pas:7084
-    public TLibraryImagePalette()
+    public LibraryImagePalette()
     {
-        FPalette = new Aow.Game.Draw.TGFXEPalette();
+        FPalette = new Aow.Game.Draw.GFXEPalette();
     }
 
     // ImageLib.pas:7090
@@ -738,9 +738,9 @@ public partial class TLibraryImagePalette : TPersistent
     }
 
     // ImageLib.pas:7107
-    public Aow.Game.Draw.TGFXEPalette RemapPalette(int PixelFormatID)
+    public Aow.Game.Draw.GFXEPalette RemapPalette(int PixelFormatID)
     {
-        Aow.Game.Draw.TGFXEPalette Result;
+        Aow.Game.Draw.GFXEPalette Result;
         if (PixelFormatID == FPalette.PixelFormatID)
         {
             Result = FPalette;
@@ -752,7 +752,7 @@ public partial class TLibraryImagePalette : TPersistent
             {
                 if (FRemapPalette == null)
                 {
-                    FRemapPalette = new Aow.Game.Draw.TGFXEPalette();
+                    FRemapPalette = new Aow.Game.Draw.GFXEPalette();
                 }
 
                 FRemapPalette.Assign(FPalette);
@@ -766,19 +766,19 @@ public partial class TLibraryImagePalette : TPersistent
     }
 
     // ImageLib.pas:7124
-    public override void Assign(TPersistent Source)
+    public override void Assign(Persistent Source)
     {
-        if (Source is TLibraryImagePalette)
+        if (Source is LibraryImagePalette)
         {
-            FPalette.Assign(((TLibraryImagePalette)Source).FPalette);
-            if (((TLibraryImagePalette)Source).FRemapPalette != null)
+            FPalette.Assign(((LibraryImagePalette)Source).FPalette);
+            if (((LibraryImagePalette)Source).FRemapPalette != null)
             {
                 if (FRemapPalette == null)
                 {
-                    FRemapPalette = new Aow.Game.Draw.TGFXEPalette();
+                    FRemapPalette = new Aow.Game.Draw.GFXEPalette();
                 }
 
-                FRemapPalette.Assign(((TLibraryImagePalette)Source).FRemapPalette);
+                FRemapPalette.Assign(((LibraryImagePalette)Source).FRemapPalette);
             }
             else
             {
@@ -791,36 +791,36 @@ public partial class TLibraryImagePalette : TPersistent
     }
 
     public int Index { get => FIndex; }
-    public Aow.Game.Draw.TGFXEPalette Palette { get => FPalette; }
+    public Aow.Game.Draw.GFXEPalette Palette { get => FPalette; }
     public int RefCount { get => FRefCount; }
 
 }
 
 [LegacyObject]
-public partial class TPaletteManager : IDisposable
+public partial class PaletteManager : IDisposable
 {
-    internal TList FPalettes;
+    internal DelphiList FPalettes;
 
     // ImageLib.pas:6984
     internal int GetCount() => FPalettes.Count;
 
     // ImageLib.pas:6989
-    internal TLibraryImagePalette GetPalette(int Index) => (TLibraryImagePalette)FPalettes[Index];
+    internal LibraryImagePalette GetPalette(int Index) => (LibraryImagePalette)FPalettes[Index];
 
     // ImageLib.pas:6994
     internal void UpdateIndices()
     {
         for (int I = 0, last = FPalettes.Count - 1; I <= last; I++)
         {
-            ((TLibraryImagePalette)FPalettes[I]).FIndex = I;
+            ((LibraryImagePalette)FPalettes[I]).FIndex = I;
         }
     }
 
     // ImageLib.pas:6971
-    public TPaletteManager()
+    public PaletteManager()
     {
         CaptureAddress.Assign(this);
-        FPalettes = new TList();
+        FPalettes = new DelphiList();
     }
 
     // ImageLib.pas:6977
@@ -834,12 +834,12 @@ public partial class TPaletteManager : IDisposable
     public void LoadFromStream(Stream Stream)
     {
         int N = default;
-        TLibraryImagePalette P;
+        LibraryImagePalette P;
         Clear();
         Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
-            P = new TLibraryImagePalette();
+            P = new LibraryImagePalette();
             P.LoadFromStream(Stream);
             FPalettes.Add(P);
             P.FIndex = I;
@@ -852,7 +852,7 @@ public partial class TPaletteManager : IDisposable
         Stream.Write(ValueBytes(FPalettes.Count, 4));
         for (int I = 0, last = FPalettes.Count - 1; I <= last; I++)
         {
-            ((TLibraryImagePalette)FPalettes.List[I]).SaveToStream(Stream);
+            ((LibraryImagePalette)FPalettes.List[I]).SaveToStream(Stream);
         }
     }
 
@@ -861,38 +861,38 @@ public partial class TPaletteManager : IDisposable
     {
         for (int I = FPalettes.Count - 1; I >= 0; I--)
         {
-            ((TLibraryImagePalette)FPalettes.List[I])?.Dispose();
+            ((LibraryImagePalette)FPalettes.List[I])?.Dispose();
         }
 
         FPalettes.Clear();
     }
 
     // ImageLib.pas:7033
-    public TLibraryImagePalette LinkToPalette(int Index)
+    public LibraryImagePalette LinkToPalette(int Index)
     {
-        TLibraryImagePalette Result = (TLibraryImagePalette)FPalettes[Index];
+        LibraryImagePalette Result = (LibraryImagePalette)FPalettes[Index];
         Result.FRefCount += 1;
         return Result;
     }
 
     // ImageLib.pas:7039
-    public TLibraryImagePalette RegisterPalette(Aow.Game.Draw.TGFXEPalette Palette)
+    public LibraryImagePalette RegisterPalette(Aow.Game.Draw.GFXEPalette Palette)
     {
-        TLibraryImagePalette Result;
+        LibraryImagePalette Result;
         int I;
         bool Found;
-        TLibraryImagePalette P;
+        LibraryImagePalette P;
         I = FPalettes.Count;
         Found = false;
         while (I != 0 && !Found)
         {
             I -= 1;
-            Found = Palette.Compare(((TLibraryImagePalette)FPalettes.List[I]).FPalette);
+            Found = Palette.Compare(((LibraryImagePalette)FPalettes.List[I]).FPalette);
         }
 
         if (!Found)
         {
-            P = new TLibraryImagePalette();
+            P = new LibraryImagePalette();
             P.FPalette.Assign(Palette);
             P.FIndex = FPalettes.Count;
             P.FRefCount = 1;
@@ -902,8 +902,8 @@ public partial class TPaletteManager : IDisposable
         else
         {
             var libraryImagePalette = FPalettes[I];
-            ((TLibraryImagePalette)libraryImagePalette).FRefCount += 1;
-            Result = (TLibraryImagePalette)FPalettes[I];
+            ((LibraryImagePalette)libraryImagePalette).FRefCount += 1;
+            Result = (LibraryImagePalette)FPalettes[I];
         }
 
         return Result;
@@ -912,8 +912,8 @@ public partial class TPaletteManager : IDisposable
     // ImageLib.pas:7068
     public void UnregisterPalette(int Index)
     {
-        TLibraryImagePalette P;
-        P = (TLibraryImagePalette)FPalettes[Index];
+        LibraryImagePalette P;
+        P = (LibraryImagePalette)FPalettes[Index];
         P.FRefCount -= 1;
         if (P.FRefCount <= 0)
         {
@@ -925,30 +925,24 @@ public partial class TPaletteManager : IDisposable
 
     public int Count { get => GetCount(); }
 
-    public sealed class PalettesAccessor(TPaletteManager target)
+    public sealed class PalettesAccessor(PaletteManager target)
     {
-        public TLibraryImagePalette this[int Index] { get => target.GetPalette(Index); }
+        public LibraryImagePalette this[int Index] { get => target.GetPalette(Index); }
     }
 
     public PalettesAccessor Palettes => new PalettesAccessor(this);
 
 }
 
-public struct TImageItem
-{
-    public TLibraryImage Image;
-    public int Reference;
-}
-
 // FStatus, FOnChange, FChangeLock (OnChange is called when it is 0), FReloading (the images can
 // reload their data from FLoadedFileName), FLoadOnDemand, FLoadedFileName, FFileName (relative
 // to the project or to BaseImageLibraryPath), FDataOffset (where the discardable image data
 // starts in the file), FCapacity, FCount, FImages, FPaletteManager
-public partial class TCustomImageLibrary : TComponent
+public partial class CustomImageLibrary : global::Aow.Rtl.Component
 {
 
-    internal TSet<TImageLibraryStatusElement> FStatus;
-    internal TNotifyEvent<object> FOnChange;
+    internal Set<ImageLibraryStatusElement> FStatus;
+    internal NotifyEvent<object> FOnChange;
     internal byte FChangeLock;
     internal bool FReloading;
     internal bool FLoadOnDemand;
@@ -957,8 +951,8 @@ public partial class TCustomImageLibrary : TComponent
     internal int FDataOffset;
     internal int FCapacity;
     internal int FCount;
-    internal TImageItem[] FImages;
-    internal TPaletteManager FPaletteManager;
+    internal ImageItem[] FImages;
+    internal global::Aow.Game.Draw.Images.PaletteManager FPaletteManager;
 
     // ImageLib.pas:9699
     internal void SetCapacity(int NewCapacity)
@@ -1006,7 +1000,7 @@ public partial class TCustomImageLibrary : TComponent
         string Path;
         if (!IsEmpty(FFileName))
         {
-            if (ComponentState.Contains(TComponentState.csDesigning))
+            if (ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing))
             {
                 Path = ExtractFilePath(ToolServices.GetProjectName());
             }
@@ -1037,7 +1031,7 @@ public partial class TCustomImageLibrary : TComponent
     internal void SetFileName(string Value)
     {
         string Path;
-        if (ComponentState.Contains(TComponentState.csDesigning))
+        if (ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing))
         {
             Path = ExtractFilePath(ToolServices.GetProjectName());
         }
@@ -1047,7 +1041,7 @@ public partial class TCustomImageLibrary : TComponent
         }
 
         Value = ExtractRelativePath(Path, Value);
-        if ((ComponentState.Contains(TComponentState.csDesigning) || ComponentState.Contains(TComponentState.csLoading)) && Value != FFileName)
+        if ((ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) || ComponentState.Contains(global::Aow.Rtl.ComponentState.Loading)) && Value != FFileName)
         {
             FFileName = Value;
             if (!IsEmpty(FFileName))
@@ -1106,18 +1100,18 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:9820
-    public override void DefineProperties(TFiler Filer)
+    public override void DefineProperties(Filer Filer)
     {
         /* TODO: Implement Classes.DefineBinaryProperty in the platform or editor service. */
         throw new NotImplementedException();
     }
 
-    public TCustomImageLibrary(TComponent owner) : base(owner)
+    public CustomImageLibrary(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FPaletteManager = new TPaletteManager();
+        FPaletteManager = new global::Aow.Game.Draw.Images.PaletteManager();
         FLoadOnDemand = true;
         FFileName = "";
-        FStatus = TSet<TImageLibraryStatusElement>.Of();
+        FStatus = Set<ImageLibraryStatusElement>.Of();
         Clear();
     }
 
@@ -1130,18 +1124,18 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:9686
-    public virtual bool GetModified() => FStatus.Contains(TImageLibraryStatusElement.isModified);
+    public virtual bool GetModified() => FStatus.Contains(ImageLibraryStatusElement.Modified);
 
     // ImageLib.pas:9691
     public virtual void SetModified(bool Value)
     {
         if (Value)
         {
-            FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isModified);
+            FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
         }
         else
         {
-            FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isModified);
+            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
         }
     }
 
@@ -1156,7 +1150,7 @@ public partial class TCustomImageLibrary : TComponent
             }
         }
 
-        if (!FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile))
+        if (!FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile))
         {
             FFileName = "";
             FLoadedFileName = "";
@@ -1178,13 +1172,13 @@ public partial class TCustomImageLibrary : TComponent
         int Reference = default;
         int StartPos;
         MemoryStream MS;
-        TILBHeader Header = default;
+        ILBHeader Header = default;
         int SubIndex;
-        TLibraryImage Image;
-        FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoading);
+        LibraryImage Image;
+        FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
         FChangeLock = (byte)(FChangeLock + 1);
         Clear();
-        FReloading = FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile) && FLoadOnDemand;
+        FReloading = FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) && FLoadOnDemand;
         StartPos = (int)(Stream.Position);
         Stream.ReadBytes(Bytes.Of(ref Header, 24));
         Stream.Seek(Header.HeaderSize + StartPos, SeekOrigin.Begin);
@@ -1265,7 +1259,7 @@ public partial class TCustomImageLibrary : TComponent
                 MS?.Dispose();
             }
 
-            if (!FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile))
+            if (!FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
                 Stream.Seek(Header.Size + StartPos, SeekOrigin.Begin);
             }
@@ -1277,7 +1271,7 @@ public partial class TCustomImageLibrary : TComponent
             CallOnChangeEvent();
         }
 
-        FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoading);
+        FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
     }
 
     // ImageLib.pas:10038
@@ -1287,13 +1281,13 @@ public partial class TCustomImageLibrary : TComponent
         int StartPos;
         string SwapName;
         int I;
-        TILBHeader Header = default;
+        ILBHeader Header = default;
         StartPos = (int)(Stream.Position);
-        SwapName = ExtractFilePath(Application.ExeName) + "\\SWAP.$$$";
+        SwapName = ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName) + "\\SWAP.$$$";
         Swap = OpenFile(SwapName, 65535);
         try
         {
-            FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSaving);
+            FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
             Header.HeaderSize = 24;
             Header.ID = "ILB\0";
             Header.Version = 4;
@@ -1306,7 +1300,7 @@ public partial class TCustomImageLibrary : TComponent
                 if (FImages[I].Image != null || FImages[I].Reference != -1)
                 {
                     Stream.Write(Bytes.Of(ref I, 4));
-                    Aow.Game.Draw.Images.TLibraryImage.WriteImageToStreamEx(FImages[I].Image, Stream, Swap);
+                    Aow.Game.Draw.Images.LibraryImage.WriteImageToStreamEx(FImages[I].Image, Stream, Swap);
                     Stream.Write(Bytes.Of(ref FImages[I].Reference, 4));
                 }
             }
@@ -1325,7 +1319,7 @@ public partial class TCustomImageLibrary : TComponent
         }
         finally
         {
-            FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSaving);
+            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
             Swap?.Dispose();
             DeleteFile(SwapName);
         }
@@ -1335,18 +1329,18 @@ public partial class TCustomImageLibrary : TComponent
     public virtual void LoadFromFile(string AFileName)
     {
         Stream Stream;
-        Stream = new TFastLoadFileStream(AFileName);
+        Stream = new FastLoadFileStream(AFileName);
         try
         {
             FChangeLock = (byte)(FChangeLock + 1);
-            FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoadingFromFile);
+            FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
             FileName = ExpandFileName(AFileName);
             FLoadedFileName = GetFullFileName();
             LoadFromStream(Stream);
         }
         finally
         {
-            FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoadingFromFile);
+            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
             Stream?.Dispose();
             FChangeLock = (byte)(FChangeLock - 1);
             if (FChangeLock == 0)
@@ -1367,7 +1361,7 @@ public partial class TCustomImageLibrary : TComponent
             DisableReloading();
         }
 
-        FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSavingToFile);
+        FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
         Stream = OpenFile(Name, 65535);
         try
         {
@@ -1375,7 +1369,7 @@ public partial class TCustomImageLibrary : TComponent
         }
         finally
         {
-            FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSavingToFile);
+            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
             Stream?.Dispose();
         }
     }
@@ -1383,7 +1377,7 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:9798
     public virtual void CallOnChangeEvent()
     {
-        if (FChangeLock == 0 && FOnChange != null && !ComponentState.Contains(TComponentState.csDestroying) && !ComponentState.Contains(TComponentState.csReading))
+        if (FChangeLock == 0 && FOnChange != null && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Destroying) && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Reading))
         {
             FChangeLock = (byte)(FChangeLock + 1);
             FOnChange(this);
@@ -1392,14 +1386,14 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10152
-    public virtual TCustomImageLibrary Copy()
+    public virtual CustomImageLibrary Copy()
     {
-        TCustomImageLibrary Result = default;
+        CustomImageLibrary Result = default;
         MemoryStream Stream;
         Stream = new MemoryStream();
         try
         {
-            Result = (TCustomImageLibrary)new TComponent(null);
+            Result = (CustomImageLibrary)new global::Aow.Rtl.Component(null);
             SaveToStream(Stream);
             Stream.Position = 0;
             Result.LoadFromStream(Stream);
@@ -1427,11 +1421,11 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:9790
     public void UpdateImageItemSettings(int Index)
     {
-        TLibraryImage Image;
+        LibraryImage Image;
         Image = FImages[Index].Image;
         if (Image != null && Image.ImageClass.ClassID == 256)
         {
-            ((TImageNode)Image).UpdateDimensions();
+            ((ImageNode)Image).UpdateDimensions();
         }
     }
 
@@ -1468,7 +1462,7 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:9852
     public void ReleaseDiscardableImageData()
     {
-        TLibraryImage Image;
+        LibraryImage Image;
         if (FReloading)
         {
             for (int I = 0, last = FCount - 1; I <= last; I++)
@@ -1485,7 +1479,7 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:9865
     public void LoadDiscardableImageData()
     {
-        TLibraryImage Image;
+        LibraryImage Image;
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
             Image = FImages[I].Image;
@@ -1557,7 +1551,7 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:10115
     public void LoadFromFileStream(string AFileName, Stream Stream)
     {
-        FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoadingFromFile);
+        FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
         try
         {
             FileName = ExpandFileName(AFileName);
@@ -1566,7 +1560,7 @@ public partial class TCustomImageLibrary : TComponent
         }
         finally
         {
-            FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoadingFromFile);
+            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
         }
     }
 
@@ -1585,19 +1579,19 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10168
-    public override void Assign(TPersistent Source)
+    public override void Assign(Persistent Source)
     {
         MemoryStream Stream;
-        if (Source is TCustomImageLibrary)
+        if (Source is CustomImageLibrary)
         {
             Stream = new MemoryStream();
             try
             {
-                ((TCustomImageLibrary)Source).SaveToStream(Stream);
+                ((CustomImageLibrary)Source).SaveToStream(Stream);
                 Stream.Position = 0;
                 LoadFromStream(Stream);
-                FFileName = ((TCustomImageLibrary)Source).FFileName;
-                FLoadedFileName = ((TCustomImageLibrary)Source).FLoadedFileName;
+                FFileName = ((CustomImageLibrary)Source).FFileName;
+                FLoadedFileName = ((CustomImageLibrary)Source).FLoadedFileName;
                 if (FChangeLock == 0)
                 {
                     CallOnChangeEvent();
@@ -1633,7 +1627,7 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10200
-    public int Remove(TLibraryImage Image)
+    public int Remove(LibraryImage Image)
     {
         int Result = IndexOf(Image);
         if (Result != -1)
@@ -1654,7 +1648,7 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10211
-    public int IndexOf(TLibraryImage Image)
+    public int IndexOf(LibraryImage Image)
     {
         int Result = 0;
         while (Result < FCount && Image != FImages[Result].Image)
@@ -1671,9 +1665,9 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10218
-    public TLibraryImage GetImage(int Index)
+    public LibraryImage GetImage(int Index)
     {
-        TLibraryImage Result;
+        LibraryImage Result;
         if (FImages[Index].Image != null)
         {
             Result = FImages[Index].Image;
@@ -1694,7 +1688,7 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10232
-    public void SetImage(int Index, TLibraryImage Image)
+    public void SetImage(int Index, LibraryImage Image)
     {
         if (Index >= FCount)
         {
@@ -1722,7 +1716,7 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10244
-    public void Insert(int Index, TLibraryImage Image)
+    public void Insert(int Index, LibraryImage Image)
     {
         if (Index < 0)
         {
@@ -1738,7 +1732,7 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10251
-    public void Add(TLibraryImage Image)
+    public void Add(LibraryImage Image)
     {
         SetImage(FCount, Image);
     }
@@ -1775,7 +1769,7 @@ public partial class TCustomImageLibrary : TComponent
     public int GetSubCount(int Index)
     {
         int Result;
-        TLibraryImage Image;
+        LibraryImage Image;
         Image = GetSafe(Index);
         if (Image != null)
         {
@@ -1785,7 +1779,7 @@ public partial class TCustomImageLibrary : TComponent
             }
             else
             {
-                Result = ((TImageNode)Image).FCount;
+                Result = ((ImageNode)Image).FCount;
             }
         }
         else
@@ -1797,10 +1791,10 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10291
-    public TLibraryImage GetSub(int Index, int SubIndex)
+    public LibraryImage GetSub(int Index, int SubIndex)
     {
-        TLibraryImage Result;
-        TLibraryImage Image;
+        LibraryImage Result;
+        LibraryImage Image;
         Image = FImages[Index].Image;
         if (Image == null)
         {
@@ -1815,7 +1809,7 @@ public partial class TCustomImageLibrary : TComponent
         {
             if (Image.ImageClass.ClassID == 256)
             {
-                Result = ((TImageNode)Image).FImages[SubIndex];
+                Result = ((ImageNode)Image).FImages[SubIndex];
             }
             else
             {
@@ -1838,16 +1832,16 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10314
-    public TLibraryImage GetSafeSub(int Index, int SubIndex)
+    public LibraryImage GetSafeSub(int Index, int SubIndex)
     {
-        TLibraryImage Result;
-        TLibraryImage Image;
+        LibraryImage Result;
+        LibraryImage Image;
         Image = GetSafe(Index);
         if (Image != null)
         {
             if (Image.ImageClass.ClassID == 256)
             {
-                Result = ((TImageNode)Image).GetSafeImage(SubIndex);
+                Result = ((ImageNode)Image).GetSafeImage(SubIndex);
             }
             else
             {
@@ -1870,15 +1864,15 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10332
-    public TLibraryImage GetSubImage(int Index, int SubIndex)
+    public LibraryImage GetSubImage(int Index, int SubIndex)
     {
-        TImageNode Node;
-        TLibraryImage Result = FImages[Index].Image;
+        ImageNode Node;
+        LibraryImage Result = FImages[Index].Image;
         if (Result != null)
         {
             if (Result.ImageClass.ClassID == 256)
             {
-                Node = (TImageNode)Result;
+                Node = (ImageNode)Result;
                 if (SubIndex >= 0 && SubIndex < Node.FCount)
                 {
                     Result = Node.FImages[SubIndex];
@@ -1918,10 +1912,10 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10367
-    public void SetSubImage(int Index, int SubIndex, TLibraryImage Image)
+    public void SetSubImage(int Index, int SubIndex, LibraryImage Image)
     {
-        TLibraryImage Old;
-        TImageNode Node;
+        LibraryImage Old;
+        ImageNode Node;
         if (Index < FCount)
         {
             Old = FImages[Index].Image;
@@ -1935,7 +1929,7 @@ public partial class TCustomImageLibrary : TComponent
         {
             if (Old.ImageClass.ClassID == 256)
             {
-                Node = (TImageNode)Old;
+                Node = (ImageNode)Old;
                 if (SubIndex >= 0 && SubIndex < Node.FCount)
                 {
                     Old = Node.FImages[SubIndex];
@@ -1959,7 +1953,7 @@ public partial class TCustomImageLibrary : TComponent
             {
                 if (SubIndex != 0)
                 {
-                    Node = new TImageNode(this);
+                    Node = new ImageNode(this);
                     Node.Add(Old);
                     Node.Add(Image);
                     FImages[Index].Image = Node;
@@ -1983,8 +1977,8 @@ public partial class TCustomImageLibrary : TComponent
     //   as a node, and a node is freed whole when SubIndex is 0. }
     public void DeleteSub(int Index, int SubIndex)
     {
-        TImageNode Node;
-        Node = (TImageNode)FImages[Index].Image;
+        ImageNode Node;
+        Node = (ImageNode)FImages[Index].Image;
         if (Node != null)
         {
             if (Node.ImageClass.ClassID != 256)
@@ -2012,17 +2006,17 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10439
-    public int RemoveSub(int Index, TLibraryImage Image)
+    public int RemoveSub(int Index, LibraryImage Image)
     {
         int Result;
-        TLibraryImage Old;
-        TImageNode Node;
+        LibraryImage Old;
+        ImageNode Node;
         Old = FImages[Index].Image;
         if (Old != null)
         {
             if (Old.ImageClass.ClassID == 256)
             {
-                Node = (TImageNode)Old;
+                Node = (ImageNode)Old;
                 Result = Node.IndexOf(Image);
                 if (Result != -1)
                 {
@@ -2053,16 +2047,16 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10465
-    public int IndexOfSub(int Index, TLibraryImage Image)
+    public int IndexOfSub(int Index, LibraryImage Image)
     {
         int Result;
-        TLibraryImage Old;
+        LibraryImage Old;
         Old = FImages[Index].Image;
         if (Old != null)
         {
             if (Old.ImageClass.ClassID == 256)
             {
-                Result = ((TImageNode)Old).IndexOf(Image);
+                Result = ((ImageNode)Old).IndexOf(Image);
             }
             else
             {
@@ -2085,22 +2079,22 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10483
-    public void InsertSub(int Index, int SubIndex, TLibraryImage Image)
+    public void InsertSub(int Index, int SubIndex, LibraryImage Image)
     {
-        TLibraryImage Old;
-        TImageNode Node;
+        LibraryImage Old;
+        ImageNode Node;
         Old = FImages[Index].Image;
         if (Old != null)
         {
             if (Old.ImageClass.ClassID == 256)
             {
-                ((TImageNode)Old).Insert(SubIndex, Image);
+                ((ImageNode)Old).Insert(SubIndex, Image);
                 Image.SetOwner(this);
                 SetModified(true);
             }
             else
             {
-                Node = new TImageNode(this);
+                Node = new ImageNode(this);
                 Node.Add(Old);
                 FImages[Index].Image = Node;
                 Node.Insert(SubIndex, Image);
@@ -2115,22 +2109,22 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10511
-    public void AddSub(int Index, TLibraryImage Image)
+    public void AddSub(int Index, LibraryImage Image)
     {
-        TLibraryImage Old;
-        TImageNode Node;
+        LibraryImage Old;
+        ImageNode Node;
         Old = FImages[Index].Image;
         if (Old != null)
         {
             if (Old.ImageClass.ClassID == 256)
             {
-                ((TImageNode)Old).Add(Image);
+                ((ImageNode)Old).Add(Image);
                 Image.SetOwner(this);
                 SetModified(true);
             }
             else
             {
-                Node = new TImageNode(this);
+                Node = new ImageNode(this);
                 Node.Add(Old);
                 FImages[Index].Image = Node;
                 Image.SetOwner(this);
@@ -2147,13 +2141,13 @@ public partial class TCustomImageLibrary : TComponent
     public bool SubImageExist(int Index, int SubIndex)
     {
         bool Result;
-        TLibraryImage Image;
+        LibraryImage Image;
         Image = FImages[Index].Image;
         if (Image != null && SubIndex >= 0)
         {
             if (Image.ImageClass.ClassID == 256)
             {
-                Result = SubIndex < ((TImageNode)Image).FCount;
+                Result = SubIndex < ((ImageNode)Image).FCount;
             }
             else
             {
@@ -2170,23 +2164,23 @@ public partial class TCustomImageLibrary : TComponent
 
     public int Count { get => FCount; set => SetCount(value); }
 
-    public TLibraryImage this[int Index] { get => Get(Index); }
+    public LibraryImage this[int Index] { get => Get(Index); }
 
     public bool Modified { get => GetModified(); set => SetModified(value); }
-    public TSet<TImageLibraryStatusElement> Status { get => FStatus; }
-    public TPaletteManager PaletteManager { get => FPaletteManager; }
+    public Set<ImageLibraryStatusElement> Status { get => FStatus; }
+    public global::Aow.Game.Draw.Images.PaletteManager PaletteManager { get => FPaletteManager; }
     public string FullFileName { get => GetFullFileName(); }
     public string LoadedFileName { get => FLoadedFileName; }
     public int DataOffset { get => FDataOffset; }
     public bool Reloading { get => FReloading; }
     public bool LoadOnDemand { get => FLoadOnDemand; set => SetLoadOnDemand(value); }
-    public TNotifyEvent<object> OnChange { get => FOnChange; set => FOnChange = value; }
+    public NotifyEvent<object> OnChange { get => FOnChange; set => FOnChange = value; }
     public string FileName { get => FFileName; set => SetFileName(value); }
 
-    internal static int UpdateImage(TCustomImageLibrary ImageLibrary, TLibraryImage Image)
+    internal static int UpdateImage(CustomImageLibrary ImageLibrary, LibraryImage Image)
     {
-        TLibraryImage Sub;
-        TLibraryImage NewImage;
+        LibraryImage Sub;
+        LibraryImage NewImage;
         int Result = 0;
         if (Image != null)
         {
@@ -2213,28 +2207,34 @@ public partial class TCustomImageLibrary : TComponent
         return Result;
     }
 
+    public struct ImageItem
+    {
+        public LibraryImage Image;
+        public int Reference;
+    }
+
 }
 
 // the image library component
-public partial class TImageLibrary : TCustomImageLibrary
+public partial class ImageLibrary : CustomImageLibrary
 {
 
-    public TImageLibrary(TComponent owner) : base(owner)
+    public ImageLibrary(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
 }
 
-public enum TLoadMode : byte
+public enum LoadMode : byte
 {
-    lmLoadAlways = 0,
-    lmLoadOnDemand = 1,
-    lmLoadFreeOnDemand = 2
+    LoadAlways = 0,
+    LoadOnDemand = 1,
+    LoadFreeOnDemand = 2
 }
 
 [LegacyObject]
-public partial class TGrabInfo
+public partial class GrabInfo
 {
-    public static GrabInfoClass Descriptor { get; } = new("TGrabInfo", static () => new TGrabInfo());
+    public static GrabInfoClass Descriptor { get; } = new("GrabInfo", static () => new GrabInfo());
 
     public int TransparentColor;
     public bool FindRectangles;
@@ -2266,9 +2266,9 @@ public partial class TGrabInfo
     public virtual GrabInfoClass GrabInfoClass() => Descriptor;
 
     // ImageLib.pas:9652
-    public virtual TGrabInfo Copy()
+    public virtual GrabInfo Copy()
     {
-        TGrabInfo Result = default;
+        GrabInfo Result = default;
         MemoryStream Stream;
         Stream = new MemoryStream();
         try
@@ -2286,39 +2286,38 @@ public partial class TGrabInfo
         return Result;
     }
 
-    public TGrabInfo()
+    public GrabInfo()
     {
         CaptureAddress.Assign(this);
     }
 
 }
 
-public delegate void TImagesGrabbedEvent(TCustomImageLibrary GrabbedImages, TGrabInfo UsedGrabInfo);
-public delegate void TGrabProgressEvent(object Sender, int Percent, string Msg);
+public delegate void ImagesGrabbedEvent(CustomImageLibrary GrabbedImages, GrabInfo UsedGrabInfo);
 
-public enum TShowMode : byte
+public enum ShowMode : byte
 {
-    smOpaque = 0,
-    smTransparent = 1,
-    smBlended = 2
+    Opaque = 0,
+    Transparent = 1,
+    Blended = 2
 }
 
-public enum TBlendMode : byte
+public enum BlendMode : byte
 {
-    bmUser = 0,
-    bmAlpha = 1,
-    bmBrighten = 2,
-    bmIntensity = 3,
-    bmShadow = 4,
-    bmLinearAlpha = 5
+    User = 0,
+    Alpha = 1,
+    Brighten = 2,
+    Intensity = 3,
+    Shadow = 4,
+    LinearAlpha = 5
 }
 
 // { How an image is shown (8 bytes): the blend value is a percentage into the blend table
 //     collection of the blend mode, or the blend table itself for bmUser. }
-public struct TShowInfo
+public struct ShowInfo
 {
-    public TShowMode ShowMode;
-    public TBlendMode BlendMode;
+    public global::Aow.Game.Draw.Images.ShowMode ShowMode;
+    public global::Aow.Game.Draw.Images.BlendMode BlendMode;
     public Aow.Game.Draw.BlendValue Blend;
 
     // The file image: the mode bytes at 0 and 1, the padding at 2 and the percentage at 4. A
@@ -2340,8 +2339,8 @@ public struct TShowInfo
     {
         byte[] image = Image();
         int count = stream.Read(image);
-        ShowMode = (TShowMode)image[0];
-        BlendMode = (TBlendMode)image[1];
+        ShowMode = (global::Aow.Game.Draw.Images.ShowMode)image[0];
+        BlendMode = (global::Aow.Game.Draw.Images.BlendMode)image[1];
         imagePadding = BinaryPrimitives.ReadUInt16LittleEndian(image.AsSpan(2));
         Blend = BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(4));
         if (exact && count != 8)
@@ -2360,14 +2359,14 @@ public struct TShowInfo
     }
 }
 
-public partial class TImageNode : TLibraryImage, ILibraryImageClass
+public partial class ImageNode : LibraryImage, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 256;
     static string ILibraryImageClass.Name => "";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImageNode(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new ImageNode(owner);
 
-    internal TLibraryImage[] FImages;
+    internal LibraryImage[] FImages;
     internal int FCapacity;
     internal int FCount;
 
@@ -2398,7 +2397,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1286
-    public TImageNode(TCustomImageLibrary owner) : base(owner)
+    public ImageNode(CustomImageLibrary owner) : base(owner)
     {
         FFileName = "(multi images)";
     }
@@ -2414,12 +2413,12 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     public override string Info() => "Image Node";
 
     // ImageLib.pas:1330
-    public TLibraryImage GetImage(int Index) => FImages[Index];
+    public LibraryImage GetImage(int Index) => FImages[Index];
 
     // ImageLib.pas:1335
-    public TLibraryImage GetSafeImage(int Index)
+    public LibraryImage GetSafeImage(int Index)
     {
-        TLibraryImage Result;
+        LibraryImage Result;
         if (Index >= 0 && Index < FCount)
         {
             Result = FImages[Index];
@@ -2452,7 +2451,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1356
-    public int Add(TLibraryImage Image)
+    public int Add(LibraryImage Image)
     {
         SetCount(FCount + 1);
         FImages[FCount - 1] = Image;
@@ -2470,7 +2469,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1365
-    public void Insert(int Index, TLibraryImage Image)
+    public void Insert(int Index, LibraryImage Image)
     {
         if (FCapacity == FCount)
         {
@@ -2497,7 +2496,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1376
-    public void Remove(TLibraryImage Image)
+    public void Remove(LibraryImage Image)
     {
         int I;
         I = FCount;
@@ -2519,7 +2518,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1391
-    public int IndexOf(TLibraryImage Image)
+    public int IndexOf(LibraryImage Image)
     {
         int Result = FCount - 1;
         while (Result >= 0 && Image != FImages[Result])
@@ -2550,10 +2549,10 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
-            Aow.Game.Draw.Images.TLibraryImage.WriteImageToStreamEx(FImages[I], Stream, DataStream);
+            Aow.Game.Draw.Images.LibraryImage.WriteImageToStreamEx(FImages[I], Stream, DataStream);
         }
 
-        Aow.Game.Draw.Images.TLibraryImage.WriteImageToStream(null, Stream);
+        Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(null, Stream);
     }
 
     // ImageLib.pas:1416
@@ -2561,16 +2560,16 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
-            Aow.Game.Draw.Images.TLibraryImage.WriteImageToStream(FImages[I], Stream);
+            Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(FImages[I], Stream);
         }
 
-        Aow.Game.Draw.Images.TLibraryImage.WriteImageToStream(null, Stream);
+        Aow.Game.Draw.Images.LibraryImage.WriteImageToStream(null, Stream);
     }
 
     // ImageLib.pas:1424
     public override void LoadFromStream(Stream Stream)
     {
-        TLibraryImage Image;
+        LibraryImage Image;
         Clear();
         Image = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStream(Stream, FOwner);
         while (Image != null)
@@ -2583,7 +2582,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     // ImageLib.pas:1437
     public override void LoadFromStreamEx(Stream Stream, Stream DataStream)
     {
-        TLibraryImage Image;
+        LibraryImage Image;
         Image = Aow.Game.Draw.Images.ImageStreams.ReadImageFromStreamEx(Stream, DataStream, FOwner);
         while (Image != null)
         {
@@ -2614,7 +2613,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1465
-    public override void SetOwner(TCustomImageLibrary AOwner)
+    public override void SetOwner(CustomImageLibrary AOwner)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2640,7 +2639,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1486
-    public override void Show(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void Show(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2649,7 +2648,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1493
-    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2658,7 +2657,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1500
-    public override void ShowTransparent(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowTransparent(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2667,7 +2666,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1507
-    public override void ShowBlended(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD, Aow.Game.Draw.TBlendTable Table)
+    public override void ShowBlended(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD, Aow.Game.Draw.BlendTable Table)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2676,14 +2675,14 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1514
-    public override void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
+    public override void ShowDC(global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:1550
-    public override void ShowEx(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD, in TShowInfo ShowInfo)
+    public override void ShowEx(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Game.Draw.Images.ShowInfo ShowInfo)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2692,7 +2691,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1557
-    public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID)
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID)
     {
         int I;
         I = FCount;
@@ -2707,7 +2706,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1570
-    public override void SetLoadMode(TLoadMode Value)
+    public override void SetLoadMode(global::Aow.Game.Draw.Images.LoadMode Value)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2741,7 +2740,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
 
     public int Count { get => FCount; }
 
-    public TLibraryImage this[int Index] { get => GetImage(Index); }
+    public LibraryImage this[int Index] { get => GetImage(Index); }
 
 }
 
@@ -2750,16 +2749,16 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
 // the pixels are shown with: the image palette, or the copy remapped to the pixel format of the
 // last surface). RegisterPalette (share the palette through the owner's palette manager) and
 // UnregisterPalette (make a private copy again)
-public partial class TImage08 : TLibraryImage, ILibraryImageClass
+public partial class Image08 : LibraryImage, ILibraryImageClass
 {
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImage08(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Image08(owner);
 
-    public TImage08(TCustomImageLibrary owner) : base(owner)
+    public Image08(CustomImageLibrary owner) : base(owner)
     { }
 
     internal bool FOwnPalette;
-    internal TLibraryImagePalette FImagePalette;
-    internal Aow.Game.Draw.TGFXEPalette FRemapPalette;
+    internal LibraryImagePalette FImagePalette;
+    internal Aow.Game.Draw.GFXEPalette FRemapPalette;
 
     // ImageLib.pas:7152
     public override void Clear()
@@ -2778,7 +2777,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
         Stream.ReadBytes(Bytes.Of(ref FOwnPalette, 1));
         if (FOwnPalette)
         {
-            FImagePalette = new TLibraryImagePalette();
+            FImagePalette = new LibraryImagePalette();
             FImagePalette.LoadFromStream(Stream);
         }
         else
@@ -2808,7 +2807,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     // ImageLib.pas:7189
     public virtual void RegisterPalette()
     {
-        TLibraryImagePalette Old;
+        LibraryImagePalette Old;
         if (FOwnPalette && FImagePalette != null && FOwner != null)
         {
             Old = FImagePalette;
@@ -2822,10 +2821,10 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     // ImageLib.pas:7203
     public virtual void UnregisterPalette()
     {
-        TLibraryImagePalette P;
+        LibraryImagePalette P;
         if (!FOwnPalette && FImagePalette != null)
         {
-            P = new TLibraryImagePalette();
+            P = new LibraryImagePalette();
             P.Assign(FImagePalette);
             FOwner.FPaletteManager.UnregisterPalette(FImagePalette.FIndex);
             FImagePalette = P;
@@ -2835,12 +2834,12 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:7218
-    public void CreateLibraryImagePalette(Aow.Game.Draw.TGFXEPalette Palette)
+    public void CreateLibraryImagePalette(Aow.Game.Draw.GFXEPalette Palette)
     {
         UnregisterPalette();
         if (FImagePalette == null)
         {
-            FImagePalette = new TLibraryImagePalette();
+            FImagePalette = new LibraryImagePalette();
         }
 
         FImagePalette.FPalette.Assign(Palette);
@@ -2849,7 +2848,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:7227
-    public override void SetOwner(TCustomImageLibrary AOwner)
+    public override void SetOwner(CustomImageLibrary AOwner)
     {
         if (AOwner != FOwner)
         {
@@ -2863,7 +2862,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     public override int RemapToPixelFormat(int PixelFormatID)
     {
         int Result;
-        Aow.Game.Draw.TGFXEPalette P;
+        Aow.Game.Draw.GFXEPalette P;
         P = FImagePalette.RemapPalette(PixelFormatID);
         if (P != null)
         {
@@ -2884,7 +2883,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     // ImageLib.pas:7258
     // { ShowDC remaps the palette to pfPAL8 (an original slip: the surface is pfRGB565; ShowOpaque
     //   remaps the palette again when it differs). }
-    public override void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
+    public override void ShowDC(global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -2894,14 +2893,14 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
 // an opaque 8 bit picture (ClassID 1). FPitch (of the rows: a multiple of 4 below 32 pixels, of
 // 8 from 32 on), FBuffer (the rows from its first byte. The original's FBits, FBuffer aligned to
 // 8 bytes, is FBuffer itself in the port)
-public partial class TPicture08 : TImage08, ILibraryImageClass
+public partial class Picture08 : Image08, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 1;
     static string ILibraryImageClass.Name => "Picture (08bpp)";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TPicture08(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Picture08(owner);
 
-    public TPicture08(TCustomImageLibrary owner) : base(owner)
+    public Picture08(CustomImageLibrary owner) : base(owner)
     { }
 
     internal int FPitch;
@@ -2957,7 +2956,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
     }
 
     // ImageLib.pas:7331
-    public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565) && ShowMode == TShowMode.smOpaque;
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565) && ShowMode == global::Aow.Game.Draw.Images.ShowMode.Opaque;
 
     // ImageLib.pas:7337
     public void AllocateDiscardableImageData(int AWidth, int AHeight)
@@ -3011,13 +3010,13 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
     }
 
     // ImageLib.pas:7378
-    public override TForm CreateGrabForm(TComponent AOwner, in Aow.Game.Draw.TSurfaceDesc SD, TImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(global::Aow.Rtl.Component AOwner, in Aow.Game.Draw.SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:7384
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8;
 
     // ImageLib.pas:7389
-    public override bool GrabImage(in Aow.Game.Draw.TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
+    public override bool GrabImage(in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Rtl.Rect R, GrabInfo GrabInfo)
     {
         bool Result;
         try
@@ -3060,7 +3059,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
         return Result;
     }
 
-    public override void ShowOpaque(int x, int y, in Aow.Game.Draw.TSurfaceDesc sd)
+    public override void ShowOpaque(int x, int y, in Aow.Game.Draw.SurfaceDesc sd)
     {
         int destX = x + FXshift, destY = y + FYshift;
         int right = destX + FDataWidth, bottom = destY + FDataHeight;
@@ -3099,7 +3098,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
             else if (sd.PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565)
                 Aow.Game.Draw.PixelRemap.RemapSurface08to565(source, destination, width, height, FRemapPalette);
         }
-        if (loadedHere && FLoadMode == TLoadMode.lmLoadFreeOnDemand) ReleaseDiscardableImageData();
+        if (loadedHere && FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand) ReleaseDiscardableImageData();
     }
 }
 
@@ -3108,14 +3107,14 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
 // dword, then the opaque pixels and, for a transparent run, the transparent index and the run
 // length), FRLELeft, FRLETop, FRLEWidth, FRLEHeight (the rectangle of the encoded pixels in the
 // data rectangle)
-public partial class TRLESprite08 : TImage08, ILibraryImageClass
+public partial class RLESprite08 : Image08, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 2;
     static string ILibraryImageClass.Name => "RLE Sprite (08bpp)";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TRLESprite08(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new RLESprite08(owner);
 
-    public TRLESprite08(TCustomImageLibrary owner) : base(owner)
+    public RLESprite08(CustomImageLibrary owner) : base(owner)
     { }
 
     internal int FTransparentColor;
@@ -3187,7 +3186,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     }
 
     // ImageLib.pas:7553
-    public override void GetVisualDimensions(ref TRect R)
+    public override void GetVisualDimensions(ref global::Aow.Rtl.Rect R)
     {
         R.Left = FXshift + FRLELeft;
         R.Right = R.Left + FRLEWidth;
@@ -3235,17 +3234,17 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     }
 
     // ImageLib.pas:7596
-    public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565) && ShowMode == TShowMode.smOpaque;
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565) && ShowMode == global::Aow.Game.Draw.Images.ShowMode.Opaque;
 
     // ImageLib.pas:7602
-    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         if (!FDataLoaded)
         {
             LoadDiscardableImageData();
             if (SD.PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8)
             {
-                Aow.Game.Draw.Images.TRLESprite08.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                Aow.Game.Draw.Images.RLESprite08.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3258,14 +3257,14 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     case Aow.Game.Draw.PixelFormats.pfRGB555:
                     case Aow.Game.Draw.PixelFormats.pfRGB565:
-                        Aow.Game.Draw.Images.TRLESprite08.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
+                        Aow.Game.Draw.Images.RLESprite08.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
                 }
             }
 
-            if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -3274,7 +3273,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
         {
             if (SD.PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8)
             {
-                Aow.Game.Draw.Images.TRLESprite08.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
+                Aow.Game.Draw.Images.RLESprite08.ShowRLE08(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor);
             }
             else
             {
@@ -3287,7 +3286,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     case Aow.Game.Draw.PixelFormats.pfRGB555:
                     case Aow.Game.Draw.PixelFormats.pfRGB565:
-                        Aow.Game.Draw.Images.TRLESprite08.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
+                        Aow.Game.Draw.Images.RLESprite08.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
@@ -3300,7 +3299,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8;
 
     // ImageLib.pas:7648
-    public override TForm CreateGrabForm(TComponent AOwner, in Aow.Game.Draw.TSurfaceDesc SD, TImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(global::Aow.Rtl.Component AOwner, in Aow.Game.Draw.SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:7659
     // { GrabImage encodes the rows of the smallest rectangle holding the opaque pixels: per row a
@@ -3308,7 +3307,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     //   pixels as the transparent index and the run length (up to 254). The buffer grows by 4 KB
     //   whenever the position reaches FDataSize, which stays 0 until the end (an original slip: every
     //   byte reallocates). Temp is never created. }
-    public override bool GrabImage(in Aow.Game.Draw.TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
+    public override bool GrabImage(in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Rtl.Rect R, GrabInfo GrabInfo)
     {
         bool Result;
         int Pos;
@@ -3316,7 +3315,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
         int Count;
         object Temp;
         int Line;
-        TRect MinRect = default;
+        global::Aow.Rtl.Rect MinRect = default;
         int B;
         int Left;
         int Top;
@@ -3389,7 +3388,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                     FFileIndex = GrabInfo.FileIndex;
                     Pos = 0;
                     Count = 0;
-                    Aow.Game.Draw.TSurfaceDesc.MinimizeTransparentRect(SD, R, FTransparentColor, ref MinRect);
+                    Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(SD, R, FTransparentColor, ref MinRect);
                     Left = MinRect.Left;
                     FRLELeft = Left - R.Left;
                     Top = MinRect.Top;
@@ -3445,12 +3444,12 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
         return Result;
     }
 
-    private static void ShowRLE08(int X, int Y, in global::Aow.Game.Draw.TSurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, byte ColorKey)
+    private static void ShowRLE08(int X, int Y, in global::Aow.Game.Draw.SurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, byte ColorKey)
     {
         Blit.ShowRLE08(X, Y, SD.View(), Data, Width, Height, ColorKey);
     }
 
-    private static void ShowRLE08to16(int X, int Y, in global::Aow.Game.Draw.TSurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, byte ColorKey, global::System.ReadOnlySpan<byte> Palette)
+    private static void ShowRLE08to16(int X, int Y, in global::Aow.Game.Draw.SurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, byte ColorKey, global::System.ReadOnlySpan<byte> Palette)
     {
         Blit.ShowRLE08to16(X, Y, SD.View(), Data, Width, Height, ColorKey, Palette);
     }
@@ -3460,15 +3459,15 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
 // the base of the 16 bit images (pfRGB565 or pfRGB555). FPixelFormatID (of the pixels in
 // memory), FStoredPixelFormatID (of the pixels in the library file: WriteImageData remaps the
 // pixels back to it before they are written)
-public partial class TImage16 : TLibraryImage, ILibraryImageClass
+public partial class Image16 : LibraryImage, ILibraryImageClass
 {
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImage16(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Image16(owner);
 
     internal int FPixelFormatID;
     internal int FStoredPixelFormatID;
 
     // ImageLib.pas:2098
-    public TImage16(TCustomImageLibrary owner) : base(owner)
+    public Image16(CustomImageLibrary owner) : base(owner)
     {
     }
 
@@ -3502,7 +3501,7 @@ public partial class TImage16 : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:2128
-    public override void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
+    public override void ShowDC(global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -3513,14 +3512,14 @@ public partial class TImage16 : TLibraryImage, ILibraryImageClass
 // (ClassID $10): an opaque 16 bit picture. FPitch (bytes per row, a multiple of 4, or of 8 from
 // 32 pixels on), FBuffer (the rows from its first byte. The original's FData, FBuffer aligned to
 // 8 bytes, is FBuffer itself in the port)
-public partial class TPicture16 : TImage16, ILibraryImageClass
+public partial class Picture16 : Image16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 16;
     static string ILibraryImageClass.Name => "Picture (16bpp)";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TPicture16(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Picture16(owner);
 
-    public TPicture16(TCustomImageLibrary owner) : base(owner)
+    public Picture16(CustomImageLibrary owner) : base(owner)
     { }
 
     internal int FPitch;
@@ -3594,7 +3593,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:2200
-    public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555) && TSet<TShowMode>.Of(TShowMode.smOpaque, TShowMode.smTransparent, TShowMode.smBlended).Contains(ShowMode);
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555) && Set<global::Aow.Game.Draw.Images.ShowMode>.Of(global::Aow.Game.Draw.Images.ShowMode.Opaque, global::Aow.Game.Draw.Images.ShowMode.Transparent, global::Aow.Game.Draw.Images.ShowMode.Blended).Contains(ShowMode);
 
     // ImageLib.pas:2219
     public override void ReleaseDiscardableImageData()
@@ -3628,13 +3627,13 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:2247
-    public override TForm CreateGrabForm(TComponent AOwner, in Aow.Game.Draw.TSurfaceDesc SD, TImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(global::Aow.Rtl.Component AOwner, in Aow.Game.Draw.SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:2253
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB24 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8;
 
     // ImageLib.pas:2259
-    public override bool GrabImage(in Aow.Game.Draw.TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
+    public override bool GrabImage(in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Rtl.Rect R, GrabInfo GrabInfo)
     {
         bool Result;
         try
@@ -3660,7 +3659,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             var D = MemoryMarshal.Cast<byte, ushort>(FBuffer.AsSpan(FPitch * Y, FWidth * 2));
                             for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
                             {
-                                ref readonly var P = ref SD.Palette.Entries[S[X]];
+                                ref readonly Aow.Game.Draw.GFXEPalette.PaletteEntry P = ref SD.Palette.Entries[S[X]];
                                 D[X] = (ushort)(((P.R & 248) << 8) + ((P.G & 252) << 3) + (int)(((uint)P.B) >> 3));
                             }
                         }
@@ -3736,7 +3735,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:2349
-    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         int DX;
         int Right;
@@ -3809,7 +3808,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                         Aow.Game.Draw.BlitRects.BltRect(Src, Dst, W * 2, H);
                     }
 
-                    if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+                    if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -3837,7 +3836,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:2412
-    public override void ShowBlended(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD, Aow.Game.Draw.TBlendTable Table)
+    public override void ShowBlended(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD, Aow.Game.Draw.BlendTable Table)
     {
         int DX;
         int Right;
@@ -3903,10 +3902,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                    Aow.Game.Draw.Images.TPicture16.BlendSurface565(Src, Dst, W, H, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                    Aow.Game.Draw.Images.Picture16.BlendSurface565(Src, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                     break;
                                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                    Aow.Game.Draw.Images.TPicture16.BlendSurface555(Src, Dst, W, H, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                    Aow.Game.Draw.Images.Picture16.BlendSurface555(Src, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3927,10 +3926,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                    Aow.Game.Draw.Images.TPicture16.BlendSurface565(Src, Dst, W, H, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                    Aow.Game.Draw.Images.Picture16.BlendSurface565(Src, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                     break;
                                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                    Aow.Game.Draw.Images.TPicture16.BlendSurface555(Src, Dst, W, H, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                    Aow.Game.Draw.Images.Picture16.BlendSurface555(Src, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3940,7 +3939,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                         }
                     }
 
-                    if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+                    if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -3956,10 +3955,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                    Aow.Game.Draw.Images.TPicture16.BlendSurface565(Src, Dst, W, H, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                    Aow.Game.Draw.Images.Picture16.BlendSurface565(Src, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                     break;
                                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                    Aow.Game.Draw.Images.TPicture16.BlendSurface555(Src, Dst, W, H, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                    Aow.Game.Draw.Images.Picture16.BlendSurface555(Src, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3980,10 +3979,10 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                             switch (FPixelFormatID)
                             {
                                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                    Aow.Game.Draw.Images.TPicture16.BlendSurface565(Src, Dst, W, H, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                    Aow.Game.Draw.Images.Picture16.BlendSurface565(Src, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                     break;
                                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                    Aow.Game.Draw.Images.TPicture16.BlendSurface555(Src, Dst, W, H, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                    Aow.Game.Draw.Images.Picture16.BlendSurface555(Src, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                     break;
                             }
                         }
@@ -3998,7 +3997,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:2511
-    public override void ShowTransparent(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowTransparent(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         int DX;
         int Right;
@@ -4061,11 +4060,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         if (FPixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565)
                         {
-                            Aow.Game.Draw.Images.TPicture16.BltTransparent565(Src, Dst, W, H);
+                            Aow.Game.Draw.Images.Picture16.BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            Aow.Game.Draw.Images.TPicture16.BltTransparent555(Src, Dst, W, H);
+                            Aow.Game.Draw.Images.Picture16.BltTransparent555(Src, Dst, W, H);
                         }
                     }
                     else
@@ -4077,15 +4076,15 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
 
                         if (FPixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565)
                         {
-                            Aow.Game.Draw.Images.TPicture16.BltTransparent565(Src, Dst, W, H);
+                            Aow.Game.Draw.Images.Picture16.BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            Aow.Game.Draw.Images.TPicture16.BltTransparent555(Src, Dst, W, H);
+                            Aow.Game.Draw.Images.Picture16.BltTransparent555(Src, Dst, W, H);
                         }
                     }
 
-                    if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+                    if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -4098,11 +4097,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         if (FPixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565)
                         {
-                            Aow.Game.Draw.Images.TPicture16.BltTransparent565(Src, Dst, W, H);
+                            Aow.Game.Draw.Images.Picture16.BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            Aow.Game.Draw.Images.TPicture16.BltTransparent555(Src, Dst, W, H);
+                            Aow.Game.Draw.Images.Picture16.BltTransparent555(Src, Dst, W, H);
                         }
                     }
                     else
@@ -4114,11 +4113,11 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
 
                         if (FPixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565)
                         {
-                            Aow.Game.Draw.Images.TPicture16.BltTransparent565(Src, Dst, W, H);
+                            Aow.Game.Draw.Images.Picture16.BltTransparent565(Src, Dst, W, H);
                         }
                         else
                         {
-                            Aow.Game.Draw.Images.TPicture16.BltTransparent555(Src, Dst, W, H);
+                            Aow.Game.Draw.Images.Picture16.BltTransparent555(Src, Dst, W, H);
                         }
                     }
                 }
@@ -4164,17 +4163,17 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
 }
 
 // (ClassID $15): a TPicture16 shown transparent by default. it cannot be grabbed
-public partial class TTransparentPicture16 : TPicture16, ILibraryImageClass
+public partial class TransparentPicture16 : Picture16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 21;
     static string ILibraryImageClass.Name => "Transparent Picture (16bpp)";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TTransparentPicture16(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new TransparentPicture16(owner);
 
     // ImageLib.pas:2845
-    public TTransparentPicture16(TCustomImageLibrary owner) : base(owner)
+    public TransparentPicture16(CustomImageLibrary owner) : base(owner)
     {
-        FShowInfo.ShowMode = TShowMode.smTransparent;
+        FShowInfo.ShowMode = ShowMode.Transparent;
     }
 
     // ImageLib.pas:2861
@@ -4187,12 +4186,12 @@ public partial class TTransparentPicture16 : TPicture16, ILibraryImageClass
 // FStoredPixelFormatID), FColorKey (the transparent color in FPixelFormatID), FSpriteX,
 // FSpriteY (of the pixels in the grabbed rectangle), FSpriteWidth, FSpriteHeight (of the
 // pixels)
-public partial class TSprite16 : TImage16, ILibraryImageClass
+public partial class Sprite16 : Image16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 22;
     static string ILibraryImageClass.Name => "Sprite (16bpp)";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TSprite16(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Sprite16(owner);
 
     internal int FPitch;
     internal byte[] FBuffer;
@@ -4225,7 +4224,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:4247
-    public TSprite16(TCustomImageLibrary owner) : base(owner)
+    public Sprite16(CustomImageLibrary owner) : base(owner)
     {
     }
 
@@ -4280,7 +4279,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:4294
-    public override void GetVisualDimensions(ref TRect R)
+    public override void GetVisualDimensions(ref global::Aow.Rtl.Rect R)
     {
         R.Left = FXshift + FSpriteX;
         R.Right = R.Left + FSpriteWidth;
@@ -4371,10 +4370,10 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:4386
-    public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555) && TSet<TShowMode>.Of(TShowMode.smOpaque, TShowMode.smTransparent, TShowMode.smBlended).Contains(ShowMode);
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555) && Set<global::Aow.Game.Draw.Images.ShowMode>.Of(global::Aow.Game.Draw.Images.ShowMode.Opaque, global::Aow.Game.Draw.Images.ShowMode.Transparent, global::Aow.Game.Draw.Images.ShowMode.Blended).Contains(ShowMode);
 
     // ImageLib.pas:4392
-    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         int DX;
         int Right;
@@ -4449,7 +4448,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                         Aow.Game.Draw.BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
                     }
 
-                    if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+                    if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -4477,7 +4476,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:4457
-    public override void ShowBlended(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD, Aow.Game.Draw.TBlendTable Table)
+    public override void ShowBlended(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD, Aow.Game.Draw.BlendTable Table)
     {
         int DX;
         int Right;
@@ -4543,10 +4542,10 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.TSprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                Aow.Game.Draw.Images.Sprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                 break;
                             case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.TSprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                Aow.Game.Draw.Images.Sprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4560,15 +4559,15 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.TSprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                Aow.Game.Draw.Images.Sprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                 break;
                             case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.TSprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                Aow.Game.Draw.Images.Sprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
 
-                    if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+                    if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -4582,10 +4581,10 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.TSprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                Aow.Game.Draw.Images.Sprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                 break;
                             case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.TSprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                Aow.Game.Draw.Images.Sprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4599,10 +4598,10 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                         switch (FPixelFormatID)
                         {
                             case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.TSprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                Aow.Game.Draw.Images.Sprite16.BlendColorKey555(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                 break;
                             case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.TSprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.TBlendTable5Bit)Table).Bytes);
+                                Aow.Game.Draw.Images.Sprite16.BlendColorKey565(Src, Dst, W, H, FColorKey, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -4613,7 +4612,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
 
     // ImageLib.pas:4543
     // { ShowTransparent shows the sprite blended 50% }
-    public override void ShowTransparent(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowTransparent(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         ShowBlended(X, Y, SD, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[50]);
     }
@@ -4622,16 +4621,16 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB24 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8;
 
     // ImageLib.pas:4554
-    public override TForm CreateGrabForm(TComponent AOwner, in Aow.Game.Draw.TSurfaceDesc SD, TImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(global::Aow.Rtl.Component AOwner, in Aow.Game.Draw.SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:4561
     // { GrabImage locks the conversion surface and never unlocks it (an original bug) }
-    public override bool GrabImage(in Aow.Game.Draw.TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
+    public override bool GrabImage(in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Rtl.Rect R, GrabInfo GrabInfo)
     {
-        Aow.Game.Draw.TDataSurface Surface;
-        Aow.Game.Draw.TSurfaceDesc LSD = default;
-        TRect GR = default;
-        TRect MR = default;
+        Aow.Game.Draw.DataSurface Surface;
+        Aow.Game.Draw.SurfaceDesc LSD = default;
+        global::Aow.Rtl.Rect GR = default;
+        global::Aow.Rtl.Rect MR = default;
         int Left;
         int Top;
         int Bottom;
@@ -4644,7 +4643,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
             {
                 if (SD.BitCount != 16)
                 {
-                    Surface = new Aow.Game.Draw.TDataSurface(R.Right - R.Left, R.Bottom - R.Top, Aow.Game.Draw.PixelFormats.pfRGB565, null);
+                    Surface = new Aow.Game.Draw.DataSurface(R.Right - R.Left, R.Bottom - R.Top, Aow.Game.Draw.PixelFormats.pfRGB565, null);
                     GR.Left = 0;
                     GR.Top = 0;
                     var width = Surface.GetWidth();
@@ -4654,7 +4653,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                     Surface.Lock(ref LSD);
                     var surfaceWidth = Surface.GetWidth();
                     var surfaceHeight = Surface.GetHeight();
-                    if (Aow.Game.Draw.TSurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
+                    if (Aow.Game.Draw.SurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
@@ -4679,7 +4678,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                 FStoredPixelFormatID = LSD.PixelFormatID;
                 FPixelFormatID = FStoredPixelFormatID;
                 FColorKey = FTransparentColor;
-                Aow.Game.Draw.TSurfaceDesc.MinimizeTransparentRect(LSD, GR, FTransparentColor, ref MR);
+                Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(LSD, GR, FTransparentColor, ref MR);
                 Left = MR.Left;
                 FSpriteX = Left - GR.Left;
                 Top = MR.Top;
@@ -4728,12 +4727,12 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
 // TSprite16). The data is FSpriteHeight rows. a row is a word with its size in bytes (the
 // header included), a zero word, then pixels and skips (the color key and the size of the skip
 // in bytes), padded with the color key to a dword
-public partial class TRLESprite16 : TImage16, ILibraryImageClass
+public partial class RLESprite16 : Image16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 17;
     static string ILibraryImageClass.Name => "RLE Sprite (16bpp)";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TRLESprite16(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new RLESprite16(owner);
 
     internal int FColorKey;
     internal byte[] FData;
@@ -4743,7 +4742,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     internal int FSpriteHeight;
 
     // ImageLib.pas:2881
-    public TRLESprite16(TCustomImageLibrary owner) : base(owner)
+    public RLESprite16(CustomImageLibrary owner) : base(owner)
     {
     }
 
@@ -4798,7 +4797,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:2928
-    public override void GetVisualDimensions(ref TRect R)
+    public override void GetVisualDimensions(ref global::Aow.Rtl.Rect R)
     {
         R.Left = FXshift + FSpriteX;
         R.Right = R.Left + FSpriteWidth;
@@ -4868,11 +4867,11 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (PixelFormatID)
             {
                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.TRLESprite16.RemapRLE555to565(FData, FSpriteHeight, FColorKey);
+                    Aow.Game.Draw.Images.RLESprite16.RemapRLE555to565(FData, FSpriteHeight, FColorKey);
                     FPixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB565;
                     break;
                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.TRLESprite16.RemapRLE565to555(FData, FSpriteHeight, FColorKey);
+                    Aow.Game.Draw.Images.RLESprite16.RemapRLE565to555(FData, FSpriteHeight, FColorKey);
                     FPixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB555;
                     break;
                 default:
@@ -4885,17 +4884,17 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:3006
-    public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555) && TSet<TShowMode>.Of(TShowMode.smOpaque, TShowMode.smTransparent).Contains(ShowMode);
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555) && Set<global::Aow.Game.Draw.Images.ShowMode>.Of(global::Aow.Game.Draw.Images.ShowMode.Opaque, global::Aow.Game.Draw.Images.ShowMode.Transparent).Contains(ShowMode);
 
     // ImageLib.pas:3012
-    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         if (!FDataLoaded)
         {
             LoadDiscardableImageData();
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                Aow.Game.Draw.Images.TRLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                Aow.Game.Draw.Images.RLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4904,10 +4903,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
-                Aow.Game.Draw.Images.TRLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                Aow.Game.Draw.Images.RLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
 
-            if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -4916,7 +4915,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
         {
             if (SD.PixelFormatID == FPixelFormatID)
             {
-                Aow.Game.Draw.Images.TRLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                Aow.Game.Draw.Images.RLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
             else
             {
@@ -4925,14 +4924,14 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
-                Aow.Game.Draw.Images.TRLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                Aow.Game.Draw.Images.RLESprite16.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
             }
         }
     }
 
     // ImageLib.pas:3045
     // { ShowTransparent shows the sprite blended 50% }
-    public override void ShowTransparent(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowTransparent(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         if (!FDataLoaded)
         {
@@ -4945,14 +4944,14 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.TRLESprite16.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    Aow.Game.Draw.Images.RLESprite16.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.TRLESprite16.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    Aow.Game.Draw.Images.RLESprite16.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
 
-            if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -4967,10 +4966,10 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             switch (FPixelFormatID)
             {
                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.TRLESprite16.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    Aow.Game.Draw.Images.RLESprite16.BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.TRLESprite16.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    Aow.Game.Draw.Images.RLESprite16.BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
                     break;
             }
         }
@@ -4980,22 +4979,22 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB24 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8;
 
     // ImageLib.pas:3079
-    public override TForm CreateGrabForm(TComponent AOwner, in Aow.Game.Draw.TSurfaceDesc SD, TImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(global::Aow.Rtl.Component AOwner, in Aow.Game.Draw.SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:3090
     // The sprites take their transparent color from TGrabInfo (declared Reserved in the core),
     // not from TransparentColor (+4, the color GetSurfaceRectangles separates the images with).
     // GrabImage encodes the rows into FData, which grows in 4 KB steps. FDataSize stays 0 until
     // the end, so every word added past the first step reallocates (an original inefficiency)
-    public override bool GrabImage(in Aow.Game.Draw.TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
+    public override bool GrabImage(in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Rtl.Rect R, GrabInfo GrabInfo)
     {
         int Pos;
         int RowStart;
         int Skip;
-        Aow.Game.Draw.TDataSurface Surface;
-        Aow.Game.Draw.TSurfaceDesc LSD = default;
-        TRect GR = default;
-        TRect MR = default;
+        Aow.Game.Draw.DataSurface Surface;
+        Aow.Game.Draw.SurfaceDesc LSD = default;
+        global::Aow.Rtl.Rect GR = default;
+        global::Aow.Rtl.Rect MR = default;
         int C;
         void AddWord(ushort W)
         {
@@ -5049,7 +5048,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             {
                 if (SD.BitCount != 16)
                 {
-                    Surface = new Aow.Game.Draw.TDataSurface(R.Right - R.Left, R.Bottom - R.Top, Aow.Game.Draw.PixelFormats.pfRGB565, null);
+                    Surface = new Aow.Game.Draw.DataSurface(R.Right - R.Left, R.Bottom - R.Top, Aow.Game.Draw.PixelFormats.pfRGB565, null);
                     GR.Left = 0;
                     GR.Top = 0;
                     var width = Surface.GetWidth();
@@ -5059,7 +5058,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     Surface.Lock(ref LSD);
                     var surfaceWidth = Surface.GetWidth();
                     var surfaceHeight = Surface.GetHeight();
-                    if (Aow.Game.Draw.TSurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
+                    if (Aow.Game.Draw.SurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
@@ -5085,7 +5084,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                 FPixelFormatID = FStoredPixelFormatID;
                 Pos = 0;
                 Skip = 0;
-                Aow.Game.Draw.TSurfaceDesc.MinimizeTransparentRect(LSD, GR, FColorKey, ref MR);
+                Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(LSD, GR, FColorKey, ref MR);
                 FSpriteX = MR.Left - GR.Left;
                 FSpriteY = MR.Top - GR.Top;
                 FSpriteWidth = MR.Right - MR.Left;
@@ -5141,17 +5140,17 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
         Blit.RemapRLE555to565(Data, Height, ColorKey);
     }
 
-    private static void BltRLE16(int X, int Y, in global::Aow.Game.Draw.TSurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
+    private static void BltRLE16(int X, int Y, in global::Aow.Game.Draw.SurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
     {
         Blit.BltRLE16(X, Y, SD.View(), Data, Width, Height, ColorKey);
     }
 
-    private static void BlendRLE565(int X, int Y, in global::Aow.Game.Draw.TSurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
+    private static void BlendRLE565(int X, int Y, in global::Aow.Game.Draw.SurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
     {
         Blit.BlendRLE565(X, Y, SD.View(), Data, Width, Height, ColorKey);
     }
 
-    private static void BlendRLE555(int X, int Y, in global::Aow.Game.Draw.TSurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
+    private static void BlendRLE555(int X, int Y, in global::Aow.Game.Draw.SurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
     {
         Blit.BlendRLE555(X, Y, SD.View(), Data, Width, Height, ColorKey);
     }
@@ -5159,17 +5158,17 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
 }
 
 // (ClassID $12): a TRLESprite16 shown transparent by default. it cannot be grabbed
-public partial class TTransparentRLESprite16 : TRLESprite16, ILibraryImageClass
+public partial class TransparentRLESprite16 : RLESprite16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 18;
     static string ILibraryImageClass.Name => "Transparent RLE Sprite (16bpp)";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TTransparentRLESprite16(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new TransparentRLESprite16(owner);
 
     // ImageLib.pas:3592
-    public TTransparentRLESprite16(TCustomImageLibrary owner) : base(owner)
+    public TransparentRLESprite16(CustomImageLibrary owner) : base(owner)
     {
-        FShowInfo.ShowMode = TShowMode.smTransparent;
+        FShowInfo.ShowMode = ShowMode.Transparent;
     }
 
     // ImageLib.pas:3608
@@ -5177,42 +5176,17 @@ public partial class TTransparentRLESprite16 : TRLESprite16, ILibraryImageClass
 
 }
 
-// Inverse (grab the non-transparent rectangle with MinimizeInvTransparentRect)
-public partial class TBitMaskGrabInfo : TGrabInfo
-{
-    public static new GrabInfoClass Descriptor { get; } = new("TBitMaskGrabInfo", static () => new TBitMaskGrabInfo());
-
-    public bool Inverse;
-
-    // ImageLib.pas:4638
-    public override void LoadFromStream(Stream Stream)
-    {
-        base.LoadFromStream(Stream);
-        Stream.ReadBytes(Bytes.Of(ref Inverse, 1));
-    }
-
-    // ImageLib.pas:4644
-    public override void SaveToStream(Stream Stream)
-    {
-        base.SaveToStream(Stream);
-        Stream.Write(Bytes.Of(ref Inverse, 1));
-    }
-
-    // ImageLib.pas:4633
-    public override GrabInfoClass GrabInfoClass() => Descriptor;
-}
-
 // a mask of one bit per pixel (ClassID $13), shown as white pixels. FPitch (bytes per row,
 // whole dwords), FMaskData (rows of dwords, the first pixel in the high bit), FMaskLeft,
 // FMaskTop, FMaskWidth, FMaskHeight (the rectangle of the mask in the data rectangle)
-public partial class TBitMask : TLibraryImage, ILibraryImageClass
+public partial class BitMask : LibraryImage, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 19;
     static string ILibraryImageClass.Name => "Bit Mask";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TBitMask(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new BitMask(owner);
 
-    public TBitMask(TCustomImageLibrary owner) : base(owner)
+    public BitMask(CustomImageLibrary owner) : base(owner)
     { }
 
     internal int FPitch;
@@ -5318,15 +5292,15 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB24 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfPAL8;
 
     // ImageLib.pas:4746
-    public override TGrabInfo CreateGrabInfo() => new TBitMaskGrabInfo();
+    public override global::Aow.Game.Draw.Images.GrabInfo CreateGrabInfo() => new GrabInfo();
 
     // ImageLib.pas:4751
-    public override TForm CreateGrabForm(TComponent AOwner, in Aow.Game.Draw.TSurfaceDesc SD, TImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(global::Aow.Rtl.Component AOwner, in Aow.Game.Draw.SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:4759
     // { GrabImage sets a bit for every pixel that differs from the transparent pixel value. With an
     //   inverse grab info no bit is added at all (an original bug: the mask stays empty). }
-    public override bool GrabImage(in Aow.Game.Draw.TSurfaceDesc SD, in TRect R, TGrabInfo GrabInfo)
+    public override bool GrabImage(in Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Rtl.Rect R, global::Aow.Game.Draw.Images.GrabInfo GrabInfo)
     {
         int Bits;
         int BitCount;
@@ -5335,7 +5309,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
         int Left;
         int Top;
         int Bottom;
-        TRect MinRect = default;
+        global::Aow.Rtl.Rect MinRect = default;
         void AddBit(bool Bit)
         {
             Bits = Bits << 1;
@@ -5378,13 +5352,13 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
         FFileName = ExtractFileName(GrabInfo.FileName);
         FFileIndex = GrabInfo.FileIndex;
         TransparentColor = GrabInfo.TransparentPixel;
-        if (!((TBitMaskGrabInfo)GrabInfo).Inverse)
+        if (!((GrabInfo)GrabInfo).Inverse)
         {
-            Aow.Game.Draw.TSurfaceDesc.MinimizeTransparentRect(SD, R, TransparentColor, ref MinRect);
+            Aow.Game.Draw.SurfaceDesc.MinimizeTransparentRect(SD, R, TransparentColor, ref MinRect);
         }
         else
         {
-            Aow.Game.Draw.Images.TBitMask.MinimizeInvTransparentRect(SD, R, TransparentColor, ref MinRect);
+            Aow.Game.Draw.Images.BitMask.MinimizeInvTransparentRect(SD, R, TransparentColor, ref MinRect);
         }
 
         Left = MinRect.Left;
@@ -5400,9 +5374,9 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
             Offset = (Y - MinRect.Top) * FPitch;
             for (int X = MinRect.Left, last = MinRect.Right - 1; X <= last; X++)
             {
-                if (!((TBitMaskGrabInfo)GrabInfo).Inverse)
+                if (!((GrabInfo)GrabInfo).Inverse)
                 {
-                    AddBit(Aow.Game.Draw.Images.TBitMask.GetPixelInfo(SD, X, Y) != TransparentColor);
+                    AddBit(Aow.Game.Draw.Images.BitMask.GetPixelInfo(SD, X, Y) != TransparentColor);
                 }
             }
 
@@ -5414,21 +5388,21 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
 
     // ImageLib.pas:4827
     // { ShowDC clears the surface to gray, not to BkColor. }
-    public override void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
+    public override void ShowDC(global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:4861
-    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         if (!FDataLoaded)
         {
             LoadDiscardableImageData();
         }
 
-        Aow.Game.Draw.Images.TBitMask.ShowBitMask16(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+        Aow.Game.Draw.Images.BitMask.ShowBitMask16(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
     }
 
     public void AllocateMaskData(int AWidth, int AHeight)
@@ -5439,7 +5413,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
         FMaskData = Aow.Game.Draw.MemorySurfaces.Reallocate(FMaskData, checked(FDataSize + 4));
     }
 
-    internal static int GetPixelInfo(in global::Aow.Game.Draw.TSurfaceDesc SD, int X, int Y)
+    internal static int GetPixelInfo(in global::Aow.Game.Draw.SurfaceDesc SD, int X, int Y)
     {
         SurfaceView val;
         switch (SD.BitCount)
@@ -5461,10 +5435,10 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
         }
     }
 
-    internal static void MinimizeInvTransparentRect(in global::Aow.Game.Draw.TSurfaceDesc SD, in TRect R, int TransparentColor, ref TRect Result)
+    internal static void MinimizeInvTransparentRect(in global::Aow.Game.Draw.SurfaceDesc SD, in global::Aow.Rtl.Rect R, int TransparentColor, ref global::Aow.Rtl.Rect Result)
     {
-        global::Aow.Game.Draw.TSurfaceDesc SD__value = SD;
-        TRect val = R;
+        global::Aow.Game.Draw.SurfaceDesc SD__value = SD;
+        global::Aow.Rtl.Rect val = R;
         bool flag = false;
         while (!flag && val.Top < val.Bottom)
         {
@@ -5545,31 +5519,56 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
         }
     }
 
-    private static void ShowBitMask16(int X, int Y, in global::Aow.Game.Draw.TSurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height)
+    private static void ShowBitMask16(int X, int Y, in global::Aow.Game.Draw.SurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height)
     {
         Blit.ShowBitMask16(X, Y, SD.View(), Data, Width, Height);
+    }
+
+    // Inverse (grab the non-transparent rectangle with MinimizeInvTransparentRect)
+    public partial class GrabInfo : global::Aow.Game.Draw.Images.GrabInfo
+    {
+        public static new GrabInfoClass Descriptor { get; } = new("BitMask.GrabInfo", static () => new Aow.Game.Draw.Images.BitMask.GrabInfo());
+
+        public bool Inverse;
+
+        // ImageLib.pas:4638
+        public override void LoadFromStream(Stream Stream)
+        {
+            base.LoadFromStream(Stream);
+            Stream.ReadBytes(Bytes.Of(ref Inverse, 1));
+        }
+
+        // ImageLib.pas:4644
+        public override void SaveToStream(Stream Stream)
+        {
+            base.SaveToStream(Stream);
+            Stream.Write(Bytes.Of(ref Inverse, 1));
+        }
+
+        // ImageLib.pas:4633
+        public override GrabInfoClass GrabInfoClass() => Descriptor;
     }
 }
 
 // a bit mask shown as a shadow, darkening the 16 bit surface under the set bits (ClassID $14)
-public partial class TShadow : TBitMask, ILibraryImageClass
+public partial class Shadow : BitMask, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassID => 20;
     static string ILibraryImageClass.Name => "Shadow";
 
-    static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TShadow(owner);
+    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Shadow(owner);
 
     // ImageLib.pas:5100
-    public TShadow(TCustomImageLibrary owner) : base(owner)
+    public Shadow(CustomImageLibrary owner) : base(owner)
     {
     }
 
     // ImageLib.pas:5106
     // { SupportShowMode asks TLibraryImage, which supports nothing. }
-    public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => (PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555) && base.SupportShowMode(ShowMode, PixelFormatID);
+    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555) && base.SupportShowMode(ShowMode, PixelFormatID);
 
     // ImageLib.pas:5122
-    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.TSurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in Aow.Game.Draw.SurfaceDesc SD)
     {
         if (!FDataLoaded)
         {
@@ -5577,16 +5576,16 @@ public partial class TShadow : TBitMask, ILibraryImageClass
             switch (SD.PixelFormatID)
             {
                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.TShadow.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    Aow.Game.Draw.Images.Shadow.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.TShadow.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    Aow.Game.Draw.Images.Shadow.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");
             }
 
-            if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
+            if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
@@ -5596,10 +5595,10 @@ public partial class TShadow : TBitMask, ILibraryImageClass
             switch (SD.PixelFormatID)
             {
                 case Aow.Game.Draw.PixelFormats.pfRGB565:
-                    Aow.Game.Draw.Images.TShadow.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    Aow.Game.Draw.Images.Shadow.ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 case Aow.Game.Draw.PixelFormats.pfRGB555:
-                    Aow.Game.Draw.Images.TShadow.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    Aow.Game.Draw.Images.Shadow.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");
@@ -5607,12 +5606,12 @@ public partial class TShadow : TBitMask, ILibraryImageClass
         }
     }
 
-    private static void ShowShadow565(int X, int Y, in global::Aow.Game.Draw.TSurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height)
+    private static void ShowShadow565(int X, int Y, in global::Aow.Game.Draw.SurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height)
     {
         Blit.ShowShadow565(X, Y, SD.View(), Data, Width, Height);
     }
 
-    private static void ShowShadow555(int X, int Y, in global::Aow.Game.Draw.TSurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height)
+    private static void ShowShadow555(int X, int Y, in global::Aow.Game.Draw.SurfaceDesc SD, global::System.ReadOnlySpan<byte> Data, int Width, int Height)
     {
         Blit.ShowShadow555(X, Y, SD.View(), Data, Width, Height);
     }
@@ -5623,12 +5622,12 @@ public partial class TShadow : TBitMask, ILibraryImageClass
 // between two characters), FHeight (the largest image height, set by LoadFromStream),
 // FCharCase, FColor, FFontColorPaletteIndex (the entry of the first palette that SetColor sets
 // to Color, -1 for none). A character without an image is 5 pixels wide
-public partial class TImageLibraryFont : TCustomImageLibrary
+public partial class ImageLibraryFont : CustomImageLibrary
 {
 
     internal int FCharacterDistance;
     internal int FHeight;
-    internal TEditCharCase FCharCase;
+    internal EditCharCase FCharCase;
     internal int FColor;
     internal int FFontColorPaletteIndex;
 
@@ -5649,11 +5648,11 @@ public partial class TImageLibraryFont : TCustomImageLibrary
     }
 
     // ImageLib.pas:6258
-    public TImageLibraryFont(TComponent owner) : base(owner)
+    public ImageLibraryFont(global::Aow.Rtl.Component owner) : base(owner)
     {
         FCharacterDistance = 2;
         FFontColorPaletteIndex = -1;
-        FCharCase = TEditCharCase.ecNormal;
+        FCharCase = EditCharCase.Normal;
     }
 
     // ImageLib.pas:6291
@@ -5683,13 +5682,13 @@ public partial class TImageLibraryFont : TCustomImageLibrary
         int Result;
         switch (FCharCase)
         {
-            case TEditCharCase.ecNormal:
+            case EditCharCase.Normal:
                 Result = TextWidth(Text);
                 break;
-            case TEditCharCase.ecLowerCase:
+            case EditCharCase.LowerCase:
                 Result = TextWidth(LowerCase(Text));
                 break;
-            case TEditCharCase.ecUpperCase:
+            case EditCharCase.UpperCase:
                 Result = TextWidth(UpperCase(Text));
                 break;
             default:
@@ -5708,10 +5707,10 @@ public partial class TImageLibraryFont : TCustomImageLibrary
         string S;
         switch (FCharCase)
         {
-            case TEditCharCase.ecLowerCase:
+            case EditCharCase.LowerCase:
                 S = LowerCase(Text);
                 break;
-            case TEditCharCase.ecUpperCase:
+            case EditCharCase.UpperCase:
                 S = UpperCase(Text);
                 break;
             default:
@@ -5733,38 +5732,38 @@ public partial class TImageLibraryFont : TCustomImageLibrary
     }
 
     // ImageLib.pas:6399
-    public void SetText(int X, int Y, string Text, in Aow.Game.Draw.TSurfaceDesc SD)
+    public void SetText(int X, int Y, string Text, in Aow.Game.Draw.SurfaceDesc SD)
     {
         switch (FCharCase)
         {
-            case TEditCharCase.ecNormal:
+            case EditCharCase.Normal:
                 ShowText(X, Y, Text, SD);
                 break;
-            case TEditCharCase.ecLowerCase:
+            case EditCharCase.LowerCase:
                 ShowText(X, Y, LowerCase(Text), SD);
                 break;
-            case TEditCharCase.ecUpperCase:
+            case EditCharCase.UpperCase:
                 ShowText(X, Y, UpperCase(Text), SD);
                 break;
         }
     }
 
     // ImageLib.pas:6408
-    public void SetTextCentered(int X, int Y, string Text, in Aow.Game.Draw.TSurfaceDesc SD)
+    public void SetTextCentered(int X, int Y, string Text, in Aow.Game.Draw.SurfaceDesc SD)
     {
         string S;
         switch (FCharCase)
         {
-            case TEditCharCase.ecNormal:
+            case EditCharCase.Normal:
                 X = X - (int)(((uint)TextWidth(Text)) >> 1);
                 ShowText(X, Y, Text, SD);
                 break;
-            case TEditCharCase.ecLowerCase:
+            case EditCharCase.LowerCase:
                 S = LowerCase(Text);
                 X = X - (int)(((uint)TextWidth(S)) >> 1);
                 ShowText(X, Y, S, SD);
                 break;
-            case TEditCharCase.ecUpperCase:
+            case EditCharCase.UpperCase:
                 S = UpperCase(Text);
                 X = X - (int)(((uint)TextWidth(S)) >> 1);
                 ShowText(X, Y, S, SD);
@@ -5773,16 +5772,16 @@ public partial class TImageLibraryFont : TCustomImageLibrary
     }
 
     // ImageLib.pas:6433
-    public void SetTextEx(int X, int Y, string Text, in Aow.Game.Draw.TSurfaceDesc SD, TSet<TSetTextModeElement> Mode, in TShowInfo ShowInfo)
+    public void SetTextEx(int X, int Y, string Text, in Aow.Game.Draw.SurfaceDesc SD, Set<SetTextModeElement> Mode, in ShowInfo ShowInfo)
     {
         int C;
         string S;
         switch (FCharCase)
         {
-            case TEditCharCase.ecLowerCase:
+            case EditCharCase.LowerCase:
                 S = LowerCase(Text);
                 break;
-            case TEditCharCase.ecUpperCase:
+            case EditCharCase.UpperCase:
                 S = UpperCase(Text);
                 break;
             default:
@@ -5790,7 +5789,7 @@ public partial class TImageLibraryFont : TCustomImageLibrary
                 break;
         }
 
-        if (Mode.Contains(TSetTextModeElement.stmCenter))
+        if (Mode.Contains(SetTextModeElement.Center))
         {
             X = X - (int)(((uint)TextWidth(S)) >> 1);
         }
@@ -5816,7 +5815,7 @@ public partial class TImageLibraryFont : TCustomImageLibrary
     public int CharacterDistance { get => FCharacterDistance; set => FCharacterDistance = value; }
 
     [Published]
-    public TEditCharCase CharCase { get => FCharCase; set => FCharCase = value; }
+    public EditCharCase CharCase { get => FCharCase; set => FCharCase = value; }
 
     [Published]
     public int Color { get => FColor; set => SetColor(value); }
@@ -5830,17 +5829,17 @@ public partial class TImageLibraryFont : TCustomImageLibrary
 //   adds them to Strings. }
 // a panel that shows one image of an image library with BltLibraryImage. FScaleX, FScaleY
 // (percent), FBltMode, FOnUpdated (called after every Paint), FImageLibrary, FImageIndex
-public partial class TCustomImageLibraryPanel : TCustomPanel
+public partial class CustomImageLibraryPanel : CustomPanel
 {
     internal int FScaleX;
     internal int FScaleY;
-    internal TBltMode FBltMode;
-    internal TNotifyEvent<object> FOnUpdated;
-    internal TCustomImageLibrary FImageLibrary;
+    internal global::Aow.Game.Draw.Images.BltMode FBltMode;
+    internal NotifyEvent<object> FOnUpdated;
+    internal CustomImageLibrary FImageLibrary;
     internal int FImageIndex;
 
     // ImageLib.pas:6513
-    internal void SetBltMode(TBltMode Value)
+    internal void SetBltMode(global::Aow.Game.Draw.Images.BltMode Value)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
@@ -5868,7 +5867,7 @@ public partial class TCustomImageLibraryPanel : TCustomPanel
     }
 
     // ImageLib.pas:6537
-    internal void SetImageLibrary(TCustomImageLibrary Value)
+    internal void SetImageLibrary(CustomImageLibrary Value)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
@@ -5881,34 +5880,27 @@ public partial class TCustomImageLibraryPanel : TCustomPanel
         throw new NotImplementedException();
     }
 
-    protected internal TCustomImageLibrary ImageLibrary { get => FImageLibrary; set => SetImageLibrary(value); }
+    protected internal CustomImageLibrary ImageLibrary { get => FImageLibrary; set => SetImageLibrary(value); }
     protected internal int ImageIndex { get => FImageIndex; set => SetImageIndex(value); }
-    protected internal TBltMode BltMode { get => FBltMode; set => SetBltMode(value); }
-    protected internal TNotifyEvent<object> OnUpdated { get => FOnUpdated; set => FOnUpdated = value; }
+    protected internal global::Aow.Game.Draw.Images.BltMode BltMode { get => FBltMode; set => SetBltMode(value); }
+    protected internal NotifyEvent<object> OnUpdated { get => FOnUpdated; set => FOnUpdated = value; }
     protected internal int ScaleX { get => FScaleX; set => SetScaleX(value); }
     protected internal int ScaleY { get => FScaleY; set => SetScaleY(value); }
 
     // ImageLib.pas:6504
 
-    public TCustomImageLibraryPanel(TComponent owner) : base(owner)
+    public CustomImageLibraryPanel(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement ExtCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
     }
 }
 
-public partial class TImageLibraryPanel : TCustomImageLibraryPanel
+public partial class ImageLibraryPanel : CustomImageLibraryPanel
 {
-    public TImageLibraryPanel(TComponent owner) : base(owner)
+    public ImageLibraryPanel(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-}
-
-public enum TILGrowDirection : byte
-{
-    ilNone = 0,
-    ilHorizontal = 1,
-    ilVertical = 2
 }
 
 // a grid of Count image cells. FScaleX, FScaleY, FBltMode, FEditMode, FOnCellUpdated (draws a
@@ -5916,16 +5908,16 @@ public enum TILGrowDirection : byte
 // FMinRowCount, FMinColCount, FMaxRowCount, FMaxColCount (0 for no limit), FShowGridIndex,
 // FCount. Ctrl+X/C/V/Del call the edit methods, Ins and Del without a modifier InsCell and
 // DelCell. they do nothing here
-public partial class TCustomImageDrawGrid : TCustomGrid
+public partial class CustomImageDrawGrid : CustomGrid
 {
     internal int FScaleX;
     internal int FScaleY;
-    internal TBltMode FBltMode;
-    internal TSet<TILGridEditModeElement> FEditMode;
-    internal TDrawCellEvent<object> FOnCellUpdated;
-    internal TSelectCellEvent<object> FOnSelectCell;
+    internal global::Aow.Game.Draw.Images.BltMode FBltMode;
+    internal Set<ILGridEditModeElement> FEditMode;
+    internal DrawCellEvent<object> FOnCellUpdated;
+    internal SelectCellEvent<object> FOnSelectCell;
     internal int FFocusColor;
-    internal TILGrowDirection FGrowDirection;
+    internal ILGrowDirection FGrowDirection;
     internal bool FSelectionEnabled;
     internal int FMinRowCount;
     internal int FMinColCount;
@@ -5935,7 +5927,7 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     internal int FCount;
 
     // ImageLib.pas:6705
-    internal void SetBltMode(TBltMode Value)
+    internal void SetBltMode(global::Aow.Game.Draw.Images.BltMode Value)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
@@ -6032,7 +6024,7 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     }
 
     // ImageLib.pas:6788
-    protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Graphics.Color in the platform or editor service. */
         throw new NotImplementedException();
@@ -6053,7 +6045,7 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     }
 
     // ImageLib.pas:6620
-    protected internal override void KeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    protected internal override void KeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         /* TODO: Implement Grids.KeyDown in the platform or editor service. */
         throw new NotImplementedException();
@@ -6061,15 +6053,15 @@ public partial class TCustomImageDrawGrid : TCustomGrid
 
     protected internal bool SelectionEnabled { get => FSelectionEnabled; set => SetSelectionEnabled(value); }
     protected internal int FocusColor { get => FFocusColor; set => SetFocusColor(value); }
-    protected internal TBltMode BltMode { get => FBltMode; set => SetBltMode(value); }
-    protected internal TDrawCellEvent<object> OnCellUpdated { get => FOnCellUpdated; set => FOnCellUpdated = value; }
-    protected internal TSelectCellEvent<object> OnSelectCell { get => FOnSelectCell; set => FOnSelectCell = value; }
+    protected internal global::Aow.Game.Draw.Images.BltMode BltMode { get => FBltMode; set => SetBltMode(value); }
+    protected internal DrawCellEvent<object> OnCellUpdated { get => FOnCellUpdated; set => FOnCellUpdated = value; }
+    protected internal SelectCellEvent<object> OnSelectCell { get => FOnSelectCell; set => FOnSelectCell = value; }
     protected internal int ScaleX { get => FScaleX; set => SetScaleX(value); }
     protected internal int ScaleY { get => FScaleY; set => SetScaleY(value); }
     protected internal new int ColCount { get => GetColCount(); set => SetColCount(value); }
     protected internal new int RowCount { get => GetRowCount(); set => SetRowCount(value); }
-    protected internal TSet<TILGridEditModeElement> EditMode { get => FEditMode; set => FEditMode = value; }
-    protected internal TILGrowDirection GrowDirection { get => FGrowDirection; set => FGrowDirection = value; }
+    protected internal Set<ILGridEditModeElement> EditMode { get => FEditMode; set => FEditMode = value; }
+    protected internal ILGrowDirection GrowDirection { get => FGrowDirection; set => FGrowDirection = value; }
     protected internal int MinRowCount { get => FMinRowCount; set => SetMinRowCount(value); }
     protected internal int MinColCount { get => FMinColCount; set => SetMinColCount(value); }
     protected internal int MaxRowCount { get => FMaxRowCount; set => SetMaxRowCount(value); }
@@ -6078,7 +6070,7 @@ public partial class TCustomImageDrawGrid : TCustomGrid
 
     // ImageLib.pas:6594
 
-    public TCustomImageDrawGrid(TComponent owner) : base(owner)
+    public CustomImageDrawGrid(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement Grids.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -6096,12 +6088,12 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     {
         switch (FGrowDirection)
         {
-            case TILGrowDirection.ilHorizontal:
+            case ILGrowDirection.Horizontal:
                 var rowCount = RowCount;
                 var rowCount2 = RowCount;
                 ColCount = (rowCount + FCount) / rowCount2;
                 break;
-            case TILGrowDirection.ilVertical:
+            case ILGrowDirection.Vertical:
                 var colCount = ColCount;
                 var colCount2 = ColCount;
                 RowCount = (colCount + FCount) / colCount2;
@@ -6157,11 +6149,16 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     }
 
     public int Count { get => FCount; set => SetCount(value); }
+
+    public enum ILGrowDirection : byte
+    {
+        None = 0, Horizontal = 1, Vertical = 2
+    }
 }
 
-public partial class TImageDrawGrid : TCustomImageDrawGrid
+public partial class ImageDrawGrid : CustomImageDrawGrid
 {
-    public TImageDrawGrid(TComponent owner) : base(owner)
+    public ImageDrawGrid(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
 }
@@ -6169,31 +6166,31 @@ public partial class TImageDrawGrid : TCustomImageDrawGrid
 // a grid of the images of an image library, FImageLibrary. The edit methods work on the
 // selected cells, through the clipboard format of TCustomImageLibrary, when EditMode allows
 // them
-public partial class TCustomImageLibraryGrid : TCustomImageDrawGrid
+public partial class CustomImageLibraryGrid : CustomImageDrawGrid
 {
-    public TCustomImageLibraryGrid(TComponent owner) : base(owner)
+    public CustomImageLibraryGrid(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    internal TCustomImageLibrary FImageLibrary;
+    internal CustomImageLibrary FImageLibrary;
 
     // ImageLib.pas:6934
-    internal void SetImageLibrary(TCustomImageLibrary Value)
+    internal void SetImageLibrary(CustomImageLibrary Value)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:6942
-    protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Controls.Canvas in the platform or editor service. */
         throw new NotImplementedException();
     }
 
-    protected internal TCustomImageLibrary ImageLibrary { get => FImageLibrary; set => SetImageLibrary(value); }
+    protected internal CustomImageLibrary ImageLibrary { get => FImageLibrary; set => SetImageLibrary(value); }
 
     // ImageLib.pas:6818
-    public TCustomImageLibrary CreateSelectedIL()
+    public CustomImageLibrary CreateSelectedIL()
     {
         /* TODO: Implement Grids.Top in the platform or editor service. */
         throw new NotImplementedException();
@@ -6223,8 +6220,8 @@ public partial class TCustomImageLibraryGrid : TCustomImageDrawGrid
     // ImageLib.pas:6877
     public override void CopyCell()
     {
-        TCustomImageLibrary L;
-        if (FEditMode.Contains(TILGridEditModeElement.igCopy) && FImageLibrary != null)
+        CustomImageLibrary L;
+        if (FEditMode.Contains(ILGridEditModeElement.Copy) && FImageLibrary != null)
         {
             L = CreateSelectedIL();
             try
@@ -6253,27 +6250,27 @@ public partial class TCustomImageLibraryGrid : TCustomImageDrawGrid
     }
 }
 
-public partial class TImageLibraryGrid : TCustomImageLibraryGrid
+public partial class ImageLibraryGrid : CustomImageLibraryGrid
 {
-    public TImageLibraryGrid(TComponent owner) : base(owner)
+    public ImageLibraryGrid(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
 }
 
 // the libraries a program shares, linked by file name. FSearchPath (upper case, ends with a
 // backslash), FDiskList, FOwnedList
-public partial class TImageLibraryManager : TComponent
+public partial class ImageLibraryManager : global::Aow.Rtl.Component
 {
 
     internal string FSearchPath = "";
-    internal TILManagerList FDiskList;
-    internal TILManagerList FOwnedList;
+    internal ILManagerList FDiskList;
+    internal ILManagerList FOwnedList;
 
     // ImageLib.pas:8260
-    public TImageLibraryManager(TComponent owner) : base(owner)
+    public ImageLibraryManager(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FDiskList = new TILManagerList(this);
-        FOwnedList = new TILManagerList(this);
+        FDiskList = new ILManagerList(this);
+        FOwnedList = new ILManagerList(this);
     }
 
     // ImageLib.pas:8267
@@ -6293,14 +6290,14 @@ public partial class TImageLibraryManager : TComponent
     }
 
     // ImageLib.pas:8281
-    public void UnloadIL(TSet<TILManagerCategoryElement> Category)
+    public void UnloadIL(Set<ILManagerCategoryElement> Category)
     {
-        if (Category.Contains(TILManagerCategoryElement.icDisk))
+        if (Category.Contains(ILManagerCategoryElement.Disk))
         {
             FDiskList.UnloadIL();
         }
 
-        if (Category.Contains(TILManagerCategoryElement.icOwned))
+        if (Category.Contains(ILManagerCategoryElement.Owned))
         {
             FOwnedList.UnloadIL();
         }
@@ -6313,8 +6310,8 @@ public partial class TImageLibraryManager : TComponent
         string Dir;
         void SearchDirectory(string SubDirectory)
         {
-            TStringList List;
-            TSearchRec SR = default;
+            StringList List;
+            SearchRec SR = default;
             bool Found;
             Found = FindFirst(FSearchPath + SubDirectory + "*.ilb", 63 - 16, ref SR) == 0;
             while (Found)
@@ -6324,7 +6321,7 @@ public partial class TImageLibraryManager : TComponent
             }
 
             FindClose(ref SR);
-            List = new TStringList();
+            List = new StringList();
             Found = FindFirst(SubDirectory + "*.*", 16, ref SR) == 0;
             while (Found)
             {
@@ -6361,20 +6358,20 @@ public partial class TImageLibraryManager : TComponent
     // ImageLib.pas:8331
     // { A missing owned library is created empty and added. The exception for a missing library is
     //   raised and swallowed at once (it only shows in the debugger), as in the original. }
-    public TCustomImageLibrary LinkToIL(TSet<TILManagerCategoryElement> Category, string FileName)
+    public CustomImageLibrary LinkToIL(Set<ILManagerCategoryElement> Category, string FileName)
     {
-        TCustomImageLibrary Result = null;
-        if (Category.Contains(TILManagerCategoryElement.icDisk))
+        CustomImageLibrary Result = null;
+        if (Category.Contains(ILManagerCategoryElement.Disk))
         {
             Result = FDiskList.LinkToIL(FileName);
         }
 
-        if (Category.Contains(TILManagerCategoryElement.icOwned) && Result == null)
+        if (Category.Contains(ILManagerCategoryElement.Owned) && Result == null)
         {
             Result = FOwnedList.LinkToIL(FileName);
             if (Result == null)
             {
-                Result = new TImageLibrary(null);
+                Result = new ImageLibrary(null);
                 FOwnedList.AddILManagerObject(FileName, Result);
             }
         }
@@ -6394,16 +6391,16 @@ public partial class TImageLibraryManager : TComponent
     }
 
     // ImageLib.pas:8352
-    public void ReleaseIL(TSet<TILManagerCategoryElement> Category, string FileName)
+    public void ReleaseIL(Set<ILManagerCategoryElement> Category, string FileName)
     {
         bool Released;
         Released = false;
-        if (Category.Contains(TILManagerCategoryElement.icDisk))
+        if (Category.Contains(ILManagerCategoryElement.Disk))
         {
             Released = FDiskList.ReleaseIL(FileName);
         }
 
-        if (Category.Contains(TILManagerCategoryElement.icOwned) && !Released)
+        if (Category.Contains(ILManagerCategoryElement.Owned) && !Released)
         {
             FOwnedList.ReleaseIL(FileName);
         }
@@ -6421,8 +6418,8 @@ public partial class TImageLibraryManager : TComponent
         FOwnedList.LoadFromStream(Stream);
     }
 
-    public TILManagerList DiskList { get => FDiskList; }
-    public TILManagerList OwnedList { get => FOwnedList; }
+    public ILManagerList DiskList { get => FDiskList; }
+    public ILManagerList OwnedList { get => FOwnedList; }
 
     [Published]
     public string SearchPath { get => FSearchPath; set => FSearchPath = value; }
@@ -6432,15 +6429,15 @@ public partial class TImageLibraryManager : TComponent
 [LegacyObject]
 // an entry of a TILManagerList. FRefCount (the LinkToIL calls not yet released), FImageLibrary
 // (loaded by the first LinkToIL)
-public partial class TILManagerObject
+public partial class ILManagerObject
 {
     internal int FRefCount;
-    internal TCustomImageLibrary FImageLibrary;
+    internal CustomImageLibrary FImageLibrary;
 
     public int RefCount { get => FRefCount; }
-    public TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
+    public CustomImageLibrary ImageLibrary { get => FImageLibrary; }
 
-    public TILManagerObject()
+    public ILManagerObject()
     {
         CaptureAddress.Assign(this);
     }
@@ -6448,16 +6445,16 @@ public partial class TILManagerObject
 
 // library file names (upper case, relative to the search path) with their TILManagerObject.
 // FHashTable (the objects by name), FOwner
-public partial class TILManagerList : TStringList
+public partial class ILManagerList : StringList
 {
-    internal TStringHashTable256 FHashTable;
-    internal TImageLibraryManager FOwner;
+    internal StringHashTable256 FHashTable;
+    internal ImageLibraryManager FOwner;
 
     // ImageLib.pas:8093
-    public TILManagerList(TImageLibraryManager owner)
+    public ILManagerList(ImageLibraryManager owner)
     {
         FOwner = owner;
-        FHashTable = new TStringHashTable256();
+        FHashTable = new StringHashTable256();
     }
 
     // ImageLib.pas:8102
@@ -6470,15 +6467,15 @@ public partial class TILManagerList : TStringList
     }
 
     // ImageLib.pas:8108
-    public TCustomImageLibrary GetIL(int Index) => ((TILManagerObject)Objects[Index]).FImageLibrary;
+    public CustomImageLibrary GetIL(int Index) => ((ILManagerObject)Objects[Index]).FImageLibrary;
 
     // ImageLib.pas:8113
     public void UnloadIL()
     {
-        TILManagerObject Obj;
+        ILManagerObject Obj;
         for (int I = Count - 1; I >= 0; I--)
         {
-            Obj = (TILManagerObject)Objects[I];
+            Obj = (ILManagerObject)Objects[I];
             if (Obj != null && Obj.FImageLibrary != null)
             {
                 Obj.FImageLibrary.ReleaseDiscardableImageData();
@@ -6487,10 +6484,10 @@ public partial class TILManagerList : TStringList
     }
 
     // ImageLib.pas:8126
-    public TILManagerObject AddILFile(string FileName)
+    public ILManagerObject AddILFile(string FileName)
     {
-        TILManagerObject Obj;
-        Obj = new TILManagerObject();
+        ILManagerObject Obj;
+        Obj = new ILManagerObject();
         FileName = UpperCase(FileName);
         AddObject(FileName, Obj);
         FHashTable.Add(Obj, FileName);
@@ -6500,12 +6497,12 @@ public partial class TILManagerList : TStringList
     // ImageLib.pas:8139
     // { Original bug: the object is deleted from the hash table instead of added, so LinkToIL never
     //   finds the owned libraries. }
-    public TILManagerObject AddILManagerObject(string Name, TCustomImageLibrary ImageLibrary)
+    public ILManagerObject AddILManagerObject(string Name, CustomImageLibrary ImageLibrary)
     {
         string S;
-        TILManagerObject Obj;
+        ILManagerObject Obj;
         S = UpperCase(Name);
-        Obj = new TILManagerObject();
+        Obj = new ILManagerObject();
         Obj.FImageLibrary = ImageLibrary;
         AddObject(S, Obj);
         FHashTable.Delete(S);
@@ -6515,8 +6512,8 @@ public partial class TILManagerList : TStringList
     // ImageLib.pas:8153
     public override void Delete(int Index)
     {
-        TILManagerObject Obj;
-        Obj = (TILManagerObject)Objects[Index];
+        ILManagerObject Obj;
+        Obj = (ILManagerObject)Objects[Index];
         if (Obj != null)
         {
             Obj.FImageLibrary?.Dispose();
@@ -6530,11 +6527,11 @@ public partial class TILManagerList : TStringList
     // ImageLib.pas:8167
     public override void Clear()
     {
-        TILManagerObject Obj;
+        ILManagerObject Obj;
         FHashTable.Clear();
         for (int I = Count - 1; I >= 0; I--)
         {
-            Obj = (TILManagerObject)Objects[I];
+            Obj = (ILManagerObject)Objects[I];
             if (Obj != null)
             {
                 Obj.FImageLibrary?.Dispose();
@@ -6547,18 +6544,18 @@ public partial class TILManagerList : TStringList
     // ImageLib.pas:8187
     // { Links to the library of FileName (relative to the search path), loading it on the first link.
     //   The original clears FileName at the end (a second @LStrClr of the parameter). }
-    public TCustomImageLibrary LinkToIL(string FileName)
+    public CustomImageLibrary LinkToIL(string FileName)
     {
-        TCustomImageLibrary Result;
-        TILManagerObject Obj;
+        CustomImageLibrary Result;
+        ILManagerObject Obj;
         FileName = UpperCase(FileName);
-        Obj = (TILManagerObject)FHashTable.Find(FileName);
+        Obj = (ILManagerObject)FHashTable.Find(FileName);
         if (Obj != null)
         {
             Obj.FRefCount += 1;
             if (Obj.FImageLibrary == null)
             {
-                Obj.FImageLibrary = new TImageLibrary(null);
+                Obj.FImageLibrary = new ImageLibrary(null);
                 Obj.FImageLibrary.LoadOnDemand = true;
                 try
                 {
@@ -6584,9 +6581,9 @@ public partial class TILManagerList : TStringList
     public bool ReleaseIL(string FileName)
     {
         bool Result;
-        TILManagerObject Obj;
+        ILManagerObject Obj;
         FileName = UpperCase(FileName);
-        Obj = (TILManagerObject)FHashTable.Find(FileName);
+        Obj = (ILManagerObject)FHashTable.Find(FileName);
         if (Obj != null)
         {
             Obj.FRefCount -= 1;
@@ -6610,12 +6607,12 @@ public partial class TILManagerList : TStringList
     {
         int N = default;
         string Name = "";
-        TCustomImageLibrary IL;
+        CustomImageLibrary IL;
         Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
             Aow.Game.Draw.Images.LibraryDrawing.ReadStringFromStream(ref Name, Stream);
-            IL = new TImageLibrary(null);
+            IL = new ImageLibrary(null);
             IL.LoadFromStream(Stream);
             AddILManagerObject(Name, IL);
         }
@@ -6632,7 +6629,7 @@ public partial class TILManagerList : TStringList
         for (; I <= last; I += 1)
         {
             Aow.Game.Draw.Images.LibraryDrawing.WriteStringToStream(Strings[I], Stream);
-            ((TILManagerObject)Objects[I]).FImageLibrary.SaveToStream(Stream);
+            ((ILManagerObject)Objects[I]).FImageLibrary.SaveToStream(Stream);
         }
     }
 
@@ -6641,16 +6638,16 @@ public partial class TILManagerList : TStringList
 // a combo box with the library names of a manager. FILManager, FCategory, FSubDirectory (only
 // the names in it are listed, without it), FSkipDirectories (separated by semicolons),
 // FEmptyILName (the first item, for no library)
-public partial class TILManagerComboBox : TComboBox
+public partial class ILManagerComboBox : ComboBox
 {
-    internal TImageLibraryManager FILManager;
-    internal TSet<TILManagerCategoryElement> FCategory;
+    internal ImageLibraryManager FILManager;
+    internal Set<ILManagerCategoryElement> FCategory;
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptyILName = "";
 
     // ImageLib.pas:8373
-    internal void SetILManager(TImageLibraryManager Value)
+    internal void SetILManager(ImageLibraryManager Value)
     {
         FILManager = Value;
         GenerateItems();
@@ -6682,7 +6679,7 @@ public partial class TILManagerComboBox : TComboBox
 
     // ImageLib.pas:8386
 
-    public TILManagerComboBox(TComponent owner) : base(owner)
+    public ILManagerComboBox(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -6698,10 +6695,10 @@ public partial class TILManagerComboBox : TComboBox
     public string ImageLibraryName { get => GetImageLibraryName(); set => SetImageLibraryName(value); }
 
     [Published]
-    public TImageLibraryManager ILManager { get => FILManager; set => SetILManager(value); }
+    public ImageLibraryManager ILManager { get => FILManager; set => SetILManager(value); }
 
     [Published]
-    public TSet<TILManagerCategoryElement> Category { get => FCategory; set => FCategory = value; }
+    public Set<ILManagerCategoryElement> Category { get => FCategory; set => FCategory = value; }
 
     [Published]
     public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
@@ -6715,16 +6712,16 @@ public partial class TILManagerComboBox : TComboBox
 
 // the list box version of TILManagerComboBox. FILManager, FCategory, FSubDirectory,
 // FSkipDirectories, FEmptyILName
-public partial class TILManagerListBox : TListBox
+public partial class ILManagerListBox : ListBox
 {
-    internal TImageLibraryManager FILManager;
-    internal TSet<TILManagerCategoryElement> FCategory;
+    internal ImageLibraryManager FILManager;
+    internal Set<ILManagerCategoryElement> FCategory;
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptyILName = "";
 
     // ImageLib.pas:8463
-    internal void SetILManager(TImageLibraryManager Value)
+    internal void SetILManager(ImageLibraryManager Value)
     {
         FILManager = Value;
         GenerateItems();
@@ -6756,7 +6753,7 @@ public partial class TILManagerListBox : TListBox
 
     // ImageLib.pas:8476
 
-    public TILManagerListBox(TComponent owner) : base(owner)
+    public ILManagerListBox(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -6772,10 +6769,10 @@ public partial class TILManagerListBox : TListBox
     public string ImageLibraryName { get => GetImageLibraryName(); set => SetImageLibraryName(value); }
 
     [Published]
-    public TImageLibraryManager ILManager { get => FILManager; set => SetILManager(value); }
+    public ImageLibraryManager ILManager { get => FILManager; set => SetILManager(value); }
 
     [Published]
-    public TSet<TILManagerCategoryElement> Category { get => FCategory; set => FCategory = value; }
+    public Set<ILManagerCategoryElement> Category { get => FCategory; set => FCategory = value; }
 
     [Published]
     public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
@@ -6787,28 +6784,28 @@ public partial class TILManagerListBox : TListBox
     public string EmptyILName { get => FEmptyILName; set => FEmptyILName = value; }
 }
 
-public enum TSequenceMode : byte
+public enum SequenceMode : byte
 {
-    smNone = 0,
-    smUp = 1,
-    smUpDown = 2,
-    smRandom = 3,
-    smFrameTable = 4,
-    smRndFrameTable = 5
+    None = 0,
+    Up = 1,
+    UpDown = 2,
+    Random = 3,
+    FrameTable = 4,
+    RndFrameTable = 5
 }
 
 // the image sequences of the indices, each the first layer of a chain (nil for none). FLinked
 // (the sequences are linked to their libraries), FILManager, FImageLibrary (the library of the
 // sequences without a library name)
-public partial class TImageSequenceList : TList
+public partial class ImageSequenceList : DelphiList
 {
     internal bool FLinked;
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
-    public TImageLibraryManager FILManager;
-    internal TCustomImageLibrary FImageLibrary;
+    public ImageLibraryManager FILManager;
+    internal CustomImageLibrary FImageLibrary;
 
     // ImageLib.pas:8903
-    public TImageSequenceList(TImageLibraryManager AILManager, TCustomImageLibrary AImageLibrary)
+    public ImageSequenceList(ImageLibraryManager AILManager, CustomImageLibrary AImageLibrary)
     {
         FILManager = AILManager;
         FImageLibrary = AImageLibrary;
@@ -6857,12 +6854,12 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:8939
-    public TImageSequence GetLayerImageSequence(int Index, int Layer)
+    public ImageSequence GetLayerImageSequence(int Index, int Layer)
     {
-        TImageSequence Result;
+        ImageSequence Result;
         if (Index < Count)
         {
-            Result = (TImageSequence)List[Index];
+            Result = (ImageSequence)List[Index];
         }
         else
         {
@@ -6896,7 +6893,7 @@ public partial class TImageSequenceList : TList
     {
         int N = default;
         bool IsNil = default;
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         DestroyItems();
         Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
@@ -6904,7 +6901,7 @@ public partial class TImageSequenceList : TList
             Stream.ReadBytes(Bytes.Of(ref IsNil, 1));
             if (!IsNil)
             {
-                Sequence = new TImageSequence(this);
+                Sequence = new ImageSequence(this);
                 Sequence.LoadFromStream(Stream);
                 base.Add(Sequence);
             }
@@ -6933,32 +6930,32 @@ public partial class TImageSequenceList : TList
             Stream.Write(Bytes.Of(ref IsNil, 1));
             if (!IsNil)
             {
-                ((TImageSequence)List[I]).SaveToStream(Stream);
+                ((ImageSequence)List[I]).SaveToStream(Stream);
             }
         }
     }
 
     // ImageLib.pas:9001
-    public void SaveToIniFile(string Section, TIniFile IniFile)
+    public void SaveToIniFile(string Section, IniFile IniFile)
     {
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:9016
-    public void LoadFromIniFile(string Section, TIniFile IniFile)
+    public void LoadFromIniFile(string Section, IniFile IniFile)
     {
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:9044
-    public TImageSequence GetImageSequence(int Index)
+    public ImageSequence GetImageSequence(int Index)
     {
-        TImageSequence Result;
+        ImageSequence Result;
         if (Index >= 0 && Index < Count)
         {
-            Result = (TImageSequence)List[Index];
+            Result = (ImageSequence)List[Index];
         }
         else
         {
@@ -6969,7 +6966,7 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:9052
-    public void SetImageSequence(int Index, TImageSequence Value)
+    public void SetImageSequence(int Index, ImageSequence Value)
     {
         while (Index >= Count)
         {
@@ -6987,11 +6984,11 @@ public partial class TImageSequenceList : TList
     // ImageLib.pas:9059
     public int GetSubCount(int Index)
     {
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         int Result = 0;
         if (Index < Count)
         {
-            Sequence = (TImageSequence)List[Index];
+            Sequence = (ImageSequence)List[Index];
         }
         else
         {
@@ -7009,13 +7006,13 @@ public partial class TImageSequenceList : TList
 
     // ImageLib.pas:9076
     // { Original bug: a Sequence that is not in the chain runs past its end (nil dereference). }
-    public int IndexOfSub(int Index, TImageSequence Sequence)
+    public int IndexOfSub(int Index, ImageSequence Sequence)
     {
-        TImageSequence S;
+        ImageSequence S;
         int Result = 0;
         if (Index < Count)
         {
-            S = (TImageSequence)List[Index];
+            S = (ImageSequence)List[Index];
         }
         else
         {
@@ -7037,14 +7034,14 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:9093
-    public TImageSequence GetSubImageSequence(int Index, int SubIndex)
+    public ImageSequence GetSubImageSequence(int Index, int SubIndex)
     {
-        TImageSequence Result;
+        ImageSequence Result;
         int I;
         I = 0;
         if (Index < Count)
         {
-            Result = (TImageSequence)List[Index];
+            Result = (ImageSequence)List[Index];
         }
         else
         {
@@ -7063,13 +7060,13 @@ public partial class TImageSequenceList : TList
     // ImageLib.pas:9111
     // { Inserts Sequence into the chain of Index by its layer. Original bug: an existing layer is
     //   only detected after the first link, not at the head of the chain. }
-    public void Add(int Index, TImageSequence Sequence)
+    public void Add(int Index, ImageSequence Sequence)
     {
-        TImageSequence S;
-        TImageSequence Prev;
+        ImageSequence S;
+        ImageSequence Prev;
         if (Index < Count)
         {
-            S = (TImageSequence)List[Index];
+            S = (ImageSequence)List[Index];
         }
         else
         {
@@ -7109,14 +7106,14 @@ public partial class TImageSequenceList : TList
 
     // ImageLib.pas:9145
     // { Takes Sequence out of the chain of Index (it is not freed) }
-    public void Delete(int Index, TImageSequence Sequence)
+    public void Delete(int Index, ImageSequence Sequence)
     {
-        TImageSequence S;
-        TImageSequence Prev;
+        ImageSequence S;
+        ImageSequence Prev;
         if (Index < Count)
         {
             Prev = null;
-            S = (TImageSequence)List[Index];
+            S = (ImageSequence)List[Index];
             while (S != null && S != Sequence)
             {
                 Prev = S;
@@ -7142,13 +7139,13 @@ public partial class TImageSequenceList : TList
     // ImageLib.pas:9169
     public void LinkToIL()
     {
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         if (!FLinked)
         {
             FLinked = true;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Sequence = (TImageSequence)List[I];
+                Sequence = (ImageSequence)List[I];
                 while (Sequence != null)
                 {
                     Sequence.LinkToIL();
@@ -7161,13 +7158,13 @@ public partial class TImageSequenceList : TList
     // ImageLib.pas:9189
     public void ReleaseIL()
     {
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         if (FLinked)
         {
             FLinked = false;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Sequence = (TImageSequence)List[I];
+                Sequence = (ImageSequence)List[I];
                 while (Sequence != null)
                 {
                     Sequence.ReleaseIL();
@@ -7181,15 +7178,15 @@ public partial class TImageSequenceList : TList
     public bool Animating()
     {
         int I;
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         bool Result = false;
         I = 0;
         while (I != Count && !Result)
         {
-            Sequence = (TImageSequence)List[I];
+            Sequence = (ImageSequence)List[I];
             while (Sequence != null && !Result)
             {
-                Result = Sequence.FSequenceMode != TSequenceMode.smNone;
+                Result = Sequence.FSequenceMode != SequenceMode.None;
                 Sequence = Sequence.FNext;
             }
 
@@ -7200,15 +7197,15 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:9228
-    public TLibraryImage GetPreviewImage()
+    public LibraryImage GetPreviewImage()
     {
         int I;
-        TImageSequence Sequence;
-        TLibraryImage Result = null;
+        ImageSequence Sequence;
+        LibraryImage Result = null;
         I = 0;
         while (I != Count && Result == null)
         {
-            Sequence = (TImageSequence)List[I];
+            Sequence = (ImageSequence)List[I];
             while (Sequence != null && Result == null)
             {
                 Result = Sequence.GetPreviewImage();
@@ -7222,17 +7219,17 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:9247
-    public void GetDimensions(int Index, ref TRect R)
+    public void GetDimensions(int Index, ref global::Aow.Rtl.Rect R)
     {
-        TImageSequence Sequence;
-        TRect SR = default;
+        ImageSequence Sequence;
+        global::Aow.Rtl.Rect SR = default;
         R.Left = 0;
         R.Right = 0;
         R.Top = 0;
         R.Bottom = 0;
         if (Index < Count && Index >= 0)
         {
-            Sequence = (TImageSequence)List[Index];
+            Sequence = (ImageSequence)List[Index];
             while (Sequence != null)
             {
                 Sequence.GetDimensions(ref SR);
@@ -7245,14 +7242,14 @@ public partial class TImageSequenceList : TList
     // ImageLib.pas:9270
     // { Shows the layers of Index for Frame without looping; returns False when no layer has an
     //   image for Frame }
-    public bool Show(int Index, int X, int Y, int Frame, in Aow.Game.Draw.TSurfaceDesc SD)
+    public bool Show(int Index, int X, int Y, int Frame, in Aow.Game.Draw.SurfaceDesc SD)
     {
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         int I;
         bool Result = false;
         if (Index < Count)
         {
-            Sequence = (TImageSequence)List[Index];
+            Sequence = (ImageSequence)List[Index];
             while (Sequence != null)
             {
                 I = Sequence.GetUnloopedFrameIndex(Frame);
@@ -7275,12 +7272,12 @@ public partial class TImageSequenceList : TList
     // ImageLib.pas:9293
     public int GetFramesCount(int Index)
     {
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         int N;
         int Result = 0;
         if (Index < Count)
         {
-            Sequence = (TImageSequence)List[Index];
+            Sequence = (ImageSequence)List[Index];
             while (Sequence != null)
             {
                 N = Sequence.GetTotalSequenceFrames();
@@ -7297,13 +7294,13 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:9311
-    public void ShowLooped(int Index, int X, int Y, int Frame, in Aow.Game.Draw.TSurfaceDesc SD)
+    public void ShowLooped(int Index, int X, int Y, int Frame, in Aow.Game.Draw.SurfaceDesc SD)
     {
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         int I;
         if (Index < Count)
         {
-            Sequence = (TImageSequence)List[Index];
+            Sequence = (ImageSequence)List[Index];
             while (Sequence != null)
             {
                 I = Sequence.GetFrameIndex(Frame, 0);
@@ -7321,13 +7318,13 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:9330
-    public void ShowLoopedEx(int Index, int X, int Y, int Frame, int Offset, in Aow.Game.Draw.TSurfaceDesc SD)
+    public void ShowLoopedEx(int Index, int X, int Y, int Frame, int Offset, in Aow.Game.Draw.SurfaceDesc SD)
     {
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         int I;
         if (Index < Count)
         {
-            Sequence = (TImageSequence)List[Index];
+            Sequence = (ImageSequence)List[Index];
             while (Sequence != null)
             {
                 I = Sequence.GetFrameIndex(Frame, Offset);
@@ -7354,19 +7351,19 @@ public partial class TImageSequenceList : TList
     {
     }
 
-    public sealed class ImageSequencesAccessor(TImageSequenceList target)
+    public sealed class ImageSequencesAccessor(ImageSequenceList target)
     {
-        public TImageSequence this[int Index] { get => target.GetImageSequence(Index); set => target.SetImageSequence(Index, value); }
+        public ImageSequence this[int Index] { get => target.GetImageSequence(Index); set => target.SetImageSequence(Index, value); }
     }
 
     public ImageSequencesAccessor ImageSequences => new ImageSequencesAccessor(this);
     public bool Linked { get => FLinked; }
-    public TImageLibraryManager ILManager { get => FILManager; }
-    public TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
+    public ImageLibraryManager ILManager { get => FILManager; }
+    public CustomImageLibrary ImageLibrary { get => FImageLibrary; }
 
 }
 
-public partial class TFrameTableList : TPersistent
+public partial class FrameTableList : Persistent
 {
     internal int[] FList;
     internal int FCount;
@@ -7467,11 +7464,11 @@ public partial class TFrameTableList : TPersistent
     }
 
     // ImageLib.pas:9365
-    public override void Assign(TPersistent Source)
+    public override void Assign(Persistent Source)
     {
-        if (Source is TFrameTableList)
+        if (Source is FrameTableList)
         {
-            var frameTableList = (TFrameTableList)Source;
+            var frameTableList = (FrameTableList)Source;
             this.SetCapacity(frameTableList.FCount);
             this.FCount = frameTableList.FCount;
             MoveElements(frameTableList.FList, 0, this.FList, 0, this.FCount);
@@ -7539,7 +7536,7 @@ public partial class TFrameTableList : TPersistent
     }
 
     // ImageLib.pas:9423
-    public TFrameTableList Expand()
+    public FrameTableList Expand()
     {
         if (FCount == FCapacity)
         {
@@ -7636,16 +7633,16 @@ public partial class TFrameTableList : TPersistent
     }
 
     // ImageLib.pas:9554
-    public void Sort(TFrameTableSortCompare Compare)
+    public void Sort(FrameTableSortCompare Compare)
     {
         if (FList != null && Count > 0)
         {
-            Aow.Game.Draw.Images.TFrameTableList.FrameTableQuickSort(FList, 0, Count - 1, Compare);
+            Aow.Game.Draw.Images.FrameTableList.FrameTableQuickSort(FList, 0, Count - 1, Compare);
         }
     }
 
     // ImageLib.pas:9560
-    public bool Compare(TFrameTableList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
+    public bool Compare(FrameTableList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
     // ImageLib.pas:9566
     public void LoadFromStream(Stream Stream)
@@ -7696,7 +7693,7 @@ public partial class TFrameTableList : TPersistent
         I = Value.Length;
         for (; I >= 1; I -= 1)
         {
-            if (!TSet<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(Value[I - 1])))
+            if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(Value[I - 1])))
             {
                 Value = RtlUnit.Delete(Value, I, 1);
             }
@@ -7746,7 +7743,7 @@ public partial class TFrameTableList : TPersistent
         throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
-    private static void FrameTableQuickSort(int[] SortList, int L, int R, global::Aow.Game.Draw.Images.TFrameTableSortCompare SCompare)
+    private static void FrameTableQuickSort(int[] SortList, int L, int R, FrameTableSortCompare SCompare)
     {
         int num = 0;
         int num2;
@@ -7788,6 +7785,8 @@ public partial class TFrameTableList : TPersistent
         while (num2 < R);
     }
 
+    public delegate int FrameTableSortCompare(int Item1, int Item2);
+
 }
 
 [LegacyObject]
@@ -7797,16 +7796,16 @@ public partial class TFrameTableList : TPersistent
 // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
 // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
 // smRndFrameTable), FdXshift, FdYshift, FLastFrame, FSpeedCount, FFrameCounter
-public partial class TImageSequence : IDisposable
+public partial class ImageSequence : IDisposable
 {
-    internal TImageSequenceList FOwner;
+    internal ImageSequenceList FOwner;
     internal byte FLayer;
-    internal TImageSequence FNext;
-    internal TCustomImageLibrary FImageLibrary;
+    internal ImageSequence FNext;
+    internal CustomImageLibrary FImageLibrary;
     internal string FImageLibraryName = "";
     internal byte FSequenceSpeed;
-    internal TSequenceMode FSequenceMode;
-    internal TFrameTableList FFrameTable;
+    internal global::Aow.Game.Draw.Images.SequenceMode FSequenceMode;
+    internal FrameTableList FFrameTable;
     internal int FImageIndex;
     internal int FdXshift;
     internal int FdYshift;
@@ -7826,18 +7825,18 @@ public partial class TImageSequence : IDisposable
     }
 
     // ImageLib.pas:8613
-    internal void SetSequenceMode(TSequenceMode Value)
+    internal void SetSequenceMode(global::Aow.Game.Draw.Images.SequenceMode Value)
     {
-        if (TSet<TSequenceMode>.Of(TSequenceMode.smFrameTable, TSequenceMode.smRndFrameTable).Contains(Value) && FFrameTable == null)
+        if (Set<global::Aow.Game.Draw.Images.SequenceMode>.Of(global::Aow.Game.Draw.Images.SequenceMode.FrameTable, global::Aow.Game.Draw.Images.SequenceMode.RndFrameTable).Contains(Value) && FFrameTable == null)
         {
-            FFrameTable = new TFrameTableList();
+            FFrameTable = new FrameTableList();
         }
 
         FSequenceMode = Value;
     }
 
     // ImageLib.pas:8553
-    public TImageSequence(TImageSequenceList owner)
+    public ImageSequence(ImageSequenceList owner)
     {
         CaptureAddress.Assign(this);
         FOwner = owner;
@@ -7855,14 +7854,14 @@ public partial class TImageSequence : IDisposable
     }
 
     // ImageLib.pas:8567
-    public TImageSequence Copy(TImageSequenceList AOwner)
+    public ImageSequence Copy(ImageSequenceList AOwner)
     {
-        TImageSequence Result = default;
+        ImageSequence Result = default;
         MemoryStream Stream;
         Stream = new MemoryStream();
         try
         {
-            Result = new TImageSequence(AOwner);
+            Result = new ImageSequence(AOwner);
             SaveToStream(Stream);
             Stream.Position = 0;
             Result.LoadFromStream(Stream);
@@ -7876,9 +7875,9 @@ public partial class TImageSequence : IDisposable
     }
 
     // ImageLib.pas:8582
-    public TLibraryImage GetPreviewImage()
+    public LibraryImage GetPreviewImage()
     {
-        TLibraryImage Result;
+        LibraryImage Result;
         int I;
         if (this != null)
         {
@@ -7888,7 +7887,7 @@ public partial class TImageSequence : IDisposable
                 Result = FImageLibrary.GetSafe(FFrameTable.FList[0]);
             }
 
-            if (FSequenceMode == TSequenceMode.smNone)
+            if (FSequenceMode == global::Aow.Game.Draw.Images.SequenceMode.None)
             {
                 Result = FImageLibrary.GetSafe(FImageIndex);
             }
@@ -7912,10 +7911,10 @@ public partial class TImageSequence : IDisposable
     }
 
     // ImageLib.pas:8620
-    public void GetDimensions(ref TRect R)
+    public void GetDimensions(ref global::Aow.Rtl.Rect R)
     {
-        TLibraryImage Image;
-        TRect IR = default;
+        LibraryImage Image;
+        global::Aow.Rtl.Rect IR = default;
         R.Left = 0;
         R.Right = 0;
         R.Top = 0;
@@ -7924,8 +7923,8 @@ public partial class TImageSequence : IDisposable
         {
             switch (FSequenceMode)
             {
-                case TSequenceMode.smFrameTable:
-                case TSequenceMode.smRndFrameTable:
+                case global::Aow.Game.Draw.Images.SequenceMode.FrameTable:
+                case global::Aow.Game.Draw.Images.SequenceMode.RndFrameTable:
                     {
                         for (int I = 0, last = FFrameTable.Count - 1; I <= last; I++)
                         {
@@ -7940,9 +7939,9 @@ public partial class TImageSequence : IDisposable
                     }
 
                     break;
-                case TSequenceMode.smUp:
-                case TSequenceMode.smUpDown:
-                case TSequenceMode.smRandom:
+                case global::Aow.Game.Draw.Images.SequenceMode.Up:
+                case global::Aow.Game.Draw.Images.SequenceMode.UpDown:
+                case global::Aow.Game.Draw.Images.SequenceMode.Random:
                     {
                         for (int I = 0, last = FImageLibrary.Count - 1; I <= last; I++)
                         {
@@ -7956,7 +7955,7 @@ public partial class TImageSequence : IDisposable
                     }
 
                     break;
-                case TSequenceMode.smNone:
+                case global::Aow.Game.Draw.Images.SequenceMode.None:
                     Image = FImageLibrary.GetSafe(FImageIndex);
                     if (Image != null)
                     {
@@ -7979,13 +7978,13 @@ public partial class TImageSequence : IDisposable
         int Result;
         switch (FSequenceMode)
         {
-            case TSequenceMode.smFrameTable:
+            case global::Aow.Game.Draw.Images.SequenceMode.FrameTable:
                 Result = FFrameTable.Count * (FSequenceSpeed + 1);
                 break;
-            case TSequenceMode.smUp:
+            case global::Aow.Game.Draw.Images.SequenceMode.Up:
                 Result = FImageLibrary.Count * (FSequenceSpeed + 1);
                 break;
-            case TSequenceMode.smUpDown:
+            case global::Aow.Game.Draw.Images.SequenceMode.UpDown:
                 Result = FImageLibrary.Count * (FSequenceSpeed + 1) * 2;
                 break;
             default:
@@ -8002,11 +8001,11 @@ public partial class TImageSequence : IDisposable
         int Result;
         if (Frame >= 0)
         {
-            if (FSequenceMode != TSequenceMode.smNone)
+            if (FSequenceMode != global::Aow.Game.Draw.Images.SequenceMode.None)
             {
                 switch (FSequenceMode)
                 {
-                    case TSequenceMode.smFrameTable:
+                    case global::Aow.Game.Draw.Images.SequenceMode.FrameTable:
                         if (Frame != FLastFrame)
                         {
                             if (FSpeedCount == 0)
@@ -8034,7 +8033,7 @@ public partial class TImageSequence : IDisposable
                         }
 
                         break;
-                    case TSequenceMode.smUp:
+                    case global::Aow.Game.Draw.Images.SequenceMode.Up:
                         if (Frame != FLastFrame)
                         {
                             if (FSpeedCount == 0)
@@ -8053,7 +8052,7 @@ public partial class TImageSequence : IDisposable
                         Result = FFrameCounter + Offset;
                         Result = Result % FImageLibrary.Count;
                         break;
-                    case TSequenceMode.smUpDown:
+                    case global::Aow.Game.Draw.Images.SequenceMode.UpDown:
                         if (Frame != FLastFrame)
                         {
                             if (FSpeedCount == 0)
@@ -8072,7 +8071,7 @@ public partial class TImageSequence : IDisposable
                         Result = (FFrameCounter + Offset) % ((FImageLibrary.Count - 1) * 2);
                         Result = Math.Abs(Result - (FImageLibrary.Count - 2));
                         break;
-                    case TSequenceMode.smRndFrameTable:
+                    case global::Aow.Game.Draw.Images.SequenceMode.RndFrameTable:
                         if (Frame != FLastFrame && Frame % (FSequenceSpeed + 1) == 0)
                         {
                             FImageIndex = Random(FFrameTable.Count);
@@ -8089,7 +8088,7 @@ public partial class TImageSequence : IDisposable
                         }
 
                         break;
-                    case TSequenceMode.smRandom:
+                    case global::Aow.Game.Draw.Images.SequenceMode.Random:
                         if (Frame != FLastFrame && Frame % (FSequenceSpeed + 1) == 0)
                         {
                             FImageIndex = Random(FImageLibrary.Count);
@@ -8122,11 +8121,11 @@ public partial class TImageSequence : IDisposable
         int Result;
         if (Frame >= 0)
         {
-            if (FSequenceMode != TSequenceMode.smNone)
+            if (FSequenceMode != global::Aow.Game.Draw.Images.SequenceMode.None)
             {
                 switch (FSequenceMode)
                 {
-                    case TSequenceMode.smFrameTable:
+                    case global::Aow.Game.Draw.Images.SequenceMode.FrameTable:
                         Result = Frame / (FSequenceSpeed + 1);
                         if (Result < FFrameTable.Count)
                         {
@@ -8138,7 +8137,7 @@ public partial class TImageSequence : IDisposable
                         }
 
                         break;
-                    case TSequenceMode.smUp:
+                    case global::Aow.Game.Draw.Images.SequenceMode.Up:
                         Result = Frame / (FSequenceSpeed + 1);
                         if (Result >= FImageLibrary.Count)
                         {
@@ -8146,13 +8145,13 @@ public partial class TImageSequence : IDisposable
                         }
 
                         break;
-                    case TSequenceMode.smUpDown:
+                    case global::Aow.Game.Draw.Images.SequenceMode.UpDown:
                         Result = -1;
                         break;
-                    case TSequenceMode.smRndFrameTable:
+                    case global::Aow.Game.Draw.Images.SequenceMode.RndFrameTable:
                         Result = -1;
                         break;
-                    case TSequenceMode.smRandom:
+                    case global::Aow.Game.Draw.Images.SequenceMode.Random:
                         Result = -1;
                         break;
                     default:
@@ -8183,7 +8182,7 @@ public partial class TImageSequence : IDisposable
 
         if (!IsEmpty(FImageLibraryName))
         {
-            FImageLibrary = FOwner.FILManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
+            FImageLibrary = FOwner.FILManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
         }
         else
         {
@@ -8198,7 +8197,7 @@ public partial class TImageSequence : IDisposable
         {
             if (!IsEmpty(FImageLibraryName))
             {
-                FOwner.FILManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), FImageLibraryName);
+                FOwner.FILManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
             }
 
             FImageLibrary = null;
@@ -8216,7 +8215,7 @@ public partial class TImageSequence : IDisposable
         Stream.Write(Bytes.Of(ref FImageIndex, 4));
         Stream.Write(Bytes.Of(ref FdXshift, 4));
         Stream.Write(Bytes.Of(ref FdYshift, 4));
-        if (TSet<TSequenceMode>.Of(TSequenceMode.smFrameTable, TSequenceMode.smRndFrameTable).Contains(FSequenceMode))
+        if (Set<global::Aow.Game.Draw.Images.SequenceMode>.Of(global::Aow.Game.Draw.Images.SequenceMode.FrameTable, global::Aow.Game.Draw.Images.SequenceMode.RndFrameTable).Contains(FSequenceMode))
         {
             FFrameTable.SaveToStream(Stream);
         }
@@ -8241,11 +8240,11 @@ public partial class TImageSequence : IDisposable
         Stream.ReadBytes(Bytes.Of(ref FImageIndex, 4));
         Stream.ReadBytes(Bytes.Of(ref FdXshift, 4));
         Stream.ReadBytes(Bytes.Of(ref FdYshift, 4));
-        if (TSet<TSequenceMode>.Of(TSequenceMode.smFrameTable, TSequenceMode.smRndFrameTable).Contains(FSequenceMode))
+        if (Set<global::Aow.Game.Draw.Images.SequenceMode>.Of(global::Aow.Game.Draw.Images.SequenceMode.FrameTable, global::Aow.Game.Draw.Images.SequenceMode.RndFrameTable).Contains(FSequenceMode))
         {
             if (FFrameTable == null)
             {
-                FFrameTable = new TFrameTableList();
+                FFrameTable = new FrameTableList();
             }
 
             FFrameTable.LoadFromStream(Stream);
@@ -8255,44 +8254,44 @@ public partial class TImageSequence : IDisposable
         Stream.ReadBytes(Bytes.Of(ref HasNext, 1));
         if (HasNext)
         {
-            FNext = new TImageSequence(FOwner);
+            FNext = new ImageSequence(FOwner);
             FNext.LoadFromStream(Stream);
         }
     }
 
     // ImageLib.pas:8865
-    public void SaveToIniFile(string Section, TIniFile IniFile)
+    public void SaveToIniFile(string Section, IniFile IniFile)
     {
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:8880
-    public void LoadFromIniFile(string Section, TIniFile IniFile)
+    public void LoadFromIniFile(string Section, IniFile IniFile)
     {
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
         throw new NotImplementedException();
     }
 
-    public TImageSequenceList Owner { get => FOwner; }
+    public ImageSequenceList Owner { get => FOwner; }
     public byte Layer { get => FLayer; set => FLayer = value; }
-    public TImageSequence Next { get => FNext; set => FNext = value; }
-    public TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
+    public ImageSequence Next { get => FNext; set => FNext = value; }
+    public CustomImageLibrary ImageLibrary { get => FImageLibrary; }
     public string ImageLibraryName { get => FImageLibraryName; set => SetImageLibraryName(value); }
     public byte SequenceSpeed { get => FSequenceSpeed; set => FSequenceSpeed = value; }
     public byte SpeedCount { get => FSpeedCount; }
-    public TSequenceMode SequenceMode { get => FSequenceMode; set => SetSequenceMode(value); }
-    public TFrameTableList FrameTable { get => FFrameTable; }
+    public global::Aow.Game.Draw.Images.SequenceMode SequenceMode { get => FSequenceMode; set => SetSequenceMode(value); }
+    public FrameTableList FrameTable { get => FFrameTable; }
     public int ImageIndex { get => FImageIndex; set => FImageIndex = value; }
     public int dXshift { get => FdXshift; set => FdXshift = value; }
     public int dYshift { get => FdYshift; set => FdYshift = value; }
 
-    internal static void BltImageSequence(TImageSequence Sequence, int DC, int X, int Y, in TRect R, int Frame, int BkColor)
+    internal static void BltImageSequence(ImageSequence Sequence, int DC, int X, int Y, in global::Aow.Rtl.Rect R, int Frame, int BkColor)
     {
-        Aow.Game.Draw.TSurfaceDesc SD = default;
-        Aow.Game.Draw.TDIB16Surface Surface;
+        Aow.Game.Draw.SurfaceDesc SD = default;
+        Aow.Game.Draw.DIB16Surface Surface;
         int Index;
-        Surface = new Aow.Game.Draw.TDIB16Surface(R.Right - R.Left, R.Bottom - R.Top, Aow.Game.Draw.PixelFormats.pfRGB565);
+        Surface = new Aow.Game.Draw.DIB16Surface(R.Right - R.Left, R.Bottom - R.Top, Aow.Game.Draw.PixelFormats.pfRGB565);
         Surface.Cls(BkColor);
         Surface.Lock(ref SD);
         while (Sequence != null)
@@ -8314,18 +8313,16 @@ public partial class TImageSequence : IDisposable
 
 }
 
-public delegate int TFrameTableSortCompare(int Item1, int Item2);
-
 // A read-only file opened for a sequential load. Dispose releases that file.
 [LegacyObject]
-public partial class TFastLoadFileStream : Stream
+public partial class FastLoadFileStream : Stream
 {
 }
 
 // { The header of an .ILB file (24 bytes). Up to version 3 the images follow it; from version 4
 //     on the image index (HeaderSize to IndexEnd) is followed by the discardable image data. }
 [StructLayout(LayoutKind.Explicit, Size = 24)]
-public struct TILBHeader
+public struct ILBHeader
 {
     [FieldOffset(0)]
     public FixedArray_byte_5 ID__image;
@@ -8343,7 +8340,7 @@ public struct TILBHeader
 }
 
 // (declared in the implementation): the property editor of TCustomImageLibrary.FileName
-public partial class TILFilenameProperty : TStringProperty
+public partial class ILFilenameProperty : StringProperty
 {
     // ImageLib.pas:10669
     public override void Edit()
@@ -8353,7 +8350,7 @@ public partial class TILFilenameProperty : TStringProperty
     }
 
     // ImageLib.pas:10720
-    public override TSet<TPropertyAttribute> GetAttributes() => TSet<TPropertyAttribute>.Of(TPropertyAttribute.paDialog, TPropertyAttribute.paRevertable);
+    public override Set<PropertyAttribute> GetAttributes() => Set<PropertyAttribute>.Of(PropertyAttribute.Dialog, PropertyAttribute.Revertable);
 
     // ImageLib.pas:10663
     public override string GetValue()

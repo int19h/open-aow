@@ -99,7 +99,7 @@ internal static class PixelRemap
         }
     }
 
-    internal static void RemapSurface08to24(SurfaceView Src, SurfaceView Dst, int Width, int Height, TGFXEPalette Palette)
+    internal static void RemapSurface08to24(SurfaceView Src, SurfaceView Dst, int Width, int Height, GFXEPalette Palette)
     {
         for (int Y = 0; Y <= Height - 1; Y++)
         {
@@ -107,7 +107,7 @@ internal static class PixelRemap
             var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
-                ref var E = ref Palette.Entries[S[X]];
+                ref Aow.Game.Draw.GFXEPalette.PaletteEntry E = ref Palette.Entries[S[X]];
                 int I = X * 3;
                 D[I + 2] = E.R;
                 D[I + 1] = E.G;
@@ -116,7 +116,7 @@ internal static class PixelRemap
         }
     }
 
-    internal static int RemapPixelInfo(int PixelInfo, int SrcPixelFormatID, TGFXEPalette SrcPalette, int DestPixelFormatID, TGFXEPalette DestPalette)
+    internal static int RemapPixelInfo(int PixelInfo, int SrcPixelFormatID, GFXEPalette SrcPalette, int DestPixelFormatID, GFXEPalette DestPalette)
     {
         int Result;
         byte R;
@@ -217,13 +217,13 @@ internal static class PixelRemap
         return Result;
     }
 
-    internal static void RemapSurface08to555(SurfaceView source, SurfaceView destination, int width, int height, TGFXEPalette palette) =>
+    internal static void RemapSurface08to555(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette) =>
             Aow.Game.Draw.PixelRemap.RemapIndexedSurface(source, destination, width, height, palette, false);
 
-    internal static void RemapSurface08to565(SurfaceView source, SurfaceView destination, int width, int height, TGFXEPalette palette) =>
+    internal static void RemapSurface08to565(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette) =>
             Aow.Game.Draw.PixelRemap.RemapIndexedSurface(source, destination, width, height, palette, true);
 
-    internal static void RemapIndexedSurface(SurfaceView source, SurfaceView destination, int width, int height, TGFXEPalette palette, bool rgb565)
+    internal static void RemapIndexedSurface(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette, bool rgb565)
     {
         for (int y = 0; y < height; y++)
         {
@@ -231,7 +231,7 @@ internal static class PixelRemap
             var dst = MemoryMarshal.Cast<byte, ushort>(destination.Row(y, width * 2));
             for (int x = 0; x < width; x++)
             {
-                ref var entry = ref palette.Entries[src[x]];
+                ref Aow.Game.Draw.GFXEPalette.PaletteEntry entry = ref palette.Entries[src[x]];
                 dst[x] = (ushort)(rgb565
                     ? ((entry.R & 248) << 8) + ((entry.G & 252) << 3) + (entry.B >> 3)
                     : ((entry.R & 248) << 7) + ((entry.G & 248) << 2) + (entry.B >> 3));

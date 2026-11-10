@@ -15,143 +15,143 @@ namespace Aow.Game.Ui.Dialogs;
 
 // highlight. dragged item type. highlight step. blink state. blink delay. cursor image. ground
 // offset/count. show info
-public partial class TUnitWindow : TDataModule
+public partial class UnitWindow : DataModule
 {
-    public TUnitWindow(TComponent owner) : base(owner)
+    public UnitWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow UnitWin;
-    public TAOWImage UnitFrameLeft;
-    public TAOWTabPanel UnitTab;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAOWButton Help;
-    public TAOWImage TitleIcon;
-    public TAOWButton BCloseBtn;
-    public TAOWImage CeltLineR;
-    public TAOWMemo T2Memo;
-    public TAOWImage ManaIcon;
-    public TAOWLabel Mana;
-    public TAOWListBox T1AbilityLB;
-    public TAOWButton T1UseBut;
-    public TAOWButton T1SortName;
-    public TAOWButton T1SortType;
-    public TAOWButton T1SortSource;
-    public TAOWLabel T1UseMsg;
-    public TAOWPanel T1Panel;
-    public TAOWPanel T2Panel;
-    public TAOWListBox T1TypeLB;
-    public TAOWListBox T1SrcLB;
-    public TAOWPanel T1ListPnl;
-    public TAOWVScrollBar T1SBar;
-    public TAOWVScrollBar T2SBar;
-    public TAOWPanel T2Text;
-    public TAOWPanel T2Leader;
-    public TAOWButton Sel4;
-    public TAOWPanel SelPnl;
-    public TAOWButton Sel3;
-    public TAOWButton Sel2;
-    public TAOWButton Sel1;
-    public TAOWButton Sel5;
-    public TAOWButton Sel6;
-    public TAOWButton Sel7;
-    public TAOWImage AAlignment;
-    public TAOWLabel AAlignmentLbl;
-    public TAOWPanel T2Alignnl;
-    public TAoWFrame AlFr;
-    public TAOWImage TypeIcn;
-    public TAOWLabel TypeV;
-    public TAOWPanel T2TypePnl;
-    public TAoWFrame TypeFr;
-    public TAoWFrame LdrFr;
-    public TAOWLabel SphereLbl;
-    public TAOWPanel T3Panel;
-    public TAOWCheckBox BP1;
-    public TAOWLabel BPLbl1;
-    public TAOWCheckBox BP2;
-    public TAOWCheckBox BP3;
-    public TAOWCheckBox BP4;
-    public TAOWCheckBox BP5;
-    public TAOWCheckBox BP6;
-    public TAOWCheckBox BP7;
-    public TAOWCheckBox BP8;
-    public TAOWLabel BPLbl2;
-    public TAOWLabel BodyLbl;
-    public TAOWCheckBox Head;
-    public TAOWCheckBox Torso;
-    public TAOWCheckBox Attack;
-    public TAOWCheckBox Defend;
-    public TAOWCheckBox RingL;
-    public TAOWCheckBox RingR;
-    public TAOWCheckBox Gnd3;
-    public TAOWCheckBox Gnd2;
-    public TAOWCheckBox Gnd1;
-    public TAOWCheckBox Gnd4;
-    public TAOWCheckBox Gnd5;
-    public TAOWLabel GndLbl;
-    public TAOWImage SlotBack;
-    public TAOWButton DisbandBtn;
-    public TAOWPanel ItemUsePnl;
-    public TAOWButton ItemUseBtn;
-    public TAOWImage ItemPic;
-    public TAOWPanel UnitMainPnl;
-    public TAOWLabel UnitName;
-    public TAOWImage UnitFrRight;
-    public TAOWImage UAttackIcon;
-    public TAOWImage UDefenseIcon;
-    public TAOWImage UMovesIcon;
-    public TAOWImage UDamageIcon;
-    public TAOWImage UResistanceIcon;
-    public TAOWImage UHitsIcon;
-    public TAOWLabel UAttack;
-    public TAOWLabel UDefense;
-    public TAOWLabel UMoves;
-    public TAOWLabel UDamage;
-    public TAOWLabel UResistance;
-    public TAOWLabel UHits;
-    public TAOWPanel UStatPnl;
-    public TAOWPanel UStatP1;
-    public TAOWPanel UStatP2;
-    public TAOWPanel UnitFr;
-    public TAOWLabel Level;
-    public TAOWImage UnitLine1;
-    public TAOWImage UnitLine2;
-    public TAOWImage FrLSh;
-    public TAOWImage FrRSh;
-    public TAOWPanel RightFramePnl;
-    public TAOWLabel MoraleLbl;
-    public TAOWImage UpkeepIcon;
-    public TAOWLabel UpKeep;
-    public TAoWFrame BCeltL;
-    public TAOWImage CeltLineL;
-    public TAOWButton GroundL;
-    public TAOWButton GroundR;
-    public TAOWImage RelationIcn;
-    public TAOWLabel RelationV;
-    public TAOWPanel T2RelPnl;
-    public TAoWFrame RelFr;
-    public TAOWImage RelRing;
-    public TAOWLabel RelationLbl;
-    public TAOWLabel AlignLbl;
-    public TAOWLabel TypeLbl;
-    public TAOWLabel XP;
-    public TAOWButton PNext;
-    public TAOWButton PPrev;
-    public TIvTranslator Translator;
+    public AOWWindow UnitWin;
+    public AOWImage UnitFrameLeft;
+    public AOWTabPanel UnitTab;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AOWButton Help;
+    public AOWImage TitleIcon;
+    public AOWButton BCloseBtn;
+    public AOWImage CeltLineR;
+    public AOWMemo T2Memo;
+    public AOWImage ManaIcon;
+    public AOWLabel Mana;
+    public AOWListBox T1AbilityLB;
+    public AOWButton T1UseBut;
+    public AOWButton T1SortName;
+    public AOWButton T1SortType;
+    public AOWButton T1SortSource;
+    public AOWLabel T1UseMsg;
+    public AOWPanel T1Panel;
+    public AOWPanel T2Panel;
+    public AOWListBox T1TypeLB;
+    public AOWListBox T1SrcLB;
+    public AOWPanel T1ListPnl;
+    public AOWVScrollBar T1SBar;
+    public AOWVScrollBar T2SBar;
+    public AOWPanel T2Text;
+    public AOWPanel T2Leader;
+    public AOWButton Sel4;
+    public AOWPanel SelPnl;
+    public AOWButton Sel3;
+    public AOWButton Sel2;
+    public AOWButton Sel1;
+    public AOWButton Sel5;
+    public AOWButton Sel6;
+    public AOWButton Sel7;
+    public AOWImage AAlignment;
+    public AOWLabel AAlignmentLbl;
+    public AOWPanel T2Alignnl;
+    public AoWFrame AlFr;
+    public AOWImage TypeIcn;
+    public AOWLabel TypeV;
+    public AOWPanel T2TypePnl;
+    public AoWFrame TypeFr;
+    public AoWFrame LdrFr;
+    public AOWLabel SphereLbl;
+    public AOWPanel T3Panel;
+    public AOWCheckBox BP1;
+    public AOWLabel BPLbl1;
+    public AOWCheckBox BP2;
+    public AOWCheckBox BP3;
+    public AOWCheckBox BP4;
+    public AOWCheckBox BP5;
+    public AOWCheckBox BP6;
+    public AOWCheckBox BP7;
+    public AOWCheckBox BP8;
+    public AOWLabel BPLbl2;
+    public AOWLabel BodyLbl;
+    public AOWCheckBox Head;
+    public AOWCheckBox Torso;
+    public AOWCheckBox Attack;
+    public AOWCheckBox Defend;
+    public AOWCheckBox RingL;
+    public AOWCheckBox RingR;
+    public AOWCheckBox Gnd3;
+    public AOWCheckBox Gnd2;
+    public AOWCheckBox Gnd1;
+    public AOWCheckBox Gnd4;
+    public AOWCheckBox Gnd5;
+    public AOWLabel GndLbl;
+    public AOWImage SlotBack;
+    public AOWButton DisbandBtn;
+    public AOWPanel ItemUsePnl;
+    public AOWButton ItemUseBtn;
+    public AOWImage ItemPic;
+    public AOWPanel UnitMainPnl;
+    public AOWLabel UnitName;
+    public AOWImage UnitFrRight;
+    public AOWImage UAttackIcon;
+    public AOWImage UDefenseIcon;
+    public AOWImage UMovesIcon;
+    public AOWImage UDamageIcon;
+    public AOWImage UResistanceIcon;
+    public AOWImage UHitsIcon;
+    public AOWLabel UAttack;
+    public AOWLabel UDefense;
+    public AOWLabel UMoves;
+    public AOWLabel UDamage;
+    public AOWLabel UResistance;
+    public AOWLabel UHits;
+    public AOWPanel UStatPnl;
+    public AOWPanel UStatP1;
+    public AOWPanel UStatP2;
+    public AOWPanel UnitFr;
+    public AOWLabel Level;
+    public AOWImage UnitLine1;
+    public AOWImage UnitLine2;
+    public AOWImage FrLSh;
+    public AOWImage FrRSh;
+    public AOWPanel RightFramePnl;
+    public AOWLabel MoraleLbl;
+    public AOWImage UpkeepIcon;
+    public AOWLabel UpKeep;
+    public AoWFrame BCeltL;
+    public AOWImage CeltLineL;
+    public AOWButton GroundL;
+    public AOWButton GroundR;
+    public AOWImage RelationIcn;
+    public AOWLabel RelationV;
+    public AOWPanel T2RelPnl;
+    public AoWFrame RelFr;
+    public AOWImage RelRing;
+    public AOWLabel RelationLbl;
+    public AOWLabel AlignLbl;
+    public AOWLabel TypeLbl;
+    public AOWLabel XP;
+    public AOWButton PNext;
+    public AOWButton PPrev;
+    public IvTranslator Translator;
     public int FHighlight;
-    public TItemType FItemType;
+    public ItemType FItemType;
     public int FHighlightStep;
     public bool FItemVisible;
     public int FBlinkDelay;
-    public Aow.Game.Draw.Images.TLibraryImage FCursorImage;
+    public Aow.Game.Draw.Images.LibraryImage FCursorImage;
     public int FGroundOffset;
     public int FGroundCount;
-    public TP2UnitShowInfo FShowInfo;
+    public P2UnitShowInfo FShowInfo;
 
     // AoWUnitWindow.pas:985
     public void UpdateGround(int Offset)
     {
-        TAbstractUnit U;
+        AbstractUnit U;
         Gnd1.Tag = -1;
         Gnd2.Tag = -1;
         Gnd3.Tag = -1;
@@ -165,11 +165,11 @@ public partial class TUnitWindow : TDataModule
         U = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit;
         if (U != null)
         {
-            if (U is THero)
+            if (U is Hero)
             {
-                if (((THero)U).GetItemsOnGround() != null)
+                if (((Hero)U).GetItemsOnGround() != null)
                 {
-                    FGroundCount = ((THero)U).GetItemsOnGround().Count;
+                    FGroundCount = ((Hero)U).GetItemsOnGround().Count;
                     FGroundOffset = Offset;
                     // { Original last-page clamp leaves only four items visible. }
                     if (FGroundCount < Offset + 5)
@@ -184,38 +184,38 @@ public partial class TUnitWindow : TDataModule
 
                     GroundL.Visible = FGroundOffset > 0;
                     GroundR.Visible = FGroundOffset + 5 <= FGroundCount;
-                    var count = ((THero)U).GetItemsOnGround().Count;
+                    var count = ((Hero)U).GetItemsOnGround().Count;
                     if (FGroundOffset < count)
                     {
-                        var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(FGroundOffset);
                         Gnd1.Tag = item.FItemID;
                     }
 
-                    var count2 = ((THero)U).GetItemsOnGround().Count;
+                    var count2 = ((Hero)U).GetItemsOnGround().Count;
                     if (FGroundOffset + 1 < count2)
                     {
-                        var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset + 1);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(FGroundOffset + 1);
                         Gnd2.Tag = item.FItemID;
                     }
 
-                    var count3 = ((THero)U).GetItemsOnGround().Count;
+                    var count3 = ((Hero)U).GetItemsOnGround().Count;
                     if (FGroundOffset + 2 < count3)
                     {
-                        var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset + 2);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(FGroundOffset + 2);
                         Gnd3.Tag = item.FItemID;
                     }
 
-                    var count4 = ((THero)U).GetItemsOnGround().Count;
+                    var count4 = ((Hero)U).GetItemsOnGround().Count;
                     if (FGroundOffset + 3 < count4)
                     {
-                        var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset + 3);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(FGroundOffset + 3);
                         Gnd4.Tag = item.FItemID;
                     }
 
-                    var count5 = ((THero)U).GetItemsOnGround().Count;
+                    var count5 = ((Hero)U).GetItemsOnGround().Count;
                     if (FGroundOffset + 4 < count5)
                     {
-                        var item = ((THero)U).GetItemsOnGround().GetItem(FGroundOffset + 4);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(FGroundOffset + 4);
                         Gnd5.Tag = item.FItemID;
                     }
                 }
@@ -224,15 +224,15 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:472
-    public void PreDrawAbilityItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
+    public void PreDrawAbilityItem(AoWComponent Sender, in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SurfDesc)
     {
         bool Enabled;
-        TAbility A;
+        Ability A;
         var objectValue = T1AbilityLB.Items.Objects[DrawItem];
-        A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap == null)
+        A = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
         {
-            Enabled = A != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && A.GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(TAbilityControlTypeElement.acAction);
+            Enabled = A != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && A.GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(AbilityControlTypeElement.Action);
         }
         else
         {
@@ -240,15 +240,15 @@ public partial class TUnitWindow : TDataModule
             if (condition)
             {
                 var objectValue2 = T1AbilityLB.Items.Objects[DrawItem];
-                condition = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction);
+                condition = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(AbilityControlTypeElement.CombatAction);
             }
 
-            bool test = condition && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0;
+            bool test = condition && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0;
             if (test)
             {
                 var objectValue2 = T1AbilityLB.Items.Objects[DrawItem];
-                var combatMode = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                test = !(TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[DrawItem]) == 52) || Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves() == Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints;
+                var combatMode = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[DrawItem]) == 52) || Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves() == Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints;
             }
 
             Enabled = test;
@@ -271,33 +271,33 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:507
-    public void T1AbilityLBChange(TAOWListBox Sender)
+    public void T1AbilityLBChange(AOWListBox Sender)
     {
-        TAbility A;
+        Ability A;
         T1AbilityLB.Selected = Sender.Selected;
         T1TypeLB.Selected = Sender.Selected;
         T1SrcLB.Selected = Sender.Selected;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap == null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
         {
-            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && T1AbilityLB.Selected > -1)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && T1AbilityLB.Selected > -1)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+                A = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (A != null && A.GetEnabled(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit))
                 {
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap == null)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
                     {
                         var controlType = A.GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
-                        T1UseBut.Visible = controlType.Contains(TAbilityControlTypeElement.acAction);
+                        T1UseBut.Visible = controlType.Contains(AbilityControlTypeElement.Action);
                     }
                     else
                     {
                         var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                        bool condition = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) != TCombatMode.cmNone;
+                        bool condition = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) != CombatMode.None;
                         if (condition)
                         {
                             var objectValue3 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                            condition = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) != TCombatMode.cmMelee;
+                            condition = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) != CombatMode.Melee;
                         }
 
                         T1UseBut.Visible = condition;
@@ -306,7 +306,7 @@ public partial class TUnitWindow : TDataModule
                     if (T1UseBut.Visible)
                     {
                         var name = A.GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
-                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TUnitWindow.UseXRStr), [name]);
+                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.UseXRStr), [name]);
                         T1UseBut.Text = format;
                     }
                 }
@@ -326,23 +326,23 @@ public partial class TUnitWindow : TDataModule
             if (condition)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                condition = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction);
+                condition = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(AbilityControlTypeElement.CombatAction);
             }
 
-            bool test = condition && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0;
+            bool test = condition && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0;
             if (test)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                var combatMode = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                test = !(TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[T1AbilityLB.Selected]) == 52) || Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves() == Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints;
+                var combatMode = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[T1AbilityLB.Selected]) == 52) || Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves() == Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints;
             }
 
             if (test)
             {
                 T1UseBut.Visible = true;
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                var name = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TUnitWindow.UseXRStr), [name]);
+                var name = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.UseXRStr), [name]);
                 T1UseBut.Text = format;
             }
             else
@@ -360,11 +360,11 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:568
-    public void ItemRHMouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void ItemRHMouseDown(AOWCheckBox Sender, MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAOWCheckBox Check;
+        AOWCheckBox Check;
         Check = Sender;
-        Aow.Game.Ui.Dialogs.TItemBanner.ItemID = Check.Tag;
+        Aow.Game.Ui.Dialogs.ItemBanner.ItemID = Check.Tag;
     }
 
     // AoWUnitWindow.pas:575
@@ -372,14 +372,14 @@ public partial class TUnitWindow : TDataModule
     {
         this.UnitWin.Alignment.LeftOffset = this.UnitWin.WinLeft;
         this.UnitWin.Alignment.TopOffset = this.UnitWin.WinTop;
-        this.UnitWin.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
-        this.UnitWin.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+        this.UnitWin.Alignment.AlignHeight = AOWAlignHeight.Top;
+        this.UnitWin.Alignment.AlignWidth = AOWAlignWidth.Left;
     }
 
     // AoWUnitWindow.pas:586
     public void UnitWindowCreate()
     {
-        FItemType = (TItemType)6;
+        FItemType = (ItemType)6;
     }
 
     // AoWUnitWindow.pas:591
@@ -396,25 +396,25 @@ public partial class TUnitWindow : TDataModule
 
             switch (FItemType)
             {
-                case TItemType.itAttack:
+                case ItemType.Attack:
                     Attack.FDrawn = false;
                     break;
-                case TItemType.itDefense:
+                case ItemType.Defense:
                     Defend.FDrawn = false;
                     break;
-                case TItemType.itHead:
+                case ItemType.Head:
                     Head.FDrawn = false;
                     break;
-                case TItemType.itTorso:
+                case ItemType.Torso:
                     Torso.FDrawn = false;
                     break;
-                case TItemType.itRing:
+                case ItemType.Ring:
                     RingL.FDrawn = false;
                     RingR.FDrawn = false;
                     break;
             }
 
-            if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null)
+            if (Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem != null)
             {
                 FBlinkDelay -= 1;
                 if (FBlinkDelay < 0)
@@ -429,9 +429,9 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:620
     public void T1SortNameClick(int Button)
     {
-        TList Lists;
+        DelphiList Lists;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Lists = new TList();
+        Lists = new DelphiList();
         Lists.Add(T1AbilityLB);
         Lists.Add(T1TypeLB);
         Lists.Add(T1SrcLB);
@@ -442,9 +442,9 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:631
     public void T1SortTypeClick(int Button)
     {
-        TList Lists;
+        DelphiList Lists;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Lists = new TList();
+        Lists = new DelphiList();
         Lists.Add(T1TypeLB);
         Lists.Add(T1AbilityLB);
         Lists.Add(T1SrcLB);
@@ -455,9 +455,9 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:642
     public void T1SortSourceClick(int Button)
     {
-        TList Lists;
+        DelphiList Lists;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Lists = new TList();
+        Lists = new DelphiList();
         Lists.Add(T1SrcLB);
         Lists.Add(T1AbilityLB);
         Lists.Add(T1TypeLB);
@@ -468,16 +468,16 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:653
     public void UseAbility()
     {
-        TAbility A;
+        Ability A;
         string Reason = "";
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-        A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+        A = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
         if (A != null && A.GetEnabled(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit))
         {
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap == null)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
             {
-                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
+                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
                 {
                     if (A.Activate(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit, ref Reason))
                     {
@@ -487,14 +487,14 @@ public partial class TUnitWindow : TDataModule
                     {
                         if (!IsEmpty(Reason))
                         {
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
                         }
                     }
                 }
             }
             else
             {
-                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer)
+                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer)
                 {
                     var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
                     if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.SelectAbility(ObjectToInt(objectValue2)) > -1)
@@ -511,15 +511,15 @@ public partial class TUnitWindow : TDataModule
     {
         string Reason = "";
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit is THero)
+        if (Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit is Hero)
         {
-            if (((THero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).CanUseItem(Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem.Tag, ref Reason))
+            if (((Hero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).CanUseItem(Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem.Tag, ref Reason))
             {
-                ((THero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).UseItem(Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem.Tag);
+                ((Hero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).UseItem(Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem.Tag);
             }
             else
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
             }
         }
     }
@@ -531,11 +531,11 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:693
-    public void UnitWinMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void UnitWinMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        if (Button == TMouseButton.mbRight && Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null)
+        if (Button == MouseButton.Right && Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem != null)
         {
-            Gnd1Change(Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem);
+            Gnd1Change(Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem);
         }
     }
 
@@ -559,15 +559,15 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:730
-    public void Gnd1Draw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void Gnd1Draw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
-        THero U;
-        TItem Item;
-        TAoWComponent Component;
+        Hero U;
+        Item Item;
+        AoWComponent Component;
         Component = Sender;
         if (Component.Tag != -1)
         {
-            U = (THero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit;
+            U = (Hero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit;
             Item = U.FInventory.FindItem(Component.Tag);
             if (Item == null)
             {
@@ -594,15 +594,15 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:750
-    public void FrLShPreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void FrLShPreDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
-        TRect R;
+        global::Aow.Rtl.Rect R;
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
             if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetFace() != null)
             {
                 var image = Sender;
-                R = Rect(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
+                R = global::Aow.Rtl.RtlUnit.Rect(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
 
                 Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.ShowFace(R, SurfDesc);
             }
@@ -610,18 +610,18 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:763
-    public void FrRShPreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void FrRShPreDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
             FShowInfo.Direction = 3;
-            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit is THero)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit is Hero)
             {
-                FShowInfo.Overlays = TSet<TUnitOverlayModesElement>.Of();
+                FShowInfo.Overlays = Set<UnitOverlayModesElement>.Of();
             }
             else
             {
-                FShowInfo.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoRank);
+                FShowInfo.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
             }
 
             var image = Sender;
@@ -630,13 +630,13 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:855
-    public void Gnd3MouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Gnd3MouseDown(AOWCheckBox Sender, MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
-            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer).GetBusy())
+            if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer).GetBusy())
             {
-                if (Button == TMouseButton.mbRight)
+                if (Button == MouseButton.Right)
                 {
                     if (Sender.Tag == -1)
                     {
@@ -647,13 +647,13 @@ public partial class TUnitWindow : TDataModule
                         Sender.PopupMenu = Aow.Game.Ui.Dialogs.DialogHosts.ItemBanner.IBannerPopup;
                     }
 
-                    Aow.Game.Ui.Dialogs.TItemBanner.ItemID = Sender.Tag;
+                    Aow.Game.Ui.Dialogs.ItemBanner.ItemID = Sender.Tag;
                 }
                 else
                 {
-                    if (Sender == Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem)
+                    if (Sender == Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem)
                     {
-                        Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem.Checked = false;
+                        Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem.Checked = false;
                     }
                 }
             }
@@ -661,10 +661,10 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:871
-    public void HeadDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void HeadDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == 0)
+        if (Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem && FItemType == 0)
         {
             var checkBox = Sender;
             Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
@@ -672,10 +672,10 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:881
-    public void TorsoDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void TorsoDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == (TItemType)1)
+        if (Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem && FItemType == (ItemType)1)
         {
             var checkBox = Sender;
             Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
@@ -683,10 +683,10 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:891
-    public void AttackDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void AttackDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == (TItemType)2)
+        if (Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem && FItemType == (ItemType)2)
         {
             var checkBox = Sender;
             Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
@@ -694,10 +694,10 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:901
-    public void DefendDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void DefendDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == (TItemType)3)
+        if (Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem && FItemType == (ItemType)3)
         {
             var checkBox = Sender;
             Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
@@ -705,10 +705,10 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:911
-    public void RingLDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void RingLDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == (TItemType)4)
+        if (Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem && FItemType == (ItemType)4)
         {
             var checkBox = Sender;
             Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
@@ -718,29 +718,29 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:921
     public void DisbandBtnClick()
     {
-        var disbandUnit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TUnitWindow.DisbandUnitRStr);
+        var disbandUnit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.DisbandUnitRStr);
         var confirm = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ConfirmRStr);
         Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.Confirm(confirm, disbandUnit, 7);
     }
 
     // AoWUnitWindow.pas:926
-    public void T1AbilityLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void T1AbilityLBMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAbility A;
-        if (Button == TMouseButton.mbRight && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && T1AbilityLB.Selected != -1)
+        Ability A;
+        if (Button == MouseButton.Right && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && T1AbilityLB.Selected != -1)
         {
             var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-            A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            A = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
                 var name = A.GetName(null);
-                Aow.Game.Ui.Dialogs.TInfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, A.FDescription);
+                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, A.FDescription);
             }
         }
     }
 
     // AoWUnitWindow.pas:937
-    public void UnitWinKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void UnitWinKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         switch (Key)
         {
@@ -808,7 +808,7 @@ public partial class TUnitWindow : TDataModule
     private static readonly string MoraleXRStr = "Morale: %s";
     private static readonly string UseXRStr = "Use %s";
     private static global::Aow.Game.Engine.Buffers.FixedArray_string_5 TMoraleRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_5.From(["Terrible", "Poor", "Okay", "Good", "High"]);
-    private static global::Aow.Game.Ui.Controls.TAOWCheckBox SelectedItem;
+    private static global::Aow.Game.Ui.Controls.AOWCheckBox SelectedItem;
     private static readonly string AbilitiesRStr = "Abilities";
     private static readonly string InfoRStr = "Info";
     private static readonly string NoneRStr = "None";
@@ -826,10 +826,10 @@ public partial class TUnitWindow : TDataModule
 
     private static int CompareUnitAbilities(string S1, string S2, object O1, object O2)
     {
-        global::Aow.Game.Magic.Abilities.TAbility ability = global::Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O1));
-        global::Aow.Game.Magic.Abilities.TAbility ability2 = global::Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O2));
-        int num = ((ability.GetEnabled(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) && ability.GetControlType(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(global::Aow.Game.Magic.Abilities.TAbilityControlTypeElement.acAction)) ? 10 : 0);
-        int num2 = ((ability2.GetEnabled(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) && ability2.GetControlType(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(global::Aow.Game.Magic.Abilities.TAbilityControlTypeElement.acAction)) ? 10 : 0);
+        global::Aow.Game.Magic.Abilities.Ability ability = global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O1));
+        global::Aow.Game.Magic.Abilities.Ability ability2 = global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O2));
+        int num = ((ability.GetEnabled(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) && ability.GetControlType(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(global::Aow.Game.Magic.Abilities.AbilityControlTypeElement.Action)) ? 10 : 0);
+        int num2 = ((ability2.GetEnabled(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) && ability2.GetControlType(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(global::Aow.Game.Magic.Abilities.AbilityControlTypeElement.Action)) ? 10 : 0);
         int num3 = num2 - num;
         if (num3 == 0)
         {

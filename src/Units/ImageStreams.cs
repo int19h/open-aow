@@ -12,9 +12,9 @@ namespace Aow.Game.Draw.Images;
 public static class ImageStreams
 {
 
-    public static TLibraryImage ReadImageFromStream(Stream Stream, TCustomImageLibrary AOwner)
+    public static LibraryImage ReadImageFromStream(Stream Stream, CustomImageLibrary AOwner)
     {
-        TLibraryImage Result;
+        LibraryImage Result;
         int ID = default;
         LibraryImageClass ImageClass;
         Stream.ReadBytes(Bytes.Of(ref ID, 4));
@@ -32,9 +32,9 @@ public static class ImageStreams
         return Result;
     }
 
-    internal static TLibraryImage ReadImageFromStreamEx(Stream Stream, Stream DataStream, TCustomImageLibrary AOwner)
+    internal static LibraryImage ReadImageFromStreamEx(Stream Stream, Stream DataStream, CustomImageLibrary AOwner)
     {
-        TLibraryImage Result;
+        LibraryImage Result;
         int ID = default;
         LibraryImageClass ImageClass;
         Stream.ReadBytes(Bytes.Of(ref ID, 4));

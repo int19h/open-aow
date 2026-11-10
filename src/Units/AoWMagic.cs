@@ -27,74 +27,74 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // enchantment sort, global sort, power sort
-public partial class TMagicWin : TDataModule
+public partial class MagicWin : DataModule
 {
-    public TMagicWin(TComponent owner) : base(owner)
+    public MagicWin(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWLabel OWTitle;
-    public TAOWImage OWTitleIc;
-    public TAOWTabPanel HeaderTab;
-    public TAoWFrame OWRPillar;
-    public TAoWFrame OWLPillar;
-    public TAOWPanel T1Pnl;
-    public TAOWLabel ResearchPoints;
-    public TAOWLabel ResLbl;
-    public TAOWPanel T2Pnl;
-    public TAOWPanel T2LBPnl;
-    public TAOWListBox EnchantmentList;
-    public TAOWButton EnchantmentSortBtn;
-    public TAOWListBox UpkeepList;
-    public TAOWButton UpkeepSortBtn;
-    public TAOWListBox BindingList;
-    public TAOWButton BindingSortBtn;
-    public TAOWPanel ResPnl;
-    public TAOWLabel NetMana;
-    public TAOWLabel NetMamaLbl;
-    public TAOWPanel NetManaPnl;
-    public TAOWPanel T3Pnl;
-    public TAOWPanel T3LBPnl;
-    public TAOWListBox GlobalEnchantmentList;
-    public TAOWButton GlobalEnchantmentSortBtn;
-    public TAOWListBox GlobalUpkeepList;
-    public TAOWButton GlobalUpkeepSortBtn;
-    public TAOWListBox GlobalNameList;
-    public TAOWButton GlobalNameSortBtn;
-    public TAOWPanel RightPnl;
-    public TAOWLabel SpellName;
-    public TAOWButton GlobalDispelBtn;
-    public TAOWButton DispelBtn;
-    public TAOWButton ResearchBtn;
-    public TAOWLabel ResearchTurnsLeft;
-    public TAOWLabel SpellClass;
-    public TAOWPanel SpellPnl;
-    public TAOWLabel SpellCost;
-    public TAOWImage SpellIcn;
-    public TAOWButton Minimize;
-    public TAOWButton ChangePowerBut;
-    public TAOWLabel Power;
-    public TAOWLabel PowerLbl;
-    public TAOWPanel PowePnl;
-    public TAOWPanel LeftPnl;
-    public TAOWPanel NonePnl;
-    public TAOWLabel NoneMsg;
-    public TAOWPanel T4Pnl;
-    public TAOWPanel T4LBPnl;
-    public TAOWListBox PowerValueList;
-    public TAOWButton PowerValueSortBtn;
-    public TAOWListBox PowerSourceList;
-    public TAOWButton PowerSourceSortBtn;
-    public TAOWPanel T2BottonPnl;
-    public TAOWVScrollBar EnchantmentSB;
-    public TAOWVScrollBar GlobalEnchantmentSB;
-    public TAOWVScrollBar PowerSB;
-    public TAOWPanel T3BottomPnl;
-    public TAOWPanel LeftFr;
-    public TAOWPanel T2ButtonPnl;
-    public TAOWPanel T3ButtonPnl;
-    public TIvTranslator Translator;
-    public TAOWButton Help;
+    public AOWWindow Dlg;
+    public AOWLabel OWTitle;
+    public AOWImage OWTitleIc;
+    public AOWTabPanel HeaderTab;
+    public AoWFrame OWRPillar;
+    public AoWFrame OWLPillar;
+    public AOWPanel T1Pnl;
+    public AOWLabel ResearchPoints;
+    public AOWLabel ResLbl;
+    public AOWPanel T2Pnl;
+    public AOWPanel T2LBPnl;
+    public AOWListBox EnchantmentList;
+    public AOWButton EnchantmentSortBtn;
+    public AOWListBox UpkeepList;
+    public AOWButton UpkeepSortBtn;
+    public AOWListBox BindingList;
+    public AOWButton BindingSortBtn;
+    public AOWPanel ResPnl;
+    public AOWLabel NetMana;
+    public AOWLabel NetMamaLbl;
+    public AOWPanel NetManaPnl;
+    public AOWPanel T3Pnl;
+    public AOWPanel T3LBPnl;
+    public AOWListBox GlobalEnchantmentList;
+    public AOWButton GlobalEnchantmentSortBtn;
+    public AOWListBox GlobalUpkeepList;
+    public AOWButton GlobalUpkeepSortBtn;
+    public AOWListBox GlobalNameList;
+    public AOWButton GlobalNameSortBtn;
+    public AOWPanel RightPnl;
+    public AOWLabel SpellName;
+    public AOWButton GlobalDispelBtn;
+    public AOWButton DispelBtn;
+    public AOWButton ResearchBtn;
+    public AOWLabel ResearchTurnsLeft;
+    public AOWLabel SpellClass;
+    public AOWPanel SpellPnl;
+    public AOWLabel SpellCost;
+    public AOWImage SpellIcn;
+    public AOWButton Minimize;
+    public AOWButton ChangePowerBut;
+    public AOWLabel Power;
+    public AOWLabel PowerLbl;
+    public AOWPanel PowePnl;
+    public AOWPanel LeftPnl;
+    public AOWPanel NonePnl;
+    public AOWLabel NoneMsg;
+    public AOWPanel T4Pnl;
+    public AOWPanel T4LBPnl;
+    public AOWListBox PowerValueList;
+    public AOWButton PowerValueSortBtn;
+    public AOWListBox PowerSourceList;
+    public AOWButton PowerSourceSortBtn;
+    public AOWPanel T2BottonPnl;
+    public AOWVScrollBar EnchantmentSB;
+    public AOWVScrollBar GlobalEnchantmentSB;
+    public AOWVScrollBar PowerSB;
+    public AOWPanel T3BottomPnl;
+    public AOWPanel LeftFr;
+    public AOWPanel T2ButtonPnl;
+    public AOWPanel T3ButtonPnl;
+    public IvTranslator Translator;
+    public AOWButton Help;
     public int FEnchantmentSort;
     public int FGlobalEnchantmentSort;
     public int FPowerSort;
@@ -117,7 +117,7 @@ public partial class TMagicWin : TDataModule
     public void SelectGlobalEnchantment(int Index)
     {
         string Reason = "";
-        TGlobalEnchantment Enchantment;
+        GlobalEnchantment Enchantment;
         if (Index >= GlobalEnchantmentList.Items.Count)
         {
             Index = GlobalEnchantmentList.Items.Count - 1;
@@ -128,8 +128,8 @@ public partial class TMagicWin : TDataModule
         GlobalUpkeepList.Selected = Index;
         if (Index != -1)
         {
-            Enchantment = (TGlobalEnchantment)GlobalEnchantmentList.Items.Objects[Index];
-            var canRemove = Enchantment.CanRemove(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, ref Reason);
+            Enchantment = (GlobalEnchantment)GlobalEnchantmentList.Items.Objects[Index];
+            var canRemove = Enchantment.CanRemove(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, ref Reason);
             GlobalDispelBtn.Visible = canRemove;
         }
         else
@@ -234,14 +234,14 @@ public partial class TMagicWin : TDataModule
 
         if (condition)
         {
-            ((TEnchantment)EnchantmentList.Items.Objects[EnchantmentList.Selected]).Select();
+            ((Enchantment)EnchantmentList.Items.Objects[EnchantmentList.Selected]).Select();
         }
     }
 
     // AoWMagic.pas:210
-    public void EnchantmentListMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void EnchantmentListMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        if (Button == TMouseButton.mbRight)
+        if (Button == MouseButton.Right)
         {
             bool condition = EnchantmentList.Selected >= 0;
             if (condition)
@@ -252,7 +252,7 @@ public partial class TMagicWin : TDataModule
 
             if (condition)
             {
-                ((TEnchantment)EnchantmentList.Items.Objects[EnchantmentList.Selected]).CenterToLocation();
+                ((Enchantment)EnchantmentList.Items.Objects[EnchantmentList.Selected]).CenterToLocation();
             }
         }
     }
@@ -271,7 +271,7 @@ public partial class TMagicWin : TDataModule
         if (condition)
         {
             var enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.DispelEnchantment((TEnchantment)enchantment);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.DispelEnchantment((Enchantment)enchantment);
         }
     }
 
@@ -307,7 +307,7 @@ public partial class TMagicWin : TDataModule
         if (condition)
         {
             var globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.RemoveEnchantment(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, (TGlobalEnchantment)globalEnchantment);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.RemoveEnchantment(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, (GlobalEnchantment)globalEnchantment);
         }
     }
 
@@ -356,16 +356,16 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:296
-    public void SpellIcnDraw(TAOWImage Sender, TSurfaceDesc Surface)
+    public void SpellIcnDraw(AOWImage Sender, SurfaceDesc Surface)
     {
-        TPlayerMagicControl Magic;
-        TSpell Spell;
+        PlayerMagicControl Magic;
+        Spell Spell;
         int X;
         int Y;
-        Magic = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl;
+        Magic = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
         if (Magic.FResearchSpellID != 0)
         {
-            Spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Magic.FResearchSpellID);
+            Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Magic.FResearchSpellID);
             if (Spell != null)
             {
                 if (Spell.FCastImages.GetImageSequence(10) != null)
@@ -390,21 +390,21 @@ public partial class TMagicWin : TDataModule
 
         if (condition)
         {
-            ((TPowerSource)PowerSourceList.Items.Objects[PowerSourceList.Selected]).Select();
+            ((PowerSource)PowerSourceList.Items.Objects[PowerSourceList.Selected]).Select();
         }
     }
 
     // AoWMagic.pas:323
-    public void PowerValueListMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void PowerValueListMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        if (Button == TMouseButton.mbRight)
+        if (Button == MouseButton.Right)
         {
             if (PowerSourceList.Selected >= 0)
             {
                 var count = PowerSourceList.Items.Count;
                 if (PowerSourceList.Selected < count)
                 {
-                    ((TPowerSource)PowerSourceList.Items.Objects[PowerSourceList.Selected]).CenterToLocation();
+                    ((PowerSource)PowerSourceList.Items.Objects[PowerSourceList.Selected]).CenterToLocation();
                 }
             }
         }
@@ -572,8 +572,8 @@ public partial class TMagicWin : TDataModule
     // AoWMagic.pas:434
     public void DlgResize()
     {
-        this.Dlg.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        this.Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        this.Dlg.Alignment.AlignWidth = AOWAlignWidth.Left;
+        this.Dlg.Alignment.AlignHeight = AOWAlignHeight.Top;
         this.Dlg.Alignment.LeftOffset = this.Dlg.WinLeft;
         this.Dlg.Alignment.TopOffset = this.Dlg.WinTop;
     }
@@ -593,20 +593,20 @@ public partial class TMagicWin : TDataModule
     // AoWMagic.pas:459
     public void HelpClick()
     {
-        Aow.Game.Ui.Dialogs.THelpWindow.ShowHelp(506);
+        Aow.Game.Ui.Dialogs.HelpWindow.ShowHelp(506);
     }
 
     // AoWMagic.pas:470
     public void MinimizeClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.TMagicWin.HideMagic(this);
+        Aow.Game.Ui.Dialogs.MagicWin.HideMagic(this);
     }
 
     // AoWMagic.pas:462
-    public void GlobalEnchantmentMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void GlobalEnchantmentMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        if (Button == TMouseButton.mbRight)
+        if (Button == MouseButton.Right)
         {
             bool condition = GlobalEnchantmentList.Selected >= 0;
             if (condition)
@@ -617,23 +617,23 @@ public partial class TMagicWin : TDataModule
 
             if (condition)
             {
-                ((TGlobalEnchantment)GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected]).CenterToLocation();
+                ((GlobalEnchantment)GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected]).CenterToLocation();
             }
         }
     }
 
-    internal static void ShowMagic(TMagicWin Window)
+    internal static void ShowMagic(MagicWin Window)
     {
         if (!Window.Dlg.Visible)
         {
-            Aow.Game.Ui.Dialogs.TMagicWin.RefreshMagicWindow(Window);
-            Aow.Game.Ui.Dialogs.TMagicWin.RefreshGlobalMagic(Window);
+            Aow.Game.Ui.Dialogs.MagicWin.RefreshMagicWindow(Window);
+            Aow.Game.Ui.Dialogs.MagicWin.RefreshGlobalMagic(Window);
         }
 
         Window.Dlg.Visible = true;
     }
 
-    internal static void HideMagic(TMagicWin Window)
+    internal static void HideMagic(MagicWin Window)
     {
         if (Window.Dlg.Visible)
         {
@@ -641,14 +641,14 @@ public partial class TMagicWin : TDataModule
         }
     }
 
-    internal static void RefreshMagicWindow(TMagicWin Window)
+    internal static void RefreshMagicWindow(MagicWin Window)
     {
-        TPlayerMagicControl Control;
+        PlayerMagicControl Control;
         int Turns;
-        TSpell Spell;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != -1)
+        Spell Spell;
+        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
         {
-            Control = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl;
+            Control = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
             Window.EnchantmentList.Items.Clear();
             Window.BindingList.Items.Clear();
             Window.UpkeepList.Items.Clear();
@@ -688,7 +688,7 @@ public partial class TMagicWin : TDataModule
             Window.ResearchPoints.Text = IntToStr(netPowerToResearch);
             if (Control.FResearchSpellID != 0)
             {
-                Spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Control.FResearchSpellID);
+                Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Control.FResearchSpellID);
                 Window.SpellName.Text = Spell.FSpellName;
                 var magicSphere = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
                 var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelRStr);
@@ -696,7 +696,7 @@ public partial class TMagicWin : TDataModule
                 var castingCost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CastingCostRStr);
                 var mana = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ManaRStr);
                 Window.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
-                Turns = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.GetResearchTurnsLeft();
+                Turns = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetResearchTurnsLeft();
                 if (Turns < 999)
                 {
                     var fmtTurnsLeftStr = Aow.Game.Magic.Abilities.DurationText.FmtTurnsLeftStr(Turns);
@@ -722,22 +722,22 @@ public partial class TMagicWin : TDataModule
         Window.Dlg.FDrawn = false;
     }
 
-    internal static void RefreshGlobalMagic(TMagicWin Window)
+    internal static void RefreshGlobalMagic(MagicWin Window)
     {
-        TGlobalMagicControl Control;
-        Control = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl;
+        GlobalMagicControl Control;
+        Control = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl;
         Window.GlobalEnchantmentList.Items.Clear();
         Window.GlobalNameList.Items.Clear();
         Window.GlobalUpkeepList.Items.Clear();
         for (int I = 0, last = Control.FEnchantments.Count - 1; I <= last; I++)
         {
-            if (Control.FEnchantments.GetEnchantments(I).VisibleForPlayer(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer))
+            if (Control.FEnchantments.GetEnchantments(I).VisibleForPlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
             {
                 var name = Control.FEnchantments.GetEnchantments(I).GetName();
                 var enchantment = Control.FEnchantments.GetEnchantments(I);
                 Window.GlobalEnchantmentList.Items.AddObject(name, enchantment);
                 var enchantmentPlayerIndex = Control.FEnchantments.GetEnchantments(I);
-                var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
+                var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
                 Window.GlobalNameList.Items.Add(player.FLeader.FHeroName);
                 var upkeep = Control.FEnchantments.GetEnchantments(I).GetUpkeep();
                 Window.GlobalUpkeepList.Items.Add(IntToStr(upkeep));
@@ -749,9 +749,9 @@ public partial class TMagicWin : TDataModule
         Window.Dlg.FDrawn = false;
     }
 
-    internal static void ShowMagicEvent(TMagicWin Window, TPlayerMagicEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowMagicEvent(MagicWin Window, PlayerMagicEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.TTBWindow.ShowMagicWindow(Window);
+        Aow.Game.Ui.Dialogs.TBWindow.ShowMagicWindow(Window);
         if (Done != null)
         {
             Done(Event);

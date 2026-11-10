@@ -9,33 +9,33 @@ using Aow.Rtl.Localize;
 namespace Aow.Game.Ui.Dialogs;
 
 // done callback, help event
-public partial class THelpWindow : TDataModule
+public partial class HelpWindow : DataModule
 {
-    public THelpWindow(TComponent owner) : base(owner)
+    public HelpWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow HelpWin;
-    public TAOWLabel Title;
-    public TAOWButton CloseBtn;
-    public TAOWImage TitleIcon;
-    public TAOWImage BBarEnd;
-    public TAOWImage BBarBegin;
-    public TAOWButton BCloseBut;
-    public TAOWImage CeltLineR;
-    public TAOWImage BBar;
-    public TAOWImage CeltLineL;
-    public TAOWVScrollBar HelpSB;
-    public TAOWMemo HeaderMemo;
-    public TAOWMemo HelpMemo;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public THelpMessageEventLog FHelpEvent;
+    public AOWWindow HelpWin;
+    public AOWLabel Title;
+    public AOWButton CloseBtn;
+    public AOWImage TitleIcon;
+    public AOWImage BBarEnd;
+    public AOWImage BBarBegin;
+    public AOWButton BCloseBut;
+    public AOWImage CeltLineR;
+    public AOWImage BBar;
+    public AOWImage CeltLineL;
+    public AOWVScrollBar HelpSB;
+    public AOWMemo HeaderMemo;
+    public AOWMemo HelpMemo;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public HelpMessageEventLog FHelpEvent;
 
     // aowHelpWin.pas:53
     public void FinishDialog()
     {
-        TExecuteDoneEvent Done;
-        THelpMessageEventLog Event;
+        ExecuteDoneEvent Done;
+        HelpMessageEventLog Event;
         Done = FDone;
         Event = FHelpEvent;
         FDone = null;
@@ -52,7 +52,7 @@ public partial class THelpWindow : TDataModule
     }
 
     // aowHelpWin.pas:66
-    public void ShowHelpEvent(THelpMessageEventLog Event, bool Unused, TExecuteDoneEvent Done)
+    public void ShowHelpEvent(HelpMessageEventLog Event, bool Unused, ExecuteDoneEvent Done)
     {
         FinishDialog();
         FHelpEvent = Event;
@@ -108,20 +108,20 @@ public partial class THelpWindow : TDataModule
     {
         this.HelpWin.Alignment.LeftOffset = this.HelpWin.WinLeft;
         this.HelpWin.Alignment.TopOffset = this.HelpWin.WinTop;
-        this.HelpWin.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
-        this.HelpWin.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+        this.HelpWin.Alignment.AlignHeight = AOWAlignHeight.Top;
+        this.HelpWin.Alignment.AlignWidth = AOWAlignWidth.Left;
     }
 
     internal static void ShowHelp(int HelpID)
     {
-        TStringList Lines;
+        StringList Lines;
         if (Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpWin.Visible)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.FinishDialog();
         }
 
-        Lines = new TStringList();
-        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FTextControl.RetrieveText(HelpID, Lines);
+        Lines = new StringList();
+        Aow.Game.Engine.AoWHSSet.Current.FTextControl.RetrieveText(HelpID, Lines);
         Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpSB.Position = 0;
         Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HeaderMemo.Items.Clear();
         if (Lines.Count > 0)

@@ -35,14 +35,14 @@ public sealed class CoreTests
     {
         Assert.Equal(nameof(TSampleChild), NameTable.Delphi(typeof(TSampleChild)));
         Assert.Equal(nameof(TSampleChild), NameTable.Stored(typeof(TSampleChild)));
-        Assert.Equal(nameof(TPersistent), NameTable.Delphi(typeof(TPersistent)));
-        Assert.Equal(nameof(TPersistent), NameTable.Stored(typeof(TPersistent)));
+        Assert.Equal("TPersistent", NameTable.Delphi(typeof(Persistent)));
+        Assert.Equal(nameof(Persistent), NameTable.Stored(typeof(Persistent)));
         var fresh = new TSampleChild(0);
         var next = new TSampleChild(3);
         Assert.NotSame(fresh, next);
         Assert.Equal(13, next.Value);
         Assert.Equal(2, next.ClassID);
-        Assert.Throws<EAbstractError>(next.AbstractCall);
+        Assert.Throws<AbstractErrorException>(next.AbstractCall);
         object? nil = null;
         (nil as IDisposable)?.Dispose();
         next.Dispose();
@@ -52,7 +52,7 @@ public sealed class CoreTests
         var result = GeneratedStyleSample.Run();
         Assert.Equal(20, result.Value);
         Assert.Equal("abcde", result.Name);
-        Assert.Equal(TSet<TFlag>.Range(TFlag.First, TFlag.Third), result.Flags);
+        Assert.Equal(Set<TFlag>.Range(TFlag.First, TFlag.Third), result.Flags);
         var copy = result;
         copy.Name = "x";
         copy.Flags = default;
@@ -207,28 +207,28 @@ public sealed class CoreTests
     [Fact]
     public void SetBoundariesAndImages()
     {
-        TSet<WideFlag> empty = default;
+        Set<WideFlag> empty = default;
         Assert.True(empty.IsEmpty);
         Assert.Equal(0, empty.Count);
-        var set = TSet<WideFlag>.Of(WideFlag.Low, WideFlag.High);
+        var set = Set<WideFlag>.Of(WideFlag.Low, WideFlag.High);
         Assert.Equal(0x8000000000000001UL, set.Mask);
-        Assert.Equal(set, TSet<WideFlag>.FromMask(set.Mask));
-        Assert.True(set.Equals((object)TSet<WideFlag>.FromMask(set.Mask)));
+        Assert.Equal(set, Set<WideFlag>.FromMask(set.Mask));
+        Assert.True(set.Equals((object)Set<WideFlag>.FromMask(set.Mask)));
         Assert.False(set.Equals(3));
-        Assert.Equal(set.GetHashCode(), TSet<WideFlag>.FromMask(set.Mask).GetHashCode());
-        Assert.Equal(64, TSet<WideFlag>.Range(WideFlag.Low, WideFlag.High).Count);
-        Assert.True(TSet<WideFlag>.Range(WideFlag.High, WideFlag.Low).IsEmpty);
-        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.Of(64));
-        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.Range(0, 64));
-        Assert.Throws<ArgumentOutOfRangeException>(() => default(TSet<byte>).With(255));
-        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.WithBounds(-1, 2));
-        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.WithBounds(0, 256));
-        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.WithBounds(9, 8));
-        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.WithBounds(8, 15).With(0));
-        Assert.False(TSet<byte>.WithBounds(8, 15).Contains(0));
-        Assert.Equal(4, TSet<byte>.WithBounds(20, 40).StorageSize);
-        Assert.Equal(4, TSet<byte>.WithBounds(0, 23).StorageSize);
-        var shifted = TSet<ShiftedFlag>.Of(ShiftedFlag.Low, ShiftedFlag.High);
+        Assert.Equal(set.GetHashCode(), Set<WideFlag>.FromMask(set.Mask).GetHashCode());
+        Assert.Equal(64, Set<WideFlag>.Range(WideFlag.Low, WideFlag.High).Count);
+        Assert.True(Set<WideFlag>.Range(WideFlag.High, WideFlag.Low).IsEmpty);
+        Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.Of(64));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.Range(0, 64));
+        Assert.Throws<ArgumentOutOfRangeException>(() => default(Set<byte>).With(255));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.WithBounds(-1, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.WithBounds(0, 256));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.WithBounds(9, 8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.WithBounds(8, 15).With(0));
+        Assert.False(Set<byte>.WithBounds(8, 15).Contains(0));
+        Assert.Equal(4, Set<byte>.WithBounds(20, 40).StorageSize);
+        Assert.Equal(4, Set<byte>.WithBounds(0, 23).StorageSize);
+        var shifted = Set<ShiftedFlag>.Of(ShiftedFlag.Low, ShiftedFlag.High);
         Assert.Equal(0x8100UL, shifted.Mask);
         Assert.Equal(129UL, shifted.Image);
         Assert.Equal(1, shifted.StorageSize);
@@ -236,8 +236,8 @@ public sealed class CoreTests
         shifted.CopyImageTo(image);
         Assert.Equal(129, image[0]);
         Assert.Throws<ArgumentOutOfRangeException>(() => shifted.CopyImageTo([]));
-        var large = TSet<byte>.WithBounds(0, 255).WithRange(0, 255);
-        Assert.Equal(large, TSet<byte>.WithBounds(0, 255).Range((byte)0, (byte)255));
+        var large = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
+        Assert.Equal(large, Set<byte>.WithBounds(0, 255).Range((byte)0, (byte)255));
         Assert.Equal(256, large.Count);
         image = new byte[32];
         large.CopyImageTo(image);
@@ -246,7 +246,7 @@ public sealed class CoreTests
         large.CopyImageTo(image);
         Assert.Equal(254, image[8]); Assert.Equal(254, image[16]); Assert.Equal(254, image[24]);
         Assert.Equal(253, large.Count);
-        var crossing = TSet<byte>.WithBounds(60, 80).With(60).With(64).With(79);
+        var crossing = Set<byte>.WithBounds(60, 80).With(60).With(64).With(79);
         image = new byte[crossing.StorageSize];
         crossing.CopyImageTo(image);
         Assert.Equal(new byte[] { 16, 1, 128, 0 }, image);
@@ -258,11 +258,11 @@ public sealed class CoreTests
     {
         for (int a = 0; a < 256; a++)
         {
-            var left = TSet<byte>.FromMask((ulong)a);
+            var left = Set<byte>.FromMask((ulong)a);
             var original = left;
             for (int b = 0; b < 256; b++)
             {
-                var right = TSet<byte>.FromMask((ulong)b);
+                var right = Set<byte>.FromMask((ulong)b);
                 Assert.Equal((ulong)(a | b), (left + right).Mask);
                 Assert.Equal((ulong)(a & ~b), (left - right).Mask);
                 Assert.Equal((ulong)(a & b), (left & right).Mask);

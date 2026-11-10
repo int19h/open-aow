@@ -25,37 +25,37 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // done callback, join event, details flag, selection mask, unit list, face unit
-public partial class THeroJoinDlg : TDataModule
+public partial class HeroJoinDlg : DataModule
 {
-    public THeroJoinDlg(TComponent owner) : base(owner)
+    public HeroJoinDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWPanel UnitPnl;
-    public TAoWFrame U1;
-    public TAoWFrame U2;
-    public TAoWFrame U4;
-    public TAoWFrame U5;
-    public TAoWFrame U3;
-    public TAoWFrame U6;
-    public TAoWFrame U7;
-    public TAoWFrame U8;
-    public TAOWButton MiddleBtn;
-    public TAoWFrame BCeltL;
-    public TAOWButton RightBtn;
-    public TAOWButton LeftBtn;
-    public TAOWWindow Dlg;
-    public TAOWLabel HeroName;
-    public TAOWLabel HeroLevel;
-    public TAOWImage FaceFrame;
-    public TAOWLabel DetailsLbl;
-    public TAOWMemo JoinMemo;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public TJoinEventLog FJoinEvent;
+    public AOWPanel UnitPnl;
+    public AoWFrame U1;
+    public AoWFrame U2;
+    public AoWFrame U4;
+    public AoWFrame U5;
+    public AoWFrame U3;
+    public AoWFrame U6;
+    public AoWFrame U7;
+    public AoWFrame U8;
+    public AOWButton MiddleBtn;
+    public AoWFrame BCeltL;
+    public AOWButton RightBtn;
+    public AOWButton LeftBtn;
+    public AOWWindow Dlg;
+    public AOWLabel HeroName;
+    public AOWLabel HeroLevel;
+    public AOWImage FaceFrame;
+    public AOWLabel DetailsLbl;
+    public AOWMemo JoinMemo;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public JoinEventLog FJoinEvent;
     public bool FDetailsOpen;
     public byte FSelection;
-    public TUnitUserList FUnits;
-    public TAbstractUnit FFaceUnit;
+    public UnitUserList FUnits;
+    public AbstractUnit FFaceUnit;
 
     // AoWHeroJoinDlg.pas:68
     public bool ValidateJoin()
@@ -72,8 +72,8 @@ public partial class THeroJoinDlg : TDataModule
     // AoWHeroJoinDlg.pas:74
     public void FinishDialog()
     {
-        TEventLog Event;
-        TExecuteDoneEvent Done;
+        EventLog Event;
+        ExecuteDoneEvent Done;
         FUnits.Clear();
         if (FDetailsOpen)
         {
@@ -98,13 +98,13 @@ public partial class THeroJoinDlg : TDataModule
     }
 
     // AoWHeroJoinDlg.pas:94
-    public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc Surface)
+    public void DrawUnit(int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc Surface)
     {
-        TAlignment Alignment;
+        Alignment Alignment;
         int X;
         int Y;
-        TRect OldClip;
-        TP2UnitShowInfo Info;
+        global::Aow.Rtl.Rect OldClip;
+        P2UnitShowInfo Info;
         if (Index < FUnits.GetCount())
         {
             OldClip = Surface.ClipRect;
@@ -120,7 +120,7 @@ public partial class THeroJoinDlg : TDataModule
 
             Info = default;
             Info.Direction = 3;
-            Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
+            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             FUnits.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
             if ((((int)(((uint)FSelection) >> Index)) & 1) == 0)
             {
@@ -135,7 +135,7 @@ public partial class THeroJoinDlg : TDataModule
     // AoWHeroJoinDlg.pas:122
     public void HeroJoinDlgCreate()
     {
-        FUnits = new TUnitUserList(null);
+        FUnits = new UnitUserList(null);
     }
 
     // AoWHeroJoinDlg.pas:127
@@ -153,7 +153,7 @@ public partial class THeroJoinDlg : TDataModule
             Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             if (!FJoinEvent.Accept(ref Reason))
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
             }
             else
             {
@@ -171,7 +171,7 @@ public partial class THeroJoinDlg : TDataModule
             Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             if (!FJoinEvent.Reject(ref Reason))
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
             }
             else
             {
@@ -191,9 +191,9 @@ public partial class THeroJoinDlg : TDataModule
     }
 
     // AoWHeroJoinDlg.pas:165
-    public void FaceFramePreDraw(TSurfaceDesc Surface)
+    public void FaceFramePreDraw(SurfaceDesc Surface)
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         if (ValidateJoin())
         {
             R.Left = FaceFrame.WinLeft + Dlg.WinLeft;
@@ -208,9 +208,9 @@ public partial class THeroJoinDlg : TDataModule
     }
 
     // AoWHeroJoinDlg.pas:179
-    public void U1PreDraw(TAoWFrame Sender, TSurfaceDesc Surface, int Slot)
+    public void U1PreDraw(AoWFrame Sender, SurfaceDesc Surface, int Slot)
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         if (ValidateJoin())
         {
             R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
@@ -223,7 +223,7 @@ public partial class THeroJoinDlg : TDataModule
     }
 
     // AoWHeroJoinDlg.pas:196
-    public void U1MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
+    public void U1MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
     {
         if (ValidateJoin())
         {
@@ -232,7 +232,7 @@ public partial class THeroJoinDlg : TDataModule
             {
                 var unit = FUnits.GetUnit(Slot);
                 Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
-                if (Button == TMouseButton.mbLeft)
+                if (Button == MouseButton.Left)
                 {
                     FDetailsOpen = true;
                     Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
@@ -249,7 +249,7 @@ public partial class THeroJoinDlg : TDataModule
     }
 
     // AoWHeroJoinDlg.pas:216
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -257,25 +257,25 @@ public partial class THeroJoinDlg : TDataModule
         }
     }
 
-    internal static void UpdateHeroJoin(THeroJoinDlg Dialog)
+    internal static void UpdateHeroJoin(HeroJoinDlg Dialog)
     {
         if (Dialog.ValidateJoin())
         {
             Dialog.FUnits.Clear();
-            Dialog.FFaceUnit = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
+            Dialog.FFaceUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
             Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
-            var level = ((THero)Dialog.FFaceUnit).GetLevel();
+            var level = ((Hero)Dialog.FFaceUnit).GetLevel();
             var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelXRStr), [IntToStr(level)]);
             Dialog.HeroLevel.Text = format;
-            Dialog.HeroName.Text = ((THero)Dialog.FFaceUnit).FHeroName;
+            Dialog.HeroName.Text = ((Hero)Dialog.FFaceUnit).FHeroName;
             var text = Dialog.FJoinEvent.FJoinMessage.Text;
             Dialog.JoinMemo.Items.Text = text;
         }
     }
 
-    internal static void ShowHeroJoin(THeroJoinDlg Dialog, THeroJoinEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowHeroJoin(HeroJoinDlg Dialog, HeroJoinEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.THeroJoinDlg.ResetHeroJoin(Dialog);
+        Aow.Game.Ui.Dialogs.HeroJoinDlg.ResetHeroJoin(Dialog);
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
         Dialog.FDone = Done;
@@ -284,13 +284,13 @@ public partial class THeroJoinDlg : TDataModule
         Dialog.MiddleBtn.Visible = false;
         var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
         Dialog.RightBtn.Text = cancel;
-        Aow.Game.Ui.Dialogs.THeroJoinDlg.UpdateHeroJoin(Dialog);
+        Aow.Game.Ui.Dialogs.HeroJoinDlg.UpdateHeroJoin(Dialog);
         Dialog.Dlg.Visible = true;
     }
 
-    internal static void ShowHeroNegotiation(THeroJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowHeroNegotiation(HeroJoinDlg Dialog, NegotiateRequestEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.THeroJoinDlg.ResetHeroJoin(Dialog);
+        Aow.Game.Ui.Dialogs.HeroJoinDlg.ResetHeroJoin(Dialog);
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
         Dialog.FDone = Done;
@@ -300,20 +300,20 @@ public partial class THeroJoinDlg : TDataModule
         Dialog.MiddleBtn.Text = attack;
         var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
         Dialog.RightBtn.Text = cancel;
-        Aow.Game.Ui.Dialogs.THeroJoinDlg.UpdateHeroJoin(Dialog);
+        Aow.Game.Ui.Dialogs.HeroJoinDlg.UpdateHeroJoin(Dialog);
         Dialog.Dlg.Visible = true;
     }
 
-    internal static void ResetHeroJoin(THeroJoinDlg Dialog)
+    internal static void ResetHeroJoin(HeroJoinDlg Dialog)
     {
         Dialog.LeftBtn.Visible = true;
         Dialog.MiddleBtn.Visible = true;
         Dialog.RightBtn.Visible = true;
     }
 
-    internal static void ShowPrisonerHero(THeroJoinDlg Dialog, TPrisonersJoinEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowPrisonerHero(HeroJoinDlg Dialog, PrisonersJoinEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.THeroJoinDlg.ResetHeroJoin(Dialog);
+        Aow.Game.Ui.Dialogs.HeroJoinDlg.ResetHeroJoin(Dialog);
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
         Dialog.FDone = Done;
@@ -322,7 +322,7 @@ public partial class THeroJoinDlg : TDataModule
         Dialog.MiddleBtn.Visible = false;
         var reject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RejectRStr);
         Dialog.RightBtn.Text = reject;
-        Aow.Game.Ui.Dialogs.THeroJoinDlg.UpdateHeroJoin(Dialog);
+        Aow.Game.Ui.Dialogs.HeroJoinDlg.UpdateHeroJoin(Dialog);
         Dialog.Dlg.Visible = true;
     }
 

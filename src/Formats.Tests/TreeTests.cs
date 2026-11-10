@@ -26,7 +26,7 @@ public sealed class TreeTests : FormatsTest
         return FormatSchema.Load(memory.ToArray(), file);
     }
 
-    private static SchemaClass SampleClass => Schema.Get("TSample");
+    private static SchemaClass SampleClass => Schema.Get(NameTable.Stored(typeof(TSample)));
 
     [Fact]
     public void EveryValueRoundTripsInSchemaOrder()
@@ -300,7 +300,7 @@ public sealed class TreeTests : FormatsTest
         var recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, enchantment, current, "game"));
         Assert.Equal("root.Extra", recordError.Diagnostic.Path);
         Assert.Equal(Codes.UnknownMember, recordError.Diagnostic.Code);
-        Assert.Equal("Class TEnchantment has no member \"Extra\".", recordError.Diagnostic.Message);
+        Assert.Equal("Class " + enchantment.Name + " has no member \"Extra\".", recordError.Diagnostic.Message);
         var version2 = Frozen("Aow.Formats.Migrations.schema-v2.json", "schema-v2.json");
         var oldRecord = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, version2.Get("TEnchantment"), version2, "game"));
         Assert.Equal("root.Extra", oldRecord.Diagnostic.Path);

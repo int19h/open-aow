@@ -48,7 +48,7 @@ public sealed class FilesAndStreamsTests
             Assert.True(DeleteFile("a/new.bin")); Assert.False(DeleteFile("a/new.bin"));
             Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => OpenFile("missing", fmOpenRead)).Message);
             Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => OpenFile("absent/file", fmCreate)).Message);
-            TSearchRec search = default;
+            SearchRec search = default;
             Assert.Equal(3, FindFirst("absent\\*", faAnyFile, ref search));
             File.WriteAllBytes("a/hidden", []); File.SetAttributes("a/hidden", FileAttributes.Hidden);
             // Only Windows has a hidden attribute. On Linux a hidden file is one whose name starts with a dot.
@@ -104,7 +104,7 @@ public sealed class FilesAndStreamsTests
             Assert.True(FileExists("a")); Assert.True(DirectoryExists("a")); Assert.True(CreateDir("a")); Assert.True(DeleteFile("a")); Assert.True(RenameFile("a", "b"));
             using (var stream = OpenFile("virtual", fmCreate)) { stream.WriteBuffer(new byte[] { 7 }); Assert.Equal(new byte[] { 7 }, files.Opened.ToArray()); }
             Assert.Contains("open virtual 65535", files.Calls);
-            TSearchRec search = default;
+            SearchRec search = default;
             Assert.Equal(0, FindFirst("*", 0, ref search)); Assert.Equal("A", search.Name); Assert.Equal(1, search.Size); Assert.Equal(FileAge("A"), search.Time);
             Assert.Equal(0, FindNext(ref search)); Assert.Equal("b", search.Name); Assert.Equal(18, FindNext(ref search)); FindClose(ref search);
             Assert.Contains("enumerate fake", files.Calls);

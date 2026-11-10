@@ -7,29 +7,23 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls;
 
-public enum TAOWGaugeType : byte
-{
-    gtNormal = 0,
-    gtBorderless = 1
-}
-
 // Fields: FMin, FMax, FPosition, FILFrame, FILTextureNormal, FILTextureSelected, FStyle,
 // FILIndexFrame, FILIndexTNormal, FILIndexTSelected
-public partial class TAoWGauge : TAOWControl
+public partial class AoWGauge : AOWControl
 {
     public int FMin;
     public int FMax;
     public int FPosition;
-    public TInterfaceIL FILFrame;
-    public TInterfaceIL FILTextureNormal;
-    public TInterfaceIL FILTextureSelected;
-    public TAOWGaugeType FStyle;
+    public InterfaceIL FILFrame;
+    public InterfaceIL FILTextureNormal;
+    public InterfaceIL FILTextureSelected;
+    public AOWGaugeType FStyle;
     public int FILIndexFrame;
     public int FILIndexTNormal;
     public int FILIndexTSelected;
 
     // AOWGauge.pas:69
-    public TAoWGauge(TComponent owner) : base(owner)
+    public AoWGauge(global::Aow.Rtl.Component owner) : base(owner)
     {
         FMax = 1;
     }
@@ -56,11 +50,11 @@ public partial class TAoWGauge : TAOWControl
 
             if (FILFrame != null)
             {
-                FStyle = TAOWGaugeType.gtNormal;
+                FStyle = AOWGaugeType.Normal;
             }
             else
             {
-                FStyle = TAOWGaugeType.gtBorderless;
+                FStyle = AOWGaugeType.Borderless;
             }
 
             FValid = true;
@@ -74,7 +68,7 @@ public partial class TAoWGauge : TAOWControl
     {
         switch (FStyle)
         {
-            case TAOWGaugeType.gtNormal:
+            case AOWGaugeType.Normal:
                 var ilFrameHeight = FILFrame[FILIndexFrame];
                 var ilFrame = FILFrame[FILIndexFrame + 5];
                 if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
@@ -117,9 +111,9 @@ public partial class TAoWGauge : TAOWControl
     // AOWGauge.pas:183
     // { Draw: the filled width P is computed from Position without subtracting Min (original bug:
     //   the gauge is only right for Min = 0) }
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect OldClip = default;
+        global::Aow.Rtl.Rect OldClip = default;
         int P = default;
         try
         {
@@ -133,11 +127,11 @@ public partial class TAoWGauge : TAOWControl
                 OldClip = SurfDesc.ClipRect;
                 switch (FStyle)
                 {
-                    case TAOWGaugeType.gtNormal:
+                    case AOWGaugeType.Normal:
                         var ilFrameWidth = FILFrame[FILIndexFrame + 3];
                         var ilFrame = FILFrame[FILIndexFrame + 4];
                         P = (FWinWidth - ilFrameWidth.Width - ilFrame.Width) * FPosition / (FMax - FMin);
-                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrame2 = FILFrame[FILIndexFrame + 3];
                         if (FAOWWindow.FWinLeft + P + FWinLeft + ilFrame2.Width > SurfDesc.ClipRect.Left)
@@ -152,27 +146,27 @@ public partial class TAoWGauge : TAOWControl
                         var ilFrame6 = FILFrame[FILIndexFrame + 4];
                         var ilFrame7 = FILFrame[FILIndexFrame + 1];
                         var ilFrame8 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilFrame7.Height, FWinWidth - ilFrame5.Width - ilFrame6.Width, FWinHeight - ilFrameHeight.Height - ilFrame4.Height);
+                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilFrame7.Height, FWinWidth - ilFrame5.Width - ilFrame6.Width, FWinHeight - ilFrameHeight.Height - ilFrame4.Height);
                         FILTextureNormal.DrawILT(FILIndexTNormal, rect2, ref SurfDesc);
                         SurfDesc.ClipRect = OldClip;
                         var ilFrame9 = FILFrame[FILIndexFrame + 1];
                         var libraryImage = FILFrame[FILIndexFrame + 6];
                         var filFrameItem = FILFrame[FILIndexFrame + 1];
                         var ilFrameWidth2 = FILFrame[FILIndexFrame + 3];
-                        var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrameWidth2.Width, FAOWWindow.FWinTop + FWinTop + filFrameItem.Height, P, FWinHeight - ilFrame9.Height - libraryImage.Height);
+                        var rect3 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrameWidth2.Width, FAOWWindow.FWinTop + FWinTop + filFrameItem.Height, P, FWinHeight - ilFrame9.Height - libraryImage.Height);
                         FILTextureSelected.DrawILT(FILIndexTSelected, rect3, ref SurfDesc);
                         break;
-                    case TAOWGaugeType.gtBorderless:
+                    case AOWGaugeType.Borderless:
                         P = FPosition * FWinWidth / (FMax - FMin);
                         if (FAOWWindow.FWinLeft + P + FWinLeft > SurfDesc.ClipRect.Left)
                         {
                             SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft;
                         }
 
-                        var rect4 = Rect(FAOWWindow.FWinLeft + P + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
+                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + P + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
                         FILTextureNormal.DrawILT(FILIndexTNormal, rect4, ref SurfDesc);
                         SurfDesc.ClipRect = OldClip;
-                        var rect5 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
+                        var rect5 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
                         FILTextureSelected.DrawILT(FILIndexTSelected, rect5, ref SurfDesc);
                         break;
                 }
@@ -190,7 +184,7 @@ public partial class TAoWGauge : TAOWControl
     }
 
     // AOWGauge.pas:237
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -205,7 +199,7 @@ public partial class TAoWGauge : TAOWControl
     }
 
     // AOWGauge.pas:250
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -219,7 +213,7 @@ public partial class TAoWGauge : TAOWControl
     }
 
     // AOWGauge.pas:262
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -239,7 +233,7 @@ public partial class TAoWGauge : TAOWControl
     }
 
     // AOWGauge.pas:141
-    public virtual void SetILFrame(TInterfaceIL Value)
+    public virtual void SetILFrame(InterfaceIL Value)
     {
         if (Value != FILFrame)
         {
@@ -249,7 +243,7 @@ public partial class TAoWGauge : TAOWControl
     }
 
     // AOWGauge.pas:150
-    public virtual void SetILTNorm(TInterfaceIL Value)
+    public virtual void SetILTNorm(InterfaceIL Value)
     {
         if (Value != FILTextureNormal)
         {
@@ -259,7 +253,7 @@ public partial class TAoWGauge : TAOWControl
     }
 
     // AOWGauge.pas:159
-    public virtual void SetILTSel(TInterfaceIL Value)
+    public virtual void SetILTSel(InterfaceIL Value)
     {
         if (Value != FILTextureSelected)
         {
@@ -328,13 +322,13 @@ public partial class TAoWGauge : TAOWControl
     public int Position { get => FPosition; set => SetPos(value); }
 
     [Published]
-    public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
     [Published]
-    public TInterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
+    public InterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
 
     [Published]
-    public TInterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+    public InterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
 
     [Published]
     public int ILIndexFrame { get => FILIndexFrame; set => FILIndexFrame = value; }
@@ -345,57 +339,62 @@ public partial class TAoWGauge : TAOWControl
     [Published]
     public int ILIndexTSelected { get => FILIndexTSelected; set => SetILTsIndex(value); }
 
-    public new TNotifyEvent<TAoWGauge> OnChange
+    public new NotifyEvent<AoWGauge> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAoWGauge> OnMouseDown
+    public new MouseEvent<AoWGauge> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAoWGauge> OnMouseUp
+    public new MouseEvent<AoWGauge> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAoWGauge> OnMouseMove
+    public new MouseMoveEvent<AoWGauge> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAoWGauge> OnKeyPress
+    public new KeyPressEvent<AoWGauge> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAoWGauge> OnKeyDown
+    public new KeyEvent<AoWGauge> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWGauge> OnPreDraw
+    public new AoWOnDrawEvent<AoWGauge> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWGauge> OnDraw
+    public new AoWOnDrawEvent<AoWGauge> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAoWGauge> OnUpdate
+    public new NotifyEvent<AoWGauge> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
+
+    public enum AOWGaugeType : byte
+    {
+        Normal = 0, Borderless = 1
     }
 }

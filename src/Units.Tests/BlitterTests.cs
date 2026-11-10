@@ -17,11 +17,11 @@ public sealed class BlitterTests
 
     private delegate void Rectangle(Area source, Area destination, int width, int height);
 
-    private delegate void Sprite(int x, int y, Area destination, TRect clip, byte[] data, int width, int height);
+    private delegate void Sprite(int x, int y, Area destination, Rect clip, byte[] data, int width, int height);
 
     #region Calls
 
-    private static SurfaceView V(Area area, TRect clip = default) => new(area.Memory, area.Start, area.Pitch, clip);
+    private static SurfaceView V(Area area, Rect clip = default) => new(area.Memory, area.Start, area.Pitch, clip);
 
     private static readonly byte[] Table = Bytes(262144, 7);
     private static readonly byte[] Blend = Bytes(1024, 8);
@@ -75,8 +75,8 @@ public sealed class BlitterTests
         ("BltStretched16", (s, rows, cols, d, w, h) => Blit.BltStretched16(V(s), rows, cols, V(d), w, h)),
         ("BlendStretched555", (s, rows, cols, d, w, h) => Blit.BlendStretched555(V(s), rows, cols, V(d), w, h, Blend)),
         ("BlendStretched565", (s, rows, cols, d, w, h) => Blit.BlendStretched565(V(s), rows, cols, V(d), w, h, Blend)),
-        ("GFXEUnit.BltStretched16", (s, rows, cols, d, w, h) => Aow.Game.Draw.Images.TPicture16.BltStretched16(V(s), rows, cols, V(d), w, h)),
-        ("GFXEUnit.BlendStretched555", (s, rows, cols, d, w, h) => Aow.Game.Draw.Images.TPicture16.BlendStretched555(V(s), rows, cols, V(d), w, h, Blend)),
+        ("GFXEUnit.BltStretched16", (s, rows, cols, d, w, h) => Aow.Game.Draw.Images.Picture16.BltStretched16(V(s), rows, cols, V(d), w, h)),
+        ("GFXEUnit.BlendStretched555", (s, rows, cols, d, w, h) => Aow.Game.Draw.Images.Picture16.BlendStretched555(V(s), rows, cols, V(d), w, h, Blend)),
     ];
 
     private static readonly (string Name, Sprite Call)[] Sprites16 =
@@ -105,16 +105,16 @@ public sealed class BlitterTests
         else Blit.RemapRLE565to555(data, height, 0);
     }
 
-    private static void DrawLine(int x1, int y1, int x2, int y2, int skip, Area d, TRect clip)
+    private static void DrawLine(int x1, int y1, int x2, int y2, int skip, Area d, Rect clip)
         => Blit.DrawLine16(x1, y1, x2, y2, skip, 0x6B5A, V(d, clip));
 
     #endregion
 
-    private static readonly TGFXEPalette Palette = MakePalette();
+    private static readonly GFXEPalette Palette = MakePalette();
 
-    private static TGFXEPalette MakePalette()
+    private static GFXEPalette MakePalette()
     {
-        var palette = new TGFXEPalette();
+        var palette = new GFXEPalette();
         var random = new Random(9);
         for (int i = 0; i < 256; i++)
         {
@@ -495,7 +495,7 @@ public sealed class BlitterTests
 
     // The clip rectangles of a 96 by 12 surface: whole, each edge cut, a miss, an inner
     // rectangle, the sprite above and left of the origin, and cuts beyond the first mask dword.
-    private static (TRect Clip, int X, int Y) Placement(int clip, int width)
+    private static (Rect Clip, int X, int Y) Placement(int clip, int width)
     {
         int x = 4, y = 3;
         var rect = RtlUnit.Rect(0, 0, 96, 12);

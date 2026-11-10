@@ -27,15 +27,15 @@ namespace Aow.Game.Commands
 {
 
     // FEnchantment
-    public partial class TGlobalEnchantmentSpellTE : TSpellTE
+    public partial class GlobalEnchantmentSpellTE : SpellTE
     {
-        public TGlobalEnchantmentSpellTE(TECustomNode owner) : base(owner)
+        public GlobalEnchantmentSpellTE(ECustomNode owner) : base(owner)
         { }
 
         // GlobalEnchantmentSpells.pas:389
         public new const int ClassID = 135954;
 
-        public TGlobalEnchantment FEnchantment;
+        public GlobalEnchantment FEnchantment;
 
         // GlobalEnchantmentSpells.pas:379
         public override void Dispose()
@@ -50,14 +50,14 @@ namespace Aow.Game.Commands
         }
 
         // GlobalEnchantmentSpells.pas:394
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwCreateEObject(ref FEnchantment, null, 25);
         }
 
         // GlobalEnchantmentSpells.pas:400
-        public override bool Validate(THero source)
+        public override bool Validate(Hero source)
         {
             string Reason = "";
             bool Result = base.Validate(source);
@@ -65,7 +65,7 @@ namespace Aow.Game.Commands
         }
 
         // GlobalEnchantmentSpells.pas:408
-        public override bool Process(TAbstractUnit source, int value) => base.Process(source, value);
+        public override bool Process(AbstractUnit source, int value) => base.Process(source, value);
 
         // NetworkE.pas:230
 
@@ -76,31 +76,31 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
 {
 
     // FAIBasePriority
-    public partial class TGlobalEnchantmentSpell : Aow.Game.Magic.Spells.TSpell
+    public partial class GlobalEnchantmentSpell : Aow.Game.Magic.Spells.Spell
     {
         public int FAIBasePriority;
 
         // GlobalEnchantmentSpells.pas:413
-        public TGlobalEnchantmentSpell(TECustomNode owner) : base(owner)
+        public GlobalEnchantmentSpell(ECustomNode owner) : base(owner)
         {
             FAIBasePriority = -1;
         }
 
         // GlobalEnchantmentSpells.pas:429
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             if (ExecuteCount == 0)
             {
-                ((TGlobalEnchantmentSpellTE)Event).FEnchantment.Cast(Source.FPlayer);
+                ((GlobalEnchantmentSpellTE)Event).FEnchantment.Cast(Source.FPlayer);
             }
 
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:494
-        public override void AIPrefetchCastSpellActions(TAbstractUnit Source, TAICastSpellActionList Actions)
+        public override void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
         {
-            TAICastSpellAction Action;
+            AICastSpellAction Action;
             bool aiCanCastSpell = AICanCastSpell(Source);
             if (aiCanCastSpell)
             {
@@ -118,7 +118,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:507
-        public override bool AIExecuteCastSpellAction(TAbstractUnit Source)
+        public override bool AIExecuteCastSpellAction(AbstractUnit Source)
         {
             bool Result;
             string Reason = "";
@@ -126,7 +126,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             {
                 var aiUpkeepPriority = AIUpkeepPriority();
                 AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, aiUpkeepPriority);
-                var hero = (THero)Source;
+                var hero = (Hero)Source;
                 if (hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
                 {
                     Result = this.Activate(Source);
@@ -153,13 +153,13 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:435
-        public override bool CanActivate(TAbstractUnit Source, ref string MessageText)
+        public override bool CanActivate(AbstractUnit Source, ref string MessageText)
         {
-            Aow.Game.Magic.TGlobalEnchantment Enchantment;
+            global::Aow.Game.Magic.GlobalEnchantment Enchantment;
             bool Result = base.CanActivate(Source, ref MessageText);
             if (Result)
             {
-                if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.FActiveEnchantments.Contains(Aow.Game.Magic.TGlobalEnchantmentType.getSpellWard))
+                if (!Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(Aow.Game.Magic.GlobalEnchantmentType.SpellWard))
                 {
                     Enchantment = CreateEnchantment();
                     if (Enchantment != null)
@@ -180,18 +180,18 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:458
-        public override bool Activate(TAbstractUnit Source)
+        public override bool Activate(AbstractUnit Source)
         {
             bool Result;
-            TGlobalEnchantmentSpellTE Event;
+            GlobalEnchantmentSpellTE Event;
             string Reason = "";
-            if (CanActivate(Source, ref Reason) && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+            if (CanActivate(Source, ref Reason) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
-                Event = new TGlobalEnchantmentSpellTE(null);
+                Event = new GlobalEnchantmentSpellTE(null);
                 Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
                 Event.FEnchantment = CreateEnchantment();
                 SetupEnchantment(Source, Event.FEnchantment);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -204,18 +204,18 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:476
-        public virtual bool AICanCastSpell(TAbstractUnit Source)
+        public virtual bool AICanCastSpell(AbstractUnit Source)
         {
             string Reason = "";
-            bool Result = FAIBasePriority != -1 && ((THero)Source).CanCastSpell(FSpellID, ref Reason);
+            bool Result = FAIBasePriority != -1 && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
             return Result && CanActivate(Source, ref Reason);
         }
 
         // GlobalEnchantmentSpells.pas:419
-        public virtual Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => null;
+        public virtual global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => null;
 
         // GlobalEnchantmentSpells.pas:424
-        public virtual void SetupEnchantment(TAbstractUnit Source, Aow.Game.Magic.TGlobalEnchantment Enchantment)
+        public virtual void SetupEnchantment(AbstractUnit Source, global::Aow.Game.Magic.GlobalEnchantment Enchantment)
         {
             Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
         }
@@ -223,25 +223,25 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:484
         public int AIUpkeepPriority()
         {
-            Aow.Game.Magic.TGlobalEnchantment Enchantment;
+            global::Aow.Game.Magic.GlobalEnchantment Enchantment;
             // { Original creates the base enchantment here. }
-            Enchantment = new Aow.Game.Magic.TGlobalEnchantment(null);
+            Enchantment = new global::Aow.Game.Magic.GlobalEnchantment(null);
             int Result = Enchantment.GetAIUpkeepPriority();
             Enchantment.Release();
             return Result;
         }
     }
 
-    public partial class TEnchantedRoadsEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class EnchantedRoadsEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:535
         public new const int ClassID = 135955;
 
         // GlobalEnchantmentSpells.pas:527
-        public TEnchantedRoadsEnchantment(TECustomNode owner) : base(owner)
+        public EnchantedRoadsEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EnchantedRoadsRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getNone;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.None;
             FDispelMana = 50;
         }
 
@@ -252,8 +252,8 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool Deactivate(byte Player)
         {
             base.Deactivate(Player);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petEnchantedRoads));
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
             return true;
         }
 
@@ -261,7 +261,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result = base.CanActivate(Player, ref Reason);
-            if (Result && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petEnchantedRoads))
+            if (Result && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
             {
                 var xIsAlreadyActive = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsAlreadyActiveRStr);
                 var name = GetName();
@@ -276,58 +276,58 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool Activate(sbyte Player)
         {
             base.Activate(Player);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petEnchantedRoads));
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
             return true;
         }
 
     }
 
-    public partial class TEnchantedRoads : TGlobalEnchantmentSpell
+    public partial class EnchantedRoads : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:571
-        public TEnchantedRoads(TECustomNode owner) : base(owner)
+        public EnchantedRoads(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EnchantedRoadsRStr);
             FSpellID = 44;
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FBaseManaCost = 1;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
             FCastDuration = 20;
             FAIBasePriority = 750;
         }
 
         // GlobalEnchantmentSpells.pas:613
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TAnimation Anim = default;
-            TTwinkleAnimation Twinkle = default;
+            Animation Anim = default;
+            TwinkleAnimation Twinkle = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Anim = new TAnimation(null);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Anim = new Animation(null);
             Anim.FAnimationLevel = 27;
             Anim.FOnShow = ShowAnimation;
-            Anim.FAnimationMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+            Anim.FAnimationMap = Aow.Game.World.Map.AoWHSMap.Current;
             Anim.Activate();
-            Twinkle = new TTwinkleAnimation(null);
-            Twinkle.Setup(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(44).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Twinkle, X, Y, L);
+            Twinkle = new TwinkleAnimation(null);
+            Twinkle.Setup(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(44).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
+            Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Twinkle, X, Y, L);
             FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:636
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TEnchantedRoadsEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new EnchantedRoadsEnchantment(null);
 
-        public void ShowAnimation(TAnimation anim, int xhpSurface, int yhpSurface, in TSurfaceDesc surface)
+        public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in SurfaceDesc surface)
         {
-            var map = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+            var map = Aow.Game.World.Map.AoWHSMap.Current;
             var level = map.MapContainer.GetMapLevel(map.ViewL);
             int maxX = map.ViewXhx + map.ViewWidthHX - 1, maxY = map.ViewYhx + map.ViewHeightHX - 1;
             for (int x = map.ViewXhx; x <= maxX; x++)
@@ -338,7 +338,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 yhp = yhp - yhpSurface + 16;
                 for (int y = map.ViewYhx; y <= maxY; y++, yhp += 32)
                 {
-                    var field = (TAoWMapField)level.GetField(x, y);
+                    var field = (AoWMapField)level.GetField(x, y);
                     if (field.OverlayType == 4 && map.FSeatedPlayer != -1 && field.GetExplored(map.FSeatedPlayer))
                         FCastImages.Show(0, xhp, yhp, anim.FFrameCounter - ((field.Xhx + field.Yhx * 8 + ((field.FFieldFlags >> 16) & 255)) & 15), surface);
                 }
@@ -347,16 +347,16 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class TAirMasteryEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class AirMasteryEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:649
         public new const int ClassID = 135966;
 
         // GlobalEnchantmentSpells.pas:641
-        public TAirMasteryEnchantment(TECustomNode owner) : base(owner)
+        public AirMasteryEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AirMasteryRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getNone;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.None;
             FDispelMana = 175;
         }
 
@@ -367,10 +367,10 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool Deactivate(byte Player)
         {
             base.Deactivate(Player);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petAirMastery));
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery));
             // { Original uses Earth. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msEarth);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Earth);
             return true;
         }
 
@@ -380,7 +380,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petAirMastery))
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
                 {
                     var xIsAlreadyActive = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsAlreadyActiveRStr);
                     var name = GetName();
@@ -396,67 +396,67 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool Activate(sbyte Player)
         {
             base.Activate(Player);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petAirMastery));
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery));
             // { Original uses Earth. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msEarth);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Earth);
             return true;
         }
 
     }
 
-    public partial class TAirMastery : TGlobalEnchantmentSpell
+    public partial class AirMastery : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:688
-        public TAirMastery(TECustomNode owner) : base(owner)
+        public AirMastery(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AirMasteryRStr);
             FSpellID = 60;
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FBaseManaCost = 1;
             FSpellLevel = 3;
             // { Original also assigns Earth to Air Mastery. }
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
             FCastDuration = 40;
             FAIBasePriority = 750;
         }
 
         // GlobalEnchantmentSpells.pas:727
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TAnimation Anim = default;
+            Animation Anim = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
-            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.TMagicSphere.msAir);
+            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.MagicSphere.Air);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Anim = new TAnimation(null);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Anim = new Animation(null);
             Anim.FAnimationLevel = 28;
             Anim.FOnShow = ShowAnimation;
-            Anim.FAnimationMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-            Anim.FTag = (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewWidth & 65535) | (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewHeight << 16);
+            Anim.FAnimationMap = Aow.Game.World.Map.AoWHSMap.Current;
+            Anim.FTag = (Aow.Game.World.Map.AoWHSMap.Current.ViewWidth & 65535) | (Aow.Game.World.Map.AoWHSMap.Current.ViewHeight << 16);
             Anim.Activate();
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(60).FCastSounds.Play(0);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(60).FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:747
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TAirMasteryEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new AirMasteryEnchantment(null);
 
         // GlobalEnchantmentSpells.pas:701
-        public void ShowAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Count;
             int X;
             int Y;
             int Speed;
             int Image;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewL == 0)
+            if (Aow.Game.World.Map.AoWHSMap.Current.ViewL == 0)
             {
-                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame - Anim.FFrameCounter;
+                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Frame - Anim.FFrameCounter;
                 switch ((int)Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail)
                 {
                     case 0:
@@ -489,16 +489,16 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class TWaterMasteryEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class WaterMasteryEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:760
         public new const int ClassID = 135956;
 
         // GlobalEnchantmentSpells.pas:752
-        public TWaterMasteryEnchantment(TECustomNode owner) : base(owner)
+        public WaterMasteryEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WaterMasteryRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getNone;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.None;
             FDispelMana = 175;
         }
 
@@ -509,11 +509,11 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool Deactivate(byte Player)
         {
             base.Deactivate(Player);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petWaterMastery));
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateVisibility();
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
+            Aow.Game.World.Map.AoWHSMap.Current.UpdateVisibility();
             // { Original uses Fire for Water Mastery. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msFire);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Fire);
             return true;
         }
 
@@ -523,7 +523,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petWaterMastery))
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
                 {
                     var xIsAlreadyActive = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsAlreadyActiveRStr);
                     var name = GetName();
@@ -539,33 +539,33 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool Activate(sbyte Player)
         {
             base.Activate(Player);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petWaterMastery));
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateVisibility();
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
+            Aow.Game.World.Map.AoWHSMap.Current.UpdateVisibility();
             // { Original uses Fire for Water Mastery. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msFire);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Fire);
             return true;
         }
 
     }
 
-    public partial class TWaterMastery : TGlobalEnchantmentSpell
+    public partial class WaterMastery : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:806
-        public TWaterMastery(TECustomNode owner) : base(owner)
+        public WaterMastery(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WaterMasteryRStr);
             FSpellID = 45;
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FBaseManaCost = 1;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msWater;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
             FCastDuration = 40;
             FAIBasePriority = 1000;
         }
 
         // GlobalEnchantmentSpells.pas:819
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
@@ -573,20 +573,20 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             // { Original ignores the event step. }
             base.ExecuteTE(Event, Source, 0);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.TMagicSphere.msWater);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.MagicSphere.Water);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
             FCastSounds.Play(0);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.AddEffect(TworldFXType.fxWaterMastery);
+            Aow.Game.World.Map.AoWHSMap.Current.AddEffect(TworldFXType.WaterMastery);
             CastingDone(Source, FBaseManaCost);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:801
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TWaterMasteryEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new WaterMasteryEnchantment(null);
     }
 
     // FDaysActive
-    public partial class THatredEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class HatredEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:841
         public new const int ClassID = 135957;
@@ -594,7 +594,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public int FDaysActive;
 
         // GlobalEnchantmentSpells.pas:851
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FDaysActive, 20);
@@ -607,15 +607,15 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:833
-        public THatredEnchantment(TECustomNode owner) : base(owner)
+        public HatredEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HatredRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getHatred;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.Hatred;
             FDispelMana = 50;
         }
 
         // GlobalEnchantmentSpells.pas:863
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)
@@ -633,11 +633,11 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             base.Deactivate(Player);
             if (FDaysActive > 10)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.FRelationOffset += 40;
+                Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset += 40;
             }
             else
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.FRelationOffset += FDaysActive * 4;
+                Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset += FDaysActive * 4;
             }
 
             return true;
@@ -657,46 +657,46 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             FDaysActive += 1;
             if (FDaysActive <= 10)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.FRelationOffset -= 4;
+                Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset -= 4;
             }
         }
 
     }
 
-    public partial class THatred : TGlobalEnchantmentSpell
+    public partial class Hatred : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:889
-        public THatred(TECustomNode owner) : base(owner)
+        public Hatred(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HatredRStr);
             FSpellID = 46;
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FBaseManaCost = 20;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msDeath;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Death;
         }
 
         // GlobalEnchantmentSpells.pas:900
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.AddEffect(TworldFXType.fxHatred);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Aow.Game.World.Map.AoWHSMap.Current.AddEffect(TworldFXType.Hatred);
             FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:884
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new THatredEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new HatredEnchantment(null);
     }
 
     // FDaysActive
-    public partial class THarmonyEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class HarmonyEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:921
         public new const int ClassID = 135958;
@@ -704,7 +704,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public int FDaysActive;
 
         // GlobalEnchantmentSpells.pas:931
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FDaysActive, 20);
@@ -717,15 +717,15 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:913
-        public THarmonyEnchantment(TECustomNode owner) : base(owner)
+        public HarmonyEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HarmonyRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getHarmony;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.Harmony;
             FDispelMana = 50;
         }
 
         // GlobalEnchantmentSpells.pas:943
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)
@@ -743,11 +743,11 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             base.Deactivate(Player);
             if (FDaysActive > 10)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.FRelationOffset -= 40;
+                Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset -= 40;
             }
             else
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.FRelationOffset -= FDaysActive * 4;
+                Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset -= FDaysActive * 4;
             }
 
             return true;
@@ -767,54 +767,54 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             FDaysActive += 1;
             if (FDaysActive <= 10)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.FRelationOffset += 4;
+                Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset += 4;
             }
         }
 
     }
 
-    public partial class THarmony : TGlobalEnchantmentSpell
+    public partial class Harmony : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:969
-        public THarmony(TECustomNode owner) : base(owner)
+        public Harmony(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HarmonyRStr);
             FSpellID = 47;
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FBaseManaCost = 15;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msLife;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Life;
         }
 
         // GlobalEnchantmentSpells.pas:980
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.AddEffect(TworldFXType.fxTranquility);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Aow.Game.World.Map.AoWHSMap.Current.AddEffect(TworldFXType.Tranquility);
             FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:964
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new THarmonyEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new HarmonyEnchantment(null);
     }
 
-    public partial class TPowerLeakEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class PowerLeakEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1001
         public new const int ClassID = 135959;
 
         // GlobalEnchantmentSpells.pas:993
-        public TPowerLeakEnchantment(TECustomNode owner) : base(owner)
+        public PowerLeakEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.PowerLeakRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getPowerLeak;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.PowerLeak;
             FDispelMana = 25;
         }
 
@@ -825,9 +825,9 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool Deactivate(byte Player)
         {
             base.Deactivate(Player);
-            for (int I = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; I >= 0; I--)
+            for (int I = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I >= 0; I--)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.Update();
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.Update();
             }
 
             return true;
@@ -837,9 +837,9 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool Activate(sbyte Player)
         {
             base.Activate(Player);
-            for (int I = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; I >= 0; I--)
+            for (int I = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I >= 0; I--)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.Update();
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.Update();
             }
 
             return true;
@@ -847,45 +847,45 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
 
     }
 
-    public partial class TPowerLeak : TGlobalEnchantmentSpell
+    public partial class PowerLeak : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1036
-        public TPowerLeak(TECustomNode owner) : base(owner)
+        public PowerLeak(ECustomNode owner) : base(owner)
         {
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.PowerLeakRStr);
             FSpellID = 48;
             FBaseManaCost = 1;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msCosmos;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
             FCastDuration = 20;
             FAIBasePriority = 750;
         }
 
         // GlobalEnchantmentSpells.pas:1049
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TTwinkleAnimation Anim;
+            TwinkleAnimation Anim;
             base.ExecuteTE(Event, Source, ExecuteCount);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Anim = new TTwinkleAnimation(null);
-            Anim.Setup(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(48).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmImplode), 100, 64, 50, 30);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, X, Y, L);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Anim = new TwinkleAnimation(null);
+            Anim.Setup(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(48).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);
+            Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
             FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:1031
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TPowerLeakEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new PowerLeakEnchantment(null);
     }
 
     // FWidth, FHeight, FOriginalTerrain
-    public partial class TFloodControl : TEObject
+    public partial class FloodControl : EObject
     {
         public int FWidth;
         public int FHeight;
@@ -903,14 +903,14 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1078
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FWidth, 20);
             Stream.rwInteger(ref FHeight, 21);
             if (FWidth != 0)
             {
-                if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+                if (Stream.StorageMode().Contains(StorageModeElement.Read))
                 {
                     Array.Resize(ref FOriginalTerrain, FWidth * FHeight * 2);
                 }
@@ -933,7 +933,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1066
-        public TFloodControl(TECustomNode owner) : base(owner)
+        public FloodControl(ECustomNode owner) : base(owner)
         {
             FOriginalTerrain = [];
         }
@@ -941,8 +941,8 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1090
         public void Setup()
         {
-            FWidth = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.Width;
-            FHeight = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.Height;
+            FWidth = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.Width;
+            FHeight = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.Height;
             Array.Resize(ref FOriginalTerrain, FWidth * FHeight * 2);
             Array.Clear(FOriginalTerrain);
         }
@@ -950,14 +950,14 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1098
         public void Flood()
         {
-            TMapLevel MapLevel;
-            THNWalkData Walk = default;
-            TMapField MapF;
+            MapLevel MapLevel;
+            HNWalkData Walk = default;
+            MapField MapF;
             int Index;
-            THexagonSprite RoadHS;
+            HexagonSprite RoadHS;
             sbyte TerrainType;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.LockMapChangedEvent();
-            MapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(0);
+            Aow.Game.World.Map.AoWHSMap.Current.LockMapChangedEvent();
+            MapLevel = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(0);
             // { Original includes the last row when walking neighbouring hexagons. }
             for (int Y = 1, last = MapLevel.Height - 1; Y <= last; Y++)
             {
@@ -965,22 +965,22 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 {
                     if (MapLevel.GetField(X, Y).TerrainType == 0)
                     {
-                        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 1);
+                        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 1);
                         while (Walk.Radius == 1)
                         {
                             MapF = MapLevel.GetField(Walk.X, Walk.Y);
-                            if ((!TSet<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)MapF.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)MapF.OverlayType)) || (MapF.TerrainType == 0 && MapF.OverlayType == 5))
+                            if ((!Set<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)MapF.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)MapF.OverlayType)) || (MapF.TerrainType == 0 && MapF.OverlayType == 5))
                             {
                                 Index = (FWidth * Walk.Y + Walk.X) * 2;
-                                if (FOriginalTerrain[Index] == 0 && FOriginalTerrain[Index + 1] == 0 && MapF.FindNoneTransparentHS(typeof(TStructure)) == null)
+                                if (FOriginalTerrain[Index] == 0 && FOriginalTerrain[Index + 1] == 0 && MapF.FindNoneTransparentHS(typeof(Structure)) == null)
                                 {
                                     FOriginalTerrain[Index] = MapF.TerrainType;
                                     FOriginalTerrain[Index + 1] = MapF.OverlayType;
                                 }
 
-                                if (TSet<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)MapF.OverlayType))
+                                if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)MapF.OverlayType))
                                 {
-                                    RoadHS = MapF.FindOwnedHS(typeof(TAbstractRoad));
+                                    RoadHS = MapF.FindOwnedHS(typeof(AbstractRoad));
                                     if (RoadHS != null)
                                     {
                                         RoadHS.Dispose();
@@ -988,7 +988,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                                 }
                             }
 
-                            Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                         }
                     }
                 }
@@ -1014,22 +1014,22 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 }
             }
 
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UnlockMapChangedEvent();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.InvalidateMap();
+            Aow.Game.World.Map.AoWHSMap.Current.UnlockMapChangedEvent();
+            Aow.Game.World.Map.AoWHSMap.Current.InvalidateMap();
         }
 
         // GlobalEnchantmentSpells.pas:1160
         public void Restore()
         {
-            TEObjectList Resources;
-            TList Candidates;
+            EObjectList Resources;
+            DelphiList Candidates;
             int Index;
-            TMapField MapF;
-            TMapLevel MapLevel;
+            MapField MapF;
+            MapLevel MapLevel;
             sbyte Overlay;
-            TMapObjectResource Resource;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.LockMapChangedEvent();
-            MapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(0);
+            MapObjectResource Resource;
+            Aow.Game.World.Map.AoWHSMap.Current.LockMapChangedEvent();
+            MapLevel = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(0);
             for (int Y = 1, last = MapLevel.Height - 1; Y <= last; Y++)
             {
                 Index = (FWidth * Y + 1) * 2;
@@ -1038,7 +1038,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                     if (FOriginalTerrain[Index] != 0)
                     {
                         MapF = MapLevel.GetField(X, Y);
-                        if (TSet<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)MapF.TerrainType))
+                        if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)MapF.TerrainType))
                         {
                             MapF.TerrainType = FOriginalTerrain[Index];
                             MapF.TerrainChanged();
@@ -1049,8 +1049,8 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 }
             }
 
-            Resources = Aow.Game.Engine.TAoWHSSet.AoWHSSet.MapObjectResourceList.FChildren;
-            Candidates = new TList();
+            Resources = Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FChildren;
+            Candidates = new DelphiList();
             for (int Y = 1, last = MapLevel.Height - 1; Y <= last; Y++)
             {
                 Index = (FWidth * Y + 1) * 2;
@@ -1060,16 +1060,16 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                     if (Overlay > 0)
                     {
                         MapF = MapLevel.GetField(X, Y);
-                        if (TSet<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)Overlay))
+                        if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)Overlay))
                         {
-                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.RoadControl.Place(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, (sbyte)X, (sbyte)Y, 0, MapF.TerrainType);
+                            Aow.Game.Engine.AoWHSSet.Current.RoadControl.Place(Aow.Game.World.Map.AoWHSMap.Current.MapContainer, (sbyte)X, (sbyte)Y, 0, MapF.TerrainType);
                         }
                         else
                         {
                             Candidates.Clear();
                             for (int I = 0, lastI = Resources.Count - 1; I <= lastI; I++)
                             {
-                                Resource = (TMapObjectResource)Resources.List[I];
+                                Resource = (MapObjectResource)Resources.List[I];
                                 if (Resource.EClass.ClassID == 131431 && Resource.TerrainList.UsedTerrain() == 1 && Resource.TerrainList.Terrain[0] == MapF.TerrainType && Overlay == Resource.TerrainList.Overlay[0])
                                 {
                                     Candidates.Add(Resource);
@@ -1078,7 +1078,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
 
                             if (Candidates.Count != 0)
                             {
-                                ((TMapObjectResource)Candidates[Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(Candidates.Count)]).PlaceResourceUser(Aow.Game.World.Map.TAoWHSMap.AoWHSMap, (sbyte)X, (sbyte)Y, 0);
+                                ((MapObjectResource)Candidates[Aow.Game.World.Map.AoWHSMap.Current.Random(Candidates.Count)]).PlaceResourceUser(Aow.Game.World.Map.AoWHSMap.Current, (sbyte)X, (sbyte)Y, 0);
                             }
                         }
                     }
@@ -1088,14 +1088,14 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             }
 
             Candidates?.Dispose();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UnlockMapChangedEvent();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.InvalidateMap();
+            Aow.Game.World.Map.AoWHSMap.Current.UnlockMapChangedEvent();
+            Aow.Game.World.Map.AoWHSMap.Current.InvalidateMap();
         }
 
     }
 
     // FRemoved, FRestoreDays, FDispelPlayer, FTurnsActive, FFloodControl
-    public partial class TFloodEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class FloodEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1240
         public new const int ClassID = 135960;
@@ -1105,7 +1105,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public sbyte FDispelPlayer;
         // alignment
         public int FTurnsActive;
-        public TFloodControl FFloodControl;
+        public FloodControl FFloodControl;
 
         // GlobalEnchantmentSpells.pas:1234
         public override void Dispose()
@@ -1115,7 +1115,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1250
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FTurnsActive, 20);
@@ -1136,17 +1136,17 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1224
-        public TFloodEnchantment(TECustomNode owner) : base(owner)
+        public FloodEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FloodRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getFlood;
-            FFloodControl = new TFloodControl(null);
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.Flood;
+            FFloodControl = new FloodControl(null);
             FDispelMana = 100;
             FRestoreDays = -1;
         }
 
         // GlobalEnchantmentSpells.pas:1302
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001987)
@@ -1181,7 +1181,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 if (DaysBeforeActive() != 0)
                 {
                     var daysBeforeActive = DaysBeforeActive();
-                    Result = RtlUnit.Format(Aow.Game.Magic.Spells.GlobalEnchantment.TFloodEnchantment.XinYdaysRStr, [Result, daysBeforeActive]);
+                    Result = RtlUnit.Format(Aow.Game.Magic.Spells.GlobalEnchantment.FloodEnchantment.XinYdaysRStr, [Result, daysBeforeActive]);
                 }
             }
 
@@ -1217,7 +1217,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             }
             else
             {
-                Reason = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalEnchantment.TFloodEnchantment.XAlreadyRemovedRStr), [FName]);
+                Reason = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalEnchantment.FloodEnchantment.XAlreadyRemovedRStr), [FName]);
                 Result = false;
             }
 
@@ -1232,7 +1232,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             {
                 FDispelPlayer = (sbyte)Player;
                 FRemoved = true;
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayMode == TPlayMode.pmSimultaneous)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
                 {
                     FRestoreDays = 2;
                 }
@@ -1241,8 +1241,8 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                     FRestoreDays = 1;
                 }
 
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.Update();
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.Update();
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.Update();
+                Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.Update();
                 Result = true;
             }
             else
@@ -1266,13 +1266,13 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public int DaysBeforeActive()
         {
             int Result;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayMode == TPlayMode.pmSimultaneous && FTurnsActive < 2)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && FTurnsActive < 2)
             {
                 Result = 2 - FTurnsActive;
             }
             else
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayMode == TPlayMode.pmTurn && FTurnsActive == 0)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && FTurnsActive == 0)
                 {
                     Result = 1;
                 }
@@ -1291,7 +1291,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             if (!FRemoved)
             {
                 FTurnsActive += 1;
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayMode == TPlayMode.pmSimultaneous)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
                 {
                     if (FTurnsActive > 1 && FTurnsActive < 4)
                     {
@@ -1301,7 +1301,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                     {
                         if (FTurnsActive == 4)
                         {
-                            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(2) == 1)
+                            if (Aow.Game.World.Map.AoWHSMap.Current.Random(2) == 1)
                             {
                                 FFloodControl.Flood();
                             }
@@ -1310,7 +1310,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayMode == TPlayMode.pmTurn)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn)
                     {
                         if (FTurnsActive < 3)
                         {
@@ -1320,7 +1320,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                         {
                             if (FTurnsActive == 3)
                             {
-                                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(2) == 1)
+                                if (Aow.Game.World.Map.AoWHSMap.Current.Random(2) == 1)
                                 {
                                     FFloodControl.Flood();
                                 }
@@ -1336,39 +1336,39 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
 
     }
 
-    public partial class TFlood : TGlobalEnchantmentSpell
+    public partial class Flood : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1356
-        public TFlood(TECustomNode owner) : base(owner)
+        public Flood(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FloodRStr);
             FSpellID = 50;
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FBaseManaCost = 1;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msWater;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
         }
 
         // GlobalEnchantmentSpells.pas:1370
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TTwinkleAnimation Twinkle;
+            TwinkleAnimation Twinkle;
             base.ExecuteTE(Event, Source, ExecuteCount);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Twinkle = new TTwinkleAnimation(null);
-            Twinkle.Setup(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(50).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmRotate), 50, 64, 50, 30);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Twinkle, X, Y, L);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Twinkle = new TwinkleAnimation(null);
+            Twinkle.Setup(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(50).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
+            Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Twinkle, X, Y, L);
             FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:1353
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TFloodEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new FloodEnchantment(null);
 
         // GlobalEnchantmentSpells.pas:1367
         public void ShowAnimation(int Anim, int XhpSurf, int YhpSurf, int SurfaceDesc)
@@ -1376,16 +1376,16 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class TLifeMasteryEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class LifeMasteryEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1395
         public new const int ClassID = 135967;
 
         // GlobalEnchantmentSpells.pas:1387
-        public TLifeMasteryEnchantment(TECustomNode owner) : base(owner)
+        public LifeMasteryEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LifeMasteryRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getNone;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.None;
             FDispelMana = 175;
         }
 
@@ -1395,14 +1395,14 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1428
         public override bool Deactivate(byte Player)
         {
-            TEMsg Msg = default;
+            EMsg Msg = default;
             base.Deactivate(Player);
             // { Original doubles Death. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msDeath);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petLifeMastery));
-            Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 537002240, this);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SendMsg(ref Msg, this);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Death);
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
+            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 537002240, this);
+            Aow.Game.World.Map.AoWHSMap.Current.SendMsg(ref Msg, this);
             return true;
         }
 
@@ -1412,7 +1412,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petLifeMastery))
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
                 {
                     var xIsAlreadyActive = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsAlreadyActiveRStr);
                     var name = GetName();
@@ -1427,13 +1427,13 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1412
         public override bool Activate(sbyte Player)
         {
-            TPlayer APlayer;
+            global::Aow.Game.Session.Player APlayer;
             base.Activate(Player);
             // { Original doubles Death. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msDeath);
-            APlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Death);
+            APlayer = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
             var playerMagicControl = APlayer.FMagicControl;
-            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petLifeMastery));
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
 
             for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
             {
@@ -1448,67 +1448,67 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
 
     }
 
-    public partial class TLifeMastery : TGlobalEnchantmentSpell
+    public partial class LifeMastery : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1441
-        public TLifeMastery(TECustomNode owner) : base(owner)
+        public LifeMastery(ECustomNode owner) : base(owner)
         {
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LifeMasteryRStr);
             FSpellID = 61;
             FBaseManaCost = 1;
             FSpellLevel = 4;
             // { Original assigns Cosmos to Life Mastery. }
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msCosmos;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
             FCastDuration = 40;
             FAIBasePriority = 1000;
         }
 
         // GlobalEnchantmentSpells.pas:1457
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TTwinkleAnimation Twinkle;
+            TwinkleAnimation Twinkle;
             base.ExecuteTE(Event, Source, ExecuteCount);
-            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.TMagicSphere.msLife);
+            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.MagicSphere.Life);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Twinkle = new TTwinkleAnimation(null);
-            Twinkle.Setup(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(61).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmRotate), 100, 64, 50, 30);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Twinkle, X, Y, L);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Twinkle = new TwinkleAnimation(null);
+            Twinkle.Setup(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(61).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
+            Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Twinkle, X, Y, L);
             FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:1454
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TLifeMasteryEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new LifeMasteryEnchantment(null);
     }
 
-    public partial class TDeathMasteryEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class DeathMasteryEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1483
         public new const int ClassID = 135968;
 
         // GlobalEnchantmentSpells.pas:1475
-        public TDeathMasteryEnchantment(TECustomNode owner) : base(owner)
+        public DeathMasteryEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DeathMasteryRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getNone;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.None;
             FDispelMana = 175;
         }
 
         // GlobalEnchantmentSpells.pas:1568
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001986)
             {
                 if (Msg.Payload.Int != 0)
                 {
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Msg.Payload.Int).FMagicControl.FEnemyEnchantments.Contains(TPlayerEnchantmentType.petDeathMastery))
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Msg.Payload.Int).FMagicControl.FEnemyEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
                     {
                         NewTurn((sbyte)Msg.Payload.Int);
                     }
@@ -1522,14 +1522,14 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1509
         public override bool Deactivate(byte Player)
         {
-            TEMsg Msg = default;
+            EMsg Msg = default;
             base.Deactivate(Player);
             // { Original doubles Life. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msLife);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petDeathMastery));
-            Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 537002241, this);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SendMsg(ref Msg, this);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Life);
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
+            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 537002241, this);
+            Aow.Game.World.Map.AoWHSMap.Current.SendMsg(ref Msg, this);
             return true;
         }
 
@@ -1539,7 +1539,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petDeathMastery))
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
                 {
                     var xIsAlreadyActive = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsAlreadyActiveRStr);
                     var name = GetName();
@@ -1556,9 +1556,9 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         {
             base.Activate(Player);
             // { Original doubles Life. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msLife);
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petDeathMastery));
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Life);
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
             return true;
         }
 
@@ -1568,14 +1568,14 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             int Index;
             byte[] Flags;
             int Mask;
-            TMapLevel MapLevel;
-            THNWalkData Walk = default;
+            MapLevel MapLevel;
+            HNWalkData Walk = default;
             bool Border;
             Flags = [];
             Mask = 1 << (Player - 1);
-            for (int L = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.LevelCount - 1; L <= last; L++)
+            for (int L = 0, last = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
             {
-                MapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(L);
+                MapLevel = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(L);
                 Index = 0;
                 Array.Resize(ref Flags, MapLevel.Width * MapLevel.Height);
                 Array.Clear(Flags);
@@ -1583,18 +1583,18 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 {
                     for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
                     {
-                        if ((((TAoWMapField)MapLevel.GetField(X, Y)).FFieldFlags & Mask) != 0)
+                        if ((((AoWMapField)MapLevel.GetField(X, Y)).FFieldFlags & Mask) != 0)
                         {
                             Border = false;
-                            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 1);
+                            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 1);
                             while (Walk.Radius == 1 && !Border)
                             {
                                 if (Walk.X >= 0 && Walk.X < MapLevel.Width && Walk.Y >= 0 && Walk.Y < MapLevel.Height)
                                 {
-                                    Border = (((TAoWMapField)MapLevel.GetField(Walk.X, Walk.Y)).FFieldFlags & Mask) == 0;
+                                    Border = (((AoWMapField)MapLevel.GetField(Walk.X, Walk.Y)).FFieldFlags & Mask) == 0;
                                 }
 
-                                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                             }
 
                             if (Border)
@@ -1614,7 +1614,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                     {
                         if (Flags[Index] != 0)
                         {
-                            ((TAoWMapField)MapLevel.GetField(X, Y)).SetExplored(Player, false);
+                            ((AoWMapField)MapLevel.GetField(X, Y)).SetExplored(Player, false);
                         }
 
                         Index += 1;
@@ -1622,43 +1622,43 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 }
             }
 
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateVisibility();
+            Aow.Game.World.Map.AoWHSMap.Current.UpdateVisibility();
             Array.Resize(ref Flags, 0);
         }
 
     }
 
-    public partial class TDeathMastery : TGlobalEnchantmentSpell
+    public partial class DeathMastery : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1577
-        public TDeathMastery(TECustomNode owner) : base(owner)
+        public DeathMastery(ECustomNode owner) : base(owner)
         {
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DeathMasteryRStr);
             FSpellID = 62;
             FBaseManaCost = 1;
             FSpellLevel = 4;
             // { Original assigns Cosmos to Death Mastery. }
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msCosmos;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
             FCastDuration = 40;
             FAIBasePriority = 1000;
         }
 
         // GlobalEnchantmentSpells.pas:1618
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
-            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.TMagicSphere.msDeath);
+            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.MagicSphere.Death);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            var animation = new TAnimation(null);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            var animation = new Animation(null);
             animation.FAnimationLevel = 28;
             animation.FOnShow = ShowAnimation;
-            animation.FAnimationMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-            animation.FTag = (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewWidth & 65535) | (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewHeight << 16);
+            animation.FAnimationMap = Aow.Game.World.Map.AoWHSMap.Current;
+            animation.FTag = (Aow.Game.World.Map.AoWHSMap.Current.ViewWidth & 65535) | (Aow.Game.World.Map.AoWHSMap.Current.ViewHeight << 16);
             animation.Activate();
 
             FCastSounds.Play(0);
@@ -1667,10 +1667,10 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1590
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TDeathMasteryEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new DeathMasteryEnchantment(null);
 
         // GlobalEnchantmentSpells.pas:1593
-        public void ShowAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Count;
             int X;
@@ -1678,7 +1678,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             int Speed;
             int D;
             int Image;
-            RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame - Anim.FFrameCounter;
+            RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Frame - Anim.FFrameCounter;
             switch (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail)
             {
                 case 0:
@@ -1712,30 +1712,30 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class TFireMasteryEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class FireMasteryEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1647
         public new const int ClassID = 135969;
 
         // GlobalEnchantmentSpells.pas:1639
-        public TFireMasteryEnchantment(TECustomNode owner) : base(owner)
+        public FireMasteryEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FireMasteryRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getFireMastery;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.FireMastery;
             FDispelMana = 175;
         }
 
         // GlobalEnchantmentSpells.pas:1724
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001987)
             {
                 if (Msg.Payload.Int != 0)
                 {
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Msg.Payload.Int).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petFireMastery))
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Msg.Payload.Int).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
                     {
-                        UpdateFire(2, !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRequestCombatType);
+                        UpdateFire(2, !Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType);
                     }
                 }
             }
@@ -1747,11 +1747,11 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1680
         public override bool Deactivate(byte Player)
         {
-            TPlayer APlayer;
+            global::Aow.Game.Session.Player APlayer;
             base.Deactivate(Player);
-            APlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            APlayer = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
             var playerMagicControl = APlayer.FMagicControl;
-            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments - TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petFireMastery));
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
             for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
             {
@@ -1762,7 +1762,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             }
 
             // { Original doubles Water. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msWater);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Water);
             return true;
         }
 
@@ -1770,7 +1770,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public override bool CanActivate(sbyte Player, ref string Reason)
         {
             bool Result;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petFireMastery))
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
             {
                 var xIsAlreadyActive = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsAlreadyActiveRStr);
                 var name = GetName();
@@ -1788,13 +1788,13 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1663
         public override bool Activate(sbyte Player)
         {
-            TPlayer APlayer;
+            global::Aow.Game.Session.Player APlayer;
             base.Activate(Player);
             // { Original doubles Water. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msWater);
-            APlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Water);
+            APlayer = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
             var playerMagicControl = APlayer.FMagicControl;
-            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petFireMastery));
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
             for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
             {
@@ -1812,22 +1812,22 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         public void UpdateFire(int Factor, bool Explosions)
         {
             int Chance;
-            TMapLevel MapLevel;
-            TFire Fire;
-            RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-            for (int L = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.LevelCount - 1; L <= last; L++)
+            MapLevel MapLevel;
+            Fire Fire;
+            RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+            for (int L = 0, last = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
             {
-                MapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(L);
+                MapLevel = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(L);
                 for (int Y = 1, lastY = MapLevel.Height - 1; Y <= lastY; Y++)
                 {
                     for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
                     {
-                        Chance = Aow.Game.World.Map.TAoWMapField.IgnitionChance((TAoWMapField)MapLevel.GetField(X, Y));
+                        Chance = Aow.Game.World.Map.AoWMapField.IgnitionChance((AoWMapField)MapLevel.GetField(X, Y));
                         if (Chance > 0)
                         {
-                            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(10000) < Chance * Factor)
+                            if (Aow.Game.World.Map.AoWHSMap.Current.Random(10000) < Chance * Factor)
                             {
-                                Fire = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFireControl.PlaceFire(X, Y, L, TFireType.ftLarge);
+                                Fire = Aow.Game.Engine.AoWHSSet.Current.FFireControl.PlaceFire(X, Y, L, FireType.Large);
                                 if (Fire != null)
                                 {
                                     if (Explosions)
@@ -1846,23 +1846,23 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
 
     }
 
-    public partial class TFireMastery : TGlobalEnchantmentSpell
+    public partial class FireMastery : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1733
-        public TFireMastery(TECustomNode owner) : base(owner)
+        public FireMastery(ECustomNode owner) : base(owner)
         {
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FireMasteryRStr);
             FSpellID = 63;
             FBaseManaCost = 1;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msFire;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Fire;
             FCastDuration = 40;
             FAIBasePriority = 1000;
         }
 
         // GlobalEnchantmentSpells.pas:1792
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             bool Result = default;
             sbyte X = default;
@@ -1871,13 +1871,13 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             if (ExecuteCount == 0)
             {
                 Source.GetLocation(ref X, ref Y, ref L);
-                Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.TMagicSphere.msFire);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-                var animation = new TAnimation(null);
+                Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.MagicSphere.Fire);
+                Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+                var animation = new Animation(null);
                 animation.FAnimationLevel = 27;
                 animation.FOnShow = ShowAnimation;
-                animation.FAnimationMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-                animation.FTag = (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewWidth & 65535) | (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewHeight << 16);
+                animation.FAnimationMap = Aow.Game.World.Map.AoWHSMap.Current;
+                animation.FTag = (Aow.Game.World.Map.AoWHSMap.Current.ViewWidth & 65535) | (Aow.Game.World.Map.AoWHSMap.Current.ViewHeight << 16);
                 animation.Activate();
 
                 FCastSounds.Play(0);
@@ -1898,12 +1898,12 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
 
         // GlobalEnchantmentSpells.pas:1746
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TFireMasteryEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new FireMasteryEnchantment(null);
 
-        public void ShowAnimation(TAnimation anim, int xhpSurface, int yhpSurface, in TSurfaceDesc surface)
+        public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in SurfaceDesc surface)
         {
             int chance = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
-            var map = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+            var map = Aow.Game.World.Map.AoWHSMap.Current;
             var level = map.MapContainer.GetMapLevel(map.ViewL);
             int maxX = map.ViewXhx + map.ViewWidthHX - 1, maxY = map.ViewYhx + map.ViewHeightHX - 1;
             for (int x = map.ViewXhx; x <= maxX; x++)
@@ -1914,7 +1914,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                 yhp = yhp - yhpSurface + 16;
                 for (int y = map.ViewYhx; y <= maxY; y++, yhp += 32)
                 {
-                    var field = (TAoWMapField)level.GetField(x, y);
+                    var field = (AoWMapField)level.GetField(x, y);
                     if (field.TerrainType is 7 or 8 or 15 || map.FSeatedPlayer == -1 || map.FExplorationEnabled && !field.GetExplored(map.FSeatedPlayer)) continue;
                     RandSeed = field.Xhx + field.Yhx * 8 + ((field.FFieldFlags >> 16) & 255) * 65536;
                     if (Random(100) >= chance) continue;
@@ -1928,16 +1928,16 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class TEarthMasteryEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class EarthMasteryEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1828
         public new const int ClassID = 135970;
 
         // GlobalEnchantmentSpells.pas:1820
-        public TEarthMasteryEnchantment(TECustomNode owner) : base(owner)
+        public EarthMasteryEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EarthMasteryRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getNone;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.None;
             FDispelMana = 175;
         }
 
@@ -1947,11 +1947,11 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1861
         public override bool Deactivate(byte Player)
         {
-            TPlayer APlayer;
+            global::Aow.Game.Session.Player APlayer;
             base.Deactivate(Player);
-            APlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            APlayer = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
             var playerMagicControl = APlayer.FMagicControl;
-            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments - TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petEarthMastery));
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
             for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
             {
@@ -1962,7 +1962,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             }
 
             // { Original doubles Air. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msAir);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Air);
             return true;
         }
 
@@ -1972,7 +1972,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
             bool Result = base.CanActivate(Player, ref Reason);
             if (Result)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(TPlayerEnchantmentType.petEarthMastery))
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
                 {
                     Reason = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsAlreadyActiveRStr), [FName]);
                     Result = false;
@@ -1985,13 +1985,13 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         // GlobalEnchantmentSpells.pas:1845
         public override bool Activate(sbyte Player)
         {
-            TPlayer APlayer;
+            global::Aow.Game.Session.Player APlayer;
             base.Activate(Player);
             // { Original doubles Air. }
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.TMagicSphere.msAir);
-            APlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayerIndex);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(Aow.Game.Magic.MagicSphere.Air);
+            APlayer = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
             var playerMagicControl = APlayer.FMagicControl;
-            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + TSet<TPlayerEnchantmentType>.Of(TPlayerEnchantmentType.petEarthMastery));
+            playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
             for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
             {
@@ -2006,59 +2006,59 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
 
     }
 
-    public partial class TEarthMastery : TGlobalEnchantmentSpell
+    public partial class EarthMastery : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1877
-        public TEarthMastery(TECustomNode owner) : base(owner)
+        public EarthMastery(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EarthMasteryRStr);
             FSpellID = 64;
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FBaseManaCost = 1;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
             FCastDuration = 40;
             FAIBasePriority = 1000;
         }
 
         // GlobalEnchantmentSpells.pas:1918
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
-            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.TMagicSphere.msEarth);
+            Aow.Game.Magic.Spells.GlobalTarget.SpellTargets.NotifySpellSphere(Source.FPlayer, Aow.Game.Magic.MagicSphere.Earth);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.AddEffect(TworldFXType.fxEarthMastery);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Aow.Game.World.Map.AoWHSMap.Current.AddEffect(TworldFXType.EarthMastery);
             FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:1932
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TEarthMasteryEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new EarthMasteryEnchantment(null);
 
         // GlobalEnchantmentSpells.pas:1890
-        public void ShowAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int MaxX;
             int MaxY;
             int Xhp = default;
             int Yhp = default;
-            TMapLevel MapLevel;
-            TAoWMapField MapF;
-            MapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewL);
-            MaxX = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewXhx + Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewWidthHX - 1;
-            MaxY = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewYhx + Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewHeightHX - 1;
-            for (int X = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewXhx; X <= MaxX; X++)
+            MapLevel MapLevel;
+            AoWMapField MapF;
+            MapLevel = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Aow.Game.World.Map.AoWHSMap.Current.ViewL);
+            MaxX = Aow.Game.World.Map.AoWHSMap.Current.ViewXhx + Aow.Game.World.Map.AoWHSMap.Current.ViewWidthHX - 1;
+            MaxY = Aow.Game.World.Map.AoWHSMap.Current.ViewYhx + Aow.Game.World.Map.AoWHSMap.Current.ViewHeightHX - 1;
+            for (int X = Aow.Game.World.Map.AoWHSMap.Current.ViewXhx; X <= MaxX; X++)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(X, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewYhx, ref Xhp, ref Yhp);
+                Aow.Game.World.Map.HexGeometry.HXtoHP(X, Aow.Game.World.Map.AoWHSMap.Current.ViewYhx, ref Xhp, ref Yhp);
                 Xhp = Xhp - XhpSurf + 16;
                 Yhp = Yhp - YhpSurf + 16;
-                MapF = (TAoWMapField)MapLevel.GetField(X, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewYhx);
-                for (int Y = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewYhx; Y <= MaxY; Y++)
+                MapF = (AoWMapField)MapLevel.GetField(X, Aow.Game.World.Map.AoWHSMap.Current.ViewYhx);
+                for (int Y = Aow.Game.World.Map.AoWHSMap.Current.ViewYhx; Y <= MaxY; Y++)
                 {
                     // The original frame offset uses the field address.
                     if (MapF.OverlayType == 4)
@@ -2070,7 +2070,7 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
                     // after the last row is never read there, and the guard keeps it from reading here.
                     if (Y < MaxY)
                     {
-                        MapF = (TAoWMapField)MapLevel.GetField(X, Y + 1);
+                        MapF = (AoWMapField)MapLevel.GetField(X, Y + 1);
                     }
 
                     Yhp += 32;
@@ -2084,16 +2084,16 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
         }
     }
 
-    public partial class TSpellWardEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class SpellWardEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
         // GlobalEnchantmentSpells.pas:1943
         public new const int ClassID = 135971;
 
         // GlobalEnchantmentSpells.pas:1935
-        public TSpellWardEnchantment(TECustomNode owner) : base(owner)
+        public SpellWardEnchantment(ECustomNode owner) : base(owner)
         {
             FName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SpellWardRStr);
-            FEnchantmentType = Aow.Game.Magic.TGlobalEnchantmentType.getSpellWard;
+            FEnchantmentType = Aow.Game.Magic.GlobalEnchantmentType.SpellWard;
             FDispelMana = 50;
         }
 
@@ -2102,35 +2102,35 @@ namespace Aow.Game.Magic.Spells.GlobalEnchantment
 
     }
 
-    public partial class TSpellWard : TGlobalEnchantmentSpell
+    public partial class SpellWard : GlobalEnchantmentSpell
     {
         // GlobalEnchantmentSpells.pas:1949
-        public TSpellWard(TECustomNode owner) : base(owner)
+        public SpellWard(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SpellWardRStr);
             FSpellID = 65;
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FBaseManaCost = 1;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
         }
 
         // GlobalEnchantmentSpells.pas:1960
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             base.ExecuteTE(Event, Source, ExecuteCount);
             Source.GetLocation(ref X, ref Y, ref L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.AddEffect(TworldFXType.fxSpellWard);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+            Aow.Game.World.Map.AoWHSMap.Current.AddEffect(TworldFXType.SpellWard);
             FCastSounds.Play(0);
             CastingDone(Source, Event.FEventMana);
             return false;
         }
 
         // GlobalEnchantmentSpells.pas:1973
-        public override Aow.Game.Magic.TGlobalEnchantment CreateEnchantment() => new TSpellWardEnchantment(null);
+        public override global::Aow.Game.Magic.GlobalEnchantment CreateEnchantment() => new SpellWardEnchantment(null);
     }
 }

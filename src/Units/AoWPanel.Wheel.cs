@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Windows;
 
-public partial class TAOWPanel
+public partial class AOWPanel
 {
     public override bool ContainsPoint(int X, int Y)
     {
@@ -20,7 +20,7 @@ public partial class TAOWPanel
 
     // The panel moves by its window, as CheckMouseDown does, so a child hit test sees screen pixels.
     // A wheel that nobody handles is not consumed, so a book page can still turn.
-    public override bool CheckMouseWheel(int Steps, TSet<TShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
     {
         if (Steps == 0 || !FVisible) return false;
         FOrgLeft = FWinLeft;

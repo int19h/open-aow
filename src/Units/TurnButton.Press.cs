@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Grids;
 
-public partial class TAOWTurnButton
+public partial class AOWTurnButton
 {
     // A left click and the strategic-map end-turn shortcut share this press.
     // While the button animates a click does nothing, and so does a press.

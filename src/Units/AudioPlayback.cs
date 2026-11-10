@@ -12,7 +12,7 @@ public static class AudioPlayback
 {
     public static void LockSampleData(string Name)
     {
-        TSampleData D;
+        SampleData D;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null)
         {
             D = Aow.Game.Audio.AudioHost.SampleDataList.Find(Name);
@@ -29,7 +29,7 @@ public static class AudioPlayback
 
     public static void UnlockSampleData(string Name)
     {
-        TSampleData D;
+        SampleData D;
         D = Aow.Game.Audio.AudioHost.SampleDataList.Find(Name);
         if (D != null)
         {
@@ -41,7 +41,7 @@ public static class AudioPlayback
 
     public static int SamplesLoaded() => Aow.Game.Audio.AudioHost.SampleDataList.Count;
 
-    public static bool InitializeSoundSystem(string Name, in TSoundSettings Settings)
+    public static bool InitializeSoundSystem(string Name, in SoundSettings Settings)
     {
         SoundSystemClass C;
         bool Result = true;
@@ -149,9 +149,9 @@ public static class AudioPlayback
         return Result;
     }
 
-    internal static TSoundSettings GetSoundSettings()
+    internal static SoundSettings GetSoundSettings()
     {
-        TSoundSettings Result;
+        SoundSettings Result;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null)
         {
             Result = Aow.Game.Audio.AudioHost.SoundSystem.GetSoundSettings();
@@ -164,9 +164,9 @@ public static class AudioPlayback
         return Result;
     }
 
-    internal static TSongStatus BackupSongStatus()
+    internal static SongStatus BackupSongStatus()
     {
-        TSongStatus Result;
+        SongStatus Result;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null)
         {
             Result = Aow.Game.Audio.AudioHost.SoundSystem.BackupSongStatus();
@@ -229,7 +229,7 @@ public static class AudioPlayback
         {
             for (int I = Aow.Game.Audio.AudioHost.SampleList.Count - 1; I >= 0; I--)
             {
-                ((TSample)Aow.Game.Audio.AudioHost.SampleList.List[I]).Update();
+                ((Sample)Aow.Game.Audio.AudioHost.SampleList.List[I]).Update();
             }
         }
 
@@ -282,10 +282,10 @@ public static class AudioPlayback
         return Result;
     }
 
-    internal static TSample PlaySample(string Name)
+    internal static Sample PlaySample(string Name)
     {
-        TSample Result;
-        TSampleData D;
+        Sample Result;
+        SampleData D;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null && Aow.Game.Audio.AudioHost.SoundSystem.SFXEnabled)
         {
             try
@@ -317,10 +317,10 @@ public static class AudioPlayback
         return Result;
     }
 
-    public static TSample PlaySampleEx(string Name, int Volume, bool Looped, int Delay, TSamplePanning Panning, TSampleCallBack CallBack)
+    public static Sample PlaySampleEx(string Name, int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack)
     {
-        TSample Result;
-        TSampleData D;
+        Sample Result;
+        SampleData D;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null && Aow.Game.Audio.AudioHost.SoundSystem.SFXEnabled)
         {
             try
@@ -387,9 +387,9 @@ public static class AudioPlayback
         return Result;
     }
 
-    internal static TSampleData CreateSampleData(string Name)
+    internal static SampleData CreateSampleData(string Name)
     {
-        TSampleData Result;
+        SampleData Result;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null)
         {
             Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleDataClass().Create(Name);
@@ -402,9 +402,9 @@ public static class AudioPlayback
         return Result;
     }
 
-    public static TSampleData CreateSampleDataEx(ReadOnlySpan<TWaveFormatEx> Format, object Data, int Size)
+    public static SampleData CreateSampleDataEx(ReadOnlySpan<WaveFormatEx> Format, object Data, int Size)
     {
-        TSampleData Result;
+        SampleData Result;
         if (Aow.Game.Audio.AudioHost.SoundSystem != null)
         {
             Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleDataClass().CreateEx(Format[0], Data, Size);

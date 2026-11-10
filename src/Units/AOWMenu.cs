@@ -20,40 +20,40 @@ namespace Aow.Game.Ui.Windows;
 // FHighlighted (the item under the mouse, -1 for none), FSubMenuItem (the item whose submenus
 // are shown), FSubMenus (sorted by priority), FShowDelay (updates since the highlight moved),
 // FDrawItem, FDrawItemRect (the item drawn last, for OnDrawItem)
-public partial class TAOWMenu : TAOWGenericWindow
+public partial class AOWMenu : AOWGenericWindow
 {
-    public TAoWComponent FPopupOwner;
+    public AoWComponent FPopupOwner;
     public int FILIndexTSelected;
     public int FMenuLeft;
     public int FMenuTop;
     public bool FShowPending;
     public int FSelectedItem;
-    public TInterfaceIL FILTextureSelected;
-    public TStringList FItems;
-    public TStringList FItemTypes;
-    public TNotifyEvent<TAOWMenu> FOnDrawItem;
+    public InterfaceIL FILTextureSelected;
+    public StringList FItems;
+    public StringList FItemTypes;
+    public NotifyEvent<AOWMenu> FOnDrawItem;
     public int FItemHeight;
-    public TAOWMenuBar FOwnerMenuBar;
-    public TAOWMenu FOwnerMenu;
+    public AOWMenuBar FOwnerMenuBar;
+    public AOWMenu FOwnerMenu;
     public int FSubMenuShowDelay;
-    public TNotifyEvent<TAOWMenu> FOnSelect;
+    public NotifyEvent<AOWMenu> FOnSelect;
     public int FHighlighted;
     public int FSubMenuItem;
-    public TList FSubMenus;
+    public DelphiList FSubMenus;
     public int FShowDelay;
     public int FDrawItem;
-    public TRect FDrawItemRect;
+    public global::Aow.Rtl.Rect FDrawItemRect;
 
     // AOWMenu.pas:102
-    public TAOWMenu(TComponent owner) : base(owner)
+    public AOWMenu(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FItems = new TStringList();
+        FItems = new StringList();
         FItems.OnChange = OnChangeText;
         FHighlighted = -1;
         FSelectedItem = -1;
         FSubMenuItem = -1;
         FItemHeight = 10;
-        FSubMenus = new TList();
+        FSubMenus = new DelphiList();
         FVisible = false;
     }
 
@@ -63,7 +63,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     public override void Dispose()
     {
         int I;
-        TAOWMenu M;
+        AOWMenu M;
         I = 0;
         if (FOwnerMenu != null)
         {
@@ -71,7 +71,7 @@ public partial class TAOWMenu : TAOWGenericWindow
             {
                 while (I < FOwnerMenu.FSubMenus.Count)
                 {
-                    M = (TAOWMenu)FOwnerMenu.FSubMenus[I];
+                    M = (AOWMenu)FOwnerMenu.FSubMenus[I];
                     if (M == this)
                     {
                         FOwnerMenu.FSubMenus.Delete(I);
@@ -93,7 +93,7 @@ public partial class TAOWMenu : TAOWGenericWindow
             {
                 while (I < FOwnerMenuBar.FMenus.Count)
                 {
-                    M = (TAOWMenu)FOwnerMenuBar.FMenus[I];
+                    M = (AOWMenu)FOwnerMenuBar.FMenus[I];
                     if (M == this)
                     {
                         FOwnerMenuBar.FMenus.Delete(I);
@@ -113,7 +113,7 @@ public partial class TAOWMenu : TAOWGenericWindow
         int last = FSubMenus.Count - 1;
         for (; I <= last; I += 1)
         {
-            ((TAOWMenu)FSubMenus[I]).DetachMenu();
+            ((AOWMenu)FSubMenus[I]).DetachMenu();
         }
 
         FSubMenus.Dispose();
@@ -152,8 +152,8 @@ public partial class TAOWMenu : TAOWGenericWindow
     //   for masked menus }
     public override void SetSize()
     {
-        TAOWMenuBar MB;
-        TAOWBaseWindow W;
+        AOWMenuBar MB;
+        AOWBaseWindow W;
         if (FItemHeight == 0)
         {
             FItemHeight = FILFrame[FILIndexFrame + 3].Height;
@@ -258,7 +258,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     //   previous item are hidden and those of the highlighted item are shown beside it }
     public override void Update()
     {
-        TAOWMenu M;
+        AOWMenu M;
         if (FValid && FVisible)
         {
             base.Update();
@@ -274,7 +274,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                     {
                         for (int I = 0, last = FSubMenus.Count - 1; I <= last; I++)
                         {
-                            M = (TAOWMenu)FSubMenus[I];
+                            M = (AOWMenu)FSubMenus[I];
                             if (M.FOwnerItem == FSubMenuItem)
                             {
                                 M.SetVisible(false);
@@ -284,7 +284,7 @@ public partial class TAOWMenu : TAOWGenericWindow
 
                     for (int I = 0, last = FSubMenus.Count - 1; I <= last; I++)
                     {
-                        M = (TAOWMenu)FSubMenus[I];
+                        M = (AOWMenu)FSubMenus[I];
                         if (M.FOwnerItem == FHighlighted)
                         {
                             var ilFrame = FILFrame[FILIndexFrame + 2];
@@ -335,9 +335,9 @@ public partial class TAOWMenu : TAOWGenericWindow
     //   inside the window manager's screen; hiding it clears the bar's selection }
     public override void SetVisible(bool Value)
     {
-        TAOWMenuBar Bar = default;
-        TAOWBaseWindow W = default;
-        TAOWMenuBar MB = default;
+        AOWMenuBar Bar = default;
+        AOWBaseWindow W = default;
+        AOWMenuBar MB = default;
         if (Value != FVisible)
         {
             if (FHidden)
@@ -421,14 +421,14 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:501
     // { Draw: the frame, the texture, and the items; the highlighted item on the selected texture }
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect OldClip;
+        global::Aow.Rtl.Rect OldClip;
         try
         {
             if (FValid && FVisible)
             {
-                var rect = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                 FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                 var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                 var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -436,7 +436,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                 var ilFrame2 = FILFrame[FILIndexFrame + 4];
                 var ilFrame3 = FILFrame[FILIndexFrame + 1];
                 var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                var rect2 = Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                 FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                 FAOWFont.Color = FColor;
                 OldClip = SurfDesc.ClipRect;
@@ -460,7 +460,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                                 var ilFrame7 = FILFrame[FILIndexFrame + 4];
                                 var ilFrame8 = FILFrame[FILIndexFrame];
                                 var ilFrame9 = FILFrame[FILIndexFrame + 3];
-                                var rect3 = Rect(FWinLeft + ilFrame9.Width, FWinTop + ilFrame8.Height + FItemHeight * I, FWinWidth - ilFrame6.Width - ilFrame7.Width, FItemHeight);
+                                var rect3 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame9.Width, FWinTop + ilFrame8.Height + FItemHeight * I, FWinWidth - ilFrame6.Width - ilFrame7.Width, FItemHeight);
                                 FILTextureSelected.DrawILT(FILIndexTSelected, rect3, ref SurfDesc);
                             }
                             else
@@ -478,7 +478,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                             var ilFrameHeight4 = FILFrame[FILIndexFrame + 1];
                             var ilFrameHeight5 = FILFrame[FILIndexFrame + 3];
                             var ilFrameWidth3 = FILFrame[FILIndexFrame + 3];
-                            FDrawItemRect = Rect(FWinLeft + ilFrameWidth3.Width, FWinTop + ilFrameHeight4.Height + ilFrameHeight5.Height * I, FWinLeft + FWinWidth, FWinTop + ilFrameHeight2.Height + ilFrameHeight3.Height * (I + 1));
+                            FDrawItemRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrameWidth3.Width, FWinTop + ilFrameHeight4.Height + ilFrameHeight5.Height * I, FWinLeft + FWinWidth, FWinTop + ilFrameHeight2.Height + ilFrameHeight3.Height * (I + 1));
                             if (FOnDrawItem != null)
                             {
                                 FOnDrawItem(this);
@@ -499,12 +499,12 @@ public partial class TAOWMenu : TAOWGenericWindow
     // AOWMenu.pas:555
     // { CheckMouseDown: the controls of the menu first; a click on an item selects it (OnSelect) and
     //   shows its submenus; a click outside hides the menu unless a submenu took it }
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         bool Show;
         bool Keep;
-        TAOWMenu M = default;
+        AOWMenu M = default;
         FHandled = false;
         FRedraw = false;
         FSelectedItem = -1;
@@ -513,7 +513,7 @@ public partial class TAOWMenu : TAOWGenericWindow
         {
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 if (!FHandled && C.FCaptureInput)
                 {
                     C.CheckMouseDown(Button, Shift, X, Y);
@@ -537,7 +537,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                         Show = false;
                         for (int I = 0, last = FSubMenus.Count - 1; I <= last; I++)
                         {
-                            M = (TAOWMenu)FSubMenus[I];
+                            M = (AOWMenu)FSubMenus[I];
                             if (M.FHandled && M.FVisible)
                             {
                                 Show = true;
@@ -569,7 +569,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                 Show = false;
                 for (int I = 0, last = FSubMenus.Count - 1; I <= last; I++)
                 {
-                    M = (TAOWMenu)FSubMenus[I];
+                    M = (AOWMenu)FSubMenus[I];
                     if (M.FHandled == true)
                     {
                         if (M.FVisible == true)
@@ -603,15 +603,15 @@ public partial class TAOWMenu : TAOWGenericWindow
     }
 
     // AOWMenu.pas:634
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         if (FVisible == true)
         {
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 if ((!FHandled || C.FRedraw == true) && C.FCaptureInput)
                 {
                     C.CheckMouseUp(Button, Shift, X, Y);
@@ -637,9 +637,9 @@ public partial class TAOWMenu : TAOWGenericWindow
     // AOWMenu.pas:662
     // { CheckMouseMove highlights the item under the mouse; when the highlight moves, the submenus of
     //   the old item are hidden (by the item index into the submenu list: original bug) }
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         int OldHighlighted;
         int I;
         // { Keep the child on the stack and I in a register. }
@@ -653,7 +653,7 @@ public partial class TAOWMenu : TAOWGenericWindow
             I = FChildren.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 if ((!FHandled || C.FRedraw == true || C.FToolTipCount > 0) && C.FCaptureInput)
                 {
                     C.CheckMouseMove(Shift, X, Y);
@@ -712,7 +712,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                     int last = FSubMenus.Count - 1;
                     for (; I <= last; I += 1)
                     {
-                        var component = (TAoWComponent)FSubMenus[I];
+                        var component = (AoWComponent)FSubMenus[I];
                         if (component.FHandled == true)
                         {
                             this.FHighlighted = component.FOwnerItem;
@@ -726,7 +726,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                 FShowDelay = 0;
                 if (OldHighlighted > -1 && FSubMenus.Count > OldHighlighted)
                 {
-                    ((TAoWComponent)FSubMenus[OldHighlighted]).SetVisible(false);
+                    ((AoWComponent)FSubMenus[OldHighlighted]).SetVisible(false);
                 }
 
                 FDrawn = false;
@@ -741,11 +741,11 @@ public partial class TAOWMenu : TAOWGenericWindow
     // AOWMenu.pas:714
     public override void CheckKeyPress(ref byte Key)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            C = (TAoWComponent)FChildren[I];
+            C = (AoWComponent)FChildren[I];
             C.CheckKeyPress(ref Key);
             if (C.FHandled == true)
             {
@@ -760,13 +760,13 @@ public partial class TAOWMenu : TAOWGenericWindow
     }
 
     // AOWMenu.pas:731
-    public override void CheckKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public override void CheckKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            C = (TAoWComponent)FChildren[I];
+            C = (AoWComponent)FChildren[I];
             C.CheckKeyDown(ref Key, Shift);
             if (C.FHandled == true)
             {
@@ -789,11 +789,11 @@ public partial class TAOWMenu : TAOWGenericWindow
     // AOWMenu.pas:271
     // { SetMenu moves the menu from the submenu list of its old owner menu to the list of the new one,
     //   in priority order }
-    public virtual void SetMenu(TAOWMenu Value)
+    public virtual void SetMenu(AOWMenu Value)
     {
         int I;
         int NewIndex;
-        TAOWMenu M;
+        AOWMenu M;
         if (Value != FOwnerMenu)
         {
             if (FOwnerMenu != null)
@@ -801,7 +801,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                 I = 0;
                 while (I < FOwnerMenu.FSubMenus.Count)
                 {
-                    M = (TAOWMenu)FOwnerMenu.FSubMenus[I];
+                    M = (AOWMenu)FOwnerMenu.FSubMenus[I];
                     if (M == this)
                     {
                         FOwnerMenu.FSubMenus.Delete(I);
@@ -819,7 +819,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                 NewIndex = -1;
                 while (I < FOwnerMenu.FSubMenus.Count)
                 {
-                    M = (TAOWMenu)FOwnerMenu.FSubMenus[I];
+                    M = (AOWMenu)FOwnerMenu.FSubMenus[I];
                     if (M.FPriority > FPriority)
                     {
                         NewIndex = I;
@@ -843,11 +843,11 @@ public partial class TAOWMenu : TAOWGenericWindow
 
     // AOWMenu.pas:316
     // { SetMenuBar: the same for the menu list of the menu bar }
-    public virtual void SetMenuBar(TAOWMenuBar Value)
+    public virtual void SetMenuBar(AOWMenuBar Value)
     {
         int I;
         int NewIndex;
-        TAOWMenu M;
+        AOWMenu M;
         if (Value != FOwnerMenuBar)
         {
             if (FOwnerMenuBar != null)
@@ -855,7 +855,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                 I = 0;
                 while (I < FOwnerMenuBar.FMenus.Count)
                 {
-                    M = (TAOWMenu)FOwnerMenuBar.FMenus[I];
+                    M = (AOWMenu)FOwnerMenuBar.FMenus[I];
                     if (M == this)
                     {
                         FOwnerMenuBar.FMenus.Delete(I);
@@ -873,7 +873,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                 NewIndex = -1;
                 while (I < FOwnerMenuBar.FMenus.Count)
                 {
-                    M = (TAOWMenu)FOwnerMenuBar.FMenus[I];
+                    M = (AOWMenu)FOwnerMenuBar.FMenus[I];
                     if (M.FPriority > FPriority)
                     {
                         NewIndex = I;
@@ -896,7 +896,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     }
 
     // AOWMenu.pas:360
-    public virtual void SetILTSel(TInterfaceIL Value)
+    public virtual void SetILTSel(InterfaceIL Value)
     {
         if (Value != FILTextureSelected)
         {
@@ -922,7 +922,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     }
 
     // AOWMenu.pas:440
-    public void SetFStrings(TStringList Value)
+    public void SetFStrings(StringList Value)
     {
         FItems.Clear();
         for (int I = 0, last = Value.Count - 1; I <= last; I++)
@@ -933,7 +933,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     }
 
     // AOWMenu.pas:449
-    public void SetITStrings(TStringList Value)
+    public void SetITStrings(StringList Value)
     {
         FItemTypes.Clear();
         for (int I = 0, last = Value.Count - 1; I <= last; I++)
@@ -944,16 +944,16 @@ public partial class TAOWMenu : TAOWGenericWindow
     }
 
     // AOWMenu.pas:458
-    public void SetPopupOwner(TAoWComponent Value)
+    public void SetPopupOwner(AoWComponent Value)
     {
         FPopupOwner = Value;
     }
 
     [Published]
-    public TInterfaceIL ILTextureNormal { get => FILTexture; set => SetILTexture(value); }
+    public InterfaceIL ILTextureNormal { get => FILTexture; set => SetILTexture(value); }
 
     [Published]
-    public TInterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+    public InterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
 
     [Published]
     public new int ILIndexFrame { get => FILIndexFrame; set => FILIndexFrame = value; }
@@ -965,25 +965,25 @@ public partial class TAOWMenu : TAOWGenericWindow
     public int ILIndexTSelected { get => FILIndexTSelected; set => SetILTsIndex(value); }
 
     [Published]
-    public TStringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => FItems; set => SetFStrings(value); }
 
     [Published]
-    public TStringList ItemTypes { get => FItemTypes; set => SetITStrings(value); }
+    public StringList ItemTypes { get => FItemTypes; set => SetITStrings(value); }
 
     [Published]
-    public TNotifyEvent<TAOWMenu> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public NotifyEvent<AOWMenu> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
     [Published]
     public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
 
     [Published]
-    public TAOWMenuBar OwnerMenuBar { get => FOwnerMenuBar; set => SetMenuBar(value); }
+    public AOWMenuBar OwnerMenuBar { get => FOwnerMenuBar; set => SetMenuBar(value); }
 
     [Published]
-    public TAOWMenu OwnerMenu { get => FOwnerMenu; set => SetMenu(value); }
+    public AOWMenu OwnerMenu { get => FOwnerMenu; set => SetMenu(value); }
 
     [Published]
     public int OwnerItem { get => FOwnerItem; set => FOwnerItem = value; }
@@ -992,105 +992,105 @@ public partial class TAOWMenu : TAOWGenericWindow
     public int SubMenuShowDelay { get => FSubMenuShowDelay; set => FSubMenuShowDelay = value; }
 
     [Published]
-    public TNotifyEvent<TAOWMenu> OnSelect { get => FOnSelect; set => FOnSelect = value; }
+    public NotifyEvent<AOWMenu> OnSelect { get => FOnSelect; set => FOnSelect = value; }
 
-    public new TNotifyEvent<TAOWMenu> OnChange
+    public new NotifyEvent<AOWMenu> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWMenu> OnMouseDown
+    public new MouseEvent<AOWMenu> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWMenu> OnMouseUp
+    public new MouseEvent<AOWMenu> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWMenu> OnMouseMove
+    public new MouseMoveEvent<AOWMenu> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWMenu> OnKeyPress
+    public new KeyPressEvent<AOWMenu> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWMenu> OnKeyDown
+    public new KeyEvent<AOWMenu> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWMenu> OnPreDraw
+    public new AoWOnDrawEvent<AOWMenu> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWMenu> OnDraw
+    public new AoWOnDrawEvent<AOWMenu> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWMenu> OnUpdate
+    public new NotifyEvent<AOWMenu> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
-    public new TAoWOnDrawBackEvent<TAOWMenu> OnDrawBack
+    public new AoWOnDrawBackEvent<AOWMenu> OnDrawBack
     {
         get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
-    public new TNotifyEvent<TAOWMenu> OnEnter
+    public new NotifyEvent<AOWMenu> OnEnter
     {
         get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
-    public new TNotifyEvent<TAOWMenu> OnExit
+    public new NotifyEvent<AOWMenu> OnExit
     {
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
 
-    public new TNotifyEvent<TAOWMenu> OnChangeCursor
+    public new NotifyEvent<AOWMenu> OnChangeCursor
     {
         get => EventSlot.Get(this, FOnChangeCursor);
         set => EventSlot.Set(this, ref FOnChangeCursor, value);
     }
 
-    public new TAoWOnDrawSurface<TAOWMenu> OnDrawSurface
+    public new AoWOnDrawSurface<AOWMenu> OnDrawSurface
     {
         get => EventSlot.Get(this, FOnDrawSurface);
         set => EventSlot.Set(this, ref FOnDrawSurface, value);
     }
 
-    public new TAoWOnDrawSurface<TAOWMenu> OnPreDrawSurface
+    public new AoWOnDrawSurface<AOWMenu> OnPreDrawSurface
     {
         get => EventSlot.Get(this, FOnPreDrawSurface);
         set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
     }
 
-    public new TNotifyEvent<TAOWMenu> OnHide
+    public new NotifyEvent<AOWMenu> OnHide
     {
         get => EventSlot.Get(this, FOnHide);
         set => EventSlot.Set(this, ref FOnHide, value);
     }
 
-    public new TNotifyEvent<TAOWMenu> OnShow
+    public new NotifyEvent<AOWMenu> OnShow
     {
         get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);

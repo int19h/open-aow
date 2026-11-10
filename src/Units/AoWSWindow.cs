@@ -8,49 +8,49 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSWindow : TDataModule
+public partial class SWindow : DataModule
 {
-    public TSWindow(TComponent owner) : base(owner)
+    public SWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow ScannerWindow;
-    public TAoWFrame ScannerFrame;
-    public TAOWTabPanel ScannerTab;
-    public TAOWCheckBox BuildingCheck;
-    public TAOWCheckBox ArmyCheck;
-    public TAOWCheckBox NaturalCheck;
-    public TScanner Scanner;
-    public TAOWImage STitleIcon;
-    public TAOWLabel STitleLabel;
-    public TAOWButton SMinIcon;
-    public TAOWButton Help;
-    public TIvTranslator Translator;
+    public AOWWindow ScannerWindow;
+    public AoWFrame ScannerFrame;
+    public AOWTabPanel ScannerTab;
+    public AOWCheckBox BuildingCheck;
+    public AOWCheckBox ArmyCheck;
+    public AOWCheckBox NaturalCheck;
+    public global::Aow.Game.Ui.Grids.Scanner Scanner;
+    public AOWImage STitleIcon;
+    public AOWLabel STitleLabel;
+    public AOWButton SMinIcon;
+    public AOWButton Help;
+    public IvTranslator Translator;
 
     // AoWSWindow.pas:51
     public void ScannerTabChange()
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current != null)
         {
             switch (ScannerTab.Selected)
             {
                 case 0:
                     Scanner.FUpdateStep = -1;
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewLevel(0);
+                    Aow.Game.World.Map.AoWHSMap.Current.ViewLevel(0);
                     break;
                 case 1:
                     Scanner.FUpdateStep = -1;
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewLevel(1);
+                    Aow.Game.World.Map.AoWHSMap.Current.ViewLevel(1);
                     break;
                 case 2:
                     Scanner.FUpdateStep = -1;
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewLevel(2);
+                    Aow.Game.World.Map.AoWHSMap.Current.ViewLevel(2);
                     break;
             }
         }
     }
 
     // AoWSWindow.pas:61
-    public void ArmyCheckChange(TAOWCheckBox Sender)
+    public void ArmyCheckChange(AOWCheckBox Sender)
     {
         Scanner.SetArmies(ArmyCheck.Checked);
         if (Sender.Checked)
@@ -64,7 +64,7 @@ public partial class TSWindow : TDataModule
     }
 
     // AoWSWindow.pas:67
-    public void BuildingCheckChange(TAOWCheckBox Sender)
+    public void BuildingCheckChange(AOWCheckBox Sender)
     {
         Scanner.SetBuildings(BuildingCheck.Checked);
         if (Sender.Checked)
@@ -78,7 +78,7 @@ public partial class TSWindow : TDataModule
     }
 
     // AoWSWindow.pas:73
-    public void NaturalCheckChange(TAOWCheckBox Sender)
+    public void NaturalCheckChange(AOWCheckBox Sender)
     {
         Scanner.SetNaturals(NaturalCheck.Checked);
         if (Sender.Checked)
@@ -110,7 +110,7 @@ public partial class TSWindow : TDataModule
     {
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX = (Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FTLeft + 6) * 33;
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY = (Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FTTop + 6) * 33;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != -1)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTWidth(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth / 32);
             Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTHeight(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight / 32);
@@ -120,7 +120,7 @@ public partial class TSWindow : TDataModule
     }
 
     // AoWSWindow.pas:107
-    public void ScannerTabMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void ScannerTabMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
@@ -128,6 +128,6 @@ public partial class TSWindow : TDataModule
     // AoWSWindow.pas:110
     public void HelpClick()
     {
-        Aow.Game.Ui.Dialogs.THelpWindow.ShowHelp(501);
+        Aow.Game.Ui.Dialogs.HelpWindow.ShowHelp(501);
     }
 }

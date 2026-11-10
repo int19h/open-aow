@@ -8,8 +8,8 @@ namespace Aow.Game.Ai
     [LegacyObject]
     public sealed class AITargetQuery
     {
-        public TAITargetInfo Info;
-        public TAITargetData Data;
+        public AITargetInfo Info;
+        public AITargetData Data;
 
         public AITargetQuery()
         {
@@ -24,7 +24,7 @@ namespace Aow.Game.Combat
     [LegacyObject]
     public sealed class BattleFieldQuery
     {
-        public TBattleFieldInfo Info;
+        public BattleFieldInfo Info;
 
         public BattleFieldQuery()
         {
@@ -39,7 +39,7 @@ namespace Aow.Game.Engine
     [LegacyObject]
     public sealed class DefenseRequirementsQuery
     {
-        public TDefenseRequirements Requirements;
+        public DefenseRequirements Requirements;
 
         public DefenseRequirementsQuery()
         {
@@ -54,7 +54,7 @@ namespace Aow.Game.Combat
     [LegacyObject]
     public sealed class StormDamageQuery
     {
-        public TStormDamageInfo Info;
+        public StormDamageInfo Info;
 
         public StormDamageQuery()
         {
@@ -80,7 +80,7 @@ namespace Aow.Game.Engine
     [LegacyObject]
     public sealed class ShowMessageNotification
     {
-        public TShowMessageInfo Info;
+        public ShowMessageInfo Info;
 
         public ShowMessageNotification()
         {
@@ -95,7 +95,7 @@ namespace Aow.Game.World.Map
     [LegacyObject]
     public sealed class MapChangedNotification
     {
-        public TMapChangedInfo Info;
+        public MapChangedInfo Info;
 
         public MapChangedNotification()
         {
@@ -110,7 +110,7 @@ namespace Aow.Game.Events
     [LegacyObject]
     public sealed class ExecuteEventLogNotification
     {
-        public TExecuteEventLogInfo Info;
+        public ExecuteEventLogInfo Info;
 
         public ExecuteEventLogNotification()
         {
@@ -122,10 +122,10 @@ namespace Aow.Game.Events
 namespace Aow.Game.Ai.Groups
 {
 
-    public partial class TAIMoveExecuterControl
+    public partial class AIMoveExecuterControl
     {
-        public TAIMoveExecuterMove CreateMove(TAIMoveExecuterArmy army, byte selection, sbyte x, sbyte y,
-            sbyte level, TSet<TCreateMoveModeElement> mode)
+        public AIMoveExecuterMove CreateMove(AIMoveExecuterArmy army, byte selection, sbyte x, sbyte y,
+            sbyte level, Set<CreateMoveModeElement> mode)
         {
             byte result = 0;
             return CreateMove(army, selection, x, y, level, mode, ref result);

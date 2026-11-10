@@ -41,7 +41,7 @@ public static class GameTables
     {
         if (AoWEngine == null && ToolServices == null)
         {
-            TAoWEngine.Create(null);
+            global::Aow.Game.Engine.AoWEngine.Create(null);
         }
 
         return AoWEngine != null;
@@ -175,7 +175,7 @@ public static class GameTables
 
     internal static readonly string WaryRStr = "Wary";
 
-    public static TAoWEngine AoWEngine;
+    public static global::Aow.Game.Engine.AoWEngine AoWEngine;
 
     internal static FixedArray_string_5 TAbilityTypeRStr = FixedArray_string_5.From([]);
 
@@ -217,15 +217,15 @@ public static class GameTables
         }
     }
 
-    internal static TAbilityPlugIn AoWAbilityPlugIn;
+    internal static AbilityPlugIn AoWAbilityPlugIn;
 
     internal static void Initialize()
     {
-        TAbilityTypeRStr[(int)TAbilityType.atEnhancement] = EnhancementRStr;
-        TAbilityTypeRStr[(int)TAbilityType.atHandicap] = HandicapRStr;
-        TAbilityTypeRStr[(int)TAbilityType.atMovement] = MovementRStr;
-        TAbilityTypeRStr[(int)TAbilityType.atCombat] = CombatRStr;
-        TAbilityTypeRStr[(int)TAbilityType.atEnchantment] = EnchantmentRStr;
+        TAbilityTypeRStr[(int)AbilityType.Enhancement] = EnhancementRStr;
+        TAbilityTypeRStr[(int)AbilityType.Handicap] = HandicapRStr;
+        TAbilityTypeRStr[(int)AbilityType.Movement] = MovementRStr;
+        TAbilityTypeRStr[(int)AbilityType.Combat] = CombatRStr;
+        TAbilityTypeRStr[(int)AbilityType.Enchantment] = EnchantmentRStr;
         TPlayerTypeRStr[0] = HumanRStr;
         TPlayerTypeRStr[1] = CPUWarriorRStr;
         TPlayerTypeRStr[2] = CPUKnightRStr;
@@ -264,7 +264,7 @@ public static class GameTables
         // Original AoWE initialization
         P3InitializeHitProbabilities();
         ValidateAoWEngine();
-        AoWAbilityPlugIn = new TAbilityPlugIn();
+        AoWAbilityPlugIn = new AbilityPlugIn();
     }
 
     internal static void Finalize()
@@ -276,37 +276,37 @@ public static class GameTables
 
     internal static void InitializeMorePathsRelations()
     {
-        TDiplomaticRelationRStr[(int)TDiplomaticRelation.drAlliance] = AllianceRStr;
-        TDiplomaticRelationRStr[(int)TDiplomaticRelation.drPeace] = P5PeaceRStr;
-        TDiplomaticRelationRStr[(int)TDiplomaticRelation.drWar] = P5WarRStr;
-        TDiplomaticRelationRStr[(int)TDiplomaticRelation.drUnknown] = UnknownRStr;
+        TDiplomaticRelationRStr[(int)DiplomaticRelation.Alliance] = AllianceRStr;
+        TDiplomaticRelationRStr[(int)DiplomaticRelation.Peace] = P5PeaceRStr;
+        TDiplomaticRelationRStr[(int)DiplomaticRelation.War] = P5WarRStr;
+        TDiplomaticRelationRStr[(int)DiplomaticRelation.Unknown] = UnknownRStr;
     }
 
     static GameTables()
     {
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msCosmos] = CosmosRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msLife] = LifeRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msDeath] = DeathRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msEarth] = EarthRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msAir] = AirRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msFire] = FireRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msWater] = WaterRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msSecret] = SecretRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.TMagicSphere.msNone] = NoneRStr;
-        TStatusRStr[(int)TStatus.sHostile] = HostileRStr;
-        TStatusRStr[(int)TStatus.sWary] = WaryRStr;
-        TStatusRStr[(int)TStatus.sNeutral] = NeutralRStr;
-        TStatusRStr[(int)TStatus.sPolite] = PoliteRStr;
-        TStatusRStr[(int)TStatus.sFriendly] = FriendlyRStr;
-        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbNormal] = NormalRStr;
-        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbAggressor] = AggressorRStr;
-        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbDefender] = DefenderRStr;
-        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbExpander] = ExpanderRStr;
-        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbScorcher] = ScorcherRStr;
-        TPlayerBehaviorRStr[(int)TPlayerBehavior.pbRandom] = RandomRStr;
-        TSpellTypeRStr[(int)TSpellType.stCombat] = CombatRStr;
-        TSpellTypeRStr[(int)TSpellType.stUnit] = UnitRStr;
-        TSpellTypeRStr[(int)TSpellType.stGlobal] = GlobalRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Cosmos] = CosmosRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Life] = LifeRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Death] = DeathRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Earth] = EarthRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Air] = AirRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Fire] = FireRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Water] = WaterRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Secret] = SecretRStr;
+        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.None] = NoneRStr;
+        TStatusRStr[(int)Status.Hostile] = HostileRStr;
+        TStatusRStr[(int)Status.Wary] = WaryRStr;
+        TStatusRStr[(int)Status.Neutral] = NeutralRStr;
+        TStatusRStr[(int)Status.Polite] = PoliteRStr;
+        TStatusRStr[(int)Status.Friendly] = FriendlyRStr;
+        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Normal] = NormalRStr;
+        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Aggressor] = AggressorRStr;
+        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Defender] = DefenderRStr;
+        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Expander] = ExpanderRStr;
+        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Scorcher] = ScorcherRStr;
+        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Random] = RandomRStr;
+        TSpellTypeRStr[(int)SpellType.Combat] = CombatRStr;
+        TSpellTypeRStr[(int)SpellType.Unit] = UnitRStr;
+        TSpellTypeRStr[(int)SpellType.Global] = GlobalRStr;
         InitializeMorePathsRelations();
     }
 

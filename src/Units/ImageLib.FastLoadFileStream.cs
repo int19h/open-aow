@@ -2,11 +2,11 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class TFastLoadFileStream
+public partial class FastLoadFileStream
 {
     private Stream source;
 
-    public TFastLoadFileStream(string name)
+    public FastLoadFileStream(string name)
     {
         CaptureAddress.Assign(this);
         source = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);

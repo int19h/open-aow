@@ -18,16 +18,16 @@ public sealed class MapViewerCenteringTests
     private const int Red = 0x7C00;
 
     // Draws white over the whole scene and a red column and row on the map's left and top edges.
-    private sealed class PaintedMap() : THSMap(null!)
+    private sealed class PaintedMap() : HSMap(null!)
     {
         public override void UpdateStaticScene() => FStaticSceneInvalid = false;
         public override void UpdateDynamicScene() => FDynamicSceneInvalid = false;
 
-        public override void DrawDynamicScene(ref TSurfaceDesc SD)
+        public override void DrawDynamicScene(ref SurfaceDesc SD)
         {
         }
 
-        public override void DrawStaticScene(ref TSurfaceDesc SD)
+        public override void DrawStaticScene(ref SurfaceDesc SD)
         {
             Aow.Game.Draw.PixelFormats.ColorFillSD(RtlApi.Rect(0, 0, SD.Width, SD.Height), 0xFFFFFF, SD);
             Aow.Game.Draw.PixelFormats.ColorFillSD(RtlApi.Rect(16 - FViewXhp, 0, 17 - FViewXhp, SD.Height), 0x0000FF, SD);
@@ -38,17 +38,17 @@ public sealed class MapViewerCenteringTests
     private sealed class Fixture : IDisposable
     {
         public readonly PaintedMap Map = new();
-        public readonly THSMapViewer Viewer = new(null!);
-        public readonly TDataSurface Target = new(420, 320, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        public readonly HSMapViewer Viewer = new(null!);
+        public readonly DataSurface Target = new(420, 320, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
 
         public Fixture(int sceneWidth, int sceneHeight)
         {
-            Map.FMapContainer = new TMapContainer(null!) { FWidth = MapWidth, FHeight = MapHeight, FLevelCount = 1 };
+            Map.FMapContainer = new MapContainer(null!) { FWidth = MapWidth, FHeight = MapHeight, FLevelCount = 1 };
             Viewer.HSMap = Map;
             Viewer.SceneWidth = sceneWidth;
             Viewer.SceneHeight = sceneHeight;
             Viewer.ChangeScene(100, 30, 0);
-            TSurfaceDesc sd = default;
+            SurfaceDesc sd = default;
             Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, Target.Lock(ref sd));
             Aow.Game.Draw.PixelFormats.ColorFillSD(RtlApi.Rect(0, 0, sd.Width, sd.Height), 0x00FF00, sd);
             Target.Unlock();
@@ -57,7 +57,7 @@ public sealed class MapViewerCenteringTests
 
         public int Pixel(int x, int y)
         {
-            TSurfaceDesc sd = default;
+            SurfaceDesc sd = default;
             Target.Lock(ref sd);
             var data = sd.Data;
             int at = sd.DataIndex + y * sd.Pitch + x * 2;
@@ -67,7 +67,7 @@ public sealed class MapViewerCenteringTests
         }
 
         // Every target pixel: stale outside the scene, black outside the shown map, the map inside.
-        public void AssertPicture(Aow.Rtl.TRect shown, int edgeX, int edgeY)
+        public void AssertPicture(Aow.Rtl.Rect shown, int edgeX, int edgeY)
         {
             for (int y = 0; y < 320; y++)
             {

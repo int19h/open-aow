@@ -16,8 +16,8 @@ public sealed partial class EngineFixture : IDisposable
     private readonly RecordingHost host = new("fixture");
     private static RecordingHost services = null!;
 
-    internal static TAoWEngine Engine { get; private set; } = null!;
-    internal static TAoWHSSet GameSet { get; private set; } = null!;
+    internal static AoWEngine Engine { get; private set; } = null!;
+    internal static AoWHSSet GameSet { get; private set; } = null!;
     internal static string Root => services.GameRoot;
 
     private static readonly Dictionary<FieldInfo, object?> state = [];
@@ -26,8 +26,8 @@ public sealed partial class EngineFixture : IDisposable
     {
         foreach (var pair in state) pair.Key.SetValue(Engine, pair.Value);
         Aow.Game.Magic.Abilities.GameTables.AoWEngine = Engine;
-        Aow.Game.Engine.TAoWHSSet.AoWHSSet = GameSet;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
+        Aow.Game.Engine.AoWHSSet.Current = GameSet;
+        Aow.Game.World.Map.AoWHSMap.Current = null!;
     }
 
     public EngineFixture()
@@ -36,7 +36,7 @@ public sealed partial class EngineFixture : IDisposable
         services = host;
         Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine();
         Engine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        GameSet = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
+        GameSet = Aow.Game.Engine.AoWHSSet.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
@@ -50,26 +50,26 @@ public sealed partial class EngineFixture : IDisposable
 
     internal static IRtlHost Services => services;
 
-    internal static TAoWHSSet CreateGameSet(TImageLibraryManager manager)
+    internal static AoWHSSet CreateGameSet(ImageLibraryManager manager)
     {
-        var value = TAoWHSSet.Create(null!);
-        typeof(THSSet).GetField("FImageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
+        var value = AoWHSSet.Create(null!);
+        typeof(HSSet).GetField("FImageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
         return value;
     }
 
     // Observers override insertion around this one membership and removal implementation.
-    internal class Owner() : TECustomNode(null!)
+    internal class Owner() : ECustomNode(null!)
     {
-        internal readonly List<TEObject> Members = [];
+        internal readonly List<EObject> Members = [];
         internal int Removals;
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             Members.Add(child);
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(TEObject child)
+        public override int RemoveChild(EObject child)
         {
             Removals++;
             int index = Members.IndexOf(child);

@@ -10,16 +10,16 @@ namespace Aow.Units.Tests;
 // ShowRLE08, which writes the opaque pixels and skips the runs.
 public sealed class TRLESprite08GrabTests
 {
-    private static (TRLESprite08 Image, bool Grabbed) Grab(byte[,] pixels, TRect rect)
+    private static (RLESprite08 Image, bool Grabbed) Grab(byte[,] pixels, Rect rect)
     {
         int w = pixels.GetLength(1), h = pixels.GetLength(0);
-        var palette = new TGFXEPalette { PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24 };
-        var surface = new TDataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
-        var image = new TRLESprite08(null!);
+        var palette = new GFXEPalette { PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24 };
+        var surface = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
+        var image = new RLESprite08(null!);
         var grab = image.CreateGrabInfo();
         try
         {
-            TSurfaceDesc sd = default;
+            SurfaceDesc sd = default;
             Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
             for (int y = 0; y < h; y++)
                 for (int x = 0; x < w; x++) sd.View()[y * sd.Pitch + x] = pixels[y, x];
@@ -35,7 +35,7 @@ public sealed class TRLESprite08GrabTests
         }
     }
 
-    private static byte[] Encoded(TRLESprite08 image) => image.FData.AsSpan(0, image.FDataSize).ToArray();
+    private static byte[] Encoded(RLESprite08 image) => image.FData.AsSpan(0, image.FDataSize).ToArray();
 
     [Fact]
     public void GrabEncodesTheOpaqueRectangle()
@@ -105,12 +105,12 @@ public sealed class TRLESprite08GrabTests
     [Fact]
     public void GrabOfAnotherFormatFails()
     {
-        var surface = new TDataSurface(2, 2, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
-        var image = new TRLESprite08(null!);
+        var surface = new DataSurface(2, 2, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        var image = new RLESprite08(null!);
         var grab = image.CreateGrabInfo();
         try
         {
-            TSurfaceDesc sd = default;
+            SurfaceDesc sd = default;
             surface.Lock(ref sd);
             Assert.False(image.GrabImage(sd, RtlUnit.Rect(0, 0, 2, 2), grab));
             surface.Unlock();
@@ -123,11 +123,11 @@ public sealed class TRLESprite08GrabTests
     }
 
     // Draws the image at (0, 0) on an 8-bit surface filled with $55.
-    private static byte[,] Draw(TRLESprite08 image, int w, int h)
+    private static byte[,] Draw(RLESprite08 image, int w, int h)
     {
-        var palette = new TGFXEPalette { PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24 };
-        using var surface = new TDataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
-        TSurfaceDesc sd = default;
+        var palette = new GFXEPalette { PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24 };
+        using var surface = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
+        SurfaceDesc sd = default;
         Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
         for (int y = 0; y < h; y++) sd.View().Bytes(y * sd.Pitch, w).Fill(0x55);
         image.ShowOpaque(0, 0, sd);

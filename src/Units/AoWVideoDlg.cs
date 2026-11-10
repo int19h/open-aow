@@ -44,31 +44,31 @@ namespace Aow.Game.Ui.Dialogs
 {
 
     // full screen, change flag, display size
-    public partial class TVideoDialog : TDataModule
+    public partial class VideoDialog : DataModule
     {
-        public TVideoDialog(TComponent owner) : base(owner)
+        public VideoDialog(global::Aow.Rtl.Component owner) : base(owner)
         { }
 
-        public TAOWWindow Dlg;
-        public TAOWButton CloseBut;
-        public TAoWFrame BCeltL;
-        public TAOWLabel Title;
-        public TAOWButton Close;
-        public TAOWImage TCeltLR;
-        public TAoWFrame TopLine;
-        public TAOWLabel VideoLbl;
-        public TAOWImage TCeltPattern;
-        public TAOWImage TitleIcon;
-        public TAOWImage TCeltLL;
-        public TAOWListBox DisplayModesLB;
-        public TAOWCheckBox ResCB;
-        public TAOWLabel ResSwLbl;
-        public TAOWButton ApplyBtn;
-        public TAOWPanel T3LBPnl;
-        public TAOWVScrollBar VideoSB;
-        public TIvTranslator Translator;
-        public TDisplayModeList FDisplayModes;
-        public TScreenMode FFullScreen;
+        public AOWWindow Dlg;
+        public AOWButton CloseBut;
+        public AoWFrame BCeltL;
+        public AOWLabel Title;
+        public AOWButton Close;
+        public AOWImage TCeltLR;
+        public AoWFrame TopLine;
+        public AOWLabel VideoLbl;
+        public AOWImage TCeltPattern;
+        public AOWImage TitleIcon;
+        public AOWImage TCeltLL;
+        public AOWListBox DisplayModesLB;
+        public AOWCheckBox ResCB;
+        public AOWLabel ResSwLbl;
+        public AOWButton ApplyBtn;
+        public AOWPanel T3LBPnl;
+        public AOWVScrollBar VideoSB;
+        public IvTranslator Translator;
+        public DisplayModeList FDisplayModes;
+        public ScreenMode FFullScreen;
         public bool FModeChanged;
         public int FSceneWidth;
         public int FSceneHeight;
@@ -80,7 +80,7 @@ namespace Aow.Game.Ui.Dialogs
         {
             FSceneWidth = W;
             FSceneHeight = H;
-            if (FFullScreen == TScreenMode.scmTitle)
+            if (FFullScreen == ScreenMode.Title)
             {
                 FModeChanged = true;
             }
@@ -96,17 +96,17 @@ namespace Aow.Game.Ui.Dialogs
         // AoWVideoDlg.pas:172
         public void UpdateModes()
         {
-            TDisplayModeItem Mode;
+            DisplayModeItem Mode;
             string S;
             DisplayModesLB.Items.Clear();
-            var desktopWindow = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TVideoDialog.DesktopWindowRStr);
+            var desktopWindow = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.VideoDialog.DesktopWindowRStr);
             DisplayModesLB.Items.AddObject(desktopWindow, IntToObject(-1));
             for (int I = 0, last = FDisplayModes.Count - 1; I <= last; I++)
             {
                 Mode = FDisplayModes.Items[I];
                 if (Mode.Width >= 640 && Mode.Height >= 480)
                 {
-                    var fullScreen = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TVideoDialog.FullScreenRStr);
+                    var fullScreen = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.VideoDialog.FullScreenRStr);
                     DisplayModesLB.Items.AddObject(fullScreen + ":" + IntToStr(Mode.Width) + "x" + IntToStr(Mode.Height), IntToObject(I));
                 }
             }
@@ -116,7 +116,7 @@ namespace Aow.Game.Ui.Dialogs
             if (DisplayModesLB.Selected != -1)
             {
                 S = DisplayModesLB.Items[DisplayModesLB.Selected];
-                S = S + " (" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TVideoDialog.CurrentRStr)) + ")";
+                S = S + " (" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.VideoDialog.CurrentRStr)) + ")";
                 DisplayModesLB.Items[DisplayModesLB.Selected] = S;
             }
         }
@@ -124,8 +124,8 @@ namespace Aow.Game.Ui.Dialogs
         // AoWVideoDlg.pas:195
         public void VideoDlgWindowCreate()
         {
-            FDisplayModes = new TDisplayModeList();
-            Aow.Game.Ui.Dialogs.TVideoDialog.ListDisplayModes(FDisplayModes, 0, 0, 16);
+            FDisplayModes = new DisplayModeList();
+            Aow.Game.Ui.Dialogs.VideoDialog.ListDisplayModes(FDisplayModes, 0, 0, 16);
         }
 
         // AoWVideoDlg.pas:201
@@ -154,18 +154,18 @@ namespace Aow.Game.Ui.Dialogs
                     FDisplayWidth = FDisplayModes.Items[I].Width;
                     FDisplayHeight = FDisplayModes.Items[I].Height;
                     ChangeResolution(FDisplayWidth, FDisplayHeight);
-                    FFullScreen = TScreenMode.scmGame;
+                    FFullScreen = ScreenMode.Game;
                 }
                 else
                 {
-                    FFullScreen = TScreenMode.scmWindowed;
+                    FFullScreen = ScreenMode.Windowed;
                     ChangeResolution(0, 0);
                 }
             }
         }
 
         // AoWVideoDlg.pas:233
-        public void ResCBChange(TAOWCheckBox Sender)
+        public void ResCBChange(AOWCheckBox Sender)
         {
             if (Sender.Checked)
             {
@@ -180,7 +180,7 @@ namespace Aow.Game.Ui.Dialogs
         }
 
         // AoWVideoDlg.pas:239
-        public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+        public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FAligned = false;
             if (Key == 27)
@@ -208,7 +208,7 @@ namespace Aow.Game.Ui.Dialogs
 
         private static readonly (int Width, int Height)[] FixedSizes = [(640, 480), (800, 600), (1024, 768), (1280, 1024)];
 
-        private static void ListDisplayModes(TDisplayModeList list, int width, int height, int pixelFormatID)
+        private static void ListDisplayModes(DisplayModeList list, int width, int height, int pixelFormatID)
         {
             var desktop = DesktopSize();
             var sizes = FullscreenSizes() ?? [.. FixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
@@ -218,35 +218,35 @@ namespace Aow.Game.Ui.Dialogs
                     list.Add(size.Width, size.Height, Aow.Game.Draw.PixelFormats.pfRGB555);
         }
 
-        internal static void SetSceneSize(TVideoDialog Dialog, int Width, int Height)
+        internal static void SetSceneSize(VideoDialog Dialog, int Width, int Height)
         {
             Dialog.FSceneWidth = Width;
             Dialog.FSceneHeight = Height;
-            if (Dialog.FFullScreen == TScreenMode.scmTitle)
+            if (Dialog.FFullScreen == ScreenMode.Title)
             {
                 Dialog.FModeChanged = true;
             }
         }
 
-        internal static void ApplyVideoSettings(TVideoDialog dialog) => dialog.ApplyMode();
+        internal static void ApplyVideoSettings(VideoDialog dialog) => dialog.ApplyMode();
 
-        internal static void SetVideoSize(TVideoDialog Dialog, int Width, int Height)
+        internal static void SetVideoSize(VideoDialog Dialog, int Width, int Height)
         {
             Dialog.FDisplayWidth = Width;
             Dialog.FDisplayHeight = Height;
-            if (Dialog.FFullScreen == TScreenMode.scmGame)
+            if (Dialog.FFullScreen == ScreenMode.Game)
             {
                 Dialog.FModeChanged = true;
             }
         }
 
-        internal static void ShowVideoSettings(TVideoDialog Dialog)
+        internal static void ShowVideoSettings(VideoDialog Dialog)
         {
             Dialog.Dlg.Visible = true;
             Dialog.UpdateModes();
         }
 
-        internal static void SetVideoMode(TVideoDialog Dialog, TScreenMode FullScreen)
+        internal static void SetVideoMode(VideoDialog Dialog, ScreenMode FullScreen)
         {
             if (FullScreen != Dialog.FFullScreen)
             {
@@ -255,17 +255,15 @@ namespace Aow.Game.Ui.Dialogs
             }
         }
 
-    }
+        public enum ScreenMode : byte
+        {
+            Windowed = 0, Game = 1, Title = 2
+        }
 
-    public enum TScreenMode : byte
-    {
-        scmWindowed = 0,
-        scmGame = 1,
-        scmTitle = 2
     }
 
     // image library, image index, heading, text
-    public partial class TWMCampaignScenarioPage : TEObject
+    public partial class WMCampaignScenarioPage : EObject
     {
         // AoWVideoDlg.pas:264
         public new const int ClassID = 2248706;
@@ -273,7 +271,7 @@ namespace Aow.Game.Ui.Dialogs
         public string FImageLibrary = "";
         public int FImageIndex;
         public string FHeading = "";
-        public TStringList FText;
+        public StringList FText;
 
         // AoWVideoDlg.pas:257
         public override void Dispose()
@@ -283,12 +281,12 @@ namespace Aow.Game.Ui.Dialogs
         }
 
         // AoWVideoDlg.pas:268
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FText, 10);
             Stream.rwString(ref FHeading, 11);
-            if (!Stream.StorageMode().Contains(TStorageModeElement.smTextOnly))
+            if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
             {
                 Stream.rwString(ref FImageLibrary, 12);
             }
@@ -297,16 +295,16 @@ namespace Aow.Game.Ui.Dialogs
         }
 
         // AoWVideoDlg.pas:250
-        public TWMCampaignScenarioPage(TECustomNode owner) : base(owner)
+        public WMCampaignScenarioPage(ECustomNode owner) : base(owner)
         {
-            FText = new TStringList();
+            FText = new StringList();
         }
 
     }
 
-    public partial class TWMCampaignScenarioPageList : TENode
+    public partial class WMCampaignScenarioPageList : ENode
     {
-        public TWMCampaignScenarioPageList(TECustomNode owner) : base(owner)
+        public WMCampaignScenarioPageList(ECustomNode owner) : base(owner)
         { }
 
     }
@@ -316,7 +314,7 @@ namespace Aow.Game.Session
 {
 
     // image library, path text, description, flag, position, paths, pages, map kind
-    public partial class TWMCampaignScenario : TAoWCampaignScenario
+    public partial class WMCampaignScenario : AoWCampaignScenario
     {
         // AoWVideoDlg.pas:304
         public new const int ClassID = 2248705;
@@ -328,9 +326,9 @@ namespace Aow.Game.Session
         // rwBool
         public int FMapX;
         public int FMapY;
-        public TIntegerList FPaths;
-        public TWMCampaignScenarioPageList FIntroPages;
-        public TWMCampaignScenarioPageList FOutroPages;
+        public IntegerList FPaths;
+        public WMCampaignScenarioPageList FIntroPages;
+        public WMCampaignScenarioPageList FOutroPages;
         public byte FMapKind;
 
         // AoWVideoDlg.pas:295
@@ -343,10 +341,10 @@ namespace Aow.Game.Session
         }
 
         // AoWVideoDlg.pas:308
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            if (!Stream.StorageMode().Contains(TStorageModeElement.smTextOnly))
+            if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
             {
                 Stream.rwString(ref FImageLibrary, 12);
             }
@@ -363,24 +361,24 @@ namespace Aow.Game.Session
         }
 
         // AoWVideoDlg.pas:278
-        public TWMCampaignScenario(TECustomNode owner) : base(owner)
+        public WMCampaignScenario(ECustomNode owner) : base(owner)
         {
-            FIntroPages = new TWMCampaignScenarioPageList(null);
-            FOutroPages = new TWMCampaignScenarioPageList(null);
+            FIntroPages = new WMCampaignScenarioPageList(null);
+            FOutroPages = new WMCampaignScenarioPageList(null);
             for (int I = 0; I <= 9; I++)
             {
-                new TWMCampaignScenarioPage(FIntroPages);
-                new TWMCampaignScenarioPage(FOutroPages);
+                new WMCampaignScenarioPage(FIntroPages);
+                new WMCampaignScenarioPage(FOutroPages);
             }
 
-            FPaths = new TIntegerList();
+            FPaths = new IntegerList();
             FPaths.Default = -1;
         }
 
     }
 
     // faction, state, page
-    public partial class TWMCampaign : TAoWCampaign
+    public partial class WMCampaign : AoWCampaign
     {
         // AoWVideoDlg.pas:334
         public new const int ClassID = 2248704;
@@ -390,14 +388,14 @@ namespace Aow.Game.Session
         public int FPage;
 
         // AoWVideoDlg.pas:337
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FFaction, 30);
         }
 
         // AoWVideoDlg.pas:324
-        public TWMCampaign(TECustomNode owner) : base(owner)
+        public WMCampaign(ECustomNode owner) : base(owner)
         {
         }
 
@@ -408,23 +406,23 @@ namespace Aow.Game.Session
         }
 
         // AoWVideoDlg.pas:343
-        public override TAoWCampaignScenario CreateScenario() => new TWMCampaignScenario(null);
+        public override AoWCampaignScenario CreateScenario() => new WMCampaignScenario(null);
 
         // AoWVideoDlg.pas:353
-        public override string GetAutoSaveFileName(TCampaignAutoSaveType Auto)
+        public override string GetAutoSaveFileName(CampaignAutoSaveType Auto)
         {
             string Result;
-            if (Auto == TCampaignAutoSaveType.casScenarioFinished)
+            if (Auto == CampaignAutoSaveType.ScenarioFinished)
             {
-                Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FMapName;
+                Result = Aow.Game.World.Map.AoWHSMap.Current.FMapName;
                 if (FFaction == 0)
                 {
-                    Result = Result + "_" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TWMCampaign.WonRStr);
+                    Result = Result + "_" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.WMCampaign.WonRStr);
                 }
                 else
                 {
                     // { Original uses Won for both factions. }
-                    Result = Result + "-" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TWMCampaign.WonRStr);
+                    Result = Result + "-" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.WMCampaign.WonRStr);
                 }
 
                 // The campaign autosave takes the extension the host writes (own-formats.md 4.2).
@@ -440,7 +438,7 @@ namespace Aow.Game.Session
 
         private static readonly string WonRStr = "Won";
 
-        internal static TWMCampaignScenario GetCampaignScenario(TWMCampaign Campaign, int Index) => (TWMCampaignScenario)Campaign.FScenarios.GetScenario(Index);
+        internal static WMCampaignScenario GetCampaignScenario(WMCampaign Campaign, int Index) => (WMCampaignScenario)Campaign.FScenarios.GetScenario(Index);
 
     }
 }

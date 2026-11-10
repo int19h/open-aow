@@ -25,15 +25,15 @@ public sealed class InputMapper
 
     public void SetModifiers(int value) => modifiers = value;
 
-    private TSet<TShiftState> Shift(bool twice = false)
+    private Set<ShiftState> Shift(bool twice = false)
     {
-        TSet<TShiftState> state = default;
-        if ((modifiers & 3) != 0) state = state.With(TShiftState.ssShift);
-        if ((modifiers & 192) != 0) state = state.With(TShiftState.ssCtrl);
-        if ((modifiers & 768) != 0) state = state.With(TShiftState.ssAlt);
-        if ((buttons & 1) != 0) state = state.With(TShiftState.ssLeft);
-        if ((buttons & 4) != 0) state = state.With(TShiftState.ssRight);
-        return twice ? state.With(TShiftState.ssDouble) : state;
+        Set<ShiftState> state = default;
+        if ((modifiers & 3) != 0) state = state.With(ShiftState.Shift);
+        if ((modifiers & 192) != 0) state = state.With(ShiftState.Ctrl);
+        if ((modifiers & 768) != 0) state = state.With(ShiftState.Alt);
+        if ((buttons & 1) != 0) state = state.With(ShiftState.Left);
+        if ((buttons & 4) != 0) state = state.With(ShiftState.Right);
+        return twice ? state.With(ShiftState.Double) : state;
     }
 
     public void Motion(float x, float y, uint state, DisplayViewport viewport, IDisplayEvents sink)
@@ -73,7 +73,7 @@ public sealed class InputMapper
         uint mask = 1u << (button - 1);
         buttons = down ? buttons | mask : buttons & ~mask;
         var point = viewport.Map(x, y);
-        var mapped = button == 1 ? TMouseButton.mbLeft : TMouseButton.mbRight;
+        var mapped = button == 1 ? MouseButton.Left : MouseButton.Right;
         if (!down)
         {
             sink.MouseUp(mapped, Shift(doubleButton == button), point.X, point.Y);

@@ -16,37 +16,37 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // stage, faction, leader, scroll delay, scroll position, text
-public partial class TCampaignJoinDlg : TDataModule
+public partial class CampaignJoinDlg : DataModule
 {
-    public TCampaignJoinDlg(TComponent owner) : base(owner)
+    public CampaignJoinDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWPanel CharGenPnl;
-    public TAOWPanel LeaderTypePnl;
-    public TAOWButton CustomBtn;
-    public TAOWButton DefaultBtn;
-    public TAOWMemo LeaderTypeMsg;
-    public TAOWPanel DefaultFacePnl;
-    public TAOWPanel CustomFacePnl;
+    public AOWPanel CharGenPnl;
+    public AOWPanel LeaderTypePnl;
+    public AOWButton CustomBtn;
+    public AOWButton DefaultBtn;
+    public AOWMemo LeaderTypeMsg;
+    public AOWPanel DefaultFacePnl;
+    public AOWPanel CustomFacePnl;
     public TaowUserDrawBox ScrollTextDB;
-    public TIvTranslator Translator;
+    public IvTranslator Translator;
     public byte FStage;
     public int FFaction;
-    public TLeader FLeader;
+    public Leader FLeader;
     public int FScrollDelay;
     public int FScrollPosition;
-    public TStringList FScrollText;
+    public StringList FScrollText;
 
     // AoWCampaignJoin.pas:160
     public void CustomizeLeader()
     {
-        TLeaderSetupControl Control = default;
+        LeaderSetupControl Control = default;
         FStage = 2;
         CharGenPnl.Visible = false;
-        Control = new TLeaderSetupControl(null);
+        Control = new LeaderSetupControl(null);
         Control.FLeader.Assign(FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
         Control.FOriginalLeader.Assign(FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
-        Control.FMode = Control.FMode + TSet<TLeaderSetupModeElement>.Of(TLeaderSetupModeElement.lsmCampaign);
+        Control.FMode = Control.FMode + Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
         switch (FFaction)
         {
             case 0:
@@ -75,13 +75,13 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:145
-    public void LeaderCustomized(TLeaderSetupControl Sender)
+    public void LeaderCustomized(LeaderSetupControl Sender)
     {
-        TLeader Leader;
+        Leader Leader;
         var leaderSetupControl = Sender;
-        if (leaderSetupControl.FStatus == TLeaderSetupStatus.lssDone)
+        if (leaderSetupControl.FStatus == Aow.Game.Units.LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            Leader = (TLeader)leaderSetupControl.FOriginalLeader.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            Leader = (global::Aow.Game.Magic.Abilities.Leader)leaderSetupControl.FOriginalLeader.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign().FTransferSettings.SetLeader(Leader);
             Leader.Release();
             FinishSelection();
@@ -108,7 +108,7 @@ public partial class TCampaignJoinDlg : TDataModule
     public void FinishSelection()
     {
         CharGenPnl.Visible = false;
-        Aow.Game.Ui.Dialogs.TWorldMap.ShowCampaignMap(Aow.Game.Ui.Dialogs.DialogHosts.WorldMap);
+        Aow.Game.Ui.Dialogs.WorldMap.ShowCampaignMap(Aow.Game.Ui.Dialogs.DialogHosts.WorldMap);
     }
 
     // AoWCampaignJoin.pas:137
@@ -123,8 +123,8 @@ public partial class TCampaignJoinDlg : TDataModule
     // AoWCampaignJoin.pas:57
     public void CampaignJoinDlgCreate()
     {
-        FLeader = new TLeader(null);
-        FScrollText = new TStringList();
+        FLeader = new Leader(null);
+        FScrollText = new StringList();
     }
 
     // AoWCampaignJoin.pas:64
@@ -135,7 +135,7 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:71
-    public void CharGenPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void CharGenPnlMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         if (FStage == 0)
         {
@@ -144,10 +144,10 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:77
-    public void DefaultFacePnlDraw(TSurfaceDesc SD)
+    public void DefaultFacePnlDraw(SurfaceDesc SD)
     {
-        TRect R;
-        R = Rect(DefaultFacePnl.WinLeft + 1, DefaultFacePnl.WinTop + 1, DefaultFacePnl.WinLeft + DefaultFacePnl.WinWidth - 2, DefaultFacePnl.WinTop + DefaultFacePnl.WinHeight - 2);
+        global::Aow.Rtl.Rect R;
+        R = global::Aow.Rtl.RtlUnit.Rect(DefaultFacePnl.WinLeft + 1, DefaultFacePnl.WinTop + 1, DefaultFacePnl.WinLeft + DefaultFacePnl.WinWidth - 2, DefaultFacePnl.WinTop + DefaultFacePnl.WinHeight - 2);
         FLeader.ShowFace(R, SD);
     }
 
@@ -188,7 +188,7 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:114
-    public void ScrollTextDBDraw(TSurfaceDesc SD)
+    public void ScrollTextDBDraw(SurfaceDesc SD)
     {
         int X;
         int Y;
@@ -211,7 +211,7 @@ public partial class TCampaignJoinDlg : TDataModule
     {
     }
 
-    internal static void InitializeCampaignJoin(TCampaignJoinDlg Dialog)
+    internal static void InitializeCampaignJoin(CampaignJoinDlg Dialog)
     {
         Dialog.CharGenPnl.Visible = true;
         Dialog.LeaderTypePnl.Visible = false;

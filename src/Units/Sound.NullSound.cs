@@ -2,9 +2,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.Audio;
 
-public sealed class NullSoundSystem : TSoundSystem
+public sealed class NullSoundSystem : SoundSystem
 {
-    private TSoundSettings settings;
+    private SoundSettings settings;
     private int musicVolume, sfxVolume;
     private bool musicEnabled, sfxEnabled;
     private string song = "";
@@ -20,15 +20,15 @@ public sealed class NullSoundSystem : TSoundSystem
     public static SampleClass Samples { get; } = new("NullSample", NullSample.Create);
 
     protected internal override SampleClass SampleClass() => Samples;
-    protected internal override SampleDataClass SampleDataClass() => TSampleData.Descriptor;
+    protected internal override SampleDataClass SampleDataClass() => SampleData.Descriptor;
 
-    protected internal override bool Activate(in TSoundSettings value) { settings = value; FStatus = TSet<TSoundSystemStatusElement>.Of(TSoundSystemStatusElement.ssActivated); return true; }
+    protected internal override bool Activate(in SoundSettings value) { settings = value; FStatus = Set<SoundSystemStatusElement>.Of(SoundSystemStatusElement.Activated); return true; }
 
     protected internal override bool Deactivate() { FStatus = default; return true; }
 
     protected internal override void Process()
     {
-        for (int i = Aow.Game.Audio.AudioHost.SampleList.Count - 1; i >= 0; i--) ((TSample)Aow.Game.Audio.AudioHost.SampleList[i]).Update();
+        for (int i = Aow.Game.Audio.AudioHost.SampleList.Count - 1; i >= 0; i--) ((Sample)Aow.Game.Audio.AudioHost.SampleList[i]).Update();
     }
 
     protected internal override int GetMusicVolume() => musicVolume;
@@ -42,9 +42,9 @@ public sealed class NullSoundSystem : TSoundSystem
 
     public override bool SetMusicEnabled(bool value) { musicEnabled = value; return true; }
 
-    public override bool SetSoundSettings(in TSoundSettings value) { settings = value; return true; }
+    public override bool SetSoundSettings(in SoundSettings value) { settings = value; return true; }
 
-    public override TSoundSettings GetSoundSettings() => settings;
+    public override SoundSettings GetSoundSettings() => settings;
     public override bool FadeMusicVolume(int volume, int speed) => SetMusicVolume(volume);
 
     public override bool SetMusicVolume(int volume) { musicVolume = volume; return true; }
@@ -59,43 +59,43 @@ public sealed class NullSoundSystem : TSoundSystem
 
     public override bool StopSong() { song = ""; return true; }
 
-    public override TSongStatus BackupSongStatus() => new() { FFileName = song };
+    public override SongStatus BackupSongStatus() => new() { FFileName = song };
 
-    public override bool RestoreSongStatus(TSongStatus status) { song = status.FileName; return true; }
+    public override bool RestoreSongStatus(SongStatus status) { song = status.FileName; return true; }
 
     internal static void RegisterSoundSystem(global::Aow.Game.Audio.SoundSystemClass AClass)
     {
         if (global::Aow.Game.Audio.AudioHost.SoundSystems == null)
         {
-            global::Aow.Game.Audio.AudioHost.SoundSystems = new global::Aow.Game.Audio.TSoundSystemList();
+            global::Aow.Game.Audio.AudioHost.SoundSystems = new global::Aow.Game.Audio.SoundSystemList();
         }
         string name = AClass.Name;
         if (global::Aow.Game.Audio.AudioHost.SoundSystems.Find(name) == null)
         {
-            ((TList)global::Aow.Game.Audio.AudioHost.SoundSystems).Add((object)AClass);
+            ((DelphiList)global::Aow.Game.Audio.AudioHost.SoundSystems).Add((object)AClass);
             return;
         }
         throw new InvalidOperationException("Sound System with name: " + AClass.Name + " already registered");
     }
 }
 
-internal class NullSample : TSample
+internal class NullSample : Sample
 {
-    private protected NullSample(ConstructionContext context, TSampleData data) : base(context, data)
+    private protected NullSample(ConstructionContext context, global::Aow.Game.Audio.SampleData data) : base(context, data)
     { }
 
-    public static new NullSample Create(TSampleData data) =>
+    public static new NullSample Create(global::Aow.Game.Audio.SampleData data) =>
             ConstructionContext.Create(data, static (context, value) => new NullSample(context, value));
 
     private int volume;
     private bool looped;
-    private TSamplePanning panning;
+    private SamplePanning panning;
 
     protected internal override bool GetPlaying() => false;
     protected internal override int GetVolume() => volume;
     protected internal override void SetVolume(int value) => volume = value;
     protected internal override bool GetLooped() => looped;
     protected internal override void SetLooped(bool value) => looped = value;
-    protected internal override TSamplePanning GetPanning() => panning;
-    protected internal override void SetPanning(TSamplePanning value) => panning = value;
+    protected internal override SamplePanning GetPanning() => panning;
+    protected internal override void SetPanning(SamplePanning value) => panning = value;
 }

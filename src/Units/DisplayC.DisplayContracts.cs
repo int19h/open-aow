@@ -14,7 +14,7 @@ public interface IDisplayHost
 
     bool Fullscreen { get; set; }
 
-    void Present(in TSurfaceDesc backSurface);
+    void Present(in SurfaceDesc backSurface);
     (int X, int Y, bool Inside) PointerPosition();
 
     bool HasFocus { get; }
@@ -25,20 +25,20 @@ public interface IDisplayHost
 
 public interface IDisplayEvents
 {
-    void MouseDown(TMouseButton button, TSet<TShiftState> shift, int x, int y) { }
+    void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { }
 
-    void MouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y) { }
+    void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y) { }
 
-    void MouseMove(TSet<TShiftState> shift, int x, int y) { }
+    void MouseMove(Set<ShiftState> shift, int x, int y) { }
 
     // Positive steps are a roll away from the user. A port addition the original does not have.
-    void MouseWheel(int steps, TSet<TShiftState> shift, int x, int y) { }
+    void MouseWheel(int steps, Set<ShiftState> shift, int x, int y) { }
 
     void DoubleClick() { }
 
-    void KeyDown(ushort key, TSet<TShiftState> shift) { }
+    void KeyDown(ushort key, Set<ShiftState> shift) { }
 
-    void KeyUp(ushort key, TSet<TShiftState> shift) { }
+    void KeyUp(ushort key, Set<ShiftState> shift) { }
 
     void KeyPress(byte character) { }
 

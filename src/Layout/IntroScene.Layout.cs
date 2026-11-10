@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TIntroScene : ILayoutModule
+public partial class IntroScene : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TIntroScene : ILayoutModule
     {
         session.Begin(this);
         Name = "IntroScene";
-        Window = new TAoWUserWindow(this);
+        Window = new AoWUserWindow(this);
         session.BeginRead(Window);
         Window.Name = "Window";
         Window.OnMouseDown = (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
@@ -32,8 +32,8 @@ public partial class TIntroScene : ILayoutModule
         Window.WinWidth = 640;
         Window.Masked = false;
         Window.OnHide = _ => Layout_WindowHide_1();
-        Window.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        Window.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        Window.Alignment.AlignWidth = AOWAlignWidth.Both;
+        Window.Alignment.AlignHeight = AOWAlignHeight.Both;
         Window.Alignment.HeightPercent = 0;
         Window.Alignment.WidthPercent = 0;
         Window.Alignment.LeftOffPercent = 0;
@@ -72,8 +72,8 @@ public partial class TIntroScene : ILayoutModule
         session.BeginRead(created__VideoPlayer);
         created__VideoPlayer.Name = "VideoPlayer";
         created__VideoPlayer.OnStreamSound = VideoPlayerStreamSound;
-        created__VideoPlayer.Loopmode = TVideoPlayerLoopMode.vplmNone;
-        created__VideoPlayer.Options = TSet<TVideoPlayerOptions_Element>.Of(TVideoPlayerOptions_Element.vpoSoundEnabled, TVideoPlayerOptions_Element.vpoVideoEnabled);
+        created__VideoPlayer.Loopmode = Aow.Game.Layout.LayoutTVideoPlayer.VideoPlayerLoopMode.None;
+        created__VideoPlayer.Options = Set<VideoPlayerOptions_Element>.Of(VideoPlayerOptions_Element.SoundEnabled, VideoPlayerOptions_Element.VideoEnabled);
         session.EndRead(created__VideoPlayer);
         session.EndRead(this);
         Loaded();

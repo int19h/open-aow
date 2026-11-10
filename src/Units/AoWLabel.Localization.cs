@@ -10,14 +10,14 @@ internal static class LocalizationProperties
     [ModuleInitializer]
     internal static void Register()
     {
-        TranslatorProperties.Register<TAOWLabel>("Text", c => c.Text, (c, value) => c.Text = value);
-        TranslatorProperties.Register<TAOWButton>("Text", c => c.Text, (c, value) => c.Text = value);
-        TranslatorProperties.Register<TAOWEdit>("Text", c => c.Text, (c, value) => c.Text = value);
-        TranslatorProperties.RegisterStrings<TAOWControl>("ToolTipText", c => c.ToolTipText);
-        TranslatorProperties.RegisterStrings<TAOWComboBox>("Items", c => c.Items);
+        TranslatorProperties.Register<AOWLabel>("Text", c => c.Text, (c, value) => c.Text = value);
+        TranslatorProperties.Register<AOWButton>("Text", c => c.Text, (c, value) => c.Text = value);
+        TranslatorProperties.Register<AOWEdit>("Text", c => c.Text, (c, value) => c.Text = value);
+        TranslatorProperties.RegisterStrings<AOWControl>("ToolTipText", c => c.ToolTipText);
+        TranslatorProperties.RegisterStrings<AOWComboBox>("Items", c => c.Items);
         TranslatorProperties.RegisterStrings<TaowHTMLMemo>("Items", c => c.Items);
-        TranslatorProperties.RegisterStrings<TAOWListBox>("Items", c => c.Items);
-        TranslatorProperties.RegisterStrings<TAOWMemo>("Items", c => c.Items);
-        TranslatorProperties.RegisterStrings<TAOWTabPanel>("Items", c => c.Items);
+        TranslatorProperties.RegisterStrings<AOWListBox>("Items", c => c.Items);
+        TranslatorProperties.RegisterStrings<AOWMemo>("Items", c => c.Items);
+        TranslatorProperties.RegisterStrings<AOWTabPanel>("Items", c => c.Items);
     }
 }

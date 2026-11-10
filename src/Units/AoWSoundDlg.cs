@@ -11,64 +11,64 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // sound quality, sound settings (rate, music, DirectSound, window, SFX, voices)
-public partial class TSoundDlg : TDataModule
+public partial class SoundDlg : DataModule
 {
-    public TSoundDlg(TComponent owner) : base(owner)
+    public SoundDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWButton CloseBut;
-    public TAOWImage TCeltLL;
-    public TAoWFrame BCeltL;
-    public TAOWLabel Title;
-    public TAOWListBox SongLB;
-    public TAOWLabel SongLbl;
-    public TAOWButton Close;
-    public TAOWPanel PlayListPnl;
-    public TAOWTabPanel SoundTab;
-    public TAOWListBox PlayLB;
-    public TAOWButton AddBtn;
-    public TAOWButton RemoveBtn;
-    public TAOWButton PlayBtn;
-    public TAOWLabel PlayLbl;
-    public TAOWLabel CurrentSongLbl;
-    public TAOWImage TCeltLR;
-    public TAOWLabel MusicVolLbl;
-    public TAOWLabel SFXVolLbl;
-    public TAOWPanel MainPnl;
-    public TAOWLabel SoundLbl;
-    public TAOWPanel SettingsPnl;
-    public TAOWLabel SFXLbl;
-    public TAOWPanel SQPnl;
-    public TAOWCheckBox SQCB1;
-    public TAOWLabel SQLBL1;
-    public TAOWCheckBox SQCB2;
-    public TAOWLabel SQLBL2;
-    public TAOWCheckBox SQCB3;
-    public TAOWLabel SQLBL3;
-    public TAOWCheckBox SQCB4;
-    public TAOWLabel SQLBL4;
-    public TAOWPanel SFXPnl;
-    public TAOWCheckBox MusicEnabledChk;
-    public TAOWLabel SFXLBL2;
-    public TAOWCheckBox SFXEnabledChk;
-    public TAOWLabel SFXLBL3;
-    public TAoWFrame TopLine;
-    public TAOWImage AOWImage4;
-    public TAOWImage HarpL;
-    public TAOWImage HarpR;
-    public TAOWHScrollBar MusicVolume;
-    public TAOWHScrollBar SFXVolume;
-    public TAOWImage TitleIcon;
-    public TAOWVScrollBar SongSB;
-    public TAOWVScrollBar PlaySB;
-    public TAOWCheckBox DirectSoundEnabledChk;
-    public TAOWLabel UseDirectSoundLbl;
-    public TAOWPanel FolderPnl;
-    public TAOWPanel PlayPnl;
-    public TIvTranslator Translator;
+    public AOWWindow Dlg;
+    public AOWButton CloseBut;
+    public AOWImage TCeltLL;
+    public AoWFrame BCeltL;
+    public AOWLabel Title;
+    public AOWListBox SongLB;
+    public AOWLabel SongLbl;
+    public AOWButton Close;
+    public AOWPanel PlayListPnl;
+    public AOWTabPanel SoundTab;
+    public AOWListBox PlayLB;
+    public AOWButton AddBtn;
+    public AOWButton RemoveBtn;
+    public AOWButton PlayBtn;
+    public AOWLabel PlayLbl;
+    public AOWLabel CurrentSongLbl;
+    public AOWImage TCeltLR;
+    public AOWLabel MusicVolLbl;
+    public AOWLabel SFXVolLbl;
+    public AOWPanel MainPnl;
+    public AOWLabel SoundLbl;
+    public AOWPanel SettingsPnl;
+    public AOWLabel SFXLbl;
+    public AOWPanel SQPnl;
+    public AOWCheckBox SQCB1;
+    public AOWLabel SQLBL1;
+    public AOWCheckBox SQCB2;
+    public AOWLabel SQLBL2;
+    public AOWCheckBox SQCB3;
+    public AOWLabel SQLBL3;
+    public AOWCheckBox SQCB4;
+    public AOWLabel SQLBL4;
+    public AOWPanel SFXPnl;
+    public AOWCheckBox MusicEnabledChk;
+    public AOWLabel SFXLBL2;
+    public AOWCheckBox SFXEnabledChk;
+    public AOWLabel SFXLBL3;
+    public AoWFrame TopLine;
+    public AOWImage AOWImage4;
+    public AOWImage HarpL;
+    public AOWImage HarpR;
+    public AOWHScrollBar MusicVolume;
+    public AOWHScrollBar SFXVolume;
+    public AOWImage TitleIcon;
+    public AOWVScrollBar SongSB;
+    public AOWVScrollBar PlaySB;
+    public AOWCheckBox DirectSoundEnabledChk;
+    public AOWLabel UseDirectSoundLbl;
+    public AOWPanel FolderPnl;
+    public AOWPanel PlayPnl;
+    public IvTranslator Translator;
     public int FSoundQuality;
-    public TSoundSettings FSettings;
+    public SoundSettings FSettings;
 
     // AoWSoundDlg.pas:108
     public void CloseClick()
@@ -172,9 +172,9 @@ public partial class TSoundDlg : TDataModule
     public void FindFiles()
     {
         string Directory;
-        TSearchRec Search = default;
+        SearchRec Search = default;
         SongLB.Items.Clear();
-        Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles.Clear();
+        Aow.Game.Ui.Dialogs.SoundDlg.SongFiles.Clear();
         SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "\\Songs");
         Directory = GetCurrentDir();
         if (Copy(Directory, Directory.Length, 1) == "\\")
@@ -190,7 +190,7 @@ public partial class TSoundDlg : TDataModule
                 {
                     if (UpperCase(Copy(Search.Name, Search.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(Search.Name, Search.Name.Length - 2, 3)) == ".IT")
                     {
-                        Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles.Add("Songs\\" + Search.Name);
+                        Aow.Game.Ui.Dialogs.SoundDlg.SongFiles.Add("Songs\\" + Search.Name);
                         var songName = Aow.Game.Audio.AudioPlayback.GetSongName("Songs\\" + Search.Name);
                         SongLB.Items.Add(songName);
                     }
@@ -200,7 +200,7 @@ public partial class TSoundDlg : TDataModule
         }
 
         FindClose(ref Search);
-        Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(SongLB.Items, [Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles]);
+        Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(SongLB.Items, [Aow.Game.Ui.Dialogs.SoundDlg.SongFiles]);
         SongLB.Selected = -1;
         SongLB.ListOffset = 0;
         SongSB.Position = 0;
@@ -219,7 +219,7 @@ public partial class TSoundDlg : TDataModule
     public void AddBtnClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        var songFile = Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles[SongLB.Selected];
+        var songFile = Aow.Game.Ui.Dialogs.SoundDlg.SongFiles[SongLB.Selected];
         Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add(songFile);
         SoundSetup();
     }
@@ -227,13 +227,13 @@ public partial class TSoundDlg : TDataModule
     // AoWSoundDlg.pas:218
     public void SoundDlgWindowCreate()
     {
-        Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles = new TStringList();
+        Aow.Game.Ui.Dialogs.SoundDlg.SongFiles = new StringList();
     }
 
     // AoWSoundDlg.pas:223
     public void SoundDlgWindowDestroy()
     {
-        Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles?.Dispose();
+        Aow.Game.Ui.Dialogs.SoundDlg.SongFiles?.Dispose();
     }
 
     // AoWSoundDlg.pas:228
@@ -247,7 +247,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:237
-    public void SQCB1Change(TAOWCheckBox Sender)
+    public void SQCB1Change(AOWCheckBox Sender)
     {
         if (SQCB1.Checked)
         {
@@ -269,20 +269,20 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:251
-    public void SQCB2Change(TAOWCheckBox Sender)
+    public void SQCB2Change(AOWCheckBox Sender)
     {
         if (SQCB2.Checked)
         {
             FSoundQuality = 1;
-            if (Aow.Game.Ui.Dialogs.TSoundDlg.SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
+            if (Aow.Game.Ui.Dialogs.SoundDlg.SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omMono, TSoundOutputModeElement.om8bit);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.om8bit);
                 FSettings.SampleRate = 22050;
-                Aow.Game.Ui.Dialogs.TSoundDlg.SetSoundSettings(FSettings);
+                Aow.Game.Ui.Dialogs.SoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
-                FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omMono, TSoundOutputModeElement.om8bit);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.om8bit);
                 FSettings.SampleRate = 22050;
                 Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
@@ -299,20 +299,20 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:273
-    public void SQCB3Change(TAOWCheckBox Sender)
+    public void SQCB3Change(AOWCheckBox Sender)
     {
         if (SQCB3.Checked)
         {
             FSoundQuality = 2;
-            if (Aow.Game.Ui.Dialogs.TSoundDlg.SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
+            if (Aow.Game.Ui.Dialogs.SoundDlg.SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.om16bit);
                 FSettings.SampleRate = 44100;
-                Aow.Game.Ui.Dialogs.TSoundDlg.SetSoundSettings(FSettings);
+                Aow.Game.Ui.Dialogs.SoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
-                FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.om16bit);
                 FSettings.SampleRate = 44100;
                 Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
@@ -329,20 +329,20 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:295
-    public void SQCB4Change(TAOWCheckBox Sender)
+    public void SQCB4Change(AOWCheckBox Sender)
     {
         if (SQCB4.Checked)
         {
             FSoundQuality = 3;
-            if (Aow.Game.Ui.Dialogs.TSoundDlg.SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
+            if (Aow.Game.Ui.Dialogs.SoundDlg.SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit, TSoundOutputModeElement.omHighQuality);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.om16bit, SoundOutputModeElement.HighQuality);
                 FSettings.SampleRate = 44100;
-                Aow.Game.Ui.Dialogs.TSoundDlg.SetSoundSettings(FSettings);
+                Aow.Game.Ui.Dialogs.SoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
-                FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit, TSoundOutputModeElement.omHighQuality);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.om16bit, SoundOutputModeElement.HighQuality);
                 FSettings.SampleRate = 44100;
                 Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
@@ -359,7 +359,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:317
-    public void PlayLBDrawItem(in TRect R, int Index, ref TSurfaceDesc SurfDesc)
+    public void PlayLBDrawItem(in global::Aow.Rtl.Rect R, int Index, ref SurfaceDesc SurfDesc)
     {
         if (Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex == Index)
         {
@@ -368,10 +368,10 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:322
-    public void MusicEnabledChkChange(TAOWCheckBox Sender)
+    public void MusicEnabledChkChange(AOWCheckBox Sender)
     {
         FSettings.MusicEnabled = MusicEnabledChk.Checked;
-        Aow.Game.Ui.Dialogs.TSoundDlg.SetMusicEnabled(FSettings.MusicEnabled);
+        Aow.Game.Ui.Dialogs.SoundDlg.SetMusicEnabled(FSettings.MusicEnabled);
         if (FSettings.MusicEnabled && FSoundQuality != 0)
         {
             Aow.Game.Audio.AudioHost.SongPlayer.Play(0);
@@ -388,10 +388,10 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:331
-    public void SFXEnabledChkChange(TAOWCheckBox Sender)
+    public void SFXEnabledChkChange(AOWCheckBox Sender)
     {
         FSettings.SFXEnabled = SFXEnabledChk.Checked;
-        Aow.Game.Ui.Dialogs.TSoundDlg.SetSFXEnabled(FSettings.SFXEnabled);
+        Aow.Game.Ui.Dialogs.SoundDlg.SetSFXEnabled(FSettings.SFXEnabled);
         if (Sender.Checked)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
@@ -403,12 +403,12 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:339
-    public void DirectSoundEnabledChkChange(TAOWCheckBox Sender)
+    public void DirectSoundEnabledChkChange(AOWCheckBox Sender)
     {
         FSettings.UseDirectSound = DirectSoundEnabledChk.Checked;
-        if (Aow.Game.Ui.Dialogs.TSoundDlg.SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
+        if (Aow.Game.Ui.Dialogs.SoundDlg.SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
         {
-            Aow.Game.Ui.Dialogs.TSoundDlg.SetSoundSettings(FSettings);
+            Aow.Game.Ui.Dialogs.SoundDlg.SetSoundSettings(FSettings);
         }
 
         if (Sender.Checked)
@@ -428,7 +428,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:352
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -436,15 +436,15 @@ public partial class TSoundDlg : TDataModule
         }
     }
 
-    private static TStringList SongFiles;
+    private static StringList SongFiles;
 
-    private static TSet<global::Aow.Game.Audio.TSoundSystemStatusElement> SoundSystemStatus()
+    private static Set<global::Aow.Game.Audio.SoundSystemStatusElement> SoundSystemStatus()
     {
         if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
         {
             return global::Aow.Game.Audio.AudioHost.SoundSystem.FStatus;
         }
-        return TSet<global::Aow.Game.Audio.TSoundSystemStatusElement>.Of(global::System.Array.Empty<global::Aow.Game.Audio.TSoundSystemStatusElement>());
+        return Set<global::Aow.Game.Audio.SoundSystemStatusElement>.Of(global::System.Array.Empty<global::Aow.Game.Audio.SoundSystemStatusElement>());
     }
 
     private static bool SetMusicEnabled(bool Value)
@@ -465,7 +465,7 @@ public partial class TSoundDlg : TDataModule
         return false;
     }
 
-    private static bool SetSoundSettings(in global::Aow.Game.Audio.TSoundSettings Settings)
+    private static bool SetSoundSettings(in global::Aow.Game.Audio.SoundSettings Settings)
     {
         if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
         {

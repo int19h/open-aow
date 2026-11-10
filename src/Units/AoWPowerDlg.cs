@@ -13,44 +13,44 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // all fields are form components, power allocation slider
-public partial class TPowerDlg : TDataModule
+public partial class PowerDlg : DataModule
 {
-    public TPowerDlg(TComponent owner) : base(owner)
+    public PowerDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWImage TitleIcon;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAoWFrame BCeltL;
-    public TAOWButton CancelBtn;
-    public TAOWButton SetBtn;
-    public TAOWWindow Dlg;
-    public TAOWLabel NetMana;
-    public TAOWLabel NetMamaLbl;
-    public TAOWPanel UpkeePnl;
-    public TAOWLabel ResearchLeft;
-    public TAOWLabel SpellName;
-    public TAOWPanel ResearchPnl;
-    public TAOWPanel SliderPnl;
-    public TAOWLabel PowerLbl;
-    public TAOWLabel Power;
-    public TAOWLabel Mana;
-    public TAOWLabel Research;
-    public TAOWPanel ManaPnl;
-    public TAOWPanel ResPnl;
-    public TAOWLabel ManaLbl;
-    public TAOWLabel ResearchLbl;
-    public TAOWHScrollBar PowerSlider;
-    public TAOWImage PAMana;
-    public TAOWImage PARes;
-    public TIvTranslator Translator;
+    public AOWImage TitleIcon;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AoWFrame BCeltL;
+    public AOWButton CancelBtn;
+    public AOWButton SetBtn;
+    public AOWWindow Dlg;
+    public AOWLabel NetMana;
+    public AOWLabel NetMamaLbl;
+    public AOWPanel UpkeePnl;
+    public AOWLabel ResearchLeft;
+    public AOWLabel SpellName;
+    public AOWPanel ResearchPnl;
+    public AOWPanel SliderPnl;
+    public AOWLabel PowerLbl;
+    public AOWLabel Power;
+    public AOWLabel Mana;
+    public AOWLabel Research;
+    public AOWPanel ManaPnl;
+    public AOWPanel ResPnl;
+    public AOWLabel ManaLbl;
+    public AOWLabel ResearchLbl;
+    public AOWHScrollBar PowerSlider;
+    public AOWImage PAMana;
+    public AOWImage PARes;
+    public IvTranslator Translator;
 
     // AoWPowerDlg.pas:70
     public void Execute()
     {
-        TPlayerMagicControl Control;
+        PlayerMagicControl Control;
         Dlg.Visible = true;
-        Control = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl;
+        Control = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
         PowerSlider.Position = Control.FResearchPercentage;
         var netPower = Control.GetNetPower();
         Power.Text = IntToStr(netPower);
@@ -66,18 +66,18 @@ public partial class TPowerDlg : TDataModule
         int PointsLeft;
         int ManaPower;
         int ResearchPower;
-        ManaPower = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.GetNetPower();
-        PointsLeft = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.FResearchPointsLeft;
-        Upkeep = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.GetManaUpkeep();
-        SpellID = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID;
+        ManaPower = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetNetPower();
+        PointsLeft = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchPointsLeft;
+        Upkeep = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetManaUpkeep();
+        SpellID = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID;
         ResearchPower = Round((double)(PowerSlider.Position * ManaPower) / 100);
         ManaPower -= ResearchPower;
         if (SpellID != 0)
         {
-            Turns = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
-            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(SpellID);
+            Turns = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
+            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
             SpellName.Text = spell.FSpellName;
-            var fmtTurnsStr = Aow.Game.Ui.Dialogs.TPowerDlg.FmtTurnsStr(Turns);
+            var fmtTurnsStr = Aow.Game.Ui.Dialogs.PowerDlg.FmtTurnsStr(Turns);
             ResearchLeft.Text = fmtTurnsStr;
         }
         else
@@ -110,14 +110,14 @@ public partial class TPowerDlg : TDataModule
     public void SetBtnClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.ChangePowerSettings(PowerSlider.Position))
+        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.ChangePowerSettings(PowerSlider.Position))
         {
             Dlg.Visible = false;
         }
     }
 
     // AoWPowerDlg.pas:115
-    public void PAManaDraw(TAOWImage Sender, TSurfaceDesc SD)
+    public void PAManaDraw(AOWImage Sender, SurfaceDesc SD)
     {
         int X;
         int Y;
@@ -129,7 +129,7 @@ public partial class TPowerDlg : TDataModule
     }
 
     // AoWPowerDlg.pas:128
-    public void PAResDraw(TAOWImage Sender, TSurfaceDesc SD)
+    public void PAResDraw(AOWImage Sender, SurfaceDesc SD)
     {
         int X;
         int Y;
@@ -141,7 +141,7 @@ public partial class TPowerDlg : TDataModule
     }
 
     // AoWPowerDlg.pas:141
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {

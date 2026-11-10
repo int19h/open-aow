@@ -11,9 +11,9 @@ namespace Aow.Game.Ui.Controls;
 //   to the control. }
 // Fields: FAnimate, FAnimFrameDelay, FFrameCount (updates left until the next image),
 // FAnimStart, FCurrentImage, FAnimEnd, FImageLib
-public partial class TAOWImage : TAOWControl
+public partial class AOWImage : AOWControl
 {
-    public TAOWImage(TComponent owner) : base(owner)
+    public AOWImage(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
     public bool FAnimate;
@@ -66,7 +66,7 @@ public partial class TAOWImage : TAOWControl
     }
 
     // AoWImage.pas:163
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -81,7 +81,7 @@ public partial class TAOWImage : TAOWControl
     }
 
     // AoWImage.pas:177
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         FRedraw = false;
@@ -96,7 +96,7 @@ public partial class TAOWImage : TAOWControl
     }
 
     // AoWImage.pas:190
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseMove(Shift, X, Y);
         FHandled = false;
@@ -181,55 +181,55 @@ public partial class TAOWImage : TAOWControl
     [Published]
     public int AnimFrameDelay { get => FAnimFrameDelay; set => FAnimFrameDelay = value; }
 
-    public new TNotifyEvent<TAOWImage> OnChange
+    public new NotifyEvent<AOWImage> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWImage> OnMouseDown
+    public new MouseEvent<AOWImage> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWImage> OnMouseUp
+    public new MouseEvent<AOWImage> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWImage> OnMouseMove
+    public new MouseMoveEvent<AOWImage> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWImage> OnKeyPress
+    public new KeyPressEvent<AOWImage> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWImage> OnKeyDown
+    public new KeyEvent<AOWImage> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWImage> OnPreDraw
+    public new AoWOnDrawEvent<AOWImage> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWImage> OnDraw
+    public new AoWOnDrawEvent<AOWImage> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWImage> OnUpdate
+    public new NotifyEvent<AOWImage> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

@@ -11,34 +11,29 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-public enum TTowerStateElement : byte
-{
-    tsRazed = 0
-}
-
 // FState, bit 0 razed
-public partial class TTower : TPlayerStructure
+public partial class Tower : PlayerStructure
 {
-    public TTower(TECustomNode owner) : base(owner)
+    public Tower(ECustomNode owner) : base(owner)
     { }
 
     // Tower.pas:55
     public new const int ClassID = 132158;
 
-    public TSet<TTowerStateElement> FState;
+    public Set<StateElement> FState;
 
     // Tower.pas:96
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         RwSet(ref FState, 1, 20, Stream.rwData, 0);
     }
 
     // Tower.pas:102
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
     {
         base.MapFieldMsgProc(ref Msg);
-        if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && Msg.MsgID == 4387 && Msg.Param[0].As<TMapField>().FindNoneTransparentHS(typeof(TTower)) == this && !GetBuilding() && !GetRazed())
+        if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && Msg.MsgID == 4387 && Msg.Param[0].As<MapField>().FindNoneTransparentHS(typeof(Tower)) == this && !GetBuilding() && !GetRazed())
         {
             Msg.Result = 2;
         }
@@ -50,28 +45,28 @@ public partial class TTower : TPlayerStructure
         if (Value)
         {
             SetPlayer(-1);
-            FState = FState + TSet<TTowerStateElement>.Of(TTowerStateElement.tsRazed);
+            FState = FState + Set<StateElement>.Of(StateElement.Razed);
         }
         else
         {
-            FState = FState - TSet<TTowerStateElement>.Of(TTowerStateElement.tsRazed);
+            FState = FState - Set<StateElement>.Of(StateElement.Razed);
         }
 
         FImageIndex = GetTerrainTypeImage(FTerrainType);
     }
 
     // Tower.pas:82
-    public override bool GetRazed() => FState.Contains(TTowerStateElement.tsRazed);
+    public override bool GetRazed() => FState.Contains(StateElement.Razed);
 
     // Tower.pas:73
-    public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
     {
         base.UpdateAITarget(Info, ref Data);
-        if (!FState.Contains(TTowerStateElement.tsRazed))
+        if (!FState.Contains(StateElement.Razed))
         {
             switch (Info.Mode)
             {
-                case TAITargetMode.tmFortify:
+                case AITargetMode.Fortify:
                     if (Info.Player == FPlayer)
                     {
                         Data.Priority = 50;
@@ -89,7 +84,7 @@ public partial class TTower : TPlayerStructure
         if (!GetBuilding())
         {
             Result = 12;
-            if (GetLhx() != 0 || FPlayer > 0 && (((byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
+            if (GetLhx() != 0 || FPlayer > 0 && (((byte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
             {
                 Result = (int)(((uint)(Result + 1)) >> 1);
             }
@@ -105,42 +100,47 @@ public partial class TTower : TPlayerStructure
     // Tower.pas:70
     public override int GetDefaultAITargetPriority() => 1;
 
-}
-
-public partial class TTowerResource : TPlayerStructureResource
-{
-    public TTowerResource(TECustomNode owner) : base(owner)
+    public enum StateElement : byte
     {
-        FTerrainBound = true;
-        FClaimed = false;
-        FRazeable = true;
-        FRazeDefenderBudget = 50;
-        FRebuildGold = 25;
-        FRebuildDays = 2;
+        Razed = 0
     }
 
-    // Tower.pas:124
-    public new const int ClassID = 132159;
+    public new partial class Resource : PlayerStructureResource
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        {
+            FTerrainBound = true;
+            FClaimed = false;
+            FRazeable = true;
+            FRazeDefenderBudget = 50;
+            FRebuildGold = 25;
+            FRebuildDays = 2;
+        }
 
-    // Tower.pas:110
+        // Tower.pas:124
+        public new const int ClassID = 132159;
 
-    // Tower.pas:127
-    public override int ResourceUserClassID() => 132158;
+        // Tower.pas:110
 
-    // Tower.pas:35
+        // Tower.pas:127
+        public override int ResourceUserClassID() => 132158;
 
-    // Tower.pas:121
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TowerRStr);
+        // Tower.pas:35
+
+        // Tower.pas:121
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TowerRStr);
+
+    }
 
 }
 
-public partial class TTowerConstructionControl : TStructureConstructionControl
+public partial class TowerConstructionControl : StructureConstructionControl
 {
-    public TTowerConstructionControl(TECustomNode owner) : base(owner)
+    public TowerConstructionControl(ECustomNode owner) : base(owner)
     { }
 
     // Tower.pas:139
-    public override void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
+    public override void GetInfo(AbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
     {
         var tower = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TowerRStr);
         Text = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.BuildXRStr), [tower]);
@@ -149,7 +149,7 @@ public partial class TTowerConstructionControl : TStructureConstructionControl
     }
 
     // Tower.pas:146
-    public override bool CanConstruct(TAbstractUnit AUnit, ref string Reason)
+    public override bool CanConstruct(AbstractUnit AUnit, ref string Reason)
     {
         bool Result;
         sbyte Xhx = default;
@@ -164,14 +164,14 @@ public partial class TTowerConstructionControl : TStructureConstructionControl
         {
             Result = false;
             var tower = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TowerRStr);
-            Reason = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TTowerConstructionControl.CannotBuildXInUndergroundRStr), [tower]);
+            Reason = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TowerConstructionControl.CannotBuildXInUndergroundRStr), [tower]);
         }
 
         return Result;
     }
 
     // Tower.pas:133
-    public override TStructureResource StructureResource(TAbstractUnit AUnit) => (TStructureResource)Aow.Game.Engine.TAoWHSSet.AoWHSSet.MapObjectResourceList.FindChild(132159);
+    public override global::Aow.Game.World.Structures.StructureResource StructureResource(AbstractUnit AUnit) => (global::Aow.Game.World.Structures.StructureResource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindChild(132159);
 
     // Tower.pas:130
     public override int ID() => 3;

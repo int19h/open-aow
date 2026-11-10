@@ -21,7 +21,7 @@ public sealed class FilesProbeTests
         for (int i = 7; i >= 0; i--) { string path = Path.Combine("probe-files", $"d{i:X2}"); Directory.CreateDirectory(path); File.SetAttributes(path, (FileAttributes)(faDirectory | Attrs(i))); }
         void Enumerate(string tag, string pattern, int attr)
         {
-            TSearchRec search = default;
+            SearchRec search = default;
             int code = FindFirst("probe-files\\" + pattern, attr, ref search); p.Fact(tag + "_first_code", code); int n = 0;
             if (code == 0)
             {

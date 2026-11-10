@@ -1,3 +1,5 @@
+using Aow.Rtl;
+
 namespace Aow.Formats;
 
 /// <summary>
@@ -25,6 +27,20 @@ public static class CaseMappings
 
     public static ICaseUnit? Find(string persistedClass)
     {
-        lock (units) return units.GetValueOrDefault(persistedClass);
+        lock (units)
+        {
+            if (units.TryGetValue(persistedClass, out var found)) return found;
+            string? resolved = Stored(persistedClass);
+            if (resolved is not null && resolved != persistedClass && units.TryGetValue(resolved, out found)) return found;
+            string? delphi = resolved is null ? null : NameTable.DelphiName(resolved);
+            if (delphi is not null && delphi != persistedClass && units.TryGetValue(delphi, out found)) return found;
+            return null;
+        }
+    }
+
+    private static string? Stored(string name)
+    {
+        try { return NameTable.ResolveStored(name); }
+        catch (InvalidOperationException) { return null; }
     }
 }

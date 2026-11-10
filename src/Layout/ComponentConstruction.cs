@@ -6,7 +6,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Controls
 {
-    public partial class TAoWGauge
+    public partial class AoWGauge
     {
         public LayoutStrings LayoutToolTipText
         {
@@ -20,7 +20,7 @@ namespace Aow.Game.Ui.Controls
 
 namespace Aow.Game.Draw.Images
 {
-    public partial class TInterfaceIL
+    public partial class InterfaceIL
     {
         public byte[] LayoutData
         {
@@ -34,15 +34,15 @@ namespace Aow.Game.Draw.Images
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TMWindow
+    public partial class MWindow
     {
-        public TNotifyEvent<TMWindow> LayoutOnCreate { get; set; }
+        public NotifyEvent<MWindow> LayoutOnCreate { get; set; }
     }
 }
 
 namespace Aow.Game.Ui.Windows
 {
-    public partial class TAOWMenu
+    public partial class AOWMenu
     {
         public LayoutStrings LayoutItems
         {
@@ -56,303 +56,7 @@ namespace Aow.Game.Ui.Windows
 
 namespace Aow.Game.Ui.Controls
 {
-    public partial class TAOWMenuBar
-    {
-        public LayoutStrings LayoutItems
-        {
-            set
-            {
-                value.CopyTo(Items);
-            }
-        }
-
-        public LayoutStrings LayoutToolTipText
-        {
-            set
-            {
-                value.CopyTo(ToolTipText);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Dialogs
-{
-    public partial class TArmyEventDlg
-    {
-        public TNotifyEvent<TArmyEventDlg> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TArmyEventDlg> LayoutOnDestroy { get; set; }
-
-        public override void Dispose()
-        {
-            Destroying();
-            try
-            {
-                LayoutOnDestroy?.Invoke(this);
-            }
-            finally
-            {
-                base.Dispose();
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWButton
-    {
-        public LayoutStrings LayoutToolTipText
-        {
-            set
-            {
-                value.CopyTo(ToolTipText);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Dialogs
-{
-    public partial class TCampaignJoinDlg
-    {
-        public TNotifyEvent<TCampaignJoinDlg> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TCampaignJoinDlg> LayoutOnDestroy { get; set; }
-
-        public override void Dispose()
-        {
-            Destroying();
-            try
-            {
-                LayoutOnDestroy?.Invoke(this);
-            }
-            finally
-            {
-                base.Dispose();
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWCheckBox
-    {
-        public LayoutStrings LayoutToolTipText
-        {
-            set
-            {
-                value.CopyTo(ToolTipText);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Dialogs
-{
-    public partial class TCityScreen
-    {
-        public TNotifyEvent<TCityScreen> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TCityScreen> LayoutOnDestroy { get; set; }
-
-        public override void Dispose()
-        {
-            Destroying();
-            try
-            {
-                LayoutOnDestroy?.Invoke(this);
-            }
-            finally
-            {
-                base.Dispose();
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWComboBox
-    {
-        public LayoutStrings LayoutItems
-        {
-            set
-            {
-                value.CopyTo(Items);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWEdit
-    {
-        public LayoutStrings LayoutToolTipText
-        {
-            set
-            {
-                value.CopyTo(ToolTipText);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Dialogs
-{
-    public partial class TEmailGameSettingsDlg
-    {
-        public TNotifyEvent<TEmailGameSettingsDlg> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TEmailGameSettingsDlg> LayoutOnDestroy { get; set; }
-
-        public override void Dispose()
-        {
-            Destroying();
-            try
-            {
-                LayoutOnDestroy?.Invoke(this);
-            }
-            finally
-            {
-                base.Dispose();
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Dialogs
-{
-    public partial class TFileDlgWindow
-    {
-        public TNotifyEvent<TFileDlgWindow> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TFileDlgWindow> LayoutOnDestroy { get; set; }
-
-        public override void Dispose()
-        {
-            Destroying();
-            try
-            {
-                LayoutOnDestroy?.Invoke(this);
-            }
-            finally
-            {
-                base.Dispose();
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWHScrollBar
-    {
-        public LayoutStrings LayoutToolTipText
-        {
-            set
-            {
-                value.CopyTo(ToolTipText);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Dialogs
-{
-    public partial class THeroJoinDlg
-    {
-        public TNotifyEvent<THeroJoinDlg> LayoutOnCreate { get; set; }
-        public TNotifyEvent<THeroJoinDlg> LayoutOnDestroy { get; set; }
-
-        public override void Dispose()
-        {
-            Destroying();
-            try
-            {
-                LayoutOnDestroy?.Invoke(this);
-            }
-            finally
-            {
-                base.Dispose();
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWImage
-    {
-        public LayoutStrings LayoutToolTipText
-        {
-            set
-            {
-                value.CopyTo(ToolTipText);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWLabel
-    {
-        public LayoutStrings LayoutToolTipText
-        {
-            set
-            {
-                value.CopyTo(ToolTipText);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Dialogs
-{
-    public partial class TLeaderSetupWin
-    {
-        public TNotifyEvent<TLeaderSetupWin> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TLeaderSetupWin> LayoutOnDestroy { get; set; }
-
-        public override void Dispose()
-        {
-            Destroying();
-            try
-            {
-                LayoutOnDestroy?.Invoke(this);
-            }
-            finally
-            {
-                base.Dispose();
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWListBox
-    {
-        public LayoutStrings LayoutItems
-        {
-            set
-            {
-                value.CopyTo(Items);
-            }
-        }
-
-        public LayoutStrings LayoutToolTipText
-        {
-            set
-            {
-                value.CopyTo(ToolTipText);
-            }
-        }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-    public partial class TAOWMemo
+    public partial class AOWMenuBar
     {
         public LayoutStrings LayoutItems
         {
@@ -374,10 +78,132 @@ namespace Aow.Game.Ui.Controls
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TPartyJoinDlg
+    public partial class ArmyEventDlg
     {
-        public TNotifyEvent<TPartyJoinDlg> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TPartyJoinDlg> LayoutOnDestroy { get; set; }
+        public NotifyEvent<ArmyEventDlg> LayoutOnCreate { get; set; }
+        public NotifyEvent<ArmyEventDlg> LayoutOnDestroy { get; set; }
+
+        public override void Dispose()
+        {
+            Destroying();
+            try
+            {
+                LayoutOnDestroy?.Invoke(this);
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWButton
+    {
+        public LayoutStrings LayoutToolTipText
+        {
+            set
+            {
+                value.CopyTo(ToolTipText);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Dialogs
+{
+    public partial class CampaignJoinDlg
+    {
+        public NotifyEvent<CampaignJoinDlg> LayoutOnCreate { get; set; }
+        public NotifyEvent<CampaignJoinDlg> LayoutOnDestroy { get; set; }
+
+        public override void Dispose()
+        {
+            Destroying();
+            try
+            {
+                LayoutOnDestroy?.Invoke(this);
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWCheckBox
+    {
+        public LayoutStrings LayoutToolTipText
+        {
+            set
+            {
+                value.CopyTo(ToolTipText);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Dialogs
+{
+    public partial class CityScreen
+    {
+        public NotifyEvent<CityScreen> LayoutOnCreate { get; set; }
+        public NotifyEvent<CityScreen> LayoutOnDestroy { get; set; }
+
+        public override void Dispose()
+        {
+            Destroying();
+            try
+            {
+                LayoutOnDestroy?.Invoke(this);
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWComboBox
+    {
+        public LayoutStrings LayoutItems
+        {
+            set
+            {
+                value.CopyTo(Items);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWEdit
+    {
+        public LayoutStrings LayoutToolTipText
+        {
+            set
+            {
+                value.CopyTo(ToolTipText);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Dialogs
+{
+    public partial class EmailGameSettingsDlg
+    {
+        public NotifyEvent<EmailGameSettingsDlg> LayoutOnCreate { get; set; }
+        public NotifyEvent<EmailGameSettingsDlg> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -396,10 +222,162 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TProductionScreen
+    public partial class FileDlgWindow
     {
-        public TNotifyEvent<TProductionScreen> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TProductionScreen> LayoutOnDestroy { get; set; }
+        public NotifyEvent<FileDlgWindow> LayoutOnCreate { get; set; }
+        public NotifyEvent<FileDlgWindow> LayoutOnDestroy { get; set; }
+
+        public override void Dispose()
+        {
+            Destroying();
+            try
+            {
+                LayoutOnDestroy?.Invoke(this);
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWHScrollBar
+    {
+        public LayoutStrings LayoutToolTipText
+        {
+            set
+            {
+                value.CopyTo(ToolTipText);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Dialogs
+{
+    public partial class HeroJoinDlg
+    {
+        public NotifyEvent<HeroJoinDlg> LayoutOnCreate { get; set; }
+        public NotifyEvent<HeroJoinDlg> LayoutOnDestroy { get; set; }
+
+        public override void Dispose()
+        {
+            Destroying();
+            try
+            {
+                LayoutOnDestroy?.Invoke(this);
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWImage
+    {
+        public LayoutStrings LayoutToolTipText
+        {
+            set
+            {
+                value.CopyTo(ToolTipText);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWLabel
+    {
+        public LayoutStrings LayoutToolTipText
+        {
+            set
+            {
+                value.CopyTo(ToolTipText);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Dialogs
+{
+    public partial class LeaderSetupWin
+    {
+        public NotifyEvent<LeaderSetupWin> LayoutOnCreate { get; set; }
+        public NotifyEvent<LeaderSetupWin> LayoutOnDestroy { get; set; }
+
+        public override void Dispose()
+        {
+            Destroying();
+            try
+            {
+                LayoutOnDestroy?.Invoke(this);
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWListBox
+    {
+        public LayoutStrings LayoutItems
+        {
+            set
+            {
+                value.CopyTo(Items);
+            }
+        }
+
+        public LayoutStrings LayoutToolTipText
+        {
+            set
+            {
+                value.CopyTo(ToolTipText);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Controls
+{
+    public partial class AOWMemo
+    {
+        public LayoutStrings LayoutItems
+        {
+            set
+            {
+                value.CopyTo(Items);
+            }
+        }
+
+        public LayoutStrings LayoutToolTipText
+        {
+            set
+            {
+                value.CopyTo(ToolTipText);
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Dialogs
+{
+    public partial class PartyJoinDlg
+    {
+        public NotifyEvent<PartyJoinDlg> LayoutOnCreate { get; set; }
+        public NotifyEvent<PartyJoinDlg> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -418,10 +396,10 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TRelWindow
+    public partial class ProductionScreen
     {
-        public TNotifyEvent<TRelWindow> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TRelWindow> LayoutOnDestroy { get; set; }
+        public NotifyEvent<ProductionScreen> LayoutOnCreate { get; set; }
+        public NotifyEvent<ProductionScreen> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -440,10 +418,32 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TResultsWin
+    public partial class RelWindow
     {
-        public TNotifyEvent<TResultsWin> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TResultsWin> LayoutOnDestroy { get; set; }
+        public NotifyEvent<RelWindow> LayoutOnCreate { get; set; }
+        public NotifyEvent<RelWindow> LayoutOnDestroy { get; set; }
+
+        public override void Dispose()
+        {
+            Destroying();
+            try
+            {
+                LayoutOnDestroy?.Invoke(this);
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+    }
+}
+
+namespace Aow.Game.Ui.Dialogs
+{
+    public partial class ResultsWin
+    {
+        public NotifyEvent<ResultsWin> LayoutOnCreate { get; set; }
+        public NotifyEvent<ResultsWin> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -481,10 +481,10 @@ namespace Aow.Game.Net
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TSoundDlg
+    public partial class SoundDlg
     {
-        public TNotifyEvent<TSoundDlg> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TSoundDlg> LayoutOnDestroy { get; set; }
+        public NotifyEvent<SoundDlg> LayoutOnCreate { get; set; }
+        public NotifyEvent<SoundDlg> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -503,10 +503,10 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TSpellBook
+    public partial class SpellBook
     {
-        public TNotifyEvent<TSpellBook> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TSpellBook> LayoutOnDestroy { get; set; }
+        public NotifyEvent<SpellBook> LayoutOnCreate { get; set; }
+        public NotifyEvent<SpellBook> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -525,7 +525,7 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Ui.Controls
 {
-    public partial class TAOWTabPanel
+    public partial class AOWTabPanel
     {
         public LayoutStrings LayoutItems
         {
@@ -547,10 +547,10 @@ namespace Aow.Game.Ui.Controls
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TTitleScene
+    public partial class TitleScene
     {
-        public TNotifyEvent<TTitleScene> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TTitleScene> LayoutOnDestroy { get; set; }
+        public NotifyEvent<TitleScene> LayoutOnCreate { get; set; }
+        public NotifyEvent<TitleScene> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -569,18 +569,18 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TUnitWindow
+    public partial class UnitWindow
     {
-        public TNotifyEvent<TUnitWindow> LayoutOnCreate { get; set; }
+        public NotifyEvent<UnitWindow> LayoutOnCreate { get; set; }
     }
 }
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TVideoDialog
+    public partial class VideoDialog
     {
-        public TNotifyEvent<TVideoDialog> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TVideoDialog> LayoutOnDestroy { get; set; }
+        public NotifyEvent<VideoDialog> LayoutOnCreate { get; set; }
+        public NotifyEvent<VideoDialog> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -599,10 +599,10 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TGeneral
+    public partial class General
     {
-        public TNotifyEvent<TGeneral> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TGeneral> LayoutOnDestroy { get; set; }
+        public NotifyEvent<General> LayoutOnCreate { get; set; }
+        public NotifyEvent<General> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -621,18 +621,18 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TWorldMap
+    public partial class WorldMap
     {
-        public TNotifyEvent<TWorldMap> LayoutOnCreate { get; set; }
+        public NotifyEvent<WorldMap> LayoutOnCreate { get; set; }
     }
 }
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TFastCombatWindow
+    public partial class FastCombatWindow
     {
-        public TNotifyEvent<TFastCombatWindow> LayoutOnCreate { get; set; }
-        public TNotifyEvent<TFastCombatWindow> LayoutOnDestroy { get; set; }
+        public NotifyEvent<FastCombatWindow> LayoutOnCreate { get; set; }
+        public NotifyEvent<FastCombatWindow> LayoutOnDestroy { get; set; }
 
         public override void Dispose()
         {
@@ -651,9 +651,9 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Layout
 {
-    public class LayoutTIvTranslator : TIvTranslator
+    public class LayoutTIvTranslator : IvTranslator
     {
-        public LayoutTIvTranslator(TComponent owner) : base(owner)
+        public LayoutTIvTranslator(global::Aow.Rtl.Component owner) : base(owner)
         {
         }
     }
@@ -661,7 +661,7 @@ namespace Aow.Game.Layout
 
 namespace Aow.Game.Ui.Grids
 {
-    public partial class TAOWTurnButton
+    public partial class AOWTurnButton
     {
         public LayoutStrings LayoutToolTipText
         {
@@ -675,71 +675,76 @@ namespace Aow.Game.Ui.Grids
 
 namespace Aow.Game.Layout
 {
-    public class LayoutTVideoPlayer : TVideoPlayer
+    public class LayoutTVideoPlayer : VideoPlayer
     {
-        public LayoutTVideoPlayer(TComponent owner) : base(owner)
+        public LayoutTVideoPlayer(global::Aow.Rtl.Component owner) : base(owner)
         {
         }
 
-        public TVideoPlayerLoopMode Loopmode { get; set; }
-        public TStreamSoundEvent OnStreamSound { get; set; }
-        public TSet<TVideoPlayerOptions_Element> Options { get; set; }
+        public VideoPlayerLoopMode Loopmode { get; set; }
+        public StreamSoundEvent OnStreamSound { get; set; }
+        public Set<VideoPlayerOptions_Element> Options { get; set; }
+
+        public enum VideoPlayerLoopMode
+        {
+            None, LoopLongest, LoopVideo, LoopSound, LoopIndependent
+        }
+
+        public delegate void StreamSoundEvent(StreamSoundMode Mode, object Data, int DataSize);
     }
 }
 
 namespace Aow.Game.Layout
 {
-    public class LayoutTGDPlay : TGDPlay
+    public class LayoutTGDPlay : GDPlay
     {
-        public LayoutTGDPlay(TComponent owner) : base(owner)
+        public LayoutTGDPlay(global::Aow.Rtl.Component owner) : base(owner)
         {
         }
 
         public int FilePacketSize { get; set; }
         public bool GauranteeMsgs { get; set; }
         public int MaxPlayers { get; set; }
-        public TGDChatMessageEvent OnChatMessage { get; set; }
-        public TGDDestroyPlayerEvent OnDestroyPlayer { get; set; }
-        public TNotifyEvent<LayoutTGDPlay> OnEjected { get; set; }
-        public TGDFileDoneMessageEvent OnFileDoneMessage { get; set; }
-        public TGDFileProgressMessageEvent OnFileProgressMessage { get; set; }
-        public TGDFileStartMessageEvent OnFileStartMessage { get; set; }
-        public TGDMessageEvent OnMessage { get; set; }
-        public TGDMessageErrorEvent OnMessageError { get; set; }
-        public TGDPingMessageEvent OnPingMessage { get; set; }
-        public TGDSessionLostEvent OnSessionLost { get; set; }
+        public GDChatMessageEvent OnChatMessage { get; set; }
+        public GDDestroyPlayerEvent OnDestroyPlayer { get; set; }
+        public NotifyEvent<LayoutTGDPlay> OnEjected { get; set; }
+        public GDFileDoneMessageEvent OnFileDoneMessage { get; set; }
+        public GDFileProgressMessageEvent OnFileProgressMessage { get; set; }
+        public GDFileStartMessageEvent OnFileStartMessage { get; set; }
+        public GDMessageEvent OnMessage { get; set; }
+        public GDMessageErrorEvent OnMessageError { get; set; }
+        public GDPingMessageEvent OnPingMessage { get; set; }
+        public GDSessionLostEvent OnSessionLost { get; set; }
         public bool UseCodes { get; set; }
         public bool UseSetupDialogs { get; set; }
+
+        public delegate void GDChatMessageEvent(ref string ChatMsg, ref int ToID, ref int FromID);
+        public delegate void GDDestroyPlayerEvent(int ID, int NumPlayers);
+        public delegate void GDFileDoneMessageEvent(int ID, GDFile gdFile);
+        public delegate void GDFileProgressMessageEvent(int ID, int Position, int Size);
+        public delegate void GDFileStartMessageEvent(int ID, ref string Name, int Size, ref byte Response);
+        public delegate void GDMessageErrorEvent(int ID, int Result);
+        public delegate void GDMessageEvent(ref object Data, ref int Size, ref int ToID, ref int FromID);
+        public delegate void GDPingMessageEvent(int PingMS, int PingPlayer);
+        public delegate void GDSessionLostEvent();
     }
 }
 
 namespace Aow.Game.Ui.Dialogs
 {
-    public partial class TSetupEvents
+    public partial class SetupEvents
     {
-        public TNotifyEvent<TSetupEvents> LayoutOnCreate { get; set; }
+        public NotifyEvent<SetupEvents> LayoutOnCreate { get; set; }
     }
 }
 
 namespace Aow.Game.Layout
 {
-    public enum TVideoPlayerLoopMode
+    public enum VideoPlayerOptions_Element
     {
-        vplmNone,
-        vplmLoopLongest,
-        vplmLoopVideo,
-        vplmLoopSound,
-        vplmLoopIndependent
-    }
-}
-
-namespace Aow.Game.Layout
-{
-    public enum TVideoPlayerOptions_Element
-    {
-        vpoUseDirectSound,
-        vpoSoundEnabled,
-        vpoVideoEnabled
+        UseDirectSound,
+        SoundEnabled,
+        VideoEnabled
     }
 }
 
@@ -751,54 +756,4 @@ namespace Aow.Game.Layout
 namespace Aow.Game.Layout
 {
     public delegate void SmtpProgress<in TSender>(TSender sender, int progress, int total);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDChatMessageEvent(ref string ChatMsg, ref int ToID, ref int FromID);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDDestroyPlayerEvent(int ID, int NumPlayers);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDFileDoneMessageEvent(int ID, TGDFile gdFile);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDFileProgressMessageEvent(int ID, int Position, int Size);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDFileStartMessageEvent(int ID, ref string Name, int Size, ref byte Response);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDMessageErrorEvent(int ID, int Result);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDMessageEvent(ref object Data, ref int Size, ref int ToID, ref int FromID);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDPingMessageEvent(int PingMS, int PingPlayer);
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TGDSessionLostEvent();
-}
-
-namespace Aow.Game.Layout
-{
-    public delegate void TStreamSoundEvent(TStreamSoundMode Mode, object Data, int DataSize);
 }

@@ -193,7 +193,7 @@ internal sealed class SetRecordField : RecordFieldInfo
         var image = (byte[])box[0]!;
         ulong mask = 0;
         for (int i = 0; i < image.Length; i++) mask |= (ulong)image[i] << (8 * i);
-        var set = TSet<E>.FromMask(mask);
+        var set = Set<E>.FromMask(mask);
         persister.Set(name, ref set);
         var written = new byte[image.Length];
         set.CopyImageTo(written);

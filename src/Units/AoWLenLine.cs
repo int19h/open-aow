@@ -8,12 +8,12 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Controls;
 
 // vertical line image library
-public partial class TAoWLenLine : TAOWControl
+public partial class AoWLenLine : AOWControl
 {
-    public TAoWLenLine(TComponent owner) : base(owner)
+    public AoWLenLine(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TInterfaceIL FILLine;
+    public InterfaceIL FILLine;
 
     // AoWLenLine.pas:36
     public override void Validate()
@@ -35,13 +35,13 @@ public partial class TAoWLenLine : TAOWControl
     }
 
     // AoWLenLine.pas:56
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         try
         {
             if (FValid == true && FVisible == true)
             {
-                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                 FILLine.DrawILLv(0, rect, ref SurfDesc);
                 if (FOnDraw != null)
                 {
@@ -56,7 +56,7 @@ public partial class TAoWLenLine : TAOWControl
     }
 
     // AoWLenLine.pas:70
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -70,7 +70,7 @@ public partial class TAoWLenLine : TAOWControl
     }
 
     // AoWLenLine.pas:79
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -83,7 +83,7 @@ public partial class TAoWLenLine : TAOWControl
     }
 
     // AoWLenLine.pas:87
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -102,7 +102,7 @@ public partial class TAoWLenLine : TAOWControl
     }
 
     // AoWLenLine.pas:48
-    public virtual void SetILLine(TInterfaceIL Value)
+    public virtual void SetILLine(InterfaceIL Value)
     {
         if (Value != null)
         {
@@ -125,57 +125,57 @@ public partial class TAoWLenLine : TAOWControl
     public new int WinHeight { get => FWinHeight; set => SetHeight(value); }
 
     [Published]
-    public TInterfaceIL ILLine { get => FILLine; set => SetILLine(value); }
+    public InterfaceIL ILLine { get => FILLine; set => SetILLine(value); }
 
-    public new TNotifyEvent<TAoWLenLine> OnChange
+    public new NotifyEvent<AoWLenLine> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAoWLenLine> OnMouseDown
+    public new MouseEvent<AoWLenLine> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAoWLenLine> OnMouseUp
+    public new MouseEvent<AoWLenLine> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAoWLenLine> OnMouseMove
+    public new MouseMoveEvent<AoWLenLine> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAoWLenLine> OnKeyPress
+    public new KeyPressEvent<AoWLenLine> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAoWLenLine> OnKeyDown
+    public new KeyEvent<AoWLenLine> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWLenLine> OnPreDraw
+    public new AoWOnDrawEvent<AoWLenLine> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWLenLine> OnDraw
+    public new AoWOnDrawEvent<AoWLenLine> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAoWLenLine> OnUpdate
+    public new NotifyEvent<AoWLenLine> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

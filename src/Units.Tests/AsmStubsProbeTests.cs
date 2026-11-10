@@ -156,9 +156,9 @@ public sealed class AsmStubsProbeTests
         var lines = new List<string>();
         var ints = new int[12];
         var words = new ushort[12];
-        var doubles = new TDoubleItem[12];
-        var quads = new TQuadInteger[12];
-        TQuadInteger quadValue = default;
+        var doubles = new Aow.Game.Engine.Collections.DoubleItemList.DoubleItem[12];
+        var quads = new Aow.Game.Engine.Collections.QuadItemList.QuadInteger[12];
+        Aow.Game.Engine.Collections.QuadItemList.QuadInteger quadValue = default;
         for (int i = 0; i < Counts.Length; i++)
         {
             int count = Counts[i];
@@ -167,15 +167,15 @@ public sealed class AsmStubsProbeTests
                 int value = Values[j];
                 string tag = "_count" + Dec(count) + "_value" + Dec(j);
                 FillA5(ints);
-                Aow.Game.Engine.Collections.TIntegerList.FillInteger(ints.AsSpan(1), count, value);
+                Aow.Game.Engine.Collections.IntegerList.FillInteger(ints.AsSpan(1), count, value);
                 FillA5(words);
-                Aow.Game.Engine.Collections.TWordList.FillWord(words.AsSpan(1), count, (ushort)value);
-                var large = new TDoubleItem { A = value, B = ~value };
+                Aow.Game.Engine.Collections.WordList.FillWord(words.AsSpan(1), count, (ushort)value);
+                var large = new Aow.Game.Engine.Collections.DoubleItemList.DoubleItem { A = value, B = ~value };
                 FillA5(doubles);
                 FillLarge(doubles, 1, count, large);
-                quadValue = new TQuadInteger { A = value, B = ~value, C = value ^ 0x55AA55AA, D = -17 };
+                quadValue = new Aow.Game.Engine.Collections.QuadItemList.QuadInteger { A = value, B = ~value, C = value ^ 0x55AA55AA, D = -17 };
                 FillA5(quads);
-                Aow.Game.Engine.Collections.TQuadItemList.FillQuadInteger(quads.AsSpan(1), count, quadValue);
+                Aow.Game.Engine.Collections.QuadItemList.FillQuadInteger(quads.AsSpan(1), count, quadValue);
                 for (int k = 0; k < 12; k++)
                 {
                     AddHex(lines, "Engine.FillInteger" + tag + "_slot" + Dec(k), ints[k]);
@@ -194,7 +194,7 @@ public sealed class AsmStubsProbeTests
         doubles[1].B = -17;
         FillLarge(doubles, 0, 4, doubles[1]);
         quads[1] = quadValue;
-        Aow.Game.Engine.Collections.TQuadItemList.FillQuadInteger(quads, 4, quads[1]);
+        Aow.Game.Engine.Collections.QuadItemList.FillQuadInteger(quads, 4, quads[1]);
         for (int k = 0; k < 4; k++)
         {
             AddHex(lines, "Engine.FillLargeInteger_overlap_A_" + Dec(k), doubles[k].A);
@@ -209,7 +209,7 @@ public sealed class AsmStubsProbeTests
     private static List<string> BitListAccessLines()
     {
         var lines = new List<string>();
-        var bits = new TBitList();
+        var bits = new BitList();
         for (int j = 0; j <= 1; j++)
         {
             bits.Clear();
@@ -274,7 +274,7 @@ public sealed class AsmStubsProbeTests
         foreach (int count in sizes)
         {
             var stream = new MemoryStream();
-            var list = new TBitList();
+            var list = new BitList();
             bool defaultValue = false;
             var data = new byte[64];
             data.AsSpan().Fill(0xA5);
@@ -302,7 +302,7 @@ public sealed class AsmStubsProbeTests
     private static List<string> ExploredLines()
     {
         var lines = new List<string>();
-        var field = new TAoWMapField(null!);
+        var field = new AoWMapField(null!);
         for (int j = 0; j < Values.Length; j++)
         {
             field.FFieldFlags = Values[j];
@@ -335,12 +335,12 @@ public sealed class AsmStubsProbeTests
     private static List<string> RazedLines()
     {
         var lines = new List<string>();
-        var mine = new TMine(null!);
-        var teleport = new TTeleport(null!);
+        var mine = new Mine(null!);
+        var teleport = new Teleport(null!);
         for (int i = 0; i <= 255; i++)
         {
             mine.FState = (byte)i;
-            teleport.FState = TSet<TTeleportStateElement>.FromMask((ulong)i);
+            teleport.FState = Set<Aow.Game.World.Structures.Teleport.StateElement>.FromMask((ulong)i);
             AddNum(lines, "Mine.TMine.GetRazed_" + Dec(i), mine.GetRazed() ? 1 : 0);
             AddNum(lines, "Teleport.TTeleport.GetRazed_" + Dec(i), teleport.GetRazed() ? 1 : 0);
         }
@@ -351,8 +351,8 @@ public sealed class AsmStubsProbeTests
     private static List<string> AbilityLines()
     {
         var lines = new List<string>();
-        var abilities = new TCustomAbilityList(null!);
-        var unit = new TAbstractUnit(null!);
+        var abilities = new CustomAbilityList(null!);
+        var unit = new AbstractUnit(null!);
         abilities.SetAbCount(0);
         for (int i = 1; i < Indices.Length; i++)
         {
@@ -390,14 +390,14 @@ public sealed class AsmStubsProbeTests
         var lines = new List<string>();
         var ints = new int[12];
         var words = new ushort[12];
-        var quads = new TQuadInteger[12];
+        var quads = new Aow.Game.Engine.Collections.QuadItemList.QuadInteger[12];
         for (int i = 0; i < Counts.Length; i++)
         {
             for (int j = 0; j < Values.Length; j++)
             {
                 string tag = Dec(i) + "_" + Dec(j);
                 FillA5(ints);
-                Aow.Game.World.Movement.TMoveControlSettings.FillInt(MemoryMarshal.AsBytes(ints.AsSpan())[4..], Counts[i], Values[j]);
+                Aow.Game.World.Movement.MoveControlSettings.FillInt(MemoryMarshal.AsBytes(ints.AsSpan())[4..], Counts[i], Values[j]);
                 FillA5(words);
                 Aow.Game.Draw.PixelFormats.FillWord(MemoryMarshal.AsBytes(words.AsSpan())[2..], Counts[i], Values[j]);
                 for (int k = 0; k < 12; k++)
@@ -484,12 +484,12 @@ public sealed class AsmStubsProbeTests
         {
             for (int b = -1; b <= 1; b++)
             {
-                var walk = new THNWalkData();
+                var walk = new HNWalkData();
                 walk.CenterX = a;
                 walk.CenterY = b;
                 for (int i = 0; i < 80; i++)
                 {
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
                     string tag = Dec(a) + "_" + Dec(b) + "_" + Dec(i);
                     AddNum(lines, "HSEngine.WalkToNextHN_X_" + tag, walk.X);
                     AddNum(lines, "HSEngine.WalkToNextHN_Y_" + tag, walk.Y);
@@ -504,10 +504,10 @@ public sealed class AsmStubsProbeTests
         return lines;
     }
 
-    private static void FillLarge(TDoubleItem[] items, int start, int count, TDoubleItem value)
+    private static void FillLarge(Aow.Game.Engine.Collections.DoubleItemList.DoubleItem[] items, int start, int count, Aow.Game.Engine.Collections.DoubleItemList.DoubleItem value)
     {
-        TLargeInteger bits = Unsafe.As<TDoubleItem, TLargeInteger>(ref value);
-        Aow.Game.Engine.Nodes.EngineServices.FillLargeInteger(MemoryMarshal.Cast<TDoubleItem, TLargeInteger>(items.AsSpan(start)), count, bits);
+        LargeInteger bits = Unsafe.As<Aow.Game.Engine.Collections.DoubleItemList.DoubleItem, LargeInteger>(ref value);
+        Aow.Game.Engine.Nodes.EngineServices.FillLargeInteger(MemoryMarshal.Cast<Aow.Game.Engine.Collections.DoubleItemList.DoubleItem, LargeInteger>(items.AsSpan(start)), count, bits);
     }
 
     private static void FillA5<T>(Span<T> items) where T : unmanaged => MemoryMarshal.AsBytes(items).Fill(0xA5);

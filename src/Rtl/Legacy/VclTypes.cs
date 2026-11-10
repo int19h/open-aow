@@ -1,30 +1,28 @@
 namespace Aow.Rtl;
 
-public enum TEditCharCase : byte { ecNormal, ecUpperCase, ecLowerCase }
+public enum EditCharCase : byte { Normal, UpperCase, LowerCase }
 
-public enum TMouseButton : byte { mbLeft, mbRight, mbMiddle }
+public enum MouseButton : byte { Left, Right, Middle }
 
-public enum TGridDrawState : byte { gdSelected, gdFocused, gdFixed }
+public enum GridDrawState : byte { Selected, Focused, Fixed }
 
-public enum TShiftState : byte { ssShift, ssAlt, ssCtrl, ssLeft, ssRight, ssMiddle, ssDouble }
+public enum ShiftState : byte { Shift, Alt, Ctrl, Left, Right, Middle, Double }
 
-public enum TPropertyAttribute : byte { paValueList, paSubProperties, paDialog, paMultiSelect, paAutoUpdate, paSortList, paReadOnly, paRevertable }
+public enum PropertyAttribute : byte { ValueList, SubProperties, Dialog, MultiSelect, AutoUpdate, SortList, ReadOnly, Revertable }
 
-public delegate void TDrawCellEvent<in TSender>(TSender sender, int col, int row, TRect rect, TSet<TGridDrawState> state);
-public delegate void TSelectCellEvent<in TSender>(TSender sender, int col, int row, ref bool select);
-public delegate void TMouseEvent<in TSender>(TSender sender, TMouseButton button, TSet<TShiftState> shift, int x, int y);
-public delegate void TMouseMoveEvent<in TSender>(TSender sender, TSet<TShiftState> shift, int x, int y);
-public delegate void TKeyPressEvent<in TSender>(TSender sender, ref byte key);
-public delegate void TKeyEvent<in TSender>(TSender sender, ref ushort key, TSet<TShiftState> shift);
+public delegate void DrawCellEvent<in TSender>(TSender sender, int col, int row, Rect rect, Set<GridDrawState> state);
+public delegate void SelectCellEvent<in TSender>(TSender sender, int col, int row, ref bool select);
+public delegate void MouseEvent<in TSender>(TSender sender, MouseButton button, Set<ShiftState> shift, int x, int y);
+public delegate void MouseMoveEvent<in TSender>(TSender sender, Set<ShiftState> shift, int x, int y);
+public delegate void KeyPressEvent<in TSender>(TSender sender, ref byte key);
+public delegate void KeyEvent<in TSender>(TSender sender, ref ushort key, Set<ShiftState> shift);
 
-public enum TBltMode : byte { bmNone, bmStretch, bmStretchToFit, bmCenter }
+public enum BltMode : byte { None, Stretch, StretchToFit, Center }
 
-public delegate void TStreamProc(Stream stream);
+public delegate void StreamProc(Stream stream);
 
-public enum TConnectionType : byte { conNone, conUnknown, conTCP, conIPX, conModem, conSerial }
+public enum ConnectionType : byte { None, Unknown, TCP, IPX, Modem, Serial }
 
-public enum TStreamSoundMode : byte { ssmStop, ssmPlay, ssmStream }
+public enum StreamSoundMode : byte { Stop, Play, Stream }
 
-public enum TWindowState : byte { wsNormal, wsMinimized, wsMaximized }
-
-public enum TScrollStyle : byte { ssNone, ssHorizontal, ssVertical, ssBoth }
+public enum WindowState : byte { Normal, Minimized, Maximized }

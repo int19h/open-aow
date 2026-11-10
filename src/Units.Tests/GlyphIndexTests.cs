@@ -37,16 +37,16 @@ public sealed class GlyphIndexTests
         (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         Aow.Game.Draw.GfxState.InitBlendTables(5, 31);
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
         // The game keeps library names relative to the install, as FontModule does with Int\Fonts.
         Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
         try
         {
             Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
-                LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>(),
-                LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(),
-                LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(),
-                LibraryImageClass.Of<TShadow>(), LibraryImageClass.Of<TImageNode>(), LibraryImageClass.Of<TSprite16>()]);
+                LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>(),
+                LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
+                LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
+                LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
             int glyphs = 0;
             foreach (string file in files) glyphs += CheckFont(file);
             Assert.True(glyphs > 13 * 90, $"only {glyphs} glyphs drawn");
@@ -67,7 +67,7 @@ public sealed class GlyphIndexTests
 
     private static int CheckFont(string file)
     {
-        var font = new TImageLibraryFont(null!);
+        var font = new ImageLibraryFont(null!);
         int drawn = 0;
         try
         {
@@ -102,11 +102,11 @@ public sealed class GlyphIndexTests
         return drawn;
     }
 
-    private static byte[] Draw(int width, int height, Action<TSurfaceDesc> draw)
+    private static byte[] Draw(int width, int height, Action<SurfaceDesc> draw)
     {
-        using var surface = new TDIB16Surface(width, height, Aow.Game.Draw.PixelFormats.pfRGB555);
+        using var surface = new DIB16Surface(width, height, Aow.Game.Draw.PixelFormats.pfRGB555);
         surface.Cls(0);
-        TSurfaceDesc sd = default;
+        SurfaceDesc sd = default;
         surface.Lock(ref sd);
         try
         {

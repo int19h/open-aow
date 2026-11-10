@@ -28,30 +28,24 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Combat
 {
 
-    public enum TCombatMoveModeElement : byte
+    public enum CombatMoveModeElement : byte
     {
-        mmWallCrushing = 0,
-        mmMelee = 1,
-        mmMoveRanged = 2,
-        mmaiMove = 3,
-        mmaiWall = 4,
-        mmClimbing = 5
-    }
-
-    public enum AnonymousEnum_piMove : byte
-    {
-        piMove = 0,
-        piRanged = 1
+        WallCrushing = 0,
+        Melee = 1,
+        MoveRanged = 2,
+        Move = 3,
+        Wall = 4,
+        Climbing = 5
     }
 
     [LegacyObject]
     // { ot=1 }
-    public partial class TTCAbility
+    public partial class TCAbility
     {
         public int Ability;
         public int Spell;
 
-        public TTCAbility()
+        public TCAbility()
         {
             CaptureAddress.Assign(this);
         }
@@ -59,21 +53,21 @@ namespace Aow.Game.Combat
 
     [LegacyObject]
     // PathIndex. Chance
-    public partial class TROb
+    public partial class ROb
     {
         public int PathIndex;
         public int Chance;
 
-        public TROb()
+        public ROb()
         {
             CaptureAddress.Assign(this);
         }
     }
 
     // Inherited Width. Height. Levels. HSSFileName. HSMapClassID. MapLevelClassID
-    public partial class TAoWNewCombatMapSettings : TNewHSMapSettings
+    public partial class AoWNewCombatMapSettings : NewHSMapSettings
     {
-        public TAoWNewCombatMapSettings() : base()
+        public AoWNewCombatMapSettings() : base()
         {
             HSMapClassID = 2228480;
             MapLevelClassID = 2228482;
@@ -98,8 +92,8 @@ namespace Aow.Game.Combat
         public short Spell;
         public int Value;
         public int GroupValue;
-        public TTacticalCombatUnitHS UnitHS;
-        public TCombatObject Target;
+        public TacticalCombatUnitHS UnitHS;
+        public CombatObject Target;
         public ushort X;
         public ushort Y;
 
@@ -112,14 +106,14 @@ namespace Aow.Game.Combat
     [LegacyObject]
     // FSide. Units. Allies. Enemies. Moves. Walls. CurrentMove. FUnitIndex. FUnitLimit. FMinMoves.
     // FHeroMoves. FNormalUnits. FIgnoreWalls. FFlee. Status
-    public partial class TCAI : IDisposable
+    public partial class CAI : IDisposable
     {
-        public TCombatSideIndex FSide;
-        public TList Units;
-        public TList Allies;
-        public TList Enemies;
-        public TList Moves;
-        public TList Walls;
+        public CombatSideIndex FSide;
+        public DelphiList Units;
+        public DelphiList Allies;
+        public DelphiList Enemies;
+        public DelphiList Moves;
+        public DelphiList Walls;
         public int CurrentMove;
         public int FUnitIndex;
         public int FUnitLimit;
@@ -146,20 +140,20 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:752
-        public TCAI()
+        public CAI()
         {
             CaptureAddress.Assign(this);
-            Units = new TList();
-            Allies = new TList();
-            Enemies = new TList();
-            Moves = new TList();
-            Walls = new TList();
+            Units = new DelphiList();
+            Allies = new DelphiList();
+            Enemies = new DelphiList();
+            Moves = new DelphiList();
+            Walls = new DelphiList();
         }
 
         // AoWTC.pas:774
         public void Reset()
         {
-            Status = TaiStatus.aiIdle;
+            Status = TaiStatus.Idle;
             CurrentMove = 0;
         }
 
@@ -176,7 +170,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:790
-        public void CreateMove(TaiMoveType MoveType, int X, int Y, int Value, int Ability, int Spell, TTacticalCombatUnit U, TCombatObject Target)
+        public void CreateMove(TaiMoveType MoveType, int X, int Y, int Value, int Ability, int Spell, TacticalCombatUnit U, CombatObject Target)
         {
             TaiMove M;
             M = new TaiMove();
@@ -192,18 +186,18 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:805
-        public int tcDVtoDEV(int DV1, int DV2, TCombatObject Source, TCombatObject Target)
+        public int tcDVtoDEV(int DV1, int DV2, CombatObject Source, CombatObject Target)
         {
             int Strength;
             Strength = Target.GetTargetStrength();
-            if (Target is TTacticalCombatUnit)
+            if (Target is TacticalCombatUnit)
             {
-                if (((TCombatUnit)Target).FUnit is THero)
+                if (((CombatUnit)Target).FUnit is Hero)
                 {
                     Strength = Strength * 2;
                 }
 
-                if (((TCombatUnit)Target).FUnit is TLeader)
+                if (((CombatUnit)Target).FUnit is Leader)
                 {
                     Strength = Strength * 2;
                 }
@@ -211,14 +205,14 @@ namespace Aow.Game.Combat
 
             int Result = Strength * DV1;
             Strength = Source.GetTargetStrength();
-            if (Source is TTacticalCombatUnit)
+            if (Source is TacticalCombatUnit)
             {
-                if (((TCombatUnit)Source).FUnit is THero)
+                if (((CombatUnit)Source).FUnit is Hero)
                 {
                     Strength = Strength * 2;
                 }
 
-                if (((TCombatUnit)Source).FUnit is TLeader)
+                if (((CombatUnit)Source).FUnit is Leader)
                 {
                     Strength = Strength * 2;
                 }
@@ -238,7 +232,7 @@ namespace Aow.Game.Combat
             {
                 Result = false;
                 Empty = 0;
-                if (FSide == TCombatSideIndex.csDefender && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && !Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallBreached)
+                if (FSide == CombatSideIndex.Defender && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType != 0 && !Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached)
                 {
                     Result = true;
                 }
@@ -246,7 +240,7 @@ namespace Aow.Game.Combat
                 {
                     for (int I = 1; I <= 6; I++)
                     {
-                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[I] == 1)
+                        if (Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[I] == 1)
                         {
                             J = I - 1;
                             if (J == 0)
@@ -254,7 +248,7 @@ namespace Aow.Game.Combat
                                 J = 6;
                             }
 
-                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[J] == 0)
+                            if (Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[J] == 0)
                             {
                                 Result = true;
                             }
@@ -265,14 +259,14 @@ namespace Aow.Game.Combat
                                 J = 1;
                             }
 
-                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[J] == 0)
+                            if (Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[J] == 0)
                             {
                                 Result = true;
                             }
                         }
                         else
                         {
-                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[I] == 0)
+                            if (Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[I] == 0)
                             {
                                 Empty += 1;
                             }
@@ -294,52 +288,52 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:849
-        public int UnitSafe(TTacticalCombatUnit U, int X, int Y)
+        public int UnitSafe(TacticalCombatUnit U, int X, int Y)
         {
             int Result;
             int Distance;
-            if (!(U.FUnit is THero) || (Units.Count == 1 && FSide == TCombatSideIndex.csDefender))
+            if (!(U.FUnit is Hero) || (Units.Count == 1 && FSide == CombatSideIndex.Defender))
             {
                 Result = 0;
             }
             else
             {
                 Result = U.GetTargetStrength() * 20 * U.GetHitPoints() / U.GetHits();
-                if (U.FUnit is TLeader)
+                if (U.FUnit is Leader)
                 {
                     Result = Result / 2;
                 }
 
                 for (int I = 0, last = Enemies.Count - 1; I <= last; I++)
                 {
-                    var yhx = ((TTacticalCombatUnit)Enemies[I]).FUnitHS.GetYhx();
-                    Distance = Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, ((TTacticalCombatUnit)Enemies[I]).FUnitHS.GetXhx(), yhx);
-                    if (Distance < 15 && ((TCombatObject)Enemies[I]).GetTargetStrength() > 0)
+                    var yhx = ((TacticalCombatUnit)Enemies[I]).FUnitHS.GetYhx();
+                    Distance = Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, ((TacticalCombatUnit)Enemies[I]).FUnitHS.GetXhx(), yhx);
+                    if (Distance < 15 && ((CombatObject)Enemies[I]).GetTargetStrength() > 0)
                     {
-                        Result = Result - ((TCombatObject)Enemies[I]).GetTargetStrength() * (15 - Distance);
+                        Result = Result - ((CombatObject)Enemies[I]).GetTargetStrength() * (15 - Distance);
                     }
                 }
 
                 for (int I = 0, last = Units.Count - 1; I <= last; I++)
                 {
-                    if ((TTacticalCombatUnit)Units[I] != U)
+                    if ((TacticalCombatUnit)Units[I] != U)
                     {
-                        var yhx = ((TTacticalCombatUnit)Units[I]).FUnitHS.GetYhx();
-                        Distance = Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, ((TTacticalCombatUnit)Units[I]).FUnitHS.GetXhx(), yhx);
-                        if (Distance < 15 && ((TCombatObject)Units[I]).GetTargetStrength() > 0)
+                        var yhx = ((TacticalCombatUnit)Units[I]).FUnitHS.GetYhx();
+                        Distance = Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, ((TacticalCombatUnit)Units[I]).FUnitHS.GetXhx(), yhx);
+                        if (Distance < 15 && ((CombatObject)Units[I]).GetTargetStrength() > 0)
                         {
-                            Result = Result + ((TCombatObject)Units[I]).GetTargetStrength() * (15 - Distance);
+                            Result = Result + ((CombatObject)Units[I]).GetTargetStrength() * (15 - Distance);
                         }
                     }
                 }
 
                 for (int I = 0, last = Allies.Count - 1; I <= last; I++)
                 {
-                    var yhx = ((TTacticalCombatUnit)Allies[I]).FUnitHS.GetYhx();
-                    Distance = Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, ((TTacticalCombatUnit)Allies[I]).FUnitHS.GetXhx(), yhx);
-                    if (Distance < 15 && ((TCombatObject)Allies[I]).GetTargetStrength() > 0)
+                    var yhx = ((TacticalCombatUnit)Allies[I]).FUnitHS.GetYhx();
+                    Distance = Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, ((TacticalCombatUnit)Allies[I]).FUnitHS.GetXhx(), yhx);
+                    if (Distance < 15 && ((CombatObject)Allies[I]).GetTargetStrength() > 0)
                     {
-                        Result = Result + ((TCombatObject)Allies[I]).GetTargetStrength() * (15 - Distance);
+                        Result = Result + ((CombatObject)Allies[I]).GetTargetStrength() * (15 - Distance);
                     }
                 }
             }
@@ -351,14 +345,14 @@ namespace Aow.Game.Combat
         // The tactical AI passes the wall as Ignore. The original casts that object to TTacticalCombatUnit
         // without a check and compares the reference with the sprite's unit. Ignore is a combat object so the
         // wall reaches the same comparison.
-        public int MakeTerrainPath(TCombatMoveControlSettings MCS, ref TXYLList Path, ref int Value, TTacticalCombatUnit U, TCombatObject Ignore, bool FreeStrikes, bool FindWalls, int Cost)
+        public int MakeTerrainPath(CombatMoveControlSettings MCS, ref XYLList Path, ref int Value, TacticalCombatUnit U, CombatObject Ignore, bool FreeStrikes, bool FindWalls, int Cost)
         {
             int Result;
             int J;
             int X = default;
             int Y = default;
-            TTacticalCombatUnitHS HS;
-            TCityWall Wall;
+            TacticalCombatUnitHS HS;
+            CityWall Wall;
             bool NewWall;
             if (Path.Count < 2)
             {
@@ -376,17 +370,17 @@ namespace Aow.Game.Combat
                 {
                     for (int I = 0, last = Path.Count - 1; I <= last; I++)
                     {
-                        HS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Path.List[I].X, Path.List[I].Y].FindOwnedChild(2228484);
-                        if (FreeStrikes && (HS == null || HS == U.FUnitHS && I - 1 >= 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Path.List[I - 1].X, Path.List[I - 1].Y].FindOwnedChild(2228484) == null))
+                        HS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Path.List[I].X, Path.List[I].Y].FindOwnedChild(2228484);
+                        if (FreeStrikes && (HS == null || HS == U.FUnitHS && I - 1 >= 0 && Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Path.List[I - 1].X, Path.List[I - 1].Y].FindOwnedChild(2228484) == null))
                         {
                             J = 1;
                             for (; J <= 6; J += 1)
                             {
                                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Path.List[I].X, Path.List[I].Y, J, ref X, ref Y);
-                                HS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
-                                if (HS != null && HS.FUnit != Ignore && HS.FUnit.GetSide() != U.GetSide() && Aow.Game.Combat.TCombatObject.MeleeDamageTypes(HS.FUnit) != TSet<TDamageType>.Of() && !HS.FUnit.GetLocked() && HS.FUnit.GetAbilityEnabled(1) == U.GetAbilityEnabled(1))
+                                HS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                                if (HS != null && HS.FUnit != Ignore && HS.FUnit.GetSide() != U.GetSide() && Aow.Game.Combat.CombatObject.MeleeDamageTypes(HS.FUnit) != Set<DamageType>.Of() && !HS.FUnit.GetLocked() && HS.FUnit.GetAbilityEnabled(1) == U.GetAbilityEnabled(1))
                                 {
-                                    var tcDVtoDEV2 = tcDVtoDEV(Aow.Game.Combat.TCombatObject.StrikeDV(HS.FUnit, U), 0, HS.FUnit, U);
+                                    var tcDVtoDEV2 = tcDVtoDEV(Aow.Game.Combat.CombatObject.StrikeDV(HS.FUnit, U), 0, HS.FUnit, U);
                                     Value = Value - tcDVtoDEV2 * 10;
                                 }
                             }
@@ -394,16 +388,16 @@ namespace Aow.Game.Combat
 
                         if (I < Path.Count - 1)
                         {
-                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+                            if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType != 0)
                             {
                                 var pathY = Path[I];
                                 var pathX = Path[I];
-                                Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
+                                Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
                                 if (Wall == null)
                                 {
                                     var path = Path[I];
                                     var path2 = Path[I];
-                                    Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
+                                    Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
                                 }
                             }
                             else
@@ -413,28 +407,28 @@ namespace Aow.Game.Combat
 
                             var path3 = Path[I];
                             var path4 = Path[I];
-                            var mapField = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
+                            var mapField = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
                             var path5 = Path[I];
                             var path6 = Path[I];
-                            var fieldItem = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path6.X, path5.Y];
+                            var fieldItem = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path6.X, path5.Y];
                             Path.List[I].Flag = MCS.FMovePointTable[fieldItem.TerrainType][mapField.OverlayType - -1];
                             if (Wall != null)
                             {
                                 // { The wall lookup uses the current path point and the no-overlay column. }
-                                if (FSide == TCombatSideIndex.csAttacker && (U.GetAbilityEnabled(65) || U.GetAbilityEnabled(117)) && I == 0)
+                                if (FSide == CombatSideIndex.Attacker && (U.GetAbilityEnabled(65) || U.GetAbilityEnabled(117)) && I == 0)
                                 {
                                     var pathY = Path[I];
                                     var pathX = Path[I];
-                                    var item = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
+                                    var item = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
                                     Path.List[I].Flag = MCS.FMovePointTable[item.TerrainType][-1 - -1];
                                 }
                                 else
                                 {
-                                    if ((FSide == TCombatSideIndex.csAttacker || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallBreached || FIgnoreWalls) && (Wall.FHitPoints == 0 || (FSide == TCombatSideIndex.csDefender && Wall is TCityWallDoor) || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(1) || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(66) || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(36)))
+                                    if ((FSide == CombatSideIndex.Attacker || Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached || FIgnoreWalls) && (Wall.FHitPoints == 0 || (FSide == CombatSideIndex.Defender && Wall is CityWallDoor) || Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(1) || Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(66) || Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(36)))
                                     {
                                         var pathY = Path[I];
                                         var pathX = Path[I];
-                                        var item2 = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
+                                        var item2 = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
                                         Path.List[I].Flag = MCS.FMovePointTable[item2.TerrainType][-1 - -1];
                                     }
                                     else
@@ -468,11 +462,11 @@ namespace Aow.Game.Combat
 
                             var path7 = Path[I];
                             var path8 = Path[I];
-                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path8.X, path7.Y].FindOwnedChild(2228484) != null)
+                            if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path8.X, path7.Y].FindOwnedChild(2228484) != null)
                             {
                                 var pathY = Path[I];
                                 var pathX = Path[I];
-                                var item2 = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
+                                var item2 = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
                                 Path.List[I].Flag = MCS.FMovePointTable[item2.TerrainType][-1 - -1];
                             }
                         }
@@ -576,16 +570,16 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:980
-        public void EvalAll(ref int Value, TList List, TCombatObject Ignore, int Spell, TTacticalCombatUnit U)
+        public void EvalAll(ref int Value, DelphiList List, CombatObject Ignore, int Spell, TacticalCombatUnit U)
         {
-            TCombatObject Target;
-            TAbilityDamageValues DV = default;
+            CombatObject Target;
+            AbilityDamageValues DV = default;
             for (int I = 0, last = List.Count - 1; I <= last; I++)
             {
-                if ((TCombatObject)List[I] != Ignore)
+                if ((CombatObject)List[I] != Ignore)
                 {
-                    Target = (TCombatObject)List[I];
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Target, ref DV);
+                    Target = (CombatObject)List[I];
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Target, ref DV);
                     if (DV.SourceDamage > 0)
                     {
                         switch (Spell)
@@ -627,27 +621,27 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:1007
-        public void EvalHex(TCombatObject Ignore, int Ability, int Spell, int X, int Y, ref int Value, bool HitWalls, bool Friendly, TTacticalCombatUnit U, object IgnoreWall)
+        public void EvalHex(CombatObject Ignore, int Ability, int Spell, int X, int Y, ref int Value, bool HitWalls, bool Friendly, TacticalCombatUnit U, object IgnoreWall)
         {
-            TTacticalCombatUnitHS HS;
-            TCityWall Wall;
-            TAbilityDamageValues DV = default;
-            HS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+            TacticalCombatUnitHS HS;
+            CityWall Wall;
+            AbilityDamageValues DV = default;
+            HS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
             if (HS != null && HS.FUnit != Ignore && (Friendly || HS.FUnit.GetSide() != U.GetSide()))
             {
                 if (Ability == 52)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, HS.FUnit, ref DV);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, HS.FUnit, ref DV);
                 }
                 else
                 {
-                    if (Aow.Game.Combat.TacticalTables.AbilTypes[Ability] == TfxType.fxTouch)
+                    if (Aow.Game.Combat.TacticalTables.AbilTypes[Ability] == TfxType.Touch)
                     {
-                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, HS.FUnit, ref DV);
+                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, HS.FUnit, ref DV);
                     }
                     else
                     {
-                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, HS.FUnit, ref DV);
+                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, HS.FUnit, ref DV);
                     }
                 }
 
@@ -717,29 +711,29 @@ namespace Aow.Game.Combat
                 }
             }
 
-            if (HitWalls && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+            if (HitWalls && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType != 0)
             {
-                Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
+                Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
                 if (Wall == null)
                 {
-                    Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
+                    Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
                 }
 
-                if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallBreached && IgnoreWall != null && Wall != null && (Ignore == null || !(Ignore is TCombatWall) || (Ignore is TCombatWall && IgnoreWall != Wall)))
+                if (!Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached && IgnoreWall != null && Wall != null && (Ignore == null || !(Ignore is CombatWall) || (Ignore is CombatWall && IgnoreWall != Wall)))
                 {
                     if (Ability == 52)
                     {
-                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
+                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall, ref DV);
                     }
                     else
                     {
-                        if (Aow.Game.Combat.TacticalTables.AbilTypes[Ability] == TfxType.fxTouch)
+                        if (Aow.Game.Combat.TacticalTables.AbilTypes[Ability] == TfxType.Touch)
                         {
-                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
+                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall, ref DV);
                         }
                         else
                         {
-                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall, ref DV);
+                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall, ref DV);
                         }
                     }
 
@@ -750,14 +744,14 @@ namespace Aow.Game.Combat
 
                     if (DV.SourceDamage > 0)
                     {
-                        if (U.GetSide() == TCombatSideIndex.csAttacker)
+                        if (U.GetSide() == CombatSideIndex.Attacker)
                         {
-                            var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall), Aow.Game.Combat.TacticalTables.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
+                            var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall), Aow.Game.Combat.TacticalTables.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
                             Value = Value + multDEV;
                         }
                         else
                         {
-                            var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall), Aow.Game.Combat.TacticalTables.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
+                            var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall), Aow.Game.Combat.TacticalTables.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
                             Value = Value - multDEV;
                         }
                     }
@@ -766,7 +760,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:1072
-        public void EvalArea(ref int Value, TCombatObject Ignore, int Ability, int Spell, int X, int Y, bool HitWalls, bool IncludeCenter, bool Friendly, TTacticalCombatUnit U, object IgnoreWall)
+        public void EvalArea(ref int Value, CombatObject Ignore, int Ability, int Spell, int X, int Y, bool HitWalls, bool IncludeCenter, bool Friendly, TacticalCombatUnit U, object IgnoreWall)
         {
             int X1 = default;
             int Y1 = default;
@@ -781,11 +775,11 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:1084
-        public int EvalPath(ref int Value, TCombatObject Ignore, int Ability, int Spell, int X1, int Y1, int X2, int Y2, bool HitWalls, TTacticalCombatUnit U, object IgnoreWall)
+        public int EvalPath(ref int Value, CombatObject Ignore, int Ability, int Spell, int X1, int Y1, int X2, int Y2, bool HitWalls, TacticalCombatUnit U, object IgnoreWall)
         {
             int Result;
-            TXYZList Path;
-            TList Obstacles;
+            XYZList Path;
+            DelphiList Obstacles;
             int X = default;
             int Y = default;
             int V = default;
@@ -804,16 +798,16 @@ namespace Aow.Game.Combat
 
             switch (FX)
             {
-                case TfxType.fxArrow:
-                case TfxType.fxRock:
-                case TfxType.fxComet:
-                case TfxType.fxBreath:
-                case TfxType.fxCometBall:
-                case TfxType.fxRay:
-                case TfxType.fxAltArrow:
-                    Path = new TXYZList();
-                    Obstacles = new TList();
-                    if (FX == TfxType.fxBreath)
+                case TfxType.Arrow:
+                case TfxType.Rock:
+                case TfxType.Comet:
+                case TfxType.Breath:
+                case TfxType.CometBall:
+                case TfxType.Ray:
+                case TfxType.AltArrow:
+                    Path = new XYZList();
+                    Obstacles = new DelphiList();
+                    if (FX == TfxType.Breath)
                     {
                         Aow.Game.Combat.TacticalTables.MakeRangedPath(U.GetSide(), 50, 20, 50, (short)X1, (short)Y1, (short)X2, (short)Y2, 0, 0, false, ref Path, ref Obstacles);
                     }
@@ -829,22 +823,22 @@ namespace Aow.Game.Combat
                         for (int I = 0, last = Obstacles.Count - 1; I <= last; I++)
                         {
                             var obstacle = Obstacles[I];
-                            var path = Path[((TROb)obstacle).PathIndex];
+                            var path = Path[((ROb)obstacle).PathIndex];
                             var obstacle2 = Obstacles[I];
-                            Aow.Game.World.Map.HexGeometry.HPtoHX(Path[((TROb)obstacle2).PathIndex].X, path.Y, ref X, ref Y);
+                            Aow.Game.World.Map.HexGeometry.HPtoHX(Path[((ROb)obstacle2).PathIndex].X, path.Y, ref X, ref Y);
                             V = 0;
                             EvalHex(Ignore, Ability, Spell, X, Y, ref V, HitWalls, true, U, IgnoreWall);
                             try
                             {
                                 var obstacle3 = Obstacles[I];
-                                Total = Total + V * Chance / 100 * ((TROb)obstacle3).Chance / 100;
+                                Total = Total + V * Chance / 100 * ((ROb)obstacle3).Chance / 100;
                             }
                             catch
                             {
-                                Total = Total + ((TROb)Obstacles[I]).Chance * (V / 100 * Chance / 100);
+                                Total = Total + ((ROb)Obstacles[I]).Chance * (V / 100 * Chance / 100);
                             }
 
-                            Chance = (100 - ((TROb)Obstacles[I]).Chance) * Chance / 100;
+                            Chance = (100 - ((ROb)Obstacles[I]).Chance) * Chance / 100;
                         }
                     }
 
@@ -878,7 +872,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:1130
-        public int EvalBreath(ref int Value, TCombatObject Ignore, int Ability, int Spell, int X1, int Y1, int X2, int Y2, TTacticalCombatUnit U)
+        public int EvalBreath(ref int Value, CombatObject Ignore, int Ability, int Spell, int X1, int Y1, int X2, int Y2, TacticalCombatUnit U)
         {
             int V = default;
             int X = default;
@@ -907,7 +901,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:1149
-        public void CheckUnit(int X, int Y, int Hits, int HitPoints, TCombatMoveControlSettings Settings, TTacticalCombatUnit U, TCombatObject Target, TList Abilities, object Wall)
+        public void CheckUnit(int X, int Y, int Hits, int HitPoints, CombatMoveControlSettings Settings, TacticalCombatUnit U, CombatObject Target, DelphiList Abilities, object Wall)
         {
             int SafeValue;
             int I;
@@ -930,18 +924,18 @@ namespace Aow.Game.Combat
             int Ability;
             int Spell;
             int Value = default;
-            TXYLList Path;
-            TXYLList DetourPath;
-            TXYLList BasePath;
-            TMeleeRound Round;
-            TAbilityCombatInfo AbilityInfo = default;
-            TSpellCombatInfo SpellInfo = default;
-            TCityWall CityWall;
+            XYLList Path;
+            XYLList DetourPath;
+            XYLList BasePath;
+            MeleeRound Round;
+            AbilityCombatInfo AbilityInfo = default;
+            SpellCombatInfo SpellInfo = default;
+            CityWall CityWall;
             bool Adjacent;
-            TAbilityDamageValues Values = default;
-            Path = new TMovepath();
-            BasePath = new TMovepath();
-            DetourPath = new TMovepath();
+            AbilityDamageValues Values = default;
+            Path = new Movepath();
+            BasePath = new Movepath();
+            DetourPath = new Movepath();
             TerrainValue = 0;
             OriginalX = X;
             OriginalY = Y;
@@ -949,8 +943,8 @@ namespace Aow.Game.Combat
             Distance = Aow.Game.World.Map.HexGeometry.dHXtoRad(U.FUnitHS.GetXhx(), yhx, X, Y);
             if (U.FMovePoints > 0)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.CalculatePath(Settings, (TMovepath)BasePath, (sbyte)X, (sbyte)Y, 0);
-                PathCost = MakeTerrainPath(Settings, ref BasePath, ref TerrainValue, U, Target, true, Target is TTacticalCombatUnit && FSide == TCombatSideIndex.csAttacker, 1);
+                Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.CalculatePath(Settings, (Movepath)BasePath, (sbyte)X, (sbyte)Y, 0);
+                PathCost = MakeTerrainPath(Settings, ref BasePath, ref TerrainValue, U, Target, true, Target is TacticalCombatUnit && FSide == CombatSideIndex.Attacker, 1);
                 I = 0;
                 int last = BasePath.Count - 1;
                 for (; I <= last; I += 1)
@@ -967,17 +961,17 @@ namespace Aow.Game.Combat
             {
                 try
                 {
-                    if (Target is TCombatUnit && Target.GetSide() != U.GetSide() && Aow.Game.Combat.TCombatObject.MeleeDamageTypes(U) != TSet<TDamageType>.Of() && (U.GetAbilityEnabled(1) || !Target.GetAbilityEnabled(1)))
+                    if (Target is CombatUnit && Target.GetSide() != U.GetSide() && Aow.Game.Combat.CombatObject.MeleeDamageTypes(U) != Set<DamageType>.Of() && (U.GetAbilityEnabled(1) || !Target.GetAbilityEnabled(1)))
                     {
                         Ability = 0;
                         Spell = 0;
-                        Round = new TMeleeRound();
+                        Round = new MeleeRound();
                         Round.Calculate(U, Target);
                         if (Round.GetAttackerDV() > 0)
                         {
-                            Adjacent = ((TMovepath)Path).MovePointsToPos(U.FMovePoints) == 0;
+                            Adjacent = ((Movepath)Path).MovePointsToPos(U.FMovePoints) == 0;
                             U.FCanFlee = false;
-                            if (Target is TCombatWall)
+                            if (Target is CombatWall)
                             {
                                 FFlee = false;
                             }
@@ -995,14 +989,14 @@ namespace Aow.Game.Combat
                                 Cost = 1;
                             }
 
-                            if (!(U.FUnit is THero))
+                            if (!(U.FUnit is Hero))
                             {
                                 SafeValue = 0;
                             }
                             else
                             {
                                 I = -1;
-                                BestIndex = ((TMovepath)Path).MovePointsToPos(U.FMovePoints);
+                                BestIndex = ((Movepath)Path).MovePointsToPos(U.FMovePoints);
                                 var pathY = Path[BestIndex];
                                 SafeValue = UnitSafe(U, Path[BestIndex].X, pathY.Y);
                                 while (BestIndex < Path.Count - 1 && SafeValue < 0)
@@ -1031,10 +1025,10 @@ namespace Aow.Game.Combat
                             {
                                 if ((SafeValue >= 0 || FNormalUnits == 0) && Adjacent)
                                 {
-                                    if (Value > 0 || FNormalUnits == 0 || !(U.FUnit is THero) || Units.Count <= 1)
+                                    if (Value > 0 || FNormalUnits == 0 || !(U.FUnit is Hero) || Units.Count <= 1)
                                     {
                                         FHeroMoves += 1;
-                                        if (U.FUnit is THero)
+                                        if (U.FUnit is Hero)
                                         {
                                             I = 50;
                                         }
@@ -1043,7 +1037,7 @@ namespace Aow.Game.Combat
                                             I = 100;
                                         }
 
-                                        CreateMove(TaiMoveType.aiMelee, X, Y, MultDEV(Value, I, 1), Ability, Spell, U, Target);
+                                        CreateMove(TaiMoveType.Melee, X, Y, MultDEV(Value, I, 1), Ability, Spell, U, Target);
                                     }
                                 }
                                 else
@@ -1056,12 +1050,12 @@ namespace Aow.Game.Combat
                                             var moves = U.GetMoves();
                                             var multDEV = MultDEV(Value, moves, Cost);
                                             var path = Path[0];
-                                            CreateMove(TaiMoveType.aiMove, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
+                                            CreateMove(TaiMoveType.Move, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
                                         }
                                         else
                                         {
                                             var moves = U.GetMoves();
-                                            CreateMove(TaiMoveType.aiFake, X, Y, MultDEV(Value, moves, Cost), Ability, Spell, U, Target);
+                                            CreateMove(TaiMoveType.Fake, X, Y, MultDEV(Value, moves, Cost), Ability, Spell, U, Target);
                                         }
                                     }
                                 }
@@ -1086,51 +1080,51 @@ namespace Aow.Game.Combat
                         Path.Add(BasePath[I]);
                     }
 
-                    Ability = ((TTCAbility)Abilities[AbilityIndex]).Ability;
+                    Ability = ((TCAbility)Abilities[AbilityIndex]).Ability;
                     Spell = 0;
                     X = OriginalX;
                     Y = OriginalY;
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).GetCombatInfo(U.FUnit, ref AbilityInfo);
+                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).GetCombatInfo(U.FUnit, ref AbilityInfo);
                     switch (Ability)
                     {
                         case 52:
                             try
                             {
-                                if (!(Target is TCombatWall) || !Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallBreached)
+                                if (!(Target is CombatWall) || !Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached)
                                 {
-                                    Spell = ((TTCAbility)Abilities[AbilityIndex]).Spell;
+                                    Spell = ((TCAbility)Abilities[AbilityIndex]).Spell;
                                     switch (Aow.Game.Combat.TacticalTables.SpellTypes[Spell])
                                     {
-                                        case TfxType.fxArrow:
-                                        case TfxType.fxRock:
-                                        case TfxType.fxComet:
-                                        case TfxType.fxBreath:
-                                        case TfxType.fxCometBall:
-                                        case TfxType.fxEffect:
-                                        case TfxType.fxScreenNESW:
-                                        case TfxType.fxScreenNS:
-                                        case TfxType.fxRay:
-                                        case TfxType.fxChain:
-                                        case TfxType.fxSwarm:
-                                        case TfxType.fxScreenSwarm:
-                                        case TfxType.fxSacredWrath:
-                                        case TfxType.fxSWComet:
-                                        case TfxType.fxDispel:
-                                        case TfxType.fxBlood:
-                                        case TfxType.fxAltArrow:
-                                        case TfxType.fxTremors:
-                                        case TfxType.fxHailImpact:
-                                        case TfxType.fxHighPrayer:
-                                        case TfxType.fxMindDecay:
-                                        case TfxType.fxShockWave:
-                                        case TfxType.fxSacFlame:
-                                        case TfxType.fxWinds:
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Spell).GetCombatInfo(U.FUnit, ref SpellInfo);
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Target, ref Values);
+                                        case TfxType.Arrow:
+                                        case TfxType.Rock:
+                                        case TfxType.Comet:
+                                        case TfxType.Breath:
+                                        case TfxType.CometBall:
+                                        case TfxType.Effect:
+                                        case TfxType.ScreenNESW:
+                                        case TfxType.ScreenNS:
+                                        case TfxType.Ray:
+                                        case TfxType.Chain:
+                                        case TfxType.Swarm:
+                                        case TfxType.ScreenSwarm:
+                                        case TfxType.SacredWrath:
+                                        case TfxType.SWComet:
+                                        case TfxType.Dispel:
+                                        case TfxType.Blood:
+                                        case TfxType.AltArrow:
+                                        case TfxType.Tremors:
+                                        case TfxType.HailImpact:
+                                        case TfxType.HighPrayer:
+                                        case TfxType.MindDecay:
+                                        case TfxType.ShockWave:
+                                        case TfxType.SacFlame:
+                                        case TfxType.Winds:
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatInfo(U.FUnit, ref SpellInfo);
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Target, ref Values);
                                             if (Values.SourceDamage > 0)
                                             {
                                                 U.FCanFlee = false;
-                                                if (Target is TCombatWall)
+                                                if (Target is CombatWall)
                                                 {
                                                     FFlee = false;
                                                 }
@@ -1182,7 +1176,7 @@ namespace Aow.Game.Combat
 
                                                 if (U.FMovePoints > 0)
                                                 {
-                                                    I = ((TMovepath)Path).MovePointsToPos(U.FMovePoints);
+                                                    I = ((Movepath)Path).MovePointsToPos(U.FMovePoints);
                                                     var pathY = Path[I];
                                                     D = Aow.Game.World.Map.HexGeometry.dHXtoRad(Path[I].X, pathY.Y, X, Y);
                                                     if (D <= Range || Distance <= Range)
@@ -1375,7 +1369,7 @@ namespace Aow.Game.Combat
                                                                     Y = BestValue;
                                                                     break;
                                                                 case 112:
-                                                                    if (FSide == TCombatSideIndex.csDefender && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+                                                                    if (FSide == CombatSideIndex.Defender && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType != 0)
                                                                     {
                                                                         Value = -9999;
                                                                     }
@@ -1420,12 +1414,12 @@ namespace Aow.Game.Combat
                                                             {
                                                                 var path = Path[I];
                                                                 var pathX = Path[I];
-                                                                CityWall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
-                                                                if (CityWall == null && FSide == TCombatSideIndex.csAttacker)
+                                                                CityWall = (global::Aow.Game.World.Terrain.CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
+                                                                if (CityWall == null && FSide == CombatSideIndex.Attacker)
                                                                 {
                                                                     var path2 = Path[I];
                                                                     var path3 = Path[I];
-                                                                    CityWall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
+                                                                    CityWall = (global::Aow.Game.World.Terrain.CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
                                                                 }
 
                                                                 if (!(CityWall == null || CityWall.FHitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
@@ -1469,7 +1463,7 @@ namespace Aow.Game.Combat
                                                                 TerrainValue = 0;
                                                                 PathCost = MakeTerrainPath(Settings, ref DetourPath, ref TerrainValue, U, Target, true, false, 1);
                                                                 PathValue += BestValue;
-                                                                PathCost = ((TMovepath)Path).PosToMovePoints(0);
+                                                                PathCost = ((Movepath)Path).PosToMovePoints(0);
                                                             }
                                                         }
 
@@ -1479,7 +1473,7 @@ namespace Aow.Game.Combat
                                                         for (; I <= last3; I += 1)
                                                         {
                                                             var path = Path[I];
-                                                            if (Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, Path[I].X, path.Y) <= Range && ((TMovepath)Path).PosToMovePoints(I) <= U.FMovePoints)
+                                                            if (Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, Path[I].X, path.Y) <= Range && ((Movepath)Path).PosToMovePoints(I) <= U.FMovePoints)
                                                             {
                                                                 Cost = 1000;
                                                                 var pathX = Path[I];
@@ -1501,7 +1495,7 @@ namespace Aow.Game.Combat
                                                             }
                                                         }
 
-                                                        PathCost = ((TMovepath)Path).PosToMovePoints(0);
+                                                        PathCost = ((Movepath)Path).PosToMovePoints(0);
                                                     }
 
                                                     // { Keep move selection inside the positive movement guard. }
@@ -1511,14 +1505,14 @@ namespace Aow.Game.Combat
                                                         Cost = 1;
                                                     }
 
-                                                    if (!(U.FUnit is THero))
+                                                    if (!(U.FUnit is Hero))
                                                     {
                                                         SafeValue = 0;
                                                     }
                                                     else
                                                     {
                                                         I = -1;
-                                                        BestIndex = ((TMovepath)Path).MovePointsToPos(U.FMovePoints);
+                                                        BestIndex = ((Movepath)Path).MovePointsToPos(U.FMovePoints);
                                                         var path = Path[BestIndex];
                                                         SafeValue = UnitSafe(U, Path[BestIndex].X, path.Y);
                                                         while (BestIndex < Path.Count - 1 && SafeValue < 0)
@@ -1552,7 +1546,7 @@ namespace Aow.Game.Combat
                                                             I = 1;
                                                         }
 
-                                                        CreateMove(TaiMoveType.aiRanged, X, Y, MultDEV(Value, Value * 100 / I, 1), Ability, Spell, U, Target);
+                                                        CreateMove(TaiMoveType.Ranged, X, Y, MultDEV(Value, Value * 100 / I, 1), Ability, Spell, U, Target);
                                                         if (PathValue > 0 && U.FMovePoints > 0 && DetourPath.Count > 1)
                                                         {
                                                             if (!(DetourPath.List[DetourPath.Count - 2].Flag > U.FMovePoints && DetourPath.List[DetourPath.Count - 2].Flag <= 15))
@@ -1560,7 +1554,7 @@ namespace Aow.Game.Combat
                                                                 FHeroMoves += 1;
                                                                 var multDEV = MultDEV(PathValue + TerrainValue, 100 * PathValue / I, 1);
                                                                 var detourPath = DetourPath[0];
-                                                                CreateMove(TaiMoveType.aiMoveRanged, DetourPath[0].X, detourPath.Y, multDEV, Ability, Spell, U, Target);
+                                                                CreateMove(TaiMoveType.MoveRanged, DetourPath[0].X, detourPath.Y, multDEV, Ability, Spell, U, Target);
                                                             }
                                                         }
                                                     }
@@ -1573,12 +1567,12 @@ namespace Aow.Game.Combat
                                                                 var moves = U.GetMoves();
                                                                 var multDEV = MultDEV(PathValue + TerrainValue + Value, moves, Cost);
                                                                 var path = Path[0];
-                                                                CreateMove(TaiMoveType.aiMoveRanged, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
+                                                                CreateMove(TaiMoveType.MoveRanged, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
                                                             }
                                                             else
                                                             {
                                                                 var moves = U.GetMoves();
-                                                                CreateMove(TaiMoveType.aiFake, X, Y, MultDEV(MultDEV(PathValue, 100, 1) + TerrainValue + Value, moves, Cost), Ability, Spell, U, Target);
+                                                                CreateMove(TaiMoveType.Fake, X, Y, MultDEV(MultDEV(PathValue, 100, 1) + TerrainValue + Value, moves, Cost), Ability, Spell, U, Target);
                                                             }
                                                         }
                                                     }
@@ -1598,17 +1592,17 @@ namespace Aow.Game.Combat
                         default:
                             switch (Aow.Game.Combat.TacticalTables.AbilTypes[Ability])
                             {
-                                case TfxType.fxTouch:
-                                    if (Target is TCombatWall || Target is TCombatUnit && ((TTouchAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability)).CanTouch(U, Target))
+                                case TfxType.Touch:
+                                    if (Target is CombatWall || Target is CombatUnit && ((TouchAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability)).CanTouch(U, Target))
                                     {
                                         try
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, Target, ref Values);
+                                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, Target, ref Values);
                                             if (Values.SourceDamage > 0)
                                             {
-                                                Adjacent = ((TMovepath)Path).MovePointsToPos(U.FMovePoints) == 0;
+                                                Adjacent = ((Movepath)Path).MovePointsToPos(U.FMovePoints) == 0;
                                                 U.FCanFlee = false;
-                                                if (Target is TCombatWall)
+                                                if (Target is CombatWall)
                                                 {
                                                     FFlee = false;
                                                 }
@@ -1634,7 +1628,7 @@ namespace Aow.Game.Combat
                                                         break;
                                                 }
 
-                                                if (Ability == 117 && Aow.Game.Combat.TCombatObject.MeleeDamageTypes(U) == TSet<TDamageType>.Of())
+                                                if (Ability == 117 && Aow.Game.Combat.CombatObject.MeleeDamageTypes(U) == Set<DamageType>.Of())
                                                 {
                                                     Value = MultDEV(Value, 100, 1);
                                                 }
@@ -1644,7 +1638,7 @@ namespace Aow.Game.Combat
                                                     Value -= 10000;
                                                 }
 
-                                                if (U.FMovePoints > 0 && ((TMovepath)Path).MovePointsToPos(U.FMovePoints) == 0)
+                                                if (U.FMovePoints > 0 && ((Movepath)Path).MovePointsToPos(U.FMovePoints) == 0)
                                                 {
                                                     switch (Ability)
                                                     {
@@ -1663,14 +1657,14 @@ namespace Aow.Game.Combat
                                                     Cost = 1;
                                                 }
 
-                                                if (!(U.FUnit is THero))
+                                                if (!(U.FUnit is Hero))
                                                 {
                                                     SafeValue = 0;
                                                 }
                                                 else
                                                 {
                                                     I = -1;
-                                                    BestIndex = ((TMovepath)Path).MovePointsToPos(U.FMovePoints);
+                                                    BestIndex = ((Movepath)Path).MovePointsToPos(U.FMovePoints);
                                                     var pathY = Path[BestIndex];
                                                     SafeValue = UnitSafe(U, Path[BestIndex].X, pathY.Y);
                                                     while (BestIndex < Path.Count - 1 && SafeValue < 0)
@@ -1700,13 +1694,13 @@ namespace Aow.Game.Combat
                                                     if ((SafeValue >= 0 || FNormalUnits == 0) && Adjacent)
                                                     {
                                                         FHeroMoves += 1;
-                                                        if (U.FUnit is THero)
+                                                        if (U.FUnit is Hero)
                                                         {
                                                             I = 1;
                                                         }
                                                         else
                                                         {
-                                                            if (Target is TCombatWall && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallBreached && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FRound > 1)
+                                                            if (Target is CombatWall && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached && Aow.Game.Combat.AoWCombatMap.Current.FRound > 1)
                                                             {
                                                                 I = 10;
                                                             }
@@ -1716,7 +1710,7 @@ namespace Aow.Game.Combat
                                                             }
                                                         }
 
-                                                        CreateMove(TaiMoveType.aiTouch, X, Y, MultDEV(Value, I, 1), Ability, Spell, U, Target);
+                                                        CreateMove(TaiMoveType.Touch, X, Y, MultDEV(Value, I, 1), Ability, Spell, U, Target);
                                                     }
                                                     else
                                                     {
@@ -1728,12 +1722,12 @@ namespace Aow.Game.Combat
                                                                 var moves = U.GetMoves();
                                                                 var multDEV = MultDEV(Value, moves, Cost);
                                                                 var path = Path[0];
-                                                                CreateMove(TaiMoveType.aiMove, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
+                                                                CreateMove(TaiMoveType.Move, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
                                                             }
                                                             else
                                                             {
                                                                 var moves = U.GetMoves();
-                                                                CreateMove(TaiMoveType.aiFake, X, Y, MultDEV(Value, moves, Cost), Ability, Spell, U, Target);
+                                                                CreateMove(TaiMoveType.Fake, X, Y, MultDEV(Value, moves, Cost), Ability, Spell, U, Target);
                                                             }
                                                         }
                                                     }
@@ -1747,45 +1741,45 @@ namespace Aow.Game.Combat
                                     }
 
                                     break;
-                                case TfxType.fxArrow:
-                                case TfxType.fxRock:
-                                case TfxType.fxComet:
-                                case TfxType.fxBreath:
-                                case TfxType.fxCometBall:
-                                case TfxType.fxEffect:
-                                case TfxType.fxScreenNESW:
-                                case TfxType.fxScreenNS:
-                                case TfxType.fxRay:
-                                case TfxType.fxChain:
-                                case TfxType.fxSwarm:
-                                case TfxType.fxScreenSwarm:
-                                case TfxType.fxSacredWrath:
-                                case TfxType.fxSWComet:
-                                case TfxType.fxDispel:
-                                case TfxType.fxBlood:
-                                case TfxType.fxAltArrow:
-                                case TfxType.fxTremors:
-                                case TfxType.fxHailImpact:
-                                case TfxType.fxHighPrayer:
+                                case TfxType.Arrow:
+                                case TfxType.Rock:
+                                case TfxType.Comet:
+                                case TfxType.Breath:
+                                case TfxType.CometBall:
+                                case TfxType.Effect:
+                                case TfxType.ScreenNESW:
+                                case TfxType.ScreenNS:
+                                case TfxType.Ray:
+                                case TfxType.Chain:
+                                case TfxType.Swarm:
+                                case TfxType.ScreenSwarm:
+                                case TfxType.SacredWrath:
+                                case TfxType.SWComet:
+                                case TfxType.Dispel:
+                                case TfxType.Blood:
+                                case TfxType.AltArrow:
+                                case TfxType.Tremors:
+                                case TfxType.HailImpact:
+                                case TfxType.HighPrayer:
                                     try
                                     {
-                                        Cost = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).tcGetDamageValue(U, Target);
+                                        Cost = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValue(U, Target);
                                         if (Cost > 0)
                                         {
                                             U.FCanFlee = false;
-                                            if (Target is TCombatWall)
+                                            if (Target is CombatWall)
                                             {
                                                 FFlee = false;
                                             }
 
                                             PathValue = 0;
-                                            if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).GetCombatMode(U.FUnit) == TCombatMode.cmLongRange)
+                                            if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).GetCombatMode(U.FUnit) == CombatMode.LongRange)
                                             {
                                                 Range = 12;
                                             }
                                             else
                                             {
-                                                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Ability).GetCombatMode(U.FUnit) == TCombatMode.cmMediumRange)
+                                                if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Ability).GetCombatMode(U.FUnit) == CombatMode.MediumRange)
                                                 {
                                                     Range = 8;
                                                 }
@@ -1803,7 +1797,7 @@ namespace Aow.Game.Combat
 
                                             if (U.FMovePoints > 0)
                                             {
-                                                I = ((TMovepath)Path).MovePointsToPos(U.FMovePoints);
+                                                I = ((Movepath)Path).MovePointsToPos(U.FMovePoints);
                                                 var pathY = Path[I];
                                                 D = Aow.Game.World.Map.HexGeometry.dHXtoRad(Path[I].X, pathY.Y, X, Y);
                                                 if (D <= Range || Distance <= Range)
@@ -1854,12 +1848,12 @@ namespace Aow.Game.Combat
                                                         {
                                                             var path = Path[I];
                                                             var pathX = Path[I];
-                                                            CityWall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
-                                                            if (CityWall == null && FSide == TCombatSideIndex.csAttacker)
+                                                            CityWall = (global::Aow.Game.World.Terrain.CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
+                                                            if (CityWall == null && FSide == CombatSideIndex.Attacker)
                                                             {
                                                                 var path2 = Path[I];
                                                                 var path3 = Path[I];
-                                                                CityWall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
+                                                                CityWall = (global::Aow.Game.World.Terrain.CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
                                                             }
 
                                                             if (!(CityWall == null || CityWall.FHitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
@@ -1903,7 +1897,7 @@ namespace Aow.Game.Combat
                                                             TerrainValue = 0;
                                                             PathCost = MakeTerrainPath(Settings, ref DetourPath, ref TerrainValue, U, Target, true, false, 1);
                                                             PathValue += BestValue;
-                                                            PathCost = ((TMovepath)Path).PosToMovePoints(0);
+                                                            PathCost = ((Movepath)Path).PosToMovePoints(0);
                                                         }
                                                     }
 
@@ -1913,7 +1907,7 @@ namespace Aow.Game.Combat
                                                     for (; I <= last3; I += 1)
                                                     {
                                                         var path = Path[I];
-                                                        if (Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, Path[I].X, path.Y) <= Range && ((TMovepath)Path).PosToMovePoints(I) <= U.FMovePoints)
+                                                        if (Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, Path[I].X, path.Y) <= Range && ((Movepath)Path).PosToMovePoints(I) <= U.FMovePoints)
                                                         {
                                                             Cost = 1000;
                                                             var pathX = Path[I];
@@ -1935,7 +1929,7 @@ namespace Aow.Game.Combat
                                                         }
                                                     }
 
-                                                    PathCost = ((TMovepath)Path).PosToMovePoints(0);
+                                                    PathCost = ((Movepath)Path).PosToMovePoints(0);
                                                 }
 
                                                 // { Keep move selection inside the positive movement guard. }
@@ -1945,14 +1939,14 @@ namespace Aow.Game.Combat
                                                     Cost = 1;
                                                 }
 
-                                                if (!(U.FUnit is THero))
+                                                if (!(U.FUnit is Hero))
                                                 {
                                                     SafeValue = 0;
                                                 }
                                                 else
                                                 {
                                                     I = -1;
-                                                    BestIndex = ((TMovepath)Path).MovePointsToPos(U.FMovePoints);
+                                                    BestIndex = ((Movepath)Path).MovePointsToPos(U.FMovePoints);
                                                     var path = Path[BestIndex];
                                                     SafeValue = UnitSafe(U, Path[BestIndex].X, path.Y);
                                                     while (BestIndex < Path.Count - 1 && SafeValue < 0)
@@ -1981,7 +1975,7 @@ namespace Aow.Game.Combat
                                                 if (!((UnitSafe(U, U.FUnitHS.GetXhx(), yhx4) < 0 && FNormalUnits != 0) || (PathValue != 0 && Value == 0) || Distance > Range || U.GetMoves() != U.FMovePoints))
                                                 {
                                                     FHeroMoves += 1;
-                                                    if (Target is TCombatWall && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallBreached && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FRound > 1)
+                                                    if (Target is CombatWall && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached && Aow.Game.Combat.AoWCombatMap.Current.FRound > 1)
                                                     {
                                                         I = 10;
                                                     }
@@ -1996,7 +1990,7 @@ namespace Aow.Game.Combat
                                                         V = 1;
                                                     }
 
-                                                    CreateMove(TaiMoveType.aiRanged, X, Y, MultDEV(Value, I * Value / V, 1), Ability, Spell, U, Target);
+                                                    CreateMove(TaiMoveType.Ranged, X, Y, MultDEV(Value, I * Value / V, 1), Ability, Spell, U, Target);
                                                     if (PathValue > 0 && U.FMovePoints > 0 && DetourPath.Count > 1)
                                                     {
                                                         if (!(DetourPath.List[DetourPath.Count - 2].Flag > U.FMovePoints && DetourPath.List[DetourPath.Count - 2].Flag <= 15))
@@ -2004,7 +1998,7 @@ namespace Aow.Game.Combat
                                                             FHeroMoves += 1;
                                                             var multDEV = MultDEV(PathValue + TerrainValue, I * PathValue / V, 1);
                                                             var detourPath = DetourPath[0];
-                                                            CreateMove(TaiMoveType.aiMoveRanged, DetourPath[0].X, detourPath.Y, multDEV, Ability, Spell, U, Target);
+                                                            CreateMove(TaiMoveType.MoveRanged, DetourPath[0].X, detourPath.Y, multDEV, Ability, Spell, U, Target);
                                                         }
                                                     }
                                                 }
@@ -2017,12 +2011,12 @@ namespace Aow.Game.Combat
                                                             var moves = U.GetMoves();
                                                             var multDEV = MultDEV(PathValue + TerrainValue + Value, moves, Cost);
                                                             var path = Path[0];
-                                                            CreateMove(TaiMoveType.aiMoveRanged, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
+                                                            CreateMove(TaiMoveType.MoveRanged, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
                                                         }
                                                         else
                                                         {
                                                             var moves = U.GetMoves();
-                                                            CreateMove(TaiMoveType.aiFake, X, Y, MultDEV(MultDEV(PathValue, 100, 1) + TerrainValue + Value, moves, Cost), Ability, Spell, U, Target);
+                                                            CreateMove(TaiMoveType.Fake, X, Y, MultDEV(MultDEV(PathValue, 100, 1) + TerrainValue + Value, moves, Cost), Ability, Spell, U, Target);
                                                         }
                                                     }
                                                 }
@@ -2058,23 +2052,23 @@ namespace Aow.Game.Combat
             int Value = default;
             TaiMove Move;
             TaiMove OtherMove;
-            TTacticalCombatUnit U;
-            TTacticalCombatUnit Target;
-            TCombatMoveControlSettings Settings;
+            TacticalCombatUnit U;
+            TacticalCombatUnit Target;
+            CombatMoveControlSettings Settings;
             bool Moved;
             bool Found;
             bool Visible;
-            TList Abilities;
+            DelphiList Abilities;
             int TerrainCost = default;
             int PathCost;
-            TList Bonuses;
+            DelphiList Bonuses;
             string Reason = "";
-            TXYLList Path = default;
-            TAbilityCombatInfo AIInfo = default;
-            TSpellCombatInfo SpellInfo = default;
-            TCityWall Wall;
-            Status = TaiStatus.aiBusy;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentPlayer))
+            XYLList Path = default;
+            AbilityCombatInfo AIInfo = default;
+            SpellCombatInfo SpellInfo = default;
+            CityWall Wall;
+            Status = TaiStatus.Busy;
+            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(Aow.Game.Combat.AoWCombatMap.Current.FCurrentPlayer))
             {
                 switch (CurrentMove)
                 {
@@ -2095,22 +2089,22 @@ namespace Aow.Game.Combat
 
                             Moves.Clear();
                             Walls.Clear();
-                            var tacticalCombat = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat;
-                            FSide = (TCombatSideIndex)tacticalCombat.FCombatData.FPlayers.GetPlayers((sbyte)tacticalCombat.FCombatData.FCurrentPlayer).FSideIndex;
+                            var tacticalCombat = Aow.Game.Combat.AoWCombatMap.Current.FCombat;
+                            FSide = (CombatSideIndex)tacticalCombat.FCombatData.FPlayers.GetPlayers((sbyte)tacticalCombat.FCombatData.FCurrentPlayer).FSideIndex;
                             FNormalUnits = 0;
                             I = 0;
                             int limit = tacticalCombat.FCombatData.GetCount() - 1;
                             for (; I <= limit; I += 1)
                             {
-                                if (tacticalCombat.FCombatData.GetObjects(I) != null && tacticalCombat.FCombatData.GetObjects(I) is TCombatUnit && tacticalCombat.FCombatData.GetObjects(I).GetEnabled())
+                                if (tacticalCombat.FCombatData.GetObjects(I) != null && tacticalCombat.FCombatData.GetObjects(I) is CombatUnit && tacticalCombat.FCombatData.GetObjects(I).GetEnabled())
                                 {
                                     Visible = false;
                                     J = 0;
                                     while (!Visible && J < 19)
                                     {
-                                        var yhx = ((TTacticalCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
-                                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TTacticalCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, J, ref K, ref L);
-                                        if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FExplorationEnabled || ((TAoWMapField)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(K, L, 0)).GetExplored(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer))
+                                        var yhx = ((TacticalCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TacticalCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, J, ref K, ref L);
+                                        if (!Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled || ((AoWMapField)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(K, L, 0)).GetExplored(Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer))
                                         {
                                             Visible = true;
                                         }
@@ -2128,7 +2122,7 @@ namespace Aow.Game.Combat
                                             {
                                                 if (!tacticalCombat.FCombatData.GetObjects(I).GetLocked())
                                                 {
-                                                    if (((TCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnit is THero)
+                                                    if (((CombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnit is Hero)
                                                     {
                                                         var combatObject = tacticalCombat.FCombatData.GetObjects(I);
                                                         Units.Add(combatObject);
@@ -2159,15 +2153,15 @@ namespace Aow.Game.Combat
                             Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI found " + IntToStr(Units.Count) + " Own units.");
                             Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI found " + IntToStr(Allies.Count) + " Ally units.");
                             Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI found " + IntToStr(Enemies.Count) + " Enemy units.");
-                            FIgnoreWalls = FSide == TCombatSideIndex.csAttacker;
-                            FFlee = FSide == TCombatSideIndex.csAttacker && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && !Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallBreached;
+                            FIgnoreWalls = FSide == CombatSideIndex.Attacker;
+                            FFlee = FSide == CombatSideIndex.Attacker && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType != 0 && !Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached;
                             FMinMoves = 100;
                             I = 0;
                             int last2 = Units.Count - 1;
                             for (; I <= last2; I += 1)
                             {
-                                U = (TTacticalCombatUnit)Units[I];
-                                U.FCanFlee = FSide == TCombatSideIndex.csAttacker;
+                                U = (TacticalCombatUnit)Units[I];
+                                U.FCanFlee = FSide == CombatSideIndex.Attacker;
                                 if (U.GetMoves() < FMinMoves)
                                 {
                                     FMinMoves = U.GetMoves();
@@ -2177,7 +2171,7 @@ namespace Aow.Game.Combat
                                 int last3 = Enemies.Count - 1;
                                 for (; J <= last3; J += 1)
                                 {
-                                    Target = (TTacticalCombatUnit)Enemies[J];
+                                    Target = (TacticalCombatUnit)Enemies[J];
                                     if (!FIgnoreWalls && Target.GetSide() != U.GetSide())
                                     {
                                         var yhx = Target.FUnitHS.GetYhx();
@@ -2189,27 +2183,27 @@ namespace Aow.Game.Combat
                                         {
                                             if (Target.GetAbilityEnabled(L))
                                             {
-                                                if (L == 52 && Target.FUnit is THero)
+                                                if (L == 52 && Target.FUnit is Hero)
                                                 {
                                                     N = 0;
                                                     for (; N <= 130; N += 1)
                                                     {
-                                                        bool condition = Target.FUnit.FPlayer > 0 && Aow.Game.Combat.TacticalTables.SpellTypes[N] != TfxType.fxNone && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Target.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(N) != -1;
+                                                        bool condition = Target.FUnit.FPlayer > 0 && Aow.Game.Combat.TacticalTables.SpellTypes[N] != TfxType.None && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Target.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(N) != -1;
                                                         if (condition)
                                                         {
-                                                            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(N);
-                                                            condition = ((THero)Target.FUnit).CanCastSpellInstantly(N, spell.FBaseManaCost, ref Reason);
+                                                            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(N);
+                                                            condition = ((Hero)Target.FUnit).CanCastSpellInstantly(N, spell.FBaseManaCost, ref Reason);
                                                         }
 
                                                         if (condition)
                                                         {
-                                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(N).GetCombatInfo(Target.FUnit, ref SpellInfo);
-                                                            if (SpellInfo.TargetTypes.Contains(TCombatTargetTypeElement.cttEnemy) && (K <= SpellInfo.Range || SpellInfo.Range == -1))
+                                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(N).GetCombatInfo(Target.FUnit, ref SpellInfo);
+                                                            if (SpellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy) && (K <= SpellInfo.Range || SpellInfo.Range == -1))
                                                             {
-                                                                Value = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(N).GetCombatDamageValue(Target, U);
+                                                                Value = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(N).GetCombatDamageValue(Target, U);
                                                                 if (Value > 0)
                                                                 {
-                                                                    if (TSet<TfxType>.Of(TfxType.fxArrow, TfxType.fxRock, TfxType.fxComet, TfxType.fxBreath, TfxType.fxCometBall, TfxType.fxRay).Contains(Aow.Game.Combat.TacticalTables.SpellTypes[N]))
+                                                                    if (Set<TfxType>.Of(TfxType.Arrow, TfxType.Rock, TfxType.Comet, TfxType.Breath, TfxType.CometBall, TfxType.Ray).Contains(Aow.Game.Combat.TacticalTables.SpellTypes[N]))
                                                                     {
                                                                         var fUnitHSXhx = Target.FUnitHS.GetXhx();
                                                                         var yhx2 = Target.FUnitHS.GetYhx();
@@ -2232,18 +2226,18 @@ namespace Aow.Game.Combat
                                                 }
                                                 else
                                                 {
-                                                    if (Aow.Game.Combat.TacticalTables.AbilTypes[L] != TfxType.fxNone && Aow.Game.Combat.TacticalTables.AbilTypes[L] != TfxType.fxTouch)
+                                                    if (Aow.Game.Combat.TacticalTables.AbilTypes[L] != TfxType.None && Aow.Game.Combat.TacticalTables.AbilTypes[L] != TfxType.Touch)
                                                     {
-                                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(L).GetCombatInfo(Target.FUnit, ref AIInfo);
+                                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(L).GetCombatInfo(Target.FUnit, ref AIInfo);
                                                         if ((((byte)AIInfo.TargetTypes.Image) & 2) != 0)
                                                         {
-                                                            if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(L).GetCombatMode(Target.FUnit) == TCombatMode.cmLongRange)
+                                                            if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(L).GetCombatMode(Target.FUnit) == CombatMode.LongRange)
                                                             {
                                                                 N = 12;
                                                             }
                                                             else
                                                             {
-                                                                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(L).GetCombatMode(Target.FUnit) == TCombatMode.cmMediumRange)
+                                                                if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(L).GetCombatMode(Target.FUnit) == CombatMode.MediumRange)
                                                                 {
                                                                     N = 8;
                                                                 }
@@ -2255,10 +2249,10 @@ namespace Aow.Game.Combat
 
                                                             if (K <= N)
                                                             {
-                                                                Value = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(L).tcGetDamageValue(Target, U);
+                                                                Value = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(L).tcGetDamageValue(Target, U);
                                                                 if (Value > 0)
                                                                 {
-                                                                    if (TSet<TfxType>.Of(TfxType.fxArrow, TfxType.fxRock, TfxType.fxComet, TfxType.fxBreath, TfxType.fxCometBall, TfxType.fxRay).Contains(Aow.Game.Combat.TacticalTables.AbilTypes[L]))
+                                                                    if (Set<TfxType>.Of(TfxType.Arrow, TfxType.Rock, TfxType.Comet, TfxType.Breath, TfxType.CometBall, TfxType.Ray).Contains(Aow.Game.Combat.TacticalTables.AbilTypes[L]))
                                                                     {
                                                                         var fUnitHSXhx = Target.FUnitHS.GetXhx();
                                                                         var yhx2 = Target.FUnitHS.GetYhx();
@@ -2300,10 +2294,10 @@ namespace Aow.Game.Combat
                         {
                             while (FUnitIndex < Units.Count && FUnitLimit < 1)
                             {
-                                U = (TTacticalCombatUnit)Units[FUnitIndex];
+                                U = (TacticalCombatUnit)Units[FUnitIndex];
                                 if (!U.GetLocked())
                                 {
-                                    Abilities = new TList();
+                                    Abilities = new DelphiList();
                                     try
                                     {
                                         J = 0;
@@ -2321,39 +2315,39 @@ namespace Aow.Game.Combat
                                                         break;
                                                 }
 
-                                                if (J == 52 && U.FUnit is THero)
+                                                if (J == 52 && U.FUnit is Hero)
                                                 {
                                                     K = 0;
                                                     for (; K <= 130; K += 1)
                                                     {
-                                                        bool condition = U.FUnit.FPlayer > 0 && Aow.Game.Combat.TacticalTables.SpellTypes[K] != TfxType.fxNone && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                        bool condition = U.FUnit.FPlayer > 0 && Aow.Game.Combat.TacticalTables.SpellTypes[K] != TfxType.None && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
                                                         if (condition)
                                                         {
-                                                            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(K);
-                                                            condition = ((THero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
+                                                            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(K);
+                                                            condition = ((Hero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
                                                         }
 
                                                         if (condition)
                                                         {
-                                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
-                                                            if (SpellInfo.TargetTypes.Contains(TCombatTargetTypeElement.cttEnemy))
+                                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
+                                                            if (SpellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
                                                             {
-                                                                Abilities.Add(new TTCAbility());
-                                                                ((TTCAbility)Abilities[Abilities.Count - 1]).Ability = J;
-                                                                ((TTCAbility)Abilities[Abilities.Count - 1]).Spell = K;
+                                                                Abilities.Add(new TCAbility());
+                                                                ((TCAbility)Abilities[Abilities.Count - 1]).Ability = J;
+                                                                ((TCAbility)Abilities[Abilities.Count - 1]).Spell = K;
                                                             }
                                                         }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    if (Aow.Game.Combat.TacticalTables.AbilTypes[J] != TfxType.fxNone)
+                                                    if (Aow.Game.Combat.TacticalTables.AbilTypes[J] != TfxType.None)
                                                     {
-                                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
+                                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
                                                         if ((((byte)AIInfo.TargetTypes.Image) & 2) != 0)
                                                         {
-                                                            Abilities.Add(new TTCAbility());
-                                                            ((TTCAbility)Abilities[Abilities.Count - 1]).Ability = J;
+                                                            Abilities.Add(new TCAbility());
+                                                            ((TCAbility)Abilities[Abilities.Count - 1]).Ability = J;
                                                         }
                                                     }
                                                 }
@@ -2365,27 +2359,27 @@ namespace Aow.Game.Combat
                                         MessageBox(0, "Error during Eval Enemies", NullTerminatedText("Error - TCAI " + U.FUnit.GetName()), 0);
                                     }
 
-                                    Settings = new TCombatMoveControlSettings(null);
+                                    Settings = new CombatMoveControlSettings(null);
                                     if (U.FMovePoints > 0)
                                     {
                                         var yhx = U.FUnitHS.GetYhx();
                                         Settings.SetSourcePos(U.FUnitHS.GetXhx(), yhx, 0);
                                         Settings.FArmyHS = U.FUnitHS;
-                                        Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee, TCombatMoveModeElement.mmaiMove, TCombatMoveModeElement.mmaiWall);
+                                        Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
                                         U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                         Settings.FPlayer = U.GetPlayer();
                                         Settings.FMovePointsMax = 200;
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                        Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.ProcessMove(Settings);
                                     }
 
-                                    if (Abilities.Count > 0 || Aow.Game.Combat.TCombatObject.MeleeDamageTypes(U) != TSet<TDamageType>.Of())
+                                    if (Abilities.Count > 0 || Aow.Game.Combat.CombatObject.MeleeDamageTypes(U) != Set<DamageType>.Of())
                                     {
                                         J = 0;
                                         int last = Enemies.Count - 1;
                                         for (; J <= last; J += 1)
                                         {
-                                            Target = (TTacticalCombatUnit)Enemies[J];
-                                            if (!(U.FUnit is THero) || FHeroMoves == 0)
+                                            Target = (TacticalCombatUnit)Enemies[J];
+                                            if (!(U.FUnit is Hero) || FHeroMoves == 0)
                                             {
                                                 var hits = Target.GetHits();
                                                 var hitPoints = Target.GetHitPoints();
@@ -2410,39 +2404,39 @@ namespace Aow.Game.Combat
                                         {
                                             if (U.GetAbilityEnabled(J))
                                             {
-                                                if (J == 52 && U.FUnit is THero)
+                                                if (J == 52 && U.FUnit is Hero)
                                                 {
                                                     K = 0;
                                                     for (; K <= 130; K += 1)
                                                     {
-                                                        bool condition = Aow.Game.Combat.TacticalTables.SpellTypes[K] != TfxType.fxNone && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                        bool condition = Aow.Game.Combat.TacticalTables.SpellTypes[K] != TfxType.None && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
                                                         if (condition)
                                                         {
-                                                            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(K);
-                                                            condition = ((THero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
+                                                            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(K);
+                                                            condition = ((Hero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
                                                         }
 
                                                         if (condition)
                                                         {
-                                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
-                                                            if (SpellInfo.TargetTypes.Contains(TCombatTargetTypeElement.cttFriend))
+                                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
+                                                            if (SpellInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                                                             {
-                                                                Abilities.Add(new TTCAbility());
-                                                                ((TTCAbility)Abilities[Abilities.Count - 1]).Ability = J;
-                                                                ((TTCAbility)Abilities[Abilities.Count - 1]).Spell = K;
+                                                                Abilities.Add(new TCAbility());
+                                                                ((TCAbility)Abilities[Abilities.Count - 1]).Ability = J;
+                                                                ((TCAbility)Abilities[Abilities.Count - 1]).Spell = K;
                                                             }
                                                         }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    if (Aow.Game.Combat.TacticalTables.AbilTypes[J] != TfxType.fxNone)
+                                                    if (Aow.Game.Combat.TacticalTables.AbilTypes[J] != TfxType.None)
                                                     {
-                                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
+                                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
                                                         if ((((byte)AIInfo.TargetTypes.Image) & 1) != 0)
                                                         {
-                                                            Abilities.Add(new TTCAbility());
-                                                            ((TTCAbility)Abilities[Abilities.Count - 1]).Ability = J;
+                                                            Abilities.Add(new TCAbility());
+                                                            ((TCAbility)Abilities[Abilities.Count - 1]).Ability = J;
                                                         }
                                                     }
                                                 }
@@ -2460,8 +2454,8 @@ namespace Aow.Game.Combat
                                         int last = Units.Count - 1;
                                         for (; J <= last; J += 1)
                                         {
-                                            Target = (TTacticalCombatUnit)Units[J];
-                                            if (!(U.FUnit is THero) || FHeroMoves == 0)
+                                            Target = (TacticalCombatUnit)Units[J];
+                                            if (!(U.FUnit is Hero) || FHeroMoves == 0)
                                             {
                                                 var hits = Target.GetHits();
                                                 var hitPoints = Target.GetHitPoints();
@@ -2491,18 +2485,18 @@ namespace Aow.Game.Combat
                                 CurrentMove += 1;
                                 try
                                 {
-                                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType != 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall != null && FSide == TCombatSideIndex.csAttacker)
+                                    if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType != 0 && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall != null && FSide == CombatSideIndex.Attacker)
                                     {
                                         J = 0;
-                                        int last = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls.Count - 1;
+                                        int last = Aow.Game.Combat.AoWCombatMap.Current.FWalls.Count - 1;
                                         for (; J <= last; J += 1)
                                         {
-                                            bool condition = ((TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J]).FHitPoints > 0;
+                                            bool condition = ((CityWall)Aow.Game.Combat.AoWCombatMap.Current.FWalls[J]).FHitPoints > 0;
                                             if (condition)
                                             {
-                                                var wall = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J];
-                                                var wall2 = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J];
-                                                condition = ((TCityWall)wall).FHitPoints < Aow.Game.Combat.TacticalTables.WallMaxHP[((TCityWall)wall2).FWallType - 1];
+                                                var wall = Aow.Game.Combat.AoWCombatMap.Current.FWalls[J];
+                                                var wall2 = Aow.Game.Combat.AoWCombatMap.Current.FWalls[J];
+                                                condition = ((CityWall)wall).FHitPoints < Aow.Game.Combat.TacticalTables.WallMaxHP[((CityWall)wall2).FWallType - 1];
                                             }
 
                                             if (condition)
@@ -2511,7 +2505,7 @@ namespace Aow.Game.Combat
                                                 K = 0;
                                                 while (Found && K < Walls.Count)
                                                 {
-                                                    if (Walls[K] == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J])
+                                                    if (Walls[K] == Aow.Game.Combat.AoWCombatMap.Current.FWalls[J])
                                                     {
                                                         Found = false;
                                                     }
@@ -2523,14 +2517,14 @@ namespace Aow.Game.Combat
 
                                                 if (Found)
                                                 {
-                                                    var wall = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J];
+                                                    var wall = Aow.Game.Combat.AoWCombatMap.Current.FWalls[J];
                                                     Walls.Add(wall);
                                                 }
                                             }
                                         }
                                     }
 
-                                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType == 0 || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall == null || FSide == TCombatSideIndex.csDefender)
+                                    if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType == 0 || Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall == null || FSide == CombatSideIndex.Defender)
                                     {
                                         CurrentMove += 1;
                                     }
@@ -2558,10 +2552,10 @@ namespace Aow.Game.Combat
                         {
                             while (FUnitIndex < Units.Count && FUnitLimit < 1)
                             {
-                                U = (TTacticalCombatUnit)Units[FUnitIndex];
+                                U = (TacticalCombatUnit)Units[FUnitIndex];
                                 if (!U.GetLocked())
                                 {
-                                    Abilities = new TList();
+                                    Abilities = new DelphiList();
                                     J = 0;
                                     for (; J <= 169; J += 1)
                                     {
@@ -2577,29 +2571,29 @@ namespace Aow.Game.Combat
                                                     break;
                                             }
 
-                                            if (J == 52 && U.FUnit is THero)
+                                            if (J == 52 && U.FUnit is Hero)
                                             {
                                                 if (U.FUnit.FPlayer > 0)
                                                 {
                                                     K = 0;
                                                     for (; K <= 130; K += 1)
                                                     {
-                                                        bool condition = Aow.Game.Combat.TacticalTables.SpellTypes[K] != TfxType.fxNone && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                        bool condition = Aow.Game.Combat.TacticalTables.SpellTypes[K] != TfxType.None && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
                                                         if (condition)
                                                         {
-                                                            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(K);
-                                                            condition = ((THero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
+                                                            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(K);
+                                                            condition = ((Hero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
                                                         }
 
                                                         if (condition)
                                                         {
-                                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
-                                                            if (SpellInfo.DamageTypes.Contains(TDamageType.dtWall))
+                                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
+                                                            if (SpellInfo.DamageTypes.Contains(DamageType.Wall))
                                                             {
                                                                 FFlee = false;
-                                                                Abilities.Add(new TTCAbility());
-                                                                ((TTCAbility)Abilities[Abilities.Count - 1]).Ability = J;
-                                                                ((TTCAbility)Abilities[Abilities.Count - 1]).Spell = K;
+                                                                Abilities.Add(new TCAbility());
+                                                                ((TCAbility)Abilities[Abilities.Count - 1]).Ability = J;
+                                                                ((TCAbility)Abilities[Abilities.Count - 1]).Spell = K;
                                                             }
                                                         }
                                                     }
@@ -2607,14 +2601,14 @@ namespace Aow.Game.Combat
                                             }
                                             else
                                             {
-                                                if (Aow.Game.Combat.TacticalTables.AbilTypes[J] != TfxType.fxNone)
+                                                if (Aow.Game.Combat.TacticalTables.AbilTypes[J] != TfxType.None)
                                                 {
-                                                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
-                                                    if (AIInfo.DamageTypes.Contains(TDamageType.dtWall))
+                                                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
+                                                    if (AIInfo.DamageTypes.Contains(DamageType.Wall))
                                                     {
                                                         FFlee = false;
-                                                        Abilities.Add(new TTCAbility());
-                                                        ((TTCAbility)Abilities[Abilities.Count - 1]).Ability = J;
+                                                        Abilities.Add(new TCAbility());
+                                                        ((TCAbility)Abilities[Abilities.Count - 1]).Ability = J;
                                                     }
                                                 }
                                             }
@@ -2623,33 +2617,33 @@ namespace Aow.Game.Combat
 
                                     if (Abilities.Count > 0)
                                     {
-                                        Settings = new TCombatMoveControlSettings(null);
+                                        Settings = new CombatMoveControlSettings(null);
                                         if (U.FMovePoints > 0)
                                         {
                                             var yhx = U.FUnitHS.GetYhx();
                                             Settings.SetSourcePos(U.FUnitHS.GetXhx(), yhx, 0);
                                             Settings.FArmyHS = U.FUnitHS;
-                                            Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee, TCombatMoveModeElement.mmaiMove, TCombatMoveModeElement.mmaiWall);
+                                            Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
                                             if (U.GetAbilityEnabled(65) || U.GetAbilityEnabled(117))
                                             {
-                                                Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmWallCrushing);
+                                                Settings.FMoveFlags = Settings.FMoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
                                             }
 
                                             U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                             Settings.FPlayer = U.GetPlayer();
                                             Settings.FMovePointsMax = 200;
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                            Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.ProcessMove(Settings);
                                         }
 
                                         J = 0;
                                         int last = Walls.Count - 1;
                                         for (; J <= last; J += 1)
                                         {
-                                            Wall = (TCityWall)Walls[J];
-                                            if (!(U.FUnit is THero) || FHeroMoves == 0)
+                                            Wall = (CityWall)Walls[J];
+                                            if (!(U.FUnit is Hero) || FHeroMoves == 0)
                                             {
                                                 var yhx = Wall.GetYhx();
-                                                CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints, Aow.Game.Combat.TacticalTables.WallMaxHP[Wall.FWallType - 1] * 2, Settings, U, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall, Abilities, Wall);
+                                                CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints, Aow.Game.Combat.TacticalTables.WallMaxHP[Wall.FWallType - 1] * 2, Settings, U, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall, Abilities, Wall);
                                             }
                                         }
 
@@ -2658,15 +2652,15 @@ namespace Aow.Game.Combat
                                             L = 100;
                                             Wall = null;
                                             J = 0;
-                                            int limit = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls.Count - 1;
+                                            int limit = Aow.Game.Combat.AoWCombatMap.Current.FWalls.Count - 1;
                                             for (; J <= limit; J += 1)
                                             {
                                                 var yhx = U.FUnitHS.GetYhx();
-                                                var yhx2 = ((THexagonSprite)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J]).GetYhx();
-                                                N = Aow.Game.World.Map.HexGeometry.dHXtoRad(((THexagonSprite)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
-                                                if (((TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J]).FHitPoints > 0 && N < L)
+                                                var yhx2 = ((HexagonSprite)Aow.Game.Combat.AoWCombatMap.Current.FWalls[J]).GetYhx();
+                                                N = Aow.Game.World.Map.HexGeometry.dHXtoRad(((HexagonSprite)Aow.Game.Combat.AoWCombatMap.Current.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
+                                                if (((CityWall)Aow.Game.Combat.AoWCombatMap.Current.FWalls[J]).FHitPoints > 0 && N < L)
                                                 {
-                                                    Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FWalls[J];
+                                                    Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.FWalls[J];
                                                     L = N;
                                                 }
                                             }
@@ -2674,7 +2668,7 @@ namespace Aow.Game.Combat
                                             if (Wall != null)
                                             {
                                                 var yhx = Wall.GetYhx();
-                                                CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints * 2, Aow.Game.Combat.TacticalTables.WallMaxHP[Wall.FWallType - 1], Settings, U, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWall, Abilities, Wall);
+                                                CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints * 2, Aow.Game.Combat.TacticalTables.WallMaxHP[Wall.FWallType - 1], Settings, U, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWall, Abilities, Wall);
                                             }
                                         }
 
@@ -2714,7 +2708,7 @@ namespace Aow.Game.Combat
                     case 3:
                         try
                         {
-                            Bonuses = new TList();
+                            Bonuses = new DelphiList();
                             I = 0;
                             int last = Units.Count - 1;
                             for (; I <= last; I += 1)
@@ -2725,7 +2719,7 @@ namespace Aow.Game.Combat
                             while (FUnitIndex < Moves.Count && FUnitLimit < 50)
                             {
                                 Move = (TaiMove)Moves[FUnitIndex];
-                                if (Move.MoveType != TaiMoveType.aiFake)
+                                if (Move.MoveType != TaiMoveType.Fake)
                                 {
                                     J = 0;
                                     int limit = Units.Count - 1;
@@ -2793,8 +2787,8 @@ namespace Aow.Game.Combat
                             int last = Units.Count - 1;
                             for (; I <= last; I += 1)
                             {
-                                U = (TTacticalCombatUnit)Units[I];
-                                if (U.FUnit is THero && FHeroMoves == 0 && U.FMovePoints > 0)
+                                U = (TacticalCombatUnit)Units[I];
+                                if (U.FUnit is Hero && FHeroMoves == 0 && U.FMovePoints > 0)
                                 {
                                     var yhx = U.FUnitHS.GetYhx();
                                     K = UnitSafe(U, U.FUnitHS.GetXhx(), yhx);
@@ -2804,7 +2798,7 @@ namespace Aow.Game.Combat
                                     int limit = Units.Count - 1;
                                     for (; J <= limit; J += 1)
                                     {
-                                        Target = (TTacticalCombatUnit)Units[J];
+                                        Target = (TacticalCombatUnit)Units[J];
                                         if (U != Target)
                                         {
                                             var fUnitHSYhx = Target.FUnitHS.GetYhx();
@@ -2819,29 +2813,29 @@ namespace Aow.Game.Combat
 
                                     if (K > Value)
                                     {
-                                        Settings = new TCombatMoveControlSettings(null);
+                                        Settings = new CombatMoveControlSettings(null);
                                         // { Original uses X for both coordinates. }
                                         var xhx = U.FUnitHS.GetXhx();
                                         Settings.SetSourcePos(U.FUnitHS.GetXhx(), xhx, 0);
-                                        var fUnitHSYhx = ((TTacticalCombatUnit)Units[N]).FUnitHS.GetYhx();
-                                        Settings.SetDestinationPos(((TTacticalCombatUnit)Units[N]).FUnitHS.GetXhx(), fUnitHSYhx, 0);
+                                        var fUnitHSYhx = ((TacticalCombatUnit)Units[N]).FUnitHS.GetYhx();
+                                        Settings.SetDestinationPos(((TacticalCombatUnit)Units[N]).FUnitHS.GetXhx(), fUnitHSYhx, 0);
                                         Settings.FArmyHS = U.FUnitHS;
-                                        Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee, TCombatMoveModeElement.mmaiMove, TCombatMoveModeElement.mmaiWall);
+                                        Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
                                         U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                         Settings.FPlayer = U.GetPlayer();
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                        Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.ProcessMove(Settings);
                                         if (Settings.FPath.Count > 2)
                                         {
                                             Settings.FPath.Delete(0);
                                             var path = Settings.FPath[0];
-                                            CreateMove(TaiMoveType.aiMove, Settings.FPath[0].X, path.Y, K, 0, 0, U, null);
+                                            CreateMove(TaiMoveType.Move, Settings.FPath[0].X, path.Y, K, 0, 0, U, null);
                                         }
 
                                         Settings?.Dispose();
                                     }
                                     else
                                     {
-                                        if (FSide == TCombatSideIndex.csAttacker)
+                                        if (FSide == CombatSideIndex.Attacker)
                                         {
                                             U.FCanFlee = true;
                                         }
@@ -2849,24 +2843,24 @@ namespace Aow.Game.Combat
                                 }
                             }
 
-                            if (FSide == TCombatSideIndex.csAttacker)
+                            if (FSide == CombatSideIndex.Attacker)
                             {
                                 I = 0;
                                 int limit = Units.Count - 1;
                                 for (; I <= limit; I += 1)
                                 {
-                                    U = (TTacticalCombatUnit)Units[I];
-                                    if ((!(U.FUnit is THero) || FHeroMoves == 0 || (U.FUnit is THero && Units.Count == 1)) && U.GetEnabled() && !U.GetLocked() && U.FMovePoints > 0 && (FFlee || U.FCanFlee))
+                                    U = (TacticalCombatUnit)Units[I];
+                                    if ((!(U.FUnit is Hero) || FHeroMoves == 0 || (U.FUnit is Hero && Units.Count == 1)) && U.GetEnabled() && !U.GetLocked() && U.FMovePoints > 0 && (FFlee || U.FCanFlee))
                                     {
                                         J = 0;
-                                        int last2 = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FFleeLocations.Count - 1;
+                                        int last2 = Aow.Game.Combat.AoWCombatMap.Current.FFleeLocations.Count - 1;
                                         for (; J <= last2; J += 1)
                                         {
                                             var yhx = U.FUnitHS.GetYhx();
-                                            var yhx2 = ((THexagonSprite)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FFleeLocations[J]).GetYhx();
-                                            var dHXtoRad2 = Aow.Game.World.Map.HexGeometry.dHXtoRad(((THexagonSprite)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FFleeLocations[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
-                                            var yhx3 = ((THexagonSprite)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FFleeLocations[J]).GetYhx();
-                                            CreateMove(TaiMoveType.aiMove, ((THexagonSprite)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FFleeLocations[J]).GetXhx(), yhx3, 110000000 - dHXtoRad2 * 10, 0, 0, U, null);
+                                            var yhx2 = ((HexagonSprite)Aow.Game.Combat.AoWCombatMap.Current.FFleeLocations[J]).GetYhx();
+                                            var dHXtoRad2 = Aow.Game.World.Map.HexGeometry.dHXtoRad(((HexagonSprite)Aow.Game.Combat.AoWCombatMap.Current.FFleeLocations[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
+                                            var yhx3 = ((HexagonSprite)Aow.Game.Combat.AoWCombatMap.Current.FFleeLocations[J]).GetYhx();
+                                            CreateMove(TaiMoveType.Move, ((HexagonSprite)Aow.Game.Combat.AoWCombatMap.Current.FFleeLocations[J]).GetXhx(), yhx3, 110000000 - dHXtoRad2 * 10, 0, 0, U, null);
                                         }
                                     }
                                 }
@@ -2878,7 +2872,7 @@ namespace Aow.Game.Combat
                                 Move = (TaiMove)Moves[I];
                                 switch (Move.MoveType)
                                 {
-                                    case TaiMoveType.aiFake:
+                                    case TaiMoveType.Fake:
                                         Moves.Delete(I);
                                         break;
                                     default:
@@ -2939,57 +2933,57 @@ namespace Aow.Game.Combat
                                 Move = (TaiMove)Moves[0];
                                 switch (Move.MoveType)
                                 {
-                                    case TaiMoveType.aiMove:
-                                    case TaiMoveType.aiMoveRanged:
+                                    case TaiMoveType.Move:
+                                    case TaiMoveType.MoveRanged:
                                         {
                                             var tacticalCombatUnitHS = Move.UnitHS;
-                                            if ((Move.UnitHS.FUnit.FUnit is THero || (FSide == TCombatSideIndex.csAttacker && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FRound == 1)) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
+                                            if ((Move.UnitHS.FUnit.FUnit is Hero || (FSide == CombatSideIndex.Attacker && Aow.Game.Combat.AoWCombatMap.Current.FRound == 1)) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
                                             {
                                                 Move.UnitHS.FUnit.FMovePoints = FMinMoves;
                                             }
 
-                                            Settings = new TCombatMoveControlSettings(null);
+                                            Settings = new CombatMoveControlSettings(null);
                                             var lhx = tacticalCombatUnitHS.GetLhx();
                                             var yhx = tacticalCombatUnitHS.GetYhx();
                                             Settings.SetSourcePos(tacticalCombatUnitHS.GetXhx(), yhx, lhx);
                                             Settings.SetDestinationPos(Move.X, Move.Y, 0);
                                             Settings.FArmyHS = Move.UnitHS;
-                                            if (Move.MoveType == TaiMoveType.aiMoveRanged || Aow.Game.Combat.TCombatObject.MeleeDamageTypes(Move.UnitHS.FUnit) == TSet<TDamageType>.Of())
+                                            if (Move.MoveType == TaiMoveType.MoveRanged || Aow.Game.Combat.CombatObject.MeleeDamageTypes(Move.UnitHS.FUnit) == Set<DamageType>.Of())
                                             {
-                                                Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMoveRanged);
+                                                Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.MoveRanged);
                                             }
                                             else
                                             {
-                                                Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee);
+                                                Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
                                             }
 
-                                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+                                            if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType != 0)
                                             {
-                                                if (!(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallBreached && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508) == null && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) == null))
+                                                if (!(Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached && Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508) == null && Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) == null))
                                                 {
-                                                    if (!FIgnoreWalls || !ChargeFromPos((int)(((uint)Move.UnitHS.FUnit.FPosition) >> 4)) || FSide == TCombatSideIndex.csAttacker)
+                                                    if (!FIgnoreWalls || !ChargeFromPos((int)(((uint)Move.UnitHS.FUnit.FPosition) >> 4)) || FSide == CombatSideIndex.Attacker)
                                                     {
-                                                        Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmaiWall);
+                                                        Settings.FMoveFlags = Settings.FMoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
                                                     }
                                                 }
                                             }
 
                                             Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                             Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.ProcessMove(Settings);
-                                            if (Settings.FPath.Count < 2 && !Settings.FMoveFlags.Contains(TCombatMoveModeElement.mmaiWall))
+                                            Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.ProcessMove(Settings);
+                                            if (Settings.FPath.Count < 2 && !Settings.FMoveFlags.Contains(CombatMoveModeElement.Wall))
                                             {
-                                                Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmaiWall);
-                                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                                Settings.FMoveFlags = Settings.FMoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
+                                                Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.ProcessMove(Settings);
                                             }
 
-                                            Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508);
+                                            Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508);
                                             if (Wall == null)
                                             {
-                                                Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510);
+                                                Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510);
                                             }
 
-                                            if (Settings.FPath.Count == 2 && Move.MoveType == TaiMoveType.aiMoveRanged && Wall != null)
+                                            if (Settings.FPath.Count == 2 && Move.MoveType == TaiMoveType.MoveRanged && Wall != null)
                                             {
                                                 Move.UnitHS.FUnit.FMovePoints = 0;
                                             }
@@ -3003,17 +2997,17 @@ namespace Aow.Game.Combat
                                                     {
                                                         if (Path[Path.Count - 2].Flag > 0 && Path[Path.Count - 2].Flag <= Move.UnitHS.FUnit.FMovePoints)
                                                         {
-                                                            if (Move.MoveType == TaiMoveType.aiMoveRanged)
+                                                            if (Move.MoveType == TaiMoveType.MoveRanged)
                                                             {
-                                                                Value = ((TMovepath)Path).PosToMovePoints(0);
+                                                                Value = ((Movepath)Path).PosToMovePoints(0);
                                                                 if (Value < Move.UnitHS.FUnit.FMovePoints)
                                                                 {
                                                                     Move.UnitHS.FUnit.FMovePoints = Value;
                                                                 }
                                                             }
 
-                                                            Value = ((TMovepath)Path).MovePointsToPos(Move.UnitHS.FUnit.FMovePoints);
-                                                            Value = ((TMovepath)Path).PosToMovePoints(Value);
+                                                            Value = ((Movepath)Path).MovePointsToPos(Move.UnitHS.FUnit.FMovePoints);
+                                                            Value = ((Movepath)Path).PosToMovePoints(Value);
                                                             if (Value > 0 && Value < Move.UnitHS.FUnit.FMovePoints)
                                                             {
                                                                 Move.UnitHS.FUnit.FMovePoints = Value;
@@ -3021,12 +3015,12 @@ namespace Aow.Game.Combat
 
                                                             // { Original repeats X. }
                                                             Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI moves to X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
-                                                            Moved = Aow.Game.Combat.TTacticalCombatUnit.MoveCombatUnit(Move.UnitHS.FUnit, (TMovepath)Path);
-                                                            if (Move.UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer)
+                                                            Moved = Aow.Game.Combat.TacticalCombatUnit.MoveCombatUnit(Move.UnitHS.FUnit, (Movepath)Path);
+                                                            if (Move.UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer)
                                                             {
                                                                 var unitHSYhx = Move.UnitHS.GetYhx();
                                                                 var xhx = Move.UnitHS.GetXhx();
-                                                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.CenterViewTo(xhx, unitHSYhx, 0);
+                                                                Aow.Game.Combat.AoWCombatMap.Current.CenterViewTo(xhx, unitHSYhx, 0);
                                                             }
                                                         }
                                                         else
@@ -3041,16 +3035,16 @@ namespace Aow.Game.Combat
                                         }
 
                                         break;
-                                    case TaiMoveType.aiMelee:
-                                        Settings = new TCombatMoveControlSettings(null);
+                                    case TaiMoveType.Melee:
+                                        Settings = new CombatMoveControlSettings(null);
                                         var yhx2 = Move.UnitHS.GetYhx();
                                         Settings.SetSourcePos(Move.UnitHS.GetXhx(), yhx2, 0);
                                         Settings.SetDestinationPos(Move.X, Move.Y, 0);
                                         Settings.FArmyHS = Move.UnitHS;
-                                        Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee);
+                                        Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
                                         Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                         Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                        Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.ProcessMove(Settings);
                                         if (Settings.FPath.Count > 1)
                                         {
                                             Path = Settings.FPath;
@@ -3061,12 +3055,12 @@ namespace Aow.Game.Combat
                                                 {
                                                     // { Original repeats X in the debug text. }
                                                     Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI touches at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
-                                                    Moved = Move.UnitHS.MeleeMoveTC((TMovepath)Path);
-                                                    if (Move.UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer)
+                                                    Moved = Move.UnitHS.MeleeMoveTC((Movepath)Path);
+                                                    if (Move.UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer)
                                                     {
                                                         var yhx = Move.UnitHS.GetYhx();
                                                         var xhx = Move.UnitHS.GetXhx();
-                                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
+                                                        Aow.Game.Combat.AoWCombatMap.Current.CenterViewTo(xhx, yhx, 0);
                                                     }
                                                 }
                                             }
@@ -3074,23 +3068,23 @@ namespace Aow.Game.Combat
 
                                         Settings?.Dispose();
                                         break;
-                                    case TaiMoveType.aiTouch:
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Move.Ability).GetCombatInfo(Move.UnitHS.FUnit.FUnit, ref AIInfo);
-                                        Settings = new TCombatMoveControlSettings(null);
+                                    case TaiMoveType.Touch:
+                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Move.Ability).GetCombatInfo(Move.UnitHS.FUnit.FUnit, ref AIInfo);
+                                        Settings = new CombatMoveControlSettings(null);
                                         var yhx3 = Move.UnitHS.GetYhx();
                                         Settings.SetSourcePos(Move.UnitHS.GetXhx(), yhx3, 0);
                                         Settings.SetDestinationPos(Move.X, Move.Y, 0);
                                         Settings.FArmyHS = Move.UnitHS;
-                                        Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee);
-                                        if (AIInfo.DamageTypes.Contains(TDamageType.dtWall))
+                                        Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
+                                        if (AIInfo.DamageTypes.Contains(DamageType.Wall))
                                         {
-                                            Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmWallCrushing);
+                                            Settings.FMoveFlags = Settings.FMoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
                                         }
 
                                         Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
                                         Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
                                         Move.UnitHS.FSelectedAbility = Move.Ability;
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                        Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.ProcessMove(Settings);
                                         if (Settings.FPath.Count > 1)
                                         {
                                             Path = Settings.FPath;
@@ -3102,12 +3096,12 @@ namespace Aow.Game.Combat
                                                     Move.UnitHS.FSelectedAbility = Move.Ability;
                                                     // { Original repeats X in the debug text. }
                                                     Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI melees at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
-                                                    Moved = Move.UnitHS.AbTouchMoveTC((TMovepath)Path);
-                                                    if (Move.UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer)
+                                                    Moved = Move.UnitHS.AbTouchMoveTC((Movepath)Path);
+                                                    if (Move.UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer)
                                                     {
                                                         var yhx = Move.UnitHS.GetYhx();
                                                         var xhx = Move.UnitHS.GetXhx();
-                                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
+                                                        Aow.Game.Combat.AoWCombatMap.Current.CenterViewTo(xhx, yhx, 0);
                                                     }
                                                 }
                                             }
@@ -3115,17 +3109,17 @@ namespace Aow.Game.Combat
 
                                         Settings?.Dispose();
                                         break;
-                                    case TaiMoveType.aiRanged:
+                                    case TaiMoveType.Ranged:
                                         Move.UnitHS.FSelectedAbility = Move.Ability;
                                         Move.UnitHS.FSelectedSpell = Move.Spell;
                                         // { Original repeats X in the debug text. }
                                         Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI ranged at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
                                         Moved = Move.UnitHS.AbRangedTC(Move.X, Move.Y);
-                                        if (Move.UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer)
+                                        if (Move.UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer)
                                         {
                                             var yhx = Move.UnitHS.GetYhx();
                                             var xhx = Move.UnitHS.GetXhx();
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.CenterViewTo(xhx, yhx, 0);
+                                            Aow.Game.Combat.AoWCombatMap.Current.CenterViewTo(xhx, yhx, 0);
                                         }
 
                                         break;
@@ -3138,7 +3132,7 @@ namespace Aow.Game.Combat
 
                             if (!Moved)
                             {
-                                Status = TaiStatus.aiDone;
+                                Status = TaiStatus.Done;
                             }
 
                             I = 0;
@@ -3161,12 +3155,17 @@ namespace Aow.Game.Combat
             }
         }
 
+        public enum TaiStatus : byte
+        {
+            Idle = 0, Busy = 1, Done = 2
+        }
+
     }
 
     // Inherited world-map field layout
-    public partial class TAoWCombatMapField : TAoWMapField
+    public partial class AoWCombatMapField : AoWMapField
     {
-        public TAoWCombatMapField(TECustomNode owner) : base(owner)
+        public AoWCombatMapField(ECustomNode owner) : base(owner)
         { }
 
         // AoWTC.pas:2158
@@ -3175,7 +3174,7 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2163
         public sbyte GetDefenseValue()
         {
-            TMapFieldMsg Msg = default;
+            MapFieldMsg Msg = default;
             Msg.MsgID = 135169;
             Msg.Result = -1;
             Msg.Param[0] = 0;
@@ -3186,9 +3185,9 @@ namespace Aow.Game.Combat
     }
 
     // Inherited world-map level layout
-    public partial class TAoWCombatMapLevel : TAoWMapLevel
+    public partial class AoWCombatMapLevel : AoWMapLevel
     {
-        public TAoWCombatMapLevel(TECustomNode owner) : base(owner)
+        public AoWCombatMapLevel(ECustomNode owner) : base(owner)
         { }
 
         // AoWTC.pas:2173
@@ -3198,7 +3197,7 @@ namespace Aow.Game.Combat
         public override EClass MapFieldClass()
         {
             // { Original uses the world-map field class. }
-            return EClass.Of<TAoWMapField>();
+            return EClass.Of<AoWMapField>();
         }
 
     }
@@ -3208,26 +3207,26 @@ namespace Aow.Game.Draw
 {
 
     // FMiscImages. FTargetImages. FFrame. FFrameCount. FSelection. FRange
-    public partial class TRangedPathHS : TFixedVisibleHS
+    public partial class RangedPathHS : FixedVisibleHS
     {
-        public TRangedPathHS(TECustomNode owner) : base(owner)
+        public RangedPathHS(ECustomNode owner) : base(owner)
         { }
 
         // AoWTC.pas:4846
         public new const int ClassID = 2228485;
 
-        public TCustomImageLibrary FMiscImages;
-        public TCustomImageLibrary FTargetImages;
+        public CustomImageLibrary FMiscImages;
+        public CustomImageLibrary FTargetImages;
         public ushort FFrame;
         public ushort FFrameCount;
-        public TCombatUnitSelectionControl FSelection;
+        public CombatUnitSelectionControl FSelection;
         public ushort FRange;
 
         // AoWTC.pas:4849
         public override int GetShowPriority() => 1811939328;
 
         // AoWTC.pas:4859
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
@@ -3288,7 +3287,7 @@ namespace Aow.Game.Draw
 
                     switch (EffectType)
                     {
-                        case TfxType.fxBreath:
+                        case TfxType.Breath:
                             var count = FSelection.FRangedPath.Count;
                             var rangedPath = FSelection.FRangedPath[count - 1];
                             var fRangedPathCount = FSelection.FRangedPath.Count;
@@ -3389,14 +3388,14 @@ namespace Aow.Game.Draw
                     for (int I = 0, last = FSelection.FObstacles.Count - 1; I <= last; I++)
                     {
                         var obstacle = FSelection.FObstacles[I];
-                        var rangedPath = FSelection.FRangedPath[((TROb)obstacle).PathIndex];
+                        var rangedPath = FSelection.FRangedPath[((ROb)obstacle).PathIndex];
                         var obstacle2 = FSelection.FObstacles[I];
-                        Aow.Game.World.Map.HexGeometry.HPtoHX(FSelection.FRangedPath[((TROb)obstacle2).PathIndex].X, rangedPath.Y, ref NX, ref NY);
+                        Aow.Game.World.Map.HexGeometry.HPtoHX(FSelection.FRangedPath[((ROb)obstacle2).PathIndex].X, rangedPath.Y, ref NX, ref NY);
                         Aow.Game.World.Map.HexGeometry.HXtoHP(NX, NY, ref PX, ref PY);
                         FMiscImages[1].Show(PX + 5 - XhpSurf, PY + 5 - YhpSurf, SurfaceDesc);
                         Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.Color = 0;
                         var obstacle3 = FSelection.FObstacles[I];
-                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(PX + 16 - XhpSurf, PY + 12 - YhpSurf, IntToStr(((TROb)obstacle3).Chance), SurfaceDesc);
+                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(PX + 16 - XhpSurf, PY + 12 - YhpSurf, IntToStr(((ROb)obstacle3).Chance), SurfaceDesc);
                     }
                 }
             }
@@ -3406,15 +3405,15 @@ namespace Aow.Game.Draw
         public override void Activate()
         {
             base.Activate();
-            FMiscImages = Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCombat\\Misc.ILB");
-            FTargetImages = Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
+            FMiscImages = Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TCombat\\Misc.ILB");
+            FTargetImages = Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TargHex.ILB");
         }
 
         // AoWTC.pas:4839
         public override void Deactivate()
         {
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCombat\\Misc.ILB");
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
+            Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TCombat\\Misc.ILB");
+            Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TargHex.ILB");
             base.Deactivate();
         }
 
@@ -3424,12 +3423,12 @@ namespace Aow.Game.Draw
 
     // FDone. FCancelled. FFrame. FAbilityIndex. FSpellIndex. FPath. FVariant. FTargetX. FTargetY.
     // FTarget. FEffectType
-    public partial class TfxHS : TFixedVisibleHS
+    public partial class TfxHS : FixedVisibleHS
     {
 
-        public TfxHS(TECustomNode owner) : base(owner)
+        public TfxHS(ECustomNode owner) : base(owner)
         {
-            FPath = new TXYZList();
+            FPath = new XYZList();
             FFrame = -1;
         }
 
@@ -3441,12 +3440,12 @@ namespace Aow.Game.Draw
         public int FFrame;
         public int FAbilityIndex;
         public int FSpellIndex;
-        public TXYZList FPath;
+        public XYZList FPath;
         public int FVariant;
         public int FTargetX;
         public int FTargetY;
-        public TCombatObject FTarget;
-        public TCombatAction FCombatAction;
+        public CombatObject FTarget;
+        public CombatAction FCombatAction;
         public TfxType FEffectType;
 
         // AoWTC.pas:5221
@@ -3465,14 +3464,14 @@ namespace Aow.Game.Draw
         public override void Activate()
         {
             base.Activate();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents += NewFrame;
+            Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents += NewFrame;
             FFrame = -1;
         }
 
         // AoWTC.pas:5208
         public override void Deactivate()
         {
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents -= NewFrame;
+            Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents -= NewFrame;
             base.Deactivate();
         }
 
@@ -3482,8 +3481,8 @@ namespace Aow.Game.Draw
             TfxHS Effect;
             int J = default;
             int I = default;
-            TImageSequence Sequence;
-            TXYZList NewPath;
+            ImageSequence Sequence;
+            XYZList NewPath;
             int K = default;
             int X = default;
             int Y = default;
@@ -3492,16 +3491,16 @@ namespace Aow.Game.Draw
             float VZ = default;
             float Gravity = default;
             TfxHS Effect2;
-            TTacticalCombatUnitHS UnitHS;
-            TMapFieldMsg Msg = default;
+            TacticalCombatUnitHS UnitHS;
+            MapFieldMsg Msg = default;
             void MakeCloud(int Count, int Radius)
             {
                 for (int N = 1; N <= Count - 1; N++)
                 {
-                    Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxCloudPuff);
+                    Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.CloudPuff);
                     Effect.FAbilityIndex = FAbilityIndex;
                     Effect.FSpellIndex = FSpellIndex;
-                    var xyz = new TXYZ();
+                    var xyz = new XYZ();
                     Effect.FPath.Add(xyz);
                     J = Random(70) + 10;
                     var pi = Math.PI;
@@ -3522,21 +3521,21 @@ namespace Aow.Game.Draw
                 Effect = null;
                 var pathY = FPath[FFrame];
                 Aow.Game.World.Map.HexGeometry.HPtoHX(FPath[FFrame].X, pathY.Y, ref I, ref J);
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].TerrainType == 0)
+                if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[I, J].TerrainType == 0)
                 {
-                    Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxHitWater);
+                    Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.HitWater);
                 }
                 else
                 {
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].OverlayType != 8 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229508) == null && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229510) == null)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[I, J].OverlayType != 8 && Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229508) == null && Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[I, J].FindOwnedChild(2229510) == null)
                     {
-                        Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxHitGround);
+                        Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.HitGround);
                     }
                 }
 
                 if (Effect != null)
                 {
-                    var xyz = new TXYZ();
+                    var xyz = new XYZ();
                     Effect.FPath.Add(xyz);
                     var pathX = FPath[FFrame];
                     Effect.FPath[0].X = pathX.X;
@@ -3556,12 +3555,12 @@ namespace Aow.Game.Draw
                     FFrame += 1;
                     switch (FEffectType)
                     {
-                        case TfxType.fxArrow:
-                        case TfxType.fxRock:
-                        case TfxType.fxComet:
-                        case TfxType.fxBreath:
-                        case TfxType.fxCometBall:
-                        case TfxType.fxSwarm:
+                        case TfxType.Arrow:
+                        case TfxType.Rock:
+                        case TfxType.Comet:
+                        case TfxType.Breath:
+                        case TfxType.CometBall:
+                        case TfxType.Swarm:
                             switch (FAbilityIndex)
                             {
                                 case 44:
@@ -3582,23 +3581,23 @@ namespace Aow.Game.Draw
                                     break;
                             }
 
-                            if (FFrame == 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds && FAbilityIndex == 52 && FSpellIndex == 122)
+                            if (FFrame == 0 && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds && FAbilityIndex == 52 && FSpellIndex == 122)
                             {
-                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
+                                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                             }
 
                             var count = FPath.Count;
                             if (FFrame >= count - 1)
                             {
-                                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                     }
                                 }
 
@@ -3612,28 +3611,28 @@ namespace Aow.Game.Draw
                                 var pathY = FPath[FFrame];
                                 var pathZ = FPath[FFrame];
                                 Aow.Game.World.Map.HexGeometry.HPtoHX(FPath[FFrame].X, pathY.Y - pathZ.Z, ref I, ref J);
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MakeVisible(I, J, 0, 2);
+                                Aow.Game.Combat.AoWCombatMap.Current.MakeVisible(I, J, 0, 2);
                             }
 
                             break;
-                        case TfxType.fxDecayComet:
-                            if (FFrame == 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds && FAbilityIndex == 52)
+                        case TfxType.DecayComet:
+                            if (FFrame == 0 && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds && FAbilityIndex == 52)
                             {
-                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
+                                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                             }
 
                             var fPathCount = FPath.Count;
                             if (FFrame >= fPathCount - 1)
                             {
-                                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                     }
                                 }
 
@@ -3642,25 +3641,25 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxAltArrow:
-                            if (FFrame == 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds && FAbilityIndex == 52)
+                        case TfxType.AltArrow:
+                            if (FFrame == 0 && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds && FAbilityIndex == 52)
                             {
-                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
+                                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                             }
 
                             FFrame += 3;
                             var count2 = FPath.Count;
                             if (FFrame >= count2 - 1)
                             {
-                                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                     }
                                 }
 
@@ -3674,33 +3673,33 @@ namespace Aow.Game.Draw
                                 var pathY = FPath[FFrame];
                                 var pathZ = FPath[FFrame];
                                 Aow.Game.World.Map.HexGeometry.HPtoHX(FPath[FFrame].X, pathY.Y - pathZ.Z, ref I, ref J);
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MakeVisible(I, J, 0, 2);
+                                Aow.Game.Combat.AoWCombatMap.Current.MakeVisible(I, J, 0, 2);
                             }
 
                             break;
-                        case TfxType.fxScreenNS:
+                        case TfxType.ScreenNS:
                             FFrame += 1;
                             var count3 = FPath.Count;
                             if (FFrame >= count3 - 1)
                             {
-                                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                     }
                                 }
 
                                 FFrame = FPath.Count - 1;
                                 FDone = true;
-                                Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxHailImpact);
+                                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.HailImpact);
                                 Effect.FAbilityIndex = FAbilityIndex;
                                 Effect.FSpellIndex = FSpellIndex;
-                                var xyz = new TXYZ();
+                                var xyz = new XYZ();
                                 Effect.FPath.Add(xyz);
                                 var pathX = FPath[FFrame];
                                 Effect.FPath[0].X = pathX.X;
@@ -3709,14 +3708,14 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxHailImpact:
+                        case TfxType.HailImpact:
                             if (FAbilityIndex == 52)
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[2];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[2];
                             }
                             else
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[2];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[2];
                             }
 
                             if (Sequence != null)
@@ -3734,14 +3733,14 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxPrayerGlow:
+                        case TfxType.PrayerGlow:
                             if (FAbilityIndex == 52)
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[1];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[1];
                             }
                             else
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[1];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[1];
                             }
 
                             if (Sequence != null)
@@ -3759,7 +3758,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxSFOverlay:
+                        case TfxType.SFOverlay:
                             var count4 = FPath.Count;
                             if (FFrame >= count4 - 1)
                             {
@@ -3768,7 +3767,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxScreenSwarm:
+                        case TfxType.ScreenSwarm:
                             if (FFrame == 0)
                             {
                                 FFrame = 1;
@@ -3777,15 +3776,15 @@ namespace Aow.Game.Draw
                             var count5 = FPath.Count;
                             if (FFrame >= count5 - 1)
                             {
-                                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                 {
                                     if (FTarget != null && FAbilityIndex == 52)
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                     }
                                 }
 
@@ -3794,20 +3793,20 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxRay:
+                        case TfxType.Ray:
                             FFrame += 12;
                             var count6 = FPath.Count;
                             if (FFrame >= count6 - 1)
                             {
-                                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                     }
                                 }
 
@@ -3816,7 +3815,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxFrostBeam:
+                        case TfxType.FrostBeam:
                             switch (FFrame)
                             {
                                 case >= 0 and <= 999:
@@ -3834,7 +3833,7 @@ namespace Aow.Game.Draw
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(100);
@@ -3850,7 +3849,7 @@ namespace Aow.Game.Draw
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(50) + 20) / 10);
@@ -3871,7 +3870,7 @@ namespace Aow.Game.Draw
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(100);
@@ -3887,7 +3886,7 @@ namespace Aow.Game.Draw
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(50) + 20) / 10);
@@ -3905,7 +3904,7 @@ namespace Aow.Game.Draw
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(20) + 20) / 10);
@@ -3941,7 +3940,7 @@ namespace Aow.Game.Draw
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(20) + 20) / 10);
@@ -3961,15 +3960,15 @@ namespace Aow.Game.Draw
 
                                     break;
                                 case 3000:
-                                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                    if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                     {
                                         if (FAbilityIndex == 52)
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                         }
                                         else
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                         }
                                     }
 
@@ -3978,7 +3977,7 @@ namespace Aow.Game.Draw
                                         int last = FPath.Count - 1;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.Frost);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(25) + 25) / 10);
@@ -3998,7 +3997,7 @@ namespace Aow.Game.Draw
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.Frost);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(50) + 50) / 10);
@@ -4022,19 +4021,19 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxShockWave:
+                        case TfxType.ShockWave:
                             switch (FFrame)
                             {
                                 case >= 0 and <= 29:
-                                    if (FFrame == 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                    if (FFrame == 0 && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                     {
                                         if (FAbilityIndex == 52)
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                                         }
                                         else
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
+                                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
                                         }
                                     }
 
@@ -4042,7 +4041,7 @@ namespace Aow.Game.Draw
                                         I = 1;
                                         for (; I <= 20; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(360);
@@ -4050,7 +4049,7 @@ namespace Aow.Game.Draw
                                             var pathY = FPath[0];
                                             var random2 = Random(2);
                                             var random3 = Random(10);
-                                            Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + FFrame / 4, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                            Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + FFrame / 4, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref Effect.FPath);
                                         }
                                     }
 
@@ -4060,7 +4059,7 @@ namespace Aow.Game.Draw
                                         I = 1;
                                         for (; I <= 20; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(360);
@@ -4068,7 +4067,7 @@ namespace Aow.Game.Draw
                                             var pathY = FPath[0];
                                             var random2 = Random(2);
                                             var random3 = Random(10);
-                                            Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (60 - FFrame) / 4, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                            Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (60 - FFrame) / 4, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref Effect.FPath);
                                         }
                                     }
 
@@ -4078,7 +4077,7 @@ namespace Aow.Game.Draw
                                         I = 1;
                                         for (; I <= 20; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(360);
@@ -4086,7 +4085,7 @@ namespace Aow.Game.Draw
                                             var pathY = FPath[0];
                                             var random2 = Random(2);
                                             var random3 = Random(10);
-                                            Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (FFrame - 60) / 2, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                            Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (FFrame - 60) / 2, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref Effect.FPath);
                                         }
                                     }
 
@@ -4096,7 +4095,7 @@ namespace Aow.Game.Draw
                                         I = 1;
                                         for (; I <= 20; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             var random = Random(360);
@@ -4104,21 +4103,21 @@ namespace Aow.Game.Draw
                                             var pathY = FPath[0];
                                             var random2 = Random(2);
                                             var random3 = Random(10);
-                                            Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (120 - FFrame) / 2, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                            Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (120 - FFrame) / 2, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (SwarmDirection)random2, ref Effect.FPath);
                                         }
                                     }
 
                                     break;
                                 case 150:
-                                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                    if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                     {
                                         if (FAbilityIndex == 52)
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                         }
                                         else
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                         }
                                     }
 
@@ -4129,7 +4128,7 @@ namespace Aow.Game.Draw
                                         I = 0;
                                         for (; I <= 359; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             X = -X;
@@ -4148,7 +4147,7 @@ namespace Aow.Game.Draw
                                                 K = 1;
                                                 for (; K <= 10; K += 1)
                                                 {
-                                                    Effect2 = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                                    Effect2 = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                                     Effect2.FAbilityIndex = FAbilityIndex;
                                                     Effect2.FSpellIndex = FSpellIndex;
                                                     var count7 = Effect.FPath.Count;
@@ -4175,7 +4174,7 @@ namespace Aow.Game.Draw
                                         for (; I <= 36; I += 1)
                                         {
                                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, I, ref J, ref K);
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                            Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
                                         }
                                     }
 
@@ -4192,7 +4191,7 @@ namespace Aow.Game.Draw
                                         for (; I <= 36; I += 1)
                                         {
                                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, I, ref J, ref K);
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                            Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
                                         }
                                     }
 
@@ -4208,7 +4207,7 @@ namespace Aow.Game.Draw
                                         for (; I <= 36; I += 1)
                                         {
                                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, I, ref J, ref K);
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                            Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
                                         }
                                     }
 
@@ -4223,7 +4222,7 @@ namespace Aow.Game.Draw
                                         for (; I <= 36; I += 1)
                                         {
                                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, I, ref J, ref K);
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                            Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
                                         }
                                     }
 
@@ -4232,7 +4231,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxWinds:
+                        case TfxType.Winds:
                             switch (FFrame)
                             {
                                 case >= 0 and <= 1999:
@@ -4241,15 +4240,15 @@ namespace Aow.Game.Draw
                                     {
                                         if (FTarget != null && FTarget.GetEnabled())
                                         {
-                                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                            if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                             {
                                                 if (FAbilityIndex == 52)
                                                 {
-                                                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                                 }
                                                 else
                                                 {
-                                                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                                 }
                                             }
 
@@ -4257,26 +4256,26 @@ namespace Aow.Game.Draw
                                             var path = FPath[count8 - 1];
                                             var count9 = FPath.Count;
                                             Aow.Game.World.Map.HexGeometry.HPtoHX(FPath[count9 - 1].X, path.Y, ref J, ref K);
-                                            var mapField = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K];
-                                            ((TTacticalCombatUnit)FTarget).FUnitHS.MoveTo(mapField, 0);
-                                            ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetX = 0;
-                                            ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetY = 0;
-                                            ((TTacticalCombatUnit)FTarget).FUnitHS.FBusy = false;
+                                            var mapField = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[J, K];
+                                            ((TacticalCombatUnit)FTarget).FUnitHS.MoveTo(mapField, 0);
+                                            ((TacticalCombatUnit)FTarget).FUnitHS.FOffsetX = 0;
+                                            ((TacticalCombatUnit)FTarget).FUnitHS.FOffsetY = 0;
+                                            ((TacticalCombatUnit)FTarget).FUnitHS.FBusy = false;
                                         }
 
                                         FFrame = -1;
                                     }
                                     else
                                     {
-                                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds && (FFrame == FTargetX || FFrame == FTargetY))
+                                        if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds && (FFrame == FTargetX || FFrame == FTargetY))
                                         {
                                             if (FAbilityIndex == 52)
                                             {
-                                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
+                                                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                                             }
                                             else
                                             {
-                                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
+                                                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
                                             }
                                         }
 
@@ -4287,18 +4286,18 @@ namespace Aow.Game.Draw
                                             {
                                                 var pathX = FPath[FFrame - 20];
                                                 var path = FPath[0];
-                                                ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetX = pathX.X - path.X;
+                                                ((TacticalCombatUnit)FTarget).FUnitHS.FOffsetX = pathX.X - path.X;
                                                 var pathY = FPath[FFrame - 20];
                                                 var pathZ = FPath[FFrame - 20];
                                                 var path2 = FPath[0];
-                                                ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetY = pathY.Y - pathZ.Z - path2.Y;
-                                                ((TTacticalCombatUnit)FTarget).FUnitHS.SetDirection((byte)(((TTacticalCombatUnit)FTarget).FUnitHS.FDirection + 1));
-                                                if (((TTacticalCombatUnit)FTarget).FUnitHS.FDirection > 6)
+                                                ((TacticalCombatUnit)FTarget).FUnitHS.FOffsetY = pathY.Y - pathZ.Z - path2.Y;
+                                                ((TacticalCombatUnit)FTarget).FUnitHS.SetDirection((byte)(((TacticalCombatUnit)FTarget).FUnitHS.FDirection + 1));
+                                                if (((TacticalCombatUnit)FTarget).FUnitHS.FDirection > 6)
                                                 {
-                                                    ((TTacticalCombatUnit)FTarget).FUnitHS.SetDirection(1);
+                                                    ((TacticalCombatUnit)FTarget).FUnitHS.SetDirection(1);
                                                 }
 
-                                                ((TTacticalCombatUnit)FTarget).FUnitHS.FBusy = true;
+                                                ((TacticalCombatUnit)FTarget).FUnitHS.FBusy = true;
                                             }
                                         }
 
@@ -4315,7 +4314,7 @@ namespace Aow.Game.Draw
 
                                             if (condition)
                                             {
-                                                Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                                 Effect.FAbilityIndex = FAbilityIndex;
                                                 Effect.FSpellIndex = FSpellIndex;
                                                 var random = Random(360);
@@ -4326,7 +4325,7 @@ namespace Aow.Game.Draw
                                                 var random3 = Random(10);
                                                 var random4 = Random(2);
                                                 var count8 = FPath.Count;
-                                                Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - I) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (TSwarmDirection)random4, ref Effect.FPath);
+                                                Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - I) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (SwarmDirection)random4, ref Effect.FPath);
                                             }
                                         }
                                     }
@@ -4335,31 +4334,31 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxSacFlame:
+                        case TfxType.SacFlame:
                             switch (FFrame)
                             {
                                 case >= 0 and <= 99:
-                                    if (FFrame == 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                    if (FFrame == 0 && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                     {
                                         if (FAbilityIndex == 52)
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                                         }
                                         else
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
+                                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
                                         }
                                     }
 
                                     J = Random(6) + 10;
-                                    var yhx = ((TTacticalCombatUnit)FTarget).FUnitHS.GetYhx();
-                                    Aow.Game.World.Map.HexGeometry.HXtoHP(((TTacticalCombatUnit)FTarget).FUnitHS.GetXhx(), yhx, ref K, ref X);
+                                    var yhx = ((TacticalCombatUnit)FTarget).FUnitHS.GetYhx();
+                                    Aow.Game.World.Map.HexGeometry.HXtoHP(((TacticalCombatUnit)FTarget).FUnitHS.GetXhx(), yhx, ref K, ref X);
                                     {
                                         I = 1;
                                         int last = J - 1;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.Frost);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(25) + 25) / 10);
@@ -4382,15 +4381,15 @@ namespace Aow.Game.Draw
                                         case 94:
                                         case 97:
                                         case 99:
-                                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                            if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                             {
                                                 if (FAbilityIndex == 52)
                                                 {
-                                                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                                 }
                                                 else
                                                 {
-                                                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                                 }
                                             }
 
@@ -4400,7 +4399,7 @@ namespace Aow.Game.Draw
                                                 int last = J;
                                                 for (; I <= last; I += 1)
                                                 {
-                                                    Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                                    Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.Frost);
                                                     Effect.FAbilityIndex = FAbilityIndex;
                                                     Effect.FSpellIndex = FSpellIndex;
                                                     Speed = (float)((double)(Random(50) + 50) / 10);
@@ -4421,18 +4420,18 @@ namespace Aow.Game.Draw
                                     {
                                         var path = FPath[0];
                                         Aow.Game.World.Map.HexGeometry.HPtoHX(FPath[0].X, path.Y, ref I, ref J);
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.CenterViewTo(I, J - 3, 0);
+                                        Aow.Game.Combat.AoWCombatMap.Current.CenterViewTo(I, J - 3, 0);
                                     }
 
-                                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                    if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                     {
                                         if (FAbilityIndex == 52)
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                         }
                                         else
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                         }
                                     }
 
@@ -4448,7 +4447,7 @@ namespace Aow.Game.Draw
                                         int last = J - 1;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.Frost);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(50) + 25) / 10);
@@ -4465,7 +4464,7 @@ namespace Aow.Game.Draw
                                         int last = J;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.Frost);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(50) + 50) / 10);
@@ -4484,7 +4483,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxMindDecay:
+                        case TfxType.MindDecay:
                             switch (FFrame)
                             {
                                 case >= 0 and <= 49:
@@ -4498,14 +4497,14 @@ namespace Aow.Game.Draw
                                             int limit = I / 25;
                                             for (; J <= limit; J += 1)
                                             {
-                                                Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                                 Effect.FAbilityIndex = FAbilityIndex;
                                                 Effect.FSpellIndex = FSpellIndex;
                                                 var random = Random(360);
                                                 var pathX = FPath[0];
                                                 var pathY = FPath[0];
                                                 var random2 = Random(2);
-                                                Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, I / 2, 45, random, pathX.X + 100 - I, pathY.Y - 200 - 50 + I, (TSwarmDirection)random2, ref Effect.FPath);
+                                                Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, I / 2, 45, random, pathX.X + 100 - I, pathY.Y - 200 - 50 + I, (SwarmDirection)random2, ref Effect.FPath);
                                             }
                                         }
                                     }
@@ -4521,21 +4520,21 @@ namespace Aow.Game.Draw
                                             int last = I / 25;
                                             for (; J <= last; J += 1)
                                             {
-                                                Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                                 Effect.FAbilityIndex = FAbilityIndex;
                                                 Effect.FSpellIndex = FSpellIndex;
                                                 var random = Random(360);
                                                 var pathX = FPath[0];
                                                 var pathY = FPath[0];
                                                 var random2 = Random(2);
-                                                Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, I / 2, 45, random, pathX.X + 100 - I, pathY.Y - 200 - 50 + I, (TSwarmDirection)random2, ref Effect.FPath);
+                                                Aow.Game.Draw.EffectPaths.MakeSwarmPath(Random(10) + 10, I / 2, 45, random, pathX.X + 100 - I, pathY.Y - 200 - 50 + I, (SwarmDirection)random2, ref Effect.FPath);
                                             }
                                         }
                                     }
 
                                     if (FFrame % 5 == 0 && FFrame < 85)
                                     {
-                                        Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxDecayComet);
+                                        Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.DecayComet);
                                         Effect.FAbilityIndex = FAbilityIndex;
                                         Effect.FSpellIndex = FSpellIndex;
                                         var pathY = FPath[0];
@@ -4568,7 +4567,7 @@ namespace Aow.Game.Draw
                                         Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FTargetX, FTargetY, (FFrame - 50) / 5, ref J, ref K);
                                         // { Original swaps the converted hex coordinates. }
                                         Aow.Game.World.Map.HexGeometry.HXtoHP(J, K, ref X, ref Y);
-                                        UnitHS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].FindOwnedChild(2228484);
+                                        UnitHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[J, K].FindOwnedChild(2228484);
                                         if (UnitHS != null && UnitHS.FUnit.GetSide() != FTarget.GetSide())
                                         {
                                             Effect.FTarget = UnitHS.FUnit;
@@ -4627,8 +4626,8 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxChain:
-                            NewPath = new TXYZList();
+                        case TfxType.Chain:
+                            NewPath = new XYZList();
                             I = 0;
                             J = 0;
                             K = 0;
@@ -4692,39 +4691,39 @@ namespace Aow.Game.Draw
 
                             if (FPath[FFrame].Z == 15)
                             {
-                                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                 {
                                     if (FAbilityIndex == 52)
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                     }
                                 }
 
                                 var pathY = FPath[FFrame];
                                 var pathZ = FPath[FFrame];
                                 Aow.Game.World.Map.HexGeometry.HPtoHX(FPath[FFrame].X, pathY.Y - pathZ.Z, ref I, ref J);
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MakeVisible(I, J, 0, 3);
+                                Aow.Game.Combat.AoWCombatMap.Current.MakeVisible(I, J, 0, 3);
                             }
 
                             break;
-                        case TfxType.fxTouch:
-                        case TfxType.fxEffect:
-                            if (FFrame == 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds && FAbilityIndex == 65)
+                        case TfxType.Touch:
+                        case TfxType.Effect:
+                            if (FFrame == 0 && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds && FAbilityIndex == 65)
                             {
-                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
+                                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
                             }
 
                             if (FAbilityIndex == 52)
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[0];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[0];
                             }
                             else
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[0];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[0];
                             }
 
                             if (Sequence != null)
@@ -4732,15 +4731,15 @@ namespace Aow.Game.Draw
                                 var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
                                 if (FFrame >= totalSequenceFrames - 1)
                                 {
-                                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                    if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                     {
                                         if (FAbilityIndex == 52)
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                         }
                                         else
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                         }
                                     }
 
@@ -4754,14 +4753,14 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxSacredWrath:
+                        case TfxType.SacredWrath:
                             if (FAbilityIndex == 52)
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[1];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[1];
                             }
                             else
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[1];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[1];
                             }
 
                             if (Sequence == null)
@@ -4770,8 +4769,8 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxFBExplosion:
-                            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[1];
+                        case TfxType.FBExplosion:
+                            Sequence = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[1];
                             if (Sequence != null)
                             {
                                 var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
@@ -4787,7 +4786,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxScreenNESW:
+                        case TfxType.ScreenNESW:
                             if (FFrame == 0)
                             {
                                 if (FPath[0].X == 0)
@@ -4823,16 +4822,16 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxDamLightning:
-                        case TfxType.fxDamFire:
-                        case TfxType.fxDamPoison:
-                        case TfxType.fxDamMagic:
-                        case TfxType.fxDamHoly:
-                        case TfxType.fxDamDeath:
-                        case TfxType.fxDamCold:
-                        case TfxType.fxGeyserWater:
-                        case TfxType.fxFrost:
-                        case TfxType.fxSacFire:
+                        case TfxType.DamLightning:
+                        case TfxType.DamFire:
+                        case TfxType.DamPoison:
+                        case TfxType.DamMagic:
+                        case TfxType.DamHoly:
+                        case TfxType.DamDeath:
+                        case TfxType.DamCold:
+                        case TfxType.GeyserWater:
+                        case TfxType.Frost:
+                        case TfxType.SacFire:
                             var count23 = FPath.Count;
                             if (FFrame >= count23 - 1)
                             {
@@ -4841,8 +4840,8 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxWallSmoke:
-                            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[5];
+                        case TfxType.WallSmoke:
+                            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[5];
                             if (Sequence == null)
                             {
                                 FFrame = -1;
@@ -4858,8 +4857,8 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxHitGround:
-                            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[9];
+                        case TfxType.HitGround:
+                            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[9];
                             if (Sequence == null)
                             {
                                 FFrame = -1;
@@ -4875,8 +4874,8 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxHitWater:
-                            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[10];
+                        case TfxType.HitWater:
+                            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[10];
                             if (Sequence == null)
                             {
                                 FFrame = -1;
@@ -4892,9 +4891,9 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxBlood:
+                        case TfxType.Blood:
                             var pathZ2 = FPath[0];
-                            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[pathZ2.Z];
+                            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[pathZ2.Z];
                             if (Sequence == null)
                             {
                                 FFrame = -1;
@@ -4910,35 +4909,35 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxTremors:
+                        case TfxType.Tremors:
                             switch (FFrame)
                             {
                                 case 0:
-                                    var xyz = new TXYZ();
+                                    var xyz = new XYZ();
                                     FPath.Add(xyz);
-                                    FPath[0].X = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewXhp;
-                                    FPath[0].Y = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewYhp;
+                                    FPath[0].X = Aow.Game.Combat.AoWCombatMap.Current.ViewXhp;
+                                    FPath[0].Y = Aow.Game.Combat.AoWCombatMap.Current.ViewYhp;
                                     break;
                                 case >= 1 and <= 29:
                                     var pathY = FPath[0];
                                     var random = Random(FFrame / 3);
                                     var pathX = FPath[0];
                                     var random2 = Random(FFrame / 3);
-                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ChangeViewTo(pathX.X + random2 - FFrame / 6, pathY.Y + random - FFrame / 6, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL);
+                                    Aow.Game.Combat.AoWCombatMap.Current.ChangeViewTo(pathX.X + random2 - FFrame / 6, pathY.Y + random - FFrame / 6, Aow.Game.Combat.AoWCombatMap.Current.ViewL);
                                     break;
                                 case >= 30 and <= 89:
                                     var path = FPath[0];
                                     var random3 = Random(10);
                                     var path2 = FPath[0];
                                     var random4 = Random(10);
-                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL);
+                                    Aow.Game.Combat.AoWCombatMap.Current.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, Aow.Game.Combat.AoWCombatMap.Current.ViewL);
                                     break;
                                 case >= 90 and <= 119:
                                     var path3 = FPath[0];
                                     var random5 = Random((119 - FFrame) / 3);
                                     var path4 = FPath[0];
                                     var random6 = Random((119 - FFrame) / 3);
-                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ChangeViewTo(path4.X + random6 - (119 - FFrame) / 6, path3.Y + random5 - (119 - FFrame) / 6, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL);
+                                    Aow.Game.Combat.AoWCombatMap.Current.ChangeViewTo(path4.X + random6 - (119 - FFrame) / 6, path3.Y + random5 - (119 - FFrame) / 6, Aow.Game.Combat.AoWCombatMap.Current.ViewL);
                                     break;
                                 case 120:
                                     FFrame = -1;
@@ -4946,7 +4945,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxCloud:
+                        case TfxType.Cloud:
                             switch (FFrame)
                             {
                                 case 250:
@@ -4964,14 +4963,14 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxCloudPuff:
+                        case TfxType.CloudPuff:
                             if (FAbilityIndex == 52)
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[0];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[0];
                             }
                             else
                             {
-                                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[0];
+                                Sequence = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[0];
                             }
 
                             if (Sequence != null)
@@ -4989,7 +4988,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxHighPrayer:
+                        case TfxType.HighPrayer:
                             switch (FFrame)
                             {
                                 case 0:
@@ -5014,14 +5013,14 @@ namespace Aow.Game.Draw
                                 case 95:
                                     {
                                         I = 0;
-                                        int last = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                        int last = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetCount() - 1;
                                         for (; I <= last; I += 1)
                                         {
-                                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
+                                            if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled() && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
                                             {
-                                                Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                                var yhx = ((TTacticalCombatUnit)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
-                                                Aow.Game.World.Map.HexGeometry.HXtoHP(((TTacticalCombatUnit)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
+                                                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
+                                                var yhx = ((TacticalCombatUnit)Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                                                Aow.Game.World.Map.HexGeometry.HXtoHP(((TacticalCombatUnit)Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
                                                 J = Random(20) + (J + 6);
                                                 K = Random(20) + (K + 6);
                                                 Aow.Game.Draw.EffectPaths.MakeLinePath(J, K - 100, J, K, 50, ref Effect.FPath);
@@ -5035,21 +5034,21 @@ namespace Aow.Game.Draw
                                 case 100:
                                     {
                                         I = 0;
-                                        int last = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                        int last = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetCount() - 1;
                                         for (; I <= last; I += 1)
                                         {
-                                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
+                                            if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled() && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
                                             {
-                                                Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxPrayerGlow);
-                                                var yhx = ((TTacticalCombatUnit)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
-                                                Aow.Game.World.Map.HexGeometry.HXtoHP(((TTacticalCombatUnit)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
-                                                var xyz = new TXYZ();
+                                                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.PrayerGlow);
+                                                var yhx = ((TacticalCombatUnit)Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                                                Aow.Game.World.Map.HexGeometry.HXtoHP(((TacticalCombatUnit)Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
+                                                var xyz = new XYZ();
                                                 Effect.FPath.Add(xyz);
                                                 Effect.FPath[0].X = J + 16;
                                                 Effect.FPath[0].Y = K + 16;
                                                 Effect.FAbilityIndex = FAbilityIndex;
                                                 Effect.FSpellIndex = FSpellIndex;
-                                                var combatObject = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                                                var combatObject = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I);
                                                 Effect.FTarget = combatObject;
                                             }
                                         }
@@ -5061,7 +5060,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxResurrect:
+                        case TfxType.Resurrect:
                             switch (FFrame)
                             {
                                 case 100:
@@ -5070,7 +5069,7 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxDecayLeg:
+                        case TfxType.DecayLeg:
                             var count24 = FPath.Count;
                             if (FFrame >= count24)
                             {
@@ -5078,53 +5077,53 @@ namespace Aow.Game.Draw
                             }
 
                             break;
-                        case TfxType.fxGeyser:
+                        case TfxType.Geyser:
                             switch (FFrame)
                             {
                                 case 150:
                                     FFrame = -1;
                                     if (FTarget != null && FTarget.GetEnabled())
                                     {
-                                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                                        if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                                         {
                                             if (FAbilityIndex == 52)
                                             {
-                                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
+                                                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(1);
                                             }
                                             else
                                             {
-                                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
+                                                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(1);
                                             }
                                         }
 
-                                        ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetY = 0;
-                                        ((TTacticalCombatUnit)FTarget).FUnitHS.FBusy = false;
+                                        ((TacticalCombatUnit)FTarget).FUnitHS.FOffsetY = 0;
+                                        ((TacticalCombatUnit)FTarget).FUnitHS.FBusy = false;
                                     }
 
-                                    if (FTarget != null && ((TCombatUnit)FTarget).FUnit.GetMoveTypes().Contains(TMoveType.mtFlying))
+                                    if (FTarget != null && ((CombatUnit)FTarget).FUnit.GetMoveTypes().Contains(MoveType.Flying))
                                     {
                                         FTarget = null;
                                     }
 
                                     break;
                                 case >= 0 and <= 99:
-                                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds && FFrame % 30 == 29)
+                                    if (Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds && FFrame % 30 == 29)
                                     {
                                         if (FAbilityIndex == 52)
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
+                                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastSounds.Play(0);
                                         }
                                         else
                                         {
-                                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
+                                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FSFXLibrary.Play(0);
                                         }
                                     }
 
                                     if (FTarget != null && FTarget.GetEnabled())
                                     {
                                         var random = Random(2);
-                                        ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetY = random + -(FFrame * 3 / 2) - 1;
-                                        ((TTacticalCombatUnit)FTarget).FUnitHS.FBusy = true;
+                                        ((TacticalCombatUnit)FTarget).FUnitHS.FOffsetY = random + -(FFrame * 3 / 2) - 1;
+                                        ((TacticalCombatUnit)FTarget).FUnitHS.FBusy = true;
                                     }
 
                                     J = Random(6) + 20;
@@ -5133,7 +5132,7 @@ namespace Aow.Game.Draw
                                         int last = J - 1;
                                         for (; I <= last; I += 1)
                                         {
-                                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                             Effect.FAbilityIndex = FAbilityIndex;
                                             Effect.FSpellIndex = FSpellIndex;
                                             Speed = (float)((double)(Random(10) + 10) / 10);
@@ -5149,15 +5148,15 @@ namespace Aow.Game.Draw
                                 case >= 125 and <= 149:
                                     if (FTarget != null && FTarget.GetEnabled())
                                     {
-                                        ((TTacticalCombatUnit)FTarget).FUnitHS.FOffsetY = (FFrame - 150) * 6;
-                                        ((TTacticalCombatUnit)FTarget).FUnitHS.SetDirection((byte)(FFrame % 6 + 1));
+                                        ((TacticalCombatUnit)FTarget).FUnitHS.FOffsetY = (FFrame - 150) * 6;
+                                        ((TacticalCombatUnit)FTarget).FUnitHS.SetDirection((byte)(FFrame % 6 + 1));
                                     }
 
                                     break;
                             }
 
                             break;
-                        case TfxType.fxSWComet:
+                        case TfxType.SWComet:
                             break;
                         default:
                             FFrame = -1;
@@ -5181,21 +5180,21 @@ namespace Aow.Game.Draw
 
     }
 
-    public partial class TCItemHS : TItemHS
+    public partial class CItemHS : ItemHS
     {
 
-        public TCItemHS(TECustomNode owner) : base(owner)
+        public CItemHS(ECustomNode owner) : base(owner)
         { }
 
         // AoWTC.pas:2586
         public override void Deactivate()
         {
-            TItemHS ItemHS;
-            TECustomNode Items;
+            ItemHS ItemHS;
+            ECustomNode Items;
             FItems.FOnChanged = null;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FExplorationSite == 1)
+            if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FExplorationSite == 1)
             {
-                Items = (TECustomNode)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FItems;
+                Items = (ECustomNode)Aow.Game.Combat.AoWCombatMap.Current.FCombat.FItems;
                 for (int I = FItems.GetCount() - 1; I >= 0; I--)
                 {
                     FItems.GetItem(I).SetOwner(Items);
@@ -5203,11 +5202,11 @@ namespace Aow.Game.Draw
             }
             else
             {
-                ItemHS = (TItemHS)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FX, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FY, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FL).FindOwnedChild(131697);
+                ItemHS = (global::Aow.Game.Draw.ItemHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FX, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FY, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FL).FindOwnedChild(131697);
                 if (ItemHS == null)
                 {
-                    ItemHS = new TItemHS(null);
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(ItemHS, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FX, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FY, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FL);
+                    ItemHS = new global::Aow.Game.Draw.ItemHS(null);
+                    Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(ItemHS, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FX, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FY, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FL);
                 }
 
                 for (int I = FItems.GetCount() - 1; I >= 0; I--)
@@ -5224,9 +5223,9 @@ namespace Aow.Game.Draw
     }
 
     // FPosition. FIndex. FImageIndex. FImages. FDirection
-    public partial class TUnitPositionHS : TSingleHS
+    public partial class UnitPositionHS : SingleHS
     {
-        public TUnitPositionHS(TECustomNode owner) : base(owner)
+        public UnitPositionHS(ECustomNode owner) : base(owner)
         {
             FPosition = 0;
             FIndex = 0;
@@ -5239,11 +5238,11 @@ namespace Aow.Game.Draw
         public sbyte FPosition;
         public sbyte FIndex;
         public int FImageIndex;
-        public TCustomImageLibrary FImages;
+        public CustomImageLibrary FImages;
         public byte FDirection;
 
         // AoWTC.pas:5060
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPosition), 25);
@@ -5257,25 +5256,25 @@ namespace Aow.Game.Draw
         public override byte GetLevel() => 27;
 
         // AoWTC.pas:5074
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
             FImages[FImageIndex].ShowClipped(X - XhpSurf - 8, Y - YhpSurf - 8, SurfaceDesc);
         }
 
         // AoWTC.pas:5031
         public override void Activate()
         {
-            TXYL P = default;
+            global::Aow.Game.World.Map.XYL P = default;
             base.Activate();
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting) && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex))
+            if (Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting) && Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex))
             {
                 var yhx = GetYhx();
                 var packXYL = Aow.Game.World.Map.HexGeometry.PackXYL(GetXhx(), yhx, 0);
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
-                FImages = Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCUNITS.ILB");
+                Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
+                FImages = Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TCUNITS.ILB");
                 UpdateImageIndex();
             }
             else
@@ -5284,7 +5283,7 @@ namespace Aow.Game.Draw
                 P.Y = GetYhx();
                 P.L = 0;
                 P.Flag = (sbyte)FDirection;
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, P);
+                Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.SetUnitPosition(FPosition, FIndex, P);
                 Dispose();
             }
         }
@@ -5292,15 +5291,15 @@ namespace Aow.Game.Draw
         // AoWTC.pas:5049
         public override void Deactivate()
         {
-            if (Activated() && ((TMapLevel)Owner.Owner).Map.Status.Contains(THSMapStatusElement.msEditting))
+            if (Activated() && ((MapLevel)Owner.Owner).Map.Status.Contains(HSMapStatusElement.Editting))
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCUNITS.ILB");
-                var unitPosition = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.GetUnitPosition(FPosition, FIndex);
+                Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TCUNITS.ILB");
+                var unitPosition = Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.GetUnitPosition(FPosition, FIndex);
                 var xhx = GetXhx();
                 bool condition = unitPosition.X == xhx;
                 if (condition)
                 {
-                    var fUnitPositionsUnitPosition = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.GetUnitPosition(FPosition, FIndex);
+                    var fUnitPositionsUnitPosition = Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.GetUnitPosition(FPosition, FIndex);
                     var yhx = GetYhx();
                     condition = fUnitPositionsUnitPosition.Y == yhx;
                 }
@@ -5308,7 +5307,7 @@ namespace Aow.Game.Draw
                 if (condition)
                 {
                     var packXYL = Aow.Game.World.Map.HexGeometry.PackXYL(-1, -1, -1);
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
+                    Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
                 }
             }
 
@@ -5316,7 +5315,7 @@ namespace Aow.Game.Draw
         }
 
         // AoWTC.pas:5068
-        public override bool CanPlace(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => Map.GetField(Xhx, Yhx, Lhx).FindOwnedChild(2228483) == null && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex);
+        public override bool CanPlace(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => Map.GetField(Xhx, Yhx, Lhx).FindOwnedChild(2228483) == null && Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex);
 
         // AoWTC.pas:5026
         public void UpdateImageIndex()
@@ -5329,9 +5328,9 @@ namespace Aow.Game.Draw
     }
 
     // FFrame. FOffsetX. FOffsetY
-    public partial class TCBloodHS : TSingleHS
+    public partial class CBloodHS : SingleHS
     {
-        public TCBloodHS(TECustomNode owner) : base(owner)
+        public CBloodHS(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 2228487;
@@ -5347,14 +5346,14 @@ namespace Aow.Game.Draw
         public override int GetShowPriority() => 1744830464 + (FOffsetY << 13) + FOffsetX;
 
         // AoWTC.pas:6403
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Frame;
-            TImageSequence Sequence;
+            ImageSequence Sequence;
             int X = default;
             int Y = default;
-            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[4];
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[4];
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
             if (Sequence != null)
             {
                 Frame = Sequence.GetUnloopedFrameIndex(FFrame);
@@ -5379,15 +5378,15 @@ namespace Aow.Game.Draw
     }
 
     // FUnit. FUnitGFX. FFrame. FOffsetX. FOffsetY. FSequenceIndex. FSequenceFrame
-    public partial class TCCorpseHS : TSingleHS
+    public partial class CCorpseHS : SingleHS
     {
-        public TCCorpseHS(TECustomNode owner) : base(owner)
+        public CCorpseHS(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 2228488;
 
-        public TTacticalCombatUnit FUnit;
-        public TUnitGFXResource FUnitGFX;
+        public TacticalCombatUnit FUnit;
+        public UnitGFXResource FUnitGFX;
         public int FFrame;
         public int FOffsetX;
         public int FOffsetY;
@@ -5401,18 +5400,18 @@ namespace Aow.Game.Draw
         public override int GetShowPriority() => 1744830464 + (FOffsetY << 13) + FOffsetX;
 
         // AoWTC.pas:3985
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Frame;
             int X = default;
             int Y = default;
-            TImageSequence Sequence;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+            ImageSequence Sequence;
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
             XhpSurf = X - XhpSurf - 15;
             YhpSurf = Y - YhpSurf - 25;
             if (FSequenceIndex > -1)
             {
-                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[FSequenceIndex];
+                Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[FSequenceIndex];
                 while (Sequence != null)
                 {
                     Frame = Sequence.GetUnloopedFrameIndex(FSequenceFrame);
@@ -5439,10 +5438,10 @@ namespace Aow.Game.Draw
         }
 
         // AoWTC.pas:4025
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
-            TCombatAction AnimateAction;
-            TCombatAction RaiseAction;
+            CombatAction AnimateAction;
+            CombatAction RaiseAction;
             int N;
             int X = default;
             int Y = default;
@@ -5453,7 +5452,7 @@ namespace Aow.Game.Draw
             float Speed = default;
             float VZ = default;
             float Gravity = default;
-            TTacticalCombatUnitHS UnitHS;
+            TacticalCombatUnitHS UnitHS;
             base.MapFieldMsgProc(ref Msg);
             if (FUnit != null)
             {
@@ -5461,11 +5460,11 @@ namespace Aow.Game.Draw
                 {
                     var yhx = GetYhx();
                     var xhx = GetXhx();
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
                     {
                         var yhx2 = GetYhx();
                         var xhx2 = GetXhx();
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MakeVisible(xhx2, yhx2, 0, 5);
+                        Aow.Game.Combat.AoWCombatMap.Current.MakeVisible(xhx2, yhx2, 0, 5);
                         var yhx3 = GetYhx();
                         Aow.Game.World.Map.HexGeometry.HXtoHP(GetXhx(), yhx3, ref X, ref Y);
                         for (int Ring = 1; Ring <= 3; Ring++)
@@ -5475,7 +5474,7 @@ namespace Aow.Game.Draw
                             DY = Random(20) + Ring * 30;
                             for (int I = 0; I <= 17; I++)
                             {
-                                Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                                 Effect.FAbilityIndex = 52;
                                 Effect.FSpellIndex = Msg.Param[1].Int;
                                 DX = -DX;
@@ -5509,14 +5508,14 @@ namespace Aow.Game.Draw
                 {
                     var yhx = GetYhx();
                     var xhx = GetXhx();
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
                     {
                         var yhx2 = GetYhx();
                         Aow.Game.World.Map.HexGeometry.HXtoHP(GetXhx(), yhx2, ref X, ref Y);
                         N = Random(6) + 25;
                         for (int I = 1; I <= N - 1; I++)
                         {
-                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.GeyserWater);
                             Effect.FAbilityIndex = 52;
                             Effect.FSpellIndex = Msg.Param[1].Int;
                             // { Original uses this smaller value for horizontal speed. }
@@ -5530,27 +5529,27 @@ namespace Aow.Game.Draw
                         switch (Msg.Param[1].Int)
                         {
                             case 130:
-                                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                AnimateAction = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(130).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(AnimateAction);
+                                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                AnimateAction = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(130).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
+                                Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(AnimateAction);
                                 AnimateAction.Release();
                                 break;
                             case 129:
-                                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                RaiseAction = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(129).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(RaiseAction);
+                                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                RaiseAction = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(129).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
+                                Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(RaiseAction);
                                 RaiseAction.Release();
                                 break;
                         }
 
                         if (FUnit.GetEnabled())
                         {
-                            UnitHS = new TTacticalCombatUnitHS(null);
+                            UnitHS = new TacticalCombatUnitHS(null);
                             UnitHS.Initialize(FUnit);
                             UnitHS.SetDirection((byte)(Random(6) + 1));
                             var yhx3 = GetYhx();
                             var xhx2 = GetXhx();
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlaceHX(UnitHS, xhx2, yhx3, 0);
+                            Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(UnitHS, xhx2, yhx3, 0);
                         }
 
                         this.Dispose();
@@ -5565,7 +5564,7 @@ namespace Aow.Game.Draw
             base.Activate();
             if (FSequenceIndex > -1)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents += NewFrame;
+                Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents += NewFrame;
             }
 
             FUnitGFX.AddRef();
@@ -5575,7 +5574,7 @@ namespace Aow.Game.Draw
         // AoWTC.pas:3966
         public override void Deactivate()
         {
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents -= NewFrame;
+            Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents -= NewFrame;
             FUnitGFX.Release();
             base.Deactivate();
         }
@@ -5583,8 +5582,8 @@ namespace Aow.Game.Draw
         // AoWTC.pas:3978
         public void NewFrame(object Sender)
         {
-            TImageSequence Sequence;
-            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[FSequenceIndex];
+            ImageSequence Sequence;
+            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[FSequenceIndex];
             var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
             if (FSequenceFrame + 1 < totalSequenceFrames)
             {
@@ -5597,9 +5596,9 @@ namespace Aow.Game.Draw
     }
 
     // Inherited single-hexagon sprite layout
-    public partial class TCOozeHS : TSingleHS
+    public partial class COozeHS : SingleHS
     {
-        public TCOozeHS(TECustomNode owner) : base(owner)
+        public COozeHS(ECustomNode owner) : base(owner)
         { }
 
         // AoWTC.pas:4092
@@ -5615,27 +5614,27 @@ namespace Aow.Game.Draw
         public override int GetShowPriority() => 1744830464 + (GetYhx() << 13) + GetXhx();
 
         // AoWTC.pas:4102
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Frame;
             int X = default;
             int Y = default;
-            TImageSequence Sequence;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+            ImageSequence Sequence;
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
             XhpSurf = X - XhpSurf - 16;
             YhpSurf = Y - 48 - YhpSurf;
-            switch (((TMapField)Owner).TerrainType)
+            switch (((MapField)Owner).TerrainType)
             {
                 case 3:
                 case 6:
                 case 13:
-                    Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[26];
+                    Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[26];
                     break;
                 case 12:
-                    Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[27];
+                    Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[27];
                     break;
                 default:
-                    Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[25];
+                    Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[25];
                     break;
             }
 
@@ -5656,7 +5655,7 @@ namespace Aow.Game.Draw
         public override bool PlaceOnMap()
         {
             bool Result = base.PlaceOnMap();
-            ((TMapField)Owner).UpdateTerrain();
+            ((MapField)Owner).UpdateTerrain();
             return Result;
         }
 
@@ -5669,9 +5668,9 @@ namespace Aow.Game.Combat
 {
 
     // FPositions: packed XYL entries, eight per army position
-    public partial class TUnitPositionControl : TEObject
+    public partial class UnitPositionControl : EObject
     {
-        public TXYLList FPositions;
+        public XYLList FPositions;
 
         // AoWTC.pas:4943
         public override void Dispose()
@@ -5682,17 +5681,17 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:4936
-        public TUnitPositionControl(TECustomNode owner) : base(owner)
+        public UnitPositionControl(ECustomNode owner) : base(owner)
         {
-            FPositions = new TXYLList();
+            FPositions = new XYLList();
             var packXYL = Aow.Game.World.Map.HexGeometry.PackXYL(-1, -1, -1);
             FPositions.Default = packXYL;
         }
 
         // AoWTC.pas:4990
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
-            TUnitPositionHS HS;
+            UnitPositionHS HS;
             int X = default;
             int Y = default;
             int L;
@@ -5701,13 +5700,13 @@ namespace Aow.Game.Combat
             {
                 L = Msg.Data[1];
                 Aow.Game.World.Map.HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(X, Y, L).TerrainType != 15)
+                if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(X, Y, L).TerrainType != 15)
                 {
-                    HS = (TUnitPositionHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
+                    HS = (UnitPositionHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
                     if (HS == null)
                     {
-                        HS = new TUnitPositionHS(null);
-                        if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlaceHX(HS, X, Y, L))
+                        HS = new UnitPositionHS(null);
+                        if (!Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(HS, X, Y, L))
                         {
                             HS?.Dispose();
                             HS = null;
@@ -5722,9 +5721,9 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:4950
-        public TXYL GetUnitPosition(int Position, int Index)
+        public XYL GetUnitPosition(int Position, int Index)
         {
-            TXYL Result = default;
+            XYL Result = default;
             int I;
             I = Position * 8 + Index;
             if (I < FPositions.Count)
@@ -5742,7 +5741,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:4963
-        public void SetUnitPosition(int Position, int Index, TXYL Value)
+        public void SetUnitPosition(int Position, int Index, XYL Value)
         {
             if (Position < 7 && Index < 8)
             {
@@ -5790,30 +5789,30 @@ namespace Aow.Game.Combat
     }
 
     // FMoveFlags
-    public partial class TCombatMoveControlSettings : TMoveControlSettings
+    public partial class CombatMoveControlSettings : MoveControlSettings
     {
-        public TCombatMoveControlSettings(TECustomNode owner) : base(owner)
+        public CombatMoveControlSettings(ECustomNode owner) : base(owner)
         { }
 
-        public TSet<TCombatMoveModeElement> FMoveFlags;
+        public Set<CombatMoveModeElement> FMoveFlags;
         // intf_P5_01.inc:63
 
     }
 
-    public partial class TCombatMoveControl : TMoveControl
+    public partial class CombatMoveControl : MoveControl
     {
 
-        public TCombatMoveControl(THSMap owner) : base(owner)
+        public CombatMoveControl(HSMap owner) : base(owner)
         { }
 
-        public TTacticalCombatUnitHS FUnitHS;
-        public TSet<TCombatMoveModeElement> FMoveFlags;
+        public TacticalCombatUnitHS FUnitHS;
+        public Set<CombatMoveModeElement> FMoveFlags;
 
         // AoWTC.pas:2716
-        public override void ProcessMove(TMoveControlSettings Settings)
+        public override void ProcessMove(MoveControlSettings Settings)
         {
-            FUnitHS = (TTacticalCombatUnitHS)Settings.FArmyHS;
-            FMoveFlags = ((TCombatMoveControlSettings)Settings).FMoveFlags;
+            FUnitHS = (TacticalCombatUnitHS)Settings.FArmyHS;
+            FMoveFlags = ((CombatMoveControlSettings)Settings).FMoveFlags;
             base.ProcessMove(Settings);
         }
 
@@ -5822,20 +5821,20 @@ namespace Aow.Game.Combat
     }
 
     // FMovePoints. FUnitHS. FPositionIndex. FPositionGroup. FCanFlee. FDeathMethod
-    public partial class TTacticalCombatUnit : TCombatUnit
+    public partial class TacticalCombatUnit : CombatUnit
     {
-        public TTacticalCombatUnit(TECustomNode owner) : base(owner)
+        public TacticalCombatUnit(ECustomNode owner) : base(owner)
         { }
 
         public int FMovePoints;
-        public TTacticalCombatUnitHS FUnitHS;
+        public TacticalCombatUnitHS FUnitHS;
         public byte FPositionIndex;
         public byte FPositionGroup;
         public bool FCanFlee;
-        public TTCDeathMethod FDeathMethod;
+        public TCDeathMethod FDeathMethod;
 
         // AoWTC.pas:2626
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
         }
@@ -5853,8 +5852,8 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2629
         public override int ExecuteDamage(int Damage)
         {
-            TCCorpseHS Corpse;
-            TImageSequence Sequence;
+            CCorpseHS Corpse;
+            ImageSequence Sequence;
             TfxHS Effect;
             float Speed = default;
             float VZ = default;
@@ -5862,18 +5861,18 @@ namespace Aow.Game.Combat
             float Z = default;
             int X = default;
             int Y = default;
-            TRect R;
+            global::Aow.Rtl.Rect R;
             void MakeBlood()
             {
                 int Count;
                 int X = default;
                 int Y = default;
                 int Direction;
-                TCBloodHS Blood;
-                if (GetEnabled() && FUnitHS != null && FUnit.GetBloodType() != TBloodType.btNone)
+                CBloodHS Blood;
+                if (GetEnabled() && FUnitHS != null && FUnit.GetBloodType() != BloodType.None)
                 {
                     var hitPoints = GetHitPoints();
-                    if (Damage >= hitPoints && (GetAbilityEnabled(131) || FDeathMethod == TTCDeathMethod.dmExplode))
+                    if (Damage >= hitPoints && (GetAbilityEnabled(131) || FDeathMethod == TCDeathMethod.Explode))
                     {
                         Count = Random(5) + 10;
                     }
@@ -5892,13 +5891,13 @@ namespace Aow.Game.Combat
 
                         var yhx = FUnitHS.GetYhx();
                         Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FUnitHS.GetXhx(), yhx, Direction, ref X, ref Y);
-                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 9)
+                        if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 0 && Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 9)
                         {
-                            Blood = new TCBloodHS(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y]);
+                            Blood = new CBloodHS(Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y]);
                             Blood.Activate();
                             Blood.FOffsetX = Random(32) - 32;
                             Blood.FOffsetY = Random(32) - 32;
-                            Blood.FFrame = Random(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[4].GetTotalSequenceFrames());
+                            Blood.FFrame = Random(Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[4].GetTotalSequenceFrames());
                         }
 
                         Count -= 1;
@@ -5914,15 +5913,15 @@ namespace Aow.Game.Combat
                 {
                     if (GetAbilityEnabled(131))
                     {
-                        Aow.Game.Combat.TTacticalCombatUnit.MakeHitBlood(this, 100);
+                        Aow.Game.Combat.TacticalCombatUnit.MakeHitBlood(this, 100);
                         for (int I = 0; I <= 9; I++)
                         {
-                            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxDecayComet);
+                            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.DecayComet);
                             Effect.FAbilityIndex = 52;
                             Effect.FSpellIndex = 106;
                             var yhx = FUnitHS.GetYhx();
                             Aow.Game.World.Map.HexGeometry.HXtoHP(FUnitHS.GetXhx(), yhx, ref X, ref Y);
-                            var xyz = new TXYZ();
+                            var xyz = new XYZ();
                             Effect.FPath.Add(xyz);
                             Effect.FPath[0].X = X + 16;
                             Effect.FPath[0].Y = Y + 8;
@@ -5947,19 +5946,19 @@ namespace Aow.Game.Combat
                     {
                         var yhx = FUnitHS.GetYhx();
                         var xhx = FUnitHS.GetXhx();
-                        bool condition = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].TerrainType != 0;
+                        bool condition = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[xhx, yhx].TerrainType != 0;
                         if (condition)
                         {
                             var fUnitHSYhx = FUnitHS.GetYhx();
                             var fUnitHSXhx = FUnitHS.GetXhx();
-                            condition = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[fUnitHSXhx, fUnitHSYhx].TerrainType != 9;
+                            condition = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHSXhx, fUnitHSYhx].TerrainType != 9;
                         }
 
                         if (condition)
                         {
                             var fUnitHSYhx = FUnitHS.GetYhx();
                             var fUnitHSXhx = FUnitHS.GetXhx();
-                            Corpse = new TCCorpseHS(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[fUnitHSXhx, fUnitHSYhx]);
+                            Corpse = new CCorpseHS(Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHSXhx, fUnitHSYhx]);
                             Corpse.FUnitGFX = FUnitHS.FUnitGFXResource;
                             Sequence = Corpse.FUnitGFX.FSequences.ImageSequences[30];
                             if (Sequence != null)
@@ -5969,10 +5968,10 @@ namespace Aow.Game.Combat
 
                             switch (FDeathMethod)
                             {
-                                case TTCDeathMethod.dmNormal:
+                                case TCDeathMethod.Normal:
                                     switch (FUnit.GetBloodType())
                                     {
-                                        case TBloodType.btNone:
+                                        case BloodType.None:
                                             Corpse.FSequenceIndex = -1;
                                             break;
                                         default:
@@ -5988,14 +5987,14 @@ namespace Aow.Game.Combat
                                     }
 
                                     break;
-                                case TTCDeathMethod.dmExplode:
+                                case TCDeathMethod.Explode:
                                     Corpse.FSequenceIndex = -1;
                                     break;
                             }
 
                             Corpse.FOffsetX = Random(10) - 5;
                             Corpse.FOffsetY = Random(10) - 5;
-                            if (FUnit.GetUnitType() != TUnitType.utMachine)
+                            if (FUnit.GetUnitType() != UnitType.Machine)
                             {
                                 Corpse.FUnit = this;
                             }
@@ -6007,10 +6006,10 @@ namespace Aow.Game.Combat
                     var yhx2 = FUnitHS.GetYhx();
                     var xhx2 = FUnitHS.GetXhx();
                     var yhx3 = FUnitHS.GetYhx();
-                    R = Rect(FUnitHS.GetXhx(), yhx3, xhx2 + 1, yhx2 + 1);
+                    R = global::Aow.Rtl.RtlUnit.Rect(FUnitHS.GetXhx(), yhx3, xhx2 + 1, yhx2 + 1);
                     FUnitHS?.Dispose();
                     FUnitHS = null;
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.TriggerMapChangedEvent(R, 0);
+                    Aow.Game.Combat.AoWCombatMap.Current.TriggerMapChangedEvent(R, 0);
                 }
             }
             else
@@ -6029,12 +6028,12 @@ namespace Aow.Game.Combat
         public int GetPosValue()
         {
             int Result = GetAttack() + GetDamage() + GetDefense() + GetMoves() / 3;
-            if (SupportCombatMode(TSet<TCombatMode>.Of(TCombatMode.cmMediumRange)))
+            if (SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange)))
             {
                 Result = Result - 100;
             }
 
-            if (SupportCombatMode(TSet<TCombatMode>.Of(TCombatMode.cmLongRange)))
+            if (SupportCombatMode(Set<CombatMode>.Of(CombatMode.LongRange)))
             {
                 Result = Result - 200;
             }
@@ -6043,7 +6042,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2618
-        public void MovedTo(TAoWMapField OldField, TAoWMapField NewField, int MoveCost)
+        public void MovedTo(AoWMapField OldField, AoWMapField NewField, int MoveCost)
         {
             FMovePoints = FMovePoints - MoveCost;
             if (FMovePoints < 0)
@@ -6057,15 +6056,15 @@ namespace Aow.Game.Combat
                 Aow.Game.Draw.EffectPaths.CreateFire(false, 50, FUnitHS.GetXhx(), yhx);
             }
 
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitChangedEventsStore.Raise(FUnitHS);
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitChangedEventsStore.Raise(FUnitHS);
         }
 
-        internal static void MakeHitBlood(TTacticalCombatUnit UnitObject, int Damage)
+        internal static void MakeHitBlood(TacticalCombatUnit UnitObject, int Damage)
         {
             TfxHS Effect;
-            TXYZ Point;
-            Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(TfxType.fxBlood);
-            Point = new TXYZ();
+            XYZ Point;
+            Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.Blood);
+            Point = new XYZ();
             Effect.FPath.Add(Point);
             switch (Damage)
             {
@@ -6082,7 +6081,7 @@ namespace Aow.Game.Combat
 
             switch (UnitObject.FUnit.GetBloodType())
             {
-                case TBloodType.btNone:
+                case BloodType.None:
                     Point.Z = Point.Z + 5;
                     break;
             }
@@ -6094,9 +6093,9 @@ namespace Aow.Game.Combat
             Point.Y = Random(10) + Point.Y + 9 - (int)unitSize * 10;
         }
 
-        internal static TCombatMoveTE CreateCombatMoveTE(TTacticalCombatUnit UnitObject, TMovepath Path)
+        internal static CombatMoveTE CreateCombatMoveTE(TacticalCombatUnit UnitObject, Movepath Path)
         {
-            TCombatMoveTE Result = new TCombatMoveTE(null);
+            CombatMoveTE Result = new CombatMoveTE(null);
             if (Result != null)
             {
                 Result.Setup(UnitObject, Path);
@@ -6105,16 +6104,16 @@ namespace Aow.Game.Combat
             return Result;
         }
 
-        internal static bool MoveCombatUnit(TTacticalCombatUnit UnitObject, TMovepath Path)
+        internal static bool MoveCombatUnit(TacticalCombatUnit UnitObject, Movepath Path)
         {
             int MovePoints;
             int Cost;
             int Index;
-            TCombatMoveTE Event;
-            TMovepath NewPath;
+            CombatMoveTE Event;
+            Movepath NewPath;
             bool Result = false;
             var player = UnitObject.GetPlayer();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(player) && Path.Count > 1)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(player) && Path.Count > 1)
             {
                 MovePoints = UnitObject.FMovePoints;
                 Cost = 0;
@@ -6132,17 +6131,17 @@ namespace Aow.Game.Combat
 
                 if (Index < Path.Count - 1)
                 {
-                    NewPath = new TMovepath();
+                    NewPath = new Movepath();
                     for (int I = Index, last = Path.Count - 1; I <= last; I++)
                     {
                         NewPath.Add(Path[I]);
                     }
 
-                    Event = Aow.Game.Combat.TTacticalCombatUnit.CreateCombatMoveTE(UnitObject, NewPath);
+                    Event = Aow.Game.Combat.TacticalCombatUnit.CreateCombatMoveTE(UnitObject, NewPath);
                     if (Event != null)
                     {
                         var unitObjectPlayer = UnitObject.GetPlayer();
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(unitObjectPlayer).AddEvent(Event);
+                        Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(unitObjectPlayer).AddEvent(Event);
                         Event.Release();
                         Result = true;
                     }
@@ -6152,6 +6151,11 @@ namespace Aow.Game.Combat
             }
 
             return Result;
+        }
+
+        public enum TCDeathMethod : byte
+        {
+            Normal = 0, Explode = 1
         }
 
         // intf_P3_01.inc:244
@@ -6166,18 +6170,18 @@ namespace Aow.Game.Draw
 
     // FUnit. FMoveIndicator. FIndicatorStep. FAction. FActionDone. FActionFrame. FOffsetX.
     // FOffsetY. FSelectedAbility. FSelectedSpell. FCombatAbilityCount. FAbilities. FBusy
-    public partial class TTacticalCombatUnitHS : TUnitHS
+    public partial class TacticalCombatUnitHS : UnitHS
     {
-        public TTacticalCombatUnitHS(TECustomNode owner) : base(owner)
+        public TacticalCombatUnitHS(ECustomNode owner) : base(owner)
         { }
 
         // AoWTC.pas:3348
         public new const int ClassID = 2228484;
 
-        public TTacticalCombatUnit FUnit;
+        public TacticalCombatUnit FUnit;
         public short FMoveIndicator;
         public short FIndicatorStep;
-        public TTCAction FAction;
+        public TCAction FAction;
         public bool FActionDone;
         public short FActionFrame;
         public int FOffsetX;
@@ -6185,11 +6189,11 @@ namespace Aow.Game.Draw
         public int FSelectedAbility;
         public int FSelectedSpell;
         public int FCombatAbilityCount;
-        public TList FAbilities;
+        public DelphiList FAbilities;
         public bool FBusy;
 
         // AoWTC.pas:3566
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID != 536936471 && (Msg.MsgID & 1073741824) == 0 && FUnit != null)
@@ -6199,20 +6203,20 @@ namespace Aow.Game.Draw
         }
 
         // AoWTC.pas:3461
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
-            TSelfDestructCA SelfDestruct;
-            TDamageCA SpellDamage;
-            TRangedAttackCA RangedDamage;
+            SelfDestructCA SelfDestruct;
+            DamageCA SpellDamage;
+            RangedAttackCA RangedDamage;
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4364)
             {
-                if (Msg.HN == 0 && (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((TAoWMapField)Owner).FFieldFlags).Hi).Lo != 0))
+                if (Msg.HN == 0 && (!Aow.Game.Combat.AoWCombatMap.Current.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo != 0))
                 {
                     if (FUnit.GetPlayer() != 0)
                     {
                         var player = FUnit.GetPlayer();
-                        var playerPlayerRace = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player);
+                        var playerPlayerRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player);
                         Msg.Param[0] = Msg.Param[0].Int | (playerPlayerRace.FPlayerRace + 1);
                     }
                     else
@@ -6232,154 +6236,154 @@ namespace Aow.Game.Draw
                 {
                     if (Msg.MsgID == 200704 && Msg.HN == 0)
                     {
-                        RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                        SelfDestruct = ((TSelfDestructAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(65)).CreateSelfDestructCA(Msg.Param[0].As<TCombatObject>(), FUnit);
+                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                        SelfDestruct = ((SelfDestructAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(65)).CreateSelfDestructCA(Msg.Param[0].As<CombatObject>(), FUnit);
                         if (SelfDestruct.FDamage > 0)
                         {
-                            SetAction(TTCAction.caHit);
+                            SetAction(TCAction.Hit);
                         }
 
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SelfDestruct);
+                        Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SelfDestruct);
                         SelfDestruct.Release();
                     }
                     else
                     {
                         if (Msg.MsgID == 200707 && Msg.HN == 0)
                         {
-                            RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                            SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(117).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                            RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                            SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(117).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                             if (SpellDamage.FDamage > 0)
                             {
-                                SetAction(TTCAction.caHit);
+                                SetAction(TCAction.Hit);
                             }
 
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                            Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                             SpellDamage.Release();
                         }
                         else
                         {
                             if (Msg.MsgID == 200715 && Msg.HN == 0)
                             {
-                                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(113).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(113).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                                 if (SpellDamage.FDamage > 0)
                                 {
-                                    SetAction(TTCAction.caHit);
+                                    SetAction(TCAction.Hit);
                                 }
 
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                                 SpellDamage.Release();
                             }
                             else
                             {
                                 if (Msg.MsgID == 200714 && Msg.HN == 0)
                                 {
-                                    RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                    RangedDamage = ((TRangedAttackAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(31)).CreateRangedAttackCA(Msg.Param[0].As<TCombatObject>(), FUnit, 0);
+                                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                    RangedDamage = ((RangedAttackAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(31)).CreateRangedAttackCA(Msg.Param[0].As<CombatObject>(), FUnit, 0);
                                     if (RangedDamage.FDamage > 0)
                                     {
-                                        SetAction(TTCAction.caHit);
+                                        SetAction(TCAction.Hit);
                                     }
 
-                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(RangedDamage);
+                                    Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(RangedDamage);
                                     RangedDamage.Release();
                                 }
                                 else
                                 {
                                     if (Msg.MsgID == 200723 && Msg.HN == 0)
                                     {
-                                        RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                        SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Msg.Param[1].Int).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                        SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Msg.Param[1].Int).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                                         if (SpellDamage.FDamage > 0)
                                         {
-                                            SetAction(TTCAction.caHit);
+                                            SetAction(TCAction.Hit);
                                         }
 
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                        Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                                         SpellDamage.Release();
                                     }
                                     else
                                     {
                                         if (Msg.MsgID == 200722 && Msg.HN == 0)
                                         {
-                                            RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                            RangedDamage = ((TRangedAttackAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Msg.Param[1].Int)).CreateRangedAttackCA(Msg.Param[0].As<TCombatObject>(), FUnit, 0);
+                                            RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                            RangedDamage = ((RangedAttackAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Msg.Param[1].Int)).CreateRangedAttackCA(Msg.Param[0].As<CombatObject>(), FUnit, 0);
                                             if (RangedDamage.FDamage > 0)
                                             {
-                                                SetAction(TTCAction.caHit);
+                                                SetAction(TCAction.Hit);
                                             }
 
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(RangedDamage);
+                                            Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(RangedDamage);
                                             RangedDamage.Release();
                                         }
                                         else
                                         {
                                             if (Msg.MsgID == 200709 && Msg.HN == 0)
                                             {
-                                                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                                SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(104).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                                SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(104).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                                                 if (SpellDamage.FDamage > 0)
                                                 {
-                                                    SetAction(TTCAction.caHit);
+                                                    SetAction(TCAction.Hit);
                                                 }
 
-                                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                                                 SpellDamage.Release();
                                             }
                                             else
                                             {
                                                 if (Msg.MsgID == 200716 && Msg.HN == 0)
                                                 {
-                                                    RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                                    SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(120).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                                    SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(120).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                                                     if (SpellDamage.FDamage > 0)
                                                     {
-                                                        SetAction(TTCAction.caHit);
+                                                        SetAction(TCAction.Hit);
                                                     }
 
-                                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                    Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                                                     SpellDamage.Release();
                                                 }
                                                 else
                                                 {
                                                     if (Msg.MsgID == 200710 && Msg.HN == 0)
                                                     {
-                                                        RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                                        SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(116).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                                        SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(116).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                                                         if (SpellDamage.FDamage > 0)
                                                         {
-                                                            SetAction(TTCAction.caHit);
+                                                            SetAction(TCAction.Hit);
                                                         }
 
-                                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                        Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                                                         SpellDamage.Release();
                                                     }
                                                     else
                                                     {
                                                         if (Msg.MsgID == 200717 && Msg.HN == 0)
                                                         {
-                                                            RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                                            SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(127).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                                            RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                                            SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(127).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                                                             if (SpellDamage.FDamage > 0)
                                                             {
-                                                                SetAction(TTCAction.caHit);
+                                                                SetAction(TCAction.Hit);
                                                             }
 
-                                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                            Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                                                             SpellDamage.Release();
                                                         }
                                                         else
                                                         {
                                                             if (Msg.MsgID == 200718 && Msg.HN == 0)
                                                             {
-                                                                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                                                SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(128).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                                                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                                                SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(128).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                                                                 if (SpellDamage.FDamage > 0)
                                                                 {
-                                                                    SetAction(TTCAction.caHit);
+                                                                    SetAction(TCAction.Hit);
                                                                 }
 
-                                                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                                Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                                                                 SpellDamage.Release();
                                                             }
                                                             else
@@ -6410,16 +6414,16 @@ namespace Aow.Game.Draw
                                                                         {
                                                                             if (Msg.MsgID == 200708 && Msg.HN == 0)
                                                                             {
-                                                                                if (!FUnit.FUnit.GetMoveTypes().Contains(TMoveType.mtFlying) && ((TMapField)Owner).TerrainType != 0 && ((TMapField)Owner).TerrainType != 9)
+                                                                                if (!FUnit.FUnit.GetMoveTypes().Contains(MoveType.Flying) && ((MapField)Owner).TerrainType != 0 && ((MapField)Owner).TerrainType != 9)
                                                                                 {
-                                                                                    RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-                                                                                    SpellDamage = (TDamageCA)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(112).CreateCA(Msg.Param[0].As<TCombatObject>(), FUnit, false);
+                                                                                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                                                                                    SpellDamage = (DamageCA)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(112).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
                                                                                     if (SpellDamage.FDamage > 0)
                                                                                     {
-                                                                                        SetAction(TTCAction.caHit);
+                                                                                        SetAction(TCAction.Hit);
                                                                                     }
 
-                                                                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.ExecuteCombatAction(SpellDamage);
+                                                                                    Aow.Game.Combat.AoWCombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
                                                                                     SpellDamage.Release();
                                                                                 }
                                                                             }
@@ -6442,23 +6446,23 @@ namespace Aow.Game.Draw
         }
 
         // AoWTC.pas:3370
-        public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
+        public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
         {
             int X = default;
             int Y = default;
-            TMovementHS Movement;
-            TAbilityCombatInfo AbilityInfo = default;
-            TAbilityCombatInfo EnemyInfo = default;
+            MovementHS Movement;
+            AbilityCombatInfo AbilityInfo = default;
+            AbilityCombatInfo EnemyInfo = default;
             if (Info.HN == 0)
             {
                 MoveResult.Code = -1;
                 MoveResult.Done = true;
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Movement = (TMovementHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228490);
+                Movement = (MovementHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228490);
                 if (Movement != null && Movement.FEnabled)
                 {
-                    if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == FUnit.GetSide())
+                    if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == FUnit.GetSide())
                     {
                         MoveResult.Code = 0;
                         MoveResult.Done = false;
@@ -6466,31 +6470,31 @@ namespace Aow.Game.Draw
                     }
                 }
 
-                if (GetXhx() != ((TMoveControl)Info.Sender).FDestinationX && ((TMoveControl)Info.Sender).FDestinationX != -1)
+                if (GetXhx() != ((MoveControl)Info.Sender).FDestinationX && ((MoveControl)Info.Sender).FDestinationX != -1)
                 {
                     return;
                 }
 
-                if (GetYhx() != ((TMoveControl)Info.Sender).FDestinationY && ((TMoveControl)Info.Sender).FDestinationY != -1)
+                if (GetYhx() != ((MoveControl)Info.Sender).FDestinationY && ((MoveControl)Info.Sender).FDestinationY != -1)
                 {
                     return;
                 }
 
-                if (!((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmaiMove) && !((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmMoveRanged) && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() >= 2)
+                if (!((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Move) && !((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.MoveRanged) && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FMoveSettingsList.GetCount() >= 2)
                 {
                     return;
                 }
 
-                if (((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility <= -1 && (Aow.Game.Combat.TCombatObject.MeleeDamageTypes(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit) == TSet<TDamageType>.Of() || FUnit.GetAbilityEnabled(1) && !((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1)) && !((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmMoveRanged) && !((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmaiMove))
+                if (((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility <= -1 && (Aow.Game.Combat.CombatObject.MeleeDamageTypes(((CombatMoveControl)Info.Sender).FUnitHS.FUnit) == Set<DamageType>.Of() || FUnit.GetAbilityEnabled(1) && !((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1)) && !((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.MoveRanged) && !((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Move))
                 {
                     return;
                 }
 
-                if (((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility == -1)
+                if (((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility == -1)
                 {
-                    if (!((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmaiMove) && !((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmMoveRanged))
+                    if (!((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Move) && !((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.MoveRanged))
                     {
-                        if (FUnit.GetSide() == ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+                        if (FUnit.GetSide() == ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
                         {
                             return;
                         }
@@ -6500,25 +6504,25 @@ namespace Aow.Game.Draw
                     return;
                 }
 
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref AbilityInfo);
-                if (AbilityInfo.TargetTypes.Contains(TCombatTargetTypeElement.cttFriend) && FUnit.GetSide() == ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((CombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref AbilityInfo);
+                if (AbilityInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend) && FUnit.GetSide() == ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
                 {
                     goto Touch;
                 }
 
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref EnemyInfo);
-                if (!EnemyInfo.TargetTypes.Contains(TCombatTargetTypeElement.cttEnemy))
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((CombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref EnemyInfo);
+                if (!EnemyInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
                 {
                     return;
                 }
 
-                if (FUnit.GetSide() == ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+                if (FUnit.GetSide() == ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
                 {
                     return;
                 }
 
             Touch:
-                if (((TTouchAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility)).CanTouch(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit, FUnit))
+                if (((TouchAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility)).CanTouch(((CombatMoveControl)Info.Sender).FUnitHS.FUnit, FUnit))
                 {
                     MoveResult.Code = 0;
                 }
@@ -6529,7 +6533,7 @@ namespace Aow.Game.Draw
                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(GetXhx(), yhx, Info.HN, ref X, ref Y);
                 if (MoveResult.Code < 30)
                 {
-                    MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
+                    MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
                 }
 
                 if (MoveResult.Code <= -1)
@@ -6542,17 +6546,17 @@ namespace Aow.Game.Draw
                     return;
                 }
 
-                if (GetXhx() == ((TMoveControl)Info.Sender).FDestinationX && GetYhx() == ((TMoveControl)Info.Sender).FDestinationY)
+                if (GetXhx() == ((MoveControl)Info.Sender).FDestinationX && GetYhx() == ((MoveControl)Info.Sender).FDestinationY)
                 {
                     return;
                 }
 
-                if (FUnit.GetSide() == ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+                if (FUnit.GetSide() == ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
                 {
                     return;
                 }
 
-                if (Aow.Game.Combat.TCombatObject.MeleeDamageTypes(FUnit) == TSet<TDamageType>.Of())
+                if (Aow.Game.Combat.CombatObject.MeleeDamageTypes(FUnit) == Set<DamageType>.Of())
                 {
                     return;
                 }
@@ -6562,14 +6566,14 @@ namespace Aow.Game.Draw
                     return;
                 }
 
-                if (FUnit.GetAbilityEnabled(1) != ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1))
+                if (FUnit.GetAbilityEnabled(1) != ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1))
                 {
                     return;
                 }
 
-                if (((TMoveControl)Info.Sender).FDestinationX >= 0 && ((TMoveControl)Info.Sender).FDestinationY >= 0 && Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, ((TMoveControl)Info.Sender).FDestinationX, ((TMoveControl)Info.Sender).FDestinationY) <= 1)
+                if (((MoveControl)Info.Sender).FDestinationX >= 0 && ((MoveControl)Info.Sender).FDestinationY >= 0 && Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, ((MoveControl)Info.Sender).FDestinationX, ((MoveControl)Info.Sender).FDestinationY) <= 1)
                 {
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[((TMoveControl)Info.Sender).FDestinationX, ((TMoveControl)Info.Sender).FDestinationY].FindOwnedChild(2228484) != null)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)Info.Sender).FDestinationX, ((MoveControl)Info.Sender).FDestinationY].FindOwnedChild(2228484) != null)
                     {
                         return;
                     }
@@ -6590,16 +6594,16 @@ namespace Aow.Game.Draw
         {
             base.Activate();
             SetUnitGFXResourceIndex(FUnit.FUnit.GetUnitGFXResourceIndex());
-            FAbilities = new TList();
+            FAbilities = new DelphiList();
             CreateTCAbList();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents += NewFrame;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FExplorationEnabled)
+            Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents += NewFrame;
+            if (Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled)
             {
                 var player = FUnit.GetPlayer();
                 var visibilityRange = FUnit.GetVisibilityRange();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ExploreArea(xhx, yhx, 0, player, visibilityRange);
+                Aow.Game.Combat.AoWCombatMap.Current.ExploreArea(xhx, yhx, 0, player, visibilityRange);
             }
 
             FActionFrame = -1;
@@ -6610,9 +6614,9 @@ namespace Aow.Game.Draw
         // AoWTC.pas:3339
         public override void Deactivate()
         {
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap != null)
+            if (Aow.Game.Combat.AoWCombatMap.Current != null)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewFrameEvents -= NewFrame;
+                Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents -= NewFrame;
             }
 
             for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
@@ -6625,17 +6629,17 @@ namespace Aow.Game.Draw
         }
 
         // AoWTC.pas:3439
-        public override void UpdateMapField(in THSMapFieldInfo Info)
+        public override void UpdateMapField(in HSMapFieldInfo Info)
         {
             if (Info.HN == 0)
             {
-                ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 16384 | 8192 | 33554432;
+                ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16384 | 8192 | 33554432;
             }
             else
             {
                 if (Info.HN <= 6)
                 {
-                    ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 16384;
+                    ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16384;
                 }
             }
         }
@@ -6646,15 +6650,15 @@ namespace Aow.Game.Draw
             base.Select();
             CreateTCAbList();
             FSelectedAbility = -1;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.GetTCUnitHS() != this)
+            if (Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS() != this)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.SetTCUnitHS(this);
+                Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.SetTCUnitHS(this);
             }
 
             FUnitGFXResource.FSFXLibraries[0].Play(0);
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer == FUnit.FCombatPlayer)
+            if (Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer == FUnit.FCombatPlayer)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlayers.GetPlayers(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer).FLastUnit = FUnit;
+                Aow.Game.Combat.AoWCombatMap.Current.FPlayers.GetPlayers(Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer).FLastUnit = FUnit;
             }
         }
 
@@ -6662,11 +6666,11 @@ namespace Aow.Game.Draw
         public override void Unselect()
         {
             base.Unselect();
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap != null)
+            if (Aow.Game.Combat.AoWCombatMap.Current != null)
             {
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.GetTCUnitHS() == this)
+                if (Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS() == this)
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.Unselect();
+                    Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.Unselect();
                 }
             }
         }
@@ -6677,7 +6681,7 @@ namespace Aow.Game.Draw
             int Result;
             switch (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetMovementSpeed())
             {
-                case TMovementSpeed.mmsFast:
+                case Aow.Game.Engine.AoWRegistry.MovementSpeed.Fast:
                     Result = base.GetMoveSteps();
                     if (Result > 8)
                     {
@@ -6689,7 +6693,7 @@ namespace Aow.Game.Draw
                     }
 
                     break;
-                case TMovementSpeed.mmsTurbo:
+                case Aow.Game.Engine.AoWRegistry.MovementSpeed.Turbo:
                     Result = 2;
                     break;
                 default:
@@ -6701,25 +6705,25 @@ namespace Aow.Game.Draw
         }
 
         // AoWTC.pas:3351
-        public void Initialize(TTacticalCombatUnit U)
+        public void Initialize(TacticalCombatUnit U)
         {
             FUnit = U;
             FUnit.FUnitHS = this;
         }
 
         // AoWTC.pas:3804
-        public bool MeleeMoveTC(TMovepath Path)
+        public bool MeleeMoveTC(Movepath Path)
         {
-            TCMeleeMoveTE TE;
+            CMeleeMoveTE TE;
             bool Result = false;
             var player = FUnit.GetPlayer();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(player) && Path.Count > 1)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(player) && Path.Count > 1)
             {
-                TE = Aow.Game.Draw.TTacticalCombatUnitHS.CreateTCMeleeMoveTE(FUnit, Path);
+                TE = Aow.Game.Draw.TacticalCombatUnitHS.CreateTCMeleeMoveTE(FUnit, Path);
                 if (TE != null)
                 {
                     var fUnitPlayer = FUnit.GetPlayer();
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
                     TE.Release();
                     Result = true;
                 }
@@ -6733,27 +6737,27 @@ namespace Aow.Game.Draw
         {
             int Index;
             string Reason = "";
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.DeactivateRangedPath();
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.DeactivateRangedPath();
             FSelectedAbility = -1;
             int Result = -1;
             Index = -1;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer)
+            if (Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer)
             {
                 for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
                 {
-                    if (((TTCAbility)FAbilities[I]).Ability == AbilityID)
+                    if (((TCAbility)FAbilities[I]).Ability == AbilityID)
                     {
                         Index = I;
                     }
                 }
 
-                if (!FUnit.GetLocked() && FUnit.FMovePoints > 0 && FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer && Index < FCombatAbilityCount && Index > -1)
+                if (!FUnit.GetLocked() && FUnit.FMovePoints > 0 && FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer && Index < FCombatAbilityCount && Index > -1)
                 {
                     if (AbilityID == 52)
                     {
                         if (FUnit.FUnit.GetMoves() == FUnit.FMovePoints)
                         {
-                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(AbilityID).ActivateCombat(FUnit.FUnit, ref Reason);
+                            Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ActivateCombat(FUnit.FUnit, ref Reason);
                             FSelectedSpell = -1;
                             FSelectedAbility = AbilityID;
                             Result = Index;
@@ -6761,29 +6765,29 @@ namespace Aow.Game.Draw
                     }
                     else
                     {
-                        var combatMode = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit);
-                        if (TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode))
+                        var combatMode = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit);
+                        if (Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode))
                         {
                             if (FUnit.FUnit.GetMoves() == FUnit.FMovePoints)
                             {
-                                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit) == TCombatMode.cmShortRange)
+                                if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit) == CombatMode.ShortRange)
                                 {
-                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 4;
+                                    Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS.FRange = 4;
                                 }
                                 else
                                 {
-                                    if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit) == TCombatMode.cmMediumRange)
+                                    if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit) == CombatMode.MediumRange)
                                     {
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 8;
+                                        Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS.FRange = 8;
                                     }
                                     else
                                     {
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 12;
+                                        Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS.FRange = 12;
                                     }
                                 }
 
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS.FSelection = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection;
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.DynamicFixedVisibleHS.AddChild(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS);
+                                Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS.FSelection = Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection;
+                                Aow.Game.Combat.AoWCombatMap.Current.DynamicFixedVisibleHS.AddChild(Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS);
                                 FSelectedAbility = AbilityID;
                                 Result = Index;
                             }
@@ -6797,70 +6801,70 @@ namespace Aow.Game.Draw
                 }
             }
 
-            for (int I = 0, last = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
             {
-                var moveSettings = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
+                var moveSettings = Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
                 moveSettings.FPath.Clear();
             }
 
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPath.Clear();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.UpdateMoveCursor();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitChangedEventsStore.Raise(this);
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPath.Clear();
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.UpdateMoveCursor();
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitChangedEventsStore.Raise(this);
             return Result;
         }
 
         // AoWTC.pas:3870
         public int SelectSpell(int SpellID)
         {
-            TSpellCombatInfo Info = default;
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.DeactivateRangedPath();
+            SpellCombatInfo Info = default;
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.DeactivateRangedPath();
             FSelectedSpell = SpellID;
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSelectedSpell).GetCombatInfo(FUnit.FUnit, ref Info);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSelectedSpell).GetCombatInfo(FUnit.FUnit, ref Info);
             if (Info.Range != 0)
             {
                 if (Info.Range == -1)
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = 100;
+                    Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS.FRange = 100;
                 }
                 else
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS.FRange = (ushort)Info.Range;
+                    Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS.FRange = (ushort)Info.Range;
                 }
 
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS.FSelection = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection;
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.DynamicFixedVisibleHS.AddChild(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPathHS);
+                Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS.FSelection = Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection;
+                Aow.Game.Combat.AoWCombatMap.Current.DynamicFixedVisibleHS.AddChild(Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPathHS);
             }
 
             int Result = SpellID;
-            for (int I = 0, last = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
             {
-                var moveSettings = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
+                var moveSettings = Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
                 moveSettings.FPath.Clear();
             }
 
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FRangedPath.Clear();
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FRangedPath.Clear();
             switch (Aow.Game.Combat.TacticalTables.SpellTypes[SpellID])
             {
-                case TfxType.fxScreenNESW:
-                case TfxType.fxSacredWrath:
-                case TfxType.fxTremors:
-                case TfxType.fxHighPrayer:
-                case TfxType.fxShockWave:
+                case TfxType.ScreenNESW:
+                case TfxType.SacredWrath:
+                case TfxType.Tremors:
+                case TfxType.HighPrayer:
+                case TfxType.ShockWave:
                     AbRangedTC(0, 0);
                     Result = -1;
                     Unselect();
                     break;
             }
 
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.UpdateMoveCursor();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitChangedEventsStore.Raise(this);
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.UpdateMoveCursor();
+            Aow.Game.Combat.AoWCombatMap.Current.FUnitChangedEventsStore.Raise(this);
             return Result;
         }
 
         // AoWTC.pas:3895
         public void CreateTCAbList()
         {
-            TTCAbility Ability;
+            TCAbility Ability;
             for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
             {
                 (FAbilities[I] as IDisposable)?.Dispose();
@@ -6872,9 +6876,9 @@ namespace Aow.Game.Draw
             {
                 if (FUnit.GetAbilityEnabled(I))
                 {
-                    Ability = new TTCAbility();
+                    Ability = new TCAbility();
                     Ability.Ability = I;
-                    if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I).GetControlType(FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction) && Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(I).GetCombatMode(FUnit.FUnit) != TCombatMode.cmMelee)
+                    if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).GetControlType(FUnit.FUnit).Contains(AbilityControlTypeElement.CombatAction) && Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).GetCombatMode(FUnit.FUnit) != CombatMode.Melee)
                     {
                         FAbilities.Insert(FCombatAbilityCount, Ability);
                         FCombatAbilityCount += 1;
@@ -6888,7 +6892,7 @@ namespace Aow.Game.Draw
         }
 
         // AoWTC.pas:3910
-        public void ListAbilities(TStrings Names, TStrings Types, TStrings Sources)
+        public void ListAbilities(StringCollection Names, StringCollection Types, StringCollection Sources)
         {
             Names.Clear();
             if (Types != null)
@@ -6904,35 +6908,35 @@ namespace Aow.Game.Draw
             for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
             {
                 var ability = FAbilities[I];
-                Names.AddObject(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).GetName(FUnit.FUnit), IntToObject(((TTCAbility)FAbilities[I]).Ability));
+                Names.AddObject(Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((TCAbility)ability).Ability).GetName(FUnit.FUnit), IntToObject(((TCAbility)FAbilities[I]).Ability));
                 if (Types != null)
                 {
                     var ability2 = FAbilities[I];
-                    var abilityType = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability2).Ability).GetAbilityType();
+                    var abilityType = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((TCAbility)ability2).Ability).GetAbilityType();
                     Types.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TAbilityTypeRStr[(int)abilityType]));
                 }
 
                 if (Sources != null)
                 {
                     var ability2 = FAbilities[I];
-                    Sources.Add(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability2).Ability).GetSourceName(FUnit.FUnit));
+                    Sources.Add(Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((TCAbility)ability2).Ability).GetSourceName(FUnit.FUnit));
                 }
             }
         }
 
         // AoWTC.pas:3923
-        public void SetAction(TTCAction Action)
+        public void SetAction(TCAction Action)
         {
             FActionDone = false;
             switch (Action)
             {
-                case TTCAction.caStepUp:
-                case TTCAction.caStepBack:
+                case TCAction.StepUp:
+                case TCAction.StepBack:
                     FActionFrame = 0;
                     break;
-                case TTCAction.caRoundAttack:
-                case TTCAction.caRoundAttackHit:
-                    if (FAction != TTCAction.caRoundAttack && FAction != TTCAction.caRoundAttackHit)
+                case TCAction.RoundAttack:
+                case TCAction.RoundAttackHit:
+                    if (FAction != TCAction.RoundAttack && FAction != TCAction.RoundAttackHit)
                     {
                         FActionFrame = -1;
                     }
@@ -6947,29 +6951,29 @@ namespace Aow.Game.Draw
         }
 
         // AoWTC.pas:3935
-        public bool AbTouchMoveTC(TMovepath Path)
+        public bool AbTouchMoveTC(Movepath Path)
         {
-            TTokenEvent TE;
-            TAbilityCombatInfo Buffer = default;
+            TokenEvent TE;
+            AbilityCombatInfo Buffer = default;
             bool Result = false;
             var player = FUnit.GetPlayer();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(player) && Path.Count > 0)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(player) && Path.Count > 0)
             {
                 if (Path.Count > 1)
                 {
-                    TE = Aow.Game.Draw.TTacticalCombatUnitHS.CreateTCAbTouchMoveTE(FUnit, Path, FSelectedAbility);
+                    TE = Aow.Game.Draw.TacticalCombatUnitHS.CreateTCAbTouchMoveTE(FUnit, Path, FSelectedAbility);
                     if (TE != null)
                     {
                         var fUnitPlayer = FUnit.GetPlayer();
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
+                        Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
                         TE.Release();
                         Result = true;
                     }
                 }
                 else
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FSelectedAbility).GetCombatInfo(FUnit.FUnit, ref Buffer);
-                    if (Buffer.TargetTypes.Contains(TCombatTargetTypeElement.cttFriend))
+                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FSelectedAbility).GetCombatInfo(FUnit.FUnit, ref Buffer);
+                    if (Buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                     {
                         var path = Path[0];
                         AbRangedTC((ushort)Path[0].X, (ushort)path.Y);
@@ -6983,16 +6987,16 @@ namespace Aow.Game.Draw
         // AoWTC.pas:3952
         public bool AbRangedTC(ushort X, ushort Y)
         {
-            TCAbRangedTE TE;
+            CAbRangedTE TE;
             bool Result = false;
             var player = FUnit.GetPlayer();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(player))
+            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(player))
             {
-                TE = Aow.Game.Draw.TTacticalCombatUnitHS.CreateTCAbRangedTE(FUnit, X, Y, FSelectedAbility, FSelectedSpell);
+                TE = Aow.Game.Draw.TacticalCombatUnitHS.CreateTCAbRangedTE(FUnit, X, Y, FSelectedAbility, FSelectedSpell);
                 if (TE != null)
                 {
                     var fUnitPlayer = FUnit.GetPlayer();
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
                     TE.Release();
                     Result = true;
                 }
@@ -7008,16 +7012,16 @@ namespace Aow.Game.Draw
             RtlUnit.Assert(false, Message, Filename, LineNumber);
         }
 
-        private static global::Aow.Game.Commands.TCMeleeMoveTE CreateTCMeleeMoveTE(global::Aow.Game.Combat.TTacticalCombatUnit UnitObject, global::Aow.Game.World.Movement.TMovepath Path)
+        private static global::Aow.Game.Commands.CMeleeMoveTE CreateTCMeleeMoveTE(global::Aow.Game.Combat.TacticalCombatUnit UnitObject, global::Aow.Game.World.Movement.Movepath Path)
         {
-            global::Aow.Game.Commands.TCMeleeMoveTE tCMeleeMoveTE = new global::Aow.Game.Commands.TCMeleeMoveTE(null);
+            global::Aow.Game.Commands.CMeleeMoveTE tCMeleeMoveTE = new global::Aow.Game.Commands.CMeleeMoveTE(null);
             tCMeleeMoveTE?.Setup(UnitObject, Path);
             return tCMeleeMoveTE;
         }
 
-        private static global::Aow.Game.Commands.TCAbTouchMoveTE CreateTCAbTouchMoveTE(global::Aow.Game.Combat.TTacticalCombatUnit UnitObject, global::Aow.Game.World.Movement.TMovepath Path, int AbilityID)
+        private static global::Aow.Game.Commands.CAbTouchMoveTE CreateTCAbTouchMoveTE(global::Aow.Game.Combat.TacticalCombatUnit UnitObject, global::Aow.Game.World.Movement.Movepath Path, int AbilityID)
         {
-            global::Aow.Game.Commands.TCAbTouchMoveTE tCAbTouchMoveTE = new global::Aow.Game.Commands.TCAbTouchMoveTE(null);
+            global::Aow.Game.Commands.CAbTouchMoveTE tCAbTouchMoveTE = new global::Aow.Game.Commands.CAbTouchMoveTE(null);
             if (tCAbTouchMoveTE != null)
             {
                 tCAbTouchMoveTE.Setup(UnitObject, Path);
@@ -7026,9 +7030,9 @@ namespace Aow.Game.Draw
             return tCAbTouchMoveTE;
         }
 
-        private static global::Aow.Game.Commands.TCAbRangedTE CreateTCAbRangedTE(global::Aow.Game.Combat.TTacticalCombatUnit UnitObject, ushort X, ushort Y, int AbilityID, int SpellID)
+        private static global::Aow.Game.Commands.CAbRangedTE CreateTCAbRangedTE(global::Aow.Game.Combat.TacticalCombatUnit UnitObject, ushort X, ushort Y, int AbilityID, int SpellID)
         {
-            global::Aow.Game.Commands.TCAbRangedTE tCAbRangedTE = new global::Aow.Game.Commands.TCAbRangedTE(null);
+            global::Aow.Game.Commands.CAbRangedTE tCAbRangedTE = new global::Aow.Game.Commands.CAbRangedTE(null);
             if (tCAbRangedTE != null)
             {
                 tCAbRangedTE.FSourceX = (ushort)UnitObject.FUnitHS.Xhx;
@@ -7039,6 +7043,11 @@ namespace Aow.Game.Draw
                 tCAbRangedTE.FSpellID = SpellID;
             }
             return tCAbRangedTE;
+        }
+
+        public enum TCAction : byte
+        {
+            Move = 0, MeleeHit = 1, MeleeMiss = 2, Ability = 3, Hit = 4, Killed = 5, StepUp = 6, StepBack = 7, Busy = 8, RoundAttack = 9, RoundAttackHit = 10, FreeStruck = 11, BreathAttack = 12
         }
 
         // intf_P2_03.inc:74
@@ -7053,28 +7062,28 @@ namespace Aow.Game.Combat
 
     // FPathInvalid. FTargetImages. FRangedPathHS. FTargetX. FTargetY. FCursorImage. FCursorFrame.
     // FRangedPath. FObstacles
-    public partial class TCombatUnitSelectionControl : TMoveSelector
+    public partial class CombatUnitSelectionControl : MoveSelector
     {
         // AoWTC.pas:2723
-        public TCombatUnitSelectionControl() : base()
+        public CombatUnitSelectionControl() : base()
         {
-            FRangedPath = new TXYZList();
-            FObstacles = new TList();
-            FRangedPathHS = new TRangedPathHS(null);
+            FRangedPath = new XYZList();
+            FObstacles = new DelphiList();
+            FRangedPathHS = new RangedPathHS(null);
             FRangedPathHS.Activate();
-            FTargetImages = Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
+            FTargetImages = Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TargHex.ILB");
         }
 
-        public TSet<AnonymousEnum_piMove> FPathInvalid;
-        public TCustomImageLibrary FTargetImages;
-        public TRangedPathHS FRangedPathHS;
+        public Set<AnonymousEnum_piMove> FPathInvalid;
+        public CustomImageLibrary FTargetImages;
+        public RangedPathHS FRangedPathHS;
         public int FTargetX;
         public int FTargetY;
         public ushort FCursorImage;
         public ushort FCursorFrame;
-        public THexagonSprite FMouseOverTarget;
-        public TXYZList FRangedPath;
-        public TList FObstacles;
+        public HexagonSprite FMouseOverTarget;
+        public XYZList FRangedPath;
+        public DelphiList FObstacles;
 
         // AoWTC.pas:2733
         public override void Dispose()
@@ -7087,25 +7096,25 @@ namespace Aow.Game.Combat
             FObstacles?.Dispose();
             FRangedPath?.Dispose();
             FRangedPathHS?.Dispose();
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
+            Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TargHex.ILB");
             base.Dispose();
         }
 
         // AoWTC.pas:3080
         public override void MouseDownEvent(object Sender)
         {
-            TTacticalCombatUnitHS UnitHS;
+            TacticalCombatUnitHS UnitHS;
             int Index;
             int DX;
             int DY;
-            TSet<TCombatTargetTypeElement> Targets;
-            TSpellCombatInfo SpellInfo = default;
-            TAbilityCombatInfo AbilityInfo = default;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer)
+            Set<CombatTargetTypeElement> Targets;
+            SpellCombatInfo SpellInfo = default;
+            AbilityCombatInfo AbilityInfo = default;
+            if (Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer)
             {
-                if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlayers.GetPlayers(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer).FAuto)
+                if (!Aow.Game.Combat.AoWCombatMap.Current.FPlayers.GetPlayers(Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer).FAuto)
                 {
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Button == TMouseButton.mbRight)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Button == MouseButton.Right)
                     {
                         if (GetTCUnitHS() != null && GetTCUnitHS().FSelectedAbility > -1)
                         {
@@ -7117,32 +7126,32 @@ namespace Aow.Game.Combat
                     }
                     else
                     {
-                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Shift.Contains(TShiftState.ssShift))
+                        if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Shift.Contains(ShiftState.Shift))
                         {
                             if (FMoveSettingsList.GetCount() == 1 && FMoveSettingsList.GetMoveSettings(0).FPath.Count != 0)
                             {
                                 var pathL = FMoveSettingsList.GetMoveSettings(0).FPath[0];
                                 var pathY = FMoveSettingsList.GetMoveSettings(0).FPath[0];
                                 var pathX = FMoveSettingsList.GetMoveSettings(0).FPath[0];
-                                if (!ValidMultiMoveSelection((TAoWMapField)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(pathX.X, pathY.Y, pathL.L)))
+                                if (!ValidMultiMoveSelection((AoWMapField)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(pathX.X, pathY.Y, pathL.L)))
                                 {
                                     return;
                                 }
                             }
 
-                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx != -1 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx != -1)
+                            if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx != -1 && Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx != -1)
                             {
-                                var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                                UnitHS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL).FindOwnedChild(2228484);
-                                if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer)
+                                var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                                UnitHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.AoWCombatMap.Current.ViewL).FindOwnedChild(2228484);
+                                if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer)
                                 {
                                     Index = FMoveSettingsList.IndexOfMoveObject(UnitHS);
                                     if (Index == -1)
                                     {
                                         AddUnit(UnitHS);
                                         Update();
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
+                                        Aow.Game.Combat.AoWCombatMap.Current.Selection.SelectLocationHS(UnitHS);
                                         if (UnitHS.FUnit.GetLocked())
                                         {
                                             var indexOfMoveObject = FMoveSettingsList.IndexOfMoveObject(UnitHS);
@@ -7178,21 +7187,21 @@ namespace Aow.Game.Combat
                         }
                         else
                         {
-                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Shift.Contains(TShiftState.ssCtrl))
+                            if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Shift.Contains(ShiftState.Ctrl))
                             {
-                                if (FMoveSettingsList.GetCount() > 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx != -1 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx != -1)
+                                if (FMoveSettingsList.GetCount() > 0 && Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx != -1 && Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx != -1)
                                 {
-                                    var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                    var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                                    UnitHS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL).FindOwnedChild(2228484);
-                                    if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer)
+                                    var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                    var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                                    UnitHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.AoWCombatMap.Current.ViewL).FindOwnedChild(2228484);
+                                    if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer)
                                     {
                                         Index = FMoveSettingsList.IndexOfMoveObject(UnitHS);
                                         if (Index == -1)
                                         {
                                             AddUnit(UnitHS);
                                             Update();
-                                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
+                                            Aow.Game.Combat.AoWCombatMap.Current.Selection.SelectLocationHS(UnitHS);
                                             if (UnitHS.FUnit.GetLocked())
                                             {
                                                 var indexOfMoveObject = FMoveSettingsList.IndexOfMoveObject(UnitHS);
@@ -7233,16 +7242,16 @@ namespace Aow.Game.Combat
                             }
                             else
                             {
-                                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx != -1 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx != -1)
+                                if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx != -1 && Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx != -1)
                                 {
                                     if (GetTCUnitHS() != null)
                                     {
-                                        var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                        var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                                        UnitHS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL).FindOwnedChild(2228484);
+                                        var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                        var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                                        UnitHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.AoWCombatMap.Current.ViewL).FindOwnedChild(2228484);
                                         if (GetTCUnitHS().FSelectedAbility == -1)
                                         {
-                                            Targets = TSet<TCombatTargetTypeElement>.Of(TCombatTargetTypeElement.cttEnemy);
+                                            Targets = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
                                         }
                                         else
                                         {
@@ -7250,14 +7259,14 @@ namespace Aow.Game.Combat
                                             {
                                                 var tcUnitHS = GetTCUnitHS();
                                                 var tcUnitHS2 = GetTCUnitHS();
-                                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(tcUnitHS2.FSelectedSpell).GetCombatInfo(tcUnitHS.FUnit.FUnit, ref SpellInfo);
+                                                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(tcUnitHS2.FSelectedSpell).GetCombatInfo(tcUnitHS.FUnit.FUnit, ref SpellInfo);
                                                 Targets = SpellInfo.TargetTypes;
                                             }
                                             else
                                             {
                                                 var tcUnitHS = GetTCUnitHS();
                                                 var tcUnitHS2 = GetTCUnitHS();
-                                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(tcUnitHS2.FSelectedAbility).GetCombatInfo(tcUnitHS.FUnit.FUnit, ref AbilityInfo);
+                                                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(tcUnitHS2.FSelectedAbility).GetCombatInfo(tcUnitHS.FUnit.FUnit, ref AbilityInfo);
                                                 Targets = AbilityInfo.TargetTypes;
                                             }
                                         }
@@ -7269,19 +7278,19 @@ namespace Aow.Game.Combat
                                         else
                                         {
                                             var player = GetTCUnitHS().FUnit.GetPlayer();
-                                            if (UnitHS.FUnit.GetPlayer() == player && !Targets.Contains(TCombatTargetTypeElement.cttFriend))
+                                            if (UnitHS.FUnit.GetPlayer() == player && !Targets.Contains(CombatTargetTypeElement.Friend))
                                             {
-                                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.UnselectLocation();
-                                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
+                                                Aow.Game.Combat.AoWCombatMap.Current.Selection.UnselectLocation();
+                                                Aow.Game.Combat.AoWCombatMap.Current.Selection.SelectLocationHS(UnitHS);
                                             }
                                             else
                                             {
                                                 var fUnitPlayer = GetTCUnitHS().FUnit.GetPlayer();
-                                                bool condition = UnitHS.FUnit.GetPlayer() == fUnitPlayer && Targets.Contains(TCombatTargetTypeElement.cttFriend);
+                                                bool condition = UnitHS.FUnit.GetPlayer() == fUnitPlayer && Targets.Contains(CombatTargetTypeElement.Friend);
                                                 if (!condition)
                                                 {
                                                     var player2 = GetTCUnitHS().FUnit.GetPlayer();
-                                                    condition = UnitHS.FUnit.GetPlayer() != player2 && Targets.Contains(TCombatTargetTypeElement.cttEnemy);
+                                                    condition = UnitHS.FUnit.GetPlayer() != player2 && Targets.Contains(CombatTargetTypeElement.Enemy);
                                                 }
 
                                                 if (condition)
@@ -7303,13 +7312,13 @@ namespace Aow.Game.Combat
             }
             else
             {
-                var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                UnitHS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL).FindOwnedChild(2228484);
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.UnselectLocation();
-                if (UnitHS != null && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Button == TMouseButton.mbLeft)
+                var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                UnitHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.AoWCombatMap.Current.ViewL).FindOwnedChild(2228484);
+                Aow.Game.Combat.AoWCombatMap.Current.Selection.UnselectLocation();
+                if (UnitHS != null && Aow.Game.Combat.AoWCombatMap.Current.Mouse.Button == MouseButton.Left)
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.SelectLocationHS(UnitHS);
+                    Aow.Game.Combat.AoWCombatMap.Current.Selection.SelectLocationHS(UnitHS);
                 }
             }
         }
@@ -7317,11 +7326,11 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2823
         public override void CalculateMovePath(int Index, sbyte X, sbyte Y, sbyte L)
         {
-            TTacticalCombatUnitHS UnitHS;
-            TList Temporary;
-            TMovementHS Movement;
+            TacticalCombatUnitHS UnitHS;
+            DelphiList Temporary;
+            MovementHS Movement;
             var moveSettings = FMoveSettingsList.GetMoveSettings(Index);
-            Temporary = new TList();
+            Temporary = new DelphiList();
             if (FMoveSettingsList.GetCount() > 0)
             {
                 for (int I = 0, last = FMoveSettingsList.GetCount() - 1; I <= last; I++)
@@ -7330,18 +7339,18 @@ namespace Aow.Game.Combat
                     {
                         if (FMoveSettingsList.GetMoveSettings(I).FPath.Count > 1)
                         {
-                            Movement = new TMovementHS(null);
+                            Movement = new MovementHS(null);
                             var moveSettingPath = FMoveSettingsList.GetMoveSettings(I);
                             var path = FMoveSettingsList.GetMoveSettings(I).FPath[moveSettingPath.FPath.Count - 1];
                             var moveSetting = FMoveSettingsList.GetMoveSettings(I);
                             var pathX = FMoveSettingsList.GetMoveSettings(I).FPath[moveSetting.FPath.Count - 1];
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlaceHX(Movement, pathX.X, path.Y, 0);
+                            Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(Movement, pathX.X, path.Y, 0);
                             Movement.FEnabled = true;
                             Temporary.Add(Movement);
-                            Movement = new TMovementHS(null);
+                            Movement = new MovementHS(null);
                             var pathY = FMoveSettingsList.GetMoveSettings(I).FPath[0];
                             var path2 = FMoveSettingsList.GetMoveSettings(I).FPath[0];
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlaceHX(Movement, path2.X, pathY.Y, 0);
+                            Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(Movement, path2.X, pathY.Y, 0);
                             Movement.FEnabled = false;
                             Temporary.Add(Movement);
                         }
@@ -7350,14 +7359,14 @@ namespace Aow.Game.Combat
             }
 
             moveSettings.FPathMovePoints = 0;
-            UnitHS = (TTacticalCombatUnitHS)moveSettings.FMoveObject;
+            UnitHS = (TacticalCombatUnitHS)moveSettings.FMoveObject;
             if (GetTCUnitHS() != null && (GetTCUnitHS().FSelectedAbility == 117 || GetTCUnitHS().FSelectedAbility == 65))
             {
-                ((TCombatMoveControlSettings)FMoveControlSettings).FMoveFlags = TSet<TCombatMoveModeElement>.FromMask((byte)FPathInvalid.Image) + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmClimbing);
+                ((CombatMoveControlSettings)FMoveControlSettings).FMoveFlags = Set<CombatMoveModeElement>.FromMask((byte)FPathInvalid.Image) + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Climbing);
             }
             else
             {
-                ((TCombatMoveControlSettings)FMoveControlSettings).FMoveFlags = TSet<TCombatMoveModeElement>.FromMask((byte)FPathInvalid.Image);
+                ((CombatMoveControlSettings)FMoveControlSettings).FMoveFlags = Set<CombatMoveModeElement>.FromMask((byte)FPathInvalid.Image);
             }
 
             FMoveControlSettings.Reset();
@@ -7371,7 +7380,7 @@ namespace Aow.Game.Combat
             FMoveControlSettings.FSelection = 0;
             FMoveControlSettings.SetDestinationPos(X, Y, L);
             UnitHS.FUnit.FUnit.CreateMovePointTable(ref FMoveControlSettings.FMovePointTable);
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMoveControl.ProcessMove(FMoveControlSettings);
+            Aow.Game.Combat.AoWCombatMap.Current.FMoveControl.ProcessMove(FMoveControlSettings);
             FMoveSettingsList.GetMoveSettings(Index).FPath.Assign(FMoveControlSettings.FPath);
             FMoveSettingsList.GetMoveSettings(Index).FMovePoints = UnitHS.FUnit.FMovePoints;
             var moves = UnitHS.FUnit.GetMoves();
@@ -7382,29 +7391,29 @@ namespace Aow.Game.Combat
                 {
                     var pathY = FMoveControlSettings.FPath[I];
                     var pathX = FMoveControlSettings.FPath[I];
-                    bool condition = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508) != null;
+                    bool condition = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508) != null;
                     if (!condition)
                     {
                         var path = FMoveControlSettings.FPath[I];
                         var path2 = FMoveControlSettings.FPath[I];
-                        condition = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510) != null;
+                        condition = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510) != null;
                     }
 
                     if (condition)
                     {
                         var path = FMoveControlSettings.FPath[I];
                         var path2 = FMoveControlSettings.FPath[I];
-                        var mapField = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y];
+                        var mapField = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y];
                         moveSettings.FPath.List[I].Flag = FMoveControlSettings.FMovePointTable[mapField.TerrainType][-1 - -1];
                     }
                     else
                     {
                         var path = FMoveControlSettings.FPath[I];
                         var path2 = FMoveControlSettings.FPath[I];
-                        var item = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y];
+                        var item = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y];
                         var path3 = FMoveControlSettings.FPath[I];
                         var path4 = FMoveControlSettings.FPath[I];
-                        var fieldItem = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
+                        var fieldItem = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
                         moveSettings.FPath.List[I].Flag = FMoveControlSettings.FMovePointTable[fieldItem.TerrainType][item.OverlayType - -1];
                     }
                 }
@@ -7424,27 +7433,27 @@ namespace Aow.Game.Combat
         // AoWTC.pas:3178
         public override void UpdateMoveCursor()
         {
-            TAoWMapField Field;
+            AoWMapField Field;
             int Cost;
-            TTacticalCombatUnitHS UnitHS;
-            TTacticalCombatUnitHS TargetHS;
-            TSet<TCombatTargetTypeElement> Targets;
-            TCityWall Wall;
-            TSpellCombatInfo SpellInfo = default;
-            TAbilityCombatInfo AbilityInfo = default;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap == null)
+            TacticalCombatUnitHS UnitHS;
+            TacticalCombatUnitHS TargetHS;
+            Set<CombatTargetTypeElement> Targets;
+            CityWall Wall;
+            SpellCombatInfo SpellInfo = default;
+            AbilityCombatInfo AbilityInfo = default;
+            if (Aow.Game.Combat.AoWCombatMap.Current == null)
             {
                 return;
             }
 
             UnitHS = GetTCUnitHS();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.CursorMode = 0;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx == -1)
+            Aow.Game.Combat.AoWCombatMap.Current.Mouse.CursorMode = 0;
+            if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx == -1)
             {
                 return;
             }
 
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx == -1)
+            if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx == -1)
             {
                 return;
             }
@@ -7454,18 +7463,18 @@ namespace Aow.Game.Combat
                 return;
             }
 
-            var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-            var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-            Field = (TAoWMapField)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL);
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FExplorationEnabled && !Field.GetExplored(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer))
+            var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+            var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+            Field = (AoWMapField)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.AoWCombatMap.Current.ViewL);
+            if (Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled && !Field.GetExplored(Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer))
             {
                 goto FinishCursor;
             }
 
-            TargetHS = (TTacticalCombatUnitHS)Field.FindOwnedChild(2228484);
-            if (UnitHS.FUnit.FCombatPlayer != Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer && TargetHS != null)
+            TargetHS = (TacticalCombatUnitHS)Field.FindOwnedChild(2228484);
+            if (UnitHS.FUnit.FCombatPlayer != Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer && TargetHS != null)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.CursorMode = 257;
+                Aow.Game.Combat.AoWCombatMap.Current.Mouse.CursorMode = 257;
                 goto FinishCursor;
             }
 
@@ -7480,16 +7489,16 @@ namespace Aow.Game.Combat
 
                 if (UnitHS.FSelectedAbility == 52)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(UnitHS.FSelectedSpell).GetCombatInfo(UnitHS.FUnit.FUnit, ref SpellInfo);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(UnitHS.FSelectedSpell).GetCombatInfo(UnitHS.FUnit.FUnit, ref SpellInfo);
                     Targets = SpellInfo.TargetTypes;
                 }
                 else
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatInfo(UnitHS.FUnit.FUnit, ref AbilityInfo);
+                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatInfo(UnitHS.FUnit.FUnit, ref AbilityInfo);
                     Targets = AbilityInfo.TargetTypes;
                 }
 
-                if (TargetHS == null || (TargetHS == UnitHS && !Targets.Contains(TCombatTargetTypeElement.cttFriend)))
+                if (TargetHS == null || (TargetHS == UnitHS && !Targets.Contains(CombatTargetTypeElement.Friend)))
                 {
                     if (FCursorImage < 85 || FCursorImage > 88)
                     {
@@ -7498,9 +7507,9 @@ namespace Aow.Game.Combat
                 }
                 else
                 {
-                    if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatMode(UnitHS.FUnit.FUnit) == TCombatMode.cmTouch)
+                    if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatMode(UnitHS.FUnit.FUnit) == CombatMode.Touch)
                     {
-                        if ((Targets.Contains(TCombatTargetTypeElement.cttFriend) && UnitHS.FUnit.GetSide() == TargetHS.FUnit.GetSide() || Targets.Contains(TCombatTargetTypeElement.cttEnemy) && UnitHS.FUnit.GetSide() != TargetHS.FUnit.GetSide()) && ((TTouchAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(UnitHS.FSelectedAbility)).CanTouch(UnitHS.FUnit, TargetHS.FUnit))
+                        if ((Targets.Contains(CombatTargetTypeElement.Friend) && UnitHS.FUnit.GetSide() == TargetHS.FUnit.GetSide() || Targets.Contains(CombatTargetTypeElement.Enemy) && UnitHS.FUnit.GetSide() != TargetHS.FUnit.GetSide()) && ((TouchAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(UnitHS.FSelectedAbility)).CanTouch(UnitHS.FUnit, TargetHS.FUnit))
                         {
                             if (FCursorImage < 105 || FCursorImage > 107)
                             {
@@ -7514,7 +7523,7 @@ namespace Aow.Game.Combat
                     }
                     else
                     {
-                        if (Targets.Contains(TCombatTargetTypeElement.cttFriend) && UnitHS.FUnit.GetSide() == TargetHS.FUnit.GetSide() || Targets.Contains(TCombatTargetTypeElement.cttEnemy) && UnitHS.FUnit.GetSide() != TargetHS.FUnit.GetSide())
+                        if (Targets.Contains(CombatTargetTypeElement.Friend) && UnitHS.FUnit.GetSide() == TargetHS.FUnit.GetSide() || Targets.Contains(CombatTargetTypeElement.Enemy) && UnitHS.FUnit.GetSide() != TargetHS.FUnit.GetSide())
                         {
                             if (FCursorImage < 80 || FCursorImage > 83)
                             {
@@ -7528,8 +7537,8 @@ namespace Aow.Game.Combat
                     }
                 }
 
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.CursorMode = 256;
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Cursor = FCursorImage;
+                Aow.Game.Combat.AoWCombatMap.Current.Mouse.CursorMode = 256;
+                Aow.Game.Combat.AoWCombatMap.Current.Mouse.Cursor = FCursorImage;
             }
             else
             {
@@ -7537,47 +7546,47 @@ namespace Aow.Game.Combat
                 {
                     if (TargetHS.FUnit.GetPlayer() == UnitHS.FUnit.GetPlayer())
                     {
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.CursorMode = 257;
+                        Aow.Game.Combat.AoWCombatMap.Current.Mouse.CursorMode = 257;
                     }
                     else
                     {
                         if (UnitHS.FUnit.GetAbilityEnabled(1) || !TargetHS.FUnit.GetAbilityEnabled(1))
                         {
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.CursorMode = 258;
+                            Aow.Game.Combat.AoWCombatMap.Current.Mouse.CursorMode = 258;
                         }
                         else
                         {
                             FCursorImage = 89;
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.CursorMode = 256;
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Cursor = FCursorImage;
+                            Aow.Game.Combat.AoWCombatMap.Current.Mouse.CursorMode = 256;
+                            Aow.Game.Combat.AoWCombatMap.Current.Mouse.Cursor = FCursorImage;
                         }
                     }
                 }
             }
 
         FinishCursor:
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.CursorMode != 0)
+            if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.CursorMode != 0)
             {
                 return;
             }
 
-            if (UnitHS.FUnit.GetPlayer() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer)
+            if (UnitHS.FUnit.GetPlayer() == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer)
             {
-                if (GetMoveTypes().Contains(TMoveType.mtWalking))
+                if (GetMoveTypes().Contains(MoveType.Walking))
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Cursor = 64;
+                    Aow.Game.Combat.AoWCombatMap.Current.Mouse.Cursor = 64;
                 }
                 else
                 {
-                    if (GetMoveTypes().Contains(TMoveType.mtSwimming))
+                    if (GetMoveTypes().Contains(MoveType.Swimming))
                     {
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Cursor = 66;
+                        Aow.Game.Combat.AoWCombatMap.Current.Mouse.Cursor = 66;
                     }
                     else
                     {
-                        if (GetMoveTypes().Contains(TMoveType.mtFlying))
+                        if (GetMoveTypes().Contains(MoveType.Flying))
                         {
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Cursor = 68;
+                            Aow.Game.Combat.AoWCombatMap.Current.Mouse.Cursor = 68;
                         }
                     }
                 }
@@ -7589,20 +7598,20 @@ namespace Aow.Game.Combat
                 }
                 else
                 {
-                    Wall = (TCityWall)Field.FindOwnedChild(2229508);
+                    Wall = (CityWall)Field.FindOwnedChild(2229508);
                     if (Wall == null)
                     {
-                        Wall = (TCityWall)Field.FindOwnedChild(2229510);
+                        Wall = (CityWall)Field.FindOwnedChild(2229510);
                     }
 
                     if (Wall != null)
                     {
-                        if (!(Wall is TCityWallDoor) || UnitHS.FUnit.GetSide() == TCombatSideIndex.csAttacker)
+                        if (!(Wall is CityWallDoor) || UnitHS.FUnit.GetSide() == CombatSideIndex.Attacker)
                         {
                             Cost = -1;
                         }
 
-                        if (!(Wall is TCityWallDoor) && UnitHS.FUnit.FUnit.GetAbilityEnabled(36))
+                        if (!(Wall is CityWallDoor) && UnitHS.FUnit.FUnit.GetAbilityEnabled(36))
                         {
                             Cost = 1;
                         }
@@ -7614,17 +7623,17 @@ namespace Aow.Game.Combat
                     }
                 }
 
-                if (Cost <= 0 || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FExplorationEnabled && !Field.GetExplored(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer))
+                if (Cost <= 0 || Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled && !Field.GetExplored(Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer))
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Cursor = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Cursor + 1;
+                    Aow.Game.Combat.AoWCombatMap.Current.Mouse.Cursor = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Cursor + 1;
                 }
 
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.CursorMode = 256;
+                Aow.Game.Combat.AoWCombatMap.Current.Mouse.CursorMode = 256;
             }
         }
 
         // AoWTC.pas:2744
-        public override TMoveControlSettings CreateMCS() => new TCombatMoveControlSettings(null);
+        public override MoveControlSettings CreateMCS() => new CombatMoveControlSettings(null);
 
         // AoWTC.pas:2754
         public override void SetCurrentMove(int Value)
@@ -7632,14 +7641,14 @@ namespace Aow.Game.Combat
             if (FCurrentMove != -1 && GetTCUnitHS() != null)
             {
                 var tcUnitHS = GetTCUnitHS();
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.TriggerDeselectEvent(tcUnitHS);
+                Aow.Game.Combat.AoWCombatMap.Current.Selection.TriggerDeselectEvent(tcUnitHS);
             }
 
             base.SetCurrentMove(Value);
             if (FCurrentMove != -1 && GetTCUnitHS() != null)
             {
                 var tcUnitHS = GetTCUnitHS();
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.TriggerSelectEvent(tcUnitHS);
+                Aow.Game.Combat.AoWCombatMap.Current.Selection.TriggerSelectEvent(tcUnitHS);
             }
         }
 
@@ -7652,13 +7661,13 @@ namespace Aow.Game.Combat
                 GetTCUnitHS().FSelectedAbility = -1;
             }
 
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.UnselectLocation();
+            Aow.Game.Combat.AoWCombatMap.Current.Selection.UnselectLocation();
             DeactivateMoveSelection();
             base.Unselect();
         }
 
         // AoWTC.pas:3274
-        public override void ShowMovePaths(in TSurfaceDesc Surface)
+        public override void ShowMovePaths(in SurfaceDesc Surface)
         {
             int X = default;
             int Y = default;
@@ -7679,14 +7688,14 @@ namespace Aow.Game.Combat
                         var path = FMoveSettingsList.GetMoveSettings(0).FPath[1];
                         Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FMoveSettingsList.GetMoveSettings(0).FPath[1].X, path.Y, I, ref X, ref Y);
                         Aow.Game.World.Map.HexGeometry.HXtoHP(X, Y, ref Xhp, ref Yhp);
-                        FTargetImages[0].Show(Xhp - Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewXhp - 8, Yhp - Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewYhp + 2, Surface);
+                        FTargetImages[0].Show(Xhp - Aow.Game.Combat.AoWCombatMap.Current.ViewXhp - 8, Yhp - Aow.Game.Combat.AoWCombatMap.Current.ViewYhp + 2, Surface);
                     }
                 }
             }
         }
 
         // AoWTC.pas:2747
-        public int AddUnit(TTacticalCombatUnitHS U)
+        public int AddUnit(TacticalCombatUnitHS U)
         {
             int Result = AddMoveObject(U);
             FMoveSettingsList.GetMoveSettings(Result).FMovePoints = U.FUnit.FMovePoints;
@@ -7696,12 +7705,12 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2763
-        public TTacticalCombatUnitHS GetTCUnitHS()
+        public TacticalCombatUnitHS GetTCUnitHS()
         {
-            TTacticalCombatUnitHS Result;
+            TacticalCombatUnitHS Result;
             if (FCurrentMove != -1)
             {
-                Result = (TTacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(FCurrentMove).FMoveObject;
+                Result = (TacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(FCurrentMove).FMoveObject;
             }
             else
             {
@@ -7712,23 +7721,23 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2770
-        public TSet<TMoveType> GetMoveTypes()
+        public Set<MoveType> GetMoveTypes()
         {
-            TSet<TMoveType> Result;
+            Set<MoveType> Result;
             if (FCurrentMove != -1)
             {
-                Result = ((TTacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(FCurrentMove).FMoveObject).FUnit.FUnit.GetMoveTypes();
+                Result = ((TacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(FCurrentMove).FMoveObject).FUnit.FUnit.GetMoveTypes();
             }
             else
             {
-                Result = TSet<TMoveType>.Of();
+                Result = Set<MoveType>.Of();
             }
 
             return Result;
         }
 
         // AoWTC.pas:2777
-        public void RectangleSelectEvent(TAbstractAoWHSMapMouse Sender)
+        public void RectangleSelectEvent(AbstractAoWHSMapMouse Sender)
         {
             int X1 = default;
             int Y1 = default;
@@ -7736,14 +7745,14 @@ namespace Aow.Game.Combat
             int Y2 = default;
             int PX = default;
             int PY = default;
-            TTacticalCombatUnitHS UnitHS;
-            TMapField Field;
-            TMapLevel Level;
-            TList Units;
-            TRect R;
-            Units = new TList();
+            TacticalCombatUnitHS UnitHS;
+            MapField Field;
+            MapLevel Level;
+            DelphiList Units;
+            global::Aow.Rtl.Rect R;
+            Units = new DelphiList();
             R = Sender.FSelectionRectangle;
-            Level = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL];
+            Level = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[Aow.Game.Combat.AoWCombatMap.Current.ViewL];
             Aow.Game.World.Map.HexGeometry.HPtoHX(R.Left, R.Top, ref X1, ref Y1);
             Aow.Game.World.Map.HexGeometry.HPtoHX(R.Right, R.Bottom, ref X2, ref Y2);
             for (int X = X1 - 1, last = X2 + 1; X <= last; X++)
@@ -7756,8 +7765,8 @@ namespace Aow.Game.Combat
                     if (X >= 0 && X < Level.Width && Y > 0 && Y < Level.Height && PX >= R.Left && PX < R.Right && PY >= R.Top && PY < R.Bottom)
                     {
                         Field = Level.Field[X, Y];
-                        UnitHS = (TTacticalCombatUnitHS)Field.FindOwnedChild(2228484);
-                        if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer)
+                        UnitHS = (TacticalCombatUnitHS)Field.FindOwnedChild(2228484);
+                        if (UnitHS != null && UnitHS.FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer)
                         {
                             Units.Add(UnitHS);
                         }
@@ -7768,12 +7777,12 @@ namespace Aow.Game.Combat
             if (Units.Count != 0)
             {
                 Clear();
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.UnselectLocation();
+                Aow.Game.Combat.AoWCombatMap.Current.Selection.UnselectLocation();
                 for (int I = 0, last = Units.Count - 1; I <= last; I++)
                 {
-                    AddUnit((TTacticalCombatUnitHS)Units[I]);
+                    AddUnit((TacticalCombatUnitHS)Units[I]);
                     var unit = Units[I];
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.SelectLocationHS((THexagonSprite)unit);
+                    Aow.Game.Combat.AoWCombatMap.Current.Selection.SelectLocationHS((HexagonSprite)unit);
                 }
 
                 if (Units.Count == 1)
@@ -7794,30 +7803,30 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2807
         public void MoveSelectionEvent()
         {
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer)
+            if (Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer)
             {
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Capture != this)
+                if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Capture != this)
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.UnselectLocation();
+                    Aow.Game.Combat.AoWCombatMap.Current.Selection.UnselectLocation();
                 }
                 else
                 {
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Button == TMouseButton.mbRight)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Button == MouseButton.Right)
                     {
                         if (FRangedPath.Count == 0)
                         {
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.UnselectLocation();
+                            Aow.Game.Combat.AoWCombatMap.Current.Selection.UnselectLocation();
                         }
                         else
                         {
                             FRangedPath.Clear();
                             FMouseOverTarget = null;
-                            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMouseOverTargetEventsStore.Raise(FMouseOverTarget);
+                            Aow.Game.Combat.AoWCombatMap.Current.FMouseOverTargetEventsStore.Raise(FMouseOverTarget);
                         }
                     }
                     else
                     {
-                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Capture == this && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Button == TMouseButton.mbLeft)
+                        if (Aow.Game.Combat.AoWCombatMap.Current.Mouse.Capture == this && Aow.Game.Combat.AoWCombatMap.Current.Mouse.Button == MouseButton.Left)
                         {
                             ExecuteMoveSelection();
                         }
@@ -7829,9 +7838,9 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2887
         public void CalculateRangedPath(sbyte X, sbyte Y)
         {
-            TTacticalCombatUnitHS UnitHS;
+            TacticalCombatUnitHS UnitHS;
             ushort Range;
-            TSpellCombatInfo Info = default;
+            SpellCombatInfo Info = default;
             int Direction;
             int NX;
             int NY;
@@ -7845,11 +7854,11 @@ namespace Aow.Game.Combat
 
             FObstacles.Clear();
             UnitHS = GetTCUnitHS();
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 15)
+            if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType != 15)
             {
                 if (UnitHS.FSelectedAbility == 52)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(UnitHS.FSelectedSpell).GetCombatInfo(UnitHS.FUnit.FUnit, ref Info);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(UnitHS.FSelectedSpell).GetCombatInfo(UnitHS.FUnit.FUnit, ref Info);
                     if (Info.Range > 0)
                     {
                         Range = (ushort)Info.Range;
@@ -7862,14 +7871,14 @@ namespace Aow.Game.Combat
                 else
                 {
                     var tcUnitHS = GetTCUnitHS();
-                    if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatMode(tcUnitHS.FUnit.FUnit) == TCombatMode.cmLongRange)
+                    if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatMode(tcUnitHS.FUnit.FUnit) == CombatMode.LongRange)
                     {
                         Range = 12;
                     }
                     else
                     {
                         var tcUnitHS2 = GetTCUnitHS();
-                        if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatMode(tcUnitHS2.FUnit.FUnit) == TCombatMode.cmMediumRange)
+                        if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatMode(tcUnitHS2.FUnit.FUnit) == CombatMode.MediumRange)
                         {
                             Range = 8;
                         }
@@ -7905,7 +7914,7 @@ namespace Aow.Game.Combat
                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(UnitHS.GetXhx(), unitHSYhx, Aow.Game.Combat.TacticalTables.BreathHN[Aow.Game.Combat.TacticalTables.BreathDirection[Direction - 1] * 12 - 12], ref NX, ref NY);
                             break;
                         case 52:
-                            if (Aow.Game.Combat.TacticalTables.SpellTypes[UnitHS.FSelectedSpell] == TfxType.fxBreath)
+                            if (Aow.Game.Combat.TacticalTables.SpellTypes[UnitHS.FSelectedSpell] == TfxType.Breath)
                             {
                                 var yhx2 = UnitHS.GetYhx();
                                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(UnitHS.GetXhx(), yhx2, Aow.Game.Combat.TacticalTables.BreathHN[Aow.Game.Combat.TacticalTables.BreathDirection[Direction - 1] * 12 - 12], ref NX, ref NY);
@@ -7923,14 +7932,14 @@ namespace Aow.Game.Combat
             }
 
             FRangedPathHS.FSelection = this;
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.DynamicFixedVisibleHS.AddChild(FRangedPathHS);
+            Aow.Game.Combat.AoWCombatMap.Current.DynamicFixedVisibleHS.AddChild(FRangedPathHS);
         }
 
         // AoWTC.pas:2918
         public void MoveSelectedRoute()
         {
-            TTacticalCombatUnitHS UnitHS;
-            TEObject Target;
+            TacticalCombatUnitHS UnitHS;
+            EObject Target;
             int MovePoints;
             if (FMoveSettingsList.GetCount() > 0)
             {
@@ -7944,18 +7953,18 @@ namespace Aow.Game.Combat
                         {
                             var pathY = moveSettings.FPath[0];
                             var pathX = moveSettings.FPath[0];
-                            Target = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2228484);
+                            Target = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2228484);
                         }
                         else
                         {
                             var pathY = moveSettings.FPath[0];
                             var pathX = moveSettings.FPath[0];
-                            Target = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
+                            Target = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
                             if (Target == null)
                             {
                                 var path = moveSettings.FPath[0];
                                 var path2 = moveSettings.FPath[0];
-                                Target = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
+                                Target = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
                             }
                         }
 
@@ -7973,7 +7982,7 @@ namespace Aow.Game.Combat
                                 }
                                 else
                                 {
-                                    if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatMode(UnitHS.FUnit.FUnit) == TCombatMode.cmTouch)
+                                    if (Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(UnitHS.FSelectedAbility).GetCombatMode(UnitHS.FUnit.FUnit) == CombatMode.Touch)
                                     {
                                         if (GetTCUnitHS().AbTouchMoveTC(moveSettings.FPath))
                                         {
@@ -7986,7 +7995,7 @@ namespace Aow.Game.Combat
                         }
                         else
                         {
-                            if (Aow.Game.Combat.TTacticalCombatUnit.MoveCombatUnit(UnitHS.FUnit, moveSettings.FPath))
+                            if (Aow.Game.Combat.TacticalCombatUnit.MoveCombatUnit(UnitHS.FUnit, moveSettings.FPath))
                             {
                                 moveSettings.FPath.Clear();
                             }
@@ -8003,7 +8012,7 @@ namespace Aow.Game.Combat
             {
                 if (FMoveSettingsList.GetCount() > 1)
                 {
-                    if (Aow.Game.Combat.TCombatUnitSelectionControl.SetupMultiTCUnitMove(FMoveSettingsList))
+                    if (Aow.Game.Combat.CombatUnitSelectionControl.SetupMultiTCUnitMove(FMoveSettingsList))
                     {
                         for (int I = 0, last = FMoveSettingsList.GetCount() - 1; I <= last; I++)
                         {
@@ -8012,7 +8021,7 @@ namespace Aow.Game.Combat
                         }
                     }
 
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.UnselectLocation();
+                    Aow.Game.Combat.AoWCombatMap.Current.Selection.UnselectLocation();
                     DeactivateMoveSelection();
                     Clear();
                 }
@@ -8026,7 +8035,7 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2956
         public void ExecuteMoveSelection()
         {
-            TTacticalCombatUnitHS UnitHS;
+            TacticalCombatUnitHS UnitHS;
             TfxType EffectType;
             int X = default;
             int Y = default;
@@ -8038,7 +8047,7 @@ namespace Aow.Game.Combat
                 if (condition)
                 {
                     var path = FMoveSettingsList.GetMoveSettings(0).FPath[0];
-                    var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
+                    var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
                     condition = path.X == xhx;
                 }
 
@@ -8046,7 +8055,7 @@ namespace Aow.Game.Combat
                 if (test)
                 {
                     var path = FMoveSettingsList.GetMoveSettings(0).FPath[0];
-                    var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
+                    var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
                     test = path.Y == yhx;
                 }
 
@@ -8069,12 +8078,12 @@ namespace Aow.Game.Combat
                 {
                     if (!AllPathsValid())
                     {
-                        bool notExplorationEnabled = !Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FExplorationEnabled;
+                        bool notExplorationEnabled = !Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled;
                         if (!notExplorationEnabled)
                         {
-                            var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                            var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                            notExplorationEnabled = ((TAoWMapField)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL)).GetExplored(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer);
+                            var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                            var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                            notExplorationEnabled = ((AoWMapField)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.AoWCombatMap.Current.ViewL)).GetExplored(Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer);
                         }
 
                         if (notExplorationEnabled)
@@ -8088,44 +8097,44 @@ namespace Aow.Game.Combat
                             {
                                 for (int B = A + 1, lastB = FMoveSettingsList.GetCount() - 1; B <= lastB; B++)
                                 {
-                                    var yhx = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(B).FMoveObject).GetYhx();
-                                    var xhx = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(B).FMoveObject).GetXhx();
-                                    var mouseYhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                    var dHXtoRad2 = Aow.Game.World.Map.HexGeometry.dHXtoRad(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx, mouseYhx, xhx, yhx);
-                                    var yhx2 = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(A).FMoveObject).GetYhx();
-                                    var xhx2 = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(A).FMoveObject).GetXhx();
-                                    var yhx3 = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                    if (dHXtoRad2 < Aow.Game.World.Map.HexGeometry.dHXtoRad(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx, yhx3, xhx2, yhx2))
+                                    var yhx = ((HexagonSprite)FMoveSettingsList.GetMoveSettings(B).FMoveObject).GetYhx();
+                                    var xhx = ((HexagonSprite)FMoveSettingsList.GetMoveSettings(B).FMoveObject).GetXhx();
+                                    var mouseYhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                    var dHXtoRad2 = Aow.Game.World.Map.HexGeometry.dHXtoRad(Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx, mouseYhx, xhx, yhx);
+                                    var yhx2 = ((HexagonSprite)FMoveSettingsList.GetMoveSettings(A).FMoveObject).GetYhx();
+                                    var xhx2 = ((HexagonSprite)FMoveSettingsList.GetMoveSettings(A).FMoveObject).GetXhx();
+                                    var yhx3 = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                    if (dHXtoRad2 < Aow.Game.World.Map.HexGeometry.dHXtoRad(Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx, yhx3, xhx2, yhx2))
                                     {
                                         FMoveSettingsList.FChildren.Exchange(A, B);
                                     }
                                 }
                             }
 
-                            if (((TTacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(0).FMoveObject).FUnit.GetLocked())
+                            if (((TacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(0).FMoveObject).FUnit.GetLocked())
                             {
                                 FMoveSettingsList.GetMoveSettings(0).FPath.Clear();
                             }
                             else
                             {
-                                var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                CalculateMovePath(0, (sbyte)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx, (sbyte)yhx, (sbyte)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL);
+                                var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                CalculateMovePath(0, (sbyte)Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx, (sbyte)yhx, (sbyte)Aow.Game.Combat.AoWCombatMap.Current.ViewL);
                             }
 
                             if (FMoveSettingsList.GetMoveSettings(0).FPath.Count > 1)
                             {
                                 for (int I = 1, last = FMoveSettingsList.GetCount() - 1; I <= last; I++)
                                 {
-                                    if (((TTacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(I).FMoveObject).FUnit.GetLocked())
+                                    if (((TacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(I).FMoveObject).FUnit.GetLocked())
                                     {
                                         FMoveSettingsList.GetMoveSettings(I).FPath.Clear();
                                     }
                                     else
                                     {
-                                        var yhx = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(I).FMoveObject).GetYhx();
-                                        var xhx = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(I).FMoveObject).GetXhx();
-                                        var yhx2 = ((THexagonSprite)FMoveSettingsList.GetMoveSettings(0).FMoveObject).GetYhx();
-                                        Direction = Aow.Game.World.Map.HexGeometry.dHXtoHN(((THexagonSprite)FMoveSettingsList.GetMoveSettings(0).FMoveObject).GetXhx(), yhx2, xhx, yhx);
+                                        var yhx = ((HexagonSprite)FMoveSettingsList.GetMoveSettings(I).FMoveObject).GetYhx();
+                                        var xhx = ((HexagonSprite)FMoveSettingsList.GetMoveSettings(I).FMoveObject).GetXhx();
+                                        var yhx2 = ((HexagonSprite)FMoveSettingsList.GetMoveSettings(0).FMoveObject).GetYhx();
+                                        Direction = Aow.Game.World.Map.HexGeometry.dHXtoHN(((HexagonSprite)FMoveSettingsList.GetMoveSettings(0).FMoveObject).GetXhx(), yhx2, xhx, yhx);
                                         var path = FMoveSettingsList.GetMoveSettings(0).FPath[0];
                                         Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FMoveSettingsList.GetMoveSettings(0).FPath[0].X, path.Y, Direction, ref X, ref Y);
                                         CalculateMovePath(I, (sbyte)X, (sbyte)Y, 0);
@@ -8155,7 +8164,7 @@ namespace Aow.Game.Combat
                     if (condition)
                     {
                         var path = moveSettings.FPath[0];
-                        var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
+                        var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
                         condition = path.X == xhx;
                     }
 
@@ -8163,40 +8172,40 @@ namespace Aow.Game.Combat
                     if (test)
                     {
                         var path = moveSettings.FPath[0];
-                        var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
+                        var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
                         test = path.Y == yhx;
                     }
 
-                    if (test && moveSettings.FPath[0].L == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL)
+                    if (test && moveSettings.FPath[0].L == Aow.Game.Combat.AoWCombatMap.Current.ViewL)
                     {
                         MoveUnits();
                         return;
                     }
 
-                    if (((TTacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(FCurrentMove).FMoveObject).FUnit.GetLocked())
+                    if (((TacticalCombatUnitHS)FMoveSettingsList.GetMoveSettings(FCurrentMove).FMoveObject).FUnit.GetLocked())
                     {
                         FMoveSettingsList.GetMoveSettings(FCurrentMove).FPath.Clear();
                     }
                     else
                     {
-                        var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                        var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                        CalculateMovePath(FCurrentMove, (sbyte)xhx, (sbyte)yhx, (sbyte)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL);
+                        var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                        var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                        CalculateMovePath(FCurrentMove, (sbyte)xhx, (sbyte)yhx, (sbyte)Aow.Game.Combat.AoWCombatMap.Current.ViewL);
                     }
                 }
             }
             else
             {
-                if (GetTCUnitHS().FSelectedAbility == -1 && GetTCUnitHS().GetXhx() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx && GetTCUnitHS().GetYhx() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx)
+                if (GetTCUnitHS().FSelectedAbility == -1 && GetTCUnitHS().GetXhx() == Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx && GetTCUnitHS().GetYhx() == Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx)
                 {
                     var lhx = GetTCUnitHS().GetLhx();
                     var yhx = GetTCUnitHS().GetYhx();
                     var xhx = GetTCUnitHS().GetXhx();
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.SelectLocationHX(xhx, yhx, lhx);
+                    Aow.Game.Combat.AoWCombatMap.Current.Selection.SelectLocationHX(xhx, yhx, lhx);
                     return;
                 }
 
-                if (!GetTCUnitHS().FUnit.GetLocked() && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentPlayer))
+                if (!GetTCUnitHS().FUnit.GetLocked() && Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(Aow.Game.Combat.AoWCombatMap.Current.FCurrentPlayer))
                 {
                     UnitHS = GetTCUnitHS();
                     if (AllPathsValid())
@@ -8208,14 +8217,14 @@ namespace Aow.Game.Combat
                         bool condition = FRangedPath.Count > 0;
                         if (condition)
                         {
-                            var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
+                            var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
                             condition = FTargetX == xhx;
                         }
 
                         bool test = condition;
                         if (test)
                         {
-                            var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
+                            var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
                             test = FTargetY == yhx;
                         }
 
@@ -8229,12 +8238,12 @@ namespace Aow.Game.Combat
                         }
                         else
                         {
-                            if (UnitHS.FSelectedAbility == -1 && UnitHS.GetXhx() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx && UnitHS.GetYhx() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx)
+                            if (UnitHS.FSelectedAbility == -1 && UnitHS.GetXhx() == Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx && UnitHS.GetYhx() == Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx)
                             {
                                 var lhx = UnitHS.GetLhx();
                                 var yhx = UnitHS.GetYhx();
                                 var xhx = UnitHS.GetXhx();
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.SelectLocationHX(xhx, yhx, lhx);
+                                Aow.Game.Combat.AoWCombatMap.Current.Selection.SelectLocationHX(xhx, yhx, lhx);
                                 return;
                             }
 
@@ -8244,18 +8253,18 @@ namespace Aow.Game.Combat
                                 {
                                     if (UnitHS.FUnit.FMovePoints > 0 && !UnitHS.FUnit.GetLocked())
                                     {
-                                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FExplorationEnabled)
+                                        if (Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled)
                                         {
-                                            var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                            var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                                            if (!((TAoWMapField)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL)).GetExplored(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer))
+                                            var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                            var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                                            if (!((AoWMapField)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.AoWCombatMap.Current.ViewL)).GetExplored(Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer))
                                             {
                                                 return;
                                             }
                                         }
 
-                                        var mouseYhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                        var mouseXhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
+                                        var mouseYhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                        var mouseXhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
                                         CalculateMovePath(FCurrentMove, (sbyte)mouseXhx, (sbyte)mouseYhx, 0);
                                     }
                                 }
@@ -8272,15 +8281,15 @@ namespace Aow.Game.Combat
 
                                     switch (EffectType)
                                     {
-                                        case TfxType.fxNone:
+                                        case TfxType.None:
                                             UnitHS.SelectAbility(-1);
                                             break;
-                                        case TfxType.fxTouch:
-                                            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FExplorationEnabled)
+                                        case TfxType.Touch:
+                                            if (Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled)
                                             {
-                                                var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                                var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                                                if (!((TAoWMapField)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ViewL)).GetExplored(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer))
+                                                var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                                var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                                                if (!((AoWMapField)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.Combat.AoWCombatMap.Current.ViewL)).GetExplored(Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer))
                                                 {
                                                     return;
                                                 }
@@ -8288,21 +8297,21 @@ namespace Aow.Game.Combat
 
                                             if (!UnitHS.FUnit.GetLocked())
                                             {
-                                                var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                                CalculateMovePath(0, (sbyte)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx, (sbyte)yhx, 0);
+                                                var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                                CalculateMovePath(0, (sbyte)Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx, (sbyte)yhx, 0);
                                             }
 
                                             break;
                                         default:
                                             {
-                                                var yhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                                CalculateRangedPath((sbyte)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx, (sbyte)yhx);
+                                                var yhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                                CalculateRangedPath((sbyte)Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx, (sbyte)yhx);
                                                 if (FRangedPath.Count > 0)
                                                 {
-                                                    var mouseYhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Yhx;
-                                                    var xhx = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Mouse.Xhx;
-                                                    FMouseOverTarget = (THexagonSprite)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, mouseYhx].FindOwnedChild(2228484);
-                                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FMouseOverTargetEventsStore.Raise(FMouseOverTarget);
+                                                    var mouseYhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Yhx;
+                                                    var xhx = Aow.Game.Combat.AoWCombatMap.Current.Mouse.Xhx;
+                                                    FMouseOverTarget = (HexagonSprite)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[xhx, mouseYhx].FindOwnedChild(2228484);
+                                                    Aow.Game.Combat.AoWCombatMap.Current.FMouseOverTargetEventsStore.Raise(FMouseOverTarget);
                                                 }
                                             }
 
@@ -8317,7 +8326,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:3073
-        public bool ValidMultiMoveSelection(TAoWMapField Field)
+        public bool ValidMultiMoveSelection(AoWMapField Field)
         {
             sbyte Player;
             Player = Field.GetPlayer();
@@ -8327,21 +8336,21 @@ namespace Aow.Game.Combat
         // AoWTC.pas:3259
         public void ActivateMoveSelection()
         {
-            if (!FStatus.Contains(TMoveSelectorStatusElement.mssActivated))
+            if (!FStatus.Contains(MoveSelectorStatusElement.Activated))
             {
-                Activate(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap);
+                Activate(Aow.Game.Combat.AoWCombatMap.Current);
             }
         }
 
         // AoWTC.pas:3264
         public void DeactivateMoveSelection()
         {
-            if (FStatus.Contains(TMoveSelectorStatusElement.mssActivated))
+            if (FStatus.Contains(MoveSelectorStatusElement.Activated))
             {
                 Deactivate();
                 FRangedPath.Clear();
                 FMoveSettingsList.Clear();
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MouseMoveEvent(this);
+                Aow.Game.Combat.AoWCombatMap.Current.MouseMoveEvent(this);
             }
         }
 
@@ -8353,18 +8362,18 @@ namespace Aow.Game.Combat
                 GetTCUnitHS().FUnit.FUnit.CreateMovePointTable(ref FMoveControlSettings.FMovePointTable);
             }
 
-            FPathInvalid = TSet<AnonymousEnum_piMove>.Of(AnonymousEnum_piMove.piRanged);
+            FPathInvalid = Set<AnonymousEnum_piMove>.Of(AnonymousEnum_piMove.Ranged);
         }
 
         // AoWTC.pas:3300
-        public void SetTCUnitHS(TTacticalCombatUnitHS U)
+        public void SetTCUnitHS(TacticalCombatUnitHS U)
         {
             if (GetTCUnitHS() != U)
             {
                 if (FMoveSettingsList.GetCount() <= 1)
                 {
                     Clear();
-                    if (U != null && U.FUnit.GetPlayer() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer)
+                    if (U != null && U.FUnit.GetPlayer() == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer)
                     {
                         ActivateMoveSelection();
                         AddUnit(U);
@@ -8383,12 +8392,12 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:3325
-        public void Select(TTacticalCombatUnitHS U)
+        public void Select(TacticalCombatUnitHS U)
         {
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.UnselectLocation();
+            Aow.Game.Combat.AoWCombatMap.Current.Selection.UnselectLocation();
             if (U != null)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Selection.SelectLocationHS(U);
+                Aow.Game.Combat.AoWCombatMap.Current.Selection.SelectLocationHS(U);
             }
         }
 
@@ -8397,27 +8406,27 @@ namespace Aow.Game.Combat
         {
             if (FRangedPathHS.FSelection != null)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.DynamicFixedVisibleHS.RemoveChild(FRangedPathHS);
+                Aow.Game.Combat.AoWCombatMap.Current.DynamicFixedVisibleHS.RemoveChild(FRangedPathHS);
                 FRangedPathHS.FSelection = null;
             }
         }
 
-        private static bool SetupMultiTCUnitMove(global::Aow.Game.World.Movement.TMoveSettingsList Moves)
+        private static bool SetupMultiTCUnitMove(global::Aow.Game.World.Movement.MoveSettingsList Moves)
         {
             bool flag = false;
-            global::Aow.Game.Commands.TMultiMoveTE tMultiMoveTE = null;
-            global::Aow.Game.Commands.TCombatMoveTE tCombatMoveTE = null;
-            global::Aow.Game.World.Movement.TMovepath tMovepath = null;
+            global::Aow.Game.Commands.MultiMoveTE tMultiMoveTE = null;
+            global::Aow.Game.Commands.CombatMoveTE tCombatMoveTE = null;
+            global::Aow.Game.World.Movement.Movepath tMovepath = null;
             bool flag2 = Moves.Count != 0;
             if (flag2)
             {
-                sbyte player = ((global::Aow.Game.Draw.TTacticalCombatUnitHS)Moves.GetMoveSettings(0).FMoveObject).FUnit.GetPlayer();
-                flag2 = global::Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(player);
+                sbyte player = ((global::Aow.Game.Draw.TacticalCombatUnitHS)Moves.GetMoveSettings(0).FMoveObject).FUnit.GetPlayer();
+                flag2 = global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(player);
             }
             if (flag2)
             {
-                tMovepath = new global::Aow.Game.World.Movement.TMovepath();
-                tMultiMoveTE = new global::Aow.Game.Commands.TMultiMoveTE(null);
+                tMovepath = new global::Aow.Game.World.Movement.Movepath();
+                tMultiMoveTE = new global::Aow.Game.Commands.MultiMoveTE(null);
                 tMultiMoveTE.FSimultaneous = false;
                 Moves.CalculateMovePositions(ValidateTCMovePosition);
                 int i = 1;
@@ -8425,18 +8434,18 @@ namespace Aow.Game.Combat
                 {
                     for (int j = 0; j <= i - 1; j++)
                     {
-                        global::Aow.Game.World.Movement.TMoveSettings moveSettings = Moves.GetMoveSettings(j);
-                        global::Aow.Game.World.Movement.TMoveSettings moveSettings2 = Moves.GetMoveSettings(i);
+                        global::Aow.Game.World.Movement.MoveSettings moveSettings = Moves.GetMoveSettings(j);
+                        global::Aow.Game.World.Movement.MoveSettings moveSettings2 = Moves.GetMoveSettings(i);
                         if (moveSettings.FPath.Count > moveSettings2.FPath.Count)
                         {
-                            ((TList)Moves.FChildren).Exchange(i, j);
+                            ((DelphiList)Moves.FChildren).Exchange(i, j);
                         }
                     }
                 }
                 int k = 0;
                 for (int num2 = Moves.Count - 1; k <= num2; k++)
                 {
-                    global::Aow.Game.World.Movement.TMoveSettings moveSettings3 = Moves.GetMoveSettings(k);
+                    global::Aow.Game.World.Movement.MoveSettings moveSettings3 = Moves.GetMoveSettings(k);
                     if (moveSettings3.FMovePos < moveSettings3.FPath.Count - 1)
                     {
                         tMovepath.Clear();
@@ -8445,8 +8454,8 @@ namespace Aow.Game.Combat
                         {
                             tMovepath.Add(moveSettings3.FPath[l]);
                         }
-                        tCombatMoveTE = new global::Aow.Game.Commands.TCombatMoveTE(null);
-                        if (tCombatMoveTE.Setup(((global::Aow.Game.Draw.TTacticalCombatUnitHS)moveSettings3.FMoveObject).FUnit, tMovepath))
+                        tCombatMoveTE = new global::Aow.Game.Commands.CombatMoveTE(null);
+                        if (tCombatMoveTE.Setup(((global::Aow.Game.Draw.TacticalCombatUnitHS)moveSettings3.FMoveObject).FUnit, tMovepath))
                         {
                             tMultiMoveTE.FEvents.Add(tCombatMoveTE);
                         }
@@ -8455,8 +8464,8 @@ namespace Aow.Game.Combat
                 }
                 if (tMultiMoveTE.FEvents.Count != 0)
                 {
-                    sbyte player2 = ((global::Aow.Game.Draw.TTacticalCombatUnitHS)Moves.GetMoveSettings(0).FMoveObject).FUnit.GetPlayer();
-                    global::Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(player2).AddEvent(tMultiMoveTE);
+                    sbyte player2 = ((global::Aow.Game.Draw.TacticalCombatUnitHS)Moves.GetMoveSettings(0).FMoveObject).FUnit.GetPlayer();
+                    global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(player2).AddEvent(tMultiMoveTE);
                     flag = true;
                 }
                 else
@@ -8466,12 +8475,12 @@ namespace Aow.Game.Combat
                 tMultiMoveTE.Release();
                 if (tMovepath != null)
                 {
-                    ((TPersistent)tMovepath).Dispose();
+                    ((Persistent)tMovepath).Dispose();
                 }
                 int m = 0;
-                for (int num4 = global::Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FMoveSettingsList.Count - 1; m <= num4; m++)
+                for (int num4 = global::Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FMoveSettingsList.Count - 1; m <= num4; m++)
                 {
-                    global::Aow.Game.World.Movement.TMoveSettings moveSettings4 = global::Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(m);
+                    global::Aow.Game.World.Movement.MoveSettings moveSettings4 = global::Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.FMoveSettingsList.GetMoveSettings(m);
                     moveSettings4.FPath.Clear();
                 }
             }
@@ -8482,7 +8491,7 @@ namespace Aow.Game.Combat
             return flag;
         }
 
-        private static bool ValidateTCMovePosition(global::Aow.Game.World.Movement.TMoveSettingsList Moves, int Index)
+        private static bool ValidateTCMovePosition(global::Aow.Game.World.Movement.MoveSettingsList Moves, int Index)
         {
             bool flag = true;
             if (flag)
@@ -8491,12 +8500,12 @@ namespace Aow.Game.Combat
                 {
                     if (num != Index)
                     {
-                        global::Aow.Game.World.Movement.TMoveSettings moveSettings = Moves.GetMoveSettings(num);
+                        global::Aow.Game.World.Movement.MoveSettings moveSettings = Moves.GetMoveSettings(num);
                         bool flag2 = moveSettings.FValid && Moves.GetMoveSettings(Index).GetMovePrio() >= moveSettings.GetMovePrio();
                         if (flag2)
                         {
-                            global::Aow.Game.World.Map.TXYL moveLoc = Moves.GetMoveSettings(Index).GetMoveLoc();
-                            flag2 = moveSettings.GetMoveLoc().XYL == moveLoc.XYL;
+                            global::Aow.Game.World.Map.XYL moveLoc = Moves.GetMoveSettings(Index).GetMoveLoc();
+                            flag2 = moveSettings.GetMoveLoc().Packed == moveLoc.Packed;
                         }
                         if (flag2)
                         {
@@ -8508,12 +8517,17 @@ namespace Aow.Game.Combat
             return flag;
         }
 
+        public enum AnonymousEnum_piMove : byte
+        {
+            Move = 0, Ranged = 1
+        }
+
     }
 
     // FAuto. FEndTurn. FIndex. FLastX. FLastY. FLastUnit
-    public partial class TTacticalCombatPlayer : TCombatPlayer
+    public partial class TacticalCombatPlayer : CombatPlayer
     {
-        public TTacticalCombatPlayer(TECustomNode owner) : base(owner)
+        public TacticalCombatPlayer(ECustomNode owner) : base(owner)
         { }
 
         public bool FAuto;
@@ -8521,15 +8535,15 @@ namespace Aow.Game.Combat
         public sbyte FIndex;
         public int FLastX;
         public int FLastY;
-        public TTacticalCombatUnit FLastUnit;
+        public TacticalCombatUnit FLastUnit;
 
         // AoWTC.pas:6419
         public void SetAuto(bool Value)
         {
             FAuto = Value;
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer == FIndex && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer)
+            if (Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer == FIndex && Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FAI.Reset();
+                Aow.Game.Combat.AoWCombatMap.Current.FAI.Reset();
             }
         }
 
@@ -8537,9 +8551,9 @@ namespace Aow.Game.Combat
 
     [LegacyObject]
     // FPlayers
-    public partial class TTacticalCombatPlayerList
+    public partial class TacticalCombatPlayerList
     {
-        public TCombatPlayerList FPlayers;
+        public CombatPlayerList FPlayers;
 
         // AoWTC.pas:6426
         public int GetCount()
@@ -8558,19 +8572,19 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:6431
-        public TTacticalCombatPlayer GetPlayers(sbyte Index) => (TTacticalCombatPlayer)FPlayers.GetPlayers(Index);
+        public TacticalCombatPlayer GetPlayers(sbyte Index) => (TacticalCombatPlayer)FPlayers.GetPlayers(Index);
 
-        public TTacticalCombatPlayerList()
+        public TacticalCombatPlayerList()
         {
             CaptureAddress.Assign(this);
         }
 
     }
 
-    public partial class TAoWCombatMapMouse : TAbstractAoWHSMapMouse
+    public partial class AoWCombatMapMouse : AbstractAoWHSMapMouse
     {
 
-        public TAoWCombatMapMouse() : base()
+        public AoWCombatMapMouse() : base()
         { }
 
         // intf_P1_05.inc:68
@@ -8580,28 +8594,28 @@ namespace Aow.Game.Combat
     // FPlayers. FCombat. FUnitPositions. FSeatedCombatPlayer. FCurrentCombatPlayer. turn/player
     // events. FMoveControl. FUnitSelection. selection/unit events. FAI. FEffects. FWalls.
     // FFleeLocations. FEndTurnPending. FPlaySounds. FPositionStatus. FRound
-    public partial class TAoWCombatMap : TAbstractAoWCombatMap
+    public partial class AoWCombatMap : AbstractAoWCombatMap
     {
         // AoWTC.pas:2183
         public new const int ClassID = 2228480;
 
-        public TTacticalCombatPlayerList FPlayers;
-        public TTacticalCombat FCombat;
-        public TUnitPositionControl FUnitPositions;
+        public TacticalCombatPlayerList FPlayers;
+        public TacticalCombat FCombat;
+        public UnitPositionControl FUnitPositions;
         public sbyte FSeatedCombatPlayer;
         public sbyte FCurrentCombatPlayer;
 
         internal EventStore<sbyte> FChangeTurnEventsStore;
 
-        public event TNotifyEvent<sbyte> FChangeTurnEvents
+        public event NotifyEvent<sbyte> FChangeTurnEvents
         {
             add => FChangeTurnEventsStore.Add(value);
             remove => FChangeTurnEventsStore.Remove(value);
         }
 
-        internal EventStore<TAoWCombatMap> FPlayerChangedEventsStore;
+        internal EventStore<global::Aow.Game.Combat.AoWCombatMap> FPlayerChangedEventsStore;
 
-        public event TNotifyEvent<TAoWCombatMap> FPlayerChangedEvents
+        public event NotifyEvent<global::Aow.Game.Combat.AoWCombatMap> FPlayerChangedEvents
         {
             add => FPlayerChangedEventsStore.Add(value);
             remove => FPlayerChangedEventsStore.Remove(value);
@@ -8609,36 +8623,36 @@ namespace Aow.Game.Combat
 
         internal EventStore<sbyte> FSeatedPlayerChangedEventsStore;
 
-        public event TNotifyEvent<sbyte> FSeatedPlayerChangedEvents
+        public event NotifyEvent<sbyte> FSeatedPlayerChangedEvents
         {
             add => FSeatedPlayerChangedEventsStore.Add(value);
             remove => FSeatedPlayerChangedEventsStore.Remove(value);
         }
 
-        public TCombatMoveControl FMoveControl;
-        public TCombatUnitSelectionControl FUnitSelection;
+        public CombatMoveControl FMoveControl;
+        public CombatUnitSelectionControl FUnitSelection;
 
-        internal EventStore<TTacticalCombat> FSelectEventsStore;
+        internal EventStore<TacticalCombat> FSelectEventsStore;
 
-        public event TNotifyEvent<TTacticalCombat> FSelectEvents
+        public event NotifyEvent<TacticalCombat> FSelectEvents
         {
             add => FSelectEventsStore.Add(value);
             remove => FSelectEventsStore.Remove(value);
         }
 
-        internal EventStore<TTacticalCombat> FDeselectEventsStore;
+        internal EventStore<TacticalCombat> FDeselectEventsStore;
 
-        public event TNotifyEvent<TTacticalCombat> FDeselectEvents
+        public event NotifyEvent<TacticalCombat> FDeselectEvents
         {
             add => FDeselectEventsStore.Add(value);
             remove => FDeselectEventsStore.Remove(value);
         }
 
-        public TMapObject FCenterViewLocation;
+        public MapObject FCenterViewLocation;
 
-        internal EventStore<THexagonSprite> FMouseOverTargetEventsStore;
+        internal EventStore<HexagonSprite> FMouseOverTargetEventsStore;
 
-        public event TNotifyEvent<THexagonSprite> FMouseOverTargetEvents
+        public event NotifyEvent<HexagonSprite> FMouseOverTargetEvents
         {
             add => FMouseOverTargetEventsStore.Add(value);
             remove => FMouseOverTargetEventsStore.Remove(value);
@@ -8646,19 +8660,19 @@ namespace Aow.Game.Combat
 
         // CMapCtrl
 
-        internal EventStore<TTacticalCombatUnitHS> FUnitChangedEventsStore;
+        internal EventStore<TacticalCombatUnitHS> FUnitChangedEventsStore;
 
-        public event TNotifyEvent<TTacticalCombatUnitHS> FUnitChangedEvents
+        public event NotifyEvent<TacticalCombatUnitHS> FUnitChangedEvents
         {
             add => FUnitChangedEventsStore.Add(value);
             remove => FUnitChangedEventsStore.Remove(value);
         }
 
         // CMapCtrl
-        public TCAI FAI;
-        public TList FEffects;
-        public TList FWalls;
-        public TList FFleeLocations;
+        public CAI FAI;
+        public DelphiList FEffects;
+        public DelphiList FWalls;
+        public DelphiList FFleeLocations;
         public bool FEndTurnPending;
         public bool FPlaySounds;
         public FixedArray_byte_8 FPositionStatus;
@@ -8670,15 +8684,15 @@ namespace Aow.Game.Combat
             while (FEffects.Count > 0)
             {
                 var effect = FEffects[0];
-                DynamicFixedVisibleHS.RemoveChild((TEObject)effect);
+                DynamicFixedVisibleHS.RemoveChild((EObject)effect);
                 var effect2 = FEffects[0];
-                DynamicVisibleHS.RemoveChild((TEObject)effect2);
+                DynamicVisibleHS.RemoveChild((EObject)effect2);
                 (FEffects[0] as IDisposable)?.Dispose();
                 FEffects.Delete(0);
             }
 
             base.Dispose();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = null;
+            global::Aow.Game.Combat.AoWCombatMap.Current = null;
             FUnitPositions?.Dispose();
             FChangeTurnEventsStore.Clear();
             FPlayerChangedEventsStore.Clear();
@@ -8696,27 +8710,27 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2189
-        private protected sealed override void InitializeBeforeInherited() => Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = this;
+        private protected sealed override void InitializeBeforeInherited() => global::Aow.Game.Combat.AoWCombatMap.Current = this;
 
         // AoWTC.pas:2186
-        public TAoWCombatMap(TECustomNode owner) : base(owner)
+        public AoWCombatMap(ECustomNode owner) : base(owner)
         {
-            FUnitPositions = new TUnitPositionControl(null);
+            FUnitPositions = new UnitPositionControl(null);
             FChangeTurnEventsStore = new();
             FPlayerChangedEventsStore = new();
             FSeatedPlayerChangedEventsStore = new();
-            FMoveControl = new TCombatMoveControl(this);
+            FMoveControl = new CombatMoveControl(this);
             FSelectEventsStore = new();
             FDeselectEventsStore = new();
             FMouseOverTargetEventsStore = new();
             FUnitChangedEventsStore = new();
-            FPlayers = new TTacticalCombatPlayerList();
-            FUnitSelection = new TCombatUnitSelectionControl();
-            ((TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents += FUnitSelection.RectangleSelectEvent;
-            FEffects = new TList();
-            FWalls = new TList();
-            FFleeLocations = new TList();
-            FAI = new TCAI();
+            FPlayers = new TacticalCombatPlayerList();
+            FUnitSelection = new CombatUnitSelectionControl();
+            ((AbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents += FUnitSelection.RectangleSelectEvent;
+            FEffects = new DelphiList();
+            FWalls = new DelphiList();
+            FFleeLocations = new DelphiList();
+            FAI = new CAI();
             Mouse.SetCapture(this);
             Mouse.OnMove += MouseMoveEvent;
             Mouse.CursorMode = 256;
@@ -8727,28 +8741,28 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2249
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
-            if (Msg.MsgID == 536870920 && !Status.Contains(THSMapStatusElement.msEditting))
+            if (Msg.MsgID == 536870920 && !Status.Contains(HSMapStatusElement.Editting))
             {
-                SetCombat((TTacticalCombat)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombat);
+                SetCombat((TacticalCombat)Aow.Game.World.Map.AoWHSMap.Current.FCombat);
             }
 
             base.MsgProc(ref Msg, Sender);
         }
 
         // AoWTC.pas:2240
-        public override THSMapMouse CreateMouse() => new TAoWCombatMapMouse();
+        public override HSMapMouse CreateMouse() => new AoWCombatMapMouse();
 
         // AoWTC.pas:2267
         public override void InitializeNewMap()
         {
-            THexagonControl Control;
+            HexagonControl Control;
             for (int X = 6, last = MapContainer.Width - 7; X <= last; X++)
             {
                 for (int Y = 6, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatHexagons.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 1);
+                    Aow.Game.Engine.AoWHSSet.Current.FCombatHexagons.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 1);
                 }
             }
 
@@ -8781,10 +8795,10 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2338
-        public override void DrawDynamicScene(ref TSurfaceDesc SD)
+        public override void DrawDynamicScene(ref SurfaceDesc SD)
         {
             base.DrawDynamicScene(ref SD);
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
+            if (Aow.Game.World.Map.AoWHSMap.Current != null)
             {
                 DrawFog(SD);
             }
@@ -8795,9 +8809,9 @@ namespace Aow.Game.Combat
             }
 
             DrawMoveRoute(SD);
-            if (((TAbstractAoWHSMapMouse)Mouse).FSelectionRectangle.Left != -1)
+            if (((AbstractAoWHSMapMouse)Mouse).FSelectionRectangle.Left != -1)
             {
-                DrawSelectionRect(ViewXhp, ViewYhp, ((TAbstractAoWHSMapMouse)Mouse).FSelectionRectangle, SD);
+                DrawSelectionRect(ViewXhp, ViewYhp, ((AbstractAoWHSMapMouse)Mouse).FSelectionRectangle, SD);
             }
         }
 
@@ -8806,7 +8820,7 @@ namespace Aow.Game.Combat
         {
             int I;
             TfxHS Effect;
-            if (!Status.Contains(THSMapStatusElement.msEditting))
+            if (!Status.Contains(HSMapStatusElement.Editting))
             {
                 I = 0;
                 while (I < FEffects.Count)
@@ -8827,24 +8841,24 @@ namespace Aow.Game.Combat
             }
 
             base.NewFrame();
-            if (!Status.Contains(THSMapStatusElement.msEditting) && FCombat != null)
+            if (!Status.Contains(HSMapStatusElement.Editting) && FCombat != null)
             {
                 UpdateCursor();
-                if (FEndTurnPending && (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FCurrentPlayer).FPlayerType != TPlayerType.ptHuman && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(FCombat.FHostPlayer).ConnectionMode != TConnectionMode.cmRemote || FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(FCurrentPlayer).ConnectionMode != TConnectionMode.cmRemote))
+                if (FEndTurnPending && (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FCurrentPlayer).FPlayerType != PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FCombat.FHostPlayer).ConnectionMode != ConnectionMode.Remote || FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FCurrentPlayer).ConnectionMode != ConnectionMode.Remote))
                 {
                     switch (FAI.Status)
                     {
-                        case TaiStatus.aiIdle:
+                        case Aow.Game.Combat.CAI.TaiStatus.Idle:
                             Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI for Player " + IntToStr(FCurrentPlayer) + " turn begins.");
                             FAI.BeginTurn();
                             break;
-                        case TaiStatus.aiBusy:
+                        case Aow.Game.Combat.CAI.TaiStatus.Busy:
                             FAI.ContinueTurn();
                             break;
-                        case TaiStatus.aiDone:
+                        case Aow.Game.Combat.CAI.TaiStatus.Done:
                             if (EndTurn(true))
                             {
-                                FAI.Status = TaiStatus.aiIdle;
+                                FAI.Status = Aow.Game.Combat.CAI.TaiStatus.Idle;
                                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("AI for Player " + IntToStr(FCurrentPlayer) + " turn ends.");
                             }
 
@@ -8855,12 +8869,12 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2515
-        public override void DropHeroItem(THero Hero, TItem Item)
+        public override void DropHeroItem(Hero Hero, Item Item)
         {
             sbyte X;
             sbyte Y;
             sbyte L;
-            TItemHS HS;
+            ItemHS HS;
             int I;
             X = -1;
             Y = -1;
@@ -8869,22 +8883,22 @@ namespace Aow.Game.Combat
             while (I != 0 && X == -1)
             {
                 I -= 1;
-                if (FCombat.FCombatData.GetObjects(I) is TTacticalCombatUnit && ((TCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == Hero)
+                if (FCombat.FCombatData.GetObjects(I) is TacticalCombatUnit && ((CombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == Hero)
                 {
-                    X = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
-                    Y = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                    X = ((TacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
+                    Y = ((TacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
                     L = 0;
                 }
             }
 
             if (X > -1)
             {
-                HS = (TItemHS)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+                HS = (ItemHS)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
                 if (HS == null)
                 {
-                    HS = new TCItemHS(null);
+                    HS = new CItemHS(null);
                     // { Original bug: a failed placement leaves the new item sprite allocated. }
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlaceHX(HS, X, Y, L))
+                    if (global::Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(HS, X, Y, L))
                     {
                         Item.SetOwner(HS.FItems);
                     }
@@ -8897,17 +8911,17 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2544
-        public override TItemList GetHeroItemsOnGround(THero Hero)
+        public override ItemList GetHeroItemsOnGround(Hero Hero)
         {
-            TItemHS HS;
+            ItemHS HS;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TItemList Result = null;
+            ItemList Result = null;
             GetUnitLocation(Hero, ref X, ref Y, ref L);
             if (X > -1)
             {
-                HS = (TItemHS)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+                HS = (ItemHS)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
                 if (HS != null)
                 {
                     Result = HS.FItems;
@@ -8918,7 +8932,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2243
-        public void SetCombat(TTacticalCombat Combat)
+        public void SetCombat(TacticalCombat Combat)
         {
             FCombat = Combat;
             if (FCombat != null)
@@ -8930,13 +8944,13 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2256
         public void MouseMoveEvent(object Sender)
         {
-            TTacticalCombatUnitHS HS;
-            if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting) && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Mouse.Xhx != -1 && Mouse.Yhx != -1 && Mouse.Capture == null)
+            TacticalCombatUnitHS HS;
+            if (!global::Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting) && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Mouse.Xhx != -1 && Mouse.Yhx != -1 && Mouse.Capture == null)
             {
                 Mouse.CursorMode = 0;
                 var yhx = Mouse.Yhx;
                 var xhx = Mouse.Xhx;
-                HS = (TTacticalCombatUnitHS)MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484);
+                HS = (TacticalCombatUnitHS)MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484);
                 if (HS != null)
                 {
                     Mouse.CursorMode = 257;
@@ -8963,8 +8977,8 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2296
         public void NewTurn(sbyte Player)
         {
-            TTacticalCombatUnit U;
-            TEMsg Msg = default;
+            TacticalCombatUnit U;
+            EMsg Msg = default;
             FCurrentCombatPlayer = Player;
             if (Player == 0)
             {
@@ -8974,27 +8988,27 @@ namespace Aow.Game.Combat
             SetCurrentPlayer(FPlayers.GetPlayers(FCurrentCombatPlayer).FPlayer);
             FCombat.NewTurn((byte)FCurrentCombatPlayer);
             FUnitSelection.Unselect();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.TokenExecuter.ActivateTC(FCurrentPlayer);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(FCurrentPlayer);
             if (FPlayers.GetPlayers(FCurrentCombatPlayer).FPlayer == 0)
             {
-                var ind = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Combat.TAoWCombatMap.IndRStr);
-                var beginRound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Combat.TAoWCombatMap.BeginRoundRStr);
+                var ind = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Combat.AoWCombatMap.IndRStr);
+                var beginRound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Combat.AoWCombatMap.BeginRoundRStr);
                 ShowMessage(ind + " " + beginRound);
             }
             else
             {
                 var player = FPlayers.GetPlayers(FCurrentCombatPlayer);
-                var playerPlayerRace = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player.FPlayer);
+                var playerPlayerRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer);
                 var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-                var beginRound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Combat.TAoWCombatMap.BeginRoundRStr);
+                var beginRound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Combat.AoWCombatMap.BeginRoundRStr);
                 ShowMessage(raceNamesPlural + " " + beginRound);
             }
 
             var playerPlayer = FPlayers.GetPlayers(FCurrentCombatPlayer);
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == TPlayerType.ptHuman)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == PlayerType.Human)
             {
                 var player = FPlayers.GetPlayers(FCurrentCombatPlayer);
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(player.FPlayer).ConnectionMode != TConnectionMode.cmRemote)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(player.FPlayer).ConnectionMode != ConnectionMode.Remote)
                 {
                     SetSeatedCombatPlayer(FCurrentCombatPlayer);
                     if (FPlayers.GetPlayers(FCurrentCombatPlayer).FLastX == 0)
@@ -9028,11 +9042,11 @@ namespace Aow.Game.Combat
             }
 
             Aow.Game.Audio.AudioPlayback.PlaySample("Sfx\\Events\\NewEvent.wav");
-            Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 537006081, this);
+            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 537006081, this);
             SendMsg(ref Msg, this);
             if (FExplorationEnabled)
             {
-                var rect = Rect(0, 0, 65, 58);
+                var rect = global::Aow.Rtl.RtlUnit.Rect(0, 0, 65, 58);
                 TriggerMapChangedEvent(rect, 0);
             }
 
@@ -9041,7 +9055,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2348
-        public void DrawMoveRoute(in TSurfaceDesc SD)
+        public void DrawMoveRoute(in SurfaceDesc SD)
         {
             FUnitSelection.ShowMovePaths(SD);
         }
@@ -9049,27 +9063,27 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2351
         public bool EndTurn(bool Automatic)
         {
-            TCEndTurnTE TE;
+            CEndTurnTE TE;
             bool Result = false;
             if (!Automatic)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FCurrentPlayer).FPlayerType != TPlayerType.ptHuman)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FCurrentPlayer).FPlayerType != PlayerType.Human)
                 {
                     return Result;
                 }
 
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer != Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer)
+                if (global::Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer != global::Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer)
                 {
                     return Result;
                 }
             }
 
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FCurrentPlayer))
+            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FCurrentPlayer))
             {
-                TE = Aow.Game.Combat.TAoWCombatMap.CreateTCEndTurnTE(FCurrentPlayer);
+                TE = global::Aow.Game.Combat.AoWCombatMap.CreateTCEndTurnTE(FCurrentPlayer);
                 if (TE != null)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(FCurrentPlayer).AddEvent(TE);
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FCurrentPlayer).AddEvent(TE);
                     TE.Release();
                     Result = true;
                     FEndTurnPending = false;
@@ -9098,7 +9112,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:2381
-        public TTacticalCombatUnit GetNextUnit(TTacticalCombatUnit U, bool AllUnits, bool Forward)
+        public TacticalCombatUnit GetNextUnit(TacticalCombatUnit U, bool AllUnits, bool Forward)
         {
             int Index;
             int I;
@@ -9109,7 +9123,7 @@ namespace Aow.Game.Combat
                 U = null;
             }
 
-            TTacticalCombatUnit Result = U;
+            TacticalCombatUnit Result = U;
             if (Forward)
             {
                 Step = 1;
@@ -9139,9 +9153,9 @@ namespace Aow.Game.Combat
 
             while (Index < this.FCombat.FCombatData.GetCount() && Index > -1)
             {
-                if (this.FCombat.FCombatData.GetObjects(Index) != null && this.FCombat.FCombatData.GetObjects(Index) is TCombatUnit && (AllUnits || ((TTacticalCombatUnit)this.FCombat.FCombatData.GetObjects(Index)).FMovePoints > 0) && this.FCombat.FCombatData.GetObjects(Index).GetEnabled() && this.FCombat.FCombatData.GetObjects(Index).FCombatPlayer == FCurrentCombatPlayer)
+                if (this.FCombat.FCombatData.GetObjects(Index) != null && this.FCombat.FCombatData.GetObjects(Index) is CombatUnit && (AllUnits || ((TacticalCombatUnit)this.FCombat.FCombatData.GetObjects(Index)).FMovePoints > 0) && this.FCombat.FCombatData.GetObjects(Index).GetEnabled() && this.FCombat.FCombatData.GetObjects(Index).FCombatPlayer == FCurrentCombatPlayer)
                 {
-                    Result = (TTacticalCombatUnit)this.FCombat.FCombatData.GetObjects(Index);
+                    Result = (TacticalCombatUnit)this.FCombat.FCombatData.GetObjects(Index);
                     Index = -10;
                 }
 
@@ -9161,9 +9175,9 @@ namespace Aow.Game.Combat
 
                 while (Index != Start && Index > -1 && Index < this.FCombat.FCombatData.GetCount())
                 {
-                    if (this.FCombat.FCombatData.GetObjects(Index) != null && this.FCombat.FCombatData.GetObjects(Index) is TCombatUnit && (AllUnits || ((TTacticalCombatUnit)this.FCombat.FCombatData.GetObjects(Index)).FMovePoints > 0) && this.FCombat.FCombatData.GetObjects(Index).GetEnabled() && this.FCombat.FCombatData.GetObjects(Index).FCombatPlayer == FCurrentCombatPlayer)
+                    if (this.FCombat.FCombatData.GetObjects(Index) != null && this.FCombat.FCombatData.GetObjects(Index) is CombatUnit && (AllUnits || ((TacticalCombatUnit)this.FCombat.FCombatData.GetObjects(Index)).FMovePoints > 0) && this.FCombat.FCombatData.GetObjects(Index).GetEnabled() && this.FCombat.FCombatData.GetObjects(Index).FCombatPlayer == FCurrentCombatPlayer)
                     {
-                        Result = (TTacticalCombatUnit)this.FCombat.FCombatData.GetObjects(Index);
+                        Result = (TacticalCombatUnit)this.FCombat.FCombatData.GetObjects(Index);
                         Index = -10;
                     }
 
@@ -9188,7 +9202,7 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2475
         public void UpdateCursor()
         {
-            if (!((FSeatedPlayer == -1 || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FSeatedPlayer)) && FSeatedPlayer == FCurrentPlayer && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer))
+            if (!((FSeatedPlayer == -1 || Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FSeatedPlayer)) && FSeatedPlayer == FCurrentPlayer && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && global::Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer == global::Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer))
             {
                 Mouse.Cursor = (int)(((uint)Frame) >> 2) % 4 + 6;
             }
@@ -9217,16 +9231,16 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2489
         public void EndCombat()
         {
-            TTerminateCombatTE TE;
-            TE = new TTerminateCombatTE(null);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.TokenExecuter.AddSystemEvent(TE);
+            TerminateCombatTE TE;
+            TE = new TerminateCombatTE(null);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.AddSystemEvent(TE);
             TE.Release();
         }
 
         // AoWTC.pas:2497
         public void SelectNextUnit(bool Forward)
         {
-            TTacticalCombatUnit U;
+            TacticalCombatUnit U;
             int X = default;
             int Y = default;
             if (FSeatedCombatPlayer == FCurrentCombatPlayer)
@@ -9253,17 +9267,17 @@ namespace Aow.Game.Combat
         // TTacticalCombatUnit and reads FUnit. On a wall that offset is FWallType, FHitPoints and FLocked,
         // a small integer, so the unit comparison fails and the search continues. The port skips objects
         // that are not tactical units, which has the same result.
-        public void GetUnitLocation(TAbstractUnit U, ref sbyte X, ref sbyte Y, ref sbyte L)
+        public void GetUnitLocation(AbstractUnit U, ref sbyte X, ref sbyte Y, ref sbyte L)
         {
             int I;
             X = -1;
             I = 0;
             while (I < FCombat.FCombatData.GetCount())
             {
-                if (FCombat.FCombatData.GetObjects(I) is TTacticalCombatUnit && ((TCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == U && FCombat.FCombatData.GetObjects(I).GetEnabled())
+                if (FCombat.FCombatData.GetObjects(I) is TacticalCombatUnit && ((CombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == U && FCombat.FCombatData.GetObjects(I).GetEnabled())
                 {
-                    X = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
-                    Y = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                    X = ((TacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
+                    Y = ((TacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
                     L = 0;
                     I = FCombat.FCombatData.GetCount();
                 }
@@ -9277,14 +9291,14 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2572
         public void Surrender(sbyte Mode)
         {
-            TCEndCombatTE TE;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentPlayer) && FCurrentCombatPlayer == FSeatedCombatPlayer)
+            CEndCombatTE TE;
+            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(global::Aow.Game.Combat.AoWCombatMap.Current.FCurrentPlayer) && FCurrentCombatPlayer == FSeatedCombatPlayer)
             {
                 FUnitSelection.Unselect();
-                TE = Aow.Game.Combat.TAoWCombatMap.CreateTCEndCombatTE();
+                TE = global::Aow.Game.Combat.AoWCombatMap.CreateTCEndCombatTE();
                 if (TE != null)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(FCurrentPlayer).AddEvent(TE);
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FCurrentPlayer).AddEvent(TE);
                     TE.Release();
                 }
             }
@@ -9294,14 +9308,14 @@ namespace Aow.Game.Combat
 
         private static readonly string BeginRoundRStr = "begin their round.";
 
-        private static TCEndCombatTE CreateTCEndCombatTE() => new TCEndCombatTE(null);
+        private static CEndCombatTE CreateTCEndCombatTE() => new CEndCombatTE(null);
 
-        private static TCEndTurnTE CreateTCEndTurnTE(sbyte Player)
+        private static CEndTurnTE CreateTCEndTurnTE(sbyte Player)
         {
-            TCEndTurnTE Result;
-            if (Player != -1 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(Player))
+            CEndTurnTE Result;
+            if (Player != -1 && Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(Player))
             {
-                Result = new TCEndTurnTE(null);
+                Result = new CEndTurnTE(null);
             }
             else
             {
@@ -9311,18 +9325,18 @@ namespace Aow.Game.Combat
             return Result;
         }
 
-        internal static void PlaceOverviewUnit(TAoWCombatMap Map, TAbstractUnit U, int Position, int Index)
+        internal static void PlaceOverviewUnit(global::Aow.Game.Combat.AoWCombatMap Map, AbstractUnit U, int Position, int Index)
         {
-            TOverviewUnitHS HS;
+            OverviewUnitHS HS;
             sbyte Overlay;
-            TTacticalCombatUnitHS Occupant;
+            TacticalCombatUnitHS Occupant;
             int X0;
             int Y0;
             int X = default;
             int Y = default;
             int I;
-            TXYL P;
-            HS = new TOverviewUnitHS(null);
+            XYL P;
+            HS = new OverviewUnitHS(null);
             HS.SetU(U);
             P = Map.FUnitPositions.GetUnitPosition(Position, Index);
             X0 = P.X;
@@ -9331,8 +9345,8 @@ namespace Aow.Game.Combat
             do
             {
                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X0, Y0, I, ref X, ref Y);
-                Overlay = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].OverlayType;
-                Occupant = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                Overlay = global::Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType;
+                Occupant = (TacticalCombatUnitHS)global::Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
                 I += 1;
             }
             while (!(Overlay != 8 && Occupant == null));
@@ -9342,7 +9356,7 @@ namespace Aow.Game.Combat
             }
         }
 
-        internal static TAoWCombatMap AoWCombatMap;
+        internal static global::Aow.Game.Combat.AoWCombatMap Current;
 
         // AoWTC.pas:484
 
@@ -9351,21 +9365,21 @@ namespace Aow.Game.Combat
     }
 
     // Inherited combat layout. FHostPlayer
-    public partial class TTacticalCombat : TCombat
+    public partial class TacticalCombat : global::Aow.Game.Combat.Combat
     {
         // AoWTC.pas:5081
         public new const int ClassID = 2228496;
 
-        public TTacticalCombat(TECustomNode owner) : base(owner)
+        public TacticalCombat(ECustomNode owner) : base(owner)
         { }
 
         public sbyte FHostPlayer;
 
         // AoWTC.pas:5086
-        public override TCombatUnit CreateCombatUnit() => new TTacticalCombatUnit(null);
+        public override CombatUnit CreateCombatUnit() => new TacticalCombatUnit(null);
 
         // AoWTC.pas:5157
-        public override TCombatPlayer CreateCombatPlayer() => new TTacticalCombatPlayer(null);
+        public override CombatPlayer CreateCombatPlayer() => new TacticalCombatPlayer(null);
 
         // AoWTC.pas:5097
         public override void Initialize()
@@ -9374,13 +9388,13 @@ namespace Aow.Game.Combat
             FCombatData.FTurnOrder.Clear();
             FCombatData.FTurnOrder.Add((byte)FCombatData.FAttackerPlayer);
             FHostPlayer = -1;
-            for (int I = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
             {
                 if (FHostPlayer == -1)
                 {
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FPlayerType == TPlayerType.ptHuman)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human)
                     {
-                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FStatus != TPlayerStatus.psTerminated)
+                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Aow.Game.Session.Player.Status.Terminated)
                         {
                             FHostPlayer = (sbyte)I;
                         }
@@ -9399,25 +9413,25 @@ namespace Aow.Game.Combat
                 }
 
                 var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType != TPlayerType.ptHuman)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType != PlayerType.Human)
                 {
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC is TRemotePCC)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC is RemotePCC)
                     {
-                        var playerConnectionMode = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
+                        var playerConnectionMode = Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
                         var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                        ((TRemotePCC)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC).SetConnectionMode(player.FPlayer, playerConnectionMode.ConnectionMode);
-                        var playerSystemID = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
+                        ((RemotePCC)Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC).SetConnectionMode(player.FPlayer, playerConnectionMode.ConnectionMode);
+                        var playerSystemID = Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
                         var player2 = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                        ((TRemotePCC)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC).SetSystemID(player2.FPlayer, playerSystemID.SystemID);
+                        ((RemotePCC)Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC).SetSystemID(player2.FPlayer, playerSystemID.SystemID);
                     }
                 }
             }
 
-            for (int I = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetCount() - 1; I <= last; I++)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(I).Local() || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(I).Global())
+                if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(I).Local() || Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(I).Global())
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(I).ClearEvents();
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(I).ClearEvents();
                 }
             }
 
@@ -9439,7 +9453,7 @@ namespace Aow.Game.Combat
         // AoWTC.pas:5091
         public override void Deactivate()
         {
-            if (FCombatResult != TCombatResult.crCannotBreachWall)
+            if (FCombatResult != CombatResult.CannotBreachWall)
             {
                 UpdateStatus();
             }
@@ -9451,89 +9465,89 @@ namespace Aow.Game.Combat
         public bool ValidateWallCombat()
         {
             int I;
-            TCombatSide Side;
-            Side = FSides[(int)TCombatSideIndex.csAttacker];
+            CombatSide Side;
+            Side = FSides[(int)CombatSideIndex.Attacker];
             bool Result = FCombatData.FParties.GetParty(0).FWall == 0;
             I = Side.GetCount();
             while (!Result && I > 0)
             {
                 I -= 1;
-                Result = (Side.GetObjects(I).WallCombatFeatures() & TSet<TWallCombatFeaturesElement>.Of(TWallCombatFeaturesElement.wcWallBreaching, TWallCombatFeaturesElement.wcWallPassing)) != TSet<TWallCombatFeaturesElement>.Of();
+                Result = (Side.GetObjects(I).WallCombatFeatures() & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of();
             }
 
             return Result;
         }
 
-        public override TCombatResult Execute()
+        public override CombatResult Execute()
         {
             if (HeadlessHooks.Tactical || FrameFixtureInputs.Tactical)
             {
                 FHostPlayer = 0;
                 HeadlessHooks.TacticalExecutions++;
             }
-            TCombatResult Result = default;
-            TRndTacHsm Generator = default;
+            CombatResult Result = default;
+            RndTacHsm Generator = default;
             int Seated = default;
             if (!ValidateWallCombat())
             {
                 SetLogCombatActions(1);
                 SetLogbookHeader(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CannotBreachWallRStr));
-                FCombatResult = TCombatResult.crCannotBreachWall;
+                FCombatResult = CombatResult.CannotBreachWall;
                 Result = FCombatResult;
             }
             else
             {
-                if (FSides[(int)TCombatSideIndex.csDefender].GetCount() == FSides[(int)TCombatSideIndex.csDefender].FConquerCount)
+                if (FSides[(int)CombatSideIndex.Defender].GetCount() == FSides[(int)CombatSideIndex.Defender].FConquerCount)
                 {
                     SetLogCombatActions(1);
                     SetLogbookHeader(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CannotInflictDamageRStr));
-                    FCombatResult = TCombatResult.crCannotInflictDamage;
+                    FCombatResult = CombatResult.CannotInflictDamage;
                     Result = FCombatResult;
                 }
                 else
                 {
-                    if (FSides[(int)TCombatSideIndex.csDefender].GetCount() == 0)
+                    if (FSides[(int)CombatSideIndex.Defender].GetCount() == 0)
                     {
-                        Result = TCombatResult.crNoDefenders;
+                        Result = CombatResult.NoDefenders;
                     }
                     else
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.TokenExecuter.HoldTC = true;
-                        Generator = new TRndTacHsm();
+                        Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = true;
+                        Generator = new RndTacHsm();
                         Generator.RandomMap(this, FCombatData.FX, FCombatData.FY, FCombatData.FL);
                         Generator?.Dispose();
-                        bool condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStartingGame || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.VisibleForPlayer(FCombatData.FX, FCombatData.FY, FCombatData.FL, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds = condition;
-                        if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+                        bool condition = Aow.Game.World.Map.AoWHSMap.Current.FStartingGame || Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(FCombatData.FX, FCombatData.FY, FCombatData.FL, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                        Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds = condition;
+                        if (!Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
                         {
                             for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
                             {
                                 var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == TPlayerType.ptHuman)
+                                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == PlayerType.Human)
                                 {
                                     var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player.FPlayer).GetLocal())
+                                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).GetLocal())
                                     {
-                                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds = true;
+                                        Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds = true;
                                     }
                                 }
                             }
                         }
 
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FDeselectEventsStore.Raise(this);
+                        Aow.Game.Combat.AoWCombatMap.Current.FDeselectEventsStore.Raise(this);
                         Seated = -1;
                         for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
                         {
                             if (Seated == -1)
                             {
                                 var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == TPlayerType.ptHuman)
+                                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == PlayerType.Human)
                                 {
                                     var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.GetPlayers(player.FPlayer).ConnectionMode != TConnectionMode.cmRemote)
+                                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(player.FPlayer).ConnectionMode != ConnectionMode.Remote)
                                     {
                                         var player2 = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player2.FPlayer).FStatus != TPlayerStatus.psTerminated)
+                                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player2.FPlayer).FStatus != Aow.Game.Session.Player.Status.Terminated)
                                         {
                                             Seated = I;
                                         }
@@ -9542,13 +9556,13 @@ namespace Aow.Game.Combat
                             }
                         }
 
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.SetSeatedCombatPlayer((sbyte)Seated);
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.CenterViewTo(32, 29, 0);
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.NewRound();
+                        Aow.Game.Combat.AoWCombatMap.Current.SetSeatedCombatPlayer((sbyte)Seated);
+                        Aow.Game.Combat.AoWCombatMap.Current.CenterViewTo(32, 29, 0);
+                        Aow.Game.Combat.AoWCombatMap.Current.FCombat.NewRound();
                         var turnOrder = FCombatData.FTurnOrder[0];
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.NewTurn((sbyte)turnOrder);
-                        Result = TCombatResult.crBusy;
-                        FOnTerminated = _ => Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.EndCombat();
+                        Aow.Game.Combat.AoWCombatMap.Current.NewTurn((sbyte)turnOrder);
+                        Result = CombatResult.Busy;
+                        FOnTerminated = _ => Aow.Game.Combat.AoWCombatMap.Current.EndCombat();
                         SetLogCombatActions(1);
                     }
                 }
@@ -9562,9 +9576,9 @@ namespace Aow.Game.Combat
     [LegacyObject]
     // FItems. FRandomTerrain. neighbor weights. terrain weights. terrain-tag weights. terrain
     // samples. tag samples. resource lists. FHomePosition
-    public partial class TRndTacHsm : IDisposable
+    public partial class RndTacHsm : IDisposable
     {
-        public TItemList FItems;
+        public ItemList FItems;
         // calls GetItem
         public bool FRandomTerrain;
         public FixedArray_int_20 FNeighborWeights;
@@ -9586,23 +9600,23 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:4137
-        public TRndTacHsm()
+        public RndTacHsm()
         {
             CaptureAddress.Assign(this);
             for (int I = 0; I <= 285; I++)
             {
-                var list = new TList();
+                var list = new DelphiList();
                 FResources[I] = list;
             }
 
-            for (int J = 0, last = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources.GetCount() - 1; J <= last; J++)
+            for (int J = 0, last = Aow.Game.Engine.AoWHSSet.Current.FCombatResources.GetCount() - 1; J <= last; J++)
             {
-                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources.MORs[J] is TCombatTerrainResource)
+                if (Aow.Game.Engine.AoWHSSet.Current.FCombatResources.MORs[J] is Aow.Game.World.Hexes.CombatTerrain.Resource)
                 {
-                    var mor = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources.MORs[J];
-                    var mor2 = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources.MORs[J];
-                    var mor3 = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources.MORs[J];
-                    FResources[(sbyte)((Aow.Game.World.Hexes.TTerrainMOR)mor2).TerrainType * 19 + ((Aow.Game.World.Hexes.TTerrainMOR)mor3).DecorationType].Add(mor);
+                    var mor = Aow.Game.Engine.AoWHSSet.Current.FCombatResources.MORs[J];
+                    var mor2 = Aow.Game.Engine.AoWHSSet.Current.FCombatResources.MORs[J];
+                    var mor3 = Aow.Game.Engine.AoWHSSet.Current.FCombatResources.MORs[J];
+                    FResources[(sbyte)((Aow.Game.World.Hexes.TerrainMOR)mor2).TerrainType * 19 + ((Aow.Game.World.Hexes.TerrainMOR)mor3).DecorationType].Add(mor);
                 }
             }
 
@@ -9610,7 +9624,7 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:4156
-        public TAoWCombatMap RandomMap(TTacticalCombat Combat, int X, int Y, int L)
+        public AoWCombatMap RandomMap(TacticalCombat Combat, int X, int Y, int L)
         {
             byte[] TerrainBuffer = [];
             int I;
@@ -9625,8 +9639,8 @@ namespace Aow.Game.Combat
             bool SiteCombat;
             bool RandomTerrain;
             string FileName;
-            TStructure Structure;
-            THexagonBridge Bridge;
+            Structure Structure;
+            HexagonBridge Bridge;
             FixedArray_int_20 Weights = default;
             bool Blocked(int X, int Y, int First, int Last)
             {
@@ -9636,7 +9650,7 @@ namespace Aow.Game.Combat
                 bool Result = false;
                 for (int I = First; I <= Last; I++)
                 {
-                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, Aow.Game.Combat.TRndTacHsm.clusterChk[I], ref NX, ref NY);
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, Aow.Game.Combat.RndTacHsm.clusterChk[I], ref NX, ref NY);
                     Kind = TerrainBuffer[NY * 65 + NX];
                     Result = Result || Kind == 1 || Kind == 2 || Kind == 3 || Kind == 5 || Kind == 6 || Kind == 7 || Kind == 11 || Kind == 14 || Kind == 15 || Kind == 16 || Kind == 17 || Kind == 18 || Kind == 252 || Kind == 253 || Kind == 254;
                 }
@@ -9667,14 +9681,14 @@ namespace Aow.Game.Combat
             Aow.Game.Combat.CombatPlacement.CombatXLoc = X;
             Aow.Game.Combat.CombatPlacement.CombatYLoc = Y;
             Aow.Game.Combat.CombatPlacement.CombatLLoc = L;
-            RandSeed = Y * 128 + X + L * 16384 + Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FInitialRandomSeed;
+            RandSeed = Y * 128 + X + L * 16384 + Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed;
             I = 0;
             for (; I <= 6; I += 1)
             {
                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, I, ref J, ref K);
-                var mapField = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L].Field[J, K];
+                var mapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K];
                 FTerrain[I] = mapField.TerrainType;
-                var combatTerrainTag = ((TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L].Field[J, K]).GetCombatTerrainTag();
+                var combatTerrainTag = ((AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K]).GetCombatTerrainTag();
                 FTags[I] = (sbyte)combatTerrainTag;
             }
 
@@ -9699,11 +9713,11 @@ namespace Aow.Game.Combat
             }
 
             FileName = "TCMaps\\";
-            Structure = (TStructure)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(TStructure));
+            Structure = (global::Aow.Game.World.Structures.Structure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(global::Aow.Game.World.Structures.Structure));
             Bridge = null;
             if (Structure == null)
             {
-                Bridge = (THexagonBridge)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(THexagonBridge));
+                Bridge = (HexagonBridge)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(HexagonBridge));
             }
 
             if (Structure != null)
@@ -9712,13 +9726,13 @@ namespace Aow.Game.Combat
                 var site = new CombatMapSite(SiteCombat, RandomTerrain, (Direction, Kind) =>
                 {
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, Direction, ref J, ref K);
-                    return Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHS(Kind) != null;
+                    return Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHS(Kind) != null;
                 });
                 FileName = FileName + Structure.CombatMapName(site);
                 RandomTerrain = site.RandomTerrain;
                 if (site.TakesCombatItems)
                 {
-                    FItems = (TItemList)Combat.FItems;
+                    FItems = (ItemList)Combat.FItems;
                 }
 
                 for (int Direction = 1; Direction <= 6; Direction++)
@@ -9783,12 +9797,12 @@ namespace Aow.Game.Combat
             }
             else
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.InitializeCombatMap(Combat, FileName);
+                Aow.Game.World.Map.AoWHSMap.Current.InitializeCombatMap(Combat, FileName);
             }
 
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.SetCombat(Combat);
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.SetExplorationEnabled(SiteCombat);
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.SetFogEnabled(false);
+            Aow.Game.Combat.AoWCombatMap.Current.SetCombat(Combat);
+            Aow.Game.Combat.AoWCombatMap.Current.SetExplorationEnabled(SiteCombat);
+            Aow.Game.Combat.AoWCombatMap.Current.SetFogEnabled(false);
             if (Combat != null)
             {
                 PlaceCombatUnits();
@@ -9796,14 +9810,14 @@ namespace Aow.Game.Combat
 
             if (RandomTerrain)
             {
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.LockMapChangedEvent();
+                Aow.Game.Combat.AoWCombatMap.Current.LockMapChangedEvent();
                 ShapeBuffer = new byte[3770];
                 TerrainBuffer = new byte[3770];
                 for (int Row = 6; Row <= 52; Row++)
                 {
                     for (int Col = 6; Col <= 58; Col++)
                     {
-                        Shape = Aow.Game.Combat.TRndTacHsm.MapShape[Row * 65 + Col];
+                        Shape = Aow.Game.Combat.RndTacHsm.MapShape[Row * 65 + Col];
                         switch (Shape)
                         {
                             case 14:
@@ -9940,7 +9954,7 @@ namespace Aow.Game.Combat
                                 break;
                         }
 
-                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].GetDecorationType() == 9)
+                        if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Col, Row].GetDecorationType() == 9)
                         {
                             switch (Shape)
                             {
@@ -9973,9 +9987,9 @@ namespace Aow.Game.Combat
                             if (J > -1)
                             {
                                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, J, ref K, ref NX);
-                                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L].Field[K, NX].FindOwnedChild(131946) == null)
+                                if (Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L].Field[K, NX].FindOwnedChild(131946) == null)
                                 {
-                                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.ClearTerrain(Col, Row, 0, 0, -1);
+                                    Aow.Game.Combat.AoWCombatMap.Current.ClearTerrain(Col, Row, 0, 0, -1);
                                 }
                             }
                         }
@@ -9984,13 +9998,13 @@ namespace Aow.Game.Combat
                     }
                 }
 
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L].Field[X, Y].OverlayType == 4)
+                if (Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].OverlayType == 4)
                 {
                     I = 0;
                     for (; I <= 6; I += 1)
                     {
                         Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, I, ref J, ref K);
-                        var item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L].Field[J, K];
+                        var item = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K];
                         Weights[I] = item.OverlayType;
                     }
 
@@ -9998,7 +10012,7 @@ namespace Aow.Game.Combat
                     {
                         for (int Col = 6; Col <= 58; Col++)
                         {
-                            Shape = Aow.Game.Combat.TRndTacHsm.MapRoads[Row * 65 + Col];
+                            Shape = Aow.Game.Combat.RndTacHsm.MapRoads[Row * 65 + Col];
                             switch (Shape)
                             {
                                 case 21:
@@ -10069,11 +10083,11 @@ namespace Aow.Game.Combat
                                     break;
                             }
 
-                            if (TSet<byte>.WithBounds(0, 255).WithRange(1, 7).Contains(Shape))
+                            if (Set<byte>.WithBounds(0, 255).WithRange(1, 7).Contains(Shape))
                             {
                                 if (FTags[Shape - 1] != 127 && Weights[Shape - 1] == 4)
                                 {
-                                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatRoads.Place(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer, (sbyte)Col, (sbyte)Row, 0, 1);
+                                    Aow.Game.Engine.AoWHSSet.Current.FCombatRoads.Place(Aow.Game.Combat.AoWCombatMap.Current.MapContainer, (sbyte)Col, (sbyte)Row, 0, 1);
                                     TerrainBuffer[Row * 65 + Col] = 251;
                                 }
                             }
@@ -10111,7 +10125,7 @@ namespace Aow.Game.Combat
                             I = 0;
                             for (; I <= 2; I += 1)
                             {
-                                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Col * 2, Row, Aow.Game.Combat.TRndTacHsm.clusterChk[I], ref J, ref K);
+                                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Col * 2, Row, Aow.Game.Combat.RndTacHsm.clusterChk[I], ref J, ref K);
                                 Tag = TerrainBuffer[K * 65 + J];
                                 if (Tag <= 19)
                                 {
@@ -10132,7 +10146,7 @@ namespace Aow.Game.Combat
                                 }
                             }
 
-                            HasUnit = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Col * 2, Row].FindChild(2228484) != null;
+                            HasUnit = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Col * 2, Row].FindChild(2228484) != null;
                             if (HasUnit || Blocked(Col * 2, Row, 0, 2))
                             {
                                 if ((HasUnit || Blocked(Col * 2, Row, 4, 8)) && (HasUnit || Blocked(Col * 2, Row, 9, 17)))
@@ -10233,7 +10247,7 @@ namespace Aow.Game.Combat
                             I = 0;
                             for (; I <= 2; I += 1)
                             {
-                                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Col * 2 + 1, Row, Aow.Game.Combat.TRndTacHsm.clusterChk[I], ref J, ref K);
+                                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Col * 2 + 1, Row, Aow.Game.Combat.RndTacHsm.clusterChk[I], ref J, ref K);
                                 Tag = TerrainBuffer[K * 65 + J];
                                 if (Tag <= 19)
                                 {
@@ -10254,7 +10268,7 @@ namespace Aow.Game.Combat
                                 }
                             }
 
-                            HasUnit = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Col * 2 + 1, Row].FindChild(2228484) != null;
+                            HasUnit = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Col * 2 + 1, Row].FindChild(2228484) != null;
                             if (HasUnit || Blocked(Col * 2 + 1, Row, 0, 2))
                             {
                                 if ((HasUnit || Blocked(Col * 2 + 1, Row, 4, 8)) && (HasUnit || Blocked(Col * 2 + 1, Row, 9, 17)))
@@ -10338,17 +10352,17 @@ namespace Aow.Game.Combat
                             J = TerrainBuffer[Row * 65 + Col];
                             if (J == 17)
                             {
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = 7;
+                                Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = 7;
                             }
                             else
                             {
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = FTerrain[I - 1];
+                                Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = FTerrain[I - 1];
                                 if (J > 0 && J < 19)
                                 {
                                     if (FResources[FTerrain[I - 1] * 19 + J].Count > 0)
                                     {
                                         var random = Random(FResources[FTerrain[I - 1] * 19 + J].Count);
-                                        ((TMapObjectResource)FResources[FTerrain[I - 1] * 19 + J][random]).PlaceResourceUser(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap, (sbyte)Col, (sbyte)Row, 0);
+                                        ((MapObjectResource)FResources[FTerrain[I - 1] * 19 + J][random]).PlaceResourceUser(Aow.Game.Combat.AoWCombatMap.Current, (sbyte)Col, (sbyte)Row, 0);
                                     }
                                 }
                             }
@@ -10360,15 +10374,15 @@ namespace Aow.Game.Combat
                 {
                     for (int Col = 6; Col <= 58; Col++)
                     {
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[Col, Row].TerrainChanged();
+                        Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Col, Row].TerrainChanged();
                     }
                 }
 
                 TerrainBuffer = default;
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.UnlockMapChangedEvent();
+                Aow.Game.Combat.AoWCombatMap.Current.UnlockMapChangedEvent();
             }
 
-            return Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
+            return Aow.Game.Combat.AoWCombatMap.Current;
         }
 
         // AoWTC.pas:4519
@@ -10378,31 +10392,31 @@ namespace Aow.Game.Combat
             int I;
             int J = default;
             int Temp = default;
-            TList Units;
-            TTacticalCombatUnit U;
-            TTacticalCombatUnit Other;
+            DelphiList Units;
+            TacticalCombatUnit U;
+            TacticalCombatUnit Other;
             int Direction;
             FixedArray_bool_8 Used = default;
-            TCItemHS ItemHS;
+            CItemHS ItemHS;
             Direction = 32;
             FHomePosition = -1;
-            Units = new TList();
+            Units = new DelphiList();
             Position = 0;
             for (; Position <= 7; Position += 1)
             {
                 Units.Clear();
                 I = 0;
-                int last = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                int last = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetCount() - 1;
                 for (; I <= last; I += 1)
                 {
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit)
                     {
-                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled())
+                        if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled())
                         {
-                            if ((int)(((uint)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FPosition) >> 4) == Position)
+                            if ((int)(((uint)Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I).FPosition) >> 4) == Position)
                             {
-                                Units.Add(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.GetObjects(I));
-                                U = (TTacticalCombatUnit)Units[Units.Count - 1];
+                                Units.Add(Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.GetObjects(I));
+                                U = (TacticalCombatUnit)Units[Units.Count - 1];
                                 U.FPositionIndex = (byte)(U.FPosition & 15);
                                 U.FPositionGroup = (byte)(int)(((uint)U.FPosition) >> 4);
                                 if (U.FPositionGroup == 7)
@@ -10417,9 +10431,9 @@ namespace Aow.Game.Combat
 
                                 if (FHomePosition == -1)
                                 {
-                                    if (U.GetSide() == TCombatSideIndex.csDefender)
+                                    if (U.GetSide() == CombatSideIndex.Defender)
                                     {
-                                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FL].Field[Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FX, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(TCity)) != null)
+                                        if (Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FL].Field[Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FX, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(City)) != null)
                                         {
                                         }
                                     }
@@ -10431,7 +10445,7 @@ namespace Aow.Game.Combat
                                 }
 
                                 var side = U.GetSide();
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[U.FPositionGroup] = (byte)side;
+                                Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[U.FPositionGroup] = (byte)side;
                             }
                         }
                     }
@@ -10441,12 +10455,12 @@ namespace Aow.Game.Combat
                 int limit = Units.Count - 1;
                 for (; I <= limit; I += 1)
                 {
-                    U = (TTacticalCombatUnit)Units[I];
+                    U = (TacticalCombatUnit)Units[I];
                     J = I + 1;
                     int last2 = Units.Count - 1;
                     for (; J <= last2; J += 1)
                     {
-                        Other = (TTacticalCombatUnit)Units[J];
+                        Other = (TacticalCombatUnit)Units[J];
                         if (U.GetPosValue() < Other.GetPosValue())
                         {
                             Temp = U.FPositionIndex;
@@ -10457,21 +10471,21 @@ namespace Aow.Game.Combat
                 }
             }
 
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[0] != 1)
+            if (Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[0] != 1)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FL].Field[Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FX, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(TCity)) != null && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+                if (Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FL].Field[Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FX, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(City)) != null && Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallType != 0)
                 {
                     Position = 1;
                     while (Position < 7)
                     {
-                        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[Position] == 1)
+                        if (Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[Position] == 1)
                         {
-                            Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FX, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FY, Position, ref J, ref Temp);
-                            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FL].Field[J, Temp].FindNoneTransparentHS(typeof(TCity)) != null)
+                            Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FX, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FY, Position, ref J, ref Temp);
+                            if (Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FL].Field[J, Temp].FindNoneTransparentHS(typeof(City)) != null)
                             {
                                 FHomePosition = Position;
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[Position] = (int)TCombatSideIndex.csNeutral;
-                                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPositionStatus[0] = 1;
+                                Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[Position] = (int)CombatSideIndex.Neutral;
+                                Aow.Game.Combat.AoWCombatMap.Current.FPositionStatus[0] = 1;
                                 Position = 7;
                             }
                         }
@@ -10482,24 +10496,24 @@ namespace Aow.Game.Combat
             }
 
             Position = 0;
-            int last3 = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csAttacker].GetCount() - 1;
+            int last3 = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Attacker].GetCount() - 1;
             for (; Position <= last3; Position += 1)
             {
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csAttacker].GetObjects(Position).GetEnabled())
+                if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Attacker].GetObjects(Position).GetEnabled())
                 {
-                    SetupUnit(TCombatSideIndex.csAttacker, Position, ref Direction);
+                    SetupUnit(CombatSideIndex.Attacker, Position, ref Direction);
                 }
             }
 
             Position = 0;
-            int last4 = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetCount() - 1;
+            int last4 = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Defender].GetCount() - 1;
             for (; Position <= last4; Position += 1)
             {
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetObjects(Position) is TCombatUnit)
+                if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Defender].GetObjects(Position) is CombatUnit)
                 {
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FSides[(int)TCombatSideIndex.csDefender].GetObjects(Position).GetEnabled())
+                    if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Defender].GetObjects(Position).GetEnabled())
                     {
-                        SetupUnit(TCombatSideIndex.csDefender, Position, ref Direction);
+                        SetupUnit(CombatSideIndex.Defender, Position, ref Direction);
                     }
                 }
             }
@@ -10516,28 +10530,28 @@ namespace Aow.Game.Combat
                 Position = 0;
                 while (Position < FItems.GetCount())
                 {
-                    I = Random(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.FPositions.Count - 16);
+                    I = Random(Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.FPositions.Count - 16);
                     J = I - 1;
                     if (J < 0)
                     {
-                        J = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.FPositions.Count - 17;
+                        J = Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.FPositions.Count - 17;
                     }
 
                     // { Original indexes its eight-slot occupancy array with the position-list index. }
                     while (Used[I] && I != J)
                     {
                         I += 1;
-                        if (I > Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.FPositions.Count - 17)
+                        if (I > Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.FPositions.Count - 17)
                         {
                             I = 0;
                         }
                     }
 
                     Used[I] = true;
-                    J = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I).X;
-                    Temp = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.GetUnitPosition(2, I).Y;
-                    ItemHS = new TCItemHS(null);
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlaceHX(ItemHS, J, Temp, 0))
+                    J = Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.GetUnitPosition(2, I).X;
+                    Temp = Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.GetUnitPosition(2, I).Y;
+                    ItemHS = new CItemHS(null);
+                    if (Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(ItemHS, J, Temp, 0))
                     {
                         FItems.GetItem(Position).SetOwner(ItemHS.FItems);
                     }
@@ -10550,10 +10564,10 @@ namespace Aow.Game.Combat
         }
 
         // AoWTC.pas:4610
-        public void SetupUnit(TCombatSideIndex Side, int Index, ref int Direction)
+        public void SetupUnit(CombatSideIndex Side, int Index, ref int Direction)
         {
-            TTacticalCombatUnitHS UnitHS;
-            TTacticalCombatUnitHS TargetHS;
+            TacticalCombatUnitHS UnitHS;
+            TacticalCombatUnitHS TargetHS;
             int X;
             int Y;
             int Position;
@@ -10561,8 +10575,8 @@ namespace Aow.Game.Combat
             int HN;
             int NX = default;
             int NY = default;
-            UnitHS = new TTacticalCombatUnitHS(null);
-            UnitHS.Initialize((TTacticalCombatUnit)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FSides[(int)Side].GetObjects(Index));
+            UnitHS = new TacticalCombatUnitHS(null);
+            UnitHS.Initialize((TacticalCombatUnit)Aow.Game.Combat.AoWCombatMap.Current.FCombat.FSides[(int)Side].GetObjects(Index));
             if (UnitHS.FUnit.FPositionGroup == FHomePosition)
             {
                 UnitHS.FUnit.FPositionGroup = 0;
@@ -10570,17 +10584,17 @@ namespace Aow.Game.Combat
 
             Position = UnitHS.FUnit.FPositionGroup;
             Slot = UnitHS.FUnit.FPositionIndex;
-            X = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).X;
-            Y = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).Y;
-            if (Side == TCombatSideIndex.csDefender && FRandomTerrain)
+            X = Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.GetUnitPosition(Position, Slot).X;
+            Y = Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.GetUnitPosition(Position, Slot).Y;
+            if (Side == CombatSideIndex.Defender && FRandomTerrain)
             {
                 switch (Position)
                 {
                     case 0:
                         if (Direction > 0)
                         {
-                            X = Aow.Game.Combat.TRndTacHsm.DefPosX[(Direction - 1) * 8 + Slot];
-                            Y = Aow.Game.Combat.TRndTacHsm.DefPosY[(Direction - 1) * 8 + Slot];
+                            X = Aow.Game.Combat.RndTacHsm.DefPosX[(Direction - 1) * 8 + Slot];
+                            Y = Aow.Game.Combat.RndTacHsm.DefPosY[(Direction - 1) * 8 + Slot];
                             UnitHS.SetDirection((byte)Direction);
                         }
                         else
@@ -10652,7 +10666,7 @@ namespace Aow.Game.Combat
 
             if (!FRandomTerrain)
             {
-                UnitHS.SetDirection((byte)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FUnitPositions.GetUnitPosition(Position, Slot).Flag);
+                UnitHS.SetDirection((byte)Aow.Game.Combat.AoWCombatMap.Current.FUnitPositions.GetUnitPosition(Position, Slot).Flag);
             }
             else
             {
@@ -10683,18 +10697,18 @@ namespace Aow.Game.Combat
             do
             {
                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(X, Y, HN, ref NX, ref NY);
-                Slot = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].OverlayType;
-                TargetHS = (TTacticalCombatUnitHS)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2228484);
+                Slot = Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].OverlayType;
+                TargetHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2228484);
                 HN += 1;
             }
             while (!(Slot != 8 && TargetHS == null));
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlaceHX(UnitHS, NX, NY, 0);
-            if (Aow.Game.World.Map.HexGeometry.dHXtoHN(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FX, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FY, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FAttackerX, Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCombat.FCombatData.FAttackerY) == Position && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX == 0)
+            Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(UnitHS, NX, NY, 0);
+            if (Aow.Game.World.Map.HexGeometry.dHXtoHN(Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FX, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FY, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FAttackerX, Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FAttackerY) == Position && Aow.Game.Combat.AoWCombatMap.Current.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX == 0)
             {
                 var xhx = UnitHS.GetXhx();
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX = xhx;
+                Aow.Game.Combat.AoWCombatMap.Current.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX = xhx;
                 var yhx = UnitHS.GetYhx();
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastY = yhx;
+                Aow.Game.Combat.AoWCombatMap.Current.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastY = yhx;
             }
         }
 
@@ -11640,37 +11654,10 @@ namespace Aow.Game.Combat
 
     }
 
-    public enum TFireStart : byte
+    public enum FireStart : byte
     {
-        fsNew = 0,
-        fsSpread = 1
-    }
-
-    public enum TTCDeathMethod : byte
-    {
-        dmNormal = 0,
-        dmExplode = 1
-    }
-}
-
-namespace Aow.Game.Draw
-{
-
-    public enum TTCAction : byte
-    {
-        caMove = 0,
-        caMeleeHit = 1,
-        caMeleeMiss = 2,
-        caAbility = 3,
-        caHit = 4,
-        caKilled = 5,
-        caStepUp = 6,
-        caStepBack = 7,
-        caBusy = 8,
-        caRoundAttack = 9,
-        caRoundAttackHit = 10,
-        caFreeStruck = 11,
-        caBreathAttack = 12
+        New = 0,
+        Spread = 1
     }
 }
 
@@ -11679,112 +11666,105 @@ namespace Aow.Game.Combat
 
     public enum TfxType : byte
     {
-        fxNone = 0,
-        fxArrow = 1,
-        fxRock = 2,
-        fxComet = 3,
-        fxTouch = 4,
-        fxBreath = 5,
-        fxCometBall = 6,
-        fxEffect = 7,
-        fxFBExplosion = 8,
-        fxScreenNESW = 9,
-        fxScreenNS = 10,
-        fxRay = 11,
-        fxChain = 12,
-        fxSwarm = 13,
-        fxScreenSwarm = 14,
-        fxSFOverlay = 15,
-        fxDamLightning = 16,
-        fxDamFire = 17,
-        fxDamPoison = 18,
-        fxDamMagic = 19,
-        fxDamHoly = 20,
-        fxDamDeath = 21,
-        fxDamCold = 22,
-        fxSacredWrath = 23,
-        fxSWComet = 24,
-        fxDispel = 25,
-        fxWallSmoke = 26,
-        fxBlood = 27,
-        fxAltArrow = 28,
-        fxTremors = 29,
-        fxGeyser = 30,
-        fxGeyserWater = 31,
-        fxHailImpact = 32,
-        fxCloud = 33,
-        fxCloudPuff = 34,
-        fxHitGround = 35,
-        fxHitWater = 36,
-        fxHighPrayer = 37,
-        fxPrayerGlow = 38,
-        fxResurrect = 39,
-        fxFrostBeam = 40,
-        fxFrost = 41,
-        fxMindDecay = 42,
-        fxDecayLeg = 43,
-        fxShockWave = 44,
-        fxDecayComet = 45,
-        fxSacFlame = 46,
-        fxWinds = 47,
-        fxSacFire = 48,
-        fxBreathDam = 49
+        None = 0,
+        Arrow = 1,
+        Rock = 2,
+        Comet = 3,
+        Touch = 4,
+        Breath = 5,
+        CometBall = 6,
+        Effect = 7,
+        FBExplosion = 8,
+        ScreenNESW = 9,
+        ScreenNS = 10,
+        Ray = 11,
+        Chain = 12,
+        Swarm = 13,
+        ScreenSwarm = 14,
+        SFOverlay = 15,
+        DamLightning = 16,
+        DamFire = 17,
+        DamPoison = 18,
+        DamMagic = 19,
+        DamHoly = 20,
+        DamDeath = 21,
+        DamCold = 22,
+        SacredWrath = 23,
+        SWComet = 24,
+        Dispel = 25,
+        WallSmoke = 26,
+        Blood = 27,
+        AltArrow = 28,
+        Tremors = 29,
+        Geyser = 30,
+        GeyserWater = 31,
+        HailImpact = 32,
+        Cloud = 33,
+        CloudPuff = 34,
+        HitGround = 35,
+        HitWater = 36,
+        HighPrayer = 37,
+        PrayerGlow = 38,
+        Resurrect = 39,
+        FrostBeam = 40,
+        Frost = 41,
+        MindDecay = 42,
+        DecayLeg = 43,
+        ShockWave = 44,
+        DecayComet = 45,
+        SacFlame = 46,
+        Winds = 47,
+        SacFire = 48,
+        BreathDam = 49
     }
 
-    public enum TRndHexMask : byte
+    public enum RndHexMask : byte
     {
-        rndNone = 0,
-        rndCenter = 1,
-        rndNorth = 2,
-        rndNE = 3,
-        rndSE = 4,
-        rndSouth = 5,
-        rndSW = 6,
-        rndNW = 7,
-        rndNWSW = 8,
-        rndNESE = 9,
-        rndNNW = 10,
-        rndNNE = 11,
-        rndSSW = 12,
-        rndSSE = 13,
-        rndCN = 14,
-        rndCNE = 15,
-        rndCSE = 16,
-        rndCS = 17,
-        rndCSW = 18,
-        rndCNW = 19,
-        rndRC = 20,
-        rndRN = 21,
-        rndRNE = 22,
-        rndRSE = 23,
-        rndRS = 24,
-        rndRSW = 25,
-        rndRNW = 26
+        None = 0,
+        Center = 1,
+        North = 2,
+        NE = 3,
+        SE = 4,
+        South = 5,
+        SW = 6,
+        NW = 7,
+        NWSW = 8,
+        NESE = 9,
+        NNW = 10,
+        NNE = 11,
+        SSW = 12,
+        SSE = 13,
+        CN = 14,
+        CNE = 15,
+        CSE = 16,
+        CS = 17,
+        CSW = 18,
+        CNW = 19,
+        RC = 20,
+        RN = 21,
+        RNE = 22,
+        RSE = 23,
+        RS = 24,
+        RSW = 25,
+        RNW = 26
     }
 
-    public enum TTCAbil : byte
+    public enum TCAbil : byte
     {
-        tcWallCrushing = 0,
-        tcFire = 1,
-        tcabMax = 2
-    }
-
-    public enum TaiStatus : byte
-    {
-        aiIdle = 0,
-        aiBusy = 1,
-        aiDone = 2
+        WallCrushing = 0,
+        Fire = 1,
+        Max = 2
     }
 
     public enum TaiMoveType : byte
     {
-        aiMove = 0,
-        aiTouch = 1,
-        aiMelee = 2,
-        aiRanged = 3,
-        aiFake = 4,
-        aiMoveRanged = 5,
-        aiWallTouch = 6,
-        aiWallRanged = 7
+        Move = 0,
+        Touch = 1,
+        Melee = 2,
+        Ranged = 3,
+        Fake = 4,
+        MoveRanged = 5,
+        WallTouch = 6,
+        WallRanged = 7
     }
 }

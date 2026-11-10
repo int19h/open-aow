@@ -9,7 +9,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Saves;
 
 [StructLayout(LayoutKind.Explicit, Size = 106)]
-public struct TSecurityData
+public struct SecurityData
 {
     [FieldOffset(0)]
     public int Reserved00;
@@ -25,7 +25,7 @@ public struct TSecurityData
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 12)]
-public struct TSecurityFooter
+public struct SecurityFooter
 {
     [FieldOffset(0)]
     public int CRC;

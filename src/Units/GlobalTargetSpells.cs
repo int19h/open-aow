@@ -27,57 +27,48 @@ using Aow.Game.World.Terrain;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Draw
-{
-
-    public enum TWatcherStateElement : byte
-    {
-        wsActive = 0
-    }
-}
-
 namespace Aow.Game.Commands
 {
 
     // FLocation: packed X/Y/layer coordinates
-    public partial class TGlobalTargetSpellTE : TSpellTE
+    public partial class GlobalTargetSpellTE : SpellTE
     {
-        public TGlobalTargetSpellTE(TECustomNode owner) : base(owner)
+        public GlobalTargetSpellTE(ECustomNode owner) : base(owner)
         { }
 
         // GlobalTargetSpells.pas:401
         public new const int ClassID = 135976;
 
-        public TXYL FLocation;
+        public XYL FLocation;
 
         // GlobalTargetSpells.pas:406
         // packed coordinates
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            Stream.rwInteger(ref FLocation.XYL, 20);
+            Stream.rwInteger(ref FLocation.Packed, 20);
         }
 
         // GlobalTargetSpells.pas:412
         public void SetLocation(sbyte X, sbyte Y, sbyte Layer)
         {
-            Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X = X;
-            Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y = Y;
-            Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer = Layer;
+            Unsafe.As<XYL, SpellLocation>(ref FLocation).X = X;
+            Unsafe.As<XYL, SpellLocation>(ref FLocation).Y = Y;
+            Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer = Layer;
         }
 
         // GlobalTargetSpells.pas:419
         public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte Layer)
         {
-            TImageSequenceAnimation Animation;
-            if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
+            ImageSequenceAnimation Animation;
+            if (Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
             {
-                Animation = new TImageSequenceAnimation(null);
-                Animation.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Animation, X, Y, Layer);
+                Animation = new ImageSequenceAnimation(null);
+                Animation.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
+                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Animation, X, Y, Layer);
             }
 
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
         }
 
         // NetworkE.pas:230
@@ -93,7 +84,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     // ShowTargetSelection variants: reordered locals, split/inline radius, target with-scope, and
     // inline map-field lookup. SetupTargetSelection variants: explicit class local, repeated casts,
     // class with-scope, record fields, record with-scope and reversed coordinate local order
-    public partial class TGlobalTargetSpell : Aow.Game.Magic.Spells.TSpell
+    public partial class GlobalTargetSpell : Aow.Game.Magic.Spells.Spell
     {
 
         public int FCasterID;
@@ -101,13 +92,13 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         public bool FAboveGroundOnly;
 
         // GlobalTargetSpells.pas:439
-        public TGlobalTargetSpell(TECustomNode owner) : base(owner)
+        public GlobalTargetSpell(ECustomNode owner) : base(owner)
         {
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
         }
 
         // GlobalTargetSpells.pas:569
-        public override bool CanActivate(TAbstractUnit Source, ref string MessageText)
+        public override bool CanActivate(AbstractUnit Source, ref string MessageText)
         {
             sbyte X = default;
             sbyte Y = default;
@@ -127,7 +118,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:618
-        public override bool Activate(TAbstractUnit Source)
+        public override bool Activate(AbstractUnit Source)
         {
             bool Result;
             string MessageText = "";
@@ -136,8 +127,8 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             {
                 FCasterID = Source.FUnitID;
                 FCasterPlayer = Source.FPlayer;
-                SetupTargetSelection(Source, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.Activate();
+                SetupTargetSelection(Source, Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection);
+                Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.Activate();
                 Result = true;
             }
             else
@@ -149,24 +140,24 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:445
-        public virtual void ShowTargetSelection(TTargetSelectionControl Target, int HN, int Xs, int Ys, in TSurfaceDesc SurfaceDesc)
+        public virtual void ShowTargetSelection(TargetSelectionControl Target, int HN, int Xs, int Ys, in SurfaceDesc SurfaceDesc)
         {
-            TMapLevel Level;
-            TAoWMapField MapF;
+            MapLevel Level;
+            AoWMapField MapF;
             int X = default;
             int Y = default;
             int Intensity;
             int Radius;
-            Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Target.FTargetL];
+            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Target.FTargetL];
             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Target.FTargetX, Target.FTargetY, HN, ref X, ref Y);
             // { Original accepts Width/Height themselves (strict > bounds test). }
             if (X >= 0 && Y >= 0 && X <= Level.Width && Y <= Level.Height)
             {
-                MapF = (TAoWMapField)Level.Field[X, Y];
-                if (this.ValidTargetSelectionMapF((TMapField)(object)MapF))
+                MapF = (AoWMapField)Level.Field[X, Y];
+                if (this.ValidTargetSelectionMapF((MapField)(object)MapF))
                 {
                     Radius = Aow.Game.World.Map.HexGeometry.HNtoRad(HN);
-                    Intensity = Math.Abs((Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame + Radius) % 9 - 4) * 20 + 20;
+                    Intensity = Math.Abs((Aow.Game.World.Map.AoWHSMap.Current.Frame + Radius) % 9 - 4) * 20 + 20;
                     Target.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Intensity]);
                 }
                 else
@@ -177,13 +168,13 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:521
-        public virtual void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public virtual void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
             sbyte UnitX = default;
             sbyte UnitY = default;
             sbyte UnitLayer = default;
             TargetSelection.Initialize(Source);
-            TargetSelection.FTargetMode = TargetSelection.FTargetMode + TSet<TTargetSelectionModeElement>.Of(TTargetSelectionModeElement.tmOwnerDraw, TTargetSelectionModeElement.tmValidateDistance, TTargetSelectionModeElement.tmExternalFloater);
+            TargetSelection.FTargetMode = TargetSelection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
             Source.GetLocation(ref UnitX, ref UnitY, ref UnitLayer);
             TargetSelection.FSourceX = UnitX;
             TargetSelection.FSourceY = UnitY;
@@ -195,21 +186,21 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             TargetSelection.FText.Text = format;
             TargetSelection.FTitle = FSpellName;
             TargetSelection.FCancelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
-            TargetSelection.FSourceImage = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
-            TargetSelection.FValidTargetImage = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
-            TargetSelection.FInvalidTargetImage = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
+            TargetSelection.FSourceImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
+            TargetSelection.FValidTargetImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
+            TargetSelection.FInvalidTargetImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
         }
 
         // GlobalTargetSpells.pas:544
-        public virtual bool TargetSelected(TAbstractUnit Source, int X, int Y, int L) => false;
+        public virtual bool TargetSelected(AbstractUnit Source, int X, int Y, int L) => false;
 
         // GlobalTargetSpells.pas:487
-        public virtual bool ValidTargetSelection(TTargetSelectionControl TargetSelection) => true;
+        public virtual bool ValidTargetSelection(TargetSelectionControl TargetSelection) => true;
 
         // GlobalTargetSpells.pas:475
-        public virtual bool ValidTargetSelectionMapF(TMapField Field)
+        public virtual bool ValidTargetSelectionMapF(MapField Field)
         {
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FExplorationEnabled && !((TAoWMapField)Field).GetExplored(FCasterPlayer))
+            if (Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled && !((AoWMapField)Field).GetExplored(FCasterPlayer))
             {
                 // Preserve the result for callers.
                 return false;
@@ -219,18 +210,18 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:469
-        public virtual bool ValidTargetMapF(TMapField Field) => true;
+        public virtual bool ValidTargetMapF(MapField Field) => true;
 
         // GlobalTargetSpells.pas:492. The recovered view aliases this control.
-        public virtual void OnTargetSelectionChange(TTargetSelectionControl target)
+        public virtual void OnTargetSelectionChange(TargetSelectionControl target)
         {
-            var caster = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FCasterID);
-            if (caster is null || target.FChange == TTargetSelectionChange.tscDeactivated)
+            var caster = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCasterID);
+            if (caster is null || target.FChange == TargetSelectionChange.Deactivated)
             {
                 target.FOnChange -= OnTargetSelectionChange;
                 target.Deactivate();
             }
-            else if (target.FChange == TTargetSelectionChange.tscSelected && ValidTargetSelection(target) &&
+            else if (target.FChange == TargetSelectionChange.Selected && ValidTargetSelection(target) &&
                 TargetSelected(caster, target.FTargetX, target.FTargetY, target.FTargetL))
             {
                 target.FOnChange -= OnTargetSelectionChange;
@@ -238,7 +229,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             }
         }
 
-        internal static bool GlobalTargetCanActivate(TGlobalTargetSpell Spell, TAbstractUnit Caster, ref string MessageText)
+        internal static bool GlobalTargetCanActivate(GlobalTargetSpell Spell, AbstractUnit Caster, ref string MessageText)
         {
             sbyte X = default;
             sbyte Y = default;
@@ -257,7 +248,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             return Result;
         }
 
-        internal static bool GlobalTargetActivate(TGlobalTargetSpell Spell, TAbstractUnit Caster, int Unused)
+        internal static bool GlobalTargetActivate(GlobalTargetSpell Spell, AbstractUnit Caster, int Unused)
         {
             bool Result;
             string MessageText = "";
@@ -266,8 +257,8 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             {
                 Spell.FCasterID = Caster.FUnitID;
                 Spell.FCasterPlayer = Caster.FPlayer;
-                Spell.SetupTargetSelection(Caster, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.Activate();
+                Spell.SetupTargetSelection(Caster, Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection);
+                Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.Activate();
                 Result = true;
             }
             else
@@ -284,62 +275,62 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
 namespace Aow.Game.Commands
 {
 
-    public partial class TFreezeWaterTE : TGlobalTargetSpellTE
+    public partial class FreezeWaterTE : GlobalTargetSpellTE
     {
-        public TFreezeWaterTE(TECustomNode owner) : base(owner)
+        public FreezeWaterTE(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 135939;
 
         // GlobalTargetSpells.pas:679
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
-            TTwinkleAnimation Twinkle = default;
+            TwinkleAnimation Twinkle = default;
             base.Process(source, value);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(source.FPlayer, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TerrainVisible((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
+            if (Aow.Game.World.Map.AoWHSMap.Current.TerrainVisible((sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
             {
-                Twinkle = new TTwinkleAnimation(null);
-                Twinkle.Setup(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(10).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmExpand), 100, 64, 50, 30);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Twinkle, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
+                Twinkle = new TwinkleAnimation(null);
+                Twinkle.Setup(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(10).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), 100, 64, 50, 30);
+                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Twinkle, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
             }
 
             // Use the map's seated player.
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == source.FPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.WatchingTerrain((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
+            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.WatchingTerrain((sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(10).FCastSounds.Play(0);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(10).FCastSounds.Play(0);
             }
 
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrainEx(null, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, TerrainChanged);
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrainEx(null, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, TerrainChanged);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
             // The original event result is zero.
             return false;
         }
 
         // GlobalTargetSpells.pas:641
-        public void ChangeTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+        public void ChangeTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
-            TFrozenWaterHS Ice;
-            if (((TAoWMapField)MapF).GetArmyHS() == null)
+            FrozenWaterHS Ice;
+            if (((AoWMapField)MapF).GetArmyHS() == null)
             {
-                if (TerrainType == (int)TAoWTerrainType.ttWater)
+                if (TerrainType == (int)AoWTerrainType.Water)
                 {
-                    TerrainType = (int)TAoWTerrainType.ttIce;
+                    TerrainType = (int)AoWTerrainType.Ice;
                 }
                 else
                 {
-                    if (TerrainType == (int)TAoWTerrainType.ttUndergroundWater)
+                    if (TerrainType == (int)AoWTerrainType.UndergroundWater)
                     {
-                        TerrainType = (int)TAoWTerrainType.ttUndergroundIce;
+                        TerrainType = (int)AoWTerrainType.UndergroundIce;
                     }
                     else
                     {
-                        if (TSet<byte>.WithBounds(0, 255).With((int)TAoWTerrainType.ttIce).With((int)TAoWTerrainType.ttUndergroundIce).Contains((byte)TerrainType))
+                        if (Set<byte>.WithBounds(0, 255).With((int)AoWTerrainType.Ice).With((int)AoWTerrainType.UndergroundIce).Contains((byte)TerrainType))
                         {
-                            Ice = (TFrozenWaterHS)MapF.FindOwnedHS(typeof(TFrozenWaterHS));
+                            Ice = (FrozenWaterHS)MapF.FindOwnedHS(typeof(FrozenWaterHS));
                             if (Ice != null)
                             {
-                                Ice.FDaysRemaining = (sbyte)((Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(11) - 5) / 5 + 3);
+                                Ice.FDaysRemaining = (sbyte)((Aow.Game.World.Map.AoWHSMap.Current.Random(11) - 5) / 5 + 3);
                                 Ice.FCasterPlayer = (sbyte)FEventPlayerIndex;
                             }
                         }
@@ -349,19 +340,19 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:661
-        public void TerrainChanged(TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
+        public void TerrainChanged(MapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
         {
-            TFrozenWaterHS Ice;
-            if (TSet<byte>.WithBounds(0, 255).With((int)TAoWTerrainType.ttIce).With((int)TAoWTerrainType.ttUndergroundIce).Contains((byte)MapF.TerrainType) && !TSet<byte>.WithBounds(0, 255).With((int)TAoWTerrainType.ttIce).With((int)TAoWTerrainType.ttUndergroundIce).Contains((byte)OriginalTerrainType))
+            FrozenWaterHS Ice;
+            if (Set<byte>.WithBounds(0, 255).With((int)AoWTerrainType.Ice).With((int)AoWTerrainType.UndergroundIce).Contains((byte)MapF.TerrainType) && !Set<byte>.WithBounds(0, 255).With((int)AoWTerrainType.Ice).With((int)AoWTerrainType.UndergroundIce).Contains((byte)OriginalTerrainType))
             {
-                Ice = (TFrozenWaterHS)MapF.FindOwnedHS(typeof(TFrozenWaterHS));
+                Ice = (FrozenWaterHS)MapF.FindOwnedHS(typeof(FrozenWaterHS));
                 if (Ice == null)
                 {
-                    Ice = new TFrozenWaterHS(null);
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
+                    Ice = new FrozenWaterHS(null);
+                    Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
                 }
 
-                Ice.FDaysRemaining = (sbyte)((Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(11) - 5) / 5 + 3);
+                Ice.FDaysRemaining = (sbyte)((Aow.Game.World.Map.AoWHSMap.Current.Random(11) - 5) / 5 + 3);
                 Ice.FCasterPlayer = (sbyte)FEventPlayerIndex;
             }
         }
@@ -374,23 +365,23 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class TFreezeWater : TGlobalTargetSpell
+    public partial class FreezeWater : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:710
-        public TFreezeWater(TECustomNode owner) : base(owner)
+        public FreezeWater(ECustomNode owner) : base(owner)
         {
-            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.TFreezeWater.FreezeWaterRStr);
+            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.FreezeWater.FreezeWaterRStr);
             FSpellID = 10;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msWater;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
         }
 
         // GlobalTargetSpells.pas:811
         // { Original Boolean-return ABI; foreign P7 overrides remain procedures. }
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
-            TTargetSelectionControl Target;
+            TargetSelectionControl Target;
             Target = TargetSelection;
             base.SetupTargetSelection(Source, Target);
             Target.FHNs.Clear();
@@ -401,30 +392,30 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:823
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
-            TFreezeWaterTE Event;
-            Event = new TFreezeWaterTE(null);
+            FreezeWaterTE Event;
+            Event = new FreezeWaterTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }
 
-        public override bool ValidTargetMapF(TMapField field)
+        public override bool ValidTargetMapF(MapField field)
         {
             if (!base.ValidTargetMapF(field)) return false;
             sbyte terrain = field.FTerrainType;
-            return (terrain == 0 || terrain == 10) && field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)field).GetArmyHS() == null;
+            return (terrain == 0 || terrain == 10) && field.FindNoneTransparentHS(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHS() == null;
         }
 
-        public override bool ValidTargetSelectionMapF(TMapField field)
+        public override bool ValidTargetSelectionMapF(MapField field)
         {
             if (!base.ValidTargetSelectionMapF(field)) return false;
             sbyte terrain = field.FTerrainType;
-            if ((terrain != 0 && terrain != 10) || field.FindNoneTransparentHS(typeof(TStructure)) != null) return false;
-            var army = ((TAoWMapField)field).GetArmyHS();
+            if ((terrain != 0 && terrain != 10) || field.FindNoneTransparentHS(typeof(Structure)) != null) return false;
+            var army = ((AoWMapField)field).GetArmyHS();
             return army == null || !army.VisibleForSeatedPlayer();
         }
 
@@ -435,41 +426,41 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
 namespace Aow.Game.Commands
 {
 
-    public partial class TFireBarrierTE : TGlobalTargetSpellTE
+    public partial class FireBarrierTE : GlobalTargetSpellTE
     {
-        public TFireBarrierTE(TECustomNode owner) : base(owner)
+        public FireBarrierTE(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 135940;
 
         // GlobalTargetSpells.pas:873
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
             base.Process(source, value);
             CreateFireBarrier();
-            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
             return false;
         }
 
         // GlobalTargetSpells.pas:842
         public void CreateFireBarrier()
         {
-            THNWalkData Walk = default;
-            TMapLevel Level;
-            TAoWMapField MapF;
-            TFire Fire;
-            RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
-            Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, 0);
+            HNWalkData Walk = default;
+            MapLevel Level;
+            AoWMapField MapF;
+            Fire Fire;
+            RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer];
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    MapF = (TAoWMapField)Level.Field[Walk.X, Walk.Y];
-                    if (((TGlobalTargetSpell)(object)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(11)).ValidTargetMapF((TMapField)(object)MapF) && MapF.GetArmyHS() == null)
+                    MapF = (AoWMapField)Level.Field[Walk.X, Walk.Y];
+                    if (((GlobalTargetSpell)(object)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(11)).ValidTargetMapF((MapField)(object)MapF) && MapF.GetArmyHS() == null)
                     {
-                        Fire = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFireControl.PlaceFire(Walk.X, Walk.Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, TFireType.ftLarge);
+                        Fire = Aow.Game.Engine.AoWHSSet.Current.FFireControl.PlaceFire(Walk.X, Walk.Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, FireType.Large);
                         if (Fire != null)
                         {
                             Fire.SetupExplosion(Random(35));
@@ -479,7 +470,7 @@ namespace Aow.Game.Commands
                     }
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -491,22 +482,22 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class TFireBarrier : TGlobalTargetSpell
+    public partial class FireBarrier : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:882
-        public TFireBarrier(TECustomNode owner) : base(owner)
+        public FireBarrier(ECustomNode owner) : base(owner)
         {
-            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.TFireBarrier.FireBarrierRStr);
+            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.FireBarrier.FireBarrierRStr);
             FSpellID = 11;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msFire;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Fire;
         }
 
         // GlobalTargetSpells.pas:914
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
-            TTargetSelectionControl Target;
+            TargetSelectionControl Target;
             Target = TargetSelection;
             base.SetupTargetSelection(Source, Target);
             Target.FHNs.Clear();
@@ -517,25 +508,25 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:926
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
-            TFireBarrierTE Event;
-            Event = new TFireBarrierTE(null);
+            FireBarrierTE Event;
+            Event = new FireBarrierTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }
 
         // GlobalTargetSpells.pas:900
-        public override bool ValidTargetSelectionMapF(TMapField Field)
+        public override bool ValidTargetSelectionMapF(MapField Field)
         {
-            TArmyHS Army;
-            bool Result = base.ValidTargetSelectionMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(TStructure)) == null;
+            ArmyHS Army;
+            bool Result = base.ValidTargetSelectionMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(Structure)) == null;
             if (Result)
             {
-                Army = ((TAoWMapField)Field).GetArmyHS();
+                Army = ((AoWMapField)Field).GetArmyHS();
                 if (Army != null)
                 {
                     Result = !Army.VisibleForSeatedPlayer();
@@ -546,7 +537,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:892
-        public override bool ValidTargetMapF(TMapField Field) => base.ValidTargetMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
+        public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(Structure)) == null && ((AoWMapField)Field).GetArmyHS() == null;
 
         private static readonly string FireBarrierRStr = "Fire Barrier";
     }
@@ -555,49 +546,49 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
 namespace Aow.Game.Commands
 {
 
-    public partial class TLevelTerrainTE : TGlobalTargetSpellTE
+    public partial class LevelTerrainTE : GlobalTargetSpellTE
     {
-        public TLevelTerrainTE(TECustomNode owner) : base(owner)
+        public LevelTerrainTE(ECustomNode owner) : base(owner)
         { }
 
         // GlobalTargetSpells.pas:940
         public new const int ClassID = 135945;
 
         // GlobalTargetSpells.pas:968
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
             base.Process(source, value);
-            PlayDefaultEffects(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
+            PlayDefaultEffects(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
             LevelTerrain();
-            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
             return false;
         }
 
         // GlobalTargetSpells.pas:943
         public void LevelTerrain()
         {
-            THNWalkData Walk = default;
-            TMapLevel Level;
-            TAoWMapField MapF;
-            Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, 0);
+            HNWalkData Walk = default;
+            MapLevel Level;
+            AoWMapField MapF;
+            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer];
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    MapF = (TAoWMapField)Level.Field[Walk.X, Walk.Y];
-                    if (((TGlobalTargetSpell)(object)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(18)).ValidTargetMapF((TMapField)(object)MapF) && MapF.GetArmyHS() == null)
+                    MapF = (AoWMapField)Level.Field[Walk.X, Walk.Y];
+                    if (((GlobalTargetSpell)(object)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(18)).ValidTargetMapF((MapField)(object)MapF) && MapF.GetArmyHS() == null)
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 0, -1);
-                        if (MapF.TerrainType == (int)TAoWTerrainType.ttEarth)
+                        Aow.Game.World.Map.AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 0, -1);
+                        if (MapF.TerrainType == (int)AoWTerrainType.Earth)
                         {
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrain(null, Walk.X, Walk.Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 0, (int)TAoWTerrainType.ttDirt);
+                            Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrain(null, Walk.X, Walk.Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 0, (int)AoWTerrainType.Dirt);
                         }
                     }
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -609,22 +600,22 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class TLevelTerrain : TGlobalTargetSpell
+    public partial class LevelTerrain : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:978
-        public TLevelTerrain(TECustomNode owner) : base(owner)
+        public LevelTerrain(ECustomNode owner) : base(owner)
         {
-            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.TLevelTerrain.LevelTerrainRStr);
+            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.LevelTerrain.LevelTerrainRStr);
             FSpellID = 18;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
         }
 
         // GlobalTargetSpells.pas:1010
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
-            TTargetSelectionControl Target;
+            TargetSelectionControl Target;
             Target = TargetSelection;
             base.SetupTargetSelection(Source, Target);
             Target.FHNs.Clear();
@@ -635,25 +626,25 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:1022
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
-            TLevelTerrainTE Event;
-            Event = new TLevelTerrainTE(null);
+            LevelTerrainTE Event;
+            Event = new LevelTerrainTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }
 
         // GlobalTargetSpells.pas:996
-        public override bool ValidTargetSelectionMapF(TMapField Field)
+        public override bool ValidTargetSelectionMapF(MapField Field)
         {
-            TArmyHS Army;
-            bool Result = base.ValidTargetSelectionMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(TStructure)) == null;
+            ArmyHS Army;
+            bool Result = base.ValidTargetSelectionMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(Structure)) == null;
             if (Result)
             {
-                Army = ((TAoWMapField)Field).GetArmyHS();
+                Army = ((AoWMapField)Field).GetArmyHS();
                 if (Army != null)
                 {
                     Result = !Army.VisibleForSeatedPlayer();
@@ -664,7 +655,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:988
-        public override bool ValidTargetMapF(TMapField Field) => base.ValidTargetMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
+        public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(Structure)) == null && ((AoWMapField)Field).GetArmyHS() == null;
 
         private static readonly string LevelTerrainRStr = "Level Terrain";
     }
@@ -673,46 +664,46 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
 namespace Aow.Game.Commands
 {
 
-    public partial class TRejuvenateTE : TGlobalTargetSpellTE
+    public partial class RejuvenateTE : GlobalTargetSpellTE
     {
-        public TRejuvenateTE(TECustomNode owner) : base(owner)
+        public RejuvenateTE(ECustomNode owner) : base(owner)
         { }
 
         // GlobalTargetSpells.pas:1036
         public new const int ClassID = 135952;
 
         // GlobalTargetSpells.pas:1044
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
-            TTwinkleAnimation Twinkle = default;
+            TwinkleAnimation Twinkle = default;
             base.Process(source, value);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(source.FPlayer, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TerrainVisible((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
+            if (Aow.Game.World.Map.AoWHSMap.Current.TerrainVisible((sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
             {
-                Twinkle = new TTwinkleAnimation(null);
-                Twinkle.Setup(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(41).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(TTwinkleModeElement.tmRotate), 100, 64, 50, 30);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Twinkle, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
+                Twinkle = new TwinkleAnimation(null);
+                Twinkle.Setup(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(41).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
+                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Twinkle, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
             }
 
             // Use the map's seated player.
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == source.FPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.WatchingTerrain((sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
+            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.WatchingTerrain((sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(41).FCastSounds.Play(0);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(41).FCastSounds.Play(0);
             }
 
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrainEx(null, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2, RejuvenateTerrain, null);
-            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+            Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrainEx(null, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2, RejuvenateTerrain, null);
+            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
             // The original event result is zero.
             return false;
         }
 
         // GlobalTargetSpells.pas:1039
-        public void RejuvenateTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+        public void RejuvenateTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
-            if (TSet<byte>.WithBounds(0, 255).WithRange((int)TAoWTerrainType.ttDesert, (int)TAoWTerrainType.ttWasteland).Contains((byte)TerrainType))
+            if (Set<byte>.WithBounds(0, 255).WithRange((int)AoWTerrainType.Desert, (int)AoWTerrainType.Wasteland).Contains((byte)TerrainType))
             {
-                TerrainType = (int)TAoWTerrainType.ttGrass;
+                TerrainType = (int)AoWTerrainType.Grass;
             }
         }
 
@@ -724,23 +715,23 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class TRejuvenate : TGlobalTargetSpell
+    public partial class Rejuvenate : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:1074
-        public TRejuvenate(TECustomNode owner) : base(owner)
+        public Rejuvenate(ECustomNode owner) : base(owner)
         {
-            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.TRejuvenate.RejuvenateRStr);
+            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.Rejuvenate.RejuvenateRStr);
             FSpellID = 41;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msLife;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Life;
             FAboveGroundOnly = true;
         }
 
         // GlobalTargetSpells.pas:1095
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
-            TTargetSelectionControl Target;
+            TargetSelectionControl Target;
             Target = TargetSelection;
             base.SetupTargetSelection(Source, Target);
             Target.FHNs.Clear();
@@ -751,43 +742,43 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:1107
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
-            TRejuvenateTE Event;
-            Event = new TRejuvenateTE(null);
+            RejuvenateTE Event;
+            Event = new RejuvenateTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }
 
         // GlobalTargetSpells.pas:1090
-        public override bool ValidTargetSelectionMapF(TMapField Field) => base.ValidTargetSelectionMapF(Field) && TSet<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)Field.TerrainType);
+        public override bool ValidTargetSelectionMapF(MapField Field) => base.ValidTargetSelectionMapF(Field) && Set<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)Field.TerrainType);
 
         // GlobalTargetSpells.pas:1085
-        public override bool ValidTargetMapF(TMapField Field) => base.ValidTargetMapF(Field) && TSet<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)Field.TerrainType);
+        public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field) && Set<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)Field.TerrainType);
 
         private static readonly string RejuvenateRStr = "Rejuvenate";
     }
 
     // FWatcher
-    public partial class TWatcherEnchantment : Aow.Game.Magic.TGlobalEnchantment
+    public partial class WatcherEnchantment : global::Aow.Game.Magic.GlobalEnchantment
     {
-        public TWatcherHS FWatcher;
+        public WatcherHS FWatcher;
 
         // GlobalTargetSpells.pas:1121
-        public TWatcherEnchantment(TECustomNode owner) : base(owner)
+        public WatcherEnchantment(ECustomNode owner) : base(owner)
         {
-            FEnchantmentMode = TSet<Aow.Game.Magic.TGlobalEnchantmentModeElement>.FromMask(FEnchantmentMode.Mask) - TSet<Aow.Game.Magic.TGlobalEnchantmentModeElement>.Of(Aow.Game.Magic.TGlobalEnchantmentModeElement.gemTrueGlobal, Aow.Game.Magic.TGlobalEnchantmentModeElement.gemOwned);
+            FEnchantmentMode = Set<Aow.Game.Magic.GlobalEnchantmentModeElement>.FromMask(FEnchantmentMode.Mask) - Set<Aow.Game.Magic.GlobalEnchantmentModeElement>.Of(Aow.Game.Magic.GlobalEnchantmentModeElement.TrueGlobal, Aow.Game.Magic.GlobalEnchantmentModeElement.Owned);
             FDispelMana = 50;
         }
 
         // GlobalTargetSpells.pas:1129
-        public override string GetName() => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(57).FSpellName;
+        public override string GetName() => Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(57).FSpellName;
 
         // The unused fourth byte in the original register result has no defined value.
-        public override TXYL GetLocation() => new() { X = FWatcher.GetXhx(), Y = FWatcher.GetYhx(), L = FWatcher.GetLhx() };
+        public override XYL GetLocation() => new() { X = FWatcher.GetXhx(), Y = FWatcher.GetYhx(), L = FWatcher.GetLhx() };
 
         public override bool Deactivate(byte player)
         {
@@ -803,16 +794,16 @@ namespace Aow.Game.Draw
 {
 
     // state, unfog radius, enchantment, animation frame, unexplored HNs, visibility flag
-    public partial class TWatcherHS : TSingleHS
+    public partial class WatcherHS : SingleHS
     {
         // GlobalTargetSpells.pas:1220
         public new const int ClassID = 132989;
 
         public byte FWatcherState;
         public byte FUnfogRadius;
-        public TWatcherEnchantment FEnchantment;
+        public WatcherEnchantment FEnchantment;
         public int FAnimationFrame;
-        public TIntegerList FUnexplored;
+        public IntegerList FUnexplored;
         public bool FVisibleForSeatedPlayer;
 
         // GlobalTargetSpells.pas:1213
@@ -824,24 +815,24 @@ namespace Aow.Game.Draw
         }
 
         // GlobalTargetSpells.pas:1344
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwEObject(FEnchantment, 40);
         }
 
         // GlobalTargetSpells.pas:1203
-        public TWatcherHS(TECustomNode owner) : base(owner)
+        public WatcherHS(ECustomNode owner) : base(owner)
         {
-            FEnchantment = new TWatcherEnchantment(null);
+            FEnchantment = new WatcherEnchantment(null);
             FEnchantment.FWatcher = this;
-            FUnexplored = new TIntegerList();
+            FUnexplored = new IntegerList();
             FVisibleForSeatedPlayer = false;
             FAnimationFrame = -1;
         }
 
         // GlobalTargetSpells.pas:1422
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             int ID;
             base.MsgProc(ref Msg, Sender);
@@ -864,7 +855,7 @@ namespace Aow.Game.Draw
         public override byte GetLevel() => 27;
 
         // GlobalTargetSpells.pas:1255
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
@@ -876,12 +867,12 @@ namespace Aow.Game.Draw
             int PY = default;
             int Intensity;
             int Delay;
-            bool condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewL == Lhx;
+            bool condition = Aow.Game.World.Map.AoWHSMap.Current.ViewL == Lhx;
             if (condition)
             {
                 var yhx = Yhx;
                 var xhx = Xhx;
-                condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Visible(xhx, yhx, Lhx, 0);
+                condition = Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx, yhx, Lhx, 0);
             }
 
             if (condition)
@@ -890,9 +881,9 @@ namespace Aow.Game.Draw
                 Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, yhx, ref X, ref Y);
                 X = X - XhpSurf + 16;
                 Y = Y - YhpSurf + 16;
-                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(57).FCastImages != null)
+                if (Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(57).FCastImages != null)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(57).FCastImages.ShowLooped(1, X, Y, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, SurfaceDesc);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(57).FCastImages.ShowLooped(1, X, Y, Aow.Game.World.Map.AoWHSMap.Current.Frame, SurfaceDesc);
                 }
 
                 if (FAnimationFrame != -1)
@@ -900,7 +891,7 @@ namespace Aow.Game.Draw
                     FAnimationFrame += 1;
                     // The original reads the shared AoWEngine animation detail. The map engine is
                     // not the global read by this routine.
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail == 2 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewL == Lhx)
+                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail == 2 && Aow.Game.World.Map.AoWHSMap.Current.ViewL == Lhx)
                     {
                         Intensity = 100 - FAnimationFrame;
                         var yhx2 = Yhx;
@@ -912,12 +903,12 @@ namespace Aow.Game.Draw
                             Aow.Game.World.Map.HexGeometry.HNtoHP(FUnexplored[I], ref PX, ref PY);
                             PX += X;
                             PY += Y;
-                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FGeneralImages[5].ShowBlended(PX, PY, SurfaceDesc, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[Intensity]);
+                            Aow.Game.Engine.AoWHSSet.Current.FGeneralImages[5].ShowBlended(PX, PY, SurfaceDesc, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[Intensity]);
                         }
                     }
 
                     // { Original resets the shared random generator for deterministic particles. }
-                    RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FInitialRandomSeed;
+                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed;
                     for (int I = 0; I <= 300; I++)
                     {
                         Radius = Random(VisibilityRange() << 5);
@@ -926,7 +917,7 @@ namespace Aow.Game.Draw
                         if (FAnimationFrame - Delay >= 0)
                         {
                             Aow.Game.Magic.Abilities.AbilityRules.DegreesRadToCo(Angle, Radius, ref DX, ref DY);
-                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(57).FCastImages.Show(0, X + DX, Y + DY, FAnimationFrame - Delay, SurfaceDesc);
+                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(57).FCastImages.Show(0, X + DX, Y + DY, FAnimationFrame - Delay, SurfaceDesc);
                         }
                     }
 
@@ -942,21 +933,21 @@ namespace Aow.Game.Draw
         public override bool PlaceOnMap()
         {
             bool Result = base.PlaceOnMap();
-            ((TMapField)Owner).UpdateMapField();
+            ((MapField)Owner).UpdateMapField();
             return Result;
         }
 
         // GlobalTargetSpells.pas:1394
         public override void RemoveFromMap()
         {
-            TMapField MapF;
-            MapF = (TMapField)Owner;
+            MapField MapF;
+            MapF = (MapField)Owner;
             base.RemoveFromMap();
             MapF.UpdateMapField();
         }
 
         // GlobalTargetSpells.pas:1438
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             int OwnerPlayer;
             ref var mapFieldMsg = ref Msg;
@@ -966,7 +957,7 @@ namespace Aow.Game.Draw
                 if (Activated())
                 {
                     OwnerPlayer = FEnchantment.FPlayerIndex;
-                    if (OwnerPlayer == mapFieldMsg.Param[1].Int || (byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Int) == 2)
+                    if (OwnerPlayer == mapFieldMsg.Param[1].Int || (byte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Int) == 2)
                     {
                         var visibilityRange = VisibilityRange();
                         if (mapFieldMsg.Param[0].Int <= visibilityRange)
@@ -982,7 +973,7 @@ namespace Aow.Game.Draw
                 if (Activated())
                 {
                     OwnerPlayer = FEnchantment.FPlayerIndex;
-                    if (OwnerPlayer == mapFieldMsg.Param[1].Int || (byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Int) == 2)
+                    if (OwnerPlayer == mapFieldMsg.Param[1].Int || (byte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Int) == 2)
                     {
                         var visibilityRange = VisibilityRange();
                         if (mapFieldMsg.Param[0].Int <= visibilityRange)
@@ -998,7 +989,7 @@ namespace Aow.Game.Draw
                 if (VisibilityRange() >= mapFieldMsg.Param[0].Int)
                 {
                     // { Param[0] is already available. }
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx, mapFieldMsg.Param[0].Int, mapFieldMsg.Param[0].Int);
+                    Aow.Game.World.Map.AoWHSMap.Current.UpdatePlayerSeen(FEnchantment.FPlayerIndex, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx, mapFieldMsg.Param[0].Int, mapFieldMsg.Param[0].Int);
                 }
 
                 UpdateVisibleForSeatedPlayer();
@@ -1008,17 +999,17 @@ namespace Aow.Game.Draw
         // GlobalTargetSpells.pas:1350
         public override void Activate()
         {
-            TMapField MapF;
+            MapField MapF;
             base.Activate();
-            FWatcherState = (byte)(TSet<TWatcherStateElement>.FromMask(FWatcherState) + TSet<TWatcherStateElement>.Of(TWatcherStateElement.wsActive)).Image;
+            FWatcherState = (byte)(Set<WatcherStateElement>.FromMask(FWatcherState) + Set<WatcherStateElement>.Of(WatcherStateElement.Active)).Image;
             FEnchantment.Activate(FEnchantment.FPlayerIndex);
-            var mapField = (TMapField)Owner;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.NotifyPlayerChanged(mapField.Xhx, mapField.Yhx, mapField.Lhx);
+            var mapField = (MapField)Owner;
+            Aow.Game.World.Map.AoWHSMap.Current.NotifyPlayerChanged(mapField.Xhx, mapField.Yhx, mapField.Lhx);
 
-            MapF = (TMapField)Owner;
+            MapF = (MapField)Owner;
             var visibilityRange = VisibilityRange();
             var visibilityRange2 = VisibilityRange();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdatePlayerSeen(FEnchantment.FPlayerIndex, MapF.Xhx, MapF.Yhx, MapF.Lhx, visibilityRange, visibilityRange2);
+            Aow.Game.World.Map.AoWHSMap.Current.UpdatePlayerSeen(FEnchantment.FPlayerIndex, MapF.Xhx, MapF.Yhx, MapF.Lhx, visibilityRange, visibilityRange2);
             UpdateExploration();
             UpdateUnfog();
         }
@@ -1027,38 +1018,38 @@ namespace Aow.Game.Draw
         public override void Deactivate()
         {
             base.Deactivate();
-            FWatcherState = (byte)(TSet<TWatcherStateElement>.FromMask(FWatcherState) - TSet<TWatcherStateElement>.Of(TWatcherStateElement.wsActive)).Image;
-            if (FEnchantment.FEnchantmentStatus.Contains(TGlobalEnchantmentStatusElement.getActivated))
+            FWatcherState = (byte)(Set<WatcherStateElement>.FromMask(FWatcherState) - Set<WatcherStateElement>.Of(WatcherStateElement.Active)).Image;
+            if (FEnchantment.FEnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
             {
                 FEnchantment.Deactivate((byte)FEnchantment.FPlayerIndex);
             }
 
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.NotifyPlayerChanged(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx);
+            Aow.Game.World.Map.AoWHSMap.Current.NotifyPlayerChanged(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx);
             UpdateUnfog();
         }
 
         // GlobalTargetSpells.pas:1403
-        public override void UpdateMapField(in THSMapFieldInfo Info)
+        public override void UpdateMapField(in HSMapFieldInfo Info)
         {
             if (Info.HN == 0)
             {
-                ((TAoWMapField)(object)Info.MapField).FFieldFlags = ((TAoWMapField)(object)Info.MapField).FFieldFlags | 4096 | 16777216;
+                ((AoWMapField)(object)Info.MapField).FFieldFlags = ((AoWMapField)(object)Info.MapField).FFieldFlags | 4096 | 16777216;
             }
         }
 
         // GlobalTargetSpells.pas:1226
         public void StartAnimation(sbyte X, sbyte Y, sbyte Layer)
         {
-            THNWalkData Walk = default;
-            TMapLevel Level;
+            HNWalkData Walk = default;
+            MapLevel Level;
             FAnimationFrame = 0;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DynamicFixedVisibleHS.AddChild(this);
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(57).FCastSounds.Play(0);
+            Aow.Game.World.Map.AoWHSMap.Current.DynamicFixedVisibleHS.AddChild(this);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(57).FCastSounds.Play(0);
             FUnexplored.Clear();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FExplorationEnabled)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled)
             {
-                Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
-                Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Layer];
+                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Layer];
                 while (true)
                 {
                     var visibilityRange = VisibilityRange();
@@ -1066,13 +1057,13 @@ namespace Aow.Game.Draw
                         break;
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                     {
-                        if (!((TAoWMapField)Level.Field[Walk.X, Walk.Y]).GetExplored(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer))
+                        if (!((AoWMapField)Level.Field[Walk.X, Walk.Y]).GetExplored(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
                         {
                             FUnexplored.Add(Walk.HN);
                         }
                     }
 
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                 }
             }
         }
@@ -1080,7 +1071,7 @@ namespace Aow.Game.Draw
         // GlobalTargetSpells.pas:1248
         public void StopAnimation()
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DynamicFixedVisibleHS.RemoveChild(this);
+            Aow.Game.World.Map.AoWHSMap.Current.DynamicFixedVisibleHS.RemoveChild(this);
             FAnimationFrame = -1;
             FUnexplored.Clear();
         }
@@ -1091,15 +1082,15 @@ namespace Aow.Game.Draw
             int OwnerPlayer;
             if (Activated())
             {
-                for (int I = 1, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+                for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                 {
                     OwnerPlayer = FEnchantment.FPlayerIndex;
-                    if (OwnerPlayer == I || (byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(OwnerPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)I) == 2)
+                    if (OwnerPlayer == I || (byte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(OwnerPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)I) == 2)
                     {
                         var visibilityRange = VisibilityRange();
                         var yhx = Yhx;
                         var xhx = Xhx;
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ExploreArea(xhx, yhx, Lhx, (sbyte)I, visibilityRange);
+                        Aow.Game.World.Map.AoWHSMap.Current.ExploreArea(xhx, yhx, Lhx, (sbyte)I, visibilityRange);
                     }
                 }
             }
@@ -1109,7 +1100,7 @@ namespace Aow.Game.Draw
         public void UpdateUnfog()
         {
             int Radius;
-            if ((byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != 255 && (FEnchantment.FPlayerIndex == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || (byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FEnchantment.FPlayerIndex).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer) == 2) && Activated())
+            if ((byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != 255 && (FEnchantment.FPlayerIndex == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || (byte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FEnchantment.FPlayerIndex).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) == 2) && Activated())
             {
                 Radius = VisibilityRange();
             }
@@ -1124,7 +1115,7 @@ namespace Aow.Game.Draw
                 {
                     var yhx = Yhx;
                     var xhx = Xhx;
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FogArea(xhx, yhx, Lhx, FUnfogRadius);
+                    Aow.Game.World.Map.AoWHSMap.Current.FogArea(xhx, yhx, Lhx, FUnfogRadius);
                 }
 
                 FUnfogRadius = (byte)Radius;
@@ -1132,7 +1123,7 @@ namespace Aow.Game.Draw
                 {
                     var yhx = Yhx;
                     var xhx = Xhx;
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UnFogArea(xhx, yhx, Lhx, FUnfogRadius);
+                    Aow.Game.World.Map.AoWHSMap.Current.UnFogArea(xhx, yhx, Lhx, FUnfogRadius);
                 }
             }
         }
@@ -1141,7 +1132,7 @@ namespace Aow.Game.Draw
         public int VisibilityRange()
         {
             int Result = 8;
-            if (Lhx != 0 || FEnchantment.FPlayerIndex > 0 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FEnchantment.FPlayerIndex).FMagicControl.FEnemyEnchantments.Contains(TPlayerEnchantmentType.petWaterMastery))
+            if (Lhx != 0 || FEnchantment.FPlayerIndex > 0 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FEnchantment.FPlayerIndex).FMagicControl.FEnemyEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
             {
                 Result += 1;
                 Result = (int)(((uint)Result) >> 1);
@@ -1154,12 +1145,17 @@ namespace Aow.Game.Draw
         public void UpdateVisibleForSeatedPlayer()
         {
             bool Visible;
-            Visible = FEnchantment.VisibleForPlayer(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+            Visible = FEnchantment.VisibleForPlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
             if (FVisibleForSeatedPlayer ^ Visible)
             {
                 FVisibleForSeatedPlayer = Visible;
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.TriggerChangedEvent();
+                Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.TriggerChangedEvent();
             }
+        }
+
+        public enum WatcherStateElement : byte
+        {
+            Active = 0
         }
 
         // GlobalTargetSpells.pas:172
@@ -1170,32 +1166,32 @@ namespace Aow.Game.Draw
 namespace Aow.Game.Commands
 {
 
-    public partial class TWatcherTE : TGlobalTargetSpellTE
+    public partial class WatcherTE : GlobalTargetSpellTE
     {
-        public TWatcherTE(TECustomNode owner) : base(owner)
+        public WatcherTE(ECustomNode owner) : base(owner)
         { }
 
         // GlobalTargetSpells.pas:1476
         public new const int ClassID = 135963;
 
         // GlobalTargetSpells.pas:1479
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
-            TWatcherHS Watcher;
+            WatcherHS Watcher;
             base.Process(source, value);
-            PlayDefaultEffects(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
-            Watcher = new TWatcherHS(null);
+            PlayDefaultEffects(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
+            Watcher = new WatcherHS(null);
             Watcher.FEnchantment.FPlayerIndex = source.FPlayer;
-            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(57);
+            var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(57);
             Watcher.FEnchantment.FEnchantmentManaUpkeep = spell.FManaUpkeep;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Watcher, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
-            if ((byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == FEventPlayerIndex)
+            Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Watcher, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
+            if ((byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FEventPlayerIndex)
             {
-                Watcher.StartAnimation(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
+                Watcher.StartAnimation(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
             }
 
-            var fSpellControlSpell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, fSpellControlSpell.FBaseManaCost);
+            var fSpellControlSpell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, fSpellControlSpell.FBaseManaCost);
             return false;
         }
 
@@ -1207,35 +1203,35 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class TWatcher : TGlobalTargetSpell
+    public partial class Watcher : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:1498
-        public TWatcher(TECustomNode owner) : base(owner)
+        public Watcher(ECustomNode owner) : base(owner)
         {
-            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.TWatcher.WatcherRStr);
+            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.Watcher.WatcherRStr);
             FSpellID = 57;
             FAboveGroundOnly = false;
         }
 
         // GlobalTargetSpells.pas:1523
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
             base.SetupTargetSelection(Source, TargetSelection);
-            TargetSelection.FTargetMode = TSet<TTargetSelectionModeElement>.FromMask(TargetSelection.FTargetMode.Mask) - TSet<TTargetSelectionModeElement>.Of(TTargetSelectionModeElement.tmFixedLevel, TTargetSelectionModeElement.tmValidateDistance);
+            TargetSelection.FTargetMode = Set<TargetSelectionModeElement>.FromMask(TargetSelection.FTargetMode.Mask) - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
             TargetSelection.FHNs.Clear();
         }
 
         // GlobalTargetSpells.pas:1506
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
             bool Result;
-            TWatcherTE Event;
-            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+            WatcherTE Event;
+            if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
-                Event = new TWatcherTE(null);
+                Event = new WatcherTE(null);
                 Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
                 Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                 // Original queues through AddEvent
                 Event.Release();
                 Result = true;
@@ -1256,14 +1252,14 @@ namespace Aow.Game.Commands
 {
 
     // angle, animation, selected army identity
-    public partial class TTornadoTE : TGlobalTargetSpellTE
+    public partial class TornadoTE : GlobalTargetSpellTE
     {
         // GlobalTargetSpells.pas:1559
         public new const int ClassID = 135972;
 
         public int FAngle;
-        public TAnimation FAnimation;
-        public TArmyID FArmyID;
+        public Animation FAnimation;
+        public ArmyID FArmyID;
 
         // GlobalTargetSpells.pas:1553
         public override void Dispose()
@@ -1273,62 +1269,62 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:1593
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwCreateEObject(ref FArmyID, null, 40);
         }
 
         // GlobalTargetSpells.pas:1547
-        public TTornadoTE(TECustomNode owner) : base(owner)
+        public TornadoTE(ECustomNode owner) : base(owner)
         {
             FArmyID = null;
         }
 
         // GlobalTargetSpells.pas:1660
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
             bool Result = default;
-            TUnitUserList MovedUnits = default;
+            UnitUserList MovedUnits = default;
             byte Owner = default;
             byte Selection = default;
-            TXYL Location = default;
+            XYL Location = default;
             int Chance = default;
             bool Exposed = default;
-            TArmyHS Army = default;
-            TAbstractUnit UnitObj = default;
-            TAoWMapField MapF = default;
-            TArmyEventLog Log = default;
-            TImageSequenceAnimation Anim = default;
-            TArmyHS Placed = default;
-            TAIGroup Group = default;
+            ArmyHS Army = default;
+            AbstractUnit UnitObj = default;
+            AoWMapField MapF = default;
+            ArmyEventLog Log = default;
+            ImageSequenceAnimation Anim = default;
+            ArmyHS Placed = default;
+            AIGroup Group = default;
             if (value == 0)
             {
                 FAngle = 0;
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(source.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                if (source.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+                Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(source.FPlayer, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
+                if (source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
                 }
 
-                Anim = (TImageSequenceAnimation)new TAnimation(null);
+                Anim = (ImageSequenceAnimation)new Animation(null);
                 FAnimation = Anim;
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowAnimation;
-                Anim.FAnimationMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-                Anim.FTag = (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewWidth & 65535) | (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewHeight << 16);
+                Anim.FAnimationMap = Aow.Game.World.Map.AoWHSMap.Current;
+                Anim.FTag = (Aow.Game.World.Map.AoWHSMap.Current.ViewWidth & 65535) | (Aow.Game.World.Map.AoWHSMap.Current.ViewHeight << 16);
                 Anim.Activate();
             }
 
             if (value == 80)
             {
-                MapF = (TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
+                MapF = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
                 if (FArmyID != null && !MapF.GetMagicShieldActive())
                 {
                     FArmyID.RetrieveArmy(ref Army, ref Selection);
-                    Exposed = !(TSet<byte>.WithBounds(0, 255).With(1).Contains((byte)MapF.OverlayType) || MapF.FindNoneTransparentHS(typeof(TStructure)) != null);
+                    Exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)MapF.OverlayType) || MapF.FindNoneTransparentHS(typeof(Structure)) != null);
                     for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
                     {
                         if ((Selection & (1 << I)) != 0)
@@ -1358,7 +1354,7 @@ namespace Aow.Game.Commands
                                 Chance = Chance / 2;
                             }
 
-                            if (Chance < Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(100))
+                            if (Chance < Aow.Game.World.Map.AoWHSMap.Current.Random(100))
                             {
                                 Selection = (byte)(Selection & ~(1 << I));
                             }
@@ -1379,7 +1375,7 @@ namespace Aow.Game.Commands
 
                     if (Selection != 0)
                     {
-                        Log = new TArmyEventLog(null);
+                        Log = new ArmyEventLog(null);
                         Log.FPlayer = source.FPlayer;
                         var tornado = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TornadoRStr);
                         Log.FArmyText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XCastRStr), [tornado]);
@@ -1389,39 +1385,39 @@ namespace Aow.Game.Commands
                         Log.FArmyView.Setup(Army.FArmy, Selection);
                         var yhx = Army.Yhx;
                         var xhx = Army.Xhx;
-                        Aow.Game.Events.TEventLog.DistributeLocationEventLog(Log, (sbyte)FEventPlayerIndex, xhx, yhx, Army.Lhx, true);
+                        Aow.Game.Events.EventLog.DistributeLocationEventLog(Log, (sbyte)FEventPlayerIndex, xhx, yhx, Army.Lhx, true);
                         Log.Release();
-                        Location.XYL = ((TTornado)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(68)).CalculateWarpLocation(Army, Selection);
-                        if (Location.XYL != 16777215)
+                        Location.Packed = ((Tornado)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(68)).CalculateWarpLocation(Army, Selection);
+                        if (Location.Packed != 16777215)
                         {
-                            if (source.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
+                            if (source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
                             {
-                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(1);
+                                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(1);
                             }
 
-                            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == source.FPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.VisibleForPlayer(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer))
+                            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
                             {
-                                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
+                                if (Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
                                 {
-                                    Anim = new TImageSequenceAnimation(null);
-                                    Anim.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
-                                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer);
+                                    Anim = new ImageSequenceAnimation(null);
+                                    Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
+                                    Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
                                 }
                             }
 
-                            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == source.FPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.VisibleForPlayer(Location.X, Location.Y, Location.L, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer))
+                            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(Location.X, Location.Y, Location.L, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
                             {
-                                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
+                                if (Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
                                 {
-                                    Anim = new TImageSequenceAnimation(null);
-                                    Anim.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
-                                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, Location.X, Location.Y, Location.L);
+                                    Anim = new ImageSequenceAnimation(null);
+                                    Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
+                                    Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, Location.X, Location.Y, Location.L);
                                 }
                             }
 
-                            MovedUnits = new TUnitUserList(null);
+                            MovedUnits = new UnitUserList(null);
                             Owner = (byte)Army.FArmy.FPlayer;
-                            MapF = (TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetFieldXYL(Location.XYL);
+                            MapF = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(Location.Packed);
                             if (Army.FArmy.ValidateSelection(255) != Selection)
                             {
                                 for (int I = Army.FArmy.Count - 1; I >= 0; I--)
@@ -1430,7 +1426,7 @@ namespace Aow.Game.Commands
                                     {
                                         UnitObj = Army.FArmy.GetUnit(I);
                                         MovedUnits.AddUnit(UnitObj);
-                                        Placed = UnitObj.Place(Location.X, Location.Y, Location.L, (sbyte)(byte)Army.FArmy.FPlayer, TSet<TUnitPlaceModeElement>.Of());
+                                        Placed = UnitObj.Place(Location.X, Location.Y, Location.L, (sbyte)(byte)Army.FArmy.FPlayer, Set<UnitPlaceModeElement>.Of());
                                         if (Placed != null)
                                         {
                                             Placed.FArmy.UpdateExploration();
@@ -1446,10 +1442,10 @@ namespace Aow.Game.Commands
 
                             if (Owner == 0)
                             {
-                                var unitsToIndependentRelation = Aow.Game.Units.TUnitList.UnitsToIndependentRelation(MovedUnits, 5);
-                                Group = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAIGroupManager.CreateGroup(0, unitsToIndependentRelation, TGroupBehavior.gbHunt);
+                                var unitsToIndependentRelation = Aow.Game.Units.UnitList.UnitsToIndependentRelation(MovedUnits, 5);
+                                Group = Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
                                 Group.AddUnits(MovedUnits);
-                                ((THuntAG)Group).FTargetUnitIDs.Add(source.FUnitID);
+                                ((HuntAG)Group).FTargetUnitIDs.Add(source.FUnitID);
                                 Group.Release();
                             }
 
@@ -1470,7 +1466,7 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:1599
-        public void ShowAnimation(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowAnimation(Animation Animation, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
@@ -1482,13 +1478,13 @@ namespace Aow.Game.Commands
             int Direction;
             int Radius;
             int Last;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewL == Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer)
+            if (Aow.Game.World.Map.AoWHSMap.Current.ViewL == Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
+                Aow.Game.World.Map.HexGeometry.HXtoHP(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
                 Xhp -= XhpSurf;
                 Yhp -= YhpSurf;
                 FAngle = FAngle + 20 + FAnimation.FFrameCounter / 5;
-                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FInitialRandomSeed;
+                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed;
                 for (int I = 0; I <= 200; I++)
                 {
                     Direction = Random(360);
@@ -1519,7 +1515,7 @@ namespace Aow.Game.Commands
                         {
                             X = Round((double)Math.Cos(Angle) * Radius) + XShift;
                             Y = Round((double)((double)Math.Sin(Angle) * Radius) * 0.5) + Height;
-                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(68).FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
+                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(68).FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
                             Angle = (float)((double)0.035 + Angle);
                         }
                     }
@@ -1528,17 +1524,17 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:215
-        public override bool Validate(THero source) => base.Validate(source) && (FArmyID == null || FArmyID.Valid());
+        public override bool Validate(Hero source) => base.Validate(source) && (FArmyID == null || FArmyID.Valid());
     }
 }
 
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class TTornado : TGlobalTargetSpell
+    public partial class Tornado : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:1798
-        public TTornado(TECustomNode owner) : base(owner)
+        public Tornado(ECustomNode owner) : base(owner)
         {
             this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TornadoRStr);
             FSpellID = 68;
@@ -1546,32 +1542,32 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:1885
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
-            TTargetSelectionControl Target;
+            TargetSelectionControl Target;
             Target = TargetSelection;
             base.SetupTargetSelection(Source, Target);
             Target.FHNs.Clear();
         }
 
         // GlobalTargetSpells.pas:1865
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
             bool Result;
-            TTornadoTE Event;
-            TArmyHS Army;
-            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+            TornadoTE Event;
+            ArmyHS Army;
+            if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
-                Event = new TTornadoTE(null);
+                Event = new TornadoTE(null);
                 Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
                 Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-                Army = ((TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(X, Y, L)).GetArmyHS();
+                Army = ((AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHS();
                 if (Army != null)
                 {
                     Event.FArmyID = Army.FArmy.CreateID(255);
                 }
 
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                 // Original queues through AddEvent
                 Event.Release();
                 Result = true;
@@ -1585,11 +1581,11 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:1806
-        public bool ValidWarpLocation(TArmyHS Army, sbyte X, sbyte Y, sbyte Layer)
+        public bool ValidWarpLocation(ArmyHS Army, sbyte X, sbyte Y, sbyte Layer)
         {
-            TAoWMapField MapF;
-            TMapFieldMsg Msg = default;
-            MapF = (TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(X, Y, Layer);
+            AoWMapField MapF;
+            MapFieldMsg Msg = default;
+            MapF = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, Layer);
             bool Result = MapF.GetArmyHS() == null && MapF.GetPlayer() == -1;
             if (Result)
             {
@@ -1604,22 +1600,22 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:1823
-        public int CalculateWarpLocation(TArmyHS Army, byte Selection)
+        public int CalculateWarpLocation(ArmyHS Army, byte Selection)
         {
-            TSpellMoveTable Table = default;
-            THNWalkData Walk = default;
-            TMapLevel MapLevel;
-            TMapField MapF;
-            TList Locations;
+            SpellMoveTable Table = default;
+            HNWalkData Walk = default;
+            MapLevel MapLevel;
+            MapField MapF;
+            DelphiList Locations;
             bool Found;
             int Index;
             int X;
-            Locations = new TList();
+            Locations = new DelphiList();
             Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref Table));
             var yhx = Army.Yhx;
             var xhx = Army.Xhx;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, xhx, yhx, 10);
-            MapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Army.Lhx];
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 10);
+            MapLevel = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Army.Lhx];
             while (Walk.Radius < 15)
             {
                 X = Walk.X;
@@ -1632,7 +1628,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
                     }
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
             Found = false;
@@ -1640,7 +1636,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             while (Locations.Count != 0 && !Found)
             {
                 Index = Random(Locations.Count);
-                MapF = (TMapField)Locations[Index];
+                MapF = (MapField)Locations[Index];
                 if (ValidWarpLocation(Army, MapF.Xhx, MapF.Yhx, MapF.Lhx))
                 {
                     Found = true;
@@ -1662,14 +1658,14 @@ namespace Aow.Game.Commands
 {
 
     // angle, animation, selected army identity
-    public partial class TVortexTE : TGlobalTargetSpellTE
+    public partial class VortexTE : GlobalTargetSpellTE
     {
         // GlobalTargetSpells.pas:1905
         public new const int ClassID = 135973;
 
         public int FAngle;
-        public TAnimation FAnimation;
-        public TArmyID FArmyID;
+        public Animation FAnimation;
+        public ArmyID FArmyID;
 
         // GlobalTargetSpells.pas:1899
         public override void Dispose()
@@ -1679,46 +1675,46 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:1939
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwCreateEObject(ref FArmyID, null, 40);
         }
 
         // GlobalTargetSpells.pas:1893
-        public TVortexTE(TECustomNode owner) : base(owner)
+        public VortexTE(ECustomNode owner) : base(owner)
         {
             FArmyID = null;
         }
 
         // GlobalTargetSpells.pas:1991
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
             bool Result = default;
-            TAnimation Anim = default;
-            TArmyEventLog Log = default;
+            Animation Anim = default;
+            ArmyEventLog Log = default;
             byte Selection = default;
             bool Damaged = default;
             int Damage = default;
-            TArmyHS Army = default;
-            TAbstractUnit UnitObj = default;
+            ArmyHS Army = default;
+            AbstractUnit UnitObj = default;
             if (value == 0)
             {
                 FAngle = 0;
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(source.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                if (source.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+                Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(source.FPlayer, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
+                if (source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
                 }
 
-                Anim = new TAnimation(null);
+                Anim = new Animation(null);
                 FAnimation = Anim;
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowAnimation;
-                Anim.FAnimationMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-                Anim.FTag = (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewWidth & 65535) | (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewHeight << 16);
+                Anim.FAnimationMap = Aow.Game.World.Map.AoWHSMap.Current;
+                Anim.FTag = (Aow.Game.World.Map.AoWHSMap.Current.ViewWidth & 65535) | (Aow.Game.World.Map.AoWHSMap.Current.ViewHeight << 16);
                 Anim.Activate();
             }
 
@@ -1726,8 +1722,8 @@ namespace Aow.Game.Commands
             {
                 if (FArmyID != null && FArmyID.RetrieveArmy(ref Army, ref Selection))
                 {
-                    Log = new TArmyEventLog(null);
-                    Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.TVortexTE.VortexDamageRStr);
+                    Log = new ArmyEventLog(null);
+                    Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.VortexTE.VortexDamageRStr);
                     Log.FPlayer = source.FPlayer;
                     var vortex = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.VortexRStr);
                     Log.FArmyMessages.Add(vortex);
@@ -1738,7 +1734,7 @@ namespace Aow.Game.Commands
                     for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
                     {
                         UnitObj = Army.FArmy.GetUnit(I);
-                        if (!UnitObj.GetMoveTypes().Contains(TMoveType.mtFlying))
+                        if (!UnitObj.GetMoveTypes().Contains(MoveType.Flying))
                         {
                             if (UnitObj.GetAbilityEnabled(2))
                             {
@@ -1756,7 +1752,7 @@ namespace Aow.Game.Commands
                                 }
                             }
 
-                            Damage = UnitObj.ExecuteDamageRole(8, Damage, TSet<TDamageType>.Of(TDamageType.dtPhysical));
+                            Damage = UnitObj.ExecuteDamageRole(8, Damage, Set<DamageType>.Of(DamageType.Physical));
                             if (Damage > UnitObj.GetHitPoints())
                             {
                                 Damage = UnitObj.GetHitPoints();
@@ -1782,12 +1778,12 @@ namespace Aow.Game.Commands
                         Log.ValidateGameOver();
                         var yhx = Army.Yhx;
                         var xhx = Army.Xhx;
-                        Aow.Game.Events.TEventLog.DistributeLocationEventLog(Log, Army.FArmy.FPlayer, xhx, yhx, Army.Lhx, true);
+                        Aow.Game.Events.EventLog.DistributeLocationEventLog(Log, Army.FArmy.FPlayer, xhx, yhx, Army.Lhx, true);
                     }
 
                     Log.Release();
                     Army.FArmy.Validate();
-                    Army.FArmy.ValidateTerrainEx(((TMapField)Army.Owner).TerrainType, ((TMapField)Army.Owner).OverlayType, source.FPlayer);
+                    Army.FArmy.ValidateTerrainEx(((MapField)Army.Owner).TerrainType, ((MapField)Army.Owner).OverlayType, source.FPlayer);
                     Army.FArmy.EndUpdate();
                 }
 
@@ -1803,7 +1799,7 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:1945
-        public void ShowAnimation(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowAnimation(Animation Animation, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
@@ -1815,13 +1811,13 @@ namespace Aow.Game.Commands
             int Direction;
             int Radius;
             int Count;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewL == Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer)
+            if (Aow.Game.World.Map.AoWHSMap.Current.ViewL == Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
+                Aow.Game.World.Map.HexGeometry.HXtoHP(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
                 Xhp -= XhpSurf;
                 Yhp -= YhpSurf;
                 FAngle = FAngle + 20 + FAnimation.FFrameCounter / 5;
-                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FInitialRandomSeed;
+                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed;
                 for (int I = 0; I <= 200; I++)
                 {
                     Direction = Random(360);
@@ -1852,7 +1848,7 @@ namespace Aow.Game.Commands
                         {
                             X = Round((double)Math.Cos(Angle) * Radius) + XShift;
                             Y = Round((double)((double)Math.Sin(Angle) * Radius) / 1.75) + Height;
-                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(70).FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
+                            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(70).FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
                             Angle = (float)((double)0.035 + Angle);
                         }
                     }
@@ -1861,7 +1857,7 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:242
-        public override bool Validate(THero source) => base.Validate(source) && (FArmyID == null || FArmyID.Valid());
+        public override bool Validate(Hero source) => base.Validate(source) && (FArmyID == null || FArmyID.Valid());
 
         private static readonly string VortexDamageRStr = "Vortex Damage";
     }
@@ -1870,10 +1866,10 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class TVortex : TGlobalTargetSpell
+    public partial class Vortex : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:2069
-        public TVortex(TECustomNode owner) : base(owner)
+        public Vortex(ECustomNode owner) : base(owner)
         {
             this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.VortexRStr);
             FSpellID = 70;
@@ -1881,7 +1877,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:2120
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
             // { Use the incoming target. }
             base.SetupTargetSelection(Source, TargetSelection);
@@ -1890,23 +1886,23 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:2100
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
             bool Result;
-            TVortexTE Event;
-            TArmyHS Army;
-            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+            VortexTE Event;
+            ArmyHS Army;
+            if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
-                Event = new TVortexTE(null);
+                Event = new VortexTE(null);
                 Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
                 Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-                Army = ((TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(X, Y, L)).GetArmyHS();
+                Army = ((AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHS();
                 if (Army != null)
                 {
                     Event.FArmyID = Army.FArmy.CreateID(255);
                 }
 
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                 // Original queues through AddEvent
                 Event.Release();
                 Result = true;
@@ -1920,14 +1916,14 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:2077
-        public override bool ValidTargetSelection(TTargetSelectionControl TargetSelection)
+        public override bool ValidTargetSelection(TargetSelectionControl TargetSelection)
         {
             bool Result;
-            TMapField MapF;
+            MapField MapF;
             if (TargetSelection.FTargetX != -1)
             {
-                MapF = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[TargetSelection.FTargetL].GetField(TargetSelection.FTargetX, TargetSelection.FTargetY);
-                Result = TSet<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)MapF.TerrainType);
+                MapF = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[TargetSelection.FTargetL].GetField(TargetSelection.FTargetX, TargetSelection.FTargetY);
+                Result = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)MapF.TerrainType);
             }
             else
             {
@@ -1938,14 +1934,14 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:2088
-        public void ValidateTargetEvent(TTargetSelectionControl Target, sbyte X, sbyte Y, sbyte Layer, ref bool Valid)
+        public void ValidateTargetEvent(TargetSelectionControl Target, sbyte X, sbyte Y, sbyte Layer, ref bool Valid)
         {
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             if (X != -1)
             {
-                MapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Layer];
+                MapLevel = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Layer];
                 var fieldValue = MapLevel.GetField(X, Y);
-                Valid = TSet<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
+                Valid = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
             }
             else
             {
@@ -1959,61 +1955,61 @@ namespace Aow.Game.Commands
 {
 
     // animation
-    public partial class THealingShowersTE : TGlobalTargetSpellTE
+    public partial class HealingShowersTE : GlobalTargetSpellTE
     {
-        public THealingShowersTE(TECustomNode owner) : base(owner)
+        public HealingShowersTE(ECustomNode owner) : base(owner)
         { }
 
         // GlobalTargetSpells.pas:2138
         public new const int ClassID = 135975;
 
-        public TAnimation FAnimation;
+        public Animation FAnimation;
 
         // GlobalTargetSpells.pas:2190
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
             bool Result = default;
-            TAbstractUnit UnitObj = default;
-            THNWalkData Walk = default;
-            TArmyHS Army = default;
-            TMapLevel Level = default;
-            TImageSequenceAnimation Anim = default;
+            AbstractUnit UnitObj = default;
+            HNWalkData Walk = default;
+            ArmyHS Army = default;
+            MapLevel Level = default;
+            ImageSequenceAnimation Anim = default;
             bool Healed = default;
             bool PlaySound = default;
-            THexagonSprite Cloud = default;
+            HexagonSprite Cloud = default;
             base.Process(source, value);
             if (value == 0)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(source.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2);
-                if (source.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.WatchingTerrain(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 2))
+                Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
+                if (source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.WatchingTerrain(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(73).FCastSounds.Play(0);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(73).FCastSounds.Play(0);
                 }
 
-                Anim = (TImageSequenceAnimation)new TAnimation(null);
+                Anim = (ImageSequenceAnimation)new Animation(null);
                 FAnimation = Anim;
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowAnimation;
-                Anim.FAnimationMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-                Anim.FTag = (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewWidth & 65535) | (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewHeight << 16);
+                Anim.FAnimationMap = Aow.Game.World.Map.AoWHSMap.Current;
+                Anim.FTag = (Aow.Game.World.Map.AoWHSMap.Current.ViewWidth & 65535) | (Aow.Game.World.Map.AoWHSMap.Current.ViewHeight << 16);
                 Anim.Activate();
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
             }
 
             if (value == 50)
             {
                 PlaySound = false;
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrainEx(null, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, null);
-                Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer];
-                Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, 0);
+                Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrainEx(null, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, null);
+                Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer];
+                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, 0);
                 while (Walk.Radius <= 1)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
                     {
-                        if (!((TAoWMapField)Level.GetField(Walk.X, Walk.Y)).GetMagicShieldActive())
+                        if (!((AoWMapField)Level.GetField(Walk.X, Walk.Y)).GetMagicShieldActive())
                         {
                             Healed = false;
-                            Army = ((TAoWMapField)Level.GetField(Walk.X, Walk.Y)).GetArmyHS();
+                            Army = ((AoWMapField)Level.GetField(Walk.X, Walk.Y)).GetArmyHS();
                             if (Army != null)
                             {
                                 for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
@@ -2038,30 +2034,30 @@ namespace Aow.Game.Commands
                                 {
                                     var yhx = Army.Yhx;
                                     var xhx = Army.Xhx;
-                                    healed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.VisibleForPlayer(xhx, yhx, Army.Lhx, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+                                    healed = Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(xhx, yhx, Army.Lhx, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
                                 }
 
                                 if (healed)
                                 {
-                                    bool condition = PlaySound || (byte)Army.FArmy.FPlayer == (byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
+                                    bool condition = PlaySound || (byte)Army.FArmy.FPlayer == (byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
                                     if (!condition)
                                     {
                                         var yhx = Army.Yhx;
                                         var xhx = Army.Xhx;
-                                        condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(xhx, yhx, Army.Lhx, 1);
+                                        condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, Army.Lhx, 1);
                                     }
 
                                     PlaySound = condition;
-                                    Anim = new TImageSequenceAnimation(null);
-                                    Anim.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(47).FImageSequences.ImageSequences[0]);
+                                    Anim = new ImageSequenceAnimation(null);
+                                    Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(47).FImageSequences.ImageSequences[0]);
                                     Anim.FAnimationLevel = 27;
                                     var armyYhx = Army.Yhx;
                                     var armyXhx = Army.Xhx;
-                                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, armyXhx, armyYhx, Army.Lhx);
+                                    Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, armyXhx, armyYhx, Army.Lhx);
                                 }
                             }
 
-                            Cloud = (THexagonSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(132990);
+                            Cloud = (HexagonSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(132990);
                             if (Cloud != null)
                             {
                                 Cloud?.Dispose();
@@ -2069,12 +2065,12 @@ namespace Aow.Game.Commands
                         }
                     }
 
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                 }
 
                 if (PlaySound)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(47).FSFXLibrary.Play(0);
+                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(47).FSFXLibrary.Play(0);
                 }
             }
 
@@ -2092,7 +2088,7 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:2141
-        public void ShowAnimation(TAnimation Animation, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowAnimation(Animation Animation, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int X;
             int Y;
@@ -2103,17 +2099,17 @@ namespace Aow.Game.Commands
             int Yhp = default;
             int Count;
             int Frame;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ViewL == Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Layer)
+            if (Aow.Game.World.Map.AoWHSMap.Current.ViewL == Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(Unsafe.As<TXYL, TSpellLocation>(ref FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
+                Aow.Game.World.Map.HexGeometry.HXtoHP(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
                 Xhp -= XhpSurf;
                 Yhp -= YhpSurf;
                 switch (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDetailLevel())
                 {
-                    case TDetailLevel.dtlLow:
+                    case DetailLevel.Low:
                         Count = 50;
                         break;
-                    case TDetailLevel.dtlHigh:
+                    case DetailLevel.High:
                         Count = 160;
                         break;
                     default:
@@ -2121,7 +2117,7 @@ namespace Aow.Game.Commands
                         break;
                 }
 
-                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FInitialRandomSeed;
+                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed;
                 for (int I = 0; I <= Count; I++)
                 {
                     X = Random(100) - 50;
@@ -2140,7 +2136,7 @@ namespace Aow.Game.Commands
                             {
                                 XShift = X - Round((double)(J * 2) * 0.1);
                                 YShift = Y + Round((double)(J * 10) * 0.1);
-                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(73).FCastImages.Show(0, Xhp + XShift + 120, Yhp + YShift - 500 + 30, 0, SurfaceDesc);
+                                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(73).FCastImages.Show(0, Xhp + XShift + 120, Yhp + YShift - 500 + 30, 0, SurfaceDesc);
                             }
                         }
                     }
@@ -2149,7 +2145,7 @@ namespace Aow.Game.Commands
         }
 
         // GlobalTargetSpells.pas:2181
-        public void ChangeTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+        public void ChangeTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
             switch (TerrainType)
             {
@@ -2173,22 +2169,22 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class THealingShowers : TGlobalTargetSpell
+    public partial class HealingShowers : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:2277
-        public THealingShowers(TECustomNode owner) : base(owner)
+        public HealingShowers(ECustomNode owner) : base(owner)
         {
-            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.THealingShowers.HealingShowersRStr);
+            this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.HealingShowers.HealingShowersRStr);
             FSpellID = 73;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msWater;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
         }
 
         // GlobalTargetSpells.pas:2295
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
-            TTargetSelectionControl Target;
+            TargetSelectionControl Target;
             Target = TargetSelection;
             base.SetupTargetSelection(Source, Target);
             Target.FHNs.Clear();
@@ -2199,74 +2195,74 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:2308
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
-            THealingShowersTE Event;
-            Event = new THealingShowersTE(null);
+            HealingShowersTE Event;
+            Event = new HealingShowersTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }
 
         // GlobalTargetSpells.pas:2291
-        public override bool ValidTargetSelectionMapF(TMapField Field) => base.ValidTargetSelectionMapF(Field);
+        public override bool ValidTargetSelectionMapF(MapField Field) => base.ValidTargetSelectionMapF(Field);
 
         // GlobalTargetSpells.pas:2287
-        public override bool ValidTargetMapF(TMapField Field) => base.ValidTargetMapF(Field);
+        public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field);
 
         private static readonly string HealingShowersRStr = "Healing Showers";
     }
 
-    public partial class TSmokeCloudSpell : TGlobalTargetSpell
+    public partial class SmokeCloudSpell : GlobalTargetSpell
     {
         // GlobalTargetSpells.pas:2325
-        public TSmokeCloudSpell(TECustomNode owner) : base(owner)
+        public SmokeCloudSpell(ECustomNode owner) : base(owner)
         {
             this.FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SmokeCloudRStr);
             FSpellID = 74;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msFire;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Fire;
         }
 
         // GlobalTargetSpells.pas:2373
-        public override bool ExecuteTE(TSpellTE Event, TAbstractUnit Source, int ExecuteCount)
+        public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
-            TEResource Resource;
-            TSmokeCloud Cloud;
+            EResource Resource;
+            SmokeCloud Cloud;
             var source = Event.GetSource();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(source.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Layer, 2);
-            if (Event.GetSource().FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Layer, 2))
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(source.FPlayer, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Layer, 2);
+            if (Event.GetSource().FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Layer, 2))
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Event.FEventSpellID).FCastSounds.Play(0);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Event.FEventSpellID).FCastSounds.Play(0);
             }
 
-            Resource = (TEResource)((TECustomNode)(object)Aow.Game.Engine.TAoWHSSet.AoWHSSet.MapObjectResourceList).FindChild(135747);
+            Resource = (EResource)((ECustomNode)(object)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList).FindChild(135747);
             if (Resource != null)
             {
-                Cloud = (TSmokeCloud)Resource.CreateResourceUser();
+                Cloud = (SmokeCloud)Resource.CreateResourceUser();
                 Cloud.FPlayer = Source.FPlayer;
                 Cloud.FTurnsRemaining = -1;
                 Cloud.FEnchantment.FPlayerIndex = Source.FPlayer;
                 Cloud.FEnchantment.FEnchantmentManaUpkeep = this.FManaUpkeep;
                 Cloud.FDrifting = false;
-                if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Cloud, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Layer))
+                if (!Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Cloud, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Layer))
                 {
                     Cloud?.Dispose();
                 }
 
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(this.FSpellID).CastingDone(Source, this.FBaseManaCost);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(this.FSpellID).CastingDone(Source, this.FBaseManaCost);
             }
 
             return false;
         }
 
         // GlobalTargetSpells.pas:2343
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
-            TTargetSelectionControl Target;
+            TargetSelectionControl Target;
             Target = TargetSelection;
             base.SetupTargetSelection(Source, Target);
             Target.FHNs.Clear();
@@ -2277,73 +2273,73 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // GlobalTargetSpells.pas:2356
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
-            TGlobalTargetSpellTE Event;
-            Event = new TGlobalTargetSpellTE(null);
+            GlobalTargetSpellTE Event;
+            Event = new GlobalTargetSpellTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }
 
         // GlobalTargetSpells.pas:2339
-        public override bool ValidTargetSelectionMapF(TMapField Field) => base.ValidTargetSelectionMapF(Field);
+        public override bool ValidTargetSelectionMapF(MapField Field) => base.ValidTargetSelectionMapF(Field);
 
         // GlobalTargetSpells.pas:2335
-        public override bool ValidTargetMapF(TMapField Field) => base.ValidTargetMapF(Field);
+        public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field);
     }
 
-    public partial class TGlobalTargetSpellCalls : Aow.Game.Magic.Spells.TSpell
+    public partial class GlobalTargetSpellCalls : Aow.Game.Magic.Spells.Spell
     {
-        public TGlobalTargetSpellCalls(TECustomNode owner) : base(owner)
+        public GlobalTargetSpellCalls(ECustomNode owner) : base(owner)
         { }
 
         // GlobalTargetSpells.pas:303
-        public virtual void ShowSelection(TTargetSelectionControl Target, int HN, int X, int Y, in TSurfaceDesc SD)
+        public virtual void ShowSelection(TargetSelectionControl Target, int HN, int X, int Y, in SurfaceDesc SD)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // GlobalTargetSpells.pas:305
         public virtual void SelectionChanged()
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // GlobalTargetSpells.pas:306
         public virtual void SetupSelection(int Caster, int Target)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // GlobalTargetSpells.pas:307
         public virtual bool Selected(int Caster, int X, int Y, int Layer)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // GlobalTargetSpells.pas:308
         public virtual bool ValidSelection(int Target)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // GlobalTargetSpells.pas:309
         public virtual bool ValidSelectionMapF(int MapF)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // GlobalTargetSpells.pas:310
         public virtual bool ValidMapF(int MapF)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
     }
 
-    public struct TSpellNameView
+    public struct SpellNameView
     {
         public FixedArray_byte_8 Reserved;
         private string name;
@@ -2352,56 +2348,56 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     }
 
     [LegacyObject]
-    public partial class TTargetSelectionView
+    public partial class TargetSelectionView
     {
-        public TCustomImageLibrary ImageLibrary;
+        public CustomImageLibrary ImageLibrary;
         public byte Status;
-        public TSet<TTargetSelectionModeElement> Mode;
-        public TShowTargetSelectionEvent OnShow;
-        public TValidateTargetEvent OnValidate;
+        public Set<TargetSelectionModeElement> Mode;
+        public ShowTargetSelectionEvent OnShow;
+        public ValidateTargetEvent OnValidate;
         public int Distance;
         public int CenterX;
         public int CenterY;
         public int CenterLayer;
-        public TEventList Changes;
-        public TTargetSelectionChange Change;
+        public EventList Changes;
+        public TargetSelectionChange Change;
         public sbyte X;
         public sbyte Y;
         public sbyte Layer;
-        public TStrings Text;
+        public StringCollection Text;
         public string Caption = "";
         public string CancelCaption = "";
-        public Aow.Game.Draw.Images.TLibraryImage Preview;
-        public Aow.Game.Draw.Images.TLibraryImage ValidPreview;
-        public Aow.Game.Draw.Images.TLibraryImage InvalidPreview;
+        public Aow.Game.Draw.Images.LibraryImage Preview;
+        public Aow.Game.Draw.Images.LibraryImage ValidPreview;
+        public Aow.Game.Draw.Images.LibraryImage InvalidPreview;
 
-        public TTargetSelectionView()
+        public TargetSelectionView()
         {
             CaptureAddress.Assign(this);
         }
     }
 
-    public struct TTargetSelectionFields
+    public struct TargetSelectionFields
     {
         public object VMT;
-        public TCustomImageLibrary ImageLibrary;
+        public CustomImageLibrary ImageLibrary;
         public int Reserved08;
         public byte Status;
-        public TSet<TTargetSelectionModeElement> Mode;
+        public Set<TargetSelectionModeElement> Mode;
         public ushort Padding0E;
-        public TShowTargetSelectionEvent OnShow;
-        public TValidateTargetEvent OnValidate;
+        public ShowTargetSelectionEvent OnShow;
+        public ValidateTargetEvent OnValidate;
         public int Distance;
         public int CenterX;
         public int CenterY;
         public int CenterLayer;
         public int Reserved30;
-        public TEventList Changes;
-        public TTargetSelectionChange Change;
+        public EventList Changes;
+        public TargetSelectionChange Change;
         public sbyte X;
         public sbyte Y;
         public sbyte Layer;
-        public TStrings Text;
+        public StringCollection Text;
         private string caption;
 
         public string Caption { readonly get => caption ?? ""; set => caption = value; }
@@ -2412,13 +2408,13 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
 
         public int Reserved48;
         public int Reserved4C;
-        public Aow.Game.Draw.Images.TLibraryImage Preview;
-        public Aow.Game.Draw.Images.TLibraryImage ValidPreview;
-        public Aow.Game.Draw.Images.TLibraryImage InvalidPreview;
+        public Aow.Game.Draw.Images.LibraryImage Preview;
+        public Aow.Game.Draw.Images.LibraryImage ValidPreview;
+        public Aow.Game.Draw.Images.LibraryImage InvalidPreview;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 166)]
-    public struct TMapSeatedPlayerView
+    public struct MapSeatedPlayerView
     {
         [FieldOffset(0)]
         public FixedArray_byte_165 Reserved;
@@ -2429,7 +2425,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     // { Typed call-only methods retain original argument evaluation order without
     // altering the foreign headers or their implementation signatures. }
     [StructLayout(LayoutKind.Explicit, Size = 4)]
-    public struct TSpellLocation
+    public struct SpellLocation
     {
         [FieldOffset(0)]
         public sbyte X;
@@ -2442,7 +2438,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 28)]
-    public struct TMapFieldFlagView
+    public struct MapFieldFlagView
     {
         [FieldOffset(0)]
         public FixedArray_byte_24 Reserved;
@@ -2451,7 +2447,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 257)]
-    public struct TSpellMoveTable
+    public struct SpellMoveTable
     {
         [FieldOffset(0)]
         public byte Flags;
@@ -2459,14 +2455,14 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         public FixedArray_Aow_Units_FixedArray_sbyte_16_16 Cost;
     }
 
-    public struct TSpellAnimationFields
+    public struct SpellAnimationFields
     {
         public FixedArray_byte_36 Reserved;
-        public TShowAnimationEvent OnShow;
+        public ShowAnimationEvent OnShow;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 110)]
-    public struct TSpellEngineFields
+    public struct SpellEngineFields
     {
         [FieldOffset(0)]
         public FixedArray_byte_109 Reserved;
@@ -2474,21 +2470,21 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         public byte Detail;
     }
 
-    public struct TSpellAIGroupFields
+    public struct SpellAIGroupFields
     {
         public FixedArray_byte_80 Reserved;
-        public TIntegerList Enemies;
+        public IntegerList Enemies;
     }
 
-    public struct TSpellRegistryFields
+    public struct SpellRegistryFields
     {
         public FixedArray_byte_92 Reserved;
-        public TAoWRegistry Registry;
+        public AoWRegistry Registry;
     }
 
-    public struct TSpellEngineSetFields
+    public struct SpellEngineSetFields
     {
         public FixedArray_byte_100 Reserved;
-        public TAoWHSSet HSSet;
+        public AoWHSSet HSSet;
     }
 }

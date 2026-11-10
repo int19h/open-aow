@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TScenSetup
+public partial class ScenSetup
 {
     public override void Loaded()
     {

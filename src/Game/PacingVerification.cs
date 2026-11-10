@@ -16,7 +16,7 @@ internal static class PacingVerification
         var savedClock = RtlUnit.Clock;
         RtlUnit.Clock = clock;
         var display = new TimedDisplay();
-        var controller = new TSdlDC(host);
+        var controller = new SdlDC(host);
         var times = new List<double>(306);
         const int warmupFrames = 150;
         long previous = 0;
@@ -79,11 +79,11 @@ internal static class PacingVerification
         return equal ? 0 : 1;
     }
 
-    private sealed class TimedDisplay : TDisplay
+    private sealed class TimedDisplay : Display
     {
         public TimedDisplay() : base(null!) { }
 
-        public void SetUpdate(TUpdateFrameEvent action) => OnUpdateFrame = action;
+        public void SetUpdate(Aow.Game.Draw.CustomDisplay.UpdateFrameEvent action) => OnUpdateFrame = action;
     }
 
     private sealed class NullPresenter : IDisplayHost, IDisplayEvents
@@ -92,7 +92,7 @@ internal static class PacingVerification
         public bool Fullscreen { get; set; }
         public bool HasFocus => false;
 
-        public void Present(in TSurfaceDesc surface) { }
+        public void Present(in SurfaceDesc surface) { }
 
         public (int X, int Y, bool Inside) PointerPosition() => (-1, -1, false);
 

@@ -7,9 +7,9 @@ namespace Aow.Units.Tests;
 // Brief 9.3b-12: the layout session owns the loading flags and the module failure boundary.
 public sealed class LayoutSessionTests
 {
-    private sealed class Tracked : TComponent
+    private sealed class Tracked : global::Aow.Rtl.Component
     {
-        public Tracked(TComponent owner) : base(owner) { }
+        public Tracked(global::Aow.Rtl.Component owner) : base(owner) { }
 
         public bool Destroyed { get; private set; }
 
@@ -17,12 +17,12 @@ public sealed class LayoutSessionTests
     }
 
     // The second label is complete and owned when its Name setter rejects the duplicate.
-    private class FailingModule : TDataModule, ILayoutModule
+    private class FailingModule : DataModule, ILayoutModule
     {
         public FailingModule() : base(null!) { }
 
         public Tracked? First;
-        public TAOWLabel? Second;
+        public AOWLabel? Second;
 
         public void InitializeComponent(LayoutSession session)
         {
@@ -32,7 +32,7 @@ public sealed class LayoutSessionTests
             session.BeginRead(First);
             First.Name = "Child";
             session.EndRead(First);
-            Second = new TAOWLabel(this);
+            Second = new AOWLabel(this);
             session.BeginRead(Second);
             Second.Name = "Child";
             session.EndRead(Second);
@@ -45,7 +45,7 @@ public sealed class LayoutSessionTests
         public override void Dispose() { base.Dispose(); throw new InvalidOperationException("cleanup"); }
     }
 
-    private sealed class GoodModule : TDataModule, ILayoutModule
+    private sealed class GoodModule : DataModule, ILayoutModule
     {
         public GoodModule() : base(null!) { }
 
@@ -79,12 +79,12 @@ public sealed class LayoutSessionTests
         Assert.Contains("Child", error.Message);
         Assert.Null(FailingGlobal);
         Assert.Equal(0, module.ComponentCount);
-        Assert.True(module.ComponentState.Contains(TComponentState.csDestroying));
+        Assert.True(module.ComponentState.Contains(ComponentState.Destroying));
         Assert.True(module.First!.Destroyed);
         Assert.Null(module.First.Owner);
         Assert.NotNull(module.Second);
         Assert.Null(module.Second!.Owner);
-        Assert.True(module.Second.ComponentState.Contains(TComponentState.csDestroying));
+        Assert.True(module.Second.ComponentState.Contains(ComponentState.Destroying));
         Assert.Empty(session.Modules);
     }
 
@@ -120,18 +120,18 @@ public sealed class LayoutSessionTests
     public void LoadingFlagsAreSetByTheSessionAndClearedInTwoSteps()
     {
         var session = new LayoutSession();
-        using var root = new TDataModule(null!);
-        var child = new TAOWLabel(root);
+        using var root = new DataModule(null!);
+        var child = new AOWLabel(root);
         Assert.True(child.ComponentState.IsEmpty);
         session.Begin(root);
-        Assert.True(root.ComponentState.Contains(TComponentState.csLoading));
-        Assert.True(root.ComponentState.Contains(TComponentState.csReading));
+        Assert.True(root.ComponentState.Contains(ComponentState.Loading));
+        Assert.True(root.ComponentState.Contains(ComponentState.Reading));
         session.BeginRead(child);
-        Assert.True(child.ComponentState.Contains(TComponentState.csLoading));
-        Assert.True(child.ComponentState.Contains(TComponentState.csReading));
+        Assert.True(child.ComponentState.Contains(ComponentState.Loading));
+        Assert.True(child.ComponentState.Contains(ComponentState.Reading));
         session.EndRead(child);
-        Assert.False(child.ComponentState.Contains(TComponentState.csReading));
-        Assert.True(child.ComponentState.Contains(TComponentState.csLoading));
+        Assert.False(child.ComponentState.Contains(ComponentState.Reading));
+        Assert.True(child.ComponentState.Contains(ComponentState.Loading));
         child.Loaded();
         Assert.True(child.ComponentState.IsEmpty);
         session.EndRead(root);

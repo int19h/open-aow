@@ -3,11 +3,11 @@ using Aow.Rtl;
 
 namespace Aow.Platform;
 
-public class TSdlSoundSystem : TSoundSystem
+public class TSdlSoundSystem : SoundSystem
 {
     private static bool muted = true, useOutput;
     private static TSdlSoundSystem? active;
-    private TSoundSettings settings;
+    private SoundSettings settings;
     private SdlAudioOutput? output;
 
     public AudioMixer Mixer { get; } = new();
@@ -37,10 +37,10 @@ public class TSdlSoundSystem : TSoundSystem
     protected internal override SampleClass SampleClass() => Samples;
     protected internal override SampleDataClass SampleDataClass() => SampleData;
 
-    protected internal override bool Activate(in TSoundSettings value)
+    protected internal override bool Activate(in SoundSettings value)
     {
         active = this;
-        FStatus = TSet<TSoundSystemStatusElement>.Of(TSoundSystemStatusElement.ssActivated);
+        FStatus = Set<SoundSystemStatusElement>.Of(SoundSystemStatusElement.Activated);
         return SetSoundSettings(value);
     }
 
@@ -54,7 +54,7 @@ public class TSdlSoundSystem : TSoundSystem
         return true;
     }
 
-    public override bool SetSoundSettings(in TSoundSettings value)
+    public override bool SetSoundSettings(in SoundSettings value)
     {
         if (value.SampleRate <= 0 || value.SampleVoices <= 0) return false;
         output?.Dispose(); output = null;
@@ -75,7 +75,7 @@ public class TSdlSoundSystem : TSoundSystem
         return true;
     }
 
-    public override TSoundSettings GetSoundSettings() => settings;
+    public override SoundSettings GetSoundSettings() => settings;
     protected internal override bool GetMusicEnabled() => settings.MusicEnabled;
     protected internal override bool GetSFXEnabled() => settings.SFXEnabled;
 
@@ -162,7 +162,7 @@ public class TSdlSoundSystem : TSoundSystem
         return true;
     }
 
-    public sealed class SavedSong : TSongStatus
+    public sealed class SavedSong : SongStatus
     {
         public int Order { get; init; }
         public bool Loop { get; init; }
@@ -171,12 +171,12 @@ public class TSdlSoundSystem : TSoundSystem
         public SavedSong(string name) => FFileName = name;
     }
 
-    public override TSongStatus BackupSongStatus()
+    public override SongStatus BackupSongStatus()
     {
         lock (Mixer.Sync) return GetPlayingSong() ? new SavedSong(fileName) { Order = Mixer.Song?.Order ?? 0, Loop = loop, Volume = volume } : null!;
     }
 
-    public override bool RestoreSongStatus(TSongStatus status)
+    public override bool RestoreSongStatus(SongStatus status)
     {
         lock (Mixer.Sync)
         {
@@ -195,14 +195,14 @@ public class TSdlSoundSystem : TSoundSystem
     }
 }
 
-internal class SdlSampleData : TSampleData
+internal class SdlSampleData : SampleData
 {
     public WaveData Wave { get; private set; } = new(44100, 1, []);
 
     public static new SdlSampleData Create(string name) =>
         ConstructionContext.Create(name, static (context, value) => new SdlSampleData(context, value));
 
-    public static new SdlSampleData CreateEx(in TWaveFormatEx format, object data, int size) =>
+    public static new SdlSampleData CreateEx(in WaveFormatEx format, object data, int size) =>
         ConstructionContext.Create((format, data, size), static (context, value) =>
             new SdlSampleData(context, value.format, value.data, value.size));
 
@@ -212,28 +212,28 @@ internal class SdlSampleData : TSampleData
         Wave = WaveData.Read(stream);
     }
 
-    private protected SdlSampleData(ConstructionContext context, in TWaveFormatEx format, object data, int size) : base(context, format, data, size)
+    private protected SdlSampleData(ConstructionContext context, in WaveFormatEx format, object data, int size) : base(context, format, data, size)
     {
         Wave = WaveData.Decode(format, RtlUnit.BufferBytes(data)[..size]);
     }
 }
 
-internal class SdlSample : TSample
+internal class SdlSample : Sample
 {
     private readonly AudioMixer mixer;
 
-    private protected SdlSample(ConstructionContext context, AudioMixer mixer, TSampleData data) : base(context, data)
+    private protected SdlSample(ConstructionContext context, AudioMixer mixer, global::Aow.Game.Audio.SampleData data) : base(context, data)
     {
         this.mixer = mixer;
     }
 
-    public static SdlSample Create(AudioMixer mixer, TSampleData data) =>
+    public static SdlSample Create(AudioMixer mixer, global::Aow.Game.Audio.SampleData data) =>
         ConstructionContext.Create((mixer, data), static (context, value) => new SdlSample(context, value.mixer, value.data));
 
     private AudioMixer.Voice? voice;
     private int volume = -1;
     private bool loop;
-    private TSamplePanning pan = TSamplePanning.spCenter;
+    private SamplePanning pan = SamplePanning.Center;
 
     protected internal override bool GetPlaying() { lock (mixer.Sync) return voice?.Playing == true; }
 
@@ -245,16 +245,16 @@ internal class SdlSample : TSample
 
     protected internal override void SetLooped(bool value) { lock (mixer.Sync) { loop = value; Apply(); } }
 
-    protected internal override TSamplePanning GetPanning() => pan;
+    protected internal override SamplePanning GetPanning() => pan;
 
-    protected internal override void SetPanning(TSamplePanning value) { lock (mixer.Sync) { pan = value; Apply(); } }
+    protected internal override void SetPanning(SamplePanning value) { lock (mixer.Sync) { pan = value; Apply(); } }
 
     private void Apply()
     {
         if (voice is null) return;
         voice.Loop = loop;
         voice.Volume = volume == -1 ? 1 : (float)(Math.Round(Math.Clamp(volume, 0, 100) * 32767.0 / 100) / 32767);
-        voice.Pan = pan switch { TSamplePanning.spLeft => -1, TSamplePanning.spRight => 1, _ => 0 };
+        voice.Pan = pan switch { SamplePanning.Left => -1, SamplePanning.Right => 1, _ => 0 };
     }
 
     public override void Play() { lock (mixer.Sync) { if (voice?.Playing != true) { voice = mixer.Play(((SdlSampleData)SampleData).Wave); Apply(); } } }

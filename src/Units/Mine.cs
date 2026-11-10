@@ -15,11 +15,11 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Structures;
 
 // FState (bit 0 razed), FIncomeSource
-public partial class TMine : TPlayerStructure
+public partial class Mine : PlayerStructure
 {
-    public TMine(TECustomNode owner) : base(owner)
+    public Mine(ECustomNode owner) : base(owner)
     {
-        FIncomeSource = new TPlayerStructureIncomeSource(null);
+        FIncomeSource = new PlayerStructureIncomeSource(null);
         FIncomeSource.Setup(this);
     }
 
@@ -27,7 +27,7 @@ public partial class TMine : TPlayerStructure
     public new const int ClassID = 131962;
 
     public byte FState;
-    public TPlayerStructureIncomeSource FIncomeSource;
+    public PlayerStructureIncomeSource FIncomeSource;
 
     // Mine.pas:76
     public override void Dispose()
@@ -37,7 +37,7 @@ public partial class TMine : TPlayerStructure
     }
 
     // Mine.pas:172
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwData(Bytes.Of(ref FState, 1), 1, 20);
@@ -51,7 +51,7 @@ public partial class TMine : TPlayerStructure
         base.Activate();
         if (FPlayer != -1)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
         }
     }
 
@@ -60,7 +60,7 @@ public partial class TMine : TPlayerStructure
     {
         if (FPlayer != -1)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
         }
 
         base.Deactivate();
@@ -72,11 +72,11 @@ public partial class TMine : TPlayerStructure
         if (Value)
         {
             SetPlayer(-1);
-            FState = (byte)(TSet<byte>.FromMask(FState) + TSet<byte>.WithBounds(0, 7).With(0)).Image;
+            FState = (byte)(Set<byte>.FromMask(FState) + Set<byte>.WithBounds(0, 7).With(0)).Image;
         }
         else
         {
-            FState = (byte)(TSet<byte>.FromMask(FState) - TSet<byte>.WithBounds(0, 7).With(0)).Image;
+            FState = (byte)(Set<byte>.FromMask(FState) - Set<byte>.WithBounds(0, 7).With(0)).Image;
         }
 
         this.FImageIndex = GetTerrainTypeImage(TerrainType);
@@ -90,7 +90,7 @@ public partial class TMine : TPlayerStructure
     }
 
     // Mine.pas:99
-    public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
     {
         int CandidatePriority;
         if (!GetRazed() || GetBuilding())
@@ -98,7 +98,7 @@ public partial class TMine : TPlayerStructure
             CandidatePriority = Data.Priority;
             switch (Info.Mode)
             {
-                case TAITargetMode.tmAttack:
+                case AITargetMode.Attack:
                     if ((byte)Info.Player != (byte)FPlayer && !GetRazed())
                     {
                         if ((byte)FPlayer == 0)
@@ -109,7 +109,7 @@ public partial class TMine : TPlayerStructure
                         {
                             if (Aow.Game.Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0))
                             {
-                                CandidatePriority = 50 - Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
+                                CandidatePriority = 50 - Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                 if (CandidatePriority < 25)
                                 {
                                     CandidatePriority = 25;
@@ -124,7 +124,7 @@ public partial class TMine : TPlayerStructure
                     }
 
                     break;
-                case TAITargetMode.tmDefend:
+                case AITargetMode.Defend:
                     if ((byte)Info.Player == (byte)FPlayer)
                     {
                         Data.Priority = 20;
@@ -146,17 +146,17 @@ public partial class TMine : TPlayerStructure
     {
         if (Player != FPlayer)
         {
-            if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated))
+            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated))
             {
                 if (FPlayer != -1)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
                 }
 
                 base.SetPlayer(Player);
                 if (FPlayer != -1)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
                 }
             }
             else
@@ -183,12 +183,12 @@ public partial class TMine : TPlayerStructure
     }
 
     // Mine.pas:178
-    public override string GetCombatEventText(TCombat Combat)
+    public override string GetCombatEventText(global::Aow.Game.Combat.Combat Combat)
     {
         string Result;
-        if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
+        if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMine.MineBattleWonRStr);
+            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Mine.MineBattleWonRStr);
         }
         else
         {
@@ -202,39 +202,39 @@ public partial class TMine : TPlayerStructure
     public override bool GetRazed() => (FState & 1) != 0;
 
     private static readonly string MineBattleWonRStr = "Mine captured";
-}
 
-public partial class TMineResource : TPlayerStructureResource
-{
-    public TMineResource(TECustomNode owner) : base(owner)
+    public new partial class Resource : PlayerStructureResource
     {
-        FTerrainBound = false;
-        FClaimed = false;
-        FRazeable = true;
-        FRazeDefenderBudget = 75;
-        FRebuildGold = 25;
-        FRebuildDays = 2;
+        public Resource(ECustomNode owner) : base(owner)
+        {
+            FTerrainBound = false;
+            FClaimed = false;
+            FRazeable = true;
+            FRazeDefenderBudget = 75;
+            FRebuildGold = 25;
+            FRebuildDays = 2;
+        }
+
+        // Mine.pas:200
+        public new const int ClassID = 131963;
+
+        // Mine.pas:186
+
+        // Mine.pas:203
+        public override int ResourceUserClassID() => 131962;
+
+        // Mine.pas:41
+
+        // Mine.pas:197
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Mine.Resource.MineRStr);
+
+        private static readonly string MineRStr = "Mine";
+
     }
-
-    // Mine.pas:200
-    public new const int ClassID = 131963;
-
-    // Mine.pas:186
-
-    // Mine.pas:203
-    public override int ResourceUserClassID() => 131962;
-
-    // Mine.pas:41
-
-    // Mine.pas:197
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMineResource.MineRStr);
-
-    private static readonly string MineRStr = "Mine";
-
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 21)]
-public struct TMineCombatData
+public struct MineCombatData
 {
     [FieldOffset(0)]
     public FixedArray_byte_20 Reserved;
@@ -243,7 +243,7 @@ public struct TMineCombatData
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 24)]
-public struct TMineImageData
+public struct MineImageData
 {
     [FieldOffset(0)]
     public FixedArray_byte_20 Reserved;

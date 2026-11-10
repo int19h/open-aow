@@ -15,15 +15,15 @@ namespace Aow.Game.Ui.Windows;
 //   visible only while its tab is selected. }
 // Fields: FOrgLeft, FOrgTop (the panel's own position, saved while it is moved by the window's
 // position), FTabPanel, FAOWWindow
-public partial class TAOWPanel : TAOWBaseWindow
+public partial class AOWPanel : AOWBaseWindow
 {
     public int FOrgLeft;
     public int FOrgTop;
-    public TAOWTabPanel FTabPanel;
-    public TAOWBaseWindow FAOWWindow;
+    public AOWTabPanel FTabPanel;
+    public AOWBaseWindow FAOWWindow;
 
     // AoWPanel.pas:63
-    public TAOWPanel(TComponent owner) : base(owner)
+    public AOWPanel(global::Aow.Rtl.Component owner) : base(owner)
     {
         FCaptureInput = true;
     }
@@ -52,8 +52,8 @@ public partial class TAOWPanel : TAOWBaseWindow
 
         switch (FWindowType)
         {
-            case TWindowType.winNormal:
-            case TWindowType.winHollow:
+            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Normal:
+            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow:
                 var ilFrameWidth = FILFrame[FILIndexFrame];
                 var ilFrame = FILFrame[FILIndexFrame + 2];
                 if (ilFrameWidth.Width + ilFrame.Width > FWinWidth)
@@ -101,8 +101,8 @@ public partial class TAOWPanel : TAOWBaseWindow
                 }
 
                 break;
-            case TWindowType.winBorderless:
-            case TWindowType.winBlank:
+            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Borderless:
+            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank:
                 if (FAOWWindow.FWinWidth < FWinLeft + FWinWidth)
                 {
                     FWinLeft = FAOWWindow.FWinWidth - FWinWidth;
@@ -150,7 +150,7 @@ public partial class TAOWPanel : TAOWBaseWindow
         }
 
         FSurfaceValid = false;
-        if (FWindowType == TWindowType.winBlank)
+        if (FWindowType == Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
         {
             FMasked = true;
         }
@@ -189,7 +189,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
                 FOrgLeft = FWinLeft;
                 FOrgTop = FWinTop;
-                if (FAOWWindow is TAOWPanel)
+                if (FAOWWindow is AOWPanel)
                 {
                     FWinLeft += FAOWWindow.FWinLeft;
                     FWinTop += FAOWWindow.FWinTop;
@@ -197,7 +197,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    ((TAoWComponent)FChildren[I]).Setup();
+                    ((AoWComponent)FChildren[I]).Setup();
                 }
 
                 FWinLeft = FOrgLeft;
@@ -217,12 +217,12 @@ public partial class TAOWPanel : TAOWBaseWindow
     //   panel moved or changed size, its old rectangle is redrawn in the owner }
     public override void Update()
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         if (FVisible)
         {
             FOrgLeft = FWinLeft;
             FOrgTop = FWinTop;
-            if (FAOWWindow is TAOWPanel)
+            if (FAOWWindow is AOWPanel)
             {
                 FWinLeft += FAOWWindow.FWinLeft;
                 FWinTop += FAOWWindow.FWinTop;
@@ -235,7 +235,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
-                ((TAoWComponent)FChildren[I]).Update();
+                ((AoWComponent)FChildren[I]).Update();
             }
 
             FWinLeft = FOrgLeft;
@@ -244,11 +244,11 @@ public partial class TAOWPanel : TAOWBaseWindow
             {
                 if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                 {
-                    R = Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
+                    R = global::Aow.Rtl.RtlUnit.Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
                 }
                 else
                 {
-                    R = Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
+                    R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
                 }
 
                 if (FMasked)
@@ -272,11 +272,11 @@ public partial class TAOWPanel : TAOWBaseWindow
             {
                 if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                 {
-                    R = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                    R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                 }
                 else
                 {
-                    R = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                    R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                 }
 
                 FAOWOwner.AddDrawRect(ref R, this);
@@ -292,13 +292,13 @@ public partial class TAOWPanel : TAOWBaseWindow
     // AoWPanel.pas:97
     // { InvalidateRect: the controls from Index on that ARect touches are redrawn (windows are asked to
     //   invalidate the rectangle themselves), then the windows above the panel in its owner }
-    public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
+    public override void InvalidateRect(int Index, ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
     {
         int OldLeft;
         int OldTop;
-        TAoWComponent C;
-        TRect R = default;
-        if (FValid && FVisible && FWindowType != TWindowType.winBlank)
+        AoWComponent C;
+        global::Aow.Rtl.Rect R = default;
+        if (FValid && FVisible && FWindowType != Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
         {
             AddDrawRect(ref ARect, Sender);
         }
@@ -309,12 +309,12 @@ public partial class TAOWPanel : TAOWBaseWindow
         FWinTop += FAOWOwner.FWinTop;
         for (int I = Index, last = FChildren.Count - 1; I <= last; I++)
         {
-            C = (TAoWComponent)FChildren[I];
+            C = (AoWComponent)FChildren[I];
             if (C.FVisible)
             {
                 if (((FWinLeft + C.FWinLeft >= ARect.Left && FWinLeft + C.FWinLeft <= ARect.Right) || (FWinLeft + C.FWinLeft <= ARect.Left && ARect.Left <= FWinLeft + C.FWinLeft + C.FWinWidth)) && ((FWinTop + C.FWinTop >= ARect.Top && FWinTop + C.FWinTop <= ARect.Bottom) || (FWinTop + C.FWinTop <= ARect.Top && ARect.Top <= FWinTop + C.FWinTop + C.FWinHeight)) && C != Sender)
                 {
-                    if (C is TAOWBaseWindow)
+                    if (C is AOWBaseWindow)
                     {
                         C.InvalidateRect(0, ref ARect, this);
                     }
@@ -325,7 +325,7 @@ public partial class TAOWPanel : TAOWBaseWindow
                             C.FDrawn = false;
                             if (C.FMasked)
                             {
-                                R = Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
+                                R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
                                 AddDrawRect(ref R, this);
                             }
                         }
@@ -345,30 +345,30 @@ public partial class TAOWPanel : TAOWBaseWindow
     }
 
     // AoWPanel.pas:82
-    public override void AddBltRect(ref TRect ARect, TAoWComponent Sender)
+    public override void AddBltRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
     {
         FAOWOwner.AddBltRect(ref ARect, this);
     }
 
     // AoWPanel.pas:87
-    public override void AddDrawRect(ref TRect ARect, TAoWComponent Sender)
+    public override void AddDrawRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
     {
         if (FMasked)
         {
             FAOWOwner.AddDrawRect(ref ARect, this);
         }
 
-        if (FWindowType != TWindowType.winBlank)
+        if (FWindowType != Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
         {
             base.AddDrawRect(ref ARect, Sender);
         }
     }
 
     // AoWPanel.pas:76
-    public override void SetOwner(TAoWComponent Value)
+    public override void SetOwner(AoWComponent Value)
     {
         base.SetOwner(Value);
-        FAOWWindow = (TAOWBaseWindow)FAOWOwner;
+        FAOWWindow = (AOWBaseWindow)FAOWOwner;
     }
 
     // AoWPanel.pas:191
@@ -424,20 +424,20 @@ public partial class TAOWPanel : TAOWBaseWindow
     // { Draw: the background (redrawn only in the dirty rectangles once the surface is valid), then
     //   the controls that need it; the rectangles of redrawn controls are passed on to the controls
     //   above them and blitted }
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect BltRect = default;
-        TRect OldClip = default;
-        TAoWComponent C = default;
+        global::Aow.Rtl.Rect BltRect = default;
+        global::Aow.Rtl.Rect OldClip = default;
+        AoWComponent C = default;
         TaowRect D = default;
         void DrawBack()
         {
-            if (FWindowType != TWindowType.winBlank)
+            if (FWindowType != Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
             {
                 switch (FWindowType)
                 {
-                    case TWindowType.winNormal:
-                        var rect = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Normal:
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -445,20 +445,20 @@ public partial class TAOWPanel : TAOWBaseWindow
                         var ilFrame2 = FILFrame[FILIndexFrame + 4];
                         var ilFrame3 = FILFrame[FILIndexFrame + 1];
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                         break;
-                    case TWindowType.winHollow:
-                        var rect3 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow:
+                        var rect3 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
                         break;
-                    case TWindowType.winBorderless:
-                        var rect4 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Borderless:
+                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILTexture.DrawILT(FILIndexTexture, rect4, ref SurfDesc);
                         break;
                 }
 
-                BltRect = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, SurfDesc.ClipRect.Right, SurfDesc.ClipRect.Bottom);
+                BltRect = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, SurfDesc.ClipRect.Right, SurfDesc.ClipRect.Bottom);
                 FAOWOwner.AddBltRect(ref BltRect, this);
             }
         }
@@ -497,7 +497,7 @@ public partial class TAOWPanel : TAOWBaseWindow
                     {
                         D = (TaowRect)FDrawList[J];
                         OldClip = SurfDesc.ClipRect;
-                        var rect = Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                         SurfDesc.ClipRect = rect;
                         DrawBack();
                         SurfDesc.ClipRect = OldClip;
@@ -521,11 +521,11 @@ public partial class TAOWPanel : TAOWBaseWindow
                 FDrawn = FSurfaceValid;
                 for (int I = 0, lastI = FChildren.Count - 1; I <= lastI; I++)
                 {
-                    C = (TAoWComponent)FChildren[I];
+                    C = (AoWComponent)FChildren[I];
                     if (C.FValid && C.FVisible && (!FDrawn || !C.FDrawn))
                     {
                         C.FDrawn = false;
-                        if (!FDrawn && C is TAOWBaseWindow)
+                        if (!FDrawn && C is AOWBaseWindow)
                         {
                             C.FSurfaceValid = false;
                         }
@@ -542,11 +542,11 @@ public partial class TAOWPanel : TAOWBaseWindow
                         FDrawCount = 0;
                         if (!FDrawn || !C.FFirstDraw)
                         {
-                            BltRect = Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
+                            BltRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
                             FAOWOwner.AddBltRect(ref BltRect, this);
                             FWinLeft = FOrgLeft;
                             FWinTop = FOrgTop;
-                            BltRect = Rect(FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft, FAOWWindow.FWinTop + FWinTop + C.FWinTop, FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft + C.FWinWidth - 1, FAOWWindow.FWinTop + FWinTop + C.FWinTop + C.FWinHeight - 1);
+                            BltRect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft, FAOWWindow.FWinTop + FWinTop + C.FWinTop, FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft + C.FWinWidth - 1, FAOWWindow.FWinTop + FWinTop + C.FWinTop + C.FWinHeight - 1);
                             InvalidateRect(I + 1, ref BltRect, C);
                             FWinLeft += FAOWWindow.FWinLeft;
                             FWinTop += FAOWWindow.FWinTop;
@@ -575,9 +575,9 @@ public partial class TAOWPanel : TAOWBaseWindow
     // AoWPanel.pas:513
     // { CheckMouseDown: the controls first (from the top), with the panel moved by its window's
     //   position }
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         if (FVisible == true)
         {
@@ -592,7 +592,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 C.FHandled = false;
                 if ((!FHandled || C.FRedraw) && C.FVisible == true && C.FCaptureInput)
                 {
@@ -630,9 +630,9 @@ public partial class TAOWPanel : TAOWBaseWindow
     }
 
     // AoWPanel.pas:558
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         if (FVisible == true)
         {
@@ -647,7 +647,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 C.FHandled = false;
                 if ((!FHandled || C.FRedraw == true) && C.FVisible == true && C.FCaptureInput)
                 {
@@ -679,9 +679,9 @@ public partial class TAOWPanel : TAOWBaseWindow
     }
 
     // AoWPanel.pas:600
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         if (FVisible == true)
         {
@@ -696,7 +696,7 @@ public partial class TAOWPanel : TAOWBaseWindow
 
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 C.FHandled = false;
                 if ((!FHandled || C.FRedraw == true || C.FToolTipCount > 0) && C.FVisible == true && C.FCaptureInput)
                 {
@@ -736,11 +736,11 @@ public partial class TAOWPanel : TAOWBaseWindow
     // AoWPanel.pas:145
     // { SetTabPanel moves the panel from the panel list of its old tab panel to the list of the new
     //   one, in priority order }
-    public virtual void SetTabPanel(TAOWTabPanel Value)
+    public virtual void SetTabPanel(AOWTabPanel Value)
     {
         int I;
         int NewIndex;
-        TAOWPanel P;
+        AOWPanel P;
         if (Value != FTabPanel)
         {
             if (FTabPanel != null)
@@ -748,7 +748,7 @@ public partial class TAOWPanel : TAOWBaseWindow
                 I = 0;
                 while (I < FTabPanel.FPanels.Count)
                 {
-                    P = (TAOWPanel)FTabPanel.FPanels[I];
+                    P = (AOWPanel)FTabPanel.FPanels[I];
                     if (P == this)
                     {
                         FTabPanel.FPanels.Delete(I);
@@ -766,7 +766,7 @@ public partial class TAOWPanel : TAOWBaseWindow
                 NewIndex = -1;
                 while (I < FTabPanel.FPanels.Count)
                 {
-                    P = (TAOWPanel)FTabPanel.FPanels[I];
+                    P = (AOWPanel)FTabPanel.FPanels[I];
                     if (P.FPriority > FPriority)
                     {
                         NewIndex = I;
@@ -789,16 +789,16 @@ public partial class TAOWPanel : TAOWBaseWindow
     }
 
     // AoWPanel.pas:228
-    public void SetAOWWindow(TAOWBaseWindow Value)
+    public void SetAOWWindow(AOWBaseWindow Value)
     {
         SetOwner(Value);
     }
 
     [Published]
-    public TAOWBaseWindow AOWWindow { get => FAOWWindow; set => SetAOWWindow(value); }
+    public AOWBaseWindow AOWWindow { get => FAOWWindow; set => SetAOWWindow(value); }
 
     [Published]
-    public TAOWTabPanel TabPanel { get => FTabPanel; set => SetTabPanel(value); }
+    public AOWTabPanel TabPanel { get => FTabPanel; set => SetTabPanel(value); }
 
     [Published]
     public int OwnerItem { get => FOwnerItem; set => FOwnerItem = value; }
@@ -809,85 +809,85 @@ public partial class TAOWPanel : TAOWBaseWindow
     [Published]
     public int MinHeight { get => FMinHeight; set => FMinHeight = value; }
 
-    public new TNotifyEvent<TAOWPanel> OnChange
+    public new NotifyEvent<AOWPanel> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWPanel> OnMouseDown
+    public new MouseEvent<AOWPanel> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWPanel> OnMouseUp
+    public new MouseEvent<AOWPanel> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWPanel> OnMouseMove
+    public new MouseMoveEvent<AOWPanel> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWPanel> OnKeyPress
+    public new KeyPressEvent<AOWPanel> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWPanel> OnKeyDown
+    public new KeyEvent<AOWPanel> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWPanel> OnPreDraw
+    public new AoWOnDrawEvent<AOWPanel> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWPanel> OnDraw
+    public new AoWOnDrawEvent<AOWPanel> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWPanel> OnUpdate
+    public new NotifyEvent<AOWPanel> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
-    public new TAoWOnDrawBackEvent<TAOWPanel> OnDrawBack
+    public new AoWOnDrawBackEvent<AOWPanel> OnDrawBack
     {
         get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
-    public new TNotifyEvent<TAOWPanel> OnEnter
+    public new NotifyEvent<AOWPanel> OnEnter
     {
         get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
-    public new TNotifyEvent<TAOWPanel> OnExit
+    public new NotifyEvent<AOWPanel> OnExit
     {
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
 
-    public new TNotifyEvent<TAOWPanel> OnHide
+    public new NotifyEvent<AOWPanel> OnHide
     {
         get => EventSlot.Get(this, FOnHide);
         set => EventSlot.Set(this, ref FOnHide, value);
     }
 
-    public new TNotifyEvent<TAOWPanel> OnShow
+    public new NotifyEvent<AOWPanel> OnShow
     {
         get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);

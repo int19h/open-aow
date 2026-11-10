@@ -16,38 +16,38 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // done callback, army event, unit-details flag
-public partial class THeroInfoDlg : TDataModule
+public partial class HeroInfoDlg : DataModule
 {
-    public THeroInfoDlg(TComponent owner) : base(owner)
+    public HeroInfoDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWPanel UnitPnl;
-    public TAoWFrame U1;
-    public TAoWFrame U2;
-    public TAoWFrame U4;
-    public TAoWFrame U5;
-    public TAoWFrame U3;
-    public TAoWFrame U6;
-    public TAoWFrame U7;
-    public TAoWFrame U8;
-    public TAOWButton CloseBtn;
-    public TAoWFrame BCeltL;
-    public TAOWWindow Dlg;
-    public TAOWLabel HeroName;
-    public TAOWLabel HeroLevel;
-    public TAOWImage FaceFrame;
-    public TAOWLabel DetailsLbl;
-    public TAOWMemo Message;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public TArmyInfoEventLog FArmyInfo;
+    public AOWPanel UnitPnl;
+    public AoWFrame U1;
+    public AoWFrame U2;
+    public AoWFrame U4;
+    public AoWFrame U5;
+    public AoWFrame U3;
+    public AoWFrame U6;
+    public AoWFrame U7;
+    public AoWFrame U8;
+    public AOWButton CloseBtn;
+    public AoWFrame BCeltL;
+    public AOWWindow Dlg;
+    public AOWLabel HeroName;
+    public AOWLabel HeroLevel;
+    public AOWImage FaceFrame;
+    public AOWLabel DetailsLbl;
+    public AOWMemo Message;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public ArmyInfoEventLog FArmyInfo;
     public bool FDetailsOpen;
 
     // AoWHeroInfoDlg.pas:99
     public void FinishDialog()
     {
-        TExecuteDoneEvent Done;
-        TEventLog Event;
+        ExecuteDoneEvent Done;
+        EventLog Event;
         if (FDetailsOpen)
         {
             FDetailsOpen = false;
@@ -71,13 +71,13 @@ public partial class THeroInfoDlg : TDataModule
     }
 
     // AoWHeroInfoDlg.pas:118
-    public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc Surface)
+    public void DrawUnit(int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc Surface)
     {
-        TAlignment Alignment;
+        Alignment Alignment;
         int X;
         int Y;
-        TRect OldClip;
-        TP2UnitShowInfo Info;
+        global::Aow.Rtl.Rect OldClip;
+        P2UnitShowInfo Info;
         if (Index < FArmyInfo.FArmyView.GetCount())
         {
             OldClip = Surface.ClipRect;
@@ -93,7 +93,7 @@ public partial class THeroInfoDlg : TDataModule
 
             Info = default;
             Info.Direction = 3;
-            Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
+            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             FArmyInfo.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
             if ((((int)(((uint)FArmyInfo.FSelection) >> Index)) & 1) == 0)
             {
@@ -113,10 +113,10 @@ public partial class THeroInfoDlg : TDataModule
     }
 
     // AoWHeroInfoDlg.pas:152
-    public void FaceFramePreDraw(TSurfaceDesc Surface)
+    public void FaceFramePreDraw(SurfaceDesc Surface)
     {
-        TRect R = default;
-        THero Hero;
+        global::Aow.Rtl.Rect R = default;
+        Hero Hero;
         int I;
         R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
         R.Right = this.FaceFrame.WinWidth + R.Left;
@@ -144,9 +144,9 @@ public partial class THeroInfoDlg : TDataModule
     }
 
     // AoWHeroInfoDlg.pas:175
-    public void U1PreDraw(TAoWFrame Sender, TSurfaceDesc Surface, int Slot)
+    public void U1PreDraw(AoWFrame Sender, SurfaceDesc Surface, int Slot)
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
         R.Right = Sender.WinWidth + R.Left;
         R.Top = Sender.WinTop + UnitPnl.WinTop;
@@ -156,14 +156,14 @@ public partial class THeroInfoDlg : TDataModule
     }
 
     // AoWHeroInfoDlg.pas:189
-    public void U1MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
+    public void U1MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
     {
         var count = FArmyInfo.FArmyView.GetCount();
         if (Slot < count)
         {
             var unit = FArmyInfo.FArmyView.GetUnit(Slot);
             Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 FDetailsOpen = true;
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
@@ -179,7 +179,7 @@ public partial class THeroInfoDlg : TDataModule
     }
 
     // AoWHeroInfoDlg.pas:208
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {
@@ -187,9 +187,9 @@ public partial class THeroInfoDlg : TDataModule
         }
     }
 
-    internal static void ShowHeroInfo(THeroInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowHeroInfo(HeroInfoDlg Dialog, ArmyInfoEventLog Event, ExecuteDoneEvent Done)
     {
-        THero Hero;
+        Hero Hero;
         Assert(Dialog.FArmyInfo == null, "", "AoWHeroInfoDlg.pas", 80);
         Dialog.FDone = Done;
         Dialog.FArmyInfo = Event;

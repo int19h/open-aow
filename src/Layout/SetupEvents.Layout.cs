@@ -5,7 +5,7 @@ using Aow.Game.Session;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSetupEvents : ILayoutModule
+public partial class SetupEvents : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -39,7 +39,7 @@ public partial class TSetupEvents : ILayoutModule
         created__DPlay.UseSetupDialogs = false;
         created__DPlay.FilePacketSize = 1000;
         session.EndRead(created__DPlay);
-        SetupControl = new TSetupControl(this);
+        SetupControl = new global::Aow.Game.Session.SetupControl(this);
         session.BeginRead(SetupControl);
         SetupControl.Name = "SetupControl";
         SetupControl.OnSendMap = SetupControlSendMap;

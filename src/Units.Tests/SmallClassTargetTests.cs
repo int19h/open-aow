@@ -2,8 +2,8 @@ using Aow.Game.Ai.Groups;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.World.Map;
-using ListObject = Aow.Game.Engine.Collections.TListObject;
-using ObjectList = Aow.Game.Engine.Collections.TObjectList;
+using ListObject = Aow.Game.Engine.Collections.ListObject;
+using ObjectList = Aow.Game.Engine.Collections.ObjectList;
 
 namespace Aow.Units.Tests;
 
@@ -12,16 +12,16 @@ public sealed class SmallClassTargetTests
     [Fact]
     public void MapLoadedHandlersRemoveByStaticMethodIdentity()
     {
-        var events = new EventStore<THSMap>();
-        events.Add(Aow.Game.Ai.Groups.BehaviorAG.TRegistrator.MapLoaded);
-        events.Add(Aow.Game.World.Structures.TRegistrator.MapLoaded);
-        events.Add(Aow.Game.Ai.Groups.IndependentAG.TRegistrator.MapLoaded);
-        events.Add(Aow.Game.Ai.Groups.MainAG.TRegistrator.MapLoaded);
+        var events = new EventStore<HSMap>();
+        events.Add(Aow.Game.Ai.Groups.BehaviorRegistrator.MapLoaded);
+        events.Add(Aow.Game.World.Structures.CityRegistrator.MapLoaded);
+        events.Add(Aow.Game.Ai.Groups.IndependentRegistrator.MapLoaded);
+        events.Add(Aow.Game.Ai.Groups.MainRegistrator.MapLoaded);
         Assert.Equal(4, events.Count);
-        events.Remove(Aow.Game.Ai.Groups.BehaviorAG.TRegistrator.MapLoaded);
-        events.Remove(Aow.Game.World.Structures.TRegistrator.MapLoaded);
-        events.Remove(Aow.Game.Ai.Groups.IndependentAG.TRegistrator.MapLoaded);
-        events.Remove(Aow.Game.Ai.Groups.MainAG.TRegistrator.MapLoaded);
+        events.Remove(Aow.Game.Ai.Groups.BehaviorRegistrator.MapLoaded);
+        events.Remove(Aow.Game.World.Structures.CityRegistrator.MapLoaded);
+        events.Remove(Aow.Game.Ai.Groups.IndependentRegistrator.MapLoaded);
+        events.Remove(Aow.Game.Ai.Groups.MainRegistrator.MapLoaded);
         Assert.Equal(0, events.Count);
     }
 
@@ -62,9 +62,9 @@ public sealed class SmallClassTargetTests
         finally { list.Dispose(); }
     }
 
-    private sealed class TrackedControl(List<string> log) : TAIMoveExecuterControl(null!)
+    private sealed class TrackedControl(List<string> log) : AIMoveExecuterControl(null!)
     {
-        public override void Activate(TAIMoveExecuter executer)
+        public override void Activate(AIMoveExecuter executer)
         {
             log.Add("activate");
             base.Activate(executer);
@@ -79,7 +79,7 @@ public sealed class SmallClassTargetTests
     public void MoveControlReplacementCleansUpBeforeConstruction()
     {
         var log = new List<string>();
-        using var executer = new TAIMoveExecuter(null!);
+        using var executer = new AIMoveExecuter(null!);
         executer.ActivateMEC(() => new TrackedControl(log));
         log.Clear();
         executer.ActivateMEC(() =>

@@ -9,47 +9,47 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TCampaignSettingsDlg : TDataModule
+public partial class CampaignSettingsDlg : DataModule
 {
-    public TCampaignSettingsDlg(TComponent owner) : base(owner)
+    public CampaignSettingsDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TIvTranslator Translator;
-    public TAOWWindow Dlg;
-    public TAOWButton OKBtn;
-    public TAoWFrame BCeltL;
-    public TAOWLabel Title;
-    public TAOWButton Close;
-    public TAOWImage TitleIcon;
-    public TAOWLabel DifficultyLevelLbl;
-    public TAOWComboBox DifficultyLevelCB;
-    public TAOWVScrollBar CombatResolveModeSB;
-    public TAOWLabel TurnModeLbl;
-    public TAOWComboBox TurnModeCB;
-    public TAOWVScrollBar AOWVScrollBar1;
-    public TAoWFrame AoWFrame1;
-    public TAOWButton CancelBtn;
-    public TAOWImage TCeltLineL;
+    public IvTranslator Translator;
+    public AOWWindow Dlg;
+    public AOWButton OKBtn;
+    public AoWFrame BCeltL;
+    public AOWLabel Title;
+    public AOWButton Close;
+    public AOWImage TitleIcon;
+    public AOWLabel DifficultyLevelLbl;
+    public AOWComboBox DifficultyLevelCB;
+    public AOWVScrollBar CombatResolveModeSB;
+    public AOWLabel TurnModeLbl;
+    public AOWComboBox TurnModeCB;
+    public AOWVScrollBar AOWVScrollBar1;
+    public AoWFrame AoWFrame1;
+    public AOWButton CancelBtn;
+    public AOWImage TCeltLineL;
 
     // AoWCampaignSettings.pas:45
     public void DlgShow()
     {
-        TCampaignDifficultyLevel Level;
+        Aow.Game.Session.AoWCampaign.CampaignDifficultyLevel Level;
         DifficultyLevelCB.Items.Clear();
-        for (int levelOrdinal = (int)(TCampaignDifficultyLevel)0; levelOrdinal <= (int)(TCampaignDifficultyLevel)2; levelOrdinal++)
+        for (int levelOrdinal = (int)(Aow.Game.Session.AoWCampaign.CampaignDifficultyLevel)0; levelOrdinal <= (int)(Aow.Game.Session.AoWCampaign.CampaignDifficultyLevel)2; levelOrdinal++)
         {
-            Level = (TCampaignDifficultyLevel)levelOrdinal;
-            var campaignDifficultyLevel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCampaignSettingsDlg.TCampaignDifficultyLevelRStr[(int)Level]);
+            Level = (Aow.Game.Session.AoWCampaign.CampaignDifficultyLevel)levelOrdinal;
+            var campaignDifficultyLevel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.CampaignSettingsDlg.TCampaignDifficultyLevelRStr[(int)Level]);
             DifficultyLevelCB.Items.AddObject(campaignDifficultyLevel, IntToObject((int)Level));
         }
 
         var indexOfObject = DifficultyLevelCB.Items.IndexOfObject(IntToObject((int)Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FDifficultyLevel));
         DifficultyLevelCB.Selected = indexOfObject;
         TurnModeCB.Items.Clear();
-        var playMode = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TPlayModeRStr[(int)TPlayMode.pmTurn]);
-        TurnModeCB.Items.AddObject(playMode, IntToObject((int)TPlayMode.pmTurn));
-        var playModeText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TPlayModeRStr[(int)TPlayMode.pmSimultaneous]);
-        TurnModeCB.Items.AddObject(playModeText, IntToObject((int)TPlayMode.pmSimultaneous));
+        var playMode = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TPlayModeRStr[(int)PlayMode.Turn]);
+        TurnModeCB.Items.AddObject(playMode, IntToObject((int)PlayMode.Turn));
+        var playModeText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TPlayModeRStr[(int)PlayMode.Simultaneous]);
+        TurnModeCB.Items.AddObject(playModeText, IntToObject((int)PlayMode.Simultaneous));
         var itemsIndexOfObject = TurnModeCB.Items.IndexOfObject(IntToObject((int)Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FPlayMode));
         TurnModeCB.Selected = itemsIndexOfObject;
     }
@@ -58,9 +58,9 @@ public partial class TCampaignSettingsDlg : TDataModule
     public void OKBtnClick()
     {
         var objectValue = DifficultyLevelCB.Items.Objects[DifficultyLevelCB.Selected];
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FDifficultyLevel = (TCampaignDifficultyLevel)ObjectToInt(objectValue);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FDifficultyLevel = (Aow.Game.Session.AoWCampaign.CampaignDifficultyLevel)ObjectToInt(objectValue);
         var objectValue2 = TurnModeCB.Items.Objects[TurnModeCB.Selected];
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FPlayMode = (TPlayMode)ObjectToInt(objectValue2);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FPlayMode = (PlayMode)ObjectToInt(objectValue2);
         Dlg.Visible = false;
     }
 

@@ -24,23 +24,23 @@ public sealed class ControlStyleConstructionTests
     {
         var engine = CreateEngine();
         var owner = new EngineFixture.Owner();
-        TECustomNode argument = owned ? owner : null!;
-        Type type = kind switch { 0 => typeof(TEControlStyleObject), 1 => typeof(TEResourceEditSettings), _ => typeof(TPadControl) };
+        ECustomNode argument = owned ? owner : null!;
+        Type type = kind switch { 0 => typeof(EControlStyleObject), 1 => typeof(EResourceEditSettings), _ => typeof(PadControl) };
         var meta = EClass.Of(type);
         if (kind == 2)
         {
             // The pad has the inherited ID 81, so isolate its class entry in this test engine.
-            engine.UnregisterEClasses([EClass.Of<TEControlStyleObject>()]);
+            engine.UnregisterEClasses([EClass.Of<EControlStyleObject>()]);
             engine.RegisterEClasses([EClass.Of(type)]);
         }
         var direct = kind switch
         {
-            0 => new TEControlStyleObject(argument),
-            1 => new TEResourceEditSettings(argument),
-            _ => (TEControlStyleObject)new TPadControl(argument)
+            0 => new EControlStyleObject(argument),
+            1 => new EResourceEditSettings(argument),
+            _ => (EControlStyleObject)new PadControl(argument)
         };
-        TEObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
-        TEObject? copy = null;
+        EObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
+        EObject? copy = null;
         try
         {
             Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassID);
@@ -52,20 +52,20 @@ public sealed class ControlStyleConstructionTests
                 Assert.Same(argument, value.Owner);
                 Assert.Same(meta, value.EClass);
             }
-            if (direct is TEResourceEditSettings settings)
+            if (direct is EResourceEditSettings settings)
                 settings.Editors.AddObject("Editor", Runtime.IntToObject(17));
-            direct.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
+            direct.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
             Assert.Null(copy.Owner);
             Assert.Equal(direct.GetControlStyle(), copy.GetControlStyle());
-            if (copy is TEResourceEditSettings copied)
+            if (copy is EResourceEditSettings copied)
             {
-                Assert.NotSame(((TEResourceEditSettings)direct).Editors, copied.Editors);
+                Assert.NotSame(((EResourceEditSettings)direct).Editors, copied.Editors);
                 Assert.Equal("Editor", copied.Editors[0]);
                 Assert.Equal(17, Runtime.ObjectToInt(copied.Editors.Objects[0]));
             }
-            if (direct is TPadControl pad)
+            if (direct is PadControl pad)
             {
                 Assert.NotNull(pad.FTerrainTypes);
                 Assert.NotNull(pad.FPadResources);
@@ -81,16 +81,16 @@ public sealed class ControlStyleConstructionTests
         Assert.Empty(owner.Members);
     }
 
-    private sealed class Converted : TEControlStyleObject
+    private sealed class Converted : EControlStyleObject
     {
         internal int Calls;
         internal int Marker;
         internal int ObservedMarker;
-        internal TSet<TEControlStyleElement> ObservedStyle;
+        internal Set<EControlStyleElement> ObservedStyle;
 
-        internal Converted(TECustomNode owner) : base(owner) { Marker = 77; }
+        internal Converted(ECustomNode owner) : base(owner) { Marker = 77; }
 
-        public override void SetOwner(TECustomNode owner)
+        public override void SetOwner(ECustomNode owner)
         {
             Calls++;
             ObservedMarker = Marker;
@@ -103,8 +103,8 @@ public sealed class ControlStyleConstructionTests
     public void NullFlagOwnerFailsBeforeAnUnacquiredLinkIsReleased()
     {
         using var fixture = new FlagFixture(loaded: true);
-        Assert.Throws<NullReferenceException>(() => TFlagControl.Create(null!));
-        Assert.Throws<NullReferenceException>(() => EClass.Of<TFlagControl>().Create(null!));
+        Assert.Throws<NullReferenceException>(() => FlagControl.Create(null!));
+        Assert.Throws<NullReferenceException>(() => EClass.Of<FlagControl>().Create(null!));
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
     }
@@ -112,23 +112,23 @@ public sealed class ControlStyleConstructionTests
     private static FieldInfo Field(Type type, string name) =>
         type.GetField(name, BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-    private sealed class FlagOwner : TAoWHSSet
+    private sealed class FlagOwner : global::Aow.Game.Engine.AoWHSSet
     {
         public FlagOwner() : base(null!, null!) { }
 
-        internal readonly List<TEObject> Members = [];
+        internal readonly List<EObject> Members = [];
 
-        public override int AddChild(TEObject child) { Members.Add(child); return Members.Count - 1; }
+        public override int AddChild(EObject child) { Members.Add(child); return Members.Count - 1; }
 
-        public override int RemoveChild(TEObject child) { int index = Members.IndexOf(child); Members.Remove(child); return index; }
+        public override int RemoveChild(EObject child) { int index = Members.IndexOf(child); Members.Remove(child); return index; }
     }
 
     private sealed class FlagFixture : IDisposable
     {
         internal readonly FlagOwner Owner;
-        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
-        internal readonly TILManagerObject Entry;
-        private readonly TAoWHSSet previous = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
+        internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
+        internal readonly ILManagerObject Entry;
+        private readonly AoWHSSet previous = Aow.Game.Engine.AoWHSSet.Current;
         private readonly IFileSystem previousFiles = Runtime.Files;
         private readonly string previousStartup = EngineFixture.Engine.StartupDirectory;
         private readonly string previousSoundPath = Aow.Game.Audio.AudioHost.BaseSoundEnginePath;
@@ -154,18 +154,18 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 Owner = new FlagOwner();
-                Field(typeof(THSSet), "FImageLibraryManager").SetValue(Owner, Manager);
-                Field(typeof(TImageLibraryManager), "FSearchPath").SetValue(Manager, "9.3b-2-missing/");
-                var disk = (TILManagerList)Field(typeof(TImageLibraryManager), "FDiskList").GetValue(Manager)!;
+                Field(typeof(HSSet), "FImageLibraryManager").SetValue(Owner, Manager);
+                Field(typeof(ImageLibraryManager), "FSearchPath").SetValue(Manager, "9.3b-2-missing/");
+                var disk = (ILManagerList)Field(typeof(ImageLibraryManager), "FDiskList").GetValue(Manager)!;
                 if (directory is null) Entry = disk.AddILFile("Flags.ILB");
                 else
                 {
                     Manager.ExecutePathSearch(directory);
-                    Entry = Assert.IsType<TILManagerObject>(disk.Objects[0]);
+                    Entry = Assert.IsType<ILManagerObject>(disk.Objects[0]);
                 }
                 if (loaded)
-                    Field(typeof(TILManagerObject), "FImageLibrary").SetValue(Entry, new TImageLibrary(null!));
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet = Owner;
+                    Field(typeof(ILManagerObject), "FImageLibrary").SetValue(Entry, new ImageLibrary(null!));
+                Aow.Game.Engine.AoWHSSet.Current = Owner;
                 Owner.Members.Clear();
             }
             catch
@@ -180,7 +180,7 @@ public sealed class ControlStyleConstructionTests
             try { foreach (var child in Owner.Members.ToArray()) child.Dispose(); }
             finally
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet = previous;
+                Aow.Game.Engine.AoWHSSet.Current = previous;
                 try { Manager.Dispose(); }
                 finally { RestoreFiles(); }
             }
@@ -247,9 +247,9 @@ public sealed class ControlStyleConstructionTests
         }
     }
 
-    private static TFlagControl CreateFlag(TECustomNode owner, bool throughMeta) => throughMeta
-        ? (TFlagControl)EClass.Of<TFlagControl>().Create(owner)
-        : TFlagControl.Create(owner);
+    private static FlagControl CreateFlag(ECustomNode owner, bool throughMeta) => throughMeta
+        ? (FlagControl)EClass.Of<FlagControl>().Create(owner)
+        : FlagControl.Create(owner);
 
     [Theory]
     [InlineData(false)]
@@ -259,7 +259,7 @@ public sealed class ControlStyleConstructionTests
         using var fixture = new FlagFixture(loaded: true);
         Assert.Equal(0, fixture.Entry.RefCount);
         var control = CreateFlag(fixture.Owner, throughMeta);
-        Assert.IsType<TFlagControl>(control);
+        Assert.IsType<FlagControl>(control);
         Assert.Same(fixture.Owner, control.Owner);
         Assert.Same(fixture.Entry.ImageLibrary, control.FFlags);
         Assert.Equal(1, fixture.Entry.RefCount);
@@ -291,19 +291,19 @@ public sealed class ControlStyleConstructionTests
     {
         string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
         var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
-        var classes = imageClassesInitialized ? new TList() : null;
+        var classes = imageClassesInitialized ? new DelphiList() : null;
         Directory.CreateDirectory(directory);
         try
         {
             // The version-4 index is truncated, so ReadBuffer fails before any image-class lookup.
-            TILBHeader header = new() { ID = "ILB", Version = 4, HeaderSize = 24, IndexEnd = 28, Size = 28 };
+            ILBHeader header = new() { ID = "ILB", Version = 4, HeaderSize = 24, IndexEnd = 28, Size = 28 };
             string path = Path.Combine(directory, "FLAGS.ILB");
             File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
             Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = classes!;
             using var fixture = new FlagFixture(loaded: false, directory);
-            using (var library = new TImageLibrary(null!)) { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
+            using (var library = new ImageLibrary(null!)) { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
             fixture.Files.OpenedPaths.Clear();
-            var error = Assert.Throws<IOException>(() => TFlagControl.Create(fixture.Owner));
+            var error = Assert.Throws<IOException>(() => FlagControl.Create(fixture.Owner));
             Assert.Contains("Error loading:", error.Message, StringComparison.Ordinal);
             Assert.Equal(path.ToUpperInvariant(), Assert.Single(fixture.Files.OpenedPaths).ToUpperInvariant());
             Assert.Contains(fixture.Files.EnumeratedDirectories, entry => entry.Equals(directory, StringComparison.OrdinalIgnoreCase));
@@ -318,13 +318,13 @@ public sealed class ControlStyleConstructionTests
         }
     }
 
-    private sealed class ReadEngine : TEngine
+    private sealed class ReadEngine : Engine
     {
         internal ReadEngine() : base(null!) { }
 
-        internal TEObject? Created;
+        internal EObject? Created;
 
-        public override TEObject CreateEObject(int classId, TECustomNode owner)
+        public override EObject CreateEObject(int classId, ECustomNode owner)
         {
             Created = base.CreateEObject(classId, owner);
             return Created;
@@ -356,24 +356,24 @@ public sealed class ControlStyleConstructionTests
     {
         var engine = CreateEngine();
         var owner = new EngineFixture.Owner();
-        var existing = new TEObject(owner);
-        TEObject source = EClass.Of<TEControlStyleObject>().Create(null!);
+        var existing = new EObject(owner);
+        EObject source = EClass.Of<EControlStyleObject>().Create(null!);
         using var stream = new TruncatedStream();
         try
         {
-            var writer = new TEWriteStorageStream(stream, engine, false);
+            var writer = new EWriteStorageStream(stream, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
             writer.Dispose();
             stream.SetLength(stream.Length - 1);
             stream.Position = 0;
-            var reader = new TEReadStorageStream(stream, engine, false);
+            var reader = new EReadStorageStream(stream, engine, false);
             string message = "";
-            reader.OnError = (TEStorageStream _, string text, ref bool proceed) =>
+            reader.OnError = (EStorageStream _, string text, ref bool proceed) =>
             {
                 message = text;
                 proceed = !propagate;
             };
-            TEObject result = null!;
+            EObject result = null!;
             try
             {
                 if (propagate)
@@ -382,7 +382,7 @@ public sealed class ControlStyleConstructionTests
                     reader.rwCreateEObject(ref result, owner, 7);
                 Assert.Equal("Stream read error", message);
                 Assert.Null(result);
-                Assert.IsType<TEControlStyleObject>(engine.Created);
+                Assert.IsType<EControlStyleObject>(engine.Created);
                 Assert.Null(engine.Created!.Owner);
                 Assert.Same(existing, Assert.Single(owner.Members));
                 Assert.Equal(1, owner.Removals);
@@ -410,24 +410,24 @@ public sealed class ControlStyleConstructionTests
     {
         var engine = CreateEngine();
         var owner = new EngineFixture.Owner();
-        var existing = new TEObject(owner);
-        TEObject source = EClass.Of<TEControlStyleObject>().Create(null!);
+        var existing = new EObject(owner);
+        EObject source = EClass.Of<EControlStyleObject>().Create(null!);
         using var stream = new EmptyMessageStream();
         try
         {
-            var writer = new TEWriteStorageStream(stream, engine, false);
+            var writer = new EWriteStorageStream(stream, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
             writer.Dispose();
             stream.SetLength(stream.Length - 1);
             stream.Position = 0;
-            var reader = new TEReadStorageStream(stream, engine, false);
+            var reader = new EReadStorageStream(stream, engine, false);
             string message = "";
-            reader.OnError = (TEStorageStream _, string text, ref bool proceed) =>
+            reader.OnError = (EStorageStream _, string text, ref bool proceed) =>
             {
                 message = text;
                 proceed = !propagate;
             };
-            TEObject result = null!;
+            EObject result = null!;
             try
             {
                 if (propagate)
@@ -436,7 +436,7 @@ public sealed class ControlStyleConstructionTests
                     reader.rwCreateEObject(ref result, owner, 7);
                 Assert.Equal("Error Reading EObject", message);
                 Assert.Null(result);
-                Assert.IsType<TEControlStyleObject>(engine.Created);
+                Assert.IsType<EControlStyleObject>(engine.Created);
                 Assert.Null(engine.Created!.Owner);
                 Assert.Same(existing, Assert.Single(owner.Members));
                 Assert.Equal(1, owner.Removals);

@@ -3,7 +3,7 @@ using System.Numerics;
 namespace Aow.Rtl;
 
 // Explicit bounds describe the Delphi storage image, independently of the CLR layout.
-public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
+public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
 {
     private readonly ulong a, b, c, d;
     private readonly int low, high;
@@ -33,7 +33,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
         }
     }
 
-    private TSet(ulong a, ulong b, ulong c, ulong d, int low, int high)
+    private Set(ulong a, ulong b, ulong c, ulong d, int low, int high)
     {
         this.a = a;
         this.b = b;
@@ -61,15 +61,15 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
 
     private ulong Word(int index) => index switch { 0 => a, 1 => b, 2 => c, 3 => d, _ => 0 };
 
-    public static TSet<E> WithBounds(int low, int high)
+    public static Set<E> WithBounds(int low, int high)
     {
         if (low < 0 || high > 255 || low > high) throw new ArgumentOutOfRangeException(paramName: null, "Invalid set bounds");
         return new(0, 0, 0, 0, low, high);
     }
 
-    public static TSet<E> Of(params E[] values)
+    public static Set<E> Of(params E[] values)
     {
-        TSet<E> result = default;
+        Set<E> result = default;
         foreach (E value in values)
         {
             if (Ordinal(value) > 63) throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
@@ -78,10 +78,10 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
         return result;
     }
 
-    public static TSet<E> FromMask(ulong mask) => new(mask, 0, 0, 0, DefaultBounds.Low, DefaultBounds.High);
-    public static TSet<E> Range(E lo, E hi) => default(TSet<E>).WithRange(lo, hi);
+    public static Set<E> FromMask(ulong mask) => new(mask, 0, 0, 0, DefaultBounds.Low, DefaultBounds.High);
+    public static Set<E> Range(E lo, E hi) => default(Set<E>).WithRange(lo, hi);
 
-    public TSet<E> WithRange(E lo, E hi)
+    public Set<E> WithRange(E lo, E hi)
     {
         int first = Ordinal(lo), last = Ordinal(hi);
         if (!bounded && (first > 63 || last > 63)) throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
@@ -90,7 +90,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
         return result;
     }
 
-    private TSet<E> SetBit(int ordinal, bool present)
+    private Set<E> SetBit(int ordinal, bool present)
     {
         if (ordinal < Low || ordinal > High) throw new ArgumentOutOfRangeException(paramName: null, "Ordinal outside declared set bounds");
         ulong bit = 1UL << (ordinal % 64);
@@ -105,15 +105,15 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
         return ordinal >= Low && ordinal <= High && (Word(ordinal / 64) & (1UL << (ordinal % 64))) != 0;
     }
 
-    public TSet<E> With(E value)
+    public Set<E> With(E value)
     {
         int ordinal = Ordinal(value);
         if (!bounded && ordinal > 63) throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
         return SetBit(ordinal, true);
     }
 
-    public TSet<E> Without(E value) => SetBit(Ordinal(value), false);
-    public bool IsSubsetOf(TSet<E> other) => ((a & ~other.a) | (b & ~other.b) | (c & ~other.c) | (d & ~other.d)) == 0;
+    public Set<E> Without(E value) => SetBit(Ordinal(value), false);
+    public bool IsSubsetOf(Set<E> other) => ((a & ~other.a) | (b & ~other.b) | (c & ~other.c) | (d & ~other.d)) == 0;
 
     public bool IsEmpty => (a | b | c | d) == 0;
     public int Count => BitOperations.PopCount(a) + BitOperations.PopCount(b) + BitOperations.PopCount(c) + BitOperations.PopCount(d);
@@ -128,17 +128,17 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
         }
     }
 
-    public static TSet<E> operator +(TSet<E> x, TSet<E> y) => new(x.a | y.a, x.b | y.b, x.c | y.c, x.d | y.d, Math.Min(x.Low, y.Low), Math.Max(x.High, y.High));
-    public static TSet<E> operator -(TSet<E> x, TSet<E> y) => new(x.a & ~y.a, x.b & ~y.b, x.c & ~y.c, x.d & ~y.d, x.Low, x.High);
-    public static TSet<E> operator &(TSet<E> x, TSet<E> y) => new(x.a & y.a, x.b & y.b, x.c & y.c, x.d & y.d, x.Low, x.High);
-    public bool Equals(TSet<E> other) => a == other.a && b == other.b && c == other.c && d == other.d;
-    public override bool Equals(object? obj) => obj is TSet<E> other && Equals(other);
+    public static Set<E> operator +(Set<E> x, Set<E> y) => new(x.a | y.a, x.b | y.b, x.c | y.c, x.d | y.d, Math.Min(x.Low, y.Low), Math.Max(x.High, y.High));
+    public static Set<E> operator -(Set<E> x, Set<E> y) => new(x.a & ~y.a, x.b & ~y.b, x.c & ~y.c, x.d & ~y.d, x.Low, x.High);
+    public static Set<E> operator &(Set<E> x, Set<E> y) => new(x.a & y.a, x.b & y.b, x.c & y.c, x.d & y.d, x.Low, x.High);
+    public bool Equals(Set<E> other) => a == other.a && b == other.b && c == other.c && d == other.d;
+    public override bool Equals(object? obj) => obj is Set<E> other && Equals(other);
     public override int GetHashCode() => HashCode.Combine(a, b, c, d);
-    public static bool operator ==(TSet<E> x, TSet<E> y) => x.Equals(y);
-    public static bool operator !=(TSet<E> x, TSet<E> y) => !x.Equals(y);
+    public static bool operator ==(Set<E> x, Set<E> y) => x.Equals(y);
+    public static bool operator !=(Set<E> x, Set<E> y) => !x.Equals(y);
 }
 
-public static class TSetExtensions
+public static class SetExtensions
 {
-    public static TSet<E> Range<E>(this TSet<E> set, E low, E high) where E : unmanaged => set.WithRange(low, high);
+    public static Set<E> Range<E>(this Set<E> set, E low, E high) where E : unmanaged => set.WithRange(low, high);
 }

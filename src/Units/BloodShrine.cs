@@ -11,9 +11,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw.Animation
 {
 
-    public partial class TBloodShrineAnimation : TAnimation
+    public partial class BloodShrineAnimation : global::Aow.Game.Draw.Animation.Animation
     {
-        public TBloodShrineAnimation(TECustomNode owner) : base(owner)
+        public BloodShrineAnimation(ECustomNode owner) : base(owner)
         { }
 
         // BloodShrine.pas:56
@@ -29,7 +29,7 @@ namespace Aow.Game.Draw.Animation
         // Animation.pas:43
 
         // BloodShrine.pas:53
-        public override TSet<TAnimationControlModeElement> AnimationControlMode() => TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amOwnedByMap);
+        public override Set<AnimationControlModeElement> AnimationControlMode() => Set<AnimationControlModeElement>.Of(AnimationControlModeElement.LinkToNewFrame, AnimationControlModeElement.OwnedByMap);
 
     }
 }
@@ -37,9 +37,9 @@ namespace Aow.Game.Draw.Animation
 namespace Aow.Game.World.Structures
 {
 
-    public partial class TBloodShrine : TStructure
+    public partial class BloodShrine : Structure
     {
-        public TBloodShrine(TECustomNode owner) : base(owner)
+        public BloodShrine(ECustomNode owner) : base(owner)
         {
         }
 
@@ -49,14 +49,14 @@ namespace Aow.Game.World.Structures
         // BloodShrine.pas:62
 
         // BloodShrine.pas:103
-        public override void ArmyPlaced(TArmyHS PlacedArmy)
+        public override void ArmyPlaced(ArmyHS PlacedArmy)
         {
             base.ArmyPlaced(PlacedArmy);
             ExecuteBloodlust(PlacedArmy);
         }
 
         // BloodShrine.pas:68
-        public void ShowBlessingAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowBlessingAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
@@ -67,24 +67,24 @@ namespace Aow.Game.World.Structures
         }
 
         // BloodShrine.pas:77
-        public void ExecuteBloodlust(TArmyHS ArmyHS)
+        public void ExecuteBloodlust(ArmyHS ArmyHS)
         {
-            TAbstractUnit AUnit = default;
-            TRect R = default;
-            TBloodShrineAnimation Anim = default;
+            AbstractUnit AUnit = default;
+            global::Aow.Rtl.Rect R = default;
+            BloodShrineAnimation Anim = default;
             for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
             {
                 AUnit = ArmyHS.FArmy.GetUnit(I);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(168).Expand(AUnit);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(168).Expand(AUnit);
             }
 
-            bool condition = ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
+            bool condition = ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(xhx, yhx, lhx, 0);
+                condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
@@ -95,46 +95,46 @@ namespace Aow.Game.World.Structures
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             var xhx2 = GetXhx();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Visible(xhx2, yhx2, lhx2, 0))
+            if (Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
             {
-                Anim = new TBloodShrineAnimation(null);
-                R = Rect(-16, -8, 32, 40);
+                Anim = new BloodShrineAnimation(null);
+                R = global::Aow.Rtl.RtlUnit.Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowBlessingAnimation;
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
+                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
             }
         }
 
-        // BloodShrine.pas:26
-
-    }
-
-    public partial class TBloodShrineResource : TStructureResource
-    {
-        public TBloodShrineResource(TECustomNode owner) : base(owner)
+        public new partial class Resource : StructureResource
         {
-            FTerrainBound = true;
-            FConnectRoads = false;
+            public Resource(ECustomNode owner) : base(owner)
+            {
+                FTerrainBound = true;
+                FConnectRoads = false;
+            }
+
+            // BloodShrine.pas:116
+            public new const int ClassID = 131377;
+
+            // BloodShrine.pas:109
+
+            // BloodShrine.pas:122
+            public override int ResourceUserClassID() => 131376;
+
+            // BloodShrine.pas:36
+
+            // BloodShrine.pas:119
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.BloodShrine.Resource.BloodShrineRStr);
+
+            private static readonly string BloodShrineRStr = "Blood Shrine";
+
         }
 
-        // BloodShrine.pas:116
-        public new const int ClassID = 131377;
-
-        // BloodShrine.pas:109
-
-        // BloodShrine.pas:122
-        public override int ResourceUserClassID() => 131376;
-
-        // BloodShrine.pas:36
-
-        // BloodShrine.pas:119
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TBloodShrineResource.BloodShrineRStr);
-
-        private static readonly string BloodShrineRStr = "Blood Shrine";
+        // BloodShrine.pas:26
 
     }
 }

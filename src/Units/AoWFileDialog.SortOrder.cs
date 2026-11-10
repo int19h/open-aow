@@ -4,7 +4,7 @@ namespace Aow.Game.Ui.Dialogs;
 // The original lists files by name each time the dialog fills its list, whichever sort button the
 // player pressed last. The port remembers the last button in the settings and applies it on every
 // fill, so the open and save dialogs keep the player's order between uses and between sessions.
-public partial class TFileDlgWindow
+public partial class FileDlgWindow
 {
     private void RememberSortByDate(bool byDate) => Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(byDate);
 

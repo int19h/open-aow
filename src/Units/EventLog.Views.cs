@@ -59,7 +59,7 @@ namespace Aow.Game.Events
         public static readonly EventView ProductionPlace = new("ProductionPlace");
     }
 
-    public partial class TEventLog
+    public partial class EventLog
     {
         // What the map events screen shows (aowMapEvents.pas:198).
         public virtual EventView View() => EventView.None;
@@ -69,43 +69,43 @@ namespace Aow.Game.Events
         public virtual void ExecuteAI(sbyte Player) { }
     }
 
-    public partial class TMessageEventLog
+    public partial class MessageEventLog
     {
         public override EventView View() => EventView.Message;
     }
 
-    public partial class THelpMessageEventLog
+    public partial class HelpMessageEventLog
     {
         public override EventView View() => EventView.Help;
     }
 
-    public partial class TTutorialMessageEventLog
+    public partial class TutorialMessageEventLog
     {
         public override EventView View() => EventView.Tutorial;
     }
 
-    public partial class TGameOverEventLog
+    public partial class GameOverEventLog
     {
         // The seated player sees the game over screen, every other player the message.
-        public override EventView View() => Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == FPlayer ? EventView.GameOver : EventView.ReceivedMessage;
+        public override EventView View() => Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer ? EventView.GameOver : EventView.ReceivedMessage;
     }
 
-    public partial class TShowBookEventLog
+    public partial class ShowBookEventLog
     {
         public override EventView View() => EventView.InformationBook;
     }
 
-    public partial class TSaveGameEventLog
+    public partial class SaveGameEventLog
     {
         public override EventView View() => EventView.SaveGame;
     }
 
-    public partial class TPasswordEventLog
+    public partial class PasswordEventLog
     {
         public override EventView View() => EventView.Password;
     }
 
-    public partial class TUserEventLog
+    public partial class UserEventLog
     {
         public override EventView View() => EventView.Acknowledge;
     }
@@ -113,17 +113,17 @@ namespace Aow.Game.Events
 
 namespace Aow.Game.Events
 {
-    public partial class TCombatEventLog
+    public partial class CombatEventLog
     {
         public override EventView View() => EventView.Combat;
     }
 
-    public partial class TArmyEventLog
+    public partial class ArmyEventLog
     {
         public override EventView View() => EventView.ArmyEvent;
     }
 
-    public partial class TDiplomaticActionEventLog
+    public partial class DiplomaticActionEventLog
     {
         public override EventView View() => EventView.DiplomaticAction;
 
@@ -131,20 +131,20 @@ namespace Aow.Game.Events
         public override void ExecuteAI(sbyte Player) => FAction.ExecuteAI(Player);
     }
 
-    public partial class TNegotiateRequestEventLog
+    public partial class NegotiateRequestEventLog
     {
         // A city negotiation, or for an army the hero negotiation when a hero of the army offers
         // to join, the party join otherwise. Without an army on the field nothing shows.
         public override EventView View()
         {
-            if (FObject == TNegotiateObject.noCity)
+            if (FObject == NegotiateObject.City)
             {
                 return EventView.CityNegotiation;
             }
 
-            if (FObject == TNegotiateObject.noArmy)
+            if (FObject == NegotiateObject.Army)
             {
-                var ArmyHS = (TArmyHS)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
+                var ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(FPlayer);
@@ -156,55 +156,55 @@ namespace Aow.Game.Events
         }
     }
 
-    public partial class TNewTurnEventLog
+    public partial class NewTurnEventLog
     {
         public override EventView View() => EventView.NewTurn;
     }
 
-    public partial class TCombatTypeRequestEventLog
+    public partial class CombatTypeRequestEventLog
     {
         public override EventView View() => EventView.CombatType;
     }
 
-    public partial class TPlayerMagicEventLog
+    public partial class PlayerMagicEventLog
     {
         public override EventView View() => FMode switch
         {
-            TPlayerMagicEventMode.pmemSpellResearched => EventView.SpellResearched,
-            TPlayerMagicEventMode.pmemOutOfMana => EventView.OutOfMana,
-            TPlayerMagicEventMode.pmemStartResearch => EventView.StartResearch,
+            PlayerMagicEventMode.SpellResearched => EventView.SpellResearched,
+            PlayerMagicEventMode.OutOfMana => EventView.OutOfMana,
+            PlayerMagicEventMode.StartResearch => EventView.StartResearch,
             _ => EventView.None,
         };
     }
 
-    public partial class THeroUpgradeEventLog
+    public partial class HeroUpgradeEventLog
     {
         public override EventView View() => EventView.HeroUpgrade;
     }
 
-    public partial class THeroJoinEventLog
+    public partial class HeroJoinEventLog
     {
         public override EventView View() => EventView.HeroJoin;
     }
 
-    public partial class THeroEmergeEventLog
+    public partial class HeroEmergeEventLog
     {
         // The AI takes the hero when it can pay.
         public override void ExecuteAI(sbyte Player) => _ = ExecuteAI();
     }
 
-    public partial class TArmyInfoEventLog
+    public partial class ArmyInfoEventLog
     {
         // A selection with a hero shows the hero, any other the army.
         public override EventView View() => FArmyView.Hero(FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? EventView.ArmyInfo : EventView.HeroInfo;
     }
 
-    public partial class TSendEmailGameEventLog
+    public partial class SendEmailGameEventLog
     {
         public override EventView View() => EventView.SendEmailGame;
     }
 
-    public partial class TSMTPEventLog
+    public partial class SMTPEventLog
     {
         public override EventView View() => EventView.SMTP;
     }
@@ -212,12 +212,12 @@ namespace Aow.Game.Events
 
 namespace Aow.Game.Events
 {
-    public partial class TCityRebellionEventLog
+    public partial class CityRebellionEventLog
     {
         public override EventView View() => EventView.CityRebellion;
     }
 
-    public partial class TCityProductionEventLog
+    public partial class CityProductionEventLog
     {
         public override EventView View() => EventView.CityProduction;
     }
@@ -225,7 +225,7 @@ namespace Aow.Game.Events
 
 namespace Aow.Game.Events
 {
-    public partial class TProductionPlaceEventLog
+    public partial class ProductionPlaceEventLog
     {
         public override EventView View() => EventView.ProductionPlace;
     }
@@ -233,20 +233,20 @@ namespace Aow.Game.Events
 
 namespace Aow.Game.Events
 {
-    public partial class TPrisonersJoinEventLog
+    public partial class PrisonersJoinEventLog
     {
         // Prisoners whose first unit is a hero show the hero, any others the party.
         public override EventView View()
         {
-            var UnitObject = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FFirstUnitID);
-            return UnitObject != null && UnitObject is THero ? EventView.PrisonerHero : EventView.PrisonersJoin;
+            var UnitObject = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FFirstUnitID);
+            return UnitObject != null && UnitObject is Hero ? EventView.PrisonerHero : EventView.PrisonersJoin;
         }
     }
 }
 
 namespace Aow.Game.Events
 {
-    public partial class TEnterWizardsTowerEventLog
+    public partial class EnterWizardsTowerEventLog
     {
         public override EventView View() => EventView.WizardsTower;
     }
@@ -254,7 +254,7 @@ namespace Aow.Game.Events
 
 namespace Aow.Game.Events
 {
-    public partial class TEnterArenaEventLog
+    public partial class EnterArenaEventLog
     {
         public override EventView View() => EventView.Arena;
     }
@@ -262,7 +262,7 @@ namespace Aow.Game.Events
 
 namespace Aow.Game.Events
 {
-    public partial class TFlagMessageEventLog
+    public partial class FlagMessageEventLog
     {
         public override EventView View() => EventView.FlagMessage;
     }
@@ -270,7 +270,7 @@ namespace Aow.Game.Events
 
 namespace Aow.Game.Events
 {
-    public partial class TItemExplorationSiteEventLog
+    public partial class ItemExplorationSiteEventLog
     {
         public override EventView View() => EventView.ItemsFound;
     }

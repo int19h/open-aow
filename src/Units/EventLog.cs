@@ -11,28 +11,28 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Events;
 
-public enum TSaveGameEventLogModeElement : byte
+public enum SaveGameEventLogModeElement : byte
 {
-    sgmDisableCancel = 0
+    DisableCancel = 0
 }
 
 // { ot=1 }
 // day, unique ID, player, reference count
-public partial class TEventLog : TEObject
+public partial class EventLog : EObject
 {
 
-    public TEventLog(TECustomNode owner) : base(owner)
+    public EventLog(ECustomNode owner) : base(owner)
     {
         FRefCount = 1;
     }
 
-    public int FDay = Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { } map ? map.FDay : 0;
+    public int FDay = Aow.Game.World.Map.AoWHSMap.Current is { } map ? map.FDay : 0;
     public int FID;
-    public sbyte FPlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { } map ? map.FCurrentPlayer : (sbyte)0;
+    public sbyte FPlayer = Aow.Game.World.Map.AoWHSMap.Current is { } map ? map.FCurrentPlayer : (sbyte)0;
     public int FRefCount;
 
     // EventLog.pas:334
-    public override void SetOwner(TECustomNode AOwner)
+    public override void SetOwner(ECustomNode AOwner)
     {
         if (FRefCount != 0)
         {
@@ -47,7 +47,7 @@ public partial class TEventLog : TEObject
     }
 
     // EventLog.pas:358
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FDay, 10);
@@ -93,13 +93,13 @@ public partial class TEventLog : TEObject
         bool condition = FPlayer > 0;
         if (condition)
         {
-            var count = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount();
+            var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount();
             condition = FPlayer < count;
         }
 
         if (condition)
         {
-            Index = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+            Index = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
         }
         else
         {
@@ -116,13 +116,13 @@ public partial class TEventLog : TEObject
         bool condition = FPlayer > 0;
         if (condition)
         {
-            var count = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount();
+            var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount();
             condition = FPlayer < count;
         }
 
         if (condition)
         {
-            Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+            Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
         }
         else
         {
@@ -150,32 +150,32 @@ public partial class TEventLog : TEObject
     }
 
     // EventLog.pas:444
-    public virtual void PlayLoggedSFX(TEventLogbook Logbook)
+    public virtual void PlayLoggedSFX(EventLogbook Logbook)
     {
         Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
     }
 
     // EventLog.pas:449
-    public virtual void NotifyLogged(TEventLogbook Logbook)
+    public virtual void NotifyLogged(EventLogbook Logbook)
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Logbook.FPlayer && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FGameOverStatus == TGameOverStatus.goNone)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Logbook.FPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None)
         {
             PlayLoggedSFX(Logbook);
         }
     }
 
     // EventLog.pas:403
-    public virtual bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
+    public virtual bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
     {
         bool Result = default;
-        if (Trigger == TExecuteTrigger.etUser || ((Trigger == TExecuteTrigger.etEvent || (Trigger == TExecuteTrigger.etNewTurn && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRequestCombatType)) && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == FPlayer))
+        if (Trigger == ExecuteTrigger.User || ((Trigger == ExecuteTrigger.Event || (Trigger == ExecuteTrigger.NewTurn && Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType)) && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer))
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
+            Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
             Result = true;
         }
         else
         {
-            if (Trigger == TExecuteTrigger.etEvent)
+            if (Trigger == ExecuteTrigger.Event)
             {
                 Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
             }
@@ -195,32 +195,32 @@ public partial class TEventLog : TEObject
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(X, Y, L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlayCenterAnimation(X, Y, L);
+            Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(X, Y, L);
+            Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
         }
     }
 
     // EventLog.pas:419
     public void CenterViewTo(sbyte X, sbyte Y, sbyte L)
     {
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(X, Y, L);
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlayCenterAnimation(X, Y, L);
+        Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(X, Y, L);
+        Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
     }
 
-    internal static void DistributeEventLog(TEventLog Log, bool Execute)
+    internal static void DistributeEventLog(EventLog Log, bool Execute)
     {
-        TPlayer Player;
-        TEventLog CopyLog;
-        for (int I = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount() - 1; I <= last; I++)
+        Player Player;
+        EventLog CopyLog;
+        for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
         {
-            Player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I);
-            if (Player.FStatus == TPlayerStatus.psPlaying)
+            Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
+            if (Player.FStatus == Aow.Game.Session.Player.Status.Playing)
             {
-                CopyLog = (TEventLog)Log.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                CopyLog = (EventLog)Log.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                 Player.FEventLogbook.AddEvent(CopyLog);
-                if (I == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && Execute)
+                if (I == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && Execute)
                 {
-                    CopyLog.Execute(false, TExecuteTrigger.etEvent, null);
+                    CopyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
 
                 CopyLog.Release();
@@ -228,20 +228,20 @@ public partial class TEventLog : TEObject
         }
     }
 
-    internal static void DistributeLocationEventLog(TEventLog Log, sbyte Player, sbyte X, sbyte Y, sbyte L, bool Execute)
+    internal static void DistributeLocationEventLog(EventLog Log, sbyte Player, sbyte X, sbyte Y, sbyte L, bool Execute)
     {
-        TPlayer TargetPlayer;
-        TEventLog CopyLog;
-        for (int I = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount() - 1; I <= last; I++)
+        global::Aow.Game.Session.Player TargetPlayer;
+        EventLog CopyLog;
+        for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
         {
-            TargetPlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I);
-            if (TargetPlayer.FStatus == TPlayerStatus.psPlaying && (I == Player || !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FoggedForPlayer(X, Y, L, (sbyte)I)))
+            TargetPlayer = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
+            if (TargetPlayer.FStatus == Aow.Game.Session.Player.Status.Playing && (I == Player || !Aow.Game.World.Map.AoWHSMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
             {
-                CopyLog = (TEventLog)Log.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                CopyLog = (EventLog)Log.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                 TargetPlayer.FEventLogbook.AddEvent(CopyLog);
-                if (I == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FPlayerType == TPlayerType.ptHuman && Execute)
+                if (I == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human && Execute)
                 {
-                    CopyLog.Execute(false, TExecuteTrigger.etEvent, null);
+                    CopyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
 
                 CopyLog.Release();
@@ -252,9 +252,9 @@ public partial class TEventLog : TEObject
 }
 
 // text
-public partial class TTextEventLog : TEventLog
+public partial class TextEventLog : EventLog
 {
-    public TTextEventLog(TECustomNode owner) : base(owner)
+    public TextEventLog(ECustomNode owner) : base(owner)
     { }
 
     // EventLog.pas:713
@@ -263,7 +263,7 @@ public partial class TTextEventLog : TEventLog
     public string FText = "";
 
     // EventLog.pas:716
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwString(ref FText, 15);
@@ -273,15 +273,15 @@ public partial class TTextEventLog : TEventLog
     public override string GetText() => FText;
 
     // EventLog.pas:722
-    public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done) => false;
+    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done) => false;
 
 }
 
 // location
-public partial class TLocationTextEventLog : TTextEventLog
+public partial class LocationTextEventLog : TextEventLog
 {
     // EventLog.pas:725
-    public TLocationTextEventLog(TECustomNode owner) : base(owner)
+    public LocationTextEventLog(ECustomNode owner) : base(owner)
     {
         FXhx = -1;
         FYhx = -1;
@@ -296,7 +296,7 @@ public partial class TLocationTextEventLog : TTextEventLog
     public sbyte FLhx;
 
     // EventLog.pas:731
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 20);
@@ -313,10 +313,10 @@ public partial class TLocationTextEventLog : TTextEventLog
     }
 
     // EventLog.pas:743
-    public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
+    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
     {
         base.Execute(Mode, Trigger, Done);
-        if (Trigger == TExecuteTrigger.etUser)
+        if (Trigger == ExecuteTrigger.User)
         {
             ViewLocation();
         }
@@ -335,24 +335,24 @@ public partial class TLocationTextEventLog : TTextEventLog
 }
 
 // title, message, layout, buttons, pressed button
-public partial class TMessageEventLog : TEventLog
+public partial class MessageEventLog : EventLog
 {
     // EventLog.pas:824
-    public TMessageEventLog(TECustomNode owner) : base(owner)
+    public MessageEventLog(ECustomNode owner) : base(owner)
     {
-        FMessage = new TStringList();
+        FMessage = new StringList();
         FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MessageRStr);
-        FButtons = TMessageEventLogButtons.mebOk;
-        FPressedButton = TPressedEventLogButton.pebNone;
-        FLayout = TMessageEventLogLayout.melNormal;
+        FButtons = Buttons.Ok;
+        FPressedButton = PressedEventLogButton.None;
+        FLayout = Layout.Normal;
     }
 
     public string FTitle = "";
     public string FHeader = "";
-    public TStrings FMessage;
-    public TMessageEventLogLayout FLayout;
-    public TMessageEventLogButtons FButtons;
-    public TPressedEventLogButton FPressedButton;
+    public StringCollection FMessage;
+    public Layout FLayout;
+    public Buttons FButtons;
+    public PressedEventLogButton FPressedButton;
 
     // EventLog.pas:832
     public override void Dispose()
@@ -362,7 +362,7 @@ public partial class TMessageEventLog : TEventLog
     }
 
     // EventLog.pas:835
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwStrings(FMessage, 30);
@@ -383,45 +383,55 @@ public partial class TMessageEventLog : TEventLog
     // EventLog.pas:842
     public virtual bool OK()
     {
-        FPressedButton = TPressedEventLogButton.pebOk;
+        FPressedButton = PressedEventLogButton.Ok;
         return true;
     }
 
     // EventLog.pas:845
     public virtual bool Cancel()
     {
-        FPressedButton = TPressedEventLogButton.pebCancel;
+        FPressedButton = PressedEventLogButton.Cancel;
         return true;
     }
 
     // EventLog.pas:848
     public virtual bool Yes()
     {
-        FPressedButton = TPressedEventLogButton.pebYes;
+        FPressedButton = PressedEventLogButton.Yes;
         return true;
     }
 
     // EventLog.pas:854
     public virtual bool No()
     {
-        FPressedButton = TPressedEventLogButton.pebNo;
+        FPressedButton = PressedEventLogButton.No;
         return true;
+    }
+
+    public enum Buttons : byte
+    {
+        Ok = 0, OkCancel = 1, YesNo = 2, YesNoCancel = 3
+    }
+
+    public enum Layout : byte
+    {
+        Normal = 0, Header = 1
     }
 
 }
 
 // message, help title, mode
-public partial class THelpMessageEventLog : TEventLog
+public partial class HelpMessageEventLog : EventLog
 {
     // EventLog.pas:860
-    public THelpMessageEventLog(TECustomNode owner) : base(owner)
+    public HelpMessageEventLog(ECustomNode owner) : base(owner)
     {
-        FMessage = new TStringList();
-        FHelpFileName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.THelpMessageEventLog.HelpRStr);
+        FMessage = new StringList();
+        FHelpFileName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HelpMessageEventLog.HelpRStr);
         FMode = 0;
     }
 
-    public TStringList FMessage;
+    public StringList FMessage;
     public string FHelpFileName = "";
     public byte FMode;
 
@@ -438,9 +448,9 @@ public partial class THelpMessageEventLog : TEventLog
 
 [LegacyObject]
 // list of -byte callback records
-public partial class TExecuteEventLogCallBackList : IDisposable
+public partial class ExecuteEventLogCallBackList : IDisposable
 {
-    public List<TExecuteEventLogInfo> FList = [];
+    public List<ExecuteEventLogInfo> FList = [];
 
     // EventLog.pas:283
     public virtual void Dispose()
@@ -449,10 +459,10 @@ public partial class TExecuteEventLogCallBackList : IDisposable
     }
 
     // EventLog.pas:277
-    public TExecuteEventLogCallBackList()
+    public ExecuteEventLogCallBackList()
     {
         CaptureAddress.Assign(this);
-        FList = new List<TExecuteEventLogInfo>();
+        FList = new List<ExecuteEventLogInfo>();
     }
 
     // EventLog.pas:290
@@ -468,10 +478,10 @@ public partial class TExecuteEventLogCallBackList : IDisposable
     public int GetCount() => FList.Count;
 
     // EventLog.pas:300
-    public ref TExecuteEventLogInfo GetItem(int Index) => ref CollectionsMarshal.AsSpan(FList)[Index];
+    public ref ExecuteEventLogInfo GetItem(int Index) => ref CollectionsMarshal.AsSpan(FList)[Index];
 
     // EventLog.pas:305
-    public void Add(in TExecuteEventLogInfo Info)
+    public void Add(in ExecuteEventLogInfo Info)
     {
         FList.Add(Info);
     }
@@ -489,30 +499,30 @@ public partial class TExecuteEventLogCallBackList : IDisposable
 }
 
 // update count, changed callback
-public partial class TEventLogList : TENode
+public partial class EventLogList : ENode
 {
-    public TEventLogList(TECustomNode owner) : base(owner)
+    public EventLogList(ECustomNode owner) : base(owner)
     { }
 
     public int FUpdateCount;
-    public TNotifyEvent<object> FOnChanged;
+    public NotifyEvent<object> FOnChanged;
 
     // EventLog.pas:481
-    public override void MainReadWrite(TEStorageStream Stream)
+    public override void MainReadWrite(EStorageStream Stream)
     {
-        if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+        if (Stream.StorageMode().Contains(StorageModeElement.Read))
         {
             BeginUpdate();
         }
 
         base.MainReadWrite(Stream);
-        if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+        if (Stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smCompare, TStorageModeElement.smTranslate)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    ((TEObject)FChildren.List[I]).Release();
+                    ((EObject)FChildren.List[I]).Release();
                 }
             }
 
@@ -525,7 +535,7 @@ public partial class TEventLogList : TENode
     {
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            ((TEObject)FChildren.List[I]).Release();
+            ((EObject)FChildren.List[I]).Release();
         }
 
         FChildren.Clear();
@@ -538,7 +548,7 @@ public partial class TEventLogList : TENode
     }
 
     // EventLog.pas:464
-    public override int RemoveChild(TEObject Child)
+    public override int RemoveChild(EObject Child)
     {
         int Result = FChildren.Remove(Child);
         if (Result != -1)
@@ -552,7 +562,7 @@ public partial class TEventLogList : TENode
     }
 
     // EventLog.pas:456
-    public override int AddChild(TEObject Child)
+    public override int AddChild(EObject Child)
     {
         FChildren.Add(Child);
         if (Child.AddRef() == -1)
@@ -591,32 +601,32 @@ public partial class TEventLogList : TENode
     }
 
     // EventLog.pas:505
-    public TEventLog GetEvents(int Index) => (TEventLog)FChildren.List[Index];
+    public EventLog GetEvents(int Index) => (EventLog)FChildren.List[Index];
 
     // EventLog.pas:508
-    public void AddEvent(TEventLog Event)
+    public void AddEvent(EventLog Event)
     {
         AddChild(Event);
     }
 
     // EventLog.pas:511
-    public void RemoveEvent(TEventLog Event)
+    public void RemoveEvent(EventLog Event)
     {
         RemoveChild(Event);
     }
 
     // EventLog.pas:514
-    public TEventLog FindID(int ID)
+    public EventLog FindID(int ID)
     {
         int I;
         I = GetCount();
-        TEventLog Result = null;
+        EventLog Result = null;
         while (I != 0 && Result == null)
         {
             I -= 1;
-            if (((TEventLog)FChildren.List[I]).FID == ID)
+            if (((EventLog)FChildren.List[I]).FID == ID)
             {
-                Result = (TEventLog)FChildren.List[I];
+                Result = (EventLog)FChildren.List[I];
                 break;
             }
         }
@@ -628,12 +638,12 @@ public partial class TEventLogList : TENode
 }
 
 // events, player, next ID
-public partial class TEventLogbook : TEObject
+public partial class EventLogbook : EObject
 {
     // EventLog.pas:532
     public new const int ClassID = 131808;
 
-    public TEventLogList FEvents;
+    public EventLogList FEvents;
     public sbyte FPlayer;
     public int FNextID;
 
@@ -645,7 +655,7 @@ public partial class TEventLogbook : TEObject
     }
 
     // EventLog.pas:547
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwEObject(FEvents, 10);
@@ -653,13 +663,13 @@ public partial class TEventLogbook : TEObject
     }
 
     // EventLog.pas:526
-    public TEventLogbook(TECustomNode owner) : base(owner)
+    public EventLogbook(ECustomNode owner) : base(owner)
     {
-        FEvents = new TEventLogList(null);
+        FEvents = new EventLogList(null);
     }
 
     // EventLog.pas:535
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         FEvents.MsgProc(ref Msg, Sender);
@@ -669,28 +679,28 @@ public partial class TEventLogbook : TEObject
     public int GetCount() => FEvents.GetCount();
 
     // EventLog.pas:541
-    public TNotifyEvent<object> GetOnChanged() => FEvents.FOnChanged;
+    public NotifyEvent<object> GetOnChanged() => FEvents.FOnChanged;
 
     // EventLog.pas:544
-    public void SetOnChanged(TNotifyEvent<object> Value)
+    public void SetOnChanged(NotifyEvent<object> Value)
     {
         FEvents.FOnChanged = Value;
     }
 
     // EventLog.pas:550
-    public void ListEvents(TStrings Strings)
+    public void ListEvents(StringCollection Strings)
     {
         for (int I = 0, last = FEvents.FChildren.Count - 1; I <= last; I++)
         {
-            if (((TEventLog)FEvents.FChildren.List[I]).GetVisible())
+            if (((EventLog)FEvents.FChildren.List[I]).GetVisible())
             {
-                Strings.AddObject(((TEventLog)FEvents.FChildren.List[I]).GetText(), IntToObject(I));
+                Strings.AddObject(((EventLog)FEvents.FChildren.List[I]).GetText(), IntToObject(I));
             }
         }
     }
 
     // EventLog.pas:558
-    public TEventLog GetLogs(int Index) => (TEventLog)FEvents.FChildren.List[Index];
+    public EventLog GetLogs(int Index) => (EventLog)FEvents.FChildren.List[Index];
 
     // EventLog.pas:561
     public int CreateUniqueID()
@@ -709,13 +719,13 @@ public partial class TEventLogbook : TEObject
     }
 
     // EventLog.pas:572
-    public TEventLog FindID(int ID) => FEvents.FindID(ID);
+    public EventLog FindID(int ID) => FEvents.FindID(ID);
 
     // EventLog.pas:575
     public int FindFirstLog(int Player, int Day)
     {
         int Result = 0;
-        while (Result != this.FEvents.FChildren.Count && (((TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day))
+        while (Result != this.FEvents.FChildren.Count && (((EventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((EventLog)this.FEvents.FChildren.List[Result]).FDay != Day))
         {
             Result += 1;
         }
@@ -732,7 +742,7 @@ public partial class TEventLogbook : TEObject
     public int FindFirstLogEx(int AClassID, int Player, int Day)
     {
         int Result = 0;
-        while (Result != this.FEvents.FChildren.Count && (((TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day || ((TEObject)this.FEvents.FChildren.List[Result]).EClass.ClassID != AClassID))
+        while (Result != this.FEvents.FChildren.Count && (((EventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((EventLog)this.FEvents.FChildren.List[Result]).FDay != Day || ((EObject)this.FEvents.FChildren.List[Result]).EClass.ClassID != AClassID))
         {
             Result += 1;
         }
@@ -746,33 +756,33 @@ public partial class TEventLogbook : TEObject
     }
 
     // EventLog.pas:600
-    public void AddEvent(TEventLog Event)
+    public void AddEvent(EventLog Event)
     {
-        Assert(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.GetSynchronised(), "", "EventLog.pas", 704);
+        Assert(Aow.Game.World.Map.AoWHSMap.Current.GetSynchronised(), "", "EventLog.pas", 704);
         Event.SetOwner(FEvents);
         Event.FID = CreateUniqueID();
         Event.NotifyLogged(this);
     }
 
     // EventLog.pas:710
-    public void RemoveEvent(TEventLog Event)
+    public void RemoveEvent(EventLog Event)
     {
         FEvents.RemoveChild(Event);
     }
 
 }
 
-public partial class TUserEventLog : TEventLog
+public partial class UserEventLog : EventLog
 {
-    public TUserEventLog(TECustomNode owner) : base(owner)
+    public UserEventLog(ECustomNode owner) : base(owner)
     { }
 
     public object FData;
 }
 
-public partial class TEndTurnEventLog : TEventLog
+public partial class EndTurnEventLog : EventLog
 {
-    public TEndTurnEventLog(TECustomNode owner) : base(owner)
+    public EndTurnEventLog(ECustomNode owner) : base(owner)
     { }
 
     // EventLog.pas:753
@@ -782,23 +792,23 @@ public partial class TEndTurnEventLog : TEventLog
     public override bool GetVisible() => false;
 
     // EventLog.pas:756
-    public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done) => false;
+    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done) => false;
 
 }
 
 // message
-public partial class TShowMessageEventLog : TEventLog
+public partial class ShowMessageEventLog : EventLog
 {
     // EventLog.pas:759
-    public TShowMessageEventLog(TECustomNode owner) : base(owner)
+    public ShowMessageEventLog(ECustomNode owner) : base(owner)
     {
-        FMessage = new TStringList();
+        FMessage = new StringList();
     }
 
     // EventLog.pas:765
     public new const int ClassID = 131830;
 
-    public TStringList FMessage;
+    public StringList FMessage;
 
     // EventLog.pas:762
     public override void Dispose()
@@ -808,7 +818,7 @@ public partial class TShowMessageEventLog : TEventLog
     }
 
     // EventLog.pas:768
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwStrings(FMessage, 20);
@@ -817,18 +827,18 @@ public partial class TShowMessageEventLog : TEventLog
 }
 
 // message, inherited player
-public partial class TGameOverEventLog : TEventLog
+public partial class GameOverEventLog : EventLog
 {
     // EventLog.pas:771
-    public TGameOverEventLog(TECustomNode owner) : base(owner)
+    public GameOverEventLog(ECustomNode owner) : base(owner)
     {
-        FMessage = new TStringList();
+        FMessage = new StringList();
     }
 
     // EventLog.pas:777
     public new const int ClassID = 131812;
 
-    public TStringList FMessage;
+    public StringList FMessage;
     public sbyte FTargetPlayer;
 
     // EventLog.pas:774
@@ -839,7 +849,7 @@ public partial class TGameOverEventLog : TEventLog
     }
 
     // EventLog.pas:780
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwStrings(FMessage, 20);
@@ -849,15 +859,15 @@ public partial class TGameOverEventLog : TEventLog
     public override string GetText()
     {
         string Result = "";
-        switch (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FGameOverStatus)
+        switch (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGameOverStatus)
         {
-            case TGameOverStatus.goLost:
-                var name = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).GetName();
-                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.TGameOverEventLog.GameOverDefeatEventLogRStr), [name]);
+            case GameOverStatus.Lost:
+                var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
+                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.GameOverEventLog.GameOverDefeatEventLogRStr), [name]);
                 break;
-            case TGameOverStatus.goWon:
-                var name2 = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).GetName();
-                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.TGameOverEventLog.GameOverVictoryEventLogRStr), [name2]);
+            case GameOverStatus.Won:
+                var name2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
+                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.GameOverEventLog.GameOverVictoryEventLogRStr), [name2]);
                 break;
         }
 
@@ -865,15 +875,15 @@ public partial class TGameOverEventLog : TEventLog
     }
 
     // EventLog.pas:794
-    public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
+    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
     {
         bool Result = default;
         switch (Trigger)
         {
-            case TExecuteTrigger.etUser:
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != FPlayer)
+            case ExecuteTrigger.User:
+                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != FPlayer)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
+                    Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
                     Result = true;
                 }
                 else
@@ -882,12 +892,12 @@ public partial class TGameOverEventLog : TEventLog
                 }
 
                 break;
-            case TExecuteTrigger.etEvent:
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
+            case ExecuteTrigger.Event:
+                Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
                 Result = true;
                 break;
-            case TExecuteTrigger.etNewTurn:
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(this, Mode, Done);
+            case ExecuteTrigger.NewTurn:
+                Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
                 Result = true;
                 break;
             default:
@@ -901,7 +911,7 @@ public partial class TGameOverEventLog : TEventLog
     // EventLog.pas:791
     public void Handled()
     {
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.GameOverEventHandled(FPlayer);
+        Aow.Game.World.Map.AoWHSMap.Current.GameOverEventHandled(FPlayer);
     }
 
     private static readonly string GameOverDefeatEventLogRStr = "%s is defeated!";
@@ -910,9 +920,9 @@ public partial class TGameOverEventLog : TEventLog
 }
 
 // inherited text
-public partial class TNewDayEventLog : TTextEventLog
+public partial class NewDayEventLog : TextEventLog
 {
-    public TNewDayEventLog(TECustomNode owner) : base(owner)
+    public NewDayEventLog(ECustomNode owner) : base(owner)
     { }
 
     // EventLog.pas:809
@@ -922,9 +932,9 @@ public partial class TNewDayEventLog : TTextEventLog
     public override int GetLeftIcon() => 18;
 
     // EventLog.pas:815
-    public override void PlayLoggedSFX(TEventLogbook Logbook)
+    public override void PlayLoggedSFX(EventLogbook Logbook)
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay > 1)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FDay > 1)
         {
             base.PlayLoggedSFX(Logbook);
         }
@@ -932,9 +942,9 @@ public partial class TNewDayEventLog : TTextEventLog
 
 }
 
-public partial class TShowBookEventLog : TEventLog
+public partial class ShowBookEventLog : EventLog
 {
-    public TShowBookEventLog(TECustomNode owner) : base(owner)
+    public ShowBookEventLog(ECustomNode owner) : base(owner)
     { }
 
     // EventLog.pas:818
@@ -946,10 +956,10 @@ public partial class TShowBookEventLog : TEventLog
 }
 
 // inherited message and title
-public partial class TTutorialMessageEventLog : THelpMessageEventLog
+public partial class TutorialMessageEventLog : HelpMessageEventLog
 {
     // EventLog.pas:871
-    public TTutorialMessageEventLog(TECustomNode owner) : base(owner)
+    public TutorialMessageEventLog(ECustomNode owner) : base(owner)
     {
         FHelpFileName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TutorialRStr);
     }
@@ -957,16 +967,16 @@ public partial class TTutorialMessageEventLog : THelpMessageEventLog
 }
 
 // directory, default name, file name, title
-public partial class TSaveGameEventLog : TEventLog
+public partial class SaveGameEventLog : EventLog
 {
     // EventLog.pas:874
-    public TSaveGameEventLog(TECustomNode owner) : base(owner)
+    public SaveGameEventLog(ECustomNode owner) : base(owner)
     {
         FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SaveRStr);
-        FMode = TSet<TSaveGameEventLogModeElement>.Of();
+        FMode = Set<SaveGameEventLogModeElement>.Of();
     }
 
-    public TSet<TSaveGameEventLogModeElement> FMode;
+    public Set<SaveGameEventLogModeElement> FMode;
     public string FDirectory = "";
     public string FDefaultName = "";
     public string FFileName = "";
@@ -975,62 +985,48 @@ public partial class TSaveGameEventLog : TEventLog
 }
 
 // password, title, prompt, button
-public partial class TPasswordEventLog : TEventLog
+public partial class PasswordEventLog : EventLog
 {
     // EventLog.pas:877
-    public TPasswordEventLog(TECustomNode owner) : base(owner)
+    public PasswordEventLog(ECustomNode owner) : base(owner)
     {
         FPassword = "";
-        FPrompt = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.TPasswordEventLog.EnterPasswordRStr);
-        FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.TPasswordEventLog.PasswordVerificationRStr);
-        FPressedButton = TPressedEventLogButton.pebNone;
+        FPrompt = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PasswordEventLog.EnterPasswordRStr);
+        FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PasswordEventLog.PasswordVerificationRStr);
+        FPressedButton = PressedEventLogButton.None;
     }
 
     public string FPassword = "";
     public string FTitle = "";
     public string FPrompt = "";
-    public TPressedEventLogButton FPressedButton;
+    public PressedEventLogButton FPressedButton;
 
     private static readonly string EnterPasswordRStr = "Enter password:";
     private static readonly string PasswordVerificationRStr = "Password Verification";
 
 }
 
-public delegate void TExecuteDoneEvent(TEventLog Log);
+public delegate void ExecuteDoneEvent(EventLog Log);
 
-public struct TExecuteEventLogInfo
+public struct ExecuteEventLogInfo
 {
-    public TEventLog Log;
-    public TExecuteDoneEvent Done;
+    public EventLog Log;
+    public ExecuteDoneEvent Done;
     public bool Immediate;
 }
 
-public enum TExecuteTrigger : byte
+public enum ExecuteTrigger : byte
 {
-    etEvent = 0,
-    etUser = 1,
-    etNewTurn = 2
+    Event = 0,
+    User = 1,
+    NewTurn = 2
 }
 
-public enum TMessageEventLogButtons : byte
+public enum PressedEventLogButton : byte
 {
-    mebOk = 0,
-    mebOkCancel = 1,
-    mebYesNo = 2,
-    mebYesNoCancel = 3
-}
-
-public enum TPressedEventLogButton : byte
-{
-    pebNone = 0,
-    pebOk = 1,
-    pebCancel = 2,
-    pebYes = 3,
-    pebNo = 4
-}
-
-public enum TMessageEventLogLayout : byte
-{
-    melNormal = 0,
-    melHeader = 1
+    None = 0,
+    Ok = 1,
+    Cancel = 2,
+    Yes = 3,
+    No = 4
 }

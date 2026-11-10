@@ -5,9 +5,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Movement;
 
-public partial class TMoveControl
+public partial class MoveControl
 {
-    public void SetMapL(TMapLevel level)
+    public void SetMapL(MapLevel level)
     {
         if (level == FMapLevel) return;
         FMapLevel = level;
@@ -16,21 +16,21 @@ public partial class TMoveControl
                 FFieldOffsets[parity][direction] = FMapLevel.FHNOffsets[parity][direction];
     }
 
-    public bool Activate(TMoveControlSettings settings)
+    public bool Activate(MoveControlSettings settings)
     {
-        RtlUnit.Assert(!FStatus.Contains(TMoveControlStatusElement.mcsActivated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
+        RtlUnit.Assert(!FStatus.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
         RtlUnit.Assert(settings.FSourceX != -1 && settings.FSourceY != -1 && settings.FSourceL != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
-        if (settings.FStatus == TMoveControlSettingsStatus.mcssFailed) return false;
-        FStatus += TSet<TMoveControlStatusElement>.Of(TMoveControlStatusElement.mcsActivated);
+        if (settings.FStatus == Aow.Game.World.Movement.MoveControlSettings.Status.Failed) return false;
+        FStatus += Set<StatusElement>.Of(StatusElement.Activated);
         FSettings = settings;
         FSettings.AddRef();
-        if (FSettings.FStatus == TMoveControlSettingsStatus.mcssIdle)
+        if (FSettings.FStatus == Aow.Game.World.Movement.MoveControlSettings.Status.Idle)
         {
             var container = FMap.MapContainer;
             FSettings.SetupMovePointData(container.Width, container.Height, container.LevelCount);
             FMovePointsLimit = FSettings.FMovePointsMax;
         }
-        else if (FSettings.FStatus is TMoveControlSettingsStatus.mcssProcessing or TMoveControlSettingsStatus.mcssProcessed)
+        else if (FSettings.FStatus is Aow.Game.World.Movement.MoveControlSettings.Status.Processing or Aow.Game.World.Movement.MoveControlSettings.Status.Processed)
             FMovePointsLimit = FSettings.FMovePointsLimit;
         FPointOffsets[0] = FSettings.FEvenOffsets;
         FPointOffsets[1] = FSettings.FOddOffsets;
@@ -45,12 +45,12 @@ public partial class TMoveControl
         FMode = FSettings.FMode;
         // Tactical movement retains its sprite in TCombatMoveControl.FUnitHS.
         // The base army cache is read only by world movement callbacks.
-        FArmyHS = this is TCombatMoveControl ? null : (TArmyHS)FSettings.FArmyHS;
+        FArmyHS = this is CombatMoveControl ? null : (ArmyHS)FSettings.FArmyHS;
         FSelection = FSettings.FSelection;
         FTransporterArmy = FSettings.FTransporterArmy;
         FProcessedMapFields = FSettings.FProcessedMapFields;
         SetMapL(FMap.MapContainer.GetMapLevel(FSourceL));
-        if (FMode.Contains(TMoveModeElement.mmExploredTerrainOnly) && FPlayer != -1)
+        if (FMode.Contains(MoveModeElement.ExploredTerrainOnly) && FPlayer != -1)
         {
             FOnMovePoint = ExploredOnlyMoveOnMovePointProc;
             FExploredMask = 1 << (FPlayer - 1);

@@ -9,7 +9,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TArenaDlg : ILayoutModule
+public partial class ArenaDlg : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -20,15 +20,15 @@ public partial class TArenaDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "ArenaDlg";
-        SelectBtn = new TAOWButton(this);
+        SelectBtn = new AOWButton(this);
         session.BeginRead(SelectBtn);
         SelectBtn.Name = "SelectBtn";
         SelectBtn.Priority = 100;
         SelectBtn.WinLeft = 118;
         SelectBtn.WinTop = 290;
         SelectBtn.CaptureInput = true;
-        SelectBtn.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        SelectBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        SelectBtn.Alignment.AlignWidth = AOWAlignWidth.None;
+        SelectBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         SelectBtn.Alignment.HeightPercent = 0;
         SelectBtn.Alignment.WidthPercent = 0;
         SelectBtn.Alignment.LeftOffPercent = 0;
@@ -51,15 +51,15 @@ public partial class TArenaDlg : ILayoutModule
         SelectBtn.WinWidth = 128;
         SelectBtn.OnClick = _ => Layout_SelectBtnClick_0();
         session.EndRead(SelectBtn);
-        TitleIcon = new TAOWImage(this);
+        TitleIcon = new AOWImage(this);
         session.BeginRead(TitleIcon);
         TitleIcon.Name = "TitleIcon";
         TitleIcon.Priority = 0;
         TitleIcon.WinLeft = 20;
         TitleIcon.WinTop = 5;
         TitleIcon.CaptureInput = false;
-        TitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TitleIcon.Alignment.AlignWidth = AOWAlignWidth.None;
+        TitleIcon.Alignment.AlignHeight = AOWAlignHeight.None;
         TitleIcon.Alignment.HeightPercent = 0;
         TitleIcon.Alignment.WidthPercent = 0;
         TitleIcon.Alignment.LeftOffPercent = 0;
@@ -79,7 +79,7 @@ public partial class TArenaDlg : ILayoutModule
         TitleIcon.Animate = false;
         TitleIcon.AnimFrameDelay = 0;
         session.EndRead(TitleIcon);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
@@ -90,8 +90,8 @@ public partial class TArenaDlg : ILayoutModule
             "Closes the window."
         };
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Close.Alignment.AlignWidth = AOWAlignWidth.None;
+        Close.Alignment.AlignHeight = AOWAlignHeight.None;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;
@@ -113,15 +113,15 @@ public partial class TArenaDlg : ILayoutModule
         Close.WinWidth = 15;
         Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
-        Title = new TAOWLabel(this);
+        Title = new AOWLabel(this);
         session.BeginRead(Title);
         Title.Name = "Title";
         Title.Priority = 0;
         Title.WinLeft = 42;
         Title.WinTop = 7;
         Title.CaptureInput = false;
-        Title.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Title.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Title.Alignment.AlignWidth = AOWAlignWidth.None;
+        Title.Alignment.AlignHeight = AOWAlignHeight.None;
         Title.Alignment.HeightPercent = 0;
         Title.Alignment.WidthPercent = 0;
         Title.Alignment.LeftOffPercent = 0;
@@ -136,15 +136,15 @@ public partial class TArenaDlg : ILayoutModule
         Title.Text = "Arena";
         Title.TextColor = 2502709;
         session.EndRead(Title);
-        CancelBtn = new TAOWButton(this);
+        CancelBtn = new AOWButton(this);
         session.BeginRead(CancelBtn);
         CancelBtn.Name = "CancelBtn";
         CancelBtn.Priority = 100;
         CancelBtn.WinLeft = 246;
         CancelBtn.WinTop = 290;
         CancelBtn.CaptureInput = true;
-        CancelBtn.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        CancelBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CancelBtn.Alignment.AlignWidth = AOWAlignWidth.None;
+        CancelBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CancelBtn.Alignment.HeightPercent = 0;
         CancelBtn.Alignment.WidthPercent = 0;
         CancelBtn.Alignment.LeftOffPercent = 0;
@@ -167,7 +167,7 @@ public partial class TArenaDlg : ILayoutModule
         CancelBtn.WinWidth = 128;
         CancelBtn.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(CancelBtn);
-        Dlg = new TAOWWindow(this);
+        Dlg = new AOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
         Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
@@ -179,8 +179,8 @@ public partial class TArenaDlg : ILayoutModule
         Dlg.OnDrawBack = (_, SurfDesc) => Layout_DlgDrawBack_2(SurfDesc);
         Dlg.Masked = true;
         Dlg.OnHide = _ => Layout_DlgHide_3();
-        Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        Dlg.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Dlg.Alignment.AlignHeight = AOWAlignHeight.Center;
         Dlg.Alignment.HeightPercent = 0;
         Dlg.Alignment.WidthPercent = 0;
         Dlg.Alignment.LeftOffPercent = 0;
@@ -213,7 +213,7 @@ public partial class TArenaDlg : ILayoutModule
         Dlg.WinHeight = 328;
         Dlg.Dockable = false;
         session.EndRead(Dlg);
-        UnitPnl = new TAOWPanel(this);
+        UnitPnl = new AOWPanel(this);
         session.BeginRead(UnitPnl);
         UnitPnl.Name = "UnitPnl";
         UnitPnl.Priority = 1;
@@ -221,8 +221,8 @@ public partial class TArenaDlg : ILayoutModule
         UnitPnl.WinTop = 195;
         UnitPnl.WinWidth = 437;
         UnitPnl.Masked = true;
-        UnitPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        UnitPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        UnitPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        UnitPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         UnitPnl.Alignment.HeightPercent = 0;
         UnitPnl.Alignment.WidthPercent = 0;
         UnitPnl.Alignment.LeftOffPercent = 0;
@@ -240,7 +240,7 @@ public partial class TArenaDlg : ILayoutModule
         UnitPnl.MinWidth = 0;
         UnitPnl.MinHeight = 0;
         session.EndRead(UnitPnl);
-        MapViewPnl = new TAOWPanel(this);
+        MapViewPnl = new AOWPanel(this);
         session.BeginRead(MapViewPnl);
         MapViewPnl.Name = "MapViewPnl";
         MapViewPnl.Priority = 1;
@@ -248,8 +248,8 @@ public partial class TArenaDlg : ILayoutModule
         MapViewPnl.WinTop = 21;
         MapViewPnl.WinWidth = 452;
         MapViewPnl.Masked = true;
-        MapViewPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        MapViewPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        MapViewPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        MapViewPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         MapViewPnl.Alignment.HeightPercent = 0;
         MapViewPnl.Alignment.WidthPercent = 0;
         MapViewPnl.Alignment.LeftOffPercent = 0;
@@ -267,7 +267,7 @@ public partial class TArenaDlg : ILayoutModule
         MapViewPnl.MinWidth = 0;
         MapViewPnl.MinHeight = 0;
         session.EndRead(MapViewPnl);
-        U1 = new TAOWCheckBox(this);
+        U1 = new AOWCheckBox(this);
         session.BeginRead(U1);
         U1.Name = "U1";
         U1.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
@@ -275,8 +275,8 @@ public partial class TArenaDlg : ILayoutModule
         U1.WinLeft = 0;
         U1.WinTop = 0;
         U1.CaptureInput = true;
-        U1.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U1.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U1.Alignment.AlignWidth = AOWAlignWidth.None;
+        U1.Alignment.AlignHeight = AOWAlignHeight.None;
         U1.Alignment.HeightPercent = 0;
         U1.Alignment.WidthPercent = 0;
         U1.Alignment.LeftOffPercent = 0;
@@ -300,7 +300,7 @@ public partial class TArenaDlg : ILayoutModule
         U1.OnChange = sender => U1Change(sender, 0);
         U1.RadioIndex = 0;
         session.EndRead(U1);
-        U2 = new TAOWCheckBox(this);
+        U2 = new AOWCheckBox(this);
         session.BeginRead(U2);
         U2.Name = "U2";
         U2.Tag = 1;
@@ -309,8 +309,8 @@ public partial class TArenaDlg : ILayoutModule
         U2.WinLeft = 55;
         U2.WinTop = 0;
         U2.CaptureInput = true;
-        U2.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U2.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U2.Alignment.AlignWidth = AOWAlignWidth.None;
+        U2.Alignment.AlignHeight = AOWAlignHeight.None;
         U2.Alignment.HeightPercent = 0;
         U2.Alignment.WidthPercent = 0;
         U2.Alignment.LeftOffPercent = 0;
@@ -334,7 +334,7 @@ public partial class TArenaDlg : ILayoutModule
         U2.OnChange = sender => U1Change(sender, 1);
         U2.RadioIndex = 0;
         session.EndRead(U2);
-        U3 = new TAOWCheckBox(this);
+        U3 = new AOWCheckBox(this);
         session.BeginRead(U3);
         U3.Name = "U3";
         U3.Tag = 2;
@@ -343,8 +343,8 @@ public partial class TArenaDlg : ILayoutModule
         U3.WinLeft = 110;
         U3.WinTop = 0;
         U3.CaptureInput = true;
-        U3.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U3.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U3.Alignment.AlignWidth = AOWAlignWidth.None;
+        U3.Alignment.AlignHeight = AOWAlignHeight.None;
         U3.Alignment.HeightPercent = 0;
         U3.Alignment.WidthPercent = 0;
         U3.Alignment.LeftOffPercent = 0;
@@ -368,7 +368,7 @@ public partial class TArenaDlg : ILayoutModule
         U3.OnChange = sender => U1Change(sender, 2);
         U3.RadioIndex = 0;
         session.EndRead(U3);
-        U4 = new TAOWCheckBox(this);
+        U4 = new AOWCheckBox(this);
         session.BeginRead(U4);
         U4.Name = "U4";
         U4.Tag = 3;
@@ -377,8 +377,8 @@ public partial class TArenaDlg : ILayoutModule
         U4.WinLeft = 165;
         U4.WinTop = 0;
         U4.CaptureInput = true;
-        U4.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U4.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U4.Alignment.AlignWidth = AOWAlignWidth.None;
+        U4.Alignment.AlignHeight = AOWAlignHeight.None;
         U4.Alignment.HeightPercent = 0;
         U4.Alignment.WidthPercent = 0;
         U4.Alignment.LeftOffPercent = 0;
@@ -402,7 +402,7 @@ public partial class TArenaDlg : ILayoutModule
         U4.OnChange = sender => U1Change(sender, 3);
         U4.RadioIndex = 0;
         session.EndRead(U4);
-        U5 = new TAOWCheckBox(this);
+        U5 = new AOWCheckBox(this);
         session.BeginRead(U5);
         U5.Name = "U5";
         U5.Tag = 4;
@@ -411,8 +411,8 @@ public partial class TArenaDlg : ILayoutModule
         U5.WinLeft = 220;
         U5.WinTop = 0;
         U5.CaptureInput = true;
-        U5.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U5.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U5.Alignment.AlignWidth = AOWAlignWidth.None;
+        U5.Alignment.AlignHeight = AOWAlignHeight.None;
         U5.Alignment.HeightPercent = 0;
         U5.Alignment.WidthPercent = 0;
         U5.Alignment.LeftOffPercent = 0;
@@ -436,7 +436,7 @@ public partial class TArenaDlg : ILayoutModule
         U5.OnChange = sender => U1Change(sender, 4);
         U5.RadioIndex = 0;
         session.EndRead(U5);
-        U6 = new TAOWCheckBox(this);
+        U6 = new AOWCheckBox(this);
         session.BeginRead(U6);
         U6.Name = "U6";
         U6.Tag = 5;
@@ -445,8 +445,8 @@ public partial class TArenaDlg : ILayoutModule
         U6.WinLeft = 275;
         U6.WinTop = 0;
         U6.CaptureInput = true;
-        U6.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U6.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U6.Alignment.AlignWidth = AOWAlignWidth.None;
+        U6.Alignment.AlignHeight = AOWAlignHeight.None;
         U6.Alignment.HeightPercent = 0;
         U6.Alignment.WidthPercent = 0;
         U6.Alignment.LeftOffPercent = 0;
@@ -470,7 +470,7 @@ public partial class TArenaDlg : ILayoutModule
         U6.OnChange = sender => U1Change(sender, 5);
         U6.RadioIndex = 0;
         session.EndRead(U6);
-        U7 = new TAOWCheckBox(this);
+        U7 = new AOWCheckBox(this);
         session.BeginRead(U7);
         U7.Name = "U7";
         U7.Tag = 6;
@@ -479,8 +479,8 @@ public partial class TArenaDlg : ILayoutModule
         U7.WinLeft = 330;
         U7.WinTop = 0;
         U7.CaptureInput = true;
-        U7.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U7.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U7.Alignment.AlignWidth = AOWAlignWidth.None;
+        U7.Alignment.AlignHeight = AOWAlignHeight.None;
         U7.Alignment.HeightPercent = 0;
         U7.Alignment.WidthPercent = 0;
         U7.Alignment.LeftOffPercent = 0;
@@ -504,7 +504,7 @@ public partial class TArenaDlg : ILayoutModule
         U7.OnChange = sender => U1Change(sender, 6);
         U7.RadioIndex = 0;
         session.EndRead(U7);
-        U8 = new TAOWCheckBox(this);
+        U8 = new AOWCheckBox(this);
         session.BeginRead(U8);
         U8.Name = "U8";
         U8.Tag = 7;
@@ -513,8 +513,8 @@ public partial class TArenaDlg : ILayoutModule
         U8.WinLeft = 386;
         U8.WinTop = 0;
         U8.CaptureInput = true;
-        U8.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        U8.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        U8.Alignment.AlignWidth = AOWAlignWidth.None;
+        U8.Alignment.AlignHeight = AOWAlignHeight.None;
         U8.Alignment.HeightPercent = 0;
         U8.Alignment.WidthPercent = 0;
         U8.Alignment.LeftOffPercent = 0;
@@ -538,15 +538,15 @@ public partial class TArenaDlg : ILayoutModule
         U8.OnChange = sender => U1Change(sender, 7);
         U8.RadioIndex = 0;
         session.EndRead(U8);
-        DecoL = new TAOWImage(this);
+        DecoL = new AOWImage(this);
         session.BeginRead(DecoL);
         DecoL.Name = "DecoL";
         DecoL.Priority = 1000;
         DecoL.WinLeft = 35;
         DecoL.WinTop = 290;
         DecoL.CaptureInput = true;
-        DecoL.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DecoL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DecoL.Alignment.AlignWidth = AOWAlignWidth.None;
+        DecoL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DecoL.Alignment.HeightPercent = 0;
         DecoL.Alignment.WidthPercent = 0;
         DecoL.Alignment.LeftOffPercent = 0;
@@ -566,15 +566,15 @@ public partial class TArenaDlg : ILayoutModule
         DecoL.Animate = false;
         DecoL.AnimFrameDelay = 0;
         session.EndRead(DecoL);
-        DecoR = new TAOWImage(this);
+        DecoR = new AOWImage(this);
         session.BeginRead(DecoR);
         DecoR.Name = "DecoR";
         DecoR.Priority = 1000;
         DecoR.WinLeft = 375;
         DecoR.WinTop = 290;
         DecoR.CaptureInput = true;
-        DecoR.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DecoR.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DecoR.Alignment.AlignWidth = AOWAlignWidth.None;
+        DecoR.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DecoR.Alignment.HeightPercent = 0;
         DecoR.Alignment.WidthPercent = 0;
         DecoR.Alignment.LeftOffPercent = 0;
@@ -594,15 +594,15 @@ public partial class TArenaDlg : ILayoutModule
         DecoR.Animate = false;
         DecoR.AnimFrameDelay = 0;
         session.EndRead(DecoR);
-        AoWFrame1 = new TAoWFrame(this);
+        AoWFrame1 = new AoWFrame(this);
         session.BeginRead(AoWFrame1);
         AoWFrame1.Name = "AoWFrame1";
         AoWFrame1.Priority = 0;
         AoWFrame1.WinLeft = 26;
         AoWFrame1.WinTop = 290;
         AoWFrame1.CaptureInput = true;
-        AoWFrame1.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        AoWFrame1.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AoWFrame1.Alignment.AlignWidth = AOWAlignWidth.Both;
+        AoWFrame1.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AoWFrame1.Alignment.HeightPercent = 0;
         AoWFrame1.Alignment.WidthPercent = 0;
         AoWFrame1.Alignment.LeftOffPercent = 0;
@@ -616,12 +616,12 @@ public partial class TArenaDlg : ILayoutModule
         AoWFrame1.Masked = false;
         AoWFrame1.WinWidth = 440;
         AoWFrame1.WinHeight = 27;
-        AoWFrame1.FrameType = TFrameType.frHorizLine;
+        AoWFrame1.FrameType = FrameType.HorizLine;
         AoWFrame1.ILIndexFrame = 0;
         AoWFrame1.ILIndexLine = 55;
         AoWFrame1.ILIndexTexture = 0;
         session.EndRead(AoWFrame1);
-        SelectionInfoPnl = new TAOWPanel(this);
+        SelectionInfoPnl = new AOWPanel(this);
         session.BeginRead(SelectionInfoPnl);
         SelectionInfoPnl.Name = "SelectionInfoPnl";
         SelectionInfoPnl.Priority = 1;
@@ -629,8 +629,8 @@ public partial class TArenaDlg : ILayoutModule
         SelectionInfoPnl.WinTop = 264;
         SelectionInfoPnl.WinWidth = 437;
         SelectionInfoPnl.Masked = true;
-        SelectionInfoPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        SelectionInfoPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SelectionInfoPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        SelectionInfoPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         SelectionInfoPnl.Alignment.HeightPercent = 0;
         SelectionInfoPnl.Alignment.WidthPercent = 0;
         SelectionInfoPnl.Alignment.LeftOffPercent = 0;
@@ -648,15 +648,15 @@ public partial class TArenaDlg : ILayoutModule
         SelectionInfoPnl.MinWidth = 0;
         SelectionInfoPnl.MinHeight = 0;
         session.EndRead(SelectionInfoPnl);
-        SelectionInfoLbl = new TAOWLabel(this);
+        SelectionInfoLbl = new AOWLabel(this);
         session.BeginRead(SelectionInfoLbl);
         SelectionInfoLbl.Name = "SelectionInfoLbl";
         SelectionInfoLbl.Priority = 100;
         SelectionInfoLbl.WinLeft = 198;
         SelectionInfoLbl.WinTop = 10;
         SelectionInfoLbl.CaptureInput = true;
-        SelectionInfoLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SelectionInfoLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SelectionInfoLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SelectionInfoLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         SelectionInfoLbl.Alignment.HeightPercent = 0;
         SelectionInfoLbl.Alignment.WidthPercent = 0;
         SelectionInfoLbl.Alignment.LeftOffPercent = 0;
@@ -671,15 +671,15 @@ public partial class TArenaDlg : ILayoutModule
         SelectionInfoLbl.Text = "#####";
         SelectionInfoLbl.TextColor = 0;
         session.EndRead(SelectionInfoLbl);
-        SelectionLbl = new TAOWLabel(this);
+        SelectionLbl = new AOWLabel(this);
         session.BeginRead(SelectionLbl);
         SelectionLbl.Name = "SelectionLbl";
         SelectionLbl.Priority = 100;
         SelectionLbl.WinLeft = 161;
         SelectionLbl.WinTop = 172;
         SelectionLbl.CaptureInput = true;
-        SelectionLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SelectionLbl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SelectionLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SelectionLbl.Alignment.AlignHeight = AOWAlignHeight.None;
         SelectionLbl.Alignment.HeightPercent = 0;
         SelectionLbl.Alignment.WidthPercent = 0;
         SelectionLbl.Alignment.LeftOffPercent = 0;
@@ -703,8 +703,8 @@ public partial class TArenaDlg : ILayoutModule
         MapView.WinLeft = 23;
         MapView.WinTop = 24;
         MapView.CaptureInput = true;
-        MapView.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        MapView.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        MapView.Alignment.AlignWidth = AOWAlignWidth.None;
+        MapView.Alignment.AlignHeight = AOWAlignHeight.None;
         MapView.Alignment.HeightPercent = 0;
         MapView.Alignment.WidthPercent = 0;
         MapView.Alignment.LeftOffPercent = 0;
@@ -719,15 +719,15 @@ public partial class TArenaDlg : ILayoutModule
         MapView.WinWidth = 446;
         MapView.WinHeight = 134;
         session.EndRead(MapView);
-        InfoSep = new TAOWImage(this);
+        InfoSep = new AOWImage(this);
         session.BeginRead(InfoSep);
         InfoSep.Name = "InfoSep";
         InfoSep.Priority = 1500;
         InfoSep.WinLeft = 19;
         InfoSep.WinTop = 162;
         InfoSep.CaptureInput = true;
-        InfoSep.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        InfoSep.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        InfoSep.Alignment.AlignWidth = AOWAlignWidth.None;
+        InfoSep.Alignment.AlignHeight = AOWAlignHeight.None;
         InfoSep.Alignment.HeightPercent = 0;
         InfoSep.Alignment.WidthPercent = 0;
         InfoSep.Alignment.LeftOffPercent = 0;
@@ -846,7 +846,7 @@ public partial class TArenaDlg : ILayoutModule
         CloseClick();
     }
 
-    private void Layout_DlgDrawBack_2(TSurfaceDesc p1)
+    private void Layout_DlgDrawBack_2(SurfaceDesc p1)
     {
         DlgDrawBack();
     }

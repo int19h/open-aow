@@ -15,100 +15,100 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // hero scroll. unit scroll. item scroll. left selection kind/index. right selection kind/index
-public partial class TCampaignTransferDlg : TDataModule
+public partial class CampaignTransferDlg : DataModule
 {
-    public TCampaignTransferDlg(TComponent owner) : base(owner)
+    public CampaignTransferDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWCheckBox LHero1;
-    public TAOWCheckBox LHero2;
-    public TAOWCheckBox LHero3;
-    public TAOWCheckBox LHero4;
-    public TAOWCheckBox LItem1;
-    public TAOWPanel LItemPnl;
-    public TAOWCheckBox LItem2;
-    public TAOWCheckBox LItem3;
-    public TAOWCheckBox LItem4;
-    public TAOWCheckBox LUnit1;
-    public TAOWPanel LUnitPnl;
-    public TAOWCheckBox LUnit2;
-    public TAOWCheckBox LUnit3;
-    public TAOWCheckBox LUnit4;
-    public TAOWLabel Available;
-    public TAoWBookWindow TransBookWin;
-    public TAOWButton BookStart;
-    public TAOWButton Cancel;
-    public TAOWPanel PnlL;
-    public TAOWLabel Title;
-    public TAOWPanel PnlR;
-    public TAOWLabel TransferPointsLbl;
-    public TAOWButton AddBtn;
-    public TAOWLabel LGoldLbl;
-    public TAOWLabel GoldLeftLbl;
-    public TAOWLabel LManaLbl;
-    public TAOWLabel ManaLeftLbl;
-    public TAOWLabel Next;
-    public TAoWFrame LSep1;
-    public TAOWImage LHeroImgL;
-    public TAOWPanel LHeroPnl;
-    public TAOWImage LItemImgL;
-    public TAOWImage LUnitImgL;
-    public TAOWImage LHeroImgR;
-    public TAOWImage LItemImgR;
-    public TAOWImage LUnitImgR;
-    public TAOWCheckBox RHero1;
-    public TAOWCheckBox RHero2;
-    public TAOWCheckBox RHero3;
-    public TAOWCheckBox RHero4;
-    public TAOWCheckBox RItem1;
-    public TAOWPanel RItemPnl;
-    public TAOWCheckBox RItem2;
-    public TAOWCheckBox RItem3;
-    public TAOWCheckBox RItem4;
-    public TAOWCheckBox RUnit1;
-    public TAOWPanel RUnitPnl;
-    public TAOWCheckBox RUnit2;
-    public TAOWCheckBox RUnit3;
-    public TAOWCheckBox RUnit4;
-    public TAOWImage RHeroImgL;
-    public TAOWPanel RHeroPnl;
-    public TAOWImage RItemImgL;
-    public TAOWImage RUnitImgL;
-    public TAOWImage RHeroImgR;
-    public TAOWImage RItemImgR;
-    public TAOWImage RUnitImgR;
-    public TAoWFrame RSep1;
-    public TAOWButton RemoveBtn;
-    public TAoWFrame LSep2;
-    public TAoWFrame RSep2;
-    public TAOWHScrollBar GoldSlider;
-    public TAOWHScrollBar ManaSlider;
-    public TAOWButton LHeroLB;
-    public TAOWButton AutoBtn;
-    public TAOWButton LItemLB;
-    public TAOWButton LUnitLB;
-    public TAOWButton LHeroRB;
-    public TAOWButton LItemRB;
-    public TAOWButton LUnitRB;
-    public TAOWButton RHeroLB;
-    public TAOWButton RItemLB;
-    public TAOWButton RUnitLB;
-    public TAOWButton RHeroRB;
-    public TAOWButton RItemRB;
-    public TAOWButton RUnitRB;
-    public TAOWImage CostImg;
-    public TAOWPanel CostPnl;
-    public TAOWLabel CostLbl;
-    public TAOWImage LGoldImg;
-    public TAOWImage LManaImg;
-    public TAOWLabel TGoldLbl;
-    public TAOWLabel TransferGoldLbl;
-    public TAOWLabel TManaLbl;
-    public TAOWLabel TransferManaLbl;
-    public TAOWImage RGoldImg;
-    public TAOWImage RManaImg;
-    public TAOWImage ResBackG;
-    public TIvTranslator Translator;
+    public AOWCheckBox LHero1;
+    public AOWCheckBox LHero2;
+    public AOWCheckBox LHero3;
+    public AOWCheckBox LHero4;
+    public AOWCheckBox LItem1;
+    public AOWPanel LItemPnl;
+    public AOWCheckBox LItem2;
+    public AOWCheckBox LItem3;
+    public AOWCheckBox LItem4;
+    public AOWCheckBox LUnit1;
+    public AOWPanel LUnitPnl;
+    public AOWCheckBox LUnit2;
+    public AOWCheckBox LUnit3;
+    public AOWCheckBox LUnit4;
+    public AOWLabel Available;
+    public AoWBookWindow TransBookWin;
+    public AOWButton BookStart;
+    public AOWButton Cancel;
+    public AOWPanel PnlL;
+    public AOWLabel Title;
+    public AOWPanel PnlR;
+    public AOWLabel TransferPointsLbl;
+    public AOWButton AddBtn;
+    public AOWLabel LGoldLbl;
+    public AOWLabel GoldLeftLbl;
+    public AOWLabel LManaLbl;
+    public AOWLabel ManaLeftLbl;
+    public AOWLabel Next;
+    public AoWFrame LSep1;
+    public AOWImage LHeroImgL;
+    public AOWPanel LHeroPnl;
+    public AOWImage LItemImgL;
+    public AOWImage LUnitImgL;
+    public AOWImage LHeroImgR;
+    public AOWImage LItemImgR;
+    public AOWImage LUnitImgR;
+    public AOWCheckBox RHero1;
+    public AOWCheckBox RHero2;
+    public AOWCheckBox RHero3;
+    public AOWCheckBox RHero4;
+    public AOWCheckBox RItem1;
+    public AOWPanel RItemPnl;
+    public AOWCheckBox RItem2;
+    public AOWCheckBox RItem3;
+    public AOWCheckBox RItem4;
+    public AOWCheckBox RUnit1;
+    public AOWPanel RUnitPnl;
+    public AOWCheckBox RUnit2;
+    public AOWCheckBox RUnit3;
+    public AOWCheckBox RUnit4;
+    public AOWImage RHeroImgL;
+    public AOWPanel RHeroPnl;
+    public AOWImage RItemImgL;
+    public AOWImage RUnitImgL;
+    public AOWImage RHeroImgR;
+    public AOWImage RItemImgR;
+    public AOWImage RUnitImgR;
+    public AoWFrame RSep1;
+    public AOWButton RemoveBtn;
+    public AoWFrame LSep2;
+    public AoWFrame RSep2;
+    public AOWHScrollBar GoldSlider;
+    public AOWHScrollBar ManaSlider;
+    public AOWButton LHeroLB;
+    public AOWButton AutoBtn;
+    public AOWButton LItemLB;
+    public AOWButton LUnitLB;
+    public AOWButton LHeroRB;
+    public AOWButton LItemRB;
+    public AOWButton LUnitRB;
+    public AOWButton RHeroLB;
+    public AOWButton RItemLB;
+    public AOWButton RUnitLB;
+    public AOWButton RHeroRB;
+    public AOWButton RItemRB;
+    public AOWButton RUnitRB;
+    public AOWImage CostImg;
+    public AOWPanel CostPnl;
+    public AOWLabel CostLbl;
+    public AOWImage LGoldImg;
+    public AOWImage LManaImg;
+    public AOWLabel TGoldLbl;
+    public AOWLabel TransferGoldLbl;
+    public AOWLabel TManaLbl;
+    public AOWLabel TransferManaLbl;
+    public AOWImage RGoldImg;
+    public AOWImage RManaImg;
+    public AOWImage ResBackG;
+    public IvTranslator Translator;
     public int FLeftHero;
     public int FRightHero;
     public int FLeftUnit;
@@ -123,7 +123,7 @@ public partial class TCampaignTransferDlg : TDataModule
     // AoWCampaignTransferDlg.pas:683
     public void UpdateControls()
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         TransferPointsLbl.Text = IntToStr(S.FTransferPointsLeft) + "/" + IntToStr(S.FTransferPointsMax);
         TransferManaLbl.Text = IntToStr(S.FSelectedTransferMana);
@@ -384,17 +384,17 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:288
-    public void LHeroesDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
+    public void LHeroesDraw(AOWCheckBox Sender, SurfaceDesc SurfDesc, int Slot)
     {
-        THero Obj;
-        TAoWCampaignTransferSettings S;
-        TRect R;
+        Hero Obj;
+        AoWCampaignTransferSettings S;
+        global::Aow.Rtl.Rect R;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         Obj = S.FHeroes.GetHero(FLeftHero + Slot);
         if (Obj != null)
         {
             var checkBox = Sender;
-            R = Rect(LHeroPnl.WinLeft + checkBox.WinLeft + 1, LHeroPnl.WinTop + checkBox.WinTop + 2, LHeroPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, LHeroPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+            R = global::Aow.Rtl.RtlUnit.Rect(LHeroPnl.WinLeft + checkBox.WinLeft + 1, LHeroPnl.WinTop + checkBox.WinTop + 2, LHeroPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, LHeroPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
             R.Left += 1;
             Obj.ShowFace(R, SurfDesc);
@@ -417,11 +417,11 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:316
-    public void RHeroesDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
+    public void RHeroesDraw(AOWCheckBox Sender, SurfaceDesc SurfDesc, int Slot)
     {
-        THero Obj;
-        TAoWCampaignTransferSettings S;
-        TRect R;
+        Hero Obj;
+        AoWCampaignTransferSettings S;
+        global::Aow.Rtl.Rect R;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         if (FRightHero + Slot < S.FSelectedHeroes.Count)
         {
@@ -430,7 +430,7 @@ public partial class TCampaignTransferDlg : TDataModule
             if (Obj != null)
             {
                 var checkBox = Sender;
-                R = Rect(RHeroPnl.WinLeft + checkBox.WinLeft + 1, RHeroPnl.WinTop + checkBox.WinTop + 2, RHeroPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, RHeroPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                R = global::Aow.Rtl.RtlUnit.Rect(RHeroPnl.WinLeft + checkBox.WinLeft + 1, RHeroPnl.WinTop + checkBox.WinTop + 2, RHeroPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, RHeroPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 R.Left += 1;
                 Obj.ShowFace(R, SurfDesc);
@@ -449,12 +449,12 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:345
-    public void LUnitsDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
+    public void LUnitsDraw(AOWCheckBox Sender, SurfaceDesc SurfDesc, int Slot)
     {
-        TAbstractUnit Obj;
-        TAoWCampaignTransferSettings S;
-        TP2UnitShowInfo Info = default;
-        TRect R;
+        AbstractUnit Obj;
+        AoWCampaignTransferSettings S;
+        P2UnitShowInfo Info = default;
+        global::Aow.Rtl.Rect R;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         var count = S.FUnits.Count;
         if (FLeftUnit + Slot < count)
@@ -463,12 +463,12 @@ public partial class TCampaignTransferDlg : TDataModule
             if (Obj != null)
             {
                 var checkBox = Sender;
-                R = Rect(LUnitPnl.WinLeft + checkBox.WinLeft + 1, LUnitPnl.WinTop + checkBox.WinTop + 2, LUnitPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, LUnitPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                R = global::Aow.Rtl.RtlUnit.Rect(LUnitPnl.WinLeft + checkBox.WinLeft + 1, LUnitPnl.WinTop + checkBox.WinTop + 2, LUnitPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, LUnitPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[4].Show(R.Left + 1, R.Top, SurfDesc);
                 Info.Direction = 3;
-                Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoRank);
-                Info.Animation = TUnitAnimation.uaStandStill;
+                Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+                Info.Animation = UnitAnimation.StandStill;
                 Info.Frame = 0;
                 Info.Looped = false;
                 Obj.ShowEx(R.Left - 8, R.Top, SurfDesc, Info);
@@ -491,12 +491,12 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:381
-    public void RUnitsDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
+    public void RUnitsDraw(AOWCheckBox Sender, SurfaceDesc SurfDesc, int Slot)
     {
-        TAbstractUnit Obj;
-        TAoWCampaignTransferSettings S;
-        TP2UnitShowInfo Info = default;
-        TRect R;
+        AbstractUnit Obj;
+        AoWCampaignTransferSettings S;
+        P2UnitShowInfo Info = default;
+        global::Aow.Rtl.Rect R;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         if (FRightUnit + Slot < S.FSelectedUnits.Count)
         {
@@ -505,12 +505,12 @@ public partial class TCampaignTransferDlg : TDataModule
             if (Obj != null)
             {
                 var checkBox = Sender;
-                R = Rect(RUnitPnl.WinLeft + checkBox.WinLeft + 1, RUnitPnl.WinTop + checkBox.WinTop + 2, RUnitPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, RUnitPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                R = global::Aow.Rtl.RtlUnit.Rect(RUnitPnl.WinLeft + checkBox.WinLeft + 1, RUnitPnl.WinTop + checkBox.WinTop + 2, RUnitPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, RUnitPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[4].Show(R.Left + 1, R.Top, SurfDesc);
                 Info.Direction = 3;
-                Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoRank);
-                Info.Animation = TUnitAnimation.uaStandStill;
+                Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+                Info.Animation = UnitAnimation.StandStill;
                 Info.Frame = 0;
                 Info.Looped = false;
                 Obj.ShowEx(R.Left - 8, R.Top, SurfDesc, Info);
@@ -528,17 +528,17 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:415
-    public void LItemsDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
+    public void LItemsDraw(AOWCheckBox Sender, SurfaceDesc SurfDesc, int Slot)
     {
-        TItem Obj;
-        TAoWCampaignTransferSettings S;
-        TRect R;
+        Item Obj;
+        AoWCampaignTransferSettings S;
+        global::Aow.Rtl.Rect R;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         Obj = S.FItems.GetItem(FLeftItem + Slot);
         if (Obj != null)
         {
             var checkBox = Sender;
-            R = Rect(LItemPnl.WinLeft + checkBox.WinLeft + 2, LItemPnl.WinTop + checkBox.WinTop + 2, LItemPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, LItemPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+            R = global::Aow.Rtl.RtlUnit.Rect(LItemPnl.WinLeft + checkBox.WinLeft + 2, LItemPnl.WinTop + checkBox.WinTop + 2, LItemPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, LItemPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
             Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[4].Show(R.Left, R.Top, SurfDesc);
             Obj.Show(R.Left + 5, R.Top + 10, SurfDesc);
@@ -560,11 +560,11 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:442
-    public void RItemsDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
+    public void RItemsDraw(AOWCheckBox Sender, SurfaceDesc SurfDesc, int Slot)
     {
-        TItem Obj;
-        TAoWCampaignTransferSettings S;
-        TRect R;
+        Item Obj;
+        AoWCampaignTransferSettings S;
+        global::Aow.Rtl.Rect R;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         if (FRightItem + Slot < S.FSelectedItems.Count)
         {
@@ -573,7 +573,7 @@ public partial class TCampaignTransferDlg : TDataModule
             if (Obj != null)
             {
                 var checkBox = Sender;
-                R = Rect(RItemPnl.WinLeft + checkBox.WinLeft + 2, RItemPnl.WinTop + checkBox.WinTop + 2, RItemPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, RItemPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                R = global::Aow.Rtl.RtlUnit.Rect(RItemPnl.WinLeft + checkBox.WinLeft + 2, RItemPnl.WinTop + checkBox.WinTop + 2, RItemPnl.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, RItemPnl.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[4].Show(R.Left, R.Top, SurfDesc);
                 Obj.Show(R.Left + 5, R.Top + 10, SurfDesc);
@@ -591,7 +591,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:470
-    public void LHeroesSelect(TAOWCheckBox Sender, int Slot)
+    public void LHeroesSelect(AOWCheckBox Sender, int Slot)
     {
         if (Sender.Checked)
         {
@@ -604,7 +604,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:484
-    public void LItemsSelect(TAOWCheckBox Sender, int Slot)
+    public void LItemsSelect(AOWCheckBox Sender, int Slot)
     {
         ClearLeftSelection();
         var checkBox = Sender;
@@ -614,7 +614,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:495
-    public void LUnitSelect(TAOWCheckBox Sender, int Slot)
+    public void LUnitSelect(AOWCheckBox Sender, int Slot)
     {
         ClearLeftSelection();
         var checkBox = Sender;
@@ -624,7 +624,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:506
-    public void RHeroesSelect(TAOWCheckBox Sender, int Slot)
+    public void RHeroesSelect(AOWCheckBox Sender, int Slot)
     {
         ClearRightSelection();
         var checkBox = Sender;
@@ -634,7 +634,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:517
-    public void RItemsSelect(TAOWCheckBox Sender, int Slot)
+    public void RItemsSelect(AOWCheckBox Sender, int Slot)
     {
         ClearRightSelection();
         var checkBox = Sender;
@@ -644,7 +644,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:528
-    public void RUnitsSelect(TAOWCheckBox Sender, int Slot)
+    public void RUnitsSelect(AOWCheckBox Sender, int Slot)
     {
         ClearRightSelection();
         var checkBox = Sender;
@@ -656,7 +656,7 @@ public partial class TCampaignTransferDlg : TDataModule
     // AoWCampaignTransferDlg.pas:539
     public void AddBtnClick()
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         switch (FLeftKind)
         {
@@ -696,7 +696,7 @@ public partial class TCampaignTransferDlg : TDataModule
     // AoWCampaignTransferDlg.pas:569
     public void RemoveBtnClick()
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         switch (FRightKind)
         {
@@ -740,9 +740,9 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:605
-    public void LHeroesUpdate(TAOWCheckBox Sender, int Slot)
+    public void LHeroesUpdate(AOWCheckBox Sender, int Slot)
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         Sender.Checked = FLeftKind == 1 && Slot + FLeftHero == FLeftSelection;
         var checkBox = Sender;
@@ -750,9 +750,9 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:617
-    public void LItemsUpdate(TAOWCheckBox Sender, int Slot)
+    public void LItemsUpdate(AOWCheckBox Sender, int Slot)
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         Sender.Checked = FLeftKind == 2 && Slot + FLeftItem == FLeftSelection;
         var checkBox = Sender;
@@ -760,9 +760,9 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:629
-    public void LUnitsUpdate(TAOWCheckBox Sender, int Slot)
+    public void LUnitsUpdate(AOWCheckBox Sender, int Slot)
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         Sender.Checked = FLeftKind == 3 && Slot + FLeftUnit == FLeftSelection;
         var checkBox = Sender;
@@ -770,9 +770,9 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:641
-    public void RHeroesUpdate(TAOWCheckBox Sender, int Slot)
+    public void RHeroesUpdate(AOWCheckBox Sender, int Slot)
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         Sender.Checked = FRightKind == 1 && Slot + FRightHero == FRightSelection;
         var checkBox = Sender;
@@ -780,9 +780,9 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:652
-    public void RItemsUpdate(TAOWCheckBox Sender, int Slot)
+    public void RItemsUpdate(AOWCheckBox Sender, int Slot)
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         Sender.Checked = FRightKind == 2 && Slot + FRightItem == FRightSelection;
         var checkBox = Sender;
@@ -790,9 +790,9 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:663
-    public void RUnitsUpdate(TAOWCheckBox Sender, int Slot)
+    public void RUnitsUpdate(AOWCheckBox Sender, int Slot)
     {
-        TAoWCampaignTransferSettings S;
+        AoWCampaignTransferSettings S;
         S = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FTransferSettings;
         Sender.Checked = FRightKind == 3 && Slot + FRightUnit == FRightSelection;
         var checkBox = Sender;

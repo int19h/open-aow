@@ -5,21 +5,21 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-public enum TSwarmDirection : byte
+public enum SwarmDirection : byte
 {
-    sdForward = 0,
-    sdBackward = 1
+    Forward = 0,
+    Backward = 1
 }
 
 [LegacyObject]
 // one point, X, Y, Z
-public partial class TXYZ
+public partial class XYZ
 {
     public int X;
     public int Y;
     public int Z;
 
-    public TXYZ()
+    public XYZ()
     {
         CaptureAddress.Assign(this);
     }
@@ -27,16 +27,16 @@ public partial class TXYZ
 
 [LegacyObject]
 // FList, the owned points
-public partial class TXYZList : IDisposable
+public partial class XYZList : IDisposable
 {
 
-    internal TList FList;
+    internal DelphiList FList;
 
     // aowFX.pas:93
-    public TXYZList()
+    public XYZList()
     {
         CaptureAddress.Assign(this);
-        FList = new TList();
+        FList = new DelphiList();
     }
 
     // aowFX.pas:98
@@ -62,7 +62,7 @@ public partial class TXYZList : IDisposable
     }
 
     // aowFX.pas:117
-    public void Add(TXYZ XYZ)
+    public void Add(XYZ XYZ)
     {
         FList.Add(XYZ);
     }
@@ -74,12 +74,12 @@ public partial class TXYZList : IDisposable
     }
 
     // aowFX.pas:128
-    public TXYZ GetXYZ(int Index)
+    public XYZ GetXYZ(int Index)
     {
-        TXYZ Result;
+        XYZ Result;
         if (Index >= 0 && Index < FList.Count)
         {
-            Result = (TXYZ)FList[Index];
+            Result = (XYZ)FList[Index];
         }
         else
         {
@@ -94,15 +94,15 @@ public partial class TXYZList : IDisposable
 
     public int Count { get => GetCount(); }
 
-    public TXYZ this[int Index] { get => GetXYZ(Index); }
+    public XYZ this[int Index] { get => GetXYZ(Index); }
 
-    internal static void ScatterPath(ref TXYZList List)
+    internal static void ScatterPath(ref XYZList List)
     {
         int RX;
         int RY;
         int DX;
         int DY;
-        TXYZ XYZ;
+        XYZ XYZ;
         DX = 0;
         DY = 0;
         for (int I = 1, last = List.Count - 2; I <= last; I++)
@@ -164,8 +164,8 @@ public partial class TfxParticleEffect : TfxParticleObject
 // FParticles, FEffects (never created by this unit)
 public partial class TfxParticleSystem : TfxParticleObject
 {
-    internal TList FParticles;
-    internal TList FEffects;
+    internal DelphiList FParticles;
+    internal DelphiList FEffects;
 
     // aowFX.pas:143
     public TfxParticle GetParticle(int Index)

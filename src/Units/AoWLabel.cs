@@ -10,9 +10,9 @@ namespace Aow.Game.Ui.Controls;
 // { The AoWLabel unit of aowInt.dpl: TAOWLabel, a line of text in an image library font; it
 //   sizes itself to its text. }
 // no fields of its own
-public partial class TAOWLabel : TAOWControl
+public partial class AOWLabel : AOWControl
 {
-    public TAOWLabel(TComponent owner) : base(owner)
+    public AOWLabel(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
     // AoWLabel.pas:38
@@ -36,7 +36,7 @@ public partial class TAOWLabel : TAOWControl
     }
 
     // AoWLabel.pas:72
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         try
         {
@@ -62,7 +62,7 @@ public partial class TAOWLabel : TAOWControl
     }
 
     // AoWLabel.pas:90
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -77,7 +77,7 @@ public partial class TAOWLabel : TAOWControl
     }
 
     // AoWLabel.pas:103
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -91,7 +91,7 @@ public partial class TAOWLabel : TAOWControl
     }
 
     // AoWLabel.pas:115
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseMove(Shift, X, Y);
         FHandled = false;
@@ -112,7 +112,7 @@ public partial class TAOWLabel : TAOWControl
     }
 
     // AoWLabel.pas:53
-    public void SetGFont(TImageLibraryFont Value)
+    public void SetGFont(ImageLibraryFont Value)
     {
         if (Value != FAOWFont)
         {
@@ -133,60 +133,60 @@ public partial class TAOWLabel : TAOWControl
     }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => SetGFont(value); }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => SetGFont(value); }
 
     [Published]
     public string Text { get => FText; set => SetGText(value); }
 
-    public new TNotifyEvent<TAOWLabel> OnChange
+    public new NotifyEvent<AOWLabel> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWLabel> OnMouseDown
+    public new MouseEvent<AOWLabel> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWLabel> OnMouseUp
+    public new MouseEvent<AOWLabel> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWLabel> OnMouseMove
+    public new MouseMoveEvent<AOWLabel> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWLabel> OnKeyPress
+    public new KeyPressEvent<AOWLabel> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWLabel> OnKeyDown
+    public new KeyEvent<AOWLabel> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWLabel> OnPreDraw
+    public new AoWOnDrawEvent<AOWLabel> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWLabel> OnDraw
+    public new AoWOnDrawEvent<AOWLabel> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWLabel> OnUpdate
+    public new NotifyEvent<AOWLabel> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

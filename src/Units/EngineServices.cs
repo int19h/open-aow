@@ -21,17 +21,17 @@ public static class EngineServices
 
     internal const int MaxListSize = 134217727;
 
-    internal const TEControlStyleElement csStored = 0;
+    internal const EControlStyleElement csStored = 0;
 
-    internal const TEControlStyleElement csShared = (TEControlStyleElement)1;
+    internal const EControlStyleElement csShared = (EControlStyleElement)1;
 
-    internal const TEControlStyleElement csReserved2 = (TEControlStyleElement)2;
+    internal const EControlStyleElement csReserved2 = (EControlStyleElement)2;
 
-    internal const TEControlStyleElement csKeepIndex = (TEControlStyleElement)3;
+    internal const EControlStyleElement csKeepIndex = (EControlStyleElement)3;
 
-    internal const TStorageModeElement smText = (TStorageModeElement)2;
+    internal const StorageModeElement smText = (StorageModeElement)2;
 
-    internal const TStorageModeElement smPartial = (TStorageModeElement)3;
+    internal const StorageModeElement smPartial = (StorageModeElement)3;
 
     internal static string ReplaceText(string S, string Old, string New)
     {
@@ -48,12 +48,12 @@ public static class EngineServices
         return Result + S;
     }
 
-    internal static Aow.Game.Engine.TPlugIn GetPlugIn(int Index)
+    internal static Aow.Game.Engine.PlugIn GetPlugIn(int Index)
     {
-        Aow.Game.Engine.TPlugIn Result;
+        Aow.Game.Engine.PlugIn Result;
         if (Aow.Game.Engine.Nodes.EngineHost.PlugIns != null && Index >= 0 && Index < Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count)
         {
-            Result = (Aow.Game.Engine.TPlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[Index];
+            Result = (Aow.Game.Engine.PlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[Index];
         }
         else
         {
@@ -72,14 +72,14 @@ public static class EngineServices
         return crc ^ -1;
     }
 
-    internal static Aow.Game.Engine.TEngine GetEngine(int Index)
+    internal static global::Aow.Game.Engine.Engine GetEngine(int Index)
     {
-        Aow.Game.Engine.TEngine Result;
+        global::Aow.Game.Engine.Engine Result;
         object P;
         if (Aow.Game.Engine.Nodes.EngineHost.Engines != null && Index >= 0 && Index < Aow.Game.Engine.Nodes.EngineHost.Engines.Count)
         {
             P = Aow.Game.Engine.Nodes.EngineHost.Engines[Index];
-            Result = (Aow.Game.Engine.TEngine)P;
+            Result = (global::Aow.Game.Engine.Engine)P;
         }
         else
         {
@@ -89,25 +89,25 @@ public static class EngineServices
         return Result;
     }
 
-    internal static Aow.Game.Engine.TEngine FindEngine(int AClassID)
+    internal static global::Aow.Game.Engine.Engine FindEngine(int AClassID)
     {
         int I;
         bool Found;
         Found = false;
-        Aow.Game.Engine.TEngine Result = null;
+        global::Aow.Game.Engine.Engine Result = null;
         if (Aow.Game.Engine.Nodes.EngineHost.Engines != null)
         {
             I = 0;
             Found = false;
             while (!Found && I < Aow.Game.Engine.Nodes.EngineHost.Engines.Count)
             {
-                Found = AClassID == ((TEObject)Aow.Game.Engine.Nodes.EngineHost.Engines[I]).EClass.ClassID;
+                Found = AClassID == ((EObject)Aow.Game.Engine.Nodes.EngineHost.Engines[I]).EClass.ClassID;
                 I += 1;
             }
 
             if (Found)
             {
-                Result = (Aow.Game.Engine.TEngine)Aow.Game.Engine.Nodes.EngineHost.Engines[I - 1];
+                Result = (global::Aow.Game.Engine.Engine)Aow.Game.Engine.Nodes.EngineHost.Engines[I - 1];
             }
         }
 
@@ -127,11 +127,11 @@ public static class EngineServices
         Stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, Len));
     }
 
-    internal static void ExchangeLinkedStrings(TList Lists, int I, int J)
+    internal static void ExchangeLinkedStrings(DelphiList Lists, int I, int J)
     {
         for (int K = Lists.Count - 1; K >= 0; K--)
         {
-            ((TStrings)Lists.List[K]).Exchange(I, J);
+            ((StringCollection)Lists.List[K]).Exchange(I, J);
         }
     }
 
@@ -163,7 +163,7 @@ public static class EngineServices
         }
     }
 
-    internal static void FillLargeInteger(Span<TLargeInteger> buffer, int count, TLargeInteger value) => Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
+    internal static void FillLargeInteger(Span<LargeInteger> buffer, int count, LargeInteger value) => Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
 
     internal static void Fill<T>(Span<T> buffer, int count, T value)
     {

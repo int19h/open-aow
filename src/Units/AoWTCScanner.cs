@@ -9,25 +9,25 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTCScanner : TDataModule
+public partial class TCScanner : DataModule
 {
-    public TTCScanner(TComponent owner) : base(owner)
+    public TCScanner(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow TCScannerWin;
-    public TAoWFrame ScannerFr;
-    public TScanner Scanner;
-    public TAOWImage STitleIcon;
-    public TAOWLabel STitleLabel;
-    public TAOWButton SMinIcon;
-    public TIvTranslator Translator;
+    public AOWWindow TCScannerWin;
+    public AoWFrame ScannerFr;
+    public global::Aow.Game.Ui.Grids.Scanner Scanner;
+    public AOWImage STitleIcon;
+    public AOWLabel STitleLabel;
+    public AOWButton SMinIcon;
+    public IvTranslator Translator;
 
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != -1)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
         {
             Scanner.SetTWidth(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth / 32);
             Scanner.SetTHeight(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight / 32);

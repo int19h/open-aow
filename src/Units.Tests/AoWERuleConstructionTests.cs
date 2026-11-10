@@ -28,7 +28,7 @@ public sealed partial class AoWERuleConstructionTests
         internal readonly List<string> Observations = [];
         internal bool Reject = false;
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             base.AddChild(child);
             Observations.Add(Snapshot(child));
@@ -36,36 +36,36 @@ public sealed partial class AoWERuleConstructionTests
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(TEObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
+        public override int RemoveChild(EObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
     }
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWHSSet previousSet = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
-        internal readonly TAoWHSMap Map;
+        private readonly AoWHSSet previousSet = Aow.Game.Engine.AoWHSSet.Current;
+        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
+        internal readonly AoWHSMap Map;
 
         internal Fixture()
         {
             Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
-            Map = new TAoWHSMap(null!);
+            Map = new AoWHSMap(null!);
             var set = EngineFixture.CreateGameSet(Manager);
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet = set;
+            Aow.Game.Engine.AoWHSSet.Current = set;
             Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
-            Map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
-            Map.FRaces = new TRaceList(null!);
-            Map.FUnitControl = new TUnitControl(null!);
-            Map.FHeroControl = new THeroControl(null!);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
+            Map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
+            Map.FRaces = new RaceList(null!);
+            Map.FUnitControl = new UnitControl(null!);
+            Map.FHeroControl = new HeroControl(null!);
+            Aow.Game.World.Map.AoWHSMap.Current = Map;
         }
 
         public void Dispose()
         {
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet = previousSet;
+            Aow.Game.Engine.AoWHSSet.Current = previousSet;
             Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
+            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
             Manager.Dispose();
             Map.FRaces.Dispose();
             Map.FUnitControl.Dispose();
@@ -79,7 +79,7 @@ public sealed partial class AoWERuleConstructionTests
         object? State(object? item, string path)
         {
             if (item is null) return null;
-            if (item is TAoWEngine) return "$engine";
+            if (item is AoWEngine) return "$engine";
             Type type = item.GetType();
             if (item is string text) return text;
             if (type.IsEnum) return Convert.ToInt64(item);
@@ -117,36 +117,36 @@ public sealed partial class AoWERuleConstructionTests
 
     private static void AssertPrivateArrayChildren(object value)
     {
-        if (value is TAbilityControl control)
+        if (value is AbilityControl control)
             for (int i = 0; i < 5; i++) Assert.Equal(0, control.FAbilitiesByType[i].Count);
-        if (value is TUnitResource resource)
+        if (value is UnitResource resource)
             for (int i = 0; i < 3; i++)
             {
                 Assert.NotNull(resource.FAbilities[i]);
                 if (i > 0) Assert.NotSame(resource.FAbilities[0], resource.FAbilities[i]);
             }
-        if (value is TUnitGFXResource graphics)
+        if (value is UnitGFXResource graphics)
             for (int i = 0; i < 5; i++) Assert.NotNull(graphics.FSFXLibraries[i]);
-        if (value is TCombatPredictor predictor)
+        if (value is CombatPredictor predictor)
         {
             Assert.NotNull(predictor.FSides[0]);
             Assert.NotNull(predictor.FSides[1]);
             Assert.NotSame(predictor.FSides[0], predictor.FSides[1]);
         }
-        if (value is TSpellCastingAbility casting)
+        if (value is SpellCastingAbility casting)
             for (int i = 1; i <= 5; i++) Assert.Equal(20, casting.FLevelCosts[i]);
-        if (value is TLeadershipAbility leadership) Assert.Equal(10, leadership.FLevelCosts[1]);
+        if (value is LeadershipAbility leadership) Assert.Equal(10, leadership.FLevelCosts[1]);
     }
 
-    private static object Create(Type type, TECustomNode owner, int route, Fixture fixture)
+    private static object Create(Type type, ECustomNode owner, int route, Fixture fixture)
     {
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
             if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-            using var engine = new TEngine(null!);
+            using var engine = new Engine(null!);
             var meta = EClass.Of(type);
-            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
@@ -155,20 +155,20 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 3)
         {
             var meta = Aow.Game.Engine.EClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
-        var constructor = typeof(TEObject).IsAssignableFrom(type) ? type.GetConstructor([typeof(TECustomNode)]) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
+        var constructor = typeof(EObject).IsAssignableFrom(type) ? type.GetConstructor([typeof(ECustomNode)]) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
         Assert.True(factory is not null || constructor is not null, type.Name + " needs its own completed creation signature.");
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
-        object?[] args = parameters.Select(p => p.ParameterType == typeof(TECustomNode) ? owner
+        object?[] args = parameters.Select(p => p.ParameterType == typeof(ECustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
-            : p.ParameterType == typeof(THSMap) ? fixture.Map
-            : p.ParameterType == typeof(TFastCombat) ? new TFastCombat(null!)
-            : p.ParameterType == typeof(TCombatSide) ? new TCombatSide(null!)
+            : p.ParameterType == typeof(HSMap) ? fixture.Map
+            : p.ParameterType == typeof(FastCombat) ? new FastCombat(null!)
+            : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!)
             : null).ToArray();
         try { return (object)Invoke(() => factory is not null ? factory.Invoke(null, args) : constructor!.Invoke(args))!; }
-        finally { foreach (object? arg in args) if (arg is TFastCombat or TCombatSide) ((((object)arg) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
+        finally { foreach (object? arg in args) if (arg is FastCombat or CombatSide) ((((object)arg) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
     }
 
     private static object? Invoke(Func<object?> action)
@@ -182,18 +182,18 @@ public sealed partial class AoWERuleConstructionTests
     }
 
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
-    public static IEnumerable<object[]> EngineClasses => Classes.Where(row => typeof(TEObject).IsAssignableFrom(TypeNamed((string)row[0])));
+    public static IEnumerable<object[]> EngineClasses => Classes.Where(row => typeof(EObject).IsAssignableFrom(TypeNamed((string)row[0])));
 
     // The AoWE unit namespace is gone. The simple name is enough while it names one type.
     private static Type TypeNamed(string name)
     {
-        var matches = typeof(TSpell).Assembly.GetTypes().Where(type => type.Name == name).ToArray();
+        var matches = typeof(Spell).Assembly.GetTypes().Where(type => type.Name == name).ToArray();
         if (matches.Length != 1)
             throw new InvalidOperationException(name + " matches " + matches.Length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " types.");
         return matches[0];
     }
 
-    public static IEnumerable<object[]> FormerlyGuardedClasses => new[] { "TAbility", "TAdjustableAbility", "TArmyHS", "TBoltsAbility", "TBreathAbility", "TCastingPointsReturnViewP4", "TCharmAbility", "TCharmedAbility", "TCommandAbility", "TCommandedAbility", "TConstructAbility", "TCosmeticSurgeryAbility", "TDispelMagicAbility", "TDominateAbility", "TDominatedAbility", "TDurationAbility", "TDurationReturnView", "TEnhancementAbility", "TEntangleAbility", "TFlameThrowingAbility", "THealingAbility", "TInvokeDeathAbility", "TLeadershipAbility", "TMultiLevelAbility", "TPossessAbility", "TPossessedAbility", "TRangedAttackAbility", "TRoundAttackAbility", "TSeduceAbility", "TSeducedAbility", "TSelfDestructAbility", "TSpell", "TSpellCastingAbility", "TStrikeAbility", "TStrikeEnhancementAbility", "TTouchAbility", "TTransportAbility", "TTurnUndeadAbility", "TUnitEnchantmentAbility", "TUnitSpell", "TWallCrushingAbility", "TWebAbility" }.Select(name => new object[] { name });
+    public static IEnumerable<object[]> FormerlyGuardedClasses => new[] { "Ability", "AdjustableAbility", "ArmyHS", "BoltsAbility", "BreathAbility", "CastingPointsReturnViewP4", "CharmAbility", "CharmedAbility", "CommandAbility", "CommandedAbility", "ConstructAbility", "CosmeticSurgeryAbility", "DispelMagicAbility", "DominateAbility", "DominatedAbility", "DurationAbility", "DurationReturnView", "EnhancementAbility", "EntangleAbility", "FlameThrowingAbility", "HealingAbility", "InvokeDeathAbility", "LeadershipAbility", "MultiLevelAbility", "PossessAbility", "PossessedAbility", "RangedAttackAbility", "RoundAttackAbility", "SeduceAbility", "SeducedAbility", "SelfDestructAbility", "Spell", "SpellCastingAbility", "StrikeAbility", "StrikeEnhancementAbility", "TouchAbility", "TransportAbility", "TurnUndeadAbility", "UnitEnchantmentAbility", "UnitSpell", "WallCrushingAbility", "WebAbility" }.Select(name => new object[] { name });
 
     [Theory]
     [MemberData(nameof(Classes))]
@@ -201,7 +201,7 @@ public sealed partial class AoWERuleConstructionTests
     {
         Type type = TypeNamed(name);
         using var fixture = new Fixture();
-        bool engineObject = typeof(TEObject).IsAssignableFrom(type);
+        bool engineObject = typeof(EObject).IsAssignableFrom(type);
         for (int route = 0; route < (engineObject ? 4 : 1); route++)
         {
             var owner = new RuleOwner();
@@ -236,7 +236,7 @@ public sealed partial class AoWERuleConstructionTests
         string? expected = null;
         for (int route = 0; route < 4; route++)
         {
-            var value = (TEObject)Create(type, null!, route, fixture);
+            var value = (EObject)Create(type, null!, route, fixture);
             Assert.IsType(type, value);
             Assert.Null(value.Owner);
             Assert.Same(Aow.Game.Engine.EClass.Of(type), value.EClass);
@@ -248,7 +248,7 @@ public sealed partial class AoWERuleConstructionTests
         }
     }
 
-    private sealed class ObservedAISettings(TECustomNode owner) : TAIMoveControlSettings(owner)
+    private sealed class ObservedAISettings(ECustomNode owner) : AIMoveControlSettings(owner)
     {
         internal bool SawInitializedFields;
 
@@ -259,11 +259,11 @@ public sealed partial class AoWERuleConstructionTests
         }
     }
 
-    private sealed class ObservedSelector : TMoveSelector
+    private sealed class ObservedSelector : MoveSelector
     {
         internal bool SawPreAssignmentFields;
 
-        public override TMoveControlSettings CreateMCS()
+        public override MoveControlSettings CreateMCS()
         {
             SawPreAssignmentFields = FMoveControlSettings is null && FMoveSettingsList is null && FCurrentMove == 0 && FMap is null;
             return base.CreateMCS();
@@ -289,8 +289,8 @@ public sealed partial class AoWERuleConstructionTests
     [Fact]
     public void DictionaryContinuesToIgnoreItsComponentOwner()
     {
-        using var owner = new TComponent(null!);
-        using var dictionary = new TAoWDictionary(owner);
+        using var owner = new global::Aow.Rtl.Component(null!);
+        using var dictionary = new AoWDictionary(owner);
         Assert.Equal(0, owner.ComponentCount);
     }
 
@@ -298,10 +298,10 @@ public sealed partial class AoWERuleConstructionTests
     public void TacticalSelectorConstructorKeepsVirtualSettingsOrder()
     {
         using var fixture = new Fixture();
-        var value = new Aow.Game.Combat.TCombatUnitSelectionControl();
+        var value = new Aow.Game.Combat.CombatUnitSelectionControl();
         try
         {
-            Assert.IsType<Aow.Game.Combat.TCombatMoveControlSettings>(value.FMoveControlSettings);
+            Assert.IsType<Aow.Game.Combat.CombatMoveControlSettings>(value.FMoveControlSettings);
             Assert.NotNull(value.FMoveControlSettings.FPath);
             Assert.NotNull(value.FMoveControlSettings.FSubMoves);
             Assert.NotNull(value.FMoveControlSettings.FUnits);
@@ -320,12 +320,12 @@ public sealed partial class AoWERuleConstructionTests
         {
             using var fixture = new Fixture();
             var owner = new RuleOwner();
-            var value = Assert.IsAssignableFrom<TEObject>(Create(type, owner, route, fixture));
+            var value = Assert.IsAssignableFrom<EObject>(Create(type, owner, route, fixture));
             Assert.IsType(type, value);
             Assert.Same(owner, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Equal(0, owner.Removals);
-            if (value is TArmyHS army) Assert.NotNull(army.FArmy);
+            if (value is ArmyHS army) Assert.NotNull(army.FArmy);
             value.SetOwner(null!);
             value.Dispose();
             Assert.Empty(owner.Members);

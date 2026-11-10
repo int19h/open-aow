@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TMWindow : ILayoutModule
+public partial class MWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TMWindow : ILayoutModule
         session.Begin(this);
         Name = "MWindow";
         LayoutOnCreate = _ => Layout_MWindowCreate_0();
-        MapWindow = new TAOWWindow(this);
+        MapWindow = new AOWWindow(this);
         session.BeginRead(MapWindow);
         MapWindow.Name = "MapWindow";
         MapWindow.OnMouseDown = (_, button, shift, x, y) => MapWindowMouseDown(button, shift, x, y);
@@ -34,8 +34,8 @@ public partial class TMWindow : ILayoutModule
         MapWindow.WinWidth = 440;
         MapWindow.OnExit = _ => MapWindowExit();
         MapWindow.Masked = false;
-        MapWindow.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        MapWindow.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        MapWindow.Alignment.AlignWidth = AOWAlignWidth.Left;
+        MapWindow.Alignment.AlignHeight = AOWAlignHeight.Top;
         MapWindow.Alignment.HeightPercent = 0;
         MapWindow.Alignment.WidthPercent = 0;
         MapWindow.Alignment.LeftOffPercent = 0;
@@ -70,7 +70,7 @@ public partial class TMWindow : ILayoutModule
         MapWindow.WinHeight = 432;
         MapWindow.Dockable = false;
         session.EndRead(MapWindow);
-        MapViewer = new THSMapViewer(this);
+        MapViewer = new HSMapViewer(this);
         session.BeginRead(MapViewer);
         MapViewer.Name = "MapViewer";
         MapViewer.OnSceneChanged = _ => Layout_MapViewerSceneChanged_7();

@@ -25,47 +25,47 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // item offset, completion event, item event
-public partial class TItemsFoundDlg : TDataModule
+public partial class ItemsFoundDlg : DataModule
 {
-    public TItemsFoundDlg(TComponent owner) : base(owner)
+    public ItemsFoundDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWLabel TitleLbl;
-    public TAOWPanel PickupPnl;
-    public TAOWButton PickupBtn;
-    public TAOWButton CloseBtn;
-    public TAoWFrame BCeltL;
-    public TAoWFrame TCeltL;
-    public TAOWImage TCeltLineL;
-    public TAOWImage AOWImage1;
-    public TAOWImage AOWImage2;
-    public TAOWButton CloseBtn2;
-    public TAOWPanel OKPnl;
-    public TAOWMemo MessageMemo;
-    public TAOWVScrollBar MessageMemoSB;
-    public TAOWPanel MemoPnl;
-    public TIvTranslator Translator;
-    public TAOWCheckBox Gnd3;
-    public TAOWCheckBox Gnd2;
-    public TAOWCheckBox Gnd1;
-    public TAOWCheckBox Gnd4;
-    public TAOWCheckBox Gnd5;
-    public TAOWButton LeftBtn;
-    public TAOWButton RightBtn;
+    public AOWWindow Dlg;
+    public AOWLabel TitleLbl;
+    public AOWPanel PickupPnl;
+    public AOWButton PickupBtn;
+    public AOWButton CloseBtn;
+    public AoWFrame BCeltL;
+    public AoWFrame TCeltL;
+    public AOWImage TCeltLineL;
+    public AOWImage AOWImage1;
+    public AOWImage AOWImage2;
+    public AOWButton CloseBtn2;
+    public AOWPanel OKPnl;
+    public AOWMemo MessageMemo;
+    public AOWVScrollBar MessageMemoSB;
+    public AOWPanel MemoPnl;
+    public IvTranslator Translator;
+    public AOWCheckBox Gnd3;
+    public AOWCheckBox Gnd2;
+    public AOWCheckBox Gnd1;
+    public AOWCheckBox Gnd4;
+    public AOWCheckBox Gnd5;
+    public AOWButton LeftBtn;
+    public AOWButton RightBtn;
     public int FItemOffset;
-    public TExecuteDoneEvent FOnDone;
-    public TItemExplorationSiteEventLog FEvent;
+    public ExecuteDoneEvent FOnDone;
+    public ItemExplorationSiteEventLog FEvent;
 
     // AoWItemsFoundDlg.pas:80
-    public THero GetHero()
+    public Hero GetHero()
     {
-        TArmyHS Army;
-        THero Result = null;
+        ArmyHS Army;
+        Hero Result = null;
         if (FEvent != null)
         {
-            Army = ((TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FEvent.FLocation))).GetArmyHS();
-            if (Army != null && Army.FArmy.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
+            Army = ((AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<XYL, int>(ref FEvent.FLocation))).GetArmyHS();
+            if (Army != null && Army.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
             {
                 Result = Army.FArmy.Hero(255, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
             }
@@ -77,8 +77,8 @@ public partial class TItemsFoundDlg : TDataModule
     // AoWItemsFoundDlg.pas:66
     public void Finish()
     {
-        TExecuteDoneEvent Done;
-        TItemExplorationSiteEventLog Event;
+        ExecuteDoneEvent Done;
+        ItemExplorationSiteEventLog Event;
         Dlg.Visible = false;
         Done = FOnDone;
         Event = FEvent;
@@ -116,17 +116,17 @@ public partial class TItemsFoundDlg : TDataModule
     }
 
     // AoWItemsFoundDlg.pas:95
-    public void Gnd3Draw(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
+    public void Gnd3Draw(AOWCheckBox Sender, SurfaceDesc SD, int Slot)
     {
-        TItemExplorationSiteEventLog Event;
-        TItem Item;
+        ItemExplorationSiteEventLog Event;
+        Item Item;
         Event = FEvent;
         if (Event != null)
         {
             if (Slot + FItemOffset < Event.FItemIDs.Count)
             {
                 var itemID = FEvent.FItemIDs[Slot + FItemOffset];
-                Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.FindItem(itemID);
+                Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(itemID);
                 if (Item != null)
                 {
                     Item.Show(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, SD);
@@ -138,23 +138,23 @@ public partial class TItemsFoundDlg : TDataModule
     // AoWItemsFoundDlg.pas:110
     public void PickupBtnClick()
     {
-        THero Hero;
-        TTutorialMessageEventLog Event;
+        Hero Hero;
+        TutorialMessageEventLog Event;
         Hero = GetHero();
         if (Hero != null)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = Hero;
             Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
             Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Selected = 2;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameType == TGameType.gtTutorial)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FGameType == GameType.Tutorial)
             {
-                Event = new TTutorialMessageEventLog(null);
+                Event = new TutorialMessageEventLog(null);
                 Event.FHelpFileName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TutorialRStr);
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTextControl.FindID(55) != null)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FTextControl.FindID(55) != null)
                 {
-                    var id = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTextControl.FindID(55);
+                    var id = Aow.Game.World.Map.AoWHSMap.Current.FTextControl.FindID(55);
                     Event.FMessage.Assign(id.FText);
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Event, true, null);
+                    Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Event, true, null);
                 }
 
                 Event.Release();
@@ -165,22 +165,22 @@ public partial class TItemsFoundDlg : TDataModule
     }
 
     // AoWItemsFoundDlg.pas:136
-    public void Gnd3MouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
+    public void Gnd3MouseDown(AOWCheckBox Sender, MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
     {
-        TItem Item;
-        TAOWCheckBox Box;
+        Item Item;
+        AOWCheckBox Box;
         Box = Sender;
-        if (Button == TMouseButton.mbRight)
+        if (Button == MouseButton.Right)
         {
             Box.PopupMenu = null;
             if (FItemOffset + Slot < FEvent.FItemIDs.Count)
             {
                 var itemID = FEvent.FItemIDs[FItemOffset + Slot];
-                Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.FindItem(itemID);
+                Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(itemID);
                 if (Item != null)
                 {
                     Box.PopupMenu = Aow.Game.Ui.Dialogs.DialogHosts.ItemBanner.IBannerPopup;
-                    Aow.Game.Ui.Dialogs.TItemBanner.ItemID = Item.FItemID;
+                    Aow.Game.Ui.Dialogs.ItemBanner.ItemID = Item.FItemID;
                 }
             }
         }
@@ -207,7 +207,7 @@ public partial class TItemsFoundDlg : TDataModule
     }
 
     // AoWItemsFoundDlg.pas:173
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -215,9 +215,9 @@ public partial class TItemsFoundDlg : TDataModule
         }
     }
 
-    internal static void ShowItemsFound(TItemsFoundDlg Dialog, TItemExplorationSiteEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowItemsFound(ItemsFoundDlg Dialog, ItemExplorationSiteEventLog Event, ExecuteDoneEvent Done)
     {
-        TItemExplorationSiteEventLog Log;
+        ItemExplorationSiteEventLog Log;
         Dialog.Reset();
         Dialog.FOnDone = Done;
         Dialog.FEvent = Event;
@@ -237,7 +237,7 @@ public partial class TItemsFoundDlg : TDataModule
             Dialog.PickupPnl.Visible = true;
         }
 
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(54, true, true);
+        Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(54, true, true);
         Dialog.Dlg.FDrawn = false;
         Dialog.Dlg.Visible = true;
     }

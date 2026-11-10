@@ -9,17 +9,17 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Windows;
 
 // whole-menu image library
-public partial class TStartMenu : TAOWMenu
+public partial class StartMenu : AOWMenu
 {
-    public TStartMenu(TComponent owner) : base(owner)
+    public StartMenu(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TImageLibrary FILWholeMenu;
+    public ImageLibrary FILWholeMenu;
 
     // StartMenu.pas:30
     public override void SetSize()
     {
-        TAOWWinManager M;
+        AOWWinManager M;
         base.SetSize();
         FWinHeight = 377;
         M = FWinManager;
@@ -34,8 +34,8 @@ public partial class TStartMenu : TAOWMenu
     // StartMenu.pas:41
     public override void SetVisible(bool Value)
     {
-        TAOWWinManager M = default;
-        TAOWMenuBar B = default;
+        AOWWinManager M = default;
+        AOWMenuBar B = default;
         if (Value != FVisible)
         {
             FVisible = Value;
@@ -96,9 +96,9 @@ public partial class TStartMenu : TAOWMenu
     }
 
     // StartMenu.pas:87
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect OldClip = default;
+        global::Aow.Rtl.Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -137,7 +137,7 @@ public partial class TStartMenu : TAOWMenu
                             var ilFrame3 = FILFrame[FILIndexFrame + 1];
                             var ilFrame4 = FILFrame[FILIndexFrame + 1];
                             var ilFrame5 = FILFrame[FILIndexFrame + 3];
-                            FDrawItemRect = Rect(FWinLeft + ilFrame5.Width, FWinTop + ilFrame4.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame3.Height + (I + 1) * FItemHeight);
+                            FDrawItemRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame5.Width, FWinTop + ilFrame4.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame3.Height + (I + 1) * FItemHeight);
                             if (FOnDrawItem != null)
                             {
                                 FOnDrawItem(this);
@@ -161,7 +161,7 @@ public partial class TStartMenu : TAOWMenu
     }
 
     // StartMenu.pas:123
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         if (FValid)
         {
@@ -174,117 +174,117 @@ public partial class TStartMenu : TAOWMenu
     }
 
     [Published]
-    public TImageLibrary ILWholeMenu { get => FILWholeMenu; set => FILWholeMenu = value; }
+    public ImageLibrary ILWholeMenu { get => FILWholeMenu; set => FILWholeMenu = value; }
 
-    public new TNotifyEvent<TStartMenu> OnChange
+    public new NotifyEvent<StartMenu> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TStartMenu> OnMouseDown
+    public new MouseEvent<StartMenu> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TStartMenu> OnMouseUp
+    public new MouseEvent<StartMenu> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TStartMenu> OnMouseMove
+    public new MouseMoveEvent<StartMenu> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TStartMenu> OnKeyPress
+    public new KeyPressEvent<StartMenu> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TStartMenu> OnKeyDown
+    public new KeyEvent<StartMenu> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TStartMenu> OnPreDraw
+    public new AoWOnDrawEvent<StartMenu> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TStartMenu> OnDraw
+    public new AoWOnDrawEvent<StartMenu> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TStartMenu> OnUpdate
+    public new NotifyEvent<StartMenu> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
-    public new TAoWOnDrawBackEvent<TStartMenu> OnDrawBack
+    public new AoWOnDrawBackEvent<StartMenu> OnDrawBack
     {
         get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
-    public new TNotifyEvent<TStartMenu> OnEnter
+    public new NotifyEvent<StartMenu> OnEnter
     {
         get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
-    public new TNotifyEvent<TStartMenu> OnExit
+    public new NotifyEvent<StartMenu> OnExit
     {
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
 
-    public new TNotifyEvent<TStartMenu> OnChangeCursor
+    public new NotifyEvent<StartMenu> OnChangeCursor
     {
         get => EventSlot.Get(this, FOnChangeCursor);
         set => EventSlot.Set(this, ref FOnChangeCursor, value);
     }
 
-    public new TAoWOnDrawSurface<TStartMenu> OnDrawSurface
+    public new AoWOnDrawSurface<StartMenu> OnDrawSurface
     {
         get => EventSlot.Get(this, FOnDrawSurface);
         set => EventSlot.Set(this, ref FOnDrawSurface, value);
     }
 
-    public new TAoWOnDrawSurface<TStartMenu> OnPreDrawSurface
+    public new AoWOnDrawSurface<StartMenu> OnPreDrawSurface
     {
         get => EventSlot.Get(this, FOnPreDrawSurface);
         set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
     }
 
-    public new TNotifyEvent<TStartMenu> OnHide
+    public new NotifyEvent<StartMenu> OnHide
     {
         get => EventSlot.Get(this, FOnHide);
         set => EventSlot.Set(this, ref FOnHide, value);
     }
 
-    public new TNotifyEvent<TStartMenu> OnShow
+    public new NotifyEvent<StartMenu> OnShow
     {
         get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);
     }
 
-    public new TNotifyEvent<TStartMenu> OnDrawItem
+    public new NotifyEvent<StartMenu> OnDrawItem
     {
         get => EventSlot.Get(this, FOnDrawItem);
         set => EventSlot.Set(this, ref FOnDrawItem, value);
     }
 
-    public new TNotifyEvent<TStartMenu> OnSelect
+    public new NotifyEvent<StartMenu> OnSelect
     {
         get => EventSlot.Get(this, FOnSelect);
         set => EventSlot.Set(this, ref FOnSelect, value);

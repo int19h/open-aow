@@ -70,7 +70,7 @@ internal static class Verification
         var mapper = new InputMapper();
         foreach (int scan in new[] { 40, 42, 41, 43 }) mapper.Key(0, scan, 3 | 192 | 768, true, sink);
         Check(sink.Characters.SequenceEqual(new byte[] { 13, 8, 27, 9 }), "synthesized WM_CHAR controls");
-        Check(sink.Shift.Contains(TShiftState.ssShift) && sink.Shift.Contains(TShiftState.ssCtrl) && sink.Shift.Contains(TShiftState.ssAlt), "key modifiers");
+        Check(sink.Shift.Contains(ShiftState.Shift) && sink.Shift.Contains(ShiftState.Ctrl) && sink.Shift.Contains(ShiftState.Alt), "key modifiers");
         mapper.Key('a', 4, 0, true, sink);
         mapper.Key('a', 4, 0, true, sink);
         mapper.Key('a', 4, 0, false, sink);
@@ -108,7 +108,7 @@ internal static class Verification
         mapper.Button(1, false, 150, 10, 10, one, sink);
         mapper.Button(1, true, 600, 14, 14, one, sink);
         Check(sink.Trace.SequenceEqual(new[] { "down", "up", "double", "down" }), "VCL double before second down at threshold");
-        Check(sink.Shift.Contains(TShiftState.ssDouble) && sink.Shift.Contains(TShiftState.ssLeft), "double and button shift flags");
+        Check(sink.Shift.Contains(ShiftState.Double) && sink.Shift.Contains(ShiftState.Left), "double and button shift flags");
         mapper.Button(1, false, 601, 14, 14, one, sink);
         mapper.Button(1, true, 602, 14, 14, one, sink);
         Equal(1, sink.Doubles, "triple click starts a new pair");
@@ -127,7 +127,7 @@ internal static class Verification
         mapper.Button(3, false, 20, 10, 10, one, sink);
         mapper.Button(3, true, 30, 10, 10, one, sink);
         Equal(2, sink.Doubles, "right double click");
-        Check(sink.Shift.Contains(TShiftState.ssRight), "right shift state");
+        Check(sink.Shift.Contains(ShiftState.Right), "right shift state");
         Console.WriteLine("P2 PASS: virtual keys, repeats, controls, CP1252, modifiers, buttons, double clicks and letterbox exits");
     }
 
@@ -138,19 +138,19 @@ internal static class Verification
         try
         {
             RtlUnit.Settings = new JsonSettingsStore(directory);
-            var registry = new TAoWRegistry();
+            var registry = new AoWRegistry();
             Equal(0xffUL, registry.GetClassicWindowPopupEvents().Mask, "classic popup default");
             Equal(0xefUL, registry.GetSimultaneousWindowPopupEvents().Mask, "simultaneous popup default");
-            registry.SetClassicWindowPopupEvents(TSet<TWindowPopupEvent>.FromMask(0x81));
-            registry.SetSimultaneousWindowPopupEvents(TSet<TWindowPopupEvent>.FromMask(0x42));
+            registry.SetClassicWindowPopupEvents(Set<WindowPopupEvent>.FromMask(0x81));
+            registry.SetSimultaneousWindowPopupEvents(Set<WindowPopupEvent>.FromMask(0x42));
             RtlUnit.Settings = new JsonSettingsStore(directory);
-            registry = new TAoWRegistry();
+            registry = new AoWRegistry();
             Equal(0x81UL, registry.GetClassicWindowPopupEvents().Mask, "classic popup persisted byte");
             Equal(0x42UL, registry.GetSimultaneousWindowPopupEvents().Mask, "simultaneous popup persisted byte");
             // Use a fresh store for the complete missing-value battery.
             directory = Path.Combine(scratch, "settings-defaults");
             RtlUnit.Settings = new JsonSettingsStore(directory);
-            registry = new TAoWRegistry();
+            registry = new AoWRegistry();
             Equal(640, registry.GetDisplayWidth(), "missing width default");
             Equal(480, registry.GetDisplayHeight(), "missing height default");
             Equal(50, registry.GetMusicVolume(), "missing volume default");
@@ -177,11 +177,11 @@ internal static class Verification
                 {
                     switch (kind)
                     {
-                        case "integer": int number = 37; registry.rwInteger(section, name, ref number, TReadWriteMode.rwRead); Equal(37, number, "missing integer keeps getter default"); break;
-                        case "boolean": bool flag = true; registry.rwBool(section, name, ref flag, TReadWriteMode.rwRead); Equal(true, flag, "missing bool keeps getter default"); break;
-                        case "string": string text = "default"; registry.rwString(section, name, ref text, TReadWriteMode.rwRead); Equal("default", text, "missing string keeps getter default"); break;
-                        case "rectangle": TRect rect = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rect, TReadWriteMode.rwRead); Equal(7, rect.Left, "missing rectangle keeps getter default"); break;
-                        case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section, name, bytes, 1, TReadWriteMode.rwRead); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
+                        case "integer": int number = 37; registry.rwInteger(section, name, ref number, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(37, number, "missing integer keeps getter default"); break;
+                        case "boolean": bool flag = true; registry.rwBool(section, name, ref flag, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(true, flag, "missing bool keeps getter default"); break;
+                        case "string": string text = "default"; registry.rwString(section, name, ref text, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
+                        case "rectangle": Rect rect = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rect, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(7, rect.Left, "missing rectangle keeps getter default"); break;
+                        case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section, name, bytes, 1, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
                     }
                 }
             foreach (var (section, kind, names) in schemas)
@@ -200,7 +200,7 @@ internal static class Verification
                     count++;
                 }
             RtlUnit.Settings = new JsonSettingsStore(directory);
-            registry = new TAoWRegistry();
+            registry = new AoWRegistry();
             foreach (var (section, kind, names) in schemas)
                 foreach (string name in names)
                 {
@@ -310,7 +310,7 @@ internal static class Verification
                 @"Scenario\Custom\base.hsm", @"Scenario\Campaign\x.hsm"), "shim relative path");
             Equal(Path.Combine(root, "Images", "x.ilb"), RtlUnit.ExtractRelativePath(
                 "", Path.Combine(root, "Images", "x.ilb")), "empty base keeps the destination");
-            var search = new TSearchRec();
+            var search = new SearchRec();
             Equal(0, RtlUnit.FindFirst(@"Images\*.ilb", 0, ref search), "shim FindFirst");
             Equal("a.ilb", search.Name, "FindFirst order");
             RtlUnit.FindClose(ref search);
@@ -424,20 +424,20 @@ internal static class Verification
         public List<(int, int)> Moves { get; } = [];
         public List<string> Trace { get; } = [];
 
-        public TSet<TShiftState> Shift;
+        public Set<ShiftState> Shift;
         public ushort ReleasedKey;
         public int Doubles;
 
-        public void KeyDown(ushort key, TSet<TShiftState> shift) { Keys.Add(key); Shift = shift; }
+        public void KeyDown(ushort key, Set<ShiftState> shift) { Keys.Add(key); Shift = shift; }
 
-        public void KeyUp(ushort key, TSet<TShiftState> shift) => ReleasedKey = key;
+        public void KeyUp(ushort key, Set<ShiftState> shift) => ReleasedKey = key;
         public void KeyPress(byte value) => Characters.Add(value);
 
-        public void MouseMove(TSet<TShiftState> shift, int x, int y) { Moves.Add((x, y)); Shift = shift; }
+        public void MouseMove(Set<ShiftState> shift, int x, int y) { Moves.Add((x, y)); Shift = shift; }
 
-        public void MouseDown(TMouseButton button, TSet<TShiftState> shift, int x, int y) { Trace.Add("down"); Shift = shift; }
+        public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { Trace.Add("down"); Shift = shift; }
 
-        public void MouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y) { Trace.Add("up"); Shift = shift; }
+        public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y) { Trace.Add("up"); Shift = shift; }
 
         public void DoubleClick() { Trace.Add("double"); Doubles++; }
     }

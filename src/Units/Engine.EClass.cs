@@ -10,9 +10,9 @@ namespace Aow.Game.Engine;
 public sealed class EClass
 {
     private static readonly Catalog<Type, EClass> catalog = new("engine class");
-    private Func<TECustomNode, TEObject> create;
+    private Func<ECustomNode, EObject> create;
 
-    private EClass(Type type, int classId, EClass parent, Func<TECustomNode, TEObject> create, int instanceSize)
+    private EClass(Type type, int classId, EClass parent, Func<ECustomNode, EObject> create, int instanceSize)
     {
         Type = type;
         ClassID = classId;
@@ -28,10 +28,10 @@ public sealed class EClass
     public EClass Parent { get; }
     public string ClassName => NameTable.Stored(Type);
 
-    public TEObject Create(TECustomNode owner) => create(owner);
+    public EObject Create(ECustomNode owner) => create(owner);
 
     // A test swaps the delegate and restores the previous one. Create has no per-call check.
-    internal Func<TECustomNode, TEObject> SubstituteCreate(Func<TECustomNode, TEObject> next)
+    internal Func<ECustomNode, EObject> SubstituteCreate(Func<ECustomNode, EObject> next)
     {
         ArgumentNullException.ThrowIfNull(next);
         var previous = create;
@@ -45,17 +45,17 @@ public sealed class EClass
     // Every registered descriptor in registration order.
     public static IReadOnlyList<EClass> All => catalog.All;
 
-    public static EClass Of<T>() where T : TEObject => Of(typeof(T));
+    public static EClass Of<T>() where T : EObject => Of(typeof(T));
 
     public static EClass Of(Type type) => catalog[type];
 
-    public static EClass Register<T>(int classId, Func<TECustomNode, T> create, int instanceSize)
-        where T : TEObject
+    public static EClass Register<T>(int classId, Func<ECustomNode, T> create, int instanceSize)
+        where T : EObject
     {
         var type = typeof(T);
         ArgumentNullException.ThrowIfNull(create);
         ArgumentOutOfRangeException.ThrowIfNegative(instanceSize);
-        var parent = type == typeof(TEObject) ? null : Of(type.BaseType);
+        var parent = type == typeof(EObject) ? null : Of(type.BaseType);
         return catalog.Add(type, new EClass(type, classId, parent, create, instanceSize));
     }
 }

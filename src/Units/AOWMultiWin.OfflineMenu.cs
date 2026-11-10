@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TMultiWindow
+public partial class MultiWindow
 {
     public void Execute(string mapName)
     {
@@ -29,10 +29,10 @@ public partial class TMultiWindow
         // shows and IPX stays hidden.
         if (dplay.GetConnections() == 0)
             for (int i = 0; i < dplay.ConnectionItems.Count; i++)
-                switch (((TGDConnection)dplay.ConnectionItems[i]!).FType)
+                switch (((GDConnection)dplay.ConnectionItems[i]!).FType)
                 {
-                    case TConnectionType.conTCP: TCPBtn.Visible = true; break;
-                    case TConnectionType.conIPX: IPXBtn.Visible = true; break;
+                    case ConnectionType.TCP: TCPBtn.Visible = true; break;
+                    case ConnectionType.IPX: IPXBtn.Visible = true; break;
                 }
     }
 

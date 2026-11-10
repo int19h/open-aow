@@ -3,18 +3,18 @@ namespace Aow.Rtl;
 // The offline DirectPlay component (aowDPlayComp.pas). It lists the TCP/IP provider that
 // DirectPlay lists on any current Windows, but it never connects and never joins a session, so
 // the original's guards on Connected and InSession take their offline branch.
-public class TGDPlay : TComponent
+public class GDPlay : global::Aow.Rtl.Component
 {
-    public TGDPlay(TComponent? owner = null) : base(owner) { }
+    public GDPlay(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 
     // DPlay.pas: the TCP/IP service provider.
-    public static readonly TGUID DPSPGUID_TCPIP = "36E95EE0-8577-11CF-960C-0080C7534E82";
+    public static readonly GUID DPSPGUID_TCPIP = "36E95EE0-8577-11CF-960C-0080C7534E82";
     public const int E_FAIL = unchecked((int)0x80004005);
 
-    public TGUID AppGUID { get; set; }
+    public GUID AppGUID { get; set; }
     public bool Connected => false;
     public bool InSession => false;
-    public TConnectionType ConnectionType => TConnectionType.conNone;
+    public global::Aow.Rtl.ConnectionType ConnectionType => global::Aow.Rtl.ConnectionType.None;
     public object? DPlay => null;
     public int PlayerID => 0;
     public string SessionName { get; set; } = "";
@@ -22,8 +22,8 @@ public class TGDPlay : TComponent
     public string PlayerName { get; set; } = "";
     public string TCPPort { get; set; } = "";
     // The service providers found by GetConnections: their names and their TGDConnection items.
-    public TStringList Connections { get; } = new();
-    public TList ConnectionItems { get; } = new();
+    public StringList Connections { get; } = new();
+    public DelphiList ConnectionItems { get; } = new();
 
     public void CheckMessages() { }
 
@@ -33,7 +33,7 @@ public class TGDPlay : TComponent
         Connections.Clear();
         ConnectionItems.Clear();
         Connections.Add("Internet TCP/IP Connection For DirectPlay");
-        ConnectionItems.Add(new TGDConnection { FGuid = DPSPGUID_TCPIP, FType = TConnectionType.conTCP });
+        ConnectionItems.Add(new GDConnection { FGuid = DPSPGUID_TCPIP, FType = global::Aow.Rtl.ConnectionType.TCP });
         return 0;
     }
 
@@ -51,30 +51,30 @@ public class TGDPlay : TComponent
 
 [LegacyObject]
 // aowDPlayComp.pas: a service provider found by EnumConnections.
-public class TGDConnection
+public class GDConnection
 {
-    public TGUID FGuid;
-    public TConnectionType FType;
+    public GUID FGuid;
+    public ConnectionType FType;
 
-    public TGDConnection()
+    public GDConnection()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 [LegacyObject]
-public class TGDFile
+public class GDFile
 {
-    public TGDFile()
+    public GDFile()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 [LegacyObject]
-public class TGDMessage
+public class GDMessage
 {
-    public TGDMessage()
+    public GDMessage()
     {
         CaptureAddress.Assign(this);
     }

@@ -11,18 +11,18 @@ using Aow.Game.World.Terrain;
 namespace Aow.Game.Draw
 {
 
-    public partial class TCombatILTerrainShadow : THexagonSprite
+    public partial class CombatILTerrainShadow : HexagonSprite
     {
-        public TCombatILTerrainShadow(TECustomNode owner) : base(owner)
+        public CombatILTerrainShadow(ECustomNode owner) : base(owner)
         { }
 
-        public TCombatILTerrain FTerrain;
+        public CombatILTerrain FTerrain;
 
         // CombatILTer.pas:82
         public override int GetShowPriority() => (FTerrain.GetShowPriority() & 67108863) - 1677721600;
 
         // CombatILTer.pas:96
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             FTerrain.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -35,15 +35,15 @@ namespace Aow.Game.Draw
 namespace Aow.Game.World.Terrain
 {
 
-    public partial class TCombatILTerrain : TILTerrainMO
+    public partial class CombatILTerrain : ILTerrainMO
     {
-        public TCombatILTerrain(TECustomNode owner) : base(owner)
+        public CombatILTerrain(ECustomNode owner) : base(owner)
         { }
 
         // CombatILTer.pas:105
         public new const int ClassID = 2228534;
 
-        public TCombatILTerrainShadow FShadow;
+        public CombatILTerrainShadow FShadow;
 
         // CombatILTer.pas:99
         public override void Dispose()
@@ -53,16 +53,16 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:166
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 135169)
             {
                 if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
                 {
-                    if (Msg.Param[0].Int < ((TCombatILTerrainResource)FResource).FDefense)
+                    if (Msg.Param[0].Int < ((CombatILTerrainResource)FResource).FDefense)
                     {
-                        Msg.Param[0] = ((TCombatILTerrainResource)FResource).FDefense;
+                        Msg.Param[0] = ((CombatILTerrainResource)FResource).FDefense;
                     }
                 }
             }
@@ -83,9 +83,9 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:141
-        public override void MakeVisible(TVisibilityList VisibilityList)
+        public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moVisible))
+            if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Visible))
             {
                 base.MakeVisible(VisibilityList);
                 if (FShadow != null)
@@ -97,27 +97,27 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:163
-        public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
+        public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
 
         // CombatILTer.pas:93
-        public override bool CanPlaceOnHS(THexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is TAbstractRoad;
+        public override bool CanPlaceOnHS(HexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;
 
         // CombatILTer.pas:108
-        public virtual void ShowShadow(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public virtual void ShowShadow(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
             Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
-            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((TMapField)Owner).Xhx + (((TMapField)Owner).Yhx << 4)));
+            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
         }
 
         // CombatILTer.pas:87
-        public sbyte GetDefense() => ((TCombatILTerrainResource)FResource).FDefense;
+        public sbyte GetDefense() => ((CombatILTerrainResource)FResource).FDefense;
 
         // CombatILTer.pas:90
-        public sbyte GetBurnValue() => ((TCombatILTerrainResource)FResource).FBurnValue;
+        public sbyte GetBurnValue() => ((CombatILTerrainResource)FResource).FBurnValue;
 
         // CombatILTer.pas:118
         public void DestroyShadow()
@@ -144,9 +144,9 @@ namespace Aow.Game.World.Terrain
                     DestroyShadow();
                 }
 
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap == null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowUnitShadows)
+                if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows)
                 {
-                    FShadow = new TCombatILTerrainShadow(null);
+                    FShadow = new CombatILTerrainShadow(null);
                     FShadow.FTerrain = this;
                 }
             }
@@ -154,9 +154,9 @@ namespace Aow.Game.World.Terrain
 
     }
 
-    public partial class TCombatILTerrainResource : TILTerrainMOR
+    public partial class CombatILTerrainResource : ILTerrainMOR
     {
-        public TCombatILTerrainResource(TECustomNode owner) : base(owner)
+        public CombatILTerrainResource(ECustomNode owner) : base(owner)
         { }
 
         // CombatILTer.pas:175
@@ -166,7 +166,7 @@ namespace Aow.Game.World.Terrain
         public sbyte FDefense;
 
         // CombatILTer.pas:181
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefense), 20);
@@ -181,16 +181,16 @@ namespace Aow.Game.World.Terrain
 
     }
 
-    public partial class TCombatFixedILTerrain : TCombatILTerrain
+    public partial class CombatFixedILTerrain : CombatILTerrain
     {
-        public TCombatFixedILTerrain(TECustomNode owner) : base(owner)
+        public CombatFixedILTerrain(ECustomNode owner) : base(owner)
         { }
 
         // CombatILTer.pas:191
         public new const int ClassID = 2228536;
 
         // CombatILTer.pas:197
-        public override bool CanChangeTerrain(in THSSenderInfo Info)
+        public override bool CanChangeTerrain(in HSSenderInfo Info)
         {
             bool Result;
             if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
@@ -199,7 +199,7 @@ namespace Aow.Game.World.Terrain
                 if (validTerrainType)
                 {
                     var terrain = FResource.TerrainList.GetTerrain(Info.HN);
-                    validTerrainType = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType;
+                    validTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType;
                 }
 
                 Result = validTerrainType;
@@ -213,7 +213,7 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:206
-        public override void ChangeTerrain(in THSTerrainInfo Info)
+        public override void ChangeTerrain(in HSTerrainInfo Info)
         {
             if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
@@ -226,7 +226,7 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:216
-        public override void TerrainChanged(in THSTerrainInfo Info)
+        public override void TerrainChanged(in HSTerrainInfo Info)
         {
             if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
@@ -243,23 +243,23 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:194
-        public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -1;
+        public override sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -1;
 
-    }
+        public new partial class Resource : CombatILTerrainResource
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
 
-    public partial class TCombatFixedILTerrainResource : TCombatILTerrainResource
-    {
-        public TCombatFixedILTerrainResource(TECustomNode owner) : base(owner)
-        { }
+            // CombatILTer.pas:227
+            public new const int ClassID = 2228537;
 
-        // CombatILTer.pas:227
-        public new const int ClassID = 2228537;
+            // CombatILTer.pas:233
+            public override int ResourceUserClassID() => 2228536;
 
-        // CombatILTer.pas:233
-        public override int ResourceUserClassID() => 2228536;
+            // CombatILTer.pas:230
+            public override string ResourceEditName() => "Combat FixedILTerrain";
 
-        // CombatILTer.pas:230
-        public override string ResourceEditName() => "Combat FixedILTerrain";
+        }
 
     }
 }

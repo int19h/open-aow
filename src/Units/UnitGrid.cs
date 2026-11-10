@@ -9,10 +9,10 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Grids;
 
 // FSelectionControl, FUnits, FEditEnabled, FShowUnitLevel, FMemoryStream
-public partial class TUnitGrid : TCustomImageDrawGrid
+public partial class UnitGrid : CustomImageDrawGrid
 {
-    public TUnitSelectionControl FSelectionControl;
-    public TUnitList FUnits;
+    public UnitSelectionControl FSelectionControl;
+    public UnitList FUnits;
     public bool FEditEnabled;
     public bool FShowUnitLevel;
     public MemoryStream FMemoryStream;
@@ -26,7 +26,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
 
     // UnitGrid.pas:50
     // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-    public TUnitGrid(TComponent owner) : base(owner)
+    public UnitGrid(global::Aow.Rtl.Component owner) : base(owner)
     {
 
         FMemoryStream = new MemoryStream();
@@ -37,7 +37,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     }
 
     // UnitGrid.pas:98
-    protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Graphics.Handle in the platform or editor service. */
         throw new NotImplementedException();
@@ -51,16 +51,16 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     }
 
     // UnitGrid.pas:73
-    public void SetUnits(TUnitList Value)
+    public void SetUnits(UnitList Value)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // UnitGrid.pas:81
-    public TAbstractUnit GetUnit(int ACol, int ARow)
+    public AbstractUnit GetUnit(int ACol, int ARow)
     {
-        TAbstractUnit Result;
+        AbstractUnit Result;
         int Index;
         Index = ImageIndex(ACol, ARow);
         // { Original leaves negative indices unchecked in both getters. }
@@ -77,7 +77,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     }
 
     // UnitGrid.pas:90
-    public TAbstractUnit GetSelectedUnit()
+    public AbstractUnit GetSelectedUnit()
     {
         /* TODO: Implement Grids.Col in the platform or editor service. */
         throw new NotImplementedException();
@@ -98,7 +98,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     }
 
     // UnitGrid.pas:184
-    public void EditUnitDone(TEditResult EditResult, TEObject Obj)
+    public void EditUnitDone(EditResult EditResult, EObject Obj)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();

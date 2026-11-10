@@ -4,21 +4,21 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TFontModule : TDataModule
+public partial class FontModule : DataModule
 {
-    public TFontModule(TComponent owner) : base(owner)
+    public FontModule(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TImageLibraryFont Age8;
-    public TImageLibraryFont Age10;
-    public TImageLibraryFont Age16s;
-    public TImageLibraryFont Age10s;
-    public TImageLibraryFont Age8s;
-    public TImageLibraryFont Sessis14G;
-    public TImageLibraryFont AoW15WhiteGrey;
-    public TImageLibraryFont AoW15BlackBrown;
-    public TImageLibraryFont Age10LB;
-    public TImageLibraryFont Age10b;
-    public TImageLibraryFont Age10bs;
-    public TImageLibraryFont TBarNumber;
+    public ImageLibraryFont Age8;
+    public ImageLibraryFont Age10;
+    public ImageLibraryFont Age16s;
+    public ImageLibraryFont Age10s;
+    public ImageLibraryFont Age8s;
+    public ImageLibraryFont Sessis14G;
+    public ImageLibraryFont AoW15WhiteGrey;
+    public ImageLibraryFont AoW15BlackBrown;
+    public ImageLibraryFont Age10LB;
+    public ImageLibraryFont Age10b;
+    public ImageLibraryFont Age10bs;
+    public ImageLibraryFont TBarNumber;
 }

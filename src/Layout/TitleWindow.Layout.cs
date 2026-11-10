@@ -8,7 +8,7 @@ using Aow.Game.Ui.Windows;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTitleWindow : ILayoutModule
+public partial class TitleWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TTitleWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "TitleWindow";
-        TitleWin = new TAOWWindow(this);
+        TitleWin = new AOWWindow(this);
         session.BeginRead(TitleWin);
         TitleWin.Name = "TitleWin";
         TitleWin.Visible = false;
@@ -28,8 +28,8 @@ public partial class TTitleWindow : ILayoutModule
         TitleWin.WinTop = 0;
         TitleWin.WinWidth = 640;
         TitleWin.Masked = false;
-        TitleWin.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TitleWin.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        TitleWin.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TitleWin.Alignment.AlignHeight = AOWAlignHeight.Both;
         TitleWin.Alignment.HeightPercent = 0;
         TitleWin.Alignment.WidthPercent = 0;
         TitleWin.Alignment.LeftOffPercent = 0;
@@ -63,7 +63,7 @@ public partial class TTitleWindow : ILayoutModule
         TitleWin.WinHeight = 480;
         TitleWin.Dockable = false;
         session.EndRead(TitleWin);
-        TitlePnl = new TAOWPanel(this);
+        TitlePnl = new AOWPanel(this);
         session.BeginRead(TitlePnl);
         TitlePnl.Name = "TitlePnl";
         TitlePnl.Visible = false;
@@ -73,8 +73,8 @@ public partial class TTitleWindow : ILayoutModule
         TitlePnl.WinWidth = 640;
         TitlePnl.OnDrawBack = (_, SurfDesc) => TitlePnlDrawBack(SurfDesc);
         TitlePnl.Masked = false;
-        TitlePnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TitlePnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        TitlePnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TitlePnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         TitlePnl.Alignment.HeightPercent = 0;
         TitlePnl.Alignment.WidthPercent = 0;
         TitlePnl.Alignment.LeftOffPercent = 0;
@@ -92,7 +92,7 @@ public partial class TTitleWindow : ILayoutModule
         TitlePnl.MinWidth = 640;
         TitlePnl.MinHeight = 480;
         session.EndRead(TitlePnl);
-        SplashPnl = new TAOWPanel(this);
+        SplashPnl = new AOWPanel(this);
         session.BeginRead(SplashPnl);
         SplashPnl.Name = "SplashPnl";
         SplashPnl.OnMouseDown = (_, button, shift, x, y) => SplashPnlMouseDown(button, shift, x, y);
@@ -104,8 +104,8 @@ public partial class TTitleWindow : ILayoutModule
         SplashPnl.WinTop = 0;
         SplashPnl.WinWidth = 640;
         SplashPnl.Masked = true;
-        SplashPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SplashPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        SplashPnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SplashPnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         SplashPnl.Alignment.HeightPercent = 0;
         SplashPnl.Alignment.WidthPercent = 0;
         SplashPnl.Alignment.LeftOffPercent = 0;
@@ -123,7 +123,7 @@ public partial class TTitleWindow : ILayoutModule
         SplashPnl.MinWidth = 640;
         SplashPnl.MinHeight = 480;
         session.EndRead(SplashPnl);
-        DemoIL = new TInterfaceIL(this);
+        DemoIL = new InterfaceIL(this);
         session.BeginRead(DemoIL);
         DemoIL.Name = "DemoIL";
         DemoIL.LoadOnDemand = true;

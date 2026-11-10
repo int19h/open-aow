@@ -23,7 +23,7 @@ public sealed class HostPathTests
             for (int i = 0; i < Names.Length; i++) File.WriteAllBytes(Path.Combine(directory.Root, Names[i]), [(byte)i]);
 
             var found = new List<string>();
-            TSearchRec search = default;
+            SearchRec search = default;
             for (int result = FindFirst("*.sav", faAnyFile, ref search); result == 0; result = FindNext(ref search))
                 found.Add(search.Name);
             FindClose(ref search);
@@ -52,7 +52,7 @@ public sealed class HostPathTests
                 Assert.Equal(Math.Sign(AnsiCompareText(Names[i], Names[j])), -Math.Sign(AnsiCompareText(Names[j], Names[i])));
             }
 
-        var list = new TStringList { Sorted = true, Duplicates = TDuplicates.dupIgnore };
+        var list = new StringList { Sorted = true, Duplicates = Duplicates.Ignore };
         foreach (string name in Names.Concat(Enumerable.Reverse(Names))) list.Add(name);
         Assert.Equal(Names.Length, list.Count);
         foreach (string name in Names) Assert.Equal(name, list[list.IndexOf(name)]);

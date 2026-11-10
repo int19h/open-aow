@@ -14,27 +14,27 @@ namespace Aow.Units.Tests;
 [EngineState]
 public sealed class MessageSlotTests
 {
-    private delegate void Proc(ref TMapFieldMsg message);
+    private delegate void Proc(ref MapFieldMsg message);
 
     // A sprite that runs one message handler and counts its calls.
-    private sealed class Handler(Proc proc) : THexagonSprite(null!)
+    private sealed class Handler(Proc proc) : HexagonSprite(null!)
     {
         internal int Calls;
 
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             Calls++;
             proc(ref Msg);
         }
     }
 
-    private static void None(ref TMapFieldMsg message) { }
+    private static void None(ref MapFieldMsg message) { }
 
     // The dispatcher calls the sprites from the last index down, and AddHS puts a sprite of equal
     // priority in front, so the handlers run in the order given.
-    private static (TMapField Field, Handler[] Handlers) Field(params Proc[] procs)
+    private static (MapField Field, Handler[] Handlers) Field(params Proc[] procs)
     {
-        var field = new TMapField(null!);
+        var field = new MapField(null!);
         var handlers = procs.Select(p => new Handler(p)).ToArray();
         foreach (var handler in handlers) field.AddHS(handler, 0);
         return (field, handlers);
@@ -45,14 +45,14 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheMessageRecordsKeepTheProtocolArity()
     {
-        Assert.Equal(3, TEMsgParams.Arity);
-        Assert.Equal(4, TMapFieldMsgParams.Arity);
-        TEMsg engineMessage = default;
-        TMapFieldMsg fieldMessage = default;
-        Assert.Equal(TEMsgParams.Arity, ((Span<MsgArg>)engineMessage.Param).Length);
-        Assert.Equal(TMapFieldMsgParams.Arity, ((Span<MsgArg>)fieldMessage.Param).Length);
-        Assert.Equal(typeof(MsgArg), typeof(TEMsg).GetField(nameof(TEMsg.Payload))!.FieldType);
-        Assert.Equal(typeof(MsgArg), typeof(TMapFieldMsg).GetField(nameof(TMapFieldMsg.Result))!.FieldType);
+        Assert.Equal(3, EMsgParams.Arity);
+        Assert.Equal(4, MapFieldMsgParams.Arity);
+        EMsg engineMessage = default;
+        MapFieldMsg fieldMessage = default;
+        Assert.Equal(EMsgParams.Arity, ((Span<MsgArg>)engineMessage.Param).Length);
+        Assert.Equal(MapFieldMsgParams.Arity, ((Span<MsgArg>)fieldMessage.Param).Length);
+        Assert.Equal(typeof(MsgArg), typeof(EMsg).GetField(nameof(EMsg.Payload))!.FieldType);
+        Assert.Equal(typeof(MsgArg), typeof(MapFieldMsg).GetField(nameof(MapFieldMsg.Result))!.FieldType);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public sealed class MessageSlotTests
         var control = new object();
         // No answer: every handler runs.
         var (field, handlers) = Field(None, None, None);
-        TMapFieldMsg message = default;
+        MapFieldMsg message = default;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
         Assert.Same(field, message.MapField);
@@ -106,33 +106,33 @@ public sealed class MessageSlotTests
     [Fact]
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
-        using var engine = new TEngine(null!);
-        TEMsg message = default;
-        Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref message, 0x20000008, engine);
+        using var engine = new Engine(null!);
+        EMsg message = default;
+        Aow.Game.Engine.Nodes.EMsg.InitMsg(ref message, 0x20000008, engine);
         message.Payload = engine;
-        Assert.Same(engine, message.Payload.As<TEngine>());
+        Assert.Same(engine, message.Payload.As<Engine>());
         Assert.Throws<InvalidCastException>(() => message.Payload.Int);
         Assert.Equal(-1, message.Result);
-        Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref message, 0x20020002, engine);
+        Aow.Game.Engine.Nodes.EMsg.InitMsg(ref message, 0x20020002, engine);
         Assert.False(message.Payload.HasValue);
         message.Payload = 5;
         Assert.Equal(5, (sbyte)message.Payload.Int);
-        Assert.Null(message.Payload.As<TEngine>());
+        Assert.Null(message.Payload.As<Engine>());
     }
 
     // TMapFieldMsg.Param[0]: 0x1102 carries the placed army, 0x110a the distance to the viewer.
     [Fact]
     public void TheFirstParameterCarriesAnArmyOrADistance()
     {
-        var army = new TArmyHS(null!);
-        TArmyHS? placed = null;
+        var army = new ArmyHS(null!);
+        ArmyHS? placed = null;
         int distance = -1;
         var (field, _) = Field((ref m) =>
         {
-            if (m.MsgID == 0x1102) placed = m.Param[0].As<TArmyHS>();
+            if (m.MsgID == 0x1102) placed = m.Param[0].As<ArmyHS>();
             else if (m.MsgID == 0x110a) distance = m.Param[0].Int;
         });
-        TMapFieldMsg message = default;
+        MapFieldMsg message = default;
         message.MsgID = 0x1102;
         message.Param[0] = army;
         field.SendMapFieldMsg(ref message);
@@ -143,7 +143,7 @@ public sealed class MessageSlotTests
         message.Param[0] = 4;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(4, distance);
-        Assert.Null(message.Param[0].As<TArmyHS>());
+        Assert.Null(message.Param[0].As<ArmyHS>());
     }
 
     // TMapFieldMsg.Param[1]: 0x1127 carries the defense requirements query, 0x1101 the move action.
@@ -156,7 +156,7 @@ public sealed class MessageSlotTests
             if (m.MsgID == 0x1127) m.Param[1].As<DefenseRequirementsQuery>()!.Requirements.Strength = 9;
             else if (m.MsgID == 0x1101) m.Param[1] = m.Param[1].Int + 2;
         });
-        TMapFieldMsg message = default;
+        MapFieldMsg message = default;
         message.MsgID = 0x1127;
         message.Param[0] = 1;
         message.Param[1] = query;
@@ -181,7 +181,7 @@ public sealed class MessageSlotTests
             if (m.MsgID == 0x1151) m.Param[2].As<StormDamageQuery>()!.Info.Player = 7;
             else if (m.MsgID == 0x1150) player = (sbyte)m.Param[2].Int;
         });
-        TMapFieldMsg message = default;
+        MapFieldMsg message = default;
         message.MsgID = 0x1151;
         message.Param[2] = query;
         field.SendMapFieldMsg(ref message);
@@ -199,17 +199,17 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheResultCarriesAControlOrAPlayer()
     {
-        var control = new TProductionControl(null!);
+        var control = new ProductionControl(null!);
         var (field, handlers) = Field((ref m) =>
         {
             if (m.MsgID == 0x1201) m.Result = control;
             else if (m.MsgID == 0x1100) m.Result = 2;
         }, None);
-        TMapFieldMsg message = default;
+        MapFieldMsg message = default;
         message.MsgID = 0x1201;
         message.Result = 0;
         field.SendMapFieldMsg(ref message);
-        Assert.Same(control, message.Result.As<TProductionControl>());
+        Assert.Same(control, message.Result.As<ProductionControl>());
         Assert.Throws<InvalidCastException>(() => message.Result.Int);
         Assert.Equal(new[] { 1, 0 }, Calls(handlers));
         message = default;
@@ -217,7 +217,7 @@ public sealed class MessageSlotTests
         message.Result = -1;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(2, (sbyte)message.Result.Int);
-        Assert.Null(message.Result.As<TProductionControl>());
+        Assert.Null(message.Result.As<ProductionControl>());
         Assert.Equal(new[] { 2, 0 }, Calls(handlers));
     }
 
@@ -226,9 +226,9 @@ public sealed class MessageSlotTests
     [Fact]
     public void NoStorageMethodTakesAMessageRecord()
     {
-        Type[] message = [typeof(TEMsg), typeof(TMapFieldMsg), typeof(TEMsgParams), typeof(TMapFieldMsgParams), typeof(MsgArg)];
+        Type[] message = [typeof(EMsg), typeof(MapFieldMsg), typeof(EMsgParams), typeof(MapFieldMsgParams), typeof(MsgArg)];
         var found = new List<string>();
-        foreach (var type in typeof(TEMsg).Assembly.GetTypes().Concat(typeof(MsgArg).Assembly.GetTypes()))
+        foreach (var type in typeof(EMsg).Assembly.GetTypes().Concat(typeof(MsgArg).Assembly.GetTypes()))
             foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
             {
                 if (!method.Name.StartsWith("rw", StringComparison.Ordinal) && !method.Name.StartsWith("Read", StringComparison.Ordinal)

@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Controls;
 
-public partial class TAOWControl
+public partial class AOWControl
 {
     public override bool ContainsPoint(int X, int Y)
     {

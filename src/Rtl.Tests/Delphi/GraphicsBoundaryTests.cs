@@ -9,7 +9,7 @@ public sealed class GraphicsBoundaryTests
     {
         Assert.Equal("AB", RtlUnit.StrPasBuffer(new byte[] { 65, 66, 0, 67 }));
         Assert.Equal("AB", RtlUnit.StrPasBuffer(new byte[] { 65, 66 }));
-        Assert.Equal(18, Marshal.SizeOf<TWaveFormatEx>());
+        Assert.Equal(18, Marshal.SizeOf<WaveFormatEx>());
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public sealed class GraphicsBoundaryTests
     public void ProceduralCastsPreserveMethodIdentity()
     {
         int count = 0;
-        TNotifyEvent<object> original = _ => count++;
+        NotifyEvent<object> original = _ => count++;
         var converted = RtlUnit.RebindDelegate<OtherNotify>(original)!;
         Assert.Same(original.Target, converted.Target);
         Assert.Equal(original.Method, converted.Method);

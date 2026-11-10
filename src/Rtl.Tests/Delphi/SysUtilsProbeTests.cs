@@ -26,7 +26,7 @@ public sealed class SysUtilsProbeTests
         foreach (var (label, value, digits) in new[] { ("byte", 255, 2), ("pad", 255, 6), ("narrow", 256, 1), ("negative", -1, 2), ("zero_width", 0, 0) }) Bytes("inttohex_" + label, IntToHex(value, digits));
         foreach (var (label, text) in new (string, string)[] { ("empty", ""), ("single", "a"), ("crlf", "a\r\nb\r\n"), ("lf", "a\nb\n"), ("cr", "a\rb\r"), ("blanks", "\r\n\r\n"), ("mixed", "a\r\n\nb"), ("zero", "a\0b") })
         {
-            var list = new TStringList { Text = text };
+            var list = new StringList { Text = text };
             probe.Fact("text_" + label + "_count", list.Count);
             for (int i = 0; i < list.Count; i++) Bytes($"text_{label}_item_{i}", list[i]);
             var roundtrip = list.Text; Bytes("text_" + label + "_text", roundtrip);

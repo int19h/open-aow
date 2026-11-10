@@ -25,7 +25,7 @@ internal static class ImageFiles
         return Result;
     }
 
-    internal static int LoadImageFile(string FileName, ref TSurfaceDesc SD, int X, int Y)
+    internal static int LoadImageFile(string FileName, ref SurfaceDesc SD, int X, int Y)
     {
         int Result;
         ImageFileClass C;

@@ -9,15 +9,15 @@ namespace Aow.Game.Draw;
 
 public static class GfxState
 {
-    public static TLookupBlendTableCollection100 AlphaBlendTable;
+    public static LookupBlendTableCollection100 AlphaBlendTable;
 
-    public static TLookupBlendTableCollection100 IntensityBlendTable;
+    public static LookupBlendTableCollection100 IntensityBlendTable;
 
-    public static TLookupBlendTableCollection100 BrightenBlendTable;
+    public static LookupBlendTableCollection100 BrightenBlendTable;
 
-    public static TLookupBlendTableCollection100 ShadowBlendTable;
+    public static LookupBlendTableCollection100 ShadowBlendTable;
 
-    public static TLookupBlendTableCollection100 LinearAlphaBlendTable;
+    public static LookupBlendTableCollection100 LinearAlphaBlendTable;
 
     internal static void RegisterImageFileClasses(ReadOnlySpan<ImageFileClass> AClasses)
     {
@@ -37,28 +37,28 @@ public static class GfxState
 
     internal static int ForcedPixelFormatID;
 
-    internal static TImageFileClassList ImageFileClassList;
+    internal static global::Aow.Game.Draw.ImageFileClassList ImageFileClassList;
 
     internal static void InitBlendTables(int Bits, int Count)
     {
-        AlphaBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.TBlendTable.GenerateAlphaBlendTable, Count);
-        IntensityBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.TBlendTable.GenerateIntensityBlendTable, Count);
-        BrightenBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.TBlendTable.GenerateBrightenBlendTable, Count);
-        ShadowBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.TBlendTable.GenerateShadowBlendTable, Count);
-        LinearAlphaBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.TBlendTable.GenerateLinearAlphaBlendTable, Count);
+        AlphaBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateAlphaBlendTable, Count);
+        IntensityBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateIntensityBlendTable, Count);
+        BrightenBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateBrightenBlendTable, Count);
+        ShadowBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateShadowBlendTable, Count);
+        LinearAlphaBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateLinearAlphaBlendTable, Count);
     }
 
     public static void Initialize()
     {
-        AlphaBlendTable = new TLookupBlendTableCollection100();
-        IntensityBlendTable = new TLookupBlendTableCollection100();
-        BrightenBlendTable = new TLookupBlendTableCollection100();
-        ShadowBlendTable = new TLookupBlendTableCollection100();
-        LinearAlphaBlendTable = new TLookupBlendTableCollection100();
+        AlphaBlendTable = new LookupBlendTableCollection100();
+        IntensityBlendTable = new LookupBlendTableCollection100();
+        BrightenBlendTable = new LookupBlendTableCollection100();
+        ShadowBlendTable = new LookupBlendTableCollection100();
+        LinearAlphaBlendTable = new LookupBlendTableCollection100();
         InitBlendTables(5, 31);
         ForcedPixelFormatID = 0;
-        ImageFileClassList = new TImageFileClassList();
-        RegisterImageFileClasses([ImageFileClass.Of<TBMPImageFile>()]);
+        ImageFileClassList = new global::Aow.Game.Draw.ImageFileClassList();
+        RegisterImageFileClasses([ImageFileClass.Of<BMPImageFile>()]);
     }
 
     public static void Finalize()

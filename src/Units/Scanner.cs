@@ -13,13 +13,13 @@ namespace Aow.Game.Ui.Grids;
 // half-row inset, libraries, icons, viewport, change event, update steps, map, frame library,
 // frame index, map dimensions, level, icons drawn, previous size, drawable height, terrain/icon
 // surfaces, update step, incremental
-public partial class TScanner : TAOWControl
+public partial class Scanner : AOWControl
 {
     public int FHalfRowInset;
-    public TImageLibrary FTilesImageLib;
-    public TImageLibrary FHighlightImageLib;
-    public TImageLibrary FFogImageLib;
-    public TImageLibrary FObjectsImageLib;
+    public ImageLibrary FTilesImageLib;
+    public ImageLibrary FHighlightImageLib;
+    public ImageLibrary FFogImageLib;
+    public ImageLibrary FObjectsImageLib;
     public int FTTop;
     public int FTHeight;
     public int FTLeft;
@@ -28,20 +28,20 @@ public partial class TScanner : TAOWControl
     public bool FBuildings;
     public bool FArmies;
     public bool FNaturals;
-    public TNotifyEvent<TScanner> FOnMapPositionChange;
+    public NotifyEvent<Scanner> FOnMapPositionChange;
     public int FSteps;
-    public Aow.Game.World.Map.TAbstractAoWHSMap FMap;
-    public TInterfaceIL FILFrame;
+    public Aow.Game.World.Map.AbstractAoWHSMap FMap;
+    public InterfaceIL FILFrame;
     public int FILIndexFrame;
     public int FMapWidth;
     public int FMapHeight;
-    public TMapLevel FLevel;
+    public MapLevel FLevel;
     public bool FObjectsDrawn;
     public int FPreviousWidth;
     public int FPreviousHeight;
     public int FDrawableHeight;
-    public TSurface FMapSurface;
-    public TSurface FObjectSurface;
+    public Surface FMapSurface;
+    public Surface FObjectSurface;
     public int FUpdateStep;
     public bool FIncremental;
 
@@ -62,7 +62,7 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:116
-    public TScanner(TComponent owner) : base(owner)
+    public Scanner(global::Aow.Rtl.Component owner) : base(owner)
     {
         FSteps = 1;
         FTLeft = -1;
@@ -74,7 +74,7 @@ public partial class TScanner : TAOWControl
     // Scanner.pas:398
     public override void Validate()
     {
-        TInterfaceIL Frame;
+        InterfaceIL Frame;
         Frame = FILFrame;
         if (Frame != null)
         {
@@ -92,7 +92,7 @@ public partial class TScanner : TAOWControl
     // Scanner.pas:409
     public override void SetSize()
     {
-        TSurfaceDesc SD = default;
+        SurfaceDesc SD = default;
         if ((FWinWidth != FPreviousWidth || FWinHeight != FPreviousHeight) && FWinWidth > 0 && FWinHeight > 0)
         {
             FHalfRowInset = FWinHeight / FMapHeight / 2;
@@ -156,10 +156,10 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:445
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect R = default;
-        TSurfaceDesc SD = default;
+        global::Aow.Rtl.Rect R = default;
+        SurfaceDesc SD = default;
         try
         {
             if (FValid && FVisible)
@@ -178,9 +178,9 @@ public partial class TScanner : TAOWControl
 
                 if (FMapSurface == null)
                 {
-                    FObjectSurface = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                    FObjectSurface = new DataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                     FObjectSurface.Cls(65280);
-                    FMapSurface = new TDataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
+                    FMapSurface = new DataSurface(FWinWidth, FWinHeight, SurfDesc.PixelFormatID, null);
                     FMapSurface.Lock(ref SD);
                     for (int X = 0, last = FWinWidth / FFogImageLib[0].Width; X <= last; X++)
                     {
@@ -209,19 +209,19 @@ public partial class TScanner : TAOWControl
                     DrawObjects();
                 }
 
-                R = Rect(0, 0, FWinWidth, FWinHeight);
+                R = global::Aow.Rtl.RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
                 SD = SurfDesc;
-                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
+                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
                 SD.ClipRect = rect;
                 FMapSurface.Lock(ref SurfDesc);
-                Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
                 FMapSurface.Unlock();
                 FObjectSurface.Lock(ref SurfDesc);
-                Aow.Game.Draw.TSurfaceDesc.BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
+                Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
                 FObjectSurface.Unlock();
                 if (FMapWidth > 0 && FMapHeight > 0)
                 {
-                    var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft + FTLeft * FWinWidth / FMapWidth, FAOWWindow.FWinTop + FWinTop + FTTop * FWinHeight / FMapHeight, FTWidth * FWinWidth / FMapWidth, (FTHeight + 2) * FWinHeight / FMapHeight);
+                    var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FTLeft * FWinWidth / FMapWidth, FAOWWindow.FWinTop + FWinTop + FTTop * FWinHeight / FMapHeight, FTWidth * FWinWidth / FMapWidth, (FTHeight + 2) * FWinHeight / FMapHeight);
                     FILFrame.DrawILF(FILIndexFrame, rect2, ref SD);
                 }
 
@@ -238,7 +238,7 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:449
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         int MapY;
         int OldLeft;
@@ -264,7 +264,7 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:452
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -280,7 +280,7 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:455
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         int MapX = default;
         int MapY = default;
@@ -317,7 +317,7 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:142
-    public virtual void SetILFrame(TInterfaceIL Value)
+    public virtual void SetILFrame(InterfaceIL Value)
     {
         if (Value != FILFrame)
         {
@@ -337,7 +337,7 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:151
-    public void SetObjIL(TImageLibrary Value)
+    public void SetObjIL(ImageLibrary Value)
     {
         if (Value != FObjectsImageLib)
         {
@@ -380,10 +380,10 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:190
-    public void SetLevel(TMapLevel Value)
+    public void SetLevel(MapLevel Value)
     {
         FLevel = Value;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
         {
             FMapWidth = FLevel.Width - 16;
             FMapHeight = FLevel.Height - 12;
@@ -398,7 +398,7 @@ public partial class TScanner : TAOWControl
     // Scanner.pas:205
     public void SetMapWidth(int Value)
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
         {
             FMapWidth = Value - 16;
         }
@@ -411,7 +411,7 @@ public partial class TScanner : TAOWControl
     // Scanner.pas:211
     public void SetMapHeight(int Value)
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
         {
             FMapHeight = Value - 12;
         }
@@ -426,7 +426,7 @@ public partial class TScanner : TAOWControl
     public byte GetTerrain(int X, int Y)
     {
         byte Result;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
         {
             Result = (byte)FLevel.GetField(X + 8, Y + 6).TerrainType;
         }
@@ -447,7 +447,7 @@ public partial class TScanner : TAOWControl
     public int GetOverlay(int X, int Y)
     {
         int Result;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
         {
             switch (FLevel.GetField(X + 8, Y + 6).GetDecorationType())
             {
@@ -499,14 +499,14 @@ public partial class TScanner : TAOWControl
     public byte GetExplored(int X, int Y)
     {
         byte Result;
-        TAoWMapField Field;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
+        AoWMapField Field;
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
         {
-            Field = (TAoWMapField)FLevel.GetField(X + 8, Y + 6);
+            Field = (AoWMapField)FLevel.GetField(X + 8, Y + 6);
         }
         else
         {
-            Field = (TAoWMapField)FLevel.GetField(X + 6, Y + 6);
+            Field = (AoWMapField)FLevel.GetField(X + 6, Y + 6);
         }
 
         if (FMap.FExplorationEnabled)
@@ -565,13 +565,13 @@ public partial class TScanner : TAOWControl
     public int GetObject(int X, int Y)
     {
         int Result;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
         {
-            Result = ((TAoWMapField)FLevel.GetField(X + 8, Y + 6)).GetScannerIcon();
+            Result = ((AoWMapField)FLevel.GetField(X + 8, Y + 6)).GetScannerIcon();
         }
         else
         {
-            Result = ((TAoWMapField)FLevel.GetField(X + 6, Y + 6)).GetScannerIcon();
+            Result = ((AoWMapField)FLevel.GetField(X + 6, Y + 6)).GetScannerIcon();
         }
 
         return Result;
@@ -586,21 +586,21 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:295
-    public void SetImgLib(TImageLibrary Value)
+    public void SetImgLib(ImageLibrary Value)
     {
         FTilesImageLib = Value;
         FValid = false;
     }
 
     // Scanner.pas:301
-    public void SetHimgLib(TImageLibrary Value)
+    public void SetHimgLib(ImageLibrary Value)
     {
         FHighlightImageLib = Value;
         FValid = false;
     }
 
     // Scanner.pas:307
-    public void SetFogimgLib(TImageLibrary Value)
+    public void SetFogimgLib(ImageLibrary Value)
     {
         FFogImageLib = Value;
         FValid = false;
@@ -667,13 +667,13 @@ public partial class TScanner : TAOWControl
     }
 
     // Scanner.pas:377
-    public void SetMap(Aow.Game.World.Map.TAbstractAoWHSMap Value)
+    public void SetMap(Aow.Game.World.Map.AbstractAoWHSMap Value)
     {
         FMap = Value;
         if (FMap != null)
         {
             FLevel = FMap.MapContainer.GetMapLevel(0);
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
             {
                 FMapWidth = FLevel.Width - 16;
                 FMapHeight = FLevel.Height - 12;
@@ -698,7 +698,7 @@ public partial class TScanner : TAOWControl
         int YOffset;
         int Terrain;
         int OverlayIndex;
-        TSurfaceDesc SD = default;
+        SurfaceDesc SD = default;
         try
         {
             if (FValid && FMapSurface != null && FVisible)
@@ -740,7 +740,7 @@ public partial class TScanner : TAOWControl
                     {
                         for (int MapY = Y; MapY <= Y + Height - 1; MapY++)
                         {
-                            var rect = Rect(FWinWidth * MapX / FMapWidth, FDrawableHeight * MapY / FMapHeight + YOffset, (MapX + 1) * FWinWidth / FMapWidth, (MapY + 1) * FDrawableHeight / FMapHeight + YOffset);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FWinWidth * MapX / FMapWidth, FDrawableHeight * MapY / FMapHeight + YOffset, (MapX + 1) * FWinWidth / FMapWidth, (MapY + 1) * FDrawableHeight / FMapHeight + YOffset);
                             SD.ClipRect = rect;
                             Explored = GetExplored(MapX, MapY);
                             if (Explored == 0)
@@ -853,7 +853,7 @@ public partial class TScanner : TAOWControl
         int Natural;
         int Building;
         int Obj;
-        TSurfaceDesc SD = default;
+        SurfaceDesc SD = default;
         if (FObjectSurface != null)
         {
             FObjectSurface.Cls(65280);
@@ -928,16 +928,16 @@ public partial class TScanner : TAOWControl
     }
 
     [Published]
-    public TImageLibrary TilesImageLib { get => FTilesImageLib; set => SetImgLib(value); }
+    public ImageLibrary TilesImageLib { get => FTilesImageLib; set => SetImgLib(value); }
 
     [Published]
-    public TImageLibrary HiLightsImageLib { get => FHighlightImageLib; set => SetHimgLib(value); }
+    public ImageLibrary HiLightsImageLib { get => FHighlightImageLib; set => SetHimgLib(value); }
 
     [Published]
-    public TImageLibrary FogImageLib { get => FFogImageLib; set => SetFogimgLib(value); }
+    public ImageLibrary FogImageLib { get => FFogImageLib; set => SetFogimgLib(value); }
 
     [Published]
-    public TImageLibrary ILObjects { get => FObjectsImageLib; set => SetObjIL(value); }
+    public ImageLibrary ILObjects { get => FObjectsImageLib; set => SetObjIL(value); }
 
     [Published]
     public int TileBoxTop { get => FTTop; set => SetTTop(value); }
@@ -964,75 +964,75 @@ public partial class TScanner : TAOWControl
     public bool Naturals { get => FNaturals; set => SetNaturals(value); }
 
     [Published]
-    public TNotifyEvent<TScanner> OnChangeTileBox { get => FOnMapPositionChange; set => FOnMapPositionChange = value; }
+    public NotifyEvent<Scanner> OnChangeTileBox { get => FOnMapPositionChange; set => FOnMapPositionChange = value; }
 
     [Published]
     public int MapDrawSteps { get => FSteps; set => SetSteps(value); }
 
     [Published]
-    public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
     [Published]
     public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
 
-    public new TNotifyEvent<TScanner> OnChange
+    public new NotifyEvent<Scanner> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TScanner> OnMouseDown
+    public new MouseEvent<Scanner> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TScanner> OnMouseUp
+    public new MouseEvent<Scanner> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TScanner> OnMouseMove
+    public new MouseMoveEvent<Scanner> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TScanner> OnKeyPress
+    public new KeyPressEvent<Scanner> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TScanner> OnKeyDown
+    public new KeyEvent<Scanner> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TScanner> OnPreDraw
+    public new AoWOnDrawEvent<Scanner> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TScanner> OnDraw
+    public new AoWOnDrawEvent<Scanner> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TScanner> OnUpdate
+    public new NotifyEvent<Scanner> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
 
-public enum TOType : byte
+public enum OType : byte
 {
-    otBuilding = 0,
-    otArmy = 1,
-    otNatural = 2
+    Building = 0,
+    Army = 1,
+    Natural = 2
 }

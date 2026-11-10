@@ -16,19 +16,19 @@ namespace Aow.Game.Combat.Actions
 {
 
     // spell ID, casting mana. source and target IDs inherited
-    public partial class TCombatSpellCA : TDamageCA
+    public partial class CombatSpellCA : DamageCA
     {
         // CombatSpells.pas:447
         public new const int ClassID = 131778;
 
-        public TCombatSpellCA(TECustomNode owner) : base(owner)
+        public CombatSpellCA(ECustomNode owner) : base(owner)
         { }
 
         public int FSpellID;
         public int FManaCost;
 
         // CombatSpells.pas:452
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FSpellID, 30);
@@ -36,23 +36,23 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:459
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatObject Source;
+            Aow.Game.Combat.CombatObject Source;
             base.Execute(Combat);
-            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
+            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.CombatStatusElement.Executing))
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
         // CombatSpells.pas:471
-        public override bool Play(Aow.Game.Combat.TCombatViewer Viewer)
+        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (Viewer.FDelay == Viewer.FTime)
@@ -64,38 +64,38 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:479
-        public override void ShowObject(Aow.Game.Combat.TCombatViewer Viewer, Aow.Game.Combat.TCombatObject Obj, int Frame, int Direction, int X, int Y, in TSurfaceDesc Surface)
+        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
             {
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
 
         // CombatSpells.pas:490
-        public override void ShowFieldObject(Aow.Game.Combat.TCombatViewer Viewer, Aow.Game.Combat.TCombatObject Obj, int Frame, int Direction, int X, int Y, in TSurfaceDesc Surface)
+        public override void ShowFieldObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             // { Original calls ShowObject here, bypassing inherited field markers. }
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
             {
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
@@ -103,9 +103,9 @@ namespace Aow.Game.Combat.Actions
     }
 
     // source ID, target ID, casting mana, success, spell ID
-    public partial class TExclusiveCombatSpellCA : TCombatAction
+    public partial class ExclusiveCombatSpellCA : CombatAction
     {
-        public TExclusiveCombatSpellCA(TECustomNode owner) : base(owner)
+        public ExclusiveCombatSpellCA(ECustomNode owner) : base(owner)
         { }
 
         public byte FSourceID;
@@ -115,7 +115,7 @@ namespace Aow.Game.Combat.Actions
         public int FSpellID;
 
         // CombatSpells.pas:502
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref FSourceID, 20);
@@ -126,22 +126,22 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:512
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatObject Source;
-            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
+            Aow.Game.Combat.CombatObject Source;
+            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.CombatStatusElement.Executing))
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
         // CombatSpells.pas:524
-        public override bool Play(Aow.Game.Combat.TCombatViewer Viewer)
+        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (Viewer.FDelay == Viewer.FTime)
@@ -153,7 +153,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:532
-        public override void ShowObject(Aow.Game.Combat.TCombatViewer Viewer, Aow.Game.Combat.TCombatObject Obj, int Frame, int Direction, int X, int Y, in TSurfaceDesc Surface)
+        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             if (Obj.FID == FSourceID)
             {
@@ -166,43 +166,43 @@ namespace Aow.Game.Combat.Actions
 
             if (Obj.FID == FSourceID)
             {
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
 
         // CombatSpells.pas:545
-        public override void ShowFieldObject(Aow.Game.Combat.TCombatViewer Viewer, Aow.Game.Combat.TCombatObject Obj, int Frame, int Direction, int X, int Y, in TSurfaceDesc Surface)
+        public override void ShowFieldObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             // { Original calls ShowObject here, bypassing inherited field markers. }
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
             {
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
     }
 
     // source ID, target byte list, casting mana, success, spell ID
-    public partial class TMultiTargetCombatSpellCA : TCombatAction
+    public partial class MultiTargetCombatSpellCA : CombatAction
     {
         public byte FSourceID;
-        public TByteList FTargetIDs;
+        public ByteList FTargetIDs;
         public int FManaCost;
         public bool FSucceeded;
         public int FSpellID;
@@ -215,7 +215,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:569
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref FSourceID, 20);
@@ -226,28 +226,28 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:557
-        public TMultiTargetCombatSpellCA(TECustomNode owner) : base(owner)
+        public MultiTargetCombatSpellCA(ECustomNode owner) : base(owner)
         {
-            FTargetIDs = new TByteList();
+            FTargetIDs = new ByteList();
         }
 
         // CombatSpells.pas:579
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatObject Source;
-            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
+            Aow.Game.Combat.CombatObject Source;
+            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.CombatStatusElement.Executing))
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
             }
         }
 
         // CombatSpells.pas:591
-        public override bool Play(Aow.Game.Combat.TCombatViewer Viewer)
+        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
 
             if (Viewer.FDelay == Viewer.FTime)
@@ -259,7 +259,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:599
-        public override void ShowObject(Aow.Game.Combat.TCombatViewer Viewer, Aow.Game.Combat.TCombatObject Obj, int Frame, int Direction, int X, int Y, in TSurfaceDesc Surface)
+        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             if (Obj.FID == FSourceID)
             {
@@ -272,41 +272,41 @@ namespace Aow.Game.Combat.Actions
 
             if (Obj.FID == FSourceID)
             {
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (FTargetIDs.IndexOf(Obj.FID) != -1)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
 
         // CombatSpells.pas:612
-        public override void ShowFieldObject(Aow.Game.Combat.TCombatViewer Viewer, Aow.Game.Combat.TCombatObject Obj, int Frame, int Direction, int X, int Y, in TSurfaceDesc Surface)
+        public override void ShowFieldObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             // { Original calls ShowObject here, bypassing inherited field markers. }
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
             {
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID);
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
             }
             else
             {
                 if (FTargetIDs.IndexOf(Obj.FID) != -1)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
                 }
             }
         }
 
         // CombatSpells.pas:624
-        public override void ShowFightingObjects(Aow.Game.Combat.TCombatViewer Viewer, int Frame, int X, int Y, in TSurfaceDesc Surface)
+        public override void ShowFightingObjects(Aow.Game.Combat.CombatViewer Viewer, int Frame, int X, int Y, in SurfaceDesc Surface)
         {
-            Aow.Game.Combat.TCombatObject Source;
+            Aow.Game.Combat.CombatObject Source;
             Source = Viewer.FCombat.FCombatData.FindID(FSourceID);
             Viewer.DefaultShowFightingObjects(null, Source, Frame, X, Y, Surface);
         }
@@ -318,45 +318,45 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // combat statistics (attack, damage, types, repeats, range, radius, targets). damage mode
-    public partial class TCombatSpell : Aow.Game.Magic.Spells.TSpell
+    public partial class CombatSpell : Aow.Game.Magic.Spells.Spell
     {
-        public Aow.Game.Magic.Spells.TSpellCombatInfo FCombatInfo;
+        public Aow.Game.Magic.Spells.SpellCombatInfo FCombatInfo;
         public byte FDamageMode;
 
         // CombatSpells.pas:632
-        public TCombatSpell(TECustomNode owner) : base(owner)
+        public CombatSpell(ECustomNode owner) : base(owner)
         {
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stCombat;
-            FSpellControlTypes = TSet<Aow.Game.Magic.Spells.TSpellControlTypeElement>.Of(Aow.Game.Magic.Spells.TSpellControlTypeElement.sctCombat);
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Combat;
+            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
             FCombatInfo.Radius = 1;
-            FCombatInfo.TargetTypes = TSet<TCombatTargetTypeElement>.Of(TCombatTargetTypeElement.cttEnemy);
+            FCombatInfo.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
             FCastDuration = 5;
             FDamageMode = 0;
         }
 
         // CombatSpells.pas:655
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TCombatSpellCA Action;
-            Action = new TCombatSpellCA(null);
+            CombatSpellCA Action;
+            Action = new CombatSpellCA(null);
             Action.FSpellID = FSpellID;
             Action.GenerateEx(Source, Target, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, FDamageMode);
             if (ChargeMana)
             {
-                Action.FManaCost = ((THero)((TCombatUnit)Source).FUnit).CastingMana(this);
+                Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
             }
 
             return Action;
         }
 
         // CombatSpells.pas:643
-        public override void GetCombatInfo(TAbstractUnit Source, ref Aow.Game.Magic.Spells.TSpellCombatInfo Info)
+        public override void GetCombatInfo(AbstractUnit Source, ref Aow.Game.Magic.Spells.SpellCombatInfo Info)
         {
             Info = FCombatInfo;
         }
 
         // CombatSpells.pas:648
-        public override int GetCombatDamageValue(TCombatObject Source, TCombatObject Target)
+        public override int GetCombatDamageValue(CombatObject Source, CombatObject Target)
         {
             var hitPoints = Target.GetHitPoints();
             var defense = Target.GetDefense();
@@ -367,10 +367,10 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:668
-        public override void GetCombatDamageValueEx(TCombatObject Source, TCombatObject Target, ref TAbilityDamageValues Values)
+        public override void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
         {
-            TSet<TDamageType> Protection;
-            TSet<TDamageType> Immunity;
+            Set<DamageType> Protection;
+            Set<DamageType> Immunity;
             Protection = Target.GetProtectionTypes();
             Immunity = Target.GetImmunityTypes();
             Values.DamageTypes = FCombatInfo.DamageTypes;
@@ -404,16 +404,16 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:754
-        public override void fcPrefetchCombatCommands(TFastCombatCommandList Commands)
+        public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
         {
-            TAbstractUnit Hero;
+            AbstractUnit Hero;
             int Distance;
             string Reason = "";
-            TCombatObject Target;
-            Aow.Game.Magic.Spells.TSpellCC Command;
-            TAbilityDamageValues Values = default;
-            Hero = ((TCombatUnit)Commands.FSource).FUnit;
-            if (Hero is THero && ((THero)Hero).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
+            CombatObject Target;
+            Aow.Game.Magic.Spells.SpellCC Command;
+            AbilityDamageValues Values = default;
+            Hero = ((CombatUnit)Commands.FSource).FUnit;
+            if (Hero is global::Aow.Game.Magic.Abilities.Hero && ((global::Aow.Game.Magic.Abilities.Hero)Hero).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
             {
                 Distance = Commands.FCombat.GetRoundDistance();
                 if (FCombatInfo.Range == -1)
@@ -444,7 +444,7 @@ namespace Aow.Game.Magic.Spells.Combat
                         fcGetDamageValueEx(Commands.FSource, Target, wallSituation, ref Values);
                         if (Values.SourceDamage != 0)
                         {
-                            Command = new Aow.Game.Magic.Spells.TSpellCC(52);
+                            Command = new Aow.Game.Magic.Spells.SpellCC(52);
                             Command.FTarget = Commands.FTargetSide.GetObjects(I);
                             Command.FMoveCost = 1;
                             Command.FSpellID = FSpellID;
@@ -457,19 +457,19 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:791
-        public override bool fcExecuteCombatCommand(TCombatObject Source, TFastCombatCommand Command)
+        public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
         {
             int Count;
-            TCombatAction Action;
-            TCombatObject Other;
+            CombatAction Action;
+            CombatObject Other;
             int Distance;
-            TCombatObject Target;
-            TList Targets;
-            TCombat Combat;
+            CombatObject Target;
+            DelphiList Targets;
+            global::Aow.Game.Combat.Combat Combat;
             Target = Command.FTarget;
             for (int I = 0, last = FCombatInfo.RepeatCount - 1; I <= last; I++)
             {
-                if (!Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
+                if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
                 {
                     Action = CreateCA(Source, Target, I == 0);
                     Source.FCombat.ExecuteCombatAction(Action);
@@ -480,7 +480,7 @@ namespace Aow.Game.Magic.Spells.Combat
             if (FCombatInfo.Radius > 1)
             {
                 Combat = Source.FCombat;
-                Targets = new TList();
+                Targets = new DelphiList();
                 Distance = Combat.GetRoundDistance();
                 if (FCombatInfo.Range == -1)
                 {
@@ -509,7 +509,7 @@ namespace Aow.Game.Magic.Spells.Combat
                     if (condition)
                     {
                         var immunityTypes = Other.GetImmunityTypes();
-                        condition = FCombatInfo.DamageTypes - immunityTypes != TSet<TDamageType>.Of();
+                        condition = FCombatInfo.DamageTypes - immunityTypes != Set<DamageType>.Of();
                     }
 
                     if (condition)
@@ -519,13 +519,13 @@ namespace Aow.Game.Magic.Spells.Combat
                 }
 
                 // { Original shifts Random(4) by two, so this adds no random extra targets. }
-                Count = (int)(((uint)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(4)) >> 2) + FCombatInfo.Radius;
+                Count = (int)(((uint)Aow.Game.World.Map.AoWHSMap.Current.Random(4)) >> 2) + FCombatInfo.Radius;
                 while (Count != 0 && Targets.Count != 0)
                 {
-                    Other = (TCombatObject)Targets[Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(Targets.Count)];
+                    Other = (CombatObject)Targets[Aow.Game.World.Map.AoWHSMap.Current.Random(Targets.Count)];
                     for (int J = 0, last = FCombatInfo.RepeatCount - 1; J <= last; J++)
                     {
-                        if (!Other.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
+                        if (!Other.FStatus.Contains(CombatObjectStatusElement.Destroyed))
                         {
                             Action = CreateCA(Source, Other, false);
                             Source.FCombat.ExecuteCombatAction(Action);
@@ -544,25 +544,25 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:693
-        public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+        public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
         {
-            TSet<TDamageType> DamageTypes;
-            TSet<TDamageType> Protection;
-            TSet<TDamageType> Immunity;
+            Set<DamageType> DamageTypes;
+            Set<DamageType> Protection;
+            Set<DamageType> Immunity;
             int Count;
             int Distance;
-            TCombatObject Other;
-            TCombat Combat;
+            CombatObject Other;
+            global::Aow.Game.Combat.Combat Combat;
             int Damage;
             int Defense;
-            if (WallSituation == TWallSituation.wsNone || FCombatInfo.Range == -1 || FCombatInfo.Range >= 8)
+            if (WallSituation == global::Aow.Game.Combat.WallSituation.None || FCombatInfo.Range == -1 || FCombatInfo.Range >= 8)
             {
                 Protection = Target.GetProtectionTypes();
                 Immunity = Target.GetImmunityTypes();
                 DamageTypes = FCombatInfo.DamageTypes;
                 Damage = FCombatInfo.Damage;
                 Defense = Target.GetDefense();
-                if (WallSituation == TWallSituation.wsTarget && (TSet<TDamageType>.Of(TDamageType.dtMagic, TDamageType.dtDeath, TDamageType.dtHoly) & FCombatInfo.DamageTypes) == TSet<TDamageType>.Of())
+                if (WallSituation == global::Aow.Game.Combat.WallSituation.Target && (Set<DamageType>.Of(DamageType.Magic, DamageType.Death, DamageType.Holy) & FCombatInfo.DamageTypes) == Set<DamageType>.Of())
                 {
                     Defense += 2;
                 }
@@ -609,7 +609,7 @@ namespace Aow.Game.Magic.Spells.Combat
                     {
                         var side = Target.GetSide();
                         Other = Combat.FSides[(int)side].GetObjects(I);
-                        if (Target != Other && Other.GetEnabled() && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)Target.FPosition) >> 4) && Other.fcRoundDistance() <= Distance && DamageTypes - Other.GetImmunityTypes() != TSet<TDamageType>.Of())
+                        if (Target != Other && Other.GetEnabled() && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)Target.FPosition) >> 4) && Other.fcRoundDistance() <= Distance && DamageTypes - Other.GetImmunityTypes() != Set<DamageType>.Of())
                         {
                             Count += 1;
                         }
@@ -632,23 +632,23 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
     }
 
     // inherited combat statistics, damage mode
-    public partial class TSolarFlare : TCombatSpell
+    public partial class SolarFlare : CombatSpell
     {
         // CombatSpells.pas:845
-        public TSolarFlare(TECustomNode owner) : base(owner)
+        public SolarFlare(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TSolarFlare.SolarFlareRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.SolarFlare.SolarFlareRStr);
             FSpellID = 100;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
             spellCombatInfo.Damage = 4;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtHoly);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
@@ -660,29 +660,29 @@ namespace Aow.Game.Magic.Spells.Combat
 namespace Aow.Game.Combat.Actions
 {
 
-    public partial class TTurnUndeadSpellCA : TCombatSpellCA
+    public partial class TurnUndeadSpellCA : CombatSpellCA
     {
         // CombatSpells.pas:861
         public new const int ClassID = 131788;
 
-        public TTurnUndeadSpellCA(TECustomNode owner) : base(owner)
+        public TurnUndeadSpellCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:867
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatObject Source;
-            Aow.Game.Combat.TCombatUnit Target;
-            TUnitEnchantmentAbilityData Data;
+            Aow.Game.Combat.CombatObject Source;
+            Aow.Game.Combat.CombatUnit Target;
+            UnitEnchantmentAbilityData Data;
             base.Execute(Combat);
             if (FDamage != 0)
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
-                if (!Target.FStatus.Contains(Aow.Game.Combat.TCombatObjectStatusElement.csDestroyed))
+                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                if (!Target.FStatus.Contains(Aow.Game.Combat.CombatObjectStatusElement.Destroyed))
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(34).Expand(Target.FUnit);
-                    Data = (TUnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(34);
+                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(34).Expand(Target.FUnit);
+                    Data = (UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(34);
                     if (Data != null)
                     {
                         Data.FEnchantmentPlayerIndex = Source.FCombatPlayer;
@@ -698,10 +698,10 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // inherited combat statistics, damage mode
-    public partial class TTurnUndead : TCombatSpell
+    public partial class TurnUndead : CombatSpell
     {
         // CombatSpells.pas:888
-        public TTurnUndead(TECustomNode owner) : base(owner)
+        public TurnUndead(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TurnUndeadRStr);
             FSpellID = 101;
@@ -709,16 +709,16 @@ namespace Aow.Game.Magic.Spells.Combat
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtHoly);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:905
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TTurnUndeadSpellCA Action;
-            Action = new TTurnUndeadSpellCA(null);
+            TurnUndeadSpellCA Action;
+            Action = new TurnUndeadSpellCA(null);
             Action.FSpellID = FSpellID;
             Action.FSourceID = Source.FID;
             Action.FTargetID = Target.FID;
@@ -727,14 +727,14 @@ namespace Aow.Game.Magic.Spells.Combat
                 Action.FManaCost = FBaseManaCost;
             }
 
-            bool condition = Target is TCombatUnit;
+            bool condition = Target is CombatUnit;
             if (condition)
             {
-                var unitType = ((TCombatUnit)Target).FUnit.GetUnitType();
-                condition = TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(unitType);
+                var unitType = ((CombatUnit)Target).FUnit.GetUnitType();
+                condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
             }
 
-            if (condition && (((TCombatUnit)Target).FUnit.GetRace() == 11 || ((TCombatUnit)Target).FUnit.GetAbilityEnabled(129)))
+            if (condition && (((CombatUnit)Target).FUnit.GetRace() == 11 || ((CombatUnit)Target).FUnit.GetAbilityEnabled(129)))
             {
                 Action.GenerateEx(Source, Target, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, FDamageMode);
             }
@@ -743,16 +743,16 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:922
-        public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+        public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
         {
-            bool condition = Target is TCombatUnit;
+            bool condition = Target is CombatUnit;
             if (condition)
             {
-                var unitType = ((TCombatUnit)Target).FUnit.GetUnitType();
-                condition = TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(unitType);
+                var unitType = ((CombatUnit)Target).FUnit.GetUnitType();
+                condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
             }
 
-            if (condition && (((TCombatUnit)Target).FUnit.GetRace() == 11 || ((TCombatUnit)Target).FUnit.GetAbilityEnabled(129)))
+            if (condition && (((CombatUnit)Target).FUnit.GetRace() == 11 || ((CombatUnit)Target).FUnit.GetAbilityEnabled(129)))
             {
                 base.fcGetDamageValueEx(Source, Target, WallSituation, ref Values);
             }
@@ -762,7 +762,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
     }
@@ -771,33 +771,33 @@ namespace Aow.Game.Magic.Spells.Combat
 namespace Aow.Game.Combat.Actions
 {
 
-    public partial class TFastCombatHighPrayerCA : TMultiTargetCombatSpellCA
+    public partial class FastCombatHighPrayerCA : MultiTargetCombatSpellCA
     {
         // CombatSpells.pas:937
         public new const int ClassID = 131783;
 
-        public TFastCombatHighPrayerCA(TECustomNode owner) : base(owner)
+        public FastCombatHighPrayerCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:943
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatObject Target;
+            Aow.Game.Combat.CombatObject Target;
             base.Execute(Combat);
             for (int I = FTargetIDs.Count - 1; I >= 0; I--)
             {
                 var targetID = FTargetIDs[I];
                 Target = Combat.FCombatData.FindID(targetID);
                 Target.SetHitPoints((byte)(Target.GetHitPoints() + 5));
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(100).Expand(((Aow.Game.Combat.TCombatUnit)Target).FUnit);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(100).Expand(((Aow.Game.Combat.CombatUnit)Target).FUnit);
             }
         }
 
         // CombatSpells.pas:958
-        public void Generate(Aow.Game.Combat.TCombatObject Source)
+        public void Generate(Aow.Game.Combat.CombatObject Source)
         {
-            Aow.Game.Combat.TCombatSide Side;
-            Aow.Game.Combat.TCombatObject Target;
+            Aow.Game.Combat.CombatSide Side;
+            Aow.Game.Combat.CombatObject Target;
             FSpellID = 102;
             FSourceID = Source.FID;
             var combat = Source.FCombat;
@@ -807,7 +807,7 @@ namespace Aow.Game.Combat.Actions
             for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
                 Target = Side.GetObjects(I);
-                if (Target is Aow.Game.Combat.TCombatUnit && !Target.FStatus.Contains(Aow.Game.Combat.TCombatObjectStatusElement.csDestroyed))
+                if (Target is Aow.Game.Combat.CombatUnit && !Target.FStatus.Contains(Aow.Game.Combat.CombatObjectStatusElement.Destroyed))
                 {
                     FTargetIDs.Add(Target.FID);
                 }
@@ -816,24 +816,24 @@ namespace Aow.Game.Combat.Actions
 
     }
 
-    public partial class TTacticalCombatHighPrayerCA : TExclusiveCombatSpellCA
+    public partial class TacticalCombatHighPrayerCA : ExclusiveCombatSpellCA
     {
         // CombatSpells.pas:976
         public new const int ClassID = 131786;
 
-        public TTacticalCombatHighPrayerCA(TECustomNode owner) : base(owner)
+        public TacticalCombatHighPrayerCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:982
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatObject Target;
+            Aow.Game.Combat.CombatObject Target;
             base.Execute(Combat);
             if (FSucceeded)
             {
                 Target = Combat.FCombatData.FindID(FTargetID);
                 Target.SetHitPoints((byte)(Target.GetHitPoints() + 5));
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(100).Expand(((Aow.Game.Combat.TCombatUnit)Target).FUnit);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(100).Expand(((Aow.Game.Combat.CombatUnit)Target).FUnit);
             }
         }
 
@@ -844,27 +844,27 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // inherited combat statistics, damage mode
-    public partial class THighPrayer : TCombatSpell
+    public partial class HighPrayer : CombatSpell
     {
         // CombatSpells.pas:996
-        public THighPrayer(TECustomNode owner) : base(owner)
+        public HighPrayer(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.THighPrayer.HighPrayerRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.HighPrayer.HighPrayerRStr);
             FSpellID = 102;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 0;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of();
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of();
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = -1;
-            spellCombatInfo.TargetTypes = TSet<TCombatTargetTypeElement>.Of(TCombatTargetTypeElement.cttFriend);
+            spellCombatInfo.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
         }
 
         // CombatSpells.pas:1013
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TTacticalCombatHighPrayerCA Action;
-            Action = new TTacticalCombatHighPrayerCA(null);
+            TacticalCombatHighPrayerCA Action;
+            Action = new TacticalCombatHighPrayerCA(null);
             Action.FSucceeded = true;
             Action.FSourceID = Source.FID;
             Action.FTargetID = Target.FID;
@@ -878,7 +878,7 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:1104
-        public override void tcGetDamageValueEx(TCombatObject Source, TCombatObject Target, ref TAbilityDamageValues Values)
+        public override void tcGetDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
         {
             int Healing;
             int Value;
@@ -895,7 +895,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = Value / 100;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtDeath);
+                Values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
             }
             else
             {
@@ -903,24 +903,24 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
 
         // CombatSpells.pas:1026
-        public override void fcPrefetchCombatCommands(TFastCombatCommandList Commands)
+        public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
         {
-            TCombatSide Side;
-            TCombatObject Target;
+            CombatSide Side;
+            CombatObject Target;
             int Value;
-            Aow.Game.Magic.Spells.TSpellCC Command;
+            Aow.Game.Magic.Spells.SpellCC Command;
             Value = 0;
             var side = Commands.FSource.GetSide();
             Side = Commands.FCombat.FSides[(int)side];
             for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
                 Target = Side.GetObjects(I);
-                if (Target.FCombatValue != 0 && Target is TCombatUnit)
+                if (Target.FCombatValue != 0 && Target is CombatUnit)
                 {
                     Value += Aow.Game.Magic.Abilities.AbilityRules.DVtoDEV((Target.GetHits() - Target.GetHitPoints()) * 100, 0, Commands.FSource, Target);
                 }
@@ -928,7 +928,7 @@ namespace Aow.Game.Magic.Spells.Combat
 
             if (Value != 0)
             {
-                Command = new Aow.Game.Magic.Spells.TSpellCC(52);
+                Command = new Aow.Game.Magic.Spells.SpellCC(52);
                 Command.FTarget = null;
                 Command.FMoveCost = 1;
                 Command.FSpellID = FSpellID;
@@ -938,31 +938,31 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:1054
-        public override bool fcExecuteCombatCommand(TCombatObject Source, TFastCombatCommand Command)
+        public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
         {
-            TFastCombatHighPrayerCA Action;
-            Action = new TFastCombatHighPrayerCA(null);
+            FastCombatHighPrayerCA Action;
+            Action = new FastCombatHighPrayerCA(null);
             Action.Generate(Source);
-            Action.FManaCost = ((THero)((TCombatUnit)Source).FUnit).CastingMana(this);
+            Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
             Source.FCombat.ExecuteCombatAction(Action);
             Action.Release();
             return true;
         }
 
         // CombatSpells.pas:1067
-        public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+        public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
         {
             int Value;
             int Healing;
-            TCombatSide Side;
-            TCombatObject Ally;
+            CombatSide Side;
+            CombatObject Ally;
             Value = 0;
             var side = Source.GetSide();
             Side = Source.FCombat.FSides[(int)side];
             for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
                 Ally = Side.GetObjects(I);
-                if (Ally.FCombatValue != 0 && Ally is TCombatUnit)
+                if (Ally.FCombatValue != 0 && Ally is CombatUnit)
                 {
                     Healing = Ally.GetHits() - Ally.GetHitPoints();
                     if (Healing > 5)
@@ -980,7 +980,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = Value / 100;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtDeath);
+                Values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
             }
             else
             {
@@ -988,7 +988,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
 
@@ -996,17 +996,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TDeathRay : TCombatSpell
+    public partial class DeathRay : CombatSpell
     {
         // CombatSpells.pas:1130
-        public TDeathRay(TECustomNode owner) : base(owner)
+        public DeathRay(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TDeathRay.DeathRayRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.DeathRay.DeathRayRStr);
             FSpellID = 103;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
             spellCombatInfo.Damage = 4;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtDeath);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
@@ -1015,17 +1015,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TDiseaseCloud : TCombatSpell
+    public partial class DiseaseCloud : CombatSpell
     {
         // CombatSpells.pas:1146
-        public TDiseaseCloud(TECustomNode owner) : base(owner)
+        public DiseaseCloud(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TDiseaseCloud.DiseaseCloudRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.DiseaseCloud.DiseaseCloudRStr);
             FSpellID = 104;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 3;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtDeath);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
@@ -1037,36 +1037,36 @@ namespace Aow.Game.Magic.Spells.Combat
 namespace Aow.Game.Combat.Actions
 {
 
-    public partial class TMindDecayCA : TExclusiveCombatSpellCA
+    public partial class MindDecayCA : ExclusiveCombatSpellCA
     {
         // CombatSpells.pas:1162
         public new const int ClassID = 131787;
 
-        public TMindDecayCA(TECustomNode owner) : base(owner)
+        public MindDecayCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:1168
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatObject Source;
-            Aow.Game.Combat.TCombatUnit Target;
+            Aow.Game.Combat.CombatObject Source;
+            Aow.Game.Combat.CombatUnit Target;
             base.Execute(Combat);
             if (FSucceeded)
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
+                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
                 Source.SetExperience(Source.GetExperience() + Target.GetLevel());
                 for (int I = 0; I <= 2; I++)
                 {
-                    ((TCommandAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
+                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
                 }
 
                 for (int I = 0; I <= 2; I++)
                 {
-                    ((TCommandAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
+                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
                 }
 
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(131).Expand(Target.FUnit);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(131).Expand(Target.FUnit);
                 Target.SetCombatPlayer((byte)Source.FCombatPlayer);
             }
         }
@@ -1078,27 +1078,27 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // inherited combat statistics, damage mode
-    public partial class TMindDecay : TCombatSpell
+    public partial class MindDecay : CombatSpell
     {
         // CombatSpells.pas:1190
-        public TMindDecay(TECustomNode owner) : base(owner)
+        public MindDecay(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TMindDecay.MindDecayRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.MindDecay.MindDecayRStr);
             FSpellID = 106;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
             spellCombatInfo.Damage = 0;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtNone);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
         }
 
         // CombatSpells.pas:1207
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TMindDecayCA Action;
-            Action = new TMindDecayCA(null);
+            MindDecayCA Action;
+            Action = new MindDecayCA(null);
             Action.FSourceID = Source.FID;
             Action.FTargetID = Target.FID;
             Action.FSpellID = FSpellID;
@@ -1107,7 +1107,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Action.FManaCost = FBaseManaCost;
             }
 
-            if (Target is TCombatUnit && ((TCombatUnit)Target).FUnit.GetUnitType() != TUnitType.utMachine && ((TCombatUnit)Target).FUnit.GetRace() != 11 && !((TCombatUnit)Target).FUnit.GetAbilityEnabled(129) && !(((TCombatUnit)Target).FUnit is TLeader))
+            if (Target is CombatUnit && ((CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine && ((CombatUnit)Target).FUnit.GetRace() != 11 && !((CombatUnit)Target).FUnit.GetAbilityEnabled(129) && !(((CombatUnit)Target).FUnit is Leader))
             {
                 var resistance = Target.GetResistance();
                 Action.FSucceeded = Aow.Game.Magic.Abilities.HitChance.HitRole(FCombatInfo.Attack - resistance);
@@ -1120,17 +1120,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TChainLightning : TCombatSpell
+    public partial class ChainLightning : CombatSpell
     {
         // CombatSpells.pas:1224
-        public TChainLightning(TECustomNode owner) : base(owner)
+        public ChainLightning(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TChainLightning.ChainLightningRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.ChainLightning.ChainLightningRStr);
             FSpellID = 107;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 4;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtLightning);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Lightning);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
@@ -1140,17 +1140,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TColdBreath : TCombatSpell
+    public partial class ColdBreath : CombatSpell
     {
         // CombatSpells.pas:1241
-        public TColdBreath(TECustomNode owner) : base(owner)
+        public ColdBreath(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TColdBreath.ColdBreathRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.ColdBreath.ColdBreathRStr);
             FSpellID = 108;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtCold);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Cold);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 4;
         }
@@ -1162,28 +1162,28 @@ namespace Aow.Game.Magic.Spells.Combat
 namespace Aow.Game.Combat.Actions
 {
 
-    public partial class TSlowCA : TExclusiveCombatSpellCA
+    public partial class SlowCA : ExclusiveCombatSpellCA
     {
         // CombatSpells.pas:1257
         public new const int ClassID = 131792;
 
-        public TSlowCA(TECustomNode owner) : base(owner)
+        public SlowCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:1263
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatUnit Target;
-            Aow.Game.Combat.TCombatObject Source;
-            TUnitEnchantment Enchantment;
+            Aow.Game.Combat.CombatUnit Target;
+            Aow.Game.Combat.CombatObject Source;
+            UnitEnchantment Enchantment;
             base.Execute(Combat);
             if (FSucceeded)
             {
-                Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
+                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
                 Source = Combat.FCombatData.FindID(FSourceID);
                 if (Target.FUnit.ExpandAbility(132))
                 {
-                    Enchantment = ((TUnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(132)).FEnchantment;
+                    Enchantment = ((UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(132)).FEnchantment;
                     Enchantment.SetUpkeep(0);
                     Enchantment.SetSource(Source.GetPlayer());
                 }
@@ -1197,26 +1197,26 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // inherited combat statistics, damage mode
-    public partial class TSlow : TCombatSpell
+    public partial class Slow : CombatSpell
     {
         // CombatSpells.pas:1284
-        public TSlow(TECustomNode owner) : base(owner)
+        public Slow(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SlowRStr);
             FSpellID = 110;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
             spellCombatInfo.Damage = 0;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtNone);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:1313
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TSlowCA Action;
-            Action = new TSlowCA(null);
+            SlowCA Action;
+            Action = new SlowCA(null);
             Action.FSourceID = Source.FID;
             Action.FTargetID = Target.FID;
             Action.FSpellID = FSpellID;
@@ -1235,14 +1235,14 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:1300
-        public override void GetCombatDamageValueEx(TCombatObject Source, TCombatObject Target, ref TAbilityDamageValues Values)
+        public override void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
         {
             ref var abilityDamageValues = ref Values;
             abilityDamageValues.SourceDamage = 0;
             abilityDamageValues.SourceCost = 0;
             abilityDamageValues.TargetDamage = 0;
             abilityDamageValues.TargetCost = 0;
-            abilityDamageValues.DamageTypes = TSet<TDamageType>.Of();
+            abilityDamageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 }
@@ -1250,27 +1250,27 @@ namespace Aow.Game.Magic.Spells.Combat
 namespace Aow.Game.Combat.Actions
 {
 
-    public partial class TEntangleSpellCA : TExclusiveCombatSpellCA
+    public partial class EntangleSpellCA : ExclusiveCombatSpellCA
     {
         // CombatSpells.pas:1328
         public new const int ClassID = 131784;
 
-        public TEntangleSpellCA(TECustomNode owner) : base(owner)
+        public EntangleSpellCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:1334
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatObject Source;
-            Aow.Game.Combat.TCombatUnit Target;
-            TUnitEnchantmentAbilityData Data;
+            Aow.Game.Combat.CombatObject Source;
+            Aow.Game.Combat.CombatUnit Target;
+            UnitEnchantmentAbilityData Data;
             base.Execute(Combat);
             if (FSucceeded)
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(94).Expand(Target.FUnit);
-                Data = (TUnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(94);
+                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(94).Expand(Target.FUnit);
+                Data = (UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(94);
                 if (Data != null)
                 {
                     Data.FEnchantmentPlayerIndex = Source.FCombatPlayer;
@@ -1285,26 +1285,26 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // inherited combat statistics, damage mode
-    public partial class TEntangle : TCombatSpell
+    public partial class Entangle : CombatSpell
     {
         // CombatSpells.pas:1352
-        public TEntangle(TECustomNode owner) : base(owner)
+        public Entangle(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EntangleRStr);
             FSpellID = 111;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 7;
             spellCombatInfo.Damage = 0;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtNone);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:1368
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TEntangleSpellCA Action;
-            Action = new TEntangleSpellCA(null);
+            EntangleSpellCA Action;
+            Action = new EntangleSpellCA(null);
             Action.FSourceID = Source.FID;
             Action.FTargetID = Target.FID;
             Action.FSpellID = FSpellID;
@@ -1323,7 +1323,7 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:1383
-        public override void GetCombatDamageValueEx(TCombatObject Source, TCombatObject Target, ref TAbilityDamageValues Values)
+        public override void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
         {
             if (!Target.GetAbilityEnabled(1) && !Target.GetAbilityEnabled(94))
             {
@@ -1335,7 +1335,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = targetHitPoints;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtNone);
+                Values.DamageTypes = Set<DamageType>.Of(DamageType.None);
             }
             else
             {
@@ -1343,24 +1343,24 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
     }
 
     // inherited combat statistics, damage mode
-    public partial class TTremors : TCombatSpell
+    public partial class Tremors : CombatSpell
     {
         // CombatSpells.pas:1404
-        public TTremors(TECustomNode owner) : base(owner)
+        public Tremors(ECustomNode owner) : base(owner)
         {
             // { Original leaves this spell name untranslated. }
-            FSpellName = Aow.Game.Magic.Spells.Combat.TTremors.TremorsRStr;
+            FSpellName = Aow.Game.Magic.Spells.Combat.Tremors.TremorsRStr;
             FSpellID = 112;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtWall);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = -1;
             spellCombatInfo.Radius = 5;
@@ -1370,17 +1370,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TCallFlames : TCombatSpell
+    public partial class CallFlames : CombatSpell
     {
         // CombatSpells.pas:1421
-        public TCallFlames(TECustomNode owner) : base(owner)
+        public CallFlames(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TCallFlames.CallFlamesRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.CallFlames.CallFlamesRStr);
             FSpellID = 113;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
             spellCombatInfo.Damage = 3;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtFire);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 8;
             spellCombatInfo.Radius = 1;
@@ -1390,17 +1390,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TFireBreath : TCombatSpell
+    public partial class FireBreath : CombatSpell
     {
         // CombatSpells.pas:1438
-        public TFireBreath(TECustomNode owner) : base(owner)
+        public FireBreath(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TFireBreath.FireBreathRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.FireBreath.FireBreathRStr);
             FSpellID = 114;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtFire);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 4;
             spellCombatInfo.Radius = 3;
@@ -1410,17 +1410,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TSwarm : TCombatSpell
+    public partial class Swarm : CombatSpell
     {
         // CombatSpells.pas:1455
-        public TSwarm(TECustomNode owner) : base(owner)
+        public Swarm(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TSwarm.SwarmRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.Swarm.SwarmRStr);
             FSpellID = 115;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 2;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtFire);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 5;
@@ -1430,17 +1430,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TGreatHail : TCombatSpell
+    public partial class GreatHail : CombatSpell
     {
         // CombatSpells.pas:1472
-        public TGreatHail(TECustomNode owner) : base(owner)
+        public GreatHail(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TGreatHail.GreatHailRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.GreatHail.GreatHailRStr);
             FSpellID = 116;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtWall);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
             spellCombatInfo.RepeatCount = 3;
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 2;
@@ -1450,17 +1450,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TFireBall : TCombatSpell
+    public partial class FireBall : CombatSpell
     {
         // CombatSpells.pas:1489
-        public TFireBall(TECustomNode owner) : base(owner)
+        public FireBall(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TFireBall.FireBallRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.FireBall.FireBallRStr);
             FSpellID = 117;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
             spellCombatInfo.Damage = 6;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtFire, TDamageType.dtWall);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
@@ -1469,27 +1469,27 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TGeyser : TCombatSpell
+    public partial class Geyser : CombatSpell
     {
         // CombatSpells.pas:1505
-        public TGeyser(TECustomNode owner) : base(owner)
+        public Geyser(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TGeyser.GeyserRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.Geyser.GeyserRStr);
             FSpellID = 118;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 1;
         }
 
         // CombatSpells.pas:1522
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TCombatSpellCA Action;
-            Action = new TCombatSpellCA(null);
+            CombatSpellCA Action;
+            Action = new CombatSpellCA(null);
             Action.FSpellID = FSpellID;
             if (Target.GetAbilityEnabled(1) || Target.GetAbilityEnabled(59))
             {
@@ -1502,7 +1502,7 @@ namespace Aow.Game.Magic.Spells.Combat
 
             if (ChargeMana)
             {
-                Action.FManaCost = ((THero)((TCombatUnit)Source).FUnit).CastingMana(this);
+                Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
             }
 
             return Action;
@@ -1512,17 +1512,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TIceShards : TCombatSpell
+    public partial class IceShards : CombatSpell
     {
         // CombatSpells.pas:1537
-        public TIceShards(TECustomNode owner) : base(owner)
+        public IceShards(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TIceShards.IceShardsRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.IceShards.IceShardsRStr);
             FSpellID = 119;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 4;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
             spellCombatInfo.RepeatCount = 3;
             spellCombatInfo.Range = 12;
         }
@@ -1531,17 +1531,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TFrostBeams : TCombatSpell
+    public partial class FrostBeams : CombatSpell
     {
         // CombatSpells.pas:1553
-        public TFrostBeams(TECustomNode owner) : base(owner)
+        public FrostBeams(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TFrostBeams.FrostBeamsRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.FrostBeams.FrostBeamsRStr);
             FSpellID = 120;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 9;
             spellCombatInfo.Damage = 3;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtCold);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Cold);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
@@ -1551,18 +1551,18 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TVaporize : TCombatSpell
+    public partial class Vaporize : CombatSpell
     {
         // CombatSpells.pas:1570
-        public TVaporize(TECustomNode owner) : base(owner)
+        public Vaporize(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TVaporize.VaporizeRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.Vaporize.VaporizeRStr);
             FSpellID = 121;
             FDamageMode = 1;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 7;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
@@ -1571,17 +1571,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TFlamingArrow : TCombatSpell
+    public partial class FlamingArrow : CombatSpell
     {
         // CombatSpells.pas:1603
-        public TFlamingArrow(TECustomNode owner) : base(owner)
+        public FlamingArrow(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TFlamingArrow.FlamingArrowRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.FlamingArrow.FlamingArrowRStr);
             FSpellID = 123;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
             spellCombatInfo.Damage = 4;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtFire, TDamageType.dtPhysical);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Physical);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
@@ -1590,17 +1590,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TStoning : TCombatSpell
+    public partial class Stoning : CombatSpell
     {
         // CombatSpells.pas:1587
-        public TStoning(TECustomNode owner) : base(owner)
+        public Stoning(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TStoning.StoningRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.Stoning.StoningRStr);
             FSpellID = 122;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 5;
             spellCombatInfo.Damage = 2;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
             spellCombatInfo.RepeatCount = 6;
             spellCombatInfo.Range = 12;
         }
@@ -1609,23 +1609,23 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TOoze : TCombatSpell
+    public partial class Ooze : CombatSpell
     {
         // CombatSpells.pas:1619
-        public TOoze(TECustomNode owner) : base(owner)
+        public Ooze(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TOoze.OozeRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.Ooze.OozeRStr);
             FSpellID = 124;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
             spellCombatInfo.Damage = 0;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of();
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of();
             spellCombatInfo.RepeatCount = 0;
             spellCombatInfo.Range = 8;
         }
 
         // CombatSpells.pas:1635
-        public override void GetCombatDamageValueEx(TCombatObject Source, TCombatObject Target, ref TAbilityDamageValues Values)
+        public override void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
         {
             Target.GetProtectionTypes();
             Target.GetImmunityTypes();
@@ -1642,17 +1642,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited combat statistics, damage mode
-    public partial class TSacredWrath : TCombatSpell
+    public partial class SacredWrath : CombatSpell
     {
         // CombatSpells.pas:1649
-        public TSacredWrath(TECustomNode owner) : base(owner)
+        public SacredWrath(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TSacredWrath.SacredWrathRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.SacredWrath.SacredWrathRStr);
             FSpellID = 125;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtHoly);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 8;
             spellCombatInfo.Radius = 3;
@@ -1665,32 +1665,32 @@ namespace Aow.Game.Magic.Spells.Combat
 namespace Aow.Game.Combat.Actions
 {
 
-    public partial class TFastCombatTerrorCA : TMultiTargetCombatSpellCA
+    public partial class FastCombatTerrorCA : MultiTargetCombatSpellCA
     {
         // CombatSpells.pas:1666
         public new const int ClassID = 131777;
 
-        public TFastCombatTerrorCA(TECustomNode owner) : base(owner)
+        public FastCombatTerrorCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:1672
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatUnit Target;
+            Aow.Game.Combat.CombatUnit Target;
             base.Execute(Combat);
             for (int I = FTargetIDs.Count - 1; I >= 0; I--)
             {
                 var targetID = FTargetIDs[I];
-                Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(targetID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
+                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(targetID);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
             }
         }
 
         // CombatSpells.pas:1686
-        public void Generate(Aow.Game.Combat.TCombatObject Source)
+        public void Generate(Aow.Game.Combat.CombatObject Source)
         {
-            Aow.Game.Combat.TCombatSide Side;
-            Aow.Game.Combat.TCombatObject Target;
+            Aow.Game.Combat.CombatSide Side;
+            Aow.Game.Combat.CombatObject Target;
             FSpellID = 105;
             FSourceID = Source.FID;
             var combat = Source.FCombat;
@@ -1700,7 +1700,7 @@ namespace Aow.Game.Combat.Actions
             for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
                 Target = Side.GetObjects(I);
-                if (!Target.FStatus.Contains(Aow.Game.Combat.TCombatObjectStatusElement.csDestroyed) && !Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is Aow.Game.Combat.TCombatUnit && !Target.GetImmunityTypes().Contains(Aow.Game.Combat.TDamageType.dtDeath) && ((Aow.Game.Combat.TCombatUnit)Target).FUnit.GetUnitType() != TUnitType.utMachine && Aow.Game.Magic.Abilities.HitChance.HitRole(6 - Target.GetResistance()))
+                if (!Target.FStatus.Contains(Aow.Game.Combat.CombatObjectStatusElement.Destroyed) && !Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is Aow.Game.Combat.CombatUnit && !Target.GetImmunityTypes().Contains(Aow.Game.Combat.DamageType.Death) && ((Aow.Game.Combat.CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine && Aow.Game.Magic.Abilities.HitChance.HitRole(6 - Target.GetResistance()))
                 {
                     FTargetIDs.Add(Target.FID);
                 }
@@ -1710,12 +1710,12 @@ namespace Aow.Game.Combat.Actions
     }
 
     // source ID, target ID, casting mana, success
-    public partial class TTacticalCombatTerrorCA : TCombatAction
+    public partial class TacticalCombatTerrorCA : CombatAction
     {
         // CombatSpells.pas:1707
         public new const int ClassID = 131785;
 
-        public TTacticalCombatTerrorCA(TECustomNode owner) : base(owner)
+        public TacticalCombatTerrorCA(ECustomNode owner) : base(owner)
         { }
 
         public byte FSourceID;
@@ -1724,7 +1724,7 @@ namespace Aow.Game.Combat.Actions
         public bool FSucceeded;
 
         // CombatSpells.pas:1713
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref FSourceID, 20);
@@ -1734,37 +1734,37 @@ namespace Aow.Game.Combat.Actions
         }
 
         // CombatSpells.pas:1723
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatUnit Target;
-            Aow.Game.Combat.TCombatUnit Source;
+            Aow.Game.Combat.CombatUnit Target;
+            Aow.Game.Combat.CombatUnit Source;
             if (FSucceeded)
             {
-                Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
+                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
             }
 
-            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
+            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.CombatStatusElement.Executing))
             {
-                Source = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FSourceID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(105).CastingDone(Source.FUnit, FManaCost);
+                Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(105).CastingDone(Source.FUnit, FManaCost);
             }
         }
 
         // CombatSpells.pas:1740
-        public override bool Play(Aow.Game.Combat.TCombatViewer Viewer)
+        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
         {
             Execute(Viewer.FCombat);
             return false;
         }
 
         // CombatSpells.pas:1747
-        public void Generate(Aow.Game.Combat.TCombatObject Source, Aow.Game.Combat.TCombatObject Target)
+        public void Generate(Aow.Game.Combat.CombatObject Source, Aow.Game.Combat.CombatObject Target)
         {
             FSucceeded = false;
             FSourceID = Source.FID;
             FTargetID = Target.FID;
-            if (!Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is Aow.Game.Combat.TCombatUnit && !Target.GetImmunityTypes().Contains(Aow.Game.Combat.TDamageType.dtDeath) && ((Aow.Game.Combat.TCombatUnit)Target).FUnit.GetUnitType() != TUnitType.utMachine)
+            if (!Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is Aow.Game.Combat.CombatUnit && !Target.GetImmunityTypes().Contains(Aow.Game.Combat.DamageType.Death) && ((Aow.Game.Combat.CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine)
             {
                 FSucceeded = Aow.Game.Magic.Abilities.HitChance.HitRole(6 - Target.GetResistance());
             }
@@ -1777,40 +1777,40 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // inherited combat statistics, damage mode
-    public partial class TTerror : TCombatSpell
+    public partial class Terror : CombatSpell
     {
         // CombatSpells.pas:1759
-        public TTerror(TECustomNode owner) : base(owner)
+        public Terror(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TTerror.TerrorRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.Terror.TerrorRStr);
             FSpellID = 105;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 6;
             spellCombatInfo.Damage = 0;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtDeath);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = -1;
         }
 
         // CombatSpells.pas:1775
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TTacticalCombatTerrorCA Action;
-            Action = new TTacticalCombatTerrorCA(null);
+            TacticalCombatTerrorCA Action;
+            Action = new TacticalCombatTerrorCA(null);
             Action.Generate(Source, Target);
             if (ChargeMana)
             {
-                Action.FManaCost = ((THero)((TCombatUnit)Source).FUnit).CastingMana(this);
+                Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
             }
 
             return Action;
         }
 
         // CombatSpells.pas:1862
-        public override void tcGetDamageValueEx(TCombatObject Source, TCombatObject Target, ref TAbilityDamageValues Values)
+        public override void tcGetDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
         {
             int Value;
-            if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is TCombatUnit && !Target.GetImmunityTypes().Contains(TDamageType.dtDeath))
+            if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is CombatUnit && !Target.GetImmunityTypes().Contains(DamageType.Death))
             {
                 Value = Round((double)Aow.Game.Magic.Abilities.HitChance.HitRoleProbability(6 - Target.GetResistance()) * 100);
             }
@@ -1825,7 +1825,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = Value / 100;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtDeath);
+                Values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
             }
             else
             {
@@ -1833,24 +1833,24 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
 
         // CombatSpells.pas:1786
-        public override void fcPrefetchCombatCommands(TFastCombatCommandList Commands)
+        public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
         {
-            TCombatSide Side;
-            TCombatObject Target;
+            CombatSide Side;
+            CombatObject Target;
             int Value;
-            Aow.Game.Magic.Spells.TSpellCC Command;
+            Aow.Game.Magic.Spells.SpellCC Command;
             Value = 0;
             var opponentSide = Commands.FSource.GetOpponentSide();
             Side = Commands.FCombat.FSides[(int)opponentSide];
             for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
                 Target = Side.GetObjects(I);
-                if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is TCombatUnit && !Target.GetImmunityTypes().Contains(TDamageType.dtDeath))
+                if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is CombatUnit && !Target.GetImmunityTypes().Contains(DamageType.Death))
                 {
                     Value += Target.GetTargetPriority();
                 }
@@ -1858,7 +1858,7 @@ namespace Aow.Game.Magic.Spells.Combat
 
             if (Value != 0)
             {
-                Command = new Aow.Game.Magic.Spells.TSpellCC(52);
+                Command = new Aow.Game.Magic.Spells.SpellCC(52);
                 Command.FTarget = null;
                 Command.FMoveCost = 1;
                 Command.FSpellID = FSpellID;
@@ -1868,30 +1868,30 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:1815
-        public override bool fcExecuteCombatCommand(TCombatObject Source, TFastCombatCommand Command)
+        public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
         {
-            TFastCombatTerrorCA Action;
-            Action = new TFastCombatTerrorCA(null);
+            FastCombatTerrorCA Action;
+            Action = new FastCombatTerrorCA(null);
             Action.Generate(Source);
-            Action.FManaCost = ((THero)((TCombatUnit)Source).FUnit).CastingMana(this);
+            Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
             Source.FCombat.ExecuteCombatAction(Action);
             Action.Release();
             return true;
         }
 
         // CombatSpells.pas:1828
-        public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+        public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
         {
             int Value;
-            TCombatSide Side;
-            TCombatObject Opponent;
+            CombatSide Side;
+            CombatObject Opponent;
             Value = 0;
             var opponentSide = Source.GetOpponentSide();
             Side = Source.FCombat.FSides[(int)opponentSide];
             for (int I = Side.GetCount() - 1; I >= 0; I--)
             {
                 Opponent = Side.GetObjects(I);
-                if (!Opponent.GetAbilityEnabled(108) && Opponent.FCombatValue != 0 && Opponent is TCombatUnit && !Opponent.GetImmunityTypes().Contains(TDamageType.dtDeath))
+                if (!Opponent.GetAbilityEnabled(108) && Opponent.FCombatValue != 0 && Opponent is CombatUnit && !Opponent.GetImmunityTypes().Contains(DamageType.Death))
                 {
                     Value += Round((double)Aow.Game.Magic.Abilities.HitChance.HitRoleProbability(6 - Opponent.GetResistance()) * 100);
                 }
@@ -1903,7 +1903,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = Value / 100;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtDeath);
+                Values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
             }
             else
             {
@@ -1911,7 +1911,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
 
@@ -1919,26 +1919,26 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited spell ID, combat statistics, damage mode
-    public partial class TWindsOfFury : TCombatSpell
+    public partial class WindsOfFury : CombatSpell
     {
         // CombatSpells.pas:1889
-        public TWindsOfFury(TECustomNode owner) : base(owner)
+        public WindsOfFury(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TWindsOfFury.WindsOfFuryRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.WindsOfFury.WindsOfFuryRStr);
             FSpellID = 126;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
 
         // CombatSpells.pas:1904
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TCombatSpellCA Action;
-            Action = new TCombatSpellCA(null);
+            CombatSpellCA Action;
+            Action = new CombatSpellCA(null);
             Action.FSpellID = FSpellID;
             if (Target.GetAbilityEnabled(1) || Target.GetAbilityEnabled(59))
             {
@@ -1951,7 +1951,7 @@ namespace Aow.Game.Magic.Spells.Combat
 
             if (ChargeMana)
             {
-                Action.FManaCost = ((THero)((TCombatUnit)Source).FUnit).CastingMana(this);
+                Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
             }
 
             return Action;
@@ -1961,17 +1961,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited spell ID, combat statistics, damage mode
-    public partial class TShockwave : TCombatSpell
+    public partial class Shockwave : CombatSpell
     {
         // CombatSpells.pas:1919
-        public TShockwave(TECustomNode owner) : base(owner)
+        public Shockwave(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TShockwave.ShockwaveRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.Shockwave.ShockwaveRStr);
             FSpellID = 127;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtWall);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
         }
@@ -1980,17 +1980,17 @@ namespace Aow.Game.Magic.Spells.Combat
     }
 
     // inherited spell ID, combat statistics, damage mode
-    public partial class TSacrificialFlame : TCombatSpell
+    public partial class SacrificialFlame : CombatSpell
     {
         // CombatSpells.pas:1934
-        public TSacrificialFlame(TECustomNode owner) : base(owner)
+        public SacrificialFlame(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TSacrificialFlame.SacrificialFlameRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.SacrificialFlame.SacrificialFlameRStr);
             FSpellID = 128;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 8;
             spellCombatInfo.Damage = 5;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of(TDamageType.dtFire);
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = 12;
             spellCombatInfo.Radius = 3;
@@ -2004,33 +2004,33 @@ namespace Aow.Game.Combat.Actions
 {
 
     // inherited source ID, target ID, mana, success, spell ID
-    public partial class TRecallSpiritCA : TExclusiveCombatSpellCA
+    public partial class RecallSpiritCA : ExclusiveCombatSpellCA
     {
         // CombatSpells.pas:1950
         public new const int ClassID = 131781;
 
-        public TRecallSpiritCA(TECustomNode owner) : base(owner)
+        public RecallSpiritCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:1953
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatUnit Source;
-            Aow.Game.Combat.TCombatUnit Target;
-            TUnit NewUnit;
+            Aow.Game.Combat.CombatUnit Source;
+            Aow.Game.Combat.CombatUnit Target;
+            Unit NewUnit;
             base.Execute(Combat);
             if (FSucceeded)
             {
-                Source = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
-                NewUnit = new TUnit(null);
-                NewUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(130));
+                Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
+                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                NewUnit = new Unit(null);
+                NewUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(130));
                 NewUnit.SetPlayer(Source.FUnit.FPlayer);
                 NewUnit.ExpandAbility(130);
                 NewUnit.Activate();
                 Target.SetUnit(NewUnit);
                 NewUnit.Release();
-                Target.SetStatus(Target.FStatus - TSet<Aow.Game.Combat.TCombatObjectStatusElement>.Of(Aow.Game.Combat.TCombatObjectStatusElement.csDestroyed));
+                Target.SetStatus(Target.FStatus - Set<Aow.Game.Combat.CombatObjectStatusElement>.Of(Aow.Game.Combat.CombatObjectStatusElement.Destroyed));
                 Target.SetCombatPlayer((byte)Source.FCombatPlayer);
             }
         }
@@ -2042,29 +2042,29 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // inherited spell ID, combat statistics, damage mode
-    public partial class TRecallSpirit : TCombatSpell
+    public partial class RecallSpirit : CombatSpell
     {
         // CombatSpells.pas:1975
-        public TRecallSpirit(TECustomNode owner) : base(owner)
+        public RecallSpirit(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TRecallSpirit.RecallSpiritRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.RecallSpirit.RecallSpiritRStr);
             FSpellID = 129;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
             spellCombatInfo.Damage = 0;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of();
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of();
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = -1;
         }
 
         // CombatSpells.pas:2008
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TRecallSpiritCA Action;
-            Action = new TRecallSpiritCA(null);
+            RecallSpiritCA Action;
+            Action = new RecallSpiritCA(null);
             Action.FSourceID = Source.FID;
             Action.FTargetID = Target.FID;
-            Action.FSucceeded = Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed);
+            Action.FSucceeded = Target.FStatus.Contains(CombatObjectStatusElement.Destroyed);
             Action.FSpellID = FSpellID;
             if (ChargeMana)
             {
@@ -2075,13 +2075,13 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:1990
-        public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+        public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
         {
-            if (Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
+            if (Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
             {
                 // { Original leaves the other damage-value fields unchanged on success. }
                 Values.SourceDamage = 200;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
             else
             {
@@ -2089,7 +2089,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
 
@@ -2101,33 +2101,33 @@ namespace Aow.Game.Combat.Actions
 {
 
     // inherited source ID, target ID, mana, success, spell ID
-    public partial class TAnimateDeadCA : TExclusiveCombatSpellCA
+    public partial class AnimateDeadCA : ExclusiveCombatSpellCA
     {
         // CombatSpells.pas:2021
         public new const int ClassID = 131782;
 
-        public TAnimateDeadCA(TECustomNode owner) : base(owner)
+        public AnimateDeadCA(ECustomNode owner) : base(owner)
         { }
 
         // CombatSpells.pas:2024
-        public override void Execute(Aow.Game.Combat.TCombat Combat)
+        public override void Execute(global::Aow.Game.Combat.Combat Combat)
         {
-            Aow.Game.Combat.TCombatUnit Source;
-            Aow.Game.Combat.TCombatUnit Target;
-            TUnit NewUnit;
+            Aow.Game.Combat.CombatUnit Source;
+            Aow.Game.Combat.CombatUnit Target;
+            Unit NewUnit;
             base.Execute(Combat);
             if (FSucceeded)
             {
-                Source = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FTargetID);
-                NewUnit = new TUnit(null);
-                NewUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(201));
+                Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
+                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                NewUnit = new Unit(null);
+                NewUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(201));
                 NewUnit.SetPlayer(Source.FUnit.FPlayer);
                 NewUnit.ExpandAbility(130);
                 NewUnit.Activate();
                 Target.SetUnit(NewUnit);
                 NewUnit.Release();
-                Target.SetStatus(Target.FStatus - TSet<Aow.Game.Combat.TCombatObjectStatusElement>.Of(Aow.Game.Combat.TCombatObjectStatusElement.csDestroyed));
+                Target.SetStatus(Target.FStatus - Set<Aow.Game.Combat.CombatObjectStatusElement>.Of(Aow.Game.Combat.CombatObjectStatusElement.Destroyed));
                 Target.SetCombatPlayer((byte)Source.FCombatPlayer);
             }
         }
@@ -2139,29 +2139,29 @@ namespace Aow.Game.Magic.Spells.Combat
 {
 
     // inherited spell ID, combat statistics, damage mode
-    public partial class TAnimateDead : TCombatSpell
+    public partial class AnimateDead : CombatSpell
     {
         // CombatSpells.pas:2046
-        public TAnimateDead(TECustomNode owner) : base(owner)
+        public AnimateDead(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.TAnimateDead.AnimateDeadRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Combat.AnimateDead.AnimateDeadRStr);
             FSpellID = 130;
             ref var spellCombatInfo = ref FCombatInfo;
             spellCombatInfo.Attack = 0;
             spellCombatInfo.Damage = 0;
-            spellCombatInfo.DamageTypes = TSet<TDamageType>.Of();
+            spellCombatInfo.DamageTypes = Set<DamageType>.Of();
             spellCombatInfo.RepeatCount = 1;
             spellCombatInfo.Range = -1;
         }
 
         // CombatSpells.pas:2079
-        public override TCombatAction CreateCA(TCombatObject Source, TCombatObject Target, bool ChargeMana)
+        public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
         {
-            TAnimateDeadCA Action;
-            Action = new TAnimateDeadCA(null);
+            AnimateDeadCA Action;
+            Action = new AnimateDeadCA(null);
             Action.FSourceID = Source.FID;
             Action.FTargetID = Target.FID;
-            Action.FSucceeded = Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed);
+            Action.FSucceeded = Target.FStatus.Contains(CombatObjectStatusElement.Destroyed);
             Action.FSpellID = FSpellID;
             if (ChargeMana)
             {
@@ -2172,13 +2172,13 @@ namespace Aow.Game.Magic.Spells.Combat
         }
 
         // CombatSpells.pas:2061
-        public override void fcGetDamageValueEx(TCombatObject Source, TCombatObject Target, TWallSituation WallSituation, ref TAbilityDamageValues Values)
+        public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
         {
-            if (Target.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
+            if (Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
             {
                 // { Original leaves the other damage-value fields unchanged on success. }
                 Values.SourceDamage = 200;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
             else
             {
@@ -2186,7 +2186,7 @@ namespace Aow.Game.Magic.Spells.Combat
                 Values.SourceCost = 0;
                 Values.TargetDamage = 0;
                 Values.TargetCost = 0;
-                Values.DamageTypes = TSet<TDamageType>.Of();
+                Values.DamageTypes = Set<DamageType>.Of();
             }
         }
 

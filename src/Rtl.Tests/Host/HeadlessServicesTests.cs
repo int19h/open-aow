@@ -30,7 +30,7 @@ public sealed class HeadlessServicesTests
     [Fact]
     public void RegistryDefaultsAreEmptyAndWritesRemainInMemory()
     {
-        var registry = new TRegistry();
+        var registry = new Registry();
         Assert.True(registry.OpenKey("General", true));
         Assert.False(registry.ValueExists("Language"));
         registry.WriteInteger("Language", 1);
@@ -43,7 +43,7 @@ public sealed class HeadlessServicesTests
         Assert.Equal("English", registry.ReadString("name"));
         registry.OpenKey("Other", false);
         Assert.False(registry.ValueExists("Language"));
-        var separate = new TRegistry();
+        var separate = new Registry();
         separate.OpenKey("General", false);
         Assert.False(separate.ValueExists("Language"));
     }
@@ -51,7 +51,7 @@ public sealed class HeadlessServicesTests
     [Fact]
     public void MissingStringValueReadsAsEmpty()
     {
-        var registry = new TRegistry();
+        var registry = new Registry();
         registry.OpenKey("General", false);
         Assert.False(registry.ValueExists("Absent Name"));
         Assert.Equal("", registry.ReadString("Absent Name"));
@@ -60,7 +60,7 @@ public sealed class HeadlessServicesTests
     [Fact]
     public void BinarySettingsRetainTheirStoredSizeAndLeaveTheUnreadTail()
     {
-        var registry = new TRegistry();
+        var registry = new Registry();
         registry.OpenKey("General", true);
         registry.WriteBinaryData("Movement Speed", new byte[] { 2, 7, 9 }, 2);
         byte[] result = [0xff, 0xff, 0xff, 0xff];

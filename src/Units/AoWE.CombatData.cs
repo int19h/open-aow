@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class TCombatData
+public partial class CombatData
 {
     public override void Clear()
     {
@@ -16,14 +16,14 @@ public partial class TCombatData
         FParties.Clear();
     }
 
-    public override void MsgProc(ref TEMsg message, TEObject sender)
+    public override void MsgProc(ref EMsg message, EObject sender)
     {
         base.MsgProc(ref message, sender);
         FCombatObjects.MsgProc(ref message, sender);
         FParties.MsgProc(ref message, sender);
     }
 
-    public override void ReadWrite(TEStorageStream stream)
+    public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
         stream.rwInteger(ref FX, 0x0a);

@@ -66,7 +66,7 @@ public static class FileBoundary
     /// EGameFileError after it is logged, before the caller changes anything.
     /// </summary>
     public static byte[] LoadOrRaise(string fileName, GameProfile profile) =>
-        Load(fileName, profile) ?? throw new EGameFileError(LastFailure!);
+        Load(fileName, profile) ?? throw new GameFileErrorException(LastFailure!);
 
     /// <summary>
     /// Converts and writes an engine-written image. Serialization and validation finish before
@@ -79,7 +79,7 @@ public static class FileBoundary
         if (result.Bytes is null)
         {
             Record(files, fileName, result.Report);
-            throw new EGameFileError(LastFailure!);
+            throw new GameFileErrorException(LastFailure!);
         }
         try
         {
@@ -89,7 +89,7 @@ public static class FileBoundary
         {
             result.Report.Error = new FormatDiagnostic(Codes.Output, "The file cannot be written: " + e.Message) { File = fileName };
             Record(files, fileName, result.Report);
-            throw new EGameFileError(LastFailure!);
+            throw new GameFileErrorException(LastFailure!);
         }
         Record(files, fileName, result.Report);
     }
@@ -148,7 +148,7 @@ public static class FileBoundary
     public static int ImageTailInt32(string fileName, GameProfile profile)
     {
         // A scenario set image passed its preflight, so it holds its header and trailing CRC.
-        var image = Load(fileName, profile, "crc") ?? throw new EGameFileError(LastFailure!);
+        var image = Load(fileName, profile, "crc") ?? throw new GameFileErrorException(LastFailure!);
         return System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(image.Length - 4));
     }
 
@@ -238,7 +238,7 @@ public static class FileBoundary
     private static List<string> FindNames(string mask)
     {
         var names = new List<string>();
-        TSearchRec search = default;
+        SearchRec search = default;
         bool found = RtlUnit.FindFirst(mask, 63 & ~16, ref search) == 0;
         while (found)
         {
@@ -356,7 +356,7 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
 }
 
 /// <summary>A refused open or write at the file boundary. It carries the shared diagnostic.</summary>
-public sealed class EGameFileError(FileLogRecord record) : System.Exception(record.ToString())
+public sealed class GameFileErrorException(FileLogRecord record) : System.Exception(record.ToString())
 {
     public FileLogRecord Record { get; } = record;
 }

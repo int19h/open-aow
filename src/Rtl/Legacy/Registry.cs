@@ -3,7 +3,7 @@ using Aow.Rtl.Host;
 namespace Aow.Rtl;
 
 [LegacyObject]
-public class TRegistry
+public class Registry
 {
     private readonly ISettingsStore values = RtlUnit.Settings ?? new MemorySettingsStore();
     private string key = "";
@@ -30,7 +30,7 @@ public class TRegistry
 
     public void WriteBinaryData(string name, ReadOnlySpan<byte> buffer, int size) => values.Write(key + "\\" + name, buffer[..size].ToArray());
 
-    public TRegistry()
+    public Registry()
     {
         CaptureAddress.Assign(this);
     }

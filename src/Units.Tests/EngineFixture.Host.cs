@@ -35,8 +35,8 @@ public sealed partial class EngineFixture
                 typeof(Aow.Game.Magic.Abilities.MovementTables), typeof(Aow.Game.Magic.Abilities.CombatAbilityTables), typeof(Aow.Game.Magic.Abilities.AbstractSets),
                 typeof(Aow.Game.Magic.Abilities.AlignmentTables), typeof(Aow.Game.Magic.Abilities.EmptySelections),
                 typeof(Aow.Game.Magic.Abilities.RankTables), typeof(Aow.Game.Magic.Abilities.RosterTables),
-                typeof(Aow.Game.Engine.Nodes.EngineHost), typeof(Aow.Game.Engine.Nodes.EngineServices), typeof(Aow.Game.Engine.TAoWEngine),
-                typeof(Aow.Game.World.Map.HexGeometry), typeof(Aow.Game.World.Map.HexText), typeof(Aow.Game.World.Map.THSEngine),
+                typeof(Aow.Game.Engine.Nodes.EngineHost), typeof(Aow.Game.Engine.Nodes.EngineServices), typeof(Aow.Game.Engine.AoWEngine),
+                typeof(Aow.Game.World.Map.HexGeometry), typeof(Aow.Game.World.Map.HexText), typeof(Aow.Game.World.Map.HSEngine),
                 typeof(Aow.Game.Draw.Images.ImageLibraries), typeof(Aow.Game.Audio.AudioHost),
             })
                 foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
@@ -49,31 +49,31 @@ public sealed partial class EngineFixture
             if (fault == "dictionary") File.WriteAllBytes(Path.Combine(root, "Dict", "ResStr.mld"), [0]);
             if (fault == "plugin") File.WriteAllBytes(Path.Combine(root, "PLUGINS", "X.DPL"), []);
             files.SetCurrentDirectory(root);
-            Aow.Game.Engine.Nodes.EngineHost.Engines = new TList();
-            Aow.Game.Engine.Nodes.EngineHost.PlugIns = new TList();
-            Aow.Game.Engine.Nodes.EngineHost.Packages = new TStringList();
+            Aow.Game.Engine.Nodes.EngineHost.Engines = new DelphiList();
+            Aow.Game.Engine.Nodes.EngineHost.PlugIns = new DelphiList();
+            Aow.Game.Engine.Nodes.EngineHost.Packages = new StringList();
             Aow.Game.Engine.Nodes.EngineHost.VerifyEObjectEnabled = true;
             Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet = null!;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
-            Aow.Game.World.Map.THSEngine.HSEngineDID = Aow.Game.Magic.Abilities.CombatAbilityTables.CombatDID = Aow.Game.Magic.Abilities.AbilityRules.AIDID = Aow.Game.Magic.Abilities.AbilityRules.TMPDID = Aow.Game.Engine.TAoWEngine.MAGICDID = 0;
+            Aow.Game.Engine.AoWHSSet.Current = null!;
+            Aow.Game.World.Map.AoWHSMap.Current = null!;
+            Aow.Game.World.Map.HSEngine.HSEngineDID = Aow.Game.Magic.Abilities.CombatAbilityTables.CombatDID = Aow.Game.Magic.Abilities.AbilityRules.AIDID = Aow.Game.Magic.Abilities.AbilityRules.TMPDID = Aow.Game.Engine.AoWEngine.MAGICDID = 0;
             Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = Aow.Game.Audio.AudioHost.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }
 
         internal string Relative(string value) => value.Replace(root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
-        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), Aow.Game.Magic.Abilities.GameTables.AoWEngine is not null, Aow.Game.Engine.TAoWHSSet.AoWHSSet is not null, Aow.Game.Engine.Nodes.EngineHost.Engines.Count, destroy ?? []);
+        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), Aow.Game.Magic.Abilities.GameTables.AoWEngine is not null, Aow.Game.Engine.AoWHSSet.Current is not null, Aow.Game.Engine.Nodes.EngineHost.Engines.Count, destroy ?? []);
         private void Record(string call, string argument) => Events.Add(Event(call, argument));
 
         internal JsonObject State() => new()
         {
             ["AoWEngine"] = Aow.Game.Magic.Abilities.GameTables.AoWEngine is not null,
-            ["AoWHSSet"] = Aow.Game.Engine.TAoWHSSet.AoWHSSet is not null,
-            ["HSEngineDID"] = Aow.Game.World.Map.THSEngine.HSEngineDID,
+            ["AoWHSSet"] = Aow.Game.Engine.AoWHSSet.Current is not null,
+            ["HSEngineDID"] = Aow.Game.World.Map.HSEngine.HSEngineDID,
             ["CombatDID"] = Aow.Game.Magic.Abilities.CombatAbilityTables.CombatDID,
             ["AIDID"] = Aow.Game.Magic.Abilities.AbilityRules.AIDID,
             ["TMPDID"] = Aow.Game.Magic.Abilities.AbilityRules.TMPDID,
-            ["MAGICDID"] = Aow.Game.Engine.TAoWEngine.MAGICDID,
+            ["MAGICDID"] = Aow.Game.Engine.AoWEngine.MAGICDID,
             ["BaseImageLibraryPath"] = Relative(Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath),
             ["BaseSoundEnginePath"] = Relative(Aow.Game.Audio.AudioHost.BaseSoundEnginePath),
             ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory),

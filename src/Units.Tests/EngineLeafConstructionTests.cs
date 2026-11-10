@@ -15,14 +15,14 @@ public sealed class EngineLeafConstructionTests
     private sealed class LeafOwner : EngineFixture.Owner
     {
 
-        internal readonly List<TEObject> ObservedBeforeLeafBody = [];
+        internal readonly List<EObject> ObservedBeforeLeafBody = [];
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             Assert.Same(this, child.Owner);
-            if (child is TPlugInControl plugIn) Assert.Null(plugIn.UsedPlugIns);
-            if (child is TEControlStyleSortNode style) Assert.Equal(default, style.GetControlStyle());
-            if (child is TETimerNode timer)
+            if (child is PlugInControl plugIn) Assert.Null(plugIn.UsedPlugIns);
+            if (child is EControlStyleSortNode style) Assert.Equal(default, style.GetControlStyle());
+            if (child is ETimerNode timer)
             {
                 var lists = Field<Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
                 for (int i = 0; i < 10; i++) Assert.Null(lists[i]);
@@ -33,10 +33,10 @@ public sealed class EngineLeafConstructionTests
         }
     }
 
-    private static TEngine CreateEngine()
+    private static Engine CreateEngine()
     {
         if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-        var engine = new TEngine(null!);
+        var engine = new Engine(null!);
         return engine;
     }
 
@@ -53,25 +53,25 @@ public sealed class EngineLeafConstructionTests
     {
         var engine = CreateEngine();
         var owner = new LeafOwner();
-        TECustomNode argument = owned ? owner : null!;
+        ECustomNode argument = owned ? owner : null!;
         Type type = kind switch
         {
-            0 => typeof(TEControlStyleSortNode),
-            1 => typeof(TETimerNode),
-            2 => typeof(TEUser),
-            _ => typeof(TPlugInControl)
+            0 => typeof(EControlStyleSortNode),
+            1 => typeof(ETimerNode),
+            2 => typeof(EUser),
+            _ => typeof(PlugInControl)
         };
         var meta = EClass.Of(type);
         engine.RegisterEClasses([EClass.Of(type)]);
-        TEObject direct = kind switch
+        EObject direct = kind switch
         {
-            0 => new TEControlStyleSortNode(argument),
-            1 => new TETimerNode(argument),
-            2 => new TEUser(argument),
-            _ => new TPlugInControl(argument)
+            0 => new EControlStyleSortNode(argument),
+            1 => new ETimerNode(argument),
+            2 => new EUser(argument),
+            _ => new PlugInControl(argument)
         };
-        TEObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
-        TEObject? copy = null;
+        EObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
+        EObject? copy = null;
         try
         {
             Assert.Equal(kind == 0 ? 261 : kind == 1 ? 264 : 80, meta.ClassID);
@@ -83,17 +83,17 @@ public sealed class EngineLeafConstructionTests
                 Assert.Same(meta, value.EClass);
                 AssertLeafState(value);
             }
-            if (direct is TEControlStyleSortNode style)
-                style.SetControlStyle(TSet<TEControlStyleElement>.Of(
+            if (direct is EControlStyleSortNode style)
+                style.SetControlStyle(Set<EControlStyleElement>.Of(
                     Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
             Assert.Null(copy.Owner);
             // Sort style is constructor state and has no ReadWrite override.
             AssertLeafState(copy);
-            if (copy is TPlugInControl copiedPlugIn)
-                Assert.NotSame(((TPlugInControl)direct).UsedPlugIns, copiedPlugIn.UsedPlugIns);
-            if (copy is TETimerNode copiedTimer)
+            if (copy is PlugInControl copiedPlugIn)
+                Assert.NotSame(((PlugInControl)direct).UsedPlugIns, copiedPlugIn.UsedPlugIns);
+            if (copy is ETimerNode copiedTimer)
             {
                 var original = Field<Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10>(direct, "FTimerLists");
                 var copied = Field<Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10>(copiedTimer, "FTimerLists");
@@ -111,25 +111,25 @@ public sealed class EngineLeafConstructionTests
         Assert.Empty(owner.Members);
     }
 
-    private static void AssertLeafState(TEObject value)
+    private static void AssertLeafState(EObject value)
     {
         switch (value)
         {
-            case TEControlStyleSortNode sort:
-                Assert.Equal(0, sort.Count); Assert.Equal(0, Field<int>(sort, "FCapacity")); Assert.Empty(Field<TSortItem[]>(sort, "FItems"));
+            case EControlStyleSortNode sort:
+                Assert.Equal(0, sort.Count); Assert.Equal(0, Field<int>(sort, "FCapacity")); Assert.Empty(Field<Aow.Game.Engine.Nodes.ESortNode.SortItem[]>(sort, "FItems"));
                 Assert.False(Field<bool>(sort, "FSorted"));
-                Assert.Equal(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored), sort.GetControlStyle());
+                Assert.Equal(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored), sort.GetControlStyle());
                 break;
-            case TETimerNode timer:
+            case ETimerNode timer:
                 Assert.Equal(0, timer.Count); Assert.Equal(0, timer.Tick);
                 var lists = Field<Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
                 for (int i = 0; i < 10; i++) { Assert.NotNull(lists[i]); Assert.Equal(0, lists[i].Count); Assert.Equal(0, lists[i].Capacity); }
                 Assert.Equal(10, Enumerable.Range(0, 10).Select(i => lists[i]).Distinct().Count());
                 break;
-            case TEUser user: Assert.Null(user.Node); break;
-            case TPlugInControl plugIn:
+            case EUser user: Assert.Null(user.Node); break;
+            case PlugInControl plugIn:
                 Assert.Null(plugIn.Engine);
-                var strings = Assert.IsType<TStringList>(plugIn.UsedPlugIns);
+                var strings = Assert.IsType<StringList>(plugIn.UsedPlugIns);
                 Assert.Equal(0, strings.Count); Assert.True(strings.Sorted);
                 Assert.Equal(plugIn, strings.OnChange!.Target);
                 Assert.Equal(plugIn, strings.OnChanging!.Target);
@@ -137,36 +137,36 @@ public sealed class EngineLeafConstructionTests
         }
     }
 
-    private sealed class ConvertedNode : TECustomNode
+    private sealed class ConvertedNode : ECustomNode
     {
         internal int OwnerCalls;
 
-        internal ConvertedNode(TECustomNode owner) : base(owner) { }
+        internal ConvertedNode(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
 
         public override int GetCount() => 0;
     }
 
-    private sealed class ConvertedSort : TESortNode
+    private sealed class ConvertedSort : ESortNode
     {
         internal int OwnerCalls;
 
-        internal ConvertedSort(TECustomNode owner) : base(owner) { }
+        internal ConvertedSort(ECustomNode owner) : base(owner) { }
 
-        public override void SetOwner(TECustomNode owner)
+        public override void SetOwner(ECustomNode owner)
         {
             OwnerCalls++;
             base.SetOwner(owner);
-            FItems = new TSortItem[1];
+            FItems = new Aow.Game.Engine.Nodes.ESortNode.SortItem[1];
         }
     }
 
     [Fact]
     public void SortStyleUsesTheNonvirtualInheritedStyleAndBothMetaclassFacades()
     {
-        var value = (TEControlStyleSortNode)EClass.Of<TEControlStyleSortNode>().Create(null!);
-        var other = (TEControlStyleSortNode)EClass.Of<TEControlStyleSortNode>().Create(null!);
+        var value = (EControlStyleSortNode)EClass.Of<EControlStyleSortNode>().Create(null!);
+        var other = (EControlStyleSortNode)EClass.Of<EControlStyleSortNode>().Create(null!);
         try { AssertLeafState(value); AssertLeafState(other); }
         finally { value.Dispose(); other.Dispose(); }
     }
@@ -188,60 +188,60 @@ public sealed class EngineLeafConstructionTests
     {
         object value = kind switch
         {
-            0 => new TBitList(),
-            1 => new TCallBackEventList(),
-            2 => new TDoubleItemList(),
-            3 => new TEBufferStream(),
-            4 => new TEObjectList(),
-            5 => new TEventList(),
-            6 => new TPropertyTable(),
-            7 => new TQuadItemList(),
-            8 => new TShortIntList(),
-            9 => new TWordList(),
-            10 => new TEObjectClassList(),
-            _ => new TEObjectEditorList()
+            0 => new BitList(),
+            1 => new CallBackEventList(),
+            2 => new DoubleItemList(),
+            3 => new EBufferStream(),
+            4 => new EObjectList(),
+            5 => new EventList(),
+            6 => new PropertyTable(),
+            7 => new QuadItemList(),
+            8 => new ShortIntList(),
+            9 => new WordList(),
+            10 => new EObjectClassList(),
+            _ => new EObjectEditorList()
         };
         try
         {
             switch (value)
             {
-                case TBitList list:
+                case BitList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, "FList").IsEmpty);
                     break;
-                case TCallBackEventList list:
-                    Assert.Equal(0, list.Count); Assert.Empty(Field<List<TCallBackEvent>>(list, "FList"));
+                case CallBackEventList list:
+                    Assert.Equal(0, list.Count); Assert.Empty(Field<List<Aow.Game.Engine.Collections.CallBackEventList.CallBackEvent>>(list, "FList"));
                     break;
-                case TDoubleItemList list:
+                case DoubleItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
-                case TEBufferStream stream:
+                case EBufferStream stream:
                     Assert.Equal(0L, stream.Length); Assert.Equal(0L, stream.Position);
                     Assert.Equal(0, stream.Capacity); Assert.Empty(stream.Memory);
                     break;
-                case TEventList list:
+                case EventList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity);
                     Assert.Empty(list.List); Assert.Null(list.Default);
                     break;
-                case TPropertyTable table:
+                case PropertyTable table:
                     Assert.Empty(Field<Array>(table, "FItems")); Assert.Empty(Field<Array>(table, "FStack"));
                     Assert.Equal(0, Field<int>(table, "FCount")); Assert.Equal(0, Field<int>(table, "FCapacity"));
                     Assert.Equal(0, Field<int>(table, "FNextIndex")); Assert.Equal(0, Field<int>(table, "FMaxID"));
                     Assert.Equal(0, Field<int>(table, "FStackCount")); Assert.Equal(0, Field<int>(table, "FStackCapacity"));
                     Assert.Equal(0, Field<int>(table, "FFirst"));
                     break;
-                case TQuadItemList list:
+                case QuadItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
-                case TShortIntList list:
+                case ShortIntList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
-                case TWordList list:
+                case WordList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
-                case TEObjectEditorList editors:
+                case EObjectEditorList editors:
                     Assert.Equal(0, editors.Count);
                     break;
-                case TList list:
+                case DelphiList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity);
                     break;
                 default: Assert.Fail("Missing helper assertion"); break;

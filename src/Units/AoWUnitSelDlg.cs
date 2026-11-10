@@ -14,50 +14,50 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // unit selector. retained event log
-public partial class TUnitSelectionDlg : TDataModule
+public partial class UnitSelectionDlg : DataModule
 {
-    public TUnitSelectionDlg(TComponent owner) : base(owner)
+    public UnitSelectionDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWButton SelectBtn;
-    public TAOWImage TitleIcon;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAOWButton CancelBtn;
-    public TAOWWindow Dlg;
-    public TAOWPanel UnitPnl;
-    public TAOWPanel SourcePnl;
-    public TAOWLabel SourceNameLbl;
-    public TAOWCheckBox U1;
-    public TAOWCheckBox U2;
-    public TAOWCheckBox U3;
-    public TAOWCheckBox U4;
-    public TAOWCheckBox U5;
-    public TAOWCheckBox U6;
-    public TAOWCheckBox U7;
-    public TAOWCheckBox U8;
-    public TAOWImage DecoL;
-    public TAOWImage DecoR;
-    public TAOWImage SourceFace;
-    public TAoWFrame AoWFrame1;
-    public TAOWPanel SelectionInfoPnl;
-    public TAOWLabel SelectionInfoLbl;
-    public TAOWLabel SelectionLbl;
-    public TIvTranslator Translator;
-    public TUnitSelector FEvent;
-    public TUnitSelectorAAI FEventLog;
+    public AOWButton SelectBtn;
+    public AOWImage TitleIcon;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AOWButton CancelBtn;
+    public AOWWindow Dlg;
+    public AOWPanel UnitPnl;
+    public AOWPanel SourcePnl;
+    public AOWLabel SourceNameLbl;
+    public AOWCheckBox U1;
+    public AOWCheckBox U2;
+    public AOWCheckBox U3;
+    public AOWCheckBox U4;
+    public AOWCheckBox U5;
+    public AOWCheckBox U6;
+    public AOWCheckBox U7;
+    public AOWCheckBox U8;
+    public AOWImage DecoL;
+    public AOWImage DecoR;
+    public AOWImage SourceFace;
+    public AoWFrame AoWFrame1;
+    public AOWPanel SelectionInfoPnl;
+    public AOWLabel SelectionInfoLbl;
+    public AOWLabel SelectionLbl;
+    public IvTranslator Translator;
+    public UnitSelector FEvent;
+    public UnitSelectorAAI FEventLog;
 
     // AoWUnitSelDlg.pas:66
-    public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc SD)
+    public void DrawUnit(int Index, int X, int Y, ref SurfaceDesc SD)
     {
-        TRect SaveRect;
-        TP2UnitShowInfo Info;
-        Aow.Game.Draw.Images.TLibraryImage Img;
-        TAlignment Alignment;
+        global::Aow.Rtl.Rect SaveRect;
+        P2UnitShowInfo Info;
+        Aow.Game.Draw.Images.LibraryImage Img;
+        Alignment Alignment;
         if (Index < FEvent.FUnits.GetCount())
         {
             SaveRect = SD.ClipRect;
-            var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
+            var rect = global::Aow.Rtl.RtlUnit.Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = FEvent.FUnits.GetUnit(Index).GetAlignment();
             if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
@@ -69,7 +69,7 @@ public partial class TUnitSelectionDlg : TDataModule
 
             Info = default;
             Info.Direction = 3;
-            Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
+            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             FEvent.FUnits.GetUnit(Index).ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FSelectable) >> Index)) & 1) == 0)
             {
@@ -108,15 +108,15 @@ public partial class TUnitSelectionDlg : TDataModule
     }
 
     // AoWUnitSelDlg.pas:186
-    public void Execute(TUnitSelectorAAI Request)
+    public void Execute(UnitSelectorAAI Request)
     {
-        TAbstractUnit U;
+        AbstractUnit U;
         ResetSelection();
         FEventLog = Request;
         FEventLog.AddRef();
         FEvent = Request.FUnitSelector;
         FEvent.AddRef();
-        U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+        U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
         if (U != null)
         {
             SourcePnl.Visible = true;
@@ -167,12 +167,12 @@ public partial class TUnitSelectionDlg : TDataModule
         }
         else
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
         }
     }
 
     // AoWUnitSelDlg.pas:120
-    public void U1Change(TAOWCheckBox Sender, int Slot)
+    public void U1Change(AOWCheckBox Sender, int Slot)
     {
         string Reason = "";
         if (Sender.Checked)
@@ -229,19 +229,19 @@ public partial class TUnitSelectionDlg : TDataModule
     }
 
     // AoWUnitSelDlg.pas:146
-    public void U1PreDraw(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
+    public void U1PreDraw(AOWCheckBox Sender, SurfaceDesc SD, int Slot)
     {
         DrawUnit(Slot, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
     }
 
     // AoWUnitSelDlg.pas:151
-    public void SourceFacePreDraw(TSurfaceDesc SD)
+    public void SourceFacePreDraw(SurfaceDesc SD)
     {
-        TRect R = default;
-        TAbstractUnit U;
+        global::Aow.Rtl.Rect R = default;
+        AbstractUnit U;
         if (FEvent != null)
         {
-            U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+            U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
             if (U != null)
             {
                 R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;

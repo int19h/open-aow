@@ -37,14 +37,14 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class RosterTables
 {
-    internal static TUnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertFile = new TUnitEnchantmentAbility_Expand__TOriginalAssertText
+    internal static UnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertFile = new UnitEnchantmentAbility_Expand__TOriginalAssertText
     {
         RefCount = -1,
         Len = 28,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 111, 87, 65, 98, 46, 80, 65, 83, 0])
     };
 
-    internal static TUnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertMessage = new TUnitEnchantmentAbility_Expand__TOriginalAssertText
+    internal static UnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertMessage = new UnitEnchantmentAbility_Expand__TOriginalAssertText
     {
         RefCount = -1,
         Len = 17,
@@ -54,23 +54,23 @@ internal static class RosterTables
     internal static int GetUnitIndexAIPriority(int UnitIndex, sbyte Player, sbyte Relation)
     {
         int Result;
-        TUnitResource Resource;
+        UnitResource Resource;
         int Value;
-        TUnit Unit_;
-        TAdjustableUnit DefaultUnit;
-        Resource = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(UnitIndex);
+        Unit Unit_;
+        AdjustableUnit DefaultUnit;
+        Resource = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex);
         if (Resource != null && Resource.GetTransportCapacity() == 0)
         {
             if (Player != 0)
             {
                 if (Resource.FRace != -1)
                 {
-                    Value = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(Resource.FRace).GetPlayerRelationValue(Player);
+                    Value = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(Resource.FRace).GetPlayerRelationValue(Player);
                 }
                 else
                 {
-                    var players = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
-                    var alignment = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
+                    var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                    var alignment = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
                     Value = Aow.Game.Magic.Abilities.AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)alignment];
                 }
             }
@@ -82,34 +82,34 @@ internal static class RosterTables
 
             if (Value >= 50)
             {
-                Unit_ = new TUnit(null);
+                Unit_ = new Unit(null);
                 Unit_.SetUnitResource(Resource);
-                DefaultUnit = new TAdjustableUnit(null);
+                DefaultUnit = new AdjustableUnit(null);
                 DefaultUnit.MakeDefaultLevelUnit(1);
                 if (Unit_.GetCombatValue(DefaultUnit, 0) > 0)
                 {
-                    Result = Unit_.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<TDamageType>.Of(TDamageType.dtWall)) / 100 + (Resource.FLevel * 100 + Resource.FMoves * 10 + Value / 2);
-                    if (Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(57) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(58))
+                    Result = Unit_.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) / 100 + (Resource.FLevel * 100 + Resource.FMoves * 10 + Value / 2);
+                    if (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(57) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(58))
                     {
                         Result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(13))
+                    if (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(13))
                     {
                         Result += 150;
                     }
 
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay > 20 && (Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(20) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(19) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(18) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(121) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(88) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(89)))
+                    if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FDay > 20 && (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(20) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(19) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(18) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(121) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(88) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(89)))
                     {
                         Result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(1) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(36) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(66) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(24) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(44) || Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(117) && Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(21))
+                    if (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(1) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(36) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(66) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(24) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(44) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(117) && Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(21))
                     {
                         Result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)TUnitRank.urNone].GetAbSet(65))
+                    if (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(65))
                     {
                         Result = Result / 2;
                     }
@@ -135,8 +135,8 @@ internal static class RosterTables
         return Result;
     }
 
-    internal static EClass P4UnitSelectionClass = EClass.Of<TUnitUserList>();
+    internal static EClass P4UnitSelectionClass = EClass.Of<UnitUserList>();
 
-    internal static TSet<THeroType> AllHeroTypes = TSet<THeroType>.Of(THeroType.htHero, THeroType.htLeader, THeroType.htHeroLeader, THeroType.htMerchant);
+    internal static Set<HeroType> AllHeroTypes = Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant);
 
 }

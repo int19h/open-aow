@@ -13,6 +13,6 @@ public static class UnitCatalog
     [ModuleInitializer]
     public static void Register()
     {
-        EnumCatalog.RegisterReflection(typeof(TEObject).Assembly);
+        EnumCatalog.RegisterReflection(typeof(EObject).Assembly);
     }
 }

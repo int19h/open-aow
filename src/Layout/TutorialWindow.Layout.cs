@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTutorialWindow : ILayoutModule
+public partial class TutorialWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TTutorialWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "TutorialWindow";
-        Dlg = new TAOWWindow(this);
+        Dlg = new AOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
         Dlg.Visible = false;
@@ -29,8 +29,8 @@ public partial class TTutorialWindow : ILayoutModule
         Dlg.WinWidth = 390;
         Dlg.Masked = true;
         Dlg.OnHide = _ => Layout_DlgHide_0();
-        Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        Dlg.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Dlg.Alignment.AlignHeight = AOWAlignHeight.Center;
         Dlg.Alignment.HeightPercent = 0;
         Dlg.Alignment.WidthPercent = 0;
         Dlg.Alignment.LeftOffPercent = 0;
@@ -63,15 +63,15 @@ public partial class TTutorialWindow : ILayoutModule
         Dlg.WinHeight = 262;
         Dlg.Dockable = false;
         session.EndRead(Dlg);
-        MessageMemo = new TAOWMemo(this);
+        MessageMemo = new AOWMemo(this);
         session.BeginRead(MessageMemo);
         MessageMemo.Name = "MessageMemo";
         MessageMemo.Priority = 200;
         MessageMemo.WinLeft = 52;
         MessageMemo.WinTop = 80;
         MessageMemo.CaptureInput = false;
-        MessageMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        MessageMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        MessageMemo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        MessageMemo.Alignment.AlignHeight = AOWAlignHeight.Both;
         MessageMemo.Alignment.HeightPercent = 0;
         MessageMemo.Alignment.WidthPercent = 0;
         MessageMemo.Alignment.LeftOffPercent = 0;
@@ -95,9 +95,9 @@ public partial class TTutorialWindow : ILayoutModule
         MessageMemo.ILIndexTexture = 0;
         MessageMemo.ItemHeight = 17;
         MessageMemo.ColorChangeChar = 0;
-        MessageMemo.TextAlign = TaowTextAlign.taCenter;
+        MessageMemo.TextAlign = TaowTextAlign.Center;
         session.EndRead(MessageMemo);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
@@ -108,8 +108,8 @@ public partial class TTutorialWindow : ILayoutModule
             "Closes the Tutorial Window. You can reopen it by pressing F1 on the keyboard."
         };
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        Close.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Close.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;
@@ -132,15 +132,15 @@ public partial class TTutorialWindow : ILayoutModule
         Close.WinWidth = 140;
         Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
-        HeaderMemo = new TAOWMemo(this);
+        HeaderMemo = new AOWMemo(this);
         session.BeginRead(HeaderMemo);
         HeaderMemo.Name = "HeaderMemo";
         HeaderMemo.Priority = 200;
         HeaderMemo.WinLeft = 70;
         HeaderMemo.WinTop = 35;
         HeaderMemo.CaptureInput = false;
-        HeaderMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        HeaderMemo.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        HeaderMemo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        HeaderMemo.Alignment.AlignHeight = AOWAlignHeight.Top;
         HeaderMemo.Alignment.HeightPercent = 0;
         HeaderMemo.Alignment.WidthPercent = 0;
         HeaderMemo.Alignment.LeftOffPercent = 0;
@@ -164,9 +164,9 @@ public partial class TTutorialWindow : ILayoutModule
         HeaderMemo.ILIndexTexture = 0;
         HeaderMemo.ItemHeight = 20;
         HeaderMemo.ColorChangeChar = 0;
-        HeaderMemo.TextAlign = TaowTextAlign.taCenter;
+        HeaderMemo.TextAlign = TaowTextAlign.Center;
         session.EndRead(HeaderMemo);
-        AbVSB = new TAOWVScrollBar(this);
+        AbVSB = new AOWVScrollBar(this);
         session.BeginRead(AbVSB);
         AbVSB.Name = "AbVSB";
         AbVSB.Visible = false;
@@ -174,8 +174,8 @@ public partial class TTutorialWindow : ILayoutModule
         AbVSB.WinLeft = 325;
         AbVSB.WinTop = 80;
         AbVSB.CaptureInput = true;
-        AbVSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        AbVSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        AbVSB.Alignment.AlignWidth = AOWAlignWidth.None;
+        AbVSB.Alignment.AlignHeight = AOWAlignHeight.None;
         AbVSB.Alignment.HeightPercent = 0;
         AbVSB.Alignment.WidthPercent = 0;
         AbVSB.Alignment.LeftOffPercent = 0;

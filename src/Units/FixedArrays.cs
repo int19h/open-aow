@@ -215,63 +215,63 @@ public struct FixedArray_string_9
 [InlineArray(10)]
 public struct FixedArray_Aow_Rtl_TList_10
 {
-    private TList element0;
+    private DelphiList element0;
 }
 
 [InlineArray(286)]
 public struct FixedArray_Aow_Rtl_TList_286
 {
-    private TList element0;
+    private DelphiList element0;
 }
 
 [InlineArray(256)]
 public struct FixedArray_Aow_Rtl_TPaletteEntry_256
 {
-    private Rtl.TPaletteEntry element0;
+    private Rtl.PaletteEntry element0;
 }
 
 [InlineArray(256)]
 public struct FixedArray_Aow_Rtl_TRGBQuad_256
 {
-    private TRGBQuad element0;
+    private RGBQuad element0;
 }
 
 [InlineArray(3)]
 public struct FixedArray_Aow_Units_AoWE_TAbilityOwner_3
 {
-    private TAbilityOwner element0;
+    private AbilityOwner element0;
 }
 
 [InlineArray(5)]
 public struct FixedArray_Aow_Units_AoWE_TAbilityTypeList_5
 {
-    private TAbilityTypeList element0;
+    private AbilityTypeList element0;
 }
 
 [InlineArray(1)]
 public struct FixedArray_Aow_Units_AoWE_TAbility_1
 {
-    private TAbility element0;
+    private Ability element0;
 }
 
 [InlineArray(2)]
 public struct FixedArray_Aow_Units_AoWE_TCombatPredictorSide_2
 {
-    private TCombatPredictorSide element0;
+    private CombatPredictorSide element0;
 }
 
 [InlineArray(2)]
 public struct FixedArray_Aow_Units_AoWE_TCombatSide_2
 {
-    private TCombatSide element0;
+    private CombatSide element0;
 }
 
 [InlineArray(7)]
 public struct FixedArray_Aow_Units_AoWE_TDamageType_7
 {
-    private TDamageType element0;
+    private DamageType element0;
 
-    public static FixedArray_Aow_Units_AoWE_TDamageType_7 From(ReadOnlySpan<TDamageType> values)
+    public static FixedArray_Aow_Units_AoWE_TDamageType_7 From(ReadOnlySpan<DamageType> values)
     {
         FixedArray_Aow_Units_AoWE_TDamageType_7 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -286,9 +286,9 @@ public struct FixedArray_Aow_Units_AoWE_TDamageType_7
 [InlineArray(10)]
 public struct FixedArray_Aow_Units_AoWE_TGroupBehavior_10
 {
-    private TGroupBehavior element0;
+    private GroupBehavior element0;
 
-    public static FixedArray_Aow_Units_AoWE_TGroupBehavior_10 From(ReadOnlySpan<TGroupBehavior> values)
+    public static FixedArray_Aow_Units_AoWE_TGroupBehavior_10 From(ReadOnlySpan<GroupBehavior> values)
     {
         FixedArray_Aow_Units_AoWE_TGroupBehavior_10 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -303,9 +303,9 @@ public struct FixedArray_Aow_Units_AoWE_TGroupBehavior_10
 [InlineArray(7)]
 public struct FixedArray_Aow_Units_AoWE_THeroItemPosition_7
 {
-    private THeroItemPosition element0;
+    private HeroItemPosition element0;
 
-    public static FixedArray_Aow_Units_AoWE_THeroItemPosition_7 From(ReadOnlySpan<THeroItemPosition> values)
+    public static FixedArray_Aow_Units_AoWE_THeroItemPosition_7 From(ReadOnlySpan<HeroItemPosition> values)
     {
         FixedArray_Aow_Units_AoWE_THeroItemPosition_7 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -320,9 +320,9 @@ public struct FixedArray_Aow_Units_AoWE_THeroItemPosition_7
 [InlineArray(6)]
 public struct FixedArray_Aow_Units_AoWE_TItemType_6
 {
-    private TItemType element0;
+    private ItemType element0;
 
-    public static FixedArray_Aow_Units_AoWE_TItemType_6 From(ReadOnlySpan<TItemType> values)
+    public static FixedArray_Aow_Units_AoWE_TItemType_6 From(ReadOnlySpan<ItemType> values)
     {
         FixedArray_Aow_Units_AoWE_TItemType_6 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -337,9 +337,9 @@ public struct FixedArray_Aow_Units_AoWE_TItemType_6
 [InlineArray(6)]
 public struct FixedArray_Aow_Units_AoWE_TP2HeroLevel_6
 {
-    private TP2HeroLevel element0;
+    private P2HeroLevel element0;
 
-    public static FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 From(ReadOnlySpan<TP2HeroLevel> values)
+    public static FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 From(ReadOnlySpan<P2HeroLevel> values)
     {
         FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -354,9 +354,9 @@ public struct FixedArray_Aow_Units_AoWE_TP2HeroLevel_6
 [InlineArray(12)]
 public struct FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12
 {
-    private TP2RaceTerrain element0;
+    private P2RaceTerrain element0;
 
-    public static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 From(ReadOnlySpan<TP2RaceTerrain> values)
+    public static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 From(ReadOnlySpan<P2RaceTerrain> values)
     {
         FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -371,9 +371,9 @@ public struct FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12
 [InlineArray(12)]
 public struct FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12
 {
-    private TRaceTerrainInfo element0;
+    private RaceTerrainInfo element0;
 
-    public static FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12 From(ReadOnlySpan<TRaceTerrainInfo> values)
+    public static FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12 From(ReadOnlySpan<RaceTerrainInfo> values)
     {
         FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -388,9 +388,9 @@ public struct FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12
 [InlineArray(12)]
 public struct FixedArray_Aow_Units_AoWE_TStatus_12
 {
-    private Aow.Game.Engine.TStatus element0;
+    private Aow.Game.Engine.Status element0;
 
-    public static FixedArray_Aow_Units_AoWE_TStatus_12 From(ReadOnlySpan<Aow.Game.Engine.TStatus> values)
+    public static FixedArray_Aow_Units_AoWE_TStatus_12 From(ReadOnlySpan<Aow.Game.Engine.Status> values)
     {
         FixedArray_Aow_Units_AoWE_TStatus_12 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -439,13 +439,13 @@ public struct FixedArray_Aow_Units_AoWTC_TfxType_170
 [InlineArray(256)]
 public struct FixedArray_Aow_Units_Engine_TIntegerHashList_256
 {
-    private TIntegerHashList element0;
+    private IntegerHashList element0;
 }
 
 [InlineArray(256)]
 public struct FixedArray_Aow_Units_Engine_TStringHashList_256
 {
-    private TStringHashList element0;
+    private StringHashList element0;
 }
 
 [InlineArray(4)]
@@ -633,13 +633,13 @@ public struct FixedArray_Aow_Units_FixedArray_sbyte_7_7
 [InlineArray(101)]
 public struct FixedArray_Aow_Units_GFXE_TBlendTable_101
 {
-    private TBlendTable element0;
+    private BlendTable element0;
 }
 
 [InlineArray(256)]
 public struct FixedArray_Aow_Units_HSEngine_THexagonSprite_256
 {
-    private THexagonSprite element0;
+    private HexagonSprite element0;
 }
 
 [InlineArray(8)]
@@ -662,19 +662,19 @@ public struct FixedArray_Aow_Units_HSEngine_XYTableEntry_8
 [InlineArray(256)]
 public struct FixedArray_Aow_Units_HashTabU_TIntegerHashList_256
 {
-    private Aow.Game.Engine.Hash.TIntegerHashList element0;
+    private Aow.Game.Engine.Hash.IntegerHashList element0;
 }
 
 [InlineArray(256)]
 public struct FixedArray_Aow_Units_HashTabU_TStringHashList_256
 {
-    private Aow.Game.Engine.Hash.TStringHashList element0;
+    private Aow.Game.Engine.Hash.StringHashList element0;
 }
 
 [InlineArray(5)]
 public struct FixedArray_Aow_Units_Sound_TSFXLibrary_5
 {
-    private TSFXLibrary element0;
+    private SFXLibrary element0;
 }
 
 [InlineArray(8)]

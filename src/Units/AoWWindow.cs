@@ -14,10 +14,10 @@ namespace Aow.Game.Ui.Windows;
 // no fields of its own. It uses the dragging fields of TAOWWindowControl: FDragging (0 none, 1
 // dragging, 2 resizing), FDragX and FDragY (the mouse's offset from the edge being moved),
 // FResizingX and FResizingY (0 none, 1 the left or top edge, 2 the right or bottom edge)
-public partial class TAOWWindow : TAOWGenericWindow
+public partial class AOWWindow : AOWGenericWindow
 {
     // AoWWindow.pas:54
-    public TAOWWindow(TComponent owner) : base(owner)
+    public AOWWindow(global::Aow.Rtl.Component owner) : base(owner)
     {
         FUseManagerBorders = true;
     }
@@ -30,9 +30,9 @@ public partial class TAOWWindow : TAOWGenericWindow
     {
         switch (FWindowType)
         {
-            case TWindowType.winNormal:
-            case TWindowType.winHollow:
-                if (FILFrame != null && (FILTexture != null || FWindowType == TWindowType.winHollow))
+            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Normal:
+            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow:
+                if (FILFrame != null && (FILTexture != null || FWindowType == Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow))
                 {
                     var ilFrameWidth = FILFrame[FILIndexFrame];
                     var ilFrame = FILFrame[FILIndexFrame + 2];
@@ -138,7 +138,7 @@ public partial class TAOWWindow : TAOWGenericWindow
 
                     if (FMasked)
                     {
-                        if (FWindowType == TWindowType.winHollow)
+                        if (FWindowType == Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow)
                         {
                             FFrameLeft = FWinWidth;
                             FFrameRight = 0;
@@ -158,9 +158,9 @@ public partial class TAOWWindow : TAOWGenericWindow
                 }
 
                 break;
-            case TWindowType.winBorderless:
-            case TWindowType.winBlank:
-                if (FILTexture != null || FWindowType == TWindowType.winBlank)
+            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Borderless:
+            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank:
+                if (FILTexture != null || FWindowType == Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
                 {
                     if (FMinWidth > 0 && FMinWidth > FWinWidth)
                     {
@@ -283,12 +283,12 @@ public partial class TAOWWindow : TAOWGenericWindow
         base.ReAlign();
         if (FUseManagerBorders)
         {
-            if (FAlignment.AlignWidth == TAOWAlignWidth.awCenter)
+            if (FAlignment.AlignWidth == AOWAlignWidth.Center)
             {
                 FWinLeft = (FAOWOwner.FWinWidth - FWinManager.FBorderLeft - FWinManager.FBorderRight) / 2 + FWinManager.FBorderLeft - FWinWidth / 2;
             }
 
-            if (FAlignment.AlignHeight == TAOWAlignHeight.ahCenter)
+            if (FAlignment.AlignHeight == AOWAlignHeight.Center)
             {
                 FWinTop = (FAOWOwner.FWinHeight - FWinManager.FBorderTop - FWinManager.FBorderBottom) / 2 + FWinManager.FBorderTop - FWinHeight / 2;
             }
@@ -296,7 +296,7 @@ public partial class TAOWWindow : TAOWGenericWindow
     }
 
     // AoWWindow.pas:222
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         try
         {
@@ -304,8 +304,8 @@ public partial class TAOWWindow : TAOWGenericWindow
             {
                 switch (FWindowType)
                 {
-                    case TWindowType.winNormal:
-                        var rect = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Normal:
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -313,15 +313,15 @@ public partial class TAOWWindow : TAOWGenericWindow
                         var ilFrame2 = FILFrame[FILIndexFrame + 4];
                         var ilFrame3 = FILFrame[FILIndexFrame + 1];
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                         break;
-                    case TWindowType.winHollow:
-                        var rect3 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow:
+                        var rect3 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
                         break;
-                    case TWindowType.winBorderless:
-                        var rect4 = Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Borderless:
+                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILTexture.DrawILT(FILIndexTexture, rect4, ref SurfDesc);
                         break;
                 }
@@ -343,9 +343,9 @@ public partial class TAOWWindow : TAOWGenericWindow
     // AoWWindow.pas:253
     // { CheckMouseDown: a click brings the window to the front; the controls get it first; a left
     //   click in the title area starts dragging, one on a border (Resizable) starts resizing }
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         FRedraw = false;
         FDragging = 0;
@@ -358,7 +358,7 @@ public partial class TAOWWindow : TAOWGenericWindow
 
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 C.FHandled = false;
                 if ((!FHandled || C.FRedraw) && C.FVisible == true && C.FCaptureInput)
                 {
@@ -377,14 +377,14 @@ public partial class TAOWWindow : TAOWGenericWindow
             {
                 FDragX = 0;
                 FDragY = 0;
-                if (Button == TMouseButton.mbLeft && FDraggable == true && Y < FWinTop + FBorderHeight + FDragHeight - 1)
+                if (Button == MouseButton.Left && FDraggable == true && Y < FWinTop + FBorderHeight + FDragHeight - 1)
                 {
                     FDragging = 1;
                     FDragX = X - FWinLeft;
                     FDragY = Y - FWinTop;
                 }
 
-                if (Button == TMouseButton.mbLeft && FResizable == true)
+                if (Button == MouseButton.Left && FResizable == true)
                 {
                     FResizingX = 0;
                     FResizingY = 0;
@@ -491,16 +491,16 @@ public partial class TAOWWindow : TAOWGenericWindow
     }
 
     // AoWWindow.pas:376
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         if (FVisible && FValid)
         {
             FDragging = 0;
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 C.FHandled = false;
                 if ((!FHandled || C.FRedraw == true) && C.FVisible == true && C.FCaptureInput)
                 {
@@ -543,11 +543,11 @@ public partial class TAOWWindow : TAOWGenericWindow
     // AoWWindow.pas:411
     // { CheckMouseMove drags or resizes the window, passes the move to the controls and sets the
     //   resize cursors over the borders }
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         bool Resized;
         int I = default;
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         FOldCursor = FCursor;
         FCursor = FWindowCursor;
@@ -718,7 +718,7 @@ public partial class TAOWWindow : TAOWGenericWindow
             I = FChildren.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 C.FHandled = false;
                 if ((!FHandled || C.FRedraw == true || C.FToolTipCount > 0) && C.FVisible == true && C.FCaptureInput)
                 {
@@ -840,21 +840,21 @@ public partial class TAOWWindow : TAOWGenericWindow
     public bool Resizable { get => FResizable; set => FResizable = value; }
 
     [Published]
-    public TNotifyEvent<TAOWWindow> OnDrag
+    public NotifyEvent<AOWWindow> OnDrag
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     [Published]
-    public TNotifyEvent<TAOWWindow> OnResize
+    public NotifyEvent<AOWWindow> OnResize
     {
         get => EventSlot.Get(this, FOnResize);
         set => EventSlot.Set(this, ref FOnResize, value);
     }
 
     [Published]
-    public TNotifyEvent<TAOWWindow> OnInternalResize
+    public NotifyEvent<AOWWindow> OnInternalResize
     {
         get => EventSlot.Get(this, FOnInternalResize);
         set => EventSlot.Set(this, ref FOnInternalResize, value);
@@ -881,103 +881,103 @@ public partial class TAOWWindow : TAOWGenericWindow
     [Published]
     public bool Dockable { get => FDockable; set => FDockable = value; }
 
-    public new TNotifyEvent<TAOWWindow> OnChange
+    public new NotifyEvent<AOWWindow> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWWindow> OnMouseDown
+    public new MouseEvent<AOWWindow> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWWindow> OnMouseUp
+    public new MouseEvent<AOWWindow> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWWindow> OnMouseMove
+    public new MouseMoveEvent<AOWWindow> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWWindow> OnKeyPress
+    public new KeyPressEvent<AOWWindow> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWWindow> OnKeyDown
+    public new KeyEvent<AOWWindow> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWWindow> OnPreDraw
+    public new AoWOnDrawEvent<AOWWindow> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWWindow> OnDraw
+    public new AoWOnDrawEvent<AOWWindow> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWWindow> OnUpdate
+    public new NotifyEvent<AOWWindow> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
-    public new TAoWOnDrawBackEvent<TAOWWindow> OnDrawBack
+    public new AoWOnDrawBackEvent<AOWWindow> OnDrawBack
     {
         get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
-    public new TNotifyEvent<TAOWWindow> OnEnter
+    public new NotifyEvent<AOWWindow> OnEnter
     {
         get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
-    public new TNotifyEvent<TAOWWindow> OnExit
+    public new NotifyEvent<AOWWindow> OnExit
     {
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
 
-    public new TNotifyEvent<TAOWWindow> OnChangeCursor
+    public new NotifyEvent<AOWWindow> OnChangeCursor
     {
         get => EventSlot.Get(this, FOnChangeCursor);
         set => EventSlot.Set(this, ref FOnChangeCursor, value);
     }
 
-    public new TAoWOnDrawSurface<TAOWWindow> OnDrawSurface
+    public new AoWOnDrawSurface<AOWWindow> OnDrawSurface
     {
         get => EventSlot.Get(this, FOnDrawSurface);
         set => EventSlot.Set(this, ref FOnDrawSurface, value);
     }
 
-    public new TAoWOnDrawSurface<TAOWWindow> OnPreDrawSurface
+    public new AoWOnDrawSurface<AOWWindow> OnPreDrawSurface
     {
         get => EventSlot.Get(this, FOnPreDrawSurface);
         set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
     }
 
-    public new TNotifyEvent<TAOWWindow> OnHide
+    public new NotifyEvent<AOWWindow> OnHide
     {
         get => EventSlot.Get(this, FOnHide);
         set => EventSlot.Set(this, ref FOnHide, value);
     }
 
-    public new TNotifyEvent<TAOWWindow> OnShow
+    public new NotifyEvent<AOWWindow> OnShow
     {
         get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);

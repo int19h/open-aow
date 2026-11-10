@@ -32,7 +32,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Random(RandomTraceEvent entry)
     {
-        if (entry.Kind == "random" && (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { FDay: 1, Frame: <= 1 }))
+        if (entry.Kind == "random" && (Aow.Game.World.Map.AoWHSMap.Current is null || Aow.Game.World.Map.AoWHSMap.Current is { FDay: 1, Frame: <= 1 }))
             writer.WriteLine(JsonSerializer.Serialize(new
             {
                 kind = "startup-random",
@@ -44,10 +44,10 @@ internal sealed class FrameDiagnostics : IDisposable
                     .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
                     .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
             }));
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not { FDay: 2 } map || entry.Kind != "random") return;
+        if (Aow.Game.World.Map.AoWHSMap.Current is not { FDay: 2 } map || entry.Kind != "random") return;
         var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
             .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units").ToArray();
-        if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: "TAoWHSMap" })) return;
+        if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: "AoWHSMap" })) return;
         writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "random",
@@ -65,7 +65,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Cost(int cost, int used)
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not { FDay: 2 } map) return;
+        if (Aow.Game.World.Map.AoWHSMap.Current is not { FDay: 2 } map) return;
         writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "cost",
@@ -82,7 +82,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Snapshot(string name)
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not { } map) return;
+        if (Aow.Game.World.Map.AoWHSMap.Current is not { } map) return;
         var viewer = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer;
         var window = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);
@@ -97,7 +97,7 @@ internal sealed class FrameDiagnostics : IDisposable
                 for (int i = 0; i < field.GetCount(); i++)
                 {
                     var child = field.GetChild(i);
-                    var resource = (child as TMapObject)?.Resource;
+                    var resource = (child as MapObject)?.Resource;
                     var sequences = new List<object>();
                     if (resource?.ImageSequenceList is { } list)
                         for (int index = 0; index < list.Count; index++)
@@ -109,8 +109,8 @@ internal sealed class FrameDiagnostics : IDisposable
                                     mode = sequence.SequenceMode.ToString(),
                                     sequence.SpeedCount,
                                     sequence.ImageIndex,
-                                    lastFrame = typeof(Aow.Game.Draw.Images.TImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
-                                    counter = typeof(Aow.Game.Draw.Images.TImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence)
+                                    lastFrame = typeof(Aow.Game.Draw.Images.ImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
+                                    counter = typeof(Aow.Game.Draw.Images.ImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence)
                                 });
                     objects.Add(new
                     {

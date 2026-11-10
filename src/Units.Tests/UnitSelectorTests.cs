@@ -7,7 +7,7 @@ namespace Aow.Units.Tests;
 [EngineState]
 public sealed class UnitSelectorTests
 {
-    private sealed class WoundedHero : THero
+    private sealed class WoundedHero : Hero
     {
         private readonly sbyte hits;
         private readonly sbyte hitPoints;
@@ -31,9 +31,9 @@ public sealed class UnitSelectorTests
     [Fact]
     public void HealingSetupAcceptsHeroesAndSelectsOnlyTheWounded()
     {
-        Aow.Game.Engine.TAoWHSSet.AoWHSSet = null!;
-        var units = new TUnitUserList(null!);
-        var selector = new THealingUnitSelector();
+        Aow.Game.Engine.AoWHSSet.Current = null!;
+        var units = new UnitUserList(null!);
+        var selector = new HealingUnitSelector();
         try
         {
             units.AddUnit(new WoundedHero(1, 10, 10));

@@ -1,4 +1,5 @@
 using Aow.Formats.Json;
+using Aow.Rtl;
 
 namespace Aow.Formats.Migrations;
 
@@ -49,7 +50,38 @@ public sealed class MigrationChain
             versionMember.Value = new JsonInteger(v + 1) { Span = versionMember.Value.Span, Origin = step.Name };
             applied.Add(step.Name);
         }
+        if (version < Current)
+        {
+            StoreCurrentClassNames(document);
+            RecordMigration.RefreshFingerprints(document);
+        }
         return document;
+    }
+
+    // A version 1 or 2 document stores the Delphi class name. The current document stores the current name.
+    private static void StoreCurrentClassNames(JsonValue value)
+    {
+        switch (value)
+        {
+            case JsonObject obj:
+                if (obj.Find("$class") is { Value: JsonString name } member)
+                {
+                    string? stored = StoredClass(name.Value);
+                    if (stored is not null && stored != name.Value)
+                        member.Value = new JsonString(stored) { Span = name.Span, Origin = name.Origin };
+                }
+                foreach (var child in obj.Members) StoreCurrentClassNames(child.Value);
+                break;
+            case JsonArray array:
+                foreach (var item in array.Items) StoreCurrentClassNames(item);
+                break;
+        }
+    }
+
+    private static string? StoredClass(string name)
+    {
+        try { return NameTable.ResolveStored(name); }
+        catch (InvalidOperationException) { return null; }
     }
 
     // Values without a source span were synthesized by the step.

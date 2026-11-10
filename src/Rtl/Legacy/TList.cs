@@ -1,9 +1,9 @@
 namespace Aow.Rtl;
 
-public delegate int TListSortCompare(object? left, object? right);
+public delegate int ListSortCompare(object? left, object? right);
 
 [LegacyObject]
-public class TList : IDisposable
+public class DelphiList : IDisposable
 {
     private object?[] items = [];
     private int count;
@@ -94,19 +94,19 @@ public class TList : IDisposable
     public void Pack() { for (int i = count - 1; i >= 0; i--) if (items[i] is null) Delete(i); }
 
     // CLASSES.PAS TList.Expand.
-    public TList Expand() { if (count == Capacity) Grow(); return this; }
+    public DelphiList Expand() { if (count == Capacity) Grow(); return this; }
 
     // CLASSES.PAS TList.Sort and QuickSort. Equal keys retain the Delphi swap order.
-    public static Action<TList, TListSortCompare>? TraceSort { get; set; }
+    public static Action<DelphiList, ListSortCompare>? TraceSort { get; set; }
 
-    public void Sort(TListSortCompare compare)
+    public void Sort(ListSortCompare compare)
     {
         TraceSort?.Invoke(this, compare);
         if (count > 0) QuickSort(0, count - 1, compare);
     }
 
     // Keeps the order of equal items. The address tie-breaks call this, and every other sort keeps the quicksort.
-    public void SortStable(TListSortCompare compare)
+    public void SortStable(ListSortCompare compare)
     {
         TraceSort?.Invoke(this, compare);
         for (int i = 1; i < count; i++)
@@ -122,7 +122,7 @@ public class TList : IDisposable
         }
     }
 
-    private void QuickSort(int left, int right, TListSortCompare compare)
+    private void QuickSort(int left, int right, ListSortCompare compare)
     {
         int i;
         do
@@ -144,7 +144,7 @@ public class TList : IDisposable
     // CLASSES.PAS TList.Destroy.
     public virtual void Dispose() { Clear(); }
 
-    public TList()
+    public DelphiList()
     {
         CaptureAddress.Assign(this);
     }

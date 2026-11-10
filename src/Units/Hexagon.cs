@@ -15,9 +15,9 @@ namespace Aow.Game.World.Hexes;
 //   on three sides from HexTrans.ILB (THexagonResource, ClassID $20153). }
 // FTransitions (the transition image of the sides 0.2), FTransitionSides (bits 0.2: the sides
 // with a transition, bits 3.5: the shifted variants)
-public partial class THexagon : TAbstractHexagon
+public partial class Hexagon : AbstractHexagon
 {
-    public THexagon(TECustomNode owner) : base(owner)
+    public Hexagon(ECustomNode owner) : base(owner)
     { }
 
     public new const int ClassID = 131410;
@@ -26,7 +26,7 @@ public partial class THexagon : TAbstractHexagon
     protected internal byte FTransitionSides;
 
     // Hexagon.pas:60
-    public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Info)
     {
         if (HN == 0)
         {
@@ -46,12 +46,12 @@ public partial class THexagon : TAbstractHexagon
     }
 
     // Hexagon.pas:52
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-        ((THexagonResource)FResource).Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc, this);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        ((HexagonResource)FResource).Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc, this);
     }
 
     // Hexagon.pas:74
@@ -73,9 +73,9 @@ public partial class THexagon : TAbstractHexagon
 }
 
 // FTransitionLibrary (HexTrans.ILB)
-public partial class THexagonResource : TAbstractHexagonResource
+public partial class HexagonResource : AbstractHexagonResource
 {
-    public THexagonResource(TECustomNode owner) : base(owner)
+    public HexagonResource(ECustomNode owner) : base(owner)
     {
         SetLevel(0);
     }
@@ -83,17 +83,17 @@ public partial class THexagonResource : TAbstractHexagonResource
     // Hexagon.pas:89
     public new const int ClassID = 131411;
 
-    protected internal TCustomImageLibrary FTransitionLibrary;
+    protected internal CustomImageLibrary FTransitionLibrary;
 
     // Hexagon.pas:83
 
     // Hexagon.pas:99
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
         {
-            FTransitionLibrary = FEngine.HSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "HexTrans.ILB");
+            FTransitionLibrary = FEngine.HSSet.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "HexTrans.ILB");
         }
 
         if (Msg.MsgID == 65621)
@@ -106,18 +106,18 @@ public partial class THexagonResource : TAbstractHexagonResource
     public override int ResourceUserClassID() => 131410;
 
     // Hexagon.pas:112
-    public override Aow.Game.World.TMapObject PlaceResourceUser(THSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override Aow.Game.World.MapObject PlaceResourceUser(HSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        TMapField MapField;
+        MapField MapField;
         MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-        Aow.Game.World.TMapObject Result = (Aow.Game.World.TMapObject)MapField.FindOwnedChild(ResourceUserClassID());
+        Aow.Game.World.MapObject Result = (Aow.Game.World.MapObject)MapField.FindOwnedChild(ResourceUserClassID());
         if (Result != null)
         {
             if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
             {
                 Result.SetResource(this);
                 MapField.UpdateTerrainType();
-                ((TAbstractHexagon)Result).UpdateTransitions();
+                ((AbstractHexagon)Result).UpdateTransitions();
             }
             else
             {
@@ -128,7 +128,7 @@ public partial class THexagonResource : TAbstractHexagonResource
         }
         else
         {
-            Result = (Aow.Game.World.TMapObject)CreateResourceUser();
+            Result = (Aow.Game.World.MapObject)CreateResourceUser();
             if (!Result.PlaceHX(Map.MapContainer, Xhx, Yhx, Lhx))
             {
                 Result?.Dispose();
@@ -140,7 +140,7 @@ public partial class THexagonResource : TAbstractHexagonResource
     }
 
     // Hexagon.pas:141
-    public void Show(int Xhp, int Yhp, in TSurfaceDesc SurfaceDesc, THexagon Hexagon)
+    public void Show(int Xhp, int Yhp, in SurfaceDesc SurfaceDesc, Hexagon Hexagon)
     {
         byte Sides;
         FImageLibrary[0].Show(Xhp, Yhp, SurfaceDesc);
@@ -188,7 +188,7 @@ public partial class THexagonResource : TAbstractHexagonResource
     // Hexagon.pas:32
 
     // Hexagon.pas:107
-    public override string ResourceEditName() => Aow.Game.World.Hexes.THexagonResource.HexagonStr;
+    public override string ResourceEditName() => Aow.Game.World.Hexes.HexagonResource.HexagonStr;
 
     private static readonly string HexagonStr = "Hexagon";
 

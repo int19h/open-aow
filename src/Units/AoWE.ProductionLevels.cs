@@ -2,7 +2,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
-public partial class TProductionControl
+public partial class ProductionControl
 {
     public int GetProduceUnitLevelMax() => MaximumUnitLevel(true);
     public int GetResearchUnitLevelMax() => MaximumUnitLevel(false);
@@ -14,7 +14,7 @@ public partial class TProductionControl
         {
             var production = FUnitProductions.GetItem(i);
             if (production.FResearched != researched || production.FUnitIndex < 0) continue;
-            var resource = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(production.FUnitIndex);
+            var resource = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex);
             if (resource != null && result < resource.FLevel) result = resource.FLevel;
         }
         return result;

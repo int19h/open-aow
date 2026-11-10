@@ -17,15 +17,15 @@ public sealed class CombatMapConstructionTests
     {
         internal readonly List<bool> PublishedAtInsertion = [];
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             base.AddChild(child);
-            PublishedAtInsertion.Add(ReferenceEquals(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap, child));
+            PublishedAtInsertion.Add(ReferenceEquals(Aow.Game.Combat.AoWCombatMap.Current, child));
             if (reject) throw new InvalidDataException("owner rejects after insertion");
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(TEObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
+        public override int RemoveChild(EObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
     }
 
     // On the base commit set AOW_COMBAT_MAP_RECORD to the baseline's full path to regenerate.
@@ -33,35 +33,35 @@ public sealed class CombatMapConstructionTests
     [Fact]
     public void RoutesStateOwnerPublicationOffsetsAndFixtureFailuresMatchBaseCommit()
     {
-        var previous = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
+        var previous = Aow.Game.Combat.AoWCombatMap.Current;
         var actual = new JsonObject();
-        bool plain = typeof(TAoWCombatMap).GetConstructor([typeof(TECustomNode)]) is not null;
+        bool plain = typeof(AoWCombatMap).GetConstructor([typeof(ECustomNode)]) is not null;
         try
         {
             for (int failure = 0; failure < 3; failure++)
                 for (int owned = 0; owned < 2; owned++)
                     for (int route = 0; route < 4; route++)
                     {
-                        using var fixture = new OrderingRecording.Fixture(typeof(TAoWCombatMap));
+                        using var fixture = new OrderingRecording.Fixture(typeof(AoWCombatMap));
                         var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
-                        entry.FImageLibrary = new TImageLibrary(null!);
-                        var set = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
-                        if (failure == 2) Aow.Game.Engine.TAoWHSSet.AoWHSSet = null!;
-                        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = null!;
+                        entry.FImageLibrary = new ImageLibrary(null!);
+                        var set = Aow.Game.Engine.AoWHSSet.Current;
+                        if (failure == 2) Aow.Game.Engine.AoWHSSet.Current = null!;
+                        Aow.Game.Combat.AoWCombatMap.Current = null!;
                         var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
-                        TAoWCombatMap? value = null;
+                        AoWCombatMap? value = null;
                         System.Exception? caught = null;
                         try
                         {
-                            value = Assert.IsType<TAoWCombatMap>(OrderingRecording.Create(typeof(TAoWCombatMap), owner, route, fixture.Engine));
+                            value = Assert.IsType<AoWCombatMap>(OrderingRecording.Create(typeof(AoWCombatMap), owner, route, fixture.Engine));
                         }
                         catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { caught = error; }
-                        finally { Aow.Game.Engine.TAoWHSSet.AoWHSSet = set; }
+                        finally { Aow.Game.Engine.AoWHSSet.Current = set; }
                         Assert.Equal(failure == 0, value is not null);
-                        var published = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
+                        var published = Aow.Game.Combat.AoWCombatMap.Current;
                         Assert.NotNull(published);
                         if (owner is not null) Assert.Equal([true], owner.PublishedAtInsertion);
-                        int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TAoWCombatMap) && x.GetMethod()?.Name == "Dispose");
+                        int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(AoWCombatMap) && x.GetMethod()?.Name == "Dispose");
                         var record = new JsonObject
                         {
                             ["GlobalType"] = published.GetType().FullName,
@@ -77,13 +77,13 @@ public sealed class CombatMapConstructionTests
                         if (failure == 0)
                         {
                             Assert.Same(value, published);
-                            var mouse = Assert.IsType<TAoWCombatMapMouse>(value!.Mouse);
+                            var mouse = Assert.IsType<AoWCombatMapMouse>(value!.Mouse);
                             Assert.Equal(256, mouse.CursorMode);
                             Assert.All(Enumerable.Range(0, 8), i => Assert.Equal(2, value.FPositionStatus[i]));
                             Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
                             value.SetOwner(null!);
                             value.Dispose();
-                            Assert.Null(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap);
+                            Assert.Null(Aow.Game.Combat.AoWCombatMap.Current);
                             Assert.Equal(0, entry.RefCount);
                         }
                         else
@@ -119,6 +119,6 @@ public sealed class CombatMapConstructionTests
                 Assert.True(JsonNode.DeepEquals(baseline, pair.Value), pair.Key + "\n" + pair.Value);
             }
         }
-        finally { Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = previous; }
+        finally { Aow.Game.Combat.AoWCombatMap.Current = previous; }
     }
 }

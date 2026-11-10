@@ -13,9 +13,9 @@ namespace Aow.Game.World;
 // { The Bridge unit of HSEPack.dpl: a bridge over water (TBridge, ClassID $20174, an overlay at level
 //   10) whose image is chosen from the roads and shores around it (TBridgeResource, ClassID $20175). }
 // FTransitions (two bits per side HN 1.6: 0 none, 1 a road, 2 the shore the bridge reaches)
-public partial class TBridge : TAbstractRoad
+public partial class Bridge : AbstractRoad
 {
-    public TBridge(TECustomNode owner) : base(owner)
+    public Bridge(ECustomNode owner) : base(owner)
     {
     }
 
@@ -27,34 +27,34 @@ public partial class TBridge : TAbstractRoad
     // Bridge.pas:43
 
     // Bridge.pas:53
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-        ((TBridgeResource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        ((Resource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
     }
 
     // Bridge.pas:63
     // { Original oddity: the overlay of the owner of the previous owner (a map level, not a map field)
     //   is updated. }
-    public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        TMapField MapField;
-        THexagonSprite OldRoad;
-        TMapField OldOwner;
+        MapField MapField;
+        HexagonSprite OldRoad;
+        global::Aow.Game.World.Map.MapField OldOwner;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-        OldRoad = MapField.FindHS(typeof(TAbstractRoad));
+        OldRoad = MapField.FindHS(typeof(AbstractRoad));
         if (OldRoad != null)
         {
             OldRoad.Dispose();
         }
 
-        OldOwner = (TMapField)Owner;
+        OldOwner = (global::Aow.Game.World.Map.MapField)Owner;
         Owner = MapField;
-        FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+        FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped. }
-        if (OldOwner?.Owner is TMapField OldOwnerField)
+        if (OldOwner?.Owner is global::Aow.Game.World.Map.MapField OldOwnerField)
         {
             OldOwnerField.UpdateOverlayType();
         }
@@ -78,25 +78,25 @@ public partial class TBridge : TAbstractRoad
         int Yhx = default;
         int Shores;
         sbyte TerrainType;
-        TMapLevel Level;
+        MapLevel Level;
         int Start;
         int Distance;
-        TMapField MapField;
+        MapField MapField;
         bool IsShore;
         Transitions = 0;
-        Level = (TMapLevel)Owner.Owner;
+        Level = (MapLevel)Owner.Owner;
         Shores = 0;
         InShore = false;
         for (int HN = 1; HN <= 6; HN++)
         {
             Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
-            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);
                 TerrainType = MapField.TerrainType;
-                HasRoad = MapField.FindHS(typeof(TAbstractRoad)) != null;
-                IsShore = TerrainType != 0 && FResource.TerrainList.GetTerrain(0) != TerrainType && MapField.FindHS(typeof(TBorderHexagon)) == null;
+                HasRoad = MapField.FindHS(typeof(AbstractRoad)) != null;
+                IsShore = TerrainType != 0 && FResource.TerrainList.GetTerrain(0) != TerrainType && MapField.FindHS(typeof(BorderHexagon)) == null;
                 if (HasRoad)
                 {
                     Sides[HN - 1] = 1;
@@ -244,130 +244,130 @@ public partial class TBridge : TAbstractRoad
         FTransitions = (ushort)Transitions;
     }
 
+    public new partial class Resource : AbstractRoadResource
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        {
+            SetLevel(10);
+        }
+
+        // Bridge.pas:205
+        public new const int ClassID = 131445;
+
+        // Bridge.pas:189
+
+        // Bridge.pas:195
+        public override int ResourceUserClassID() => 131444;
+
+        // Bridge.pas:210
+        public void Show(int Xhp, int Yhp, in SurfaceDesc SurfaceDesc, Bridge Bridge)
+        {
+            int Transitions;
+            int Base;
+            Transitions = Bridge.FTransitions;
+            Base = 1;
+            FImageLibrary[Base + 18].Show(Xhp, Yhp, SurfaceDesc);
+            if ((Transitions & 3) != 0)
+            {
+                if ((Transitions & 3) == 1)
+                {
+                    FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
+                }
+
+                FImageLibrary[Base + 12].Show(Xhp, Yhp, SurfaceDesc);
+            }
+
+            if ((Transitions & 12) != 0)
+            {
+                if ((Transitions & 12) == 4)
+                {
+                    FImageLibrary[Base + 7].Show(Xhp, Yhp, SurfaceDesc);
+                }
+
+                FImageLibrary[Base + 13].Show(Xhp, Yhp, SurfaceDesc);
+            }
+
+            if ((Transitions & 48) != 0)
+            {
+                if ((Transitions & 48) == 16)
+                {
+                    FImageLibrary[Base + 8].Show(Xhp, Yhp, SurfaceDesc);
+                }
+                else
+                {
+                    FImageLibrary[Base + 2].Show(Xhp, Yhp, SurfaceDesc);
+                }
+
+                FImageLibrary[Base + 14].Show(Xhp, Yhp, SurfaceDesc);
+            }
+
+            if ((Transitions & 192) != 0)
+            {
+                if ((Transitions & 192) == 64)
+                {
+                    FImageLibrary[Base + 9].Show(Xhp, Yhp, SurfaceDesc);
+                }
+                else
+                {
+                    FImageLibrary[Base + 3].Show(Xhp, Yhp, SurfaceDesc);
+                }
+
+                FImageLibrary[Base + 15].Show(Xhp, Yhp, SurfaceDesc);
+            }
+
+            if ((Transitions & 768) != 0)
+            {
+                if ((Transitions & 768) == 256)
+                {
+                    FImageLibrary[Base + 10].Show(Xhp, Yhp, SurfaceDesc);
+                }
+                else
+                {
+                    FImageLibrary[Base + 4].Show(Xhp, Yhp, SurfaceDesc);
+                }
+
+                FImageLibrary[Base + 16].Show(Xhp, Yhp, SurfaceDesc);
+            }
+
+            if ((Transitions & 3072) != 0)
+            {
+                if ((Transitions & 3072) == 1024)
+                {
+                    FImageLibrary[Base + 11].Show(Xhp, Yhp, SurfaceDesc);
+                }
+
+                FImageLibrary[Base + 17].Show(Xhp, Yhp, SurfaceDesc);
+            }
+        }
+
+        // Bridge.pas:253
+        public override EditorClass Editor()
+        {
+            EditorClass Result = FEngine.Editors.FindEditor(131445);
+            if (Result == null)
+            {
+                Result = base.Editor();
+            }
+
+            return Result;
+        }
+
+        // Bridge.pas:259
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
+        {
+            if (Msg.MsgID != 65556)
+            {
+                base.MsgProc(ref Msg, Sender);
+            }
+        }
+
+        // Bridge.pas:28
+
+        // Bridge.pas:200
+        public override string ResourceEditName() => Aow.Game.World.Map.HexText.BridgeStr;
+
+    }
+
     // Bridge.pas:18
-
-}
-
-public partial class TBridgeResource : TAbstractRoadResource
-{
-    public TBridgeResource(TECustomNode owner) : base(owner)
-    {
-        SetLevel(10);
-    }
-
-    // Bridge.pas:205
-    public new const int ClassID = 131445;
-
-    // Bridge.pas:189
-
-    // Bridge.pas:195
-    public override int ResourceUserClassID() => 131444;
-
-    // Bridge.pas:210
-    public void Show(int Xhp, int Yhp, in TSurfaceDesc SurfaceDesc, TBridge Bridge)
-    {
-        int Transitions;
-        int Base;
-        Transitions = Bridge.FTransitions;
-        Base = 1;
-        FImageLibrary[Base + 18].Show(Xhp, Yhp, SurfaceDesc);
-        if ((Transitions & 3) != 0)
-        {
-            if ((Transitions & 3) == 1)
-            {
-                FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            FImageLibrary[Base + 12].Show(Xhp, Yhp, SurfaceDesc);
-        }
-
-        if ((Transitions & 12) != 0)
-        {
-            if ((Transitions & 12) == 4)
-            {
-                FImageLibrary[Base + 7].Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            FImageLibrary[Base + 13].Show(Xhp, Yhp, SurfaceDesc);
-        }
-
-        if ((Transitions & 48) != 0)
-        {
-            if ((Transitions & 48) == 16)
-            {
-                FImageLibrary[Base + 8].Show(Xhp, Yhp, SurfaceDesc);
-            }
-            else
-            {
-                FImageLibrary[Base + 2].Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            FImageLibrary[Base + 14].Show(Xhp, Yhp, SurfaceDesc);
-        }
-
-        if ((Transitions & 192) != 0)
-        {
-            if ((Transitions & 192) == 64)
-            {
-                FImageLibrary[Base + 9].Show(Xhp, Yhp, SurfaceDesc);
-            }
-            else
-            {
-                FImageLibrary[Base + 3].Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            FImageLibrary[Base + 15].Show(Xhp, Yhp, SurfaceDesc);
-        }
-
-        if ((Transitions & 768) != 0)
-        {
-            if ((Transitions & 768) == 256)
-            {
-                FImageLibrary[Base + 10].Show(Xhp, Yhp, SurfaceDesc);
-            }
-            else
-            {
-                FImageLibrary[Base + 4].Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            FImageLibrary[Base + 16].Show(Xhp, Yhp, SurfaceDesc);
-        }
-
-        if ((Transitions & 3072) != 0)
-        {
-            if ((Transitions & 3072) == 1024)
-            {
-                FImageLibrary[Base + 11].Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            FImageLibrary[Base + 17].Show(Xhp, Yhp, SurfaceDesc);
-        }
-    }
-
-    // Bridge.pas:253
-    public override EditorClass Editor()
-    {
-        EditorClass Result = FEngine.Editors.FindEditor(131445);
-        if (Result == null)
-        {
-            Result = base.Editor();
-        }
-
-        return Result;
-    }
-
-    // Bridge.pas:259
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
-    {
-        if (Msg.MsgID != 65556)
-        {
-            base.MsgProc(ref Msg, Sender);
-        }
-    }
-
-    // Bridge.pas:28
-
-    // Bridge.pas:200
-    public override string ResourceEditName() => Aow.Game.World.Map.HexText.BridgeStr;
 
 }

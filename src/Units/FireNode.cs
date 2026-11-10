@@ -6,41 +6,41 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TFireNode : TProductionPlace
+public partial class FireNode : ProductionPlace
 {
-    public TFireNode(TECustomNode owner) : base(owner)
+    public FireNode(ECustomNode owner) : base(owner)
     { }
 
     // FireNode.pas:36
     public new const int ClassID = 132062;
 
     // FireNode.pas:39
-    public override TMagicSphere GetMagicSphere() => TMagicSphere.msFire;
+    public override MagicSphere GetMagicSphere() => MagicSphere.Fire;
 
-}
-
-public partial class TFireNodeResource : TProductionPlaceResource
-{
-    public TFireNodeResource(TECustomNode owner) : base(owner)
+    public new partial class Resource : ProductionPlaceResource
     {
-        FRazeDefenderBudget = 200;
-        FRebuildGold = 50;
-        FRebuildDays = 3;
+        public Resource(ECustomNode owner) : base(owner)
+        {
+            FRazeDefenderBudget = 200;
+            FRebuildGold = 50;
+            FRebuildDays = 3;
+        }
+
+        // FireNode.pas:53
+        public new const int ClassID = 132063;
+
+        // FireNode.pas:42
+
+        // FireNode.pas:56
+        public override int ResourceUserClassID() => 132062;
+
+        // FireNode.pas:26
+
+        // FireNode.pas:50
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.FireNode.Resource.FireNodeRStr);
+
+        private static readonly string FireNodeRStr = "Fire Node";
+
     }
-
-    // FireNode.pas:53
-    public new const int ClassID = 132063;
-
-    // FireNode.pas:42
-
-    // FireNode.pas:56
-    public override int ResourceUserClassID() => 132062;
-
-    // FireNode.pas:26
-
-    // FireNode.pas:50
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TFireNodeResource.FireNodeRStr);
-
-    private static readonly string FireNodeRStr = "Fire Node";
 
 }

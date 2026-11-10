@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 
 internal static class LibraryDrawing
 {
-    internal static void BltLibraryImage(TCanvas Canvas, TLibraryImage Image, TRect Rect, TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref TRect DrawRect)
+    internal static void BltLibraryImage(Canvas Canvas, LibraryImage Image, global::Aow.Rtl.Rect Rect, BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref global::Aow.Rtl.Rect DrawRect)
     {
         /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
         throw new NotImplementedException();
@@ -44,7 +44,7 @@ internal static class LibraryDrawing
         S = Cp1252.Decode(buffer);
     }
 
-    internal static void DrawFocusFrame(int DC, TRect R, bool Focused, int Color)
+    internal static void DrawFocusFrame(int DC, global::Aow.Rtl.Rect R, bool Focused, int Color)
     {
         /* TODO: Implement Windows.CreateSolidBrush in the platform or editor service. */
         throw new NotImplementedException();

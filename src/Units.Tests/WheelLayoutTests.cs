@@ -23,28 +23,28 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     public sealed class Host : IDisposable
     {
         private readonly Action<string> previousMessage = Runtime.MessageHandler;
-        private readonly TIntGfxMod? previousGfx = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod;
-        private readonly TFontModule? previousFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule;
-        private readonly TGeneral? previousGeneral = Aow.Game.Ui.Dialogs.DialogHosts.General;
-        private readonly TTitleWindow? previousTitle = Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow;
-        private readonly TSpellBook? previousSpell = Aow.Game.Ui.Dialogs.DialogHosts.SpellBook;
-        private readonly TWorldMap? previousWorld = Aow.Game.Ui.Dialogs.DialogHosts.WorldMap;
-        private readonly TFileDlgWindow? previousFiles = Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow;
-        private readonly TRealmWin? previousRealm = Aow.Game.Ui.Dialogs.DialogHosts.RealmWin;
-        private readonly TUnitBanner? previousBanner = Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner;
-        private readonly TStringList? previousDirectories = Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories;
-        private readonly TStringList? previousFileList = Aow.Game.Ui.Dialogs.TFileDlgWindow.Files;
-        private readonly TStringList? previousDrives = Aow.Game.Ui.Dialogs.TFileDlgWindow.Drives;
+        private readonly IntGfxMod? previousGfx = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod;
+        private readonly FontModule? previousFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule;
+        private readonly General? previousGeneral = Aow.Game.Ui.Dialogs.DialogHosts.General;
+        private readonly TitleWindow? previousTitle = Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow;
+        private readonly SpellBook? previousSpell = Aow.Game.Ui.Dialogs.DialogHosts.SpellBook;
+        private readonly WorldMap? previousWorld = Aow.Game.Ui.Dialogs.DialogHosts.WorldMap;
+        private readonly FileDlgWindow? previousFiles = Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow;
+        private readonly RealmWin? previousRealm = Aow.Game.Ui.Dialogs.DialogHosts.RealmWin;
+        private readonly UnitBanner? previousBanner = Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner;
+        private readonly StringList? previousDirectories = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories;
+        private readonly StringList? previousFileList = Aow.Game.Ui.Dialogs.FileDlgWindow.Files;
+        private readonly StringList? previousDrives = Aow.Game.Ui.Dialogs.FileDlgWindow.Drives;
 
-        internal TSpellBook Spell = null!;
-        internal TWorldMap World = null!;
-        internal TFileDlgWindow Files = null!;
-        internal TRealmWin Realm = null!;
-        private TIntGfxMod gfx = null!;
-        private TFontModule font = null!;
-        private TGeneral general = null!;
-        private TTitleWindow title = null!;
-        private TUnitBanner banner = null!;
+        internal SpellBook Spell = null!;
+        internal WorldMap World = null!;
+        internal FileDlgWindow Files = null!;
+        internal RealmWin Realm = null!;
+        private IntGfxMod gfx = null!;
+        private FontModule font = null!;
+        private General general = null!;
+        private TitleWindow title = null!;
+        private UnitBanner banner = null!;
 
         public Host()
         {
@@ -52,15 +52,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             try
             {
                 var session = new LayoutSession();
-                gfx = Load(session, new TIntGfxMod(null), module => Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod = module);
-                font = Load(session, new TFontModule(null), module => Aow.Game.Ui.Dialogs.DialogHosts.FontModule = module);
-                general = Load(session, new TGeneral(null), module => Aow.Game.Ui.Dialogs.DialogHosts.General = module);
-                title = Load(session, new TTitleWindow(null), module => Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow = module);
-                banner = Load(session, new TUnitBanner(null), module => Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner = module);
-                Spell = Load(session, new TSpellBook(null), module => Aow.Game.Ui.Dialogs.DialogHosts.SpellBook = module);
-                World = Load(session, new TWorldMap(null), module => Aow.Game.Ui.Dialogs.DialogHosts.WorldMap = module);
-                Files = Load(session, new TFileDlgWindow(null), module => Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow = module);
-                Realm = Load(session, new TRealmWin(null), module => Aow.Game.Ui.Dialogs.DialogHosts.RealmWin = module);
+                gfx = Load(session, new IntGfxMod(null), module => Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod = module);
+                font = Load(session, new FontModule(null), module => Aow.Game.Ui.Dialogs.DialogHosts.FontModule = module);
+                general = Load(session, new General(null), module => Aow.Game.Ui.Dialogs.DialogHosts.General = module);
+                title = Load(session, new TitleWindow(null), module => Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow = module);
+                banner = Load(session, new UnitBanner(null), module => Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner = module);
+                Spell = Load(session, new SpellBook(null), module => Aow.Game.Ui.Dialogs.DialogHosts.SpellBook = module);
+                World = Load(session, new WorldMap(null), module => Aow.Game.Ui.Dialogs.DialogHosts.WorldMap = module);
+                Files = Load(session, new FileDlgWindow(null), module => Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow = module);
+                Realm = Load(session, new RealmWin(null), module => Aow.Game.Ui.Dialogs.DialogHosts.RealmWin = module);
             }
             catch
             {
@@ -74,7 +74,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         }
 
         // Load destroys a module whose layout throws, so the field is set only after Load returns.
-        private static T Load<T>(LayoutSession session, T module, Action<T?> publish) where T : TComponent, ILayoutModule
+        private static T Load<T>(LayoutSession session, T module, Action<T?> publish) where T : global::Aow.Rtl.Component, ILayoutModule
         {
             session.Load(module, publish);
             return module;
@@ -105,15 +105,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
                 Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow = previousFiles;
                 Aow.Game.Ui.Dialogs.DialogHosts.RealmWin = previousRealm;
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner = previousBanner;
-                Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories = previousDirectories;
-                Aow.Game.Ui.Dialogs.TFileDlgWindow.Files = previousFileList;
-                Aow.Game.Ui.Dialogs.TFileDlgWindow.Drives = previousDrives;
+                Aow.Game.Ui.Dialogs.FileDlgWindow.Directories = previousDirectories;
+                Aow.Game.Ui.Dialogs.FileDlgWindow.Files = previousFileList;
+                Aow.Game.Ui.Dialogs.FileDlgWindow.Drives = previousDrives;
                 Runtime.MessageHandler = previousMessage;
             }
         }
     }
 
-    private void Show(TAOWWindow window)
+    private void Show(AOWWindow window)
     {
         host.Spell.Dlg.FVisible = false;
         host.World.BookWin.FVisible = false;
@@ -140,7 +140,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         Assert.Same(book.NextBtn, book.Dlg.PageForward);
         int x = book.Dlg.FWinLeft + 8;
         int y = book.Dlg.FWinTop + 200;
-        TSet<TShiftState> shift = default;
+        Set<ShiftState> shift = default;
 
         Assert.True(Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.CheckMouseWheel(-5, shift, x, y));
         Assert.Equal(1, book.FPage);
@@ -176,7 +176,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         Assert.Same(map.Next, map.BookWin.PageForward);
         int x = map.BookWin.FWinLeft + map.MemoL.FWinLeft + 20;
         int y = map.BookWin.FWinTop + map.MemoL.FWinTop + 40;
-        TSet<TShiftState> shift = default;
+        Set<ShiftState> shift = default;
 
         Assert.True(map.BookWin.CheckMouseWheel(-3, shift, x, y));
         Assert.Equal(3, map.leftSB.FPosition);
@@ -216,7 +216,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         dialog.SSBar.FPosition = 0;
         int x = dialog.FileDialog.FWinLeft + dialog.SavePnl.FWinLeft + dialog.SaveLBFr.FWinLeft + dialog.SaveLB.FWinLeft + 4;
         int y = dialog.FileDialog.FWinTop + dialog.SavePnl.FWinTop + dialog.SaveLBFr.FWinTop + dialog.SaveLB.FWinTop + 8;
-        TSet<TShiftState> shift = default;
+        Set<ShiftState> shift = default;
         Assert.True(dialog.FileDialog.CheckMouseWheel(-1, shift, x, y));
         Assert.Equal(1, dialog.SSBar.FPosition);
         Assert.Equal(1, dialog.SaveLB.ListOffset);
@@ -271,7 +271,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDir);
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new TAoWRegistry();
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new AoWRegistry();
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
             dialog.FMode = 2;
             dialog.FileName.Text = "valley.map";
@@ -287,7 +287,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         }
     }
 
-    private static string[] Names(Aow.Game.Ui.Controls.TAOWListBox list)
+    private static string[] Names(Aow.Game.Ui.Controls.AOWListBox list)
     {
         var names = new string[list.Items.Count];
         for (int i = 0; i < names.Length; i++) names[i] = list.Items[i];

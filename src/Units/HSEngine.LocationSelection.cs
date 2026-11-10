@@ -2,19 +2,19 @@ using Aow.Game.Draw;
 #nullable disable
 namespace Aow.Game.World.Map;
 
-public partial class THexagonSpriteSelection
+public partial class HexagonSpriteSelection
 {
     public bool CanSelectLocation(int Xhp, int Yhp, int Lhp)
     {
         bool Result;
         int Xhx = default;
         int Yhx = default;
-        TMapField MapF;
+        MapField MapF;
         int I;
         Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-        if (Xhx >= 0 && ((THSMap)Owner).FMapContainer.FWidth > Xhx && ((THSMap)Owner).FMapContainer.FHeight > Yhx && Yhx >= 0)
+        if (Xhx >= 0 && ((HSMap)Owner).FMapContainer.FWidth > Xhx && ((HSMap)Owner).FMapContainer.FHeight > Yhx && Yhx >= 0)
         {
-            MapF = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
+            MapF = ((HSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
             I = MapF.Count;
             Result = false;
             while (!Result && I != 0)
@@ -36,11 +36,11 @@ public partial class THexagonSpriteSelection
         int N;
         int Xhx = default;
         int Yhx = default;
-        TMapField MapF;
-        THexagonSprite HS;
+        MapField MapF;
+        HexagonSprite HS;
         int I;
         Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-        MapF = ((THSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
+        MapF = ((HSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
         I = FindLocationHSIndex(MapF) - 1;
         HS = null;
         if (I < 0)
@@ -75,12 +75,12 @@ public partial class THexagonSpriteSelection
         }
     }
 
-    public int FindLocationHSIndex(TMapField MapF)
+    public int FindLocationHSIndex(MapField MapF)
     {
         int I;
         int Xhp = default;
         int Yhp = default;
-        THexagonSprite HS;
+        HexagonSprite HS;
         int Result = -1;
         if (FLocationHS.Count != 0)
         {

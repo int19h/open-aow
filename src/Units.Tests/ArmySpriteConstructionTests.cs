@@ -15,14 +15,14 @@ public sealed class ArmySpriteConstructionTests
     {
         internal readonly List<string> Events = [];
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             base.AddChild(child);
             Events.Add(OrderingRecording.Snapshot(child));
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(TEObject child)
+        public override int RemoveChild(EObject child)
         {
             Events.Add("remove");
             return base.RemoveChild(child) < 0 ? -1 : 0;
@@ -36,24 +36,24 @@ public sealed class ArmySpriteConstructionTests
         for (int owned = 0; owned < 2; owned++)
             for (int route = 0; route < 4; route++)
             {
-                using var fixture = new OrderingRecording.Fixture(typeof(TArmyHS));
+                using var fixture = new OrderingRecording.Fixture(typeof(ArmyHS));
                 var owner = owned == 0 ? null : new ArmyOwner();
-                TArmyHS? value = null;
+                ArmyHS? value = null;
                 string state;
                 int destroyEntries = 0;
                 try
                 {
-                    value = Assert.IsType<TArmyHS>(OrderingRecording.Create(typeof(TArmyHS), owner, route, fixture.Engine));
+                    value = Assert.IsType<ArmyHS>(OrderingRecording.Create(typeof(ArmyHS), owner, route, fixture.Engine));
                     state = OrderingRecording.Snapshot(value);
                 }
                 catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
                 {
                     state = error.GetType().FullName + ":" + error.Message;
-                    destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TArmyHS) && x.GetMethod()?.Name == "Dispose");
+                    destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(ArmyHS) && x.GetMethod()?.Name == "Dispose");
                 }
                 Assert.NotNull(value);
                 actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
+                Aow.Game.World.Map.AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying); });
                 value?.SetOwner(null!);
                 value?.Dispose();
             }
@@ -63,23 +63,23 @@ public sealed class ArmySpriteConstructionTests
     [Fact]
     public void SavedArmyReturnsThroughCreateEObjectAndReadWrite()
     {
-        using var fixture = new OrderingRecording.Fixture(typeof(TArmyHS));
-        TEObject source = new TArmyHS(null!);
-        TEObject loaded = null!;
+        using var fixture = new OrderingRecording.Fixture(typeof(ArmyHS));
+        EObject source = new ArmyHS(null!);
+        EObject loaded = null!;
         using var memory = new MemoryStream();
         try
         {
-            ((TArmyHS)source).FArmy.FPlayer = 2;
-            using (var writer = new TEWriteStorageStream(memory, fixture.Engine, false)) { source.ReadWrite(writer); }
+            ((ArmyHS)source).FArmy.FPlayer = 2;
+            using (var writer = new EWriteStorageStream(memory, fixture.Engine, false)) { source.ReadWrite(writer); }
             memory.Position = 0;
-            loaded = fixture.Engine.CreateEObject(TArmyHS.ClassID, null!);
-            using (var reader = new TEReadStorageStream(memory, fixture.Engine, false)) { loaded.ReadWrite(reader); }
-            Assert.IsType<TArmyHS>(loaded);
+            loaded = fixture.Engine.CreateEObject(ArmyHS.ClassID, null!);
+            using (var reader = new EReadStorageStream(memory, fixture.Engine, false)) { loaded.ReadWrite(reader); }
+            Assert.IsType<ArmyHS>(loaded);
             Assert.Equal(OrderingRecording.Snapshot(source), OrderingRecording.Snapshot(loaded));
         }
         finally
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
+            Aow.Game.World.Map.AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying); });
             loaded?.Dispose();
             source.Dispose();
         }

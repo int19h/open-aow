@@ -5,28 +5,28 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class TWorkshop : TCombatStructure
+public partial class Workshop : CombatStructure
 {
-    public TWorkshop(TECustomNode owner) : base(owner)
+    public Workshop(ECustomNode owner) : base(owner)
     { }
 
     // WorkShop.pas:36
     public new const int ClassID = 2229512;
 
-}
+    public new partial class Resource : CombatStructureResource
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        { }
 
-public partial class TWorkshopResource : TCombatStructureResource
-{
-    public TWorkshopResource(TECustomNode owner) : base(owner)
-    { }
+        // WorkShop.pas:39
+        public new const int ClassID = 2229513;
 
-    // WorkShop.pas:39
-    public new const int ClassID = 2229513;
+        // WorkShop.pas:45
+        public override int ResourceUserClassID() => 2229512;
 
-    // WorkShop.pas:45
-    public override int ResourceUserClassID() => 2229512;
+        // WorkShop.pas:42
+        public override string ResourceEditName() => "Combat Workshop";
 
-    // WorkShop.pas:42
-    public override string ResourceEditName() => "Combat Workshop";
+    }
 
 }

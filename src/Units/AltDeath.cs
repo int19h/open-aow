@@ -6,38 +6,38 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TAltarOfDeath : TAltar
+public partial class AltarOfDeath : Altar
 {
-    public TAltarOfDeath(TECustomNode owner) : base(owner)
+    public AltarOfDeath(ECustomNode owner) : base(owner)
     { }
 
     // AltDeath.pas:36
     public new const int ClassID = 131637;
 
     // AltDeath.pas:39
-    public override TStorm CreateStorm() => new TDeathStorm(null);
+    public override Storm CreateStorm() => new DeathStorm(null);
 
-}
-
-public partial class TAltarOfDeathResource : TAltarResource
-{
-    public TAltarOfDeathResource(TECustomNode owner) : base(owner)
+    public new partial class Resource : AltarResource
     {
+        public Resource(ECustomNode owner) : base(owner)
+        {
+        }
+
+        // AltDeath.pas:52
+        public new const int ClassID = 131638;
+
+        // AltDeath.pas:44
+
+        // AltDeath.pas:55
+        public override int ResourceUserClassID() => 131637;
+
+        // AltDeath.pas:26
+
+        // AltDeath.pas:49
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.AltarOfDeath.Resource.AltarOfDeathRStr);
+
+        private static readonly string AltarOfDeathRStr = "Altar of Death";
+
     }
-
-    // AltDeath.pas:52
-    public new const int ClassID = 131638;
-
-    // AltDeath.pas:44
-
-    // AltDeath.pas:55
-    public override int ResourceUserClassID() => 131637;
-
-    // AltDeath.pas:26
-
-    // AltDeath.pas:49
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfDeathResource.AltarOfDeathRStr);
-
-    private static readonly string AltarOfDeathRStr = "Altar of Death";
 
 }

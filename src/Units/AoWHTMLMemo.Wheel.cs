@@ -20,10 +20,10 @@ public partial class TaowHTMLMemo
         return PointInside(X, Y, left, top, FWinWidth, FWinHeight);
     }
 
-    public override bool CheckMouseWheel(int Steps, TSet<TShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
     {
         if (Steps == 0 || !ContainsPoint(X, Y)) return false;
-        TAOWVScrollBar bar = WheelScrollBar ?? FVScrollBar;
+        AOWVScrollBar bar = WheelScrollBar ?? FVScrollBar;
         if (bar == null || !bar.HasWheelRange()) return false;
         bar.ScrollSteps(Steps);
         FTopItem = bar.FPosition;

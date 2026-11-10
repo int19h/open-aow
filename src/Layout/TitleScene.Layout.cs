@@ -8,7 +8,7 @@ using Aow.Game.Ui.Windows;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTitleScene : ILayoutModule
+public partial class TitleScene : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -21,13 +21,13 @@ public partial class TTitleScene : ILayoutModule
         Name = "TitleScene";
         LayoutOnCreate = _ => Layout_TitleSceneCreate_0();
         LayoutOnDestroy = _ => Layout_TitleSceneDestroy_1();
-        TitleSceneIL = new TImageLibrary(this);
+        TitleSceneIL = new ImageLibrary(this);
         session.BeginRead(TitleSceneIL);
         TitleSceneIL.Name = "TitleSceneIL";
         TitleSceneIL.LoadOnDemand = true;
         TitleSceneIL.FileName = "Int\\Scenes\\Title.ILB";
         session.EndRead(TitleSceneIL);
-        Window = new TAoWUserWindow(this);
+        Window = new AoWUserWindow(this);
         session.BeginRead(Window);
         Window.Name = "Window";
         Window.OnMouseDown = (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
@@ -41,8 +41,8 @@ public partial class TTitleScene : ILayoutModule
         Window.WinWidth = 640;
         Window.Masked = false;
         Window.OnHide = _ => Layout_WindowHide_3();
-        Window.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        Window.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        Window.Alignment.AlignWidth = AOWAlignWidth.Both;
+        Window.Alignment.AlignHeight = AOWAlignHeight.Both;
         Window.Alignment.HeightPercent = 0;
         Window.Alignment.WidthPercent = 0;
         Window.Alignment.LeftOffPercent = 0;
@@ -76,15 +76,15 @@ public partial class TTitleScene : ILayoutModule
         Window.Dockable = false;
         Window.OnDrawSurfaceEx = WindowDrawSurfaceEx;
         session.EndRead(Window);
-        LegalNotice = new TAOWMemo(this);
+        LegalNotice = new AOWMemo(this);
         session.BeginRead(LegalNotice);
         LegalNotice.Name = "LegalNotice";
         LegalNotice.Priority = 0;
         LegalNotice.WinLeft = 0;
         LegalNotice.WinTop = 268;
         LegalNotice.CaptureInput = true;
-        LegalNotice.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        LegalNotice.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LegalNotice.Alignment.AlignWidth = AOWAlignWidth.Both;
+        LegalNotice.Alignment.AlignHeight = AOWAlignHeight.Top;
         LegalNotice.Alignment.HeightPercent = 0;
         LegalNotice.Alignment.WidthPercent = 0;
         LegalNotice.Alignment.LeftOffPercent = 0;
@@ -116,17 +116,17 @@ public partial class TTitleScene : ILayoutModule
         LegalNotice.ILIndexTexture = 0;
         LegalNotice.ItemHeight = 13;
         LegalNotice.ColorChangeChar = 0;
-        LegalNotice.TextAlign = TaowTextAlign.taCenter;
+        LegalNotice.TextAlign = TaowTextAlign.Center;
         session.EndRead(LegalNotice);
-        StrLbl = new TAOWLabel(this);
+        StrLbl = new AOWLabel(this);
         session.BeginRead(StrLbl);
         StrLbl.Name = "StrLbl";
         StrLbl.Priority = 100;
         StrLbl.WinLeft = 145;
         StrLbl.WinTop = 220;
         StrLbl.CaptureInput = true;
-        StrLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        StrLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        StrLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        StrLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         StrLbl.Alignment.HeightPercent = 0;
         StrLbl.Alignment.WidthPercent = 0;
         StrLbl.Alignment.LeftOffPercent = 0;
@@ -141,15 +141,15 @@ public partial class TTitleScene : ILayoutModule
         StrLbl.Text = "This special demo version of Age of Wonders has been internally marked for:";
         StrLbl.TextColor = 255;
         session.EndRead(StrLbl);
-        NameLbl = new TAOWLabel(this);
+        NameLbl = new AOWLabel(this);
         session.BeginRead(NameLbl);
         NameLbl.Name = "NameLbl";
         NameLbl.Priority = 100;
         NameLbl.WinLeft = 293;
         NameLbl.WinTop = 235;
         NameLbl.CaptureInput = true;
-        NameLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        NameLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        NameLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        NameLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         NameLbl.Alignment.HeightPercent = 0;
         NameLbl.Alignment.WidthPercent = 0;
         NameLbl.Alignment.LeftOffPercent = 0;
@@ -164,15 +164,15 @@ public partial class TTitleScene : ILayoutModule
         NameLbl.Text = "######";
         NameLbl.TextColor = 255;
         session.EndRead(NameLbl);
-        Copyright = new TAOWLabel(this);
+        Copyright = new AOWLabel(this);
         session.BeginRead(Copyright);
         Copyright.Name = "Copyright";
         Copyright.Priority = 0;
         Copyright.WinLeft = 10;
         Copyright.WinTop = 458;
         Copyright.CaptureInput = true;
-        Copyright.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Copyright.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        Copyright.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Copyright.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         Copyright.Alignment.HeightPercent = 0;
         Copyright.Alignment.WidthPercent = 0;
         Copyright.Alignment.LeftOffPercent = 0;
@@ -187,15 +187,15 @@ public partial class TTitleScene : ILayoutModule
         Copyright.Text = "Copyright (C) 1999 Epic MegaGames and Kolbitar Development";
         Copyright.TextColor = 16777215;
         session.EndRead(Copyright);
-        Version = new TAOWLabel(this);
+        Version = new AOWLabel(this);
         session.BeginRead(Version);
         Version.Name = "Version";
         Version.Priority = 0;
         Version.WinLeft = 582;
         Version.WinTop = 464;
         Version.CaptureInput = true;
-        Version.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Version.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        Version.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Version.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         Version.Alignment.HeightPercent = 0;
         Version.Alignment.WidthPercent = 0;
         Version.Alignment.LeftOffPercent = 0;

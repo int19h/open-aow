@@ -12,31 +12,31 @@ namespace Aow.Game.Ui.Controls;
 //   their OwnerItem is the selected tab and hidden otherwise. }
 // Fields: FItems, FSelected, FILButton, FBorderHeightSelected (the text offset of the selected
 // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
-public partial class TAOWTabPanel : TAOWControl
+public partial class AOWTabPanel : AOWControl
 {
-    public TStringList FItems;
+    public StringList FItems;
     public int FSelected;
-    public TInterfaceIL FILButton;
+    public InterfaceIL FILButton;
     public int FBorderHeightSelected;
     public int FILIndexUp;
     public int FILIndexDown;
-    public TList FPanels;
+    public DelphiList FPanels;
 
     // AoWTabPanel.pas:62
-    public TAOWTabPanel(TComponent owner) : base(owner)
+    public AOWTabPanel(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FItems = new TStringList();
+        FItems = new StringList();
         FItems.OnChange = OnChangeText;
-        FPanels = new TList();
+        FPanels = new DelphiList();
     }
 
     // AoWTabPanel.pas:70
     public override void Dispose()
     {
-        TAOWWindowControl P;
+        AOWWindowControl P;
         for (int I = 0, last = FPanels.Count - 1; I <= last; I++)
         {
-            P = (TAOWWindowControl)FPanels[I];
+            P = (AOWWindowControl)FPanels[I];
             P.DetachMenuBar();
         }
 
@@ -92,9 +92,9 @@ public partial class TAOWTabPanel : TAOWControl
     // AoWTabPanel.pas:164
     // { Draw: the tabs side by side in equal shares of the width, the text centered; the selected tab
     //   with the down image and its text BorderHeightSelected pixels down }
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
-        TRect OldClip = default;
+        global::Aow.Rtl.Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -111,7 +111,7 @@ public partial class TAOWTabPanel : TAOWControl
                     {
                         var count = FItems.Count;
                         var fItemsCount = FItems.Count;
-                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
                         FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
                         if (FAOWFont != null)
                         {
@@ -127,7 +127,7 @@ public partial class TAOWTabPanel : TAOWControl
                     {
                         var count = FItems.Count;
                         var fItemsCount = FItems.Count;
-                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
                         FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
                         if (FAOWFont != null)
                         {
@@ -155,14 +155,14 @@ public partial class TAOWTabPanel : TAOWControl
 
     // AoWTabPanel.pas:211
     // { CheckMouseDown: a left click on a tab selects it }
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
         {
             FHandled = true;
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 var count = FItems.Count;
                 SetIndex((X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / count));
@@ -176,7 +176,7 @@ public partial class TAOWTabPanel : TAOWControl
     }
 
     // AoWTabPanel.pas:226
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
@@ -190,7 +190,7 @@ public partial class TAOWTabPanel : TAOWControl
     }
 
     // AoWTabPanel.pas:239
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseMove(Shift, X, Y);
         FHandled = false;
@@ -211,7 +211,7 @@ public partial class TAOWTabPanel : TAOWControl
     }
 
     // AoWTabPanel.pas:85
-    public virtual void SetILButton(TInterfaceIL Value)
+    public virtual void SetILButton(InterfaceIL Value)
     {
         if (Value != FILButton)
         {
@@ -241,7 +241,7 @@ public partial class TAOWTabPanel : TAOWControl
     }
 
     // AoWTabPanel.pas:133
-    public void SetFStrings(TStringList Value)
+    public void SetFStrings(StringList Value)
     {
         FItems.Clear();
         for (int I = 0, last = Value.Count - 1; I <= last; I++)
@@ -260,7 +260,7 @@ public partial class TAOWTabPanel : TAOWControl
             FSelected = Value;
             for (int I = 0, last = FPanels.Count - 1; I <= last; I++)
             {
-                var component = (TAoWComponent)FPanels[I];
+                var component = (AoWComponent)FPanels[I];
                 if (component.FOwnerItem == this.FSelected)
                 {
                     component.SetVisible(true);
@@ -281,10 +281,10 @@ public partial class TAOWTabPanel : TAOWControl
     }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
     [Published]
-    public TStringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => FItems; set => SetFStrings(value); }
 
     [Published]
     public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
@@ -293,7 +293,7 @@ public partial class TAOWTabPanel : TAOWControl
     public int Selected { get => FSelected; set => SetIndex(value); }
 
     [Published]
-    public TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
+    public InterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
 
     [Published]
     public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
@@ -304,55 +304,55 @@ public partial class TAOWTabPanel : TAOWControl
     [Published]
     public int BorderHeightSelected { get => FBorderHeightSelected; set => FBorderHeightSelected = value; }
 
-    public new TNotifyEvent<TAOWTabPanel> OnChange
+    public new NotifyEvent<AOWTabPanel> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWTabPanel> OnMouseDown
+    public new MouseEvent<AOWTabPanel> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWTabPanel> OnMouseUp
+    public new MouseEvent<AOWTabPanel> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWTabPanel> OnMouseMove
+    public new MouseMoveEvent<AOWTabPanel> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWTabPanel> OnKeyPress
+    public new KeyPressEvent<AOWTabPanel> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWTabPanel> OnKeyDown
+    public new KeyEvent<AOWTabPanel> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWTabPanel> OnPreDraw
+    public new AoWOnDrawEvent<AOWTabPanel> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWTabPanel> OnDraw
+    public new AoWOnDrawEvent<AOWTabPanel> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWTabPanel> OnUpdate
+    public new NotifyEvent<AOWTabPanel> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

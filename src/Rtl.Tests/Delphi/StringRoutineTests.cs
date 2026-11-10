@@ -225,11 +225,11 @@ public sealed class StringRoutineTests
         foreach (string text in new[] { "", "broken", "\u20ac" })
         {
             RtlUnit.Assert(true, text, "unit.pas", 42);
-            var expected = Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, Ansi(text), "unit.pas", 42));
-            var actual = Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, text, "unit.pas", 42));
+            var expected = Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, Ansi(text), "unit.pas", 42));
+            var actual = Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, text, "unit.pas", 42));
             Assert.Equal(expected.Message, actual.Message);
         }
         Assert.Equal("Assertion failed (unit.pas, line 1)",
-            Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, (string?)null, "unit.pas", 1)).Message);
+            Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, (string?)null, "unit.pas", 1)).Message);
     }
 }

@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TFileDlgWindow : ILayoutModule
+public partial class FileDlgWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -21,7 +21,7 @@ public partial class TFileDlgWindow : ILayoutModule
         Name = "FileDlgWindow";
         LayoutOnCreate = _ => Layout_FileDlgWindowCreate_0();
         LayoutOnDestroy = _ => Layout_FileDlgWindowDestroy_1();
-        FileDialog = new TAOWWindow(this);
+        FileDialog = new AOWWindow(this);
         session.BeginRead(FileDialog);
         FileDialog.Name = "FileDialog";
         FileDialog.OnKeyDown = (_, ref key, shift) => FileDialogKeyDown(ref key, shift);
@@ -33,8 +33,8 @@ public partial class TFileDlgWindow : ILayoutModule
         FileDialog.Masked = true;
         FileDialog.OnHide = _ => Layout_FileDialogHide_2();
         FileDialog.OnShow = _ => Layout_FileDialogShow_3();
-        FileDialog.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        FileDialog.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        FileDialog.Alignment.AlignWidth = AOWAlignWidth.Center;
+        FileDialog.Alignment.AlignHeight = AOWAlignHeight.Center;
         FileDialog.Alignment.HeightPercent = 0;
         FileDialog.Alignment.WidthPercent = 0;
         FileDialog.Alignment.LeftOffPercent = 0;
@@ -67,15 +67,15 @@ public partial class TFileDlgWindow : ILayoutModule
         FileDialog.WinHeight = 363;
         FileDialog.Dockable = false;
         session.EndRead(FileDialog);
-        CancelBut = new TAOWButton(this);
+        CancelBut = new AOWButton(this);
         session.BeginRead(CancelBut);
         CancelBut.Name = "CancelBut";
         CancelBut.Priority = 250;
         CancelBut.WinLeft = 205;
         CancelBut.WinTop = 326;
         CancelBut.CaptureInput = true;
-        CancelBut.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        CancelBut.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CancelBut.Alignment.AlignWidth = AOWAlignWidth.Both;
+        CancelBut.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CancelBut.Alignment.HeightPercent = 0;
         CancelBut.Alignment.WidthPercent = 0;
         CancelBut.Alignment.LeftOffPercent = 54;
@@ -98,15 +98,15 @@ public partial class TFileDlgWindow : ILayoutModule
         CancelBut.WinWidth = 122;
         CancelBut.OnClick = _ => Layout_CloseClick_4();
         session.EndRead(CancelBut);
-        BCeltL = new TAoWFrame(this);
+        BCeltL = new AoWFrame(this);
         session.BeginRead(BCeltL);
         BCeltL.Name = "BCeltL";
         BCeltL.Priority = 0;
         BCeltL.WinLeft = 21;
         BCeltL.WinTop = 326;
         BCeltL.CaptureInput = true;
-        BCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        BCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        BCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        BCeltL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         BCeltL.Alignment.HeightPercent = 0;
         BCeltL.Alignment.WidthPercent = 0;
         BCeltL.Alignment.LeftOffPercent = 0;
@@ -120,20 +120,20 @@ public partial class TFileDlgWindow : ILayoutModule
         BCeltL.Masked = false;
         BCeltL.WinWidth = 338;
         BCeltL.WinHeight = 27;
-        BCeltL.FrameType = TFrameType.frHorizLine;
+        BCeltL.FrameType = FrameType.HorizLine;
         BCeltL.ILIndexFrame = 0;
         BCeltL.ILIndexLine = 55;
         BCeltL.ILIndexTexture = 0;
         session.EndRead(BCeltL);
-        Openbut = new TAOWButton(this);
+        Openbut = new AOWButton(this);
         session.BeginRead(Openbut);
         Openbut.Name = "Openbut";
         Openbut.Priority = 250;
         Openbut.WinLeft = 53;
         Openbut.WinTop = 326;
         Openbut.CaptureInput = true;
-        Openbut.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        Openbut.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        Openbut.Alignment.AlignWidth = AOWAlignWidth.Both;
+        Openbut.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         Openbut.Alignment.HeightPercent = 0;
         Openbut.Alignment.WidthPercent = 0;
         Openbut.Alignment.LeftOffPercent = 0;
@@ -156,15 +156,15 @@ public partial class TFileDlgWindow : ILayoutModule
         Openbut.WinWidth = 122;
         Openbut.OnClick = _ => OpenbutClick();
         session.EndRead(Openbut);
-        Title = new TAOWLabel(this);
+        Title = new AOWLabel(this);
         session.BeginRead(Title);
         Title.Name = "Title";
         Title.Priority = 0;
         Title.WinLeft = 42;
         Title.WinTop = 7;
         Title.CaptureInput = false;
-        Title.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Title.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Title.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Title.Alignment.AlignHeight = AOWAlignHeight.Top;
         Title.Alignment.HeightPercent = 0;
         Title.Alignment.WidthPercent = 0;
         Title.Alignment.LeftOffPercent = 0;
@@ -179,15 +179,15 @@ public partial class TFileDlgWindow : ILayoutModule
         Title.Text = "Open";
         Title.TextColor = 0;
         session.EndRead(Title);
-        FileLB = new TAOWListBox(this);
+        FileLB = new AOWListBox(this);
         session.BeginRead(FileLB);
         FileLB.Name = "FileLB";
         FileLB.Priority = 0;
         FileLB.WinLeft = 1;
         FileLB.WinTop = 0;
         FileLB.CaptureInput = true;
-        FileLB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        FileLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        FileLB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        FileLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         FileLB.Alignment.HeightPercent = 0;
         FileLB.Alignment.WidthPercent = 0;
         FileLB.Alignment.LeftOffPercent = 0;
@@ -213,17 +213,17 @@ public partial class TFileDlgWindow : ILayoutModule
         FileLB.ILIndexTNormal = 21;
         FileLB.ILIndexTSelected = 8;
         FileLB.ItemHeight = 17;
-        FileLB.TextAlign = TaowTextAlign.taLeft;
+        FileLB.TextAlign = TaowTextAlign.Left;
         session.EndRead(FileLB);
-        FileName = new TAOWEdit(this);
+        FileName = new AOWEdit(this);
         session.BeginRead(FileName);
         FileName.Name = "FileName";
         FileName.Priority = 1000;
         FileName.WinLeft = 1;
         FileName.WinTop = 0;
         FileName.CaptureInput = true;
-        FileName.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        FileName.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        FileName.Alignment.AlignWidth = AOWAlignWidth.Both;
+        FileName.Alignment.AlignHeight = AOWAlignHeight.Top;
         FileName.Alignment.HeightPercent = 0;
         FileName.Alignment.WidthPercent = 0;
         FileName.Alignment.LeftOffPercent = 0;
@@ -246,7 +246,7 @@ public partial class TFileDlgWindow : ILayoutModule
         FileName.ILIndex = 15;
         FileName.PassWordChar = 0;
         session.EndRead(FileName);
-        ScenLbl = new TAOWLabel(this);
+        ScenLbl = new AOWLabel(this);
         session.BeginRead(ScenLbl);
         ScenLbl.Name = "ScenLbl";
         ScenLbl.Visible = false;
@@ -254,8 +254,8 @@ public partial class TFileDlgWindow : ILayoutModule
         ScenLbl.WinLeft = 134;
         ScenLbl.WinTop = 142;
         ScenLbl.CaptureInput = true;
-        ScenLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        ScenLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ScenLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        ScenLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ScenLbl.Alignment.HeightPercent = 0;
         ScenLbl.Alignment.WidthPercent = 0;
         ScenLbl.Alignment.LeftOffPercent = 0;
@@ -270,15 +270,15 @@ public partial class TFileDlgWindow : ILayoutModule
         ScenLbl.Text = "Scenario Info";
         ScenLbl.TextColor = 0;
         session.EndRead(ScenLbl);
-        DriveCmb = new TAOWComboBox(this);
+        DriveCmb = new AOWComboBox(this);
         session.BeginRead(DriveCmb);
         DriveCmb.Name = "DriveCmb";
         DriveCmb.Priority = 2000;
         DriveCmb.WinLeft = 135;
         DriveCmb.WinTop = 58;
         DriveCmb.CaptureInput = true;
-        DriveCmb.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        DriveCmb.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        DriveCmb.Alignment.AlignWidth = AOWAlignWidth.Right;
+        DriveCmb.Alignment.AlignHeight = AOWAlignHeight.Top;
         DriveCmb.Alignment.HeightPercent = 0;
         DriveCmb.Alignment.WidthPercent = 0;
         DriveCmb.Alignment.LeftOffPercent = 0;
@@ -307,15 +307,15 @@ public partial class TFileDlgWindow : ILayoutModule
         DriveCmb.ILTsIndex = 8;
         DriveCmb.ItemHeight = 17;
         session.EndRead(DriveCmb);
-        DriveL = new TAOWLabel(this);
+        DriveL = new AOWLabel(this);
         session.BeginRead(DriveL);
         DriveL.Name = "DriveL";
         DriveL.Priority = 0;
         DriveL.WinLeft = 7;
         DriveL.WinTop = 5;
         DriveL.CaptureInput = false;
-        DriveL.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        DriveL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        DriveL.Alignment.AlignWidth = AOWAlignWidth.Left;
+        DriveL.Alignment.AlignHeight = AOWAlignHeight.Top;
         DriveL.Alignment.HeightPercent = 0;
         DriveL.Alignment.WidthPercent = 0;
         DriveL.Alignment.LeftOffPercent = 0;
@@ -330,7 +330,7 @@ public partial class TFileDlgWindow : ILayoutModule
         DriveL.Text = "Drive";
         DriveL.TextColor = 9415072;
         session.EndRead(DriveL);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
@@ -341,8 +341,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Closes the window."
         };
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Close.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Close.Alignment.AlignHeight = AOWAlignHeight.Top;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;
@@ -364,7 +364,7 @@ public partial class TFileDlgWindow : ILayoutModule
         Close.WinWidth = 15;
         Close.OnClick = _ => Layout_CloseClick_4();
         session.EndRead(Close);
-        UpDirBtn = new TAOWButton(this);
+        UpDirBtn = new AOWButton(this);
         session.BeginRead(UpDirBtn);
         UpDirBtn.Name = "UpDirBtn";
         UpDirBtn.Priority = 900;
@@ -375,8 +375,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Backs up one directory level."
         };
         UpDirBtn.CaptureInput = true;
-        UpDirBtn.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        UpDirBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        UpDirBtn.Alignment.AlignWidth = AOWAlignWidth.Right;
+        UpDirBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         UpDirBtn.Alignment.HeightPercent = 0;
         UpDirBtn.Alignment.WidthPercent = 0;
         UpDirBtn.Alignment.LeftOffPercent = 0;
@@ -398,15 +398,15 @@ public partial class TFileDlgWindow : ILayoutModule
         UpDirBtn.WinWidth = 32;
         UpDirBtn.OnClick = _ => Layout_UpDirBtnClick_7();
         session.EndRead(UpDirBtn);
-        PathL = new TAOWLabel(this);
+        PathL = new AOWLabel(this);
         session.BeginRead(PathL);
         PathL.Name = "PathL";
         PathL.Priority = 0;
         PathL.WinLeft = 7;
         PathL.WinTop = 5;
         PathL.CaptureInput = false;
-        PathL.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PathL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        PathL.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PathL.Alignment.AlignHeight = AOWAlignHeight.Top;
         PathL.Alignment.HeightPercent = 0;
         PathL.Alignment.WidthPercent = 0;
         PathL.Alignment.LeftOffPercent = 0;
@@ -421,15 +421,15 @@ public partial class TFileDlgWindow : ILayoutModule
         PathL.Text = "Path";
         PathL.TextColor = 9415072;
         session.EndRead(PathL);
-        TitleIcon = new TAOWImage(this);
+        TitleIcon = new AOWImage(this);
         session.BeginRead(TitleIcon);
         TitleIcon.Name = "TitleIcon";
         TitleIcon.Priority = 0;
         TitleIcon.WinLeft = 20;
         TitleIcon.WinTop = 5;
         TitleIcon.CaptureInput = false;
-        TitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TitleIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TitleIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         TitleIcon.Alignment.HeightPercent = 0;
         TitleIcon.Alignment.WidthPercent = 0;
         TitleIcon.Alignment.LeftOffPercent = 0;
@@ -449,7 +449,7 @@ public partial class TFileDlgWindow : ILayoutModule
         TitleIcon.Animate = false;
         TitleIcon.AnimFrameDelay = 0;
         session.EndRead(TitleIcon);
-        DriveSB = new TAOWVScrollBar(this);
+        DriveSB = new AOWVScrollBar(this);
         session.BeginRead(DriveSB);
         DriveSB.Name = "DriveSB";
         DriveSB.Visible = false;
@@ -457,8 +457,8 @@ public partial class TFileDlgWindow : ILayoutModule
         DriveSB.WinLeft = 328;
         DriveSB.WinTop = 77;
         DriveSB.CaptureInput = true;
-        DriveSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DriveSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        DriveSB.Alignment.AlignWidth = AOWAlignWidth.None;
+        DriveSB.Alignment.AlignHeight = AOWAlignHeight.None;
         DriveSB.Alignment.HeightPercent = 0;
         DriveSB.Alignment.WidthPercent = 0;
         DriveSB.Alignment.LeftOffPercent = 0;
@@ -486,15 +486,15 @@ public partial class TFileDlgWindow : ILayoutModule
         DriveSB.ILIndexBack = 101;
         DriveSB.ILIndexTab = 98;
         session.EndRead(DriveSB);
-        CeltM = new TAOWImage(this);
+        CeltM = new AOWImage(this);
         session.BeginRead(CeltM);
         CeltM.Name = "CeltM";
         CeltM.Priority = 100;
         CeltM.WinLeft = 177;
         CeltM.WinTop = 326;
         CeltM.CaptureInput = true;
-        CeltM.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CeltM.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CeltM.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CeltM.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CeltM.Alignment.HeightPercent = 0;
         CeltM.Alignment.WidthPercent = 0;
         CeltM.Alignment.LeftOffPercent = 0;
@@ -514,7 +514,7 @@ public partial class TFileDlgWindow : ILayoutModule
         CeltM.Animate = false;
         CeltM.AnimFrameDelay = 0;
         session.EndRead(CeltM);
-        LPlayersI = new TAOWImage(this);
+        LPlayersI = new AOWImage(this);
         session.BeginRead(LPlayersI);
         LPlayersI.Name = "LPlayersI";
         LPlayersI.Priority = 0;
@@ -525,8 +525,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Number of players"
         };
         LPlayersI.CaptureInput = true;
-        LPlayersI.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LPlayersI.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LPlayersI.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LPlayersI.Alignment.AlignHeight = AOWAlignHeight.Top;
         LPlayersI.Alignment.HeightPercent = 0;
         LPlayersI.Alignment.WidthPercent = 0;
         LPlayersI.Alignment.LeftOffPercent = 0;
@@ -546,7 +546,7 @@ public partial class TFileDlgWindow : ILayoutModule
         LPlayersI.Animate = false;
         LPlayersI.AnimFrameDelay = 0;
         session.EndRead(LPlayersI);
-        LSavedInfo = new TAOWPanel(this);
+        LSavedInfo = new AOWPanel(this);
         session.BeginRead(LSavedInfo);
         LSavedInfo.Name = "LSavedInfo";
         LSavedInfo.Priority = 0;
@@ -554,8 +554,8 @@ public partial class TFileDlgWindow : ILayoutModule
         LSavedInfo.WinTop = 156;
         LSavedInfo.WinWidth = 310;
         LSavedInfo.Masked = true;
-        LSavedInfo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        LSavedInfo.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        LSavedInfo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        LSavedInfo.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         LSavedInfo.Alignment.HeightPercent = 0;
         LSavedInfo.Alignment.WidthPercent = 0;
         LSavedInfo.Alignment.LeftOffPercent = 0;
@@ -573,7 +573,7 @@ public partial class TFileDlgWindow : ILayoutModule
         LSavedInfo.MinWidth = 0;
         LSavedInfo.MinHeight = 0;
         session.EndRead(LSavedInfo);
-        LSizeI = new TAOWImage(this);
+        LSizeI = new AOWImage(this);
         session.BeginRead(LSizeI);
         LSizeI.Name = "LSizeI";
         LSizeI.Priority = 0;
@@ -584,8 +584,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Map Size"
         };
         LSizeI.CaptureInput = true;
-        LSizeI.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LSizeI.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LSizeI.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LSizeI.Alignment.AlignHeight = AOWAlignHeight.Top;
         LSizeI.Alignment.HeightPercent = 0;
         LSizeI.Alignment.WidthPercent = 0;
         LSizeI.Alignment.LeftOffPercent = 0;
@@ -605,7 +605,7 @@ public partial class TFileDlgWindow : ILayoutModule
         LSizeI.Animate = false;
         LSizeI.AnimFrameDelay = 0;
         session.EndRead(LSizeI);
-        LTownsI = new TAOWImage(this);
+        LTownsI = new AOWImage(this);
         session.BeginRead(LTownsI);
         LTownsI.Name = "LTownsI";
         LTownsI.Priority = 0;
@@ -616,8 +616,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Number of Towns"
         };
         LTownsI.CaptureInput = true;
-        LTownsI.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LTownsI.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LTownsI.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LTownsI.Alignment.AlignHeight = AOWAlignHeight.Top;
         LTownsI.Alignment.HeightPercent = 0;
         LTownsI.Alignment.WidthPercent = 0;
         LTownsI.Alignment.LeftOffPercent = 0;
@@ -637,7 +637,7 @@ public partial class TFileDlgWindow : ILayoutModule
         LTownsI.Animate = false;
         LTownsI.AnimFrameDelay = 0;
         session.EndRead(LTownsI);
-        LTurnsI = new TAOWImage(this);
+        LTurnsI = new AOWImage(this);
         session.BeginRead(LTurnsI);
         LTurnsI.Name = "LTurnsI";
         LTurnsI.Priority = 0;
@@ -648,8 +648,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Current Turn"
         };
         LTurnsI.CaptureInput = true;
-        LTurnsI.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LTurnsI.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LTurnsI.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LTurnsI.Alignment.AlignHeight = AOWAlignHeight.Top;
         LTurnsI.Alignment.HeightPercent = 0;
         LTurnsI.Alignment.WidthPercent = 0;
         LTurnsI.Alignment.LeftOffPercent = 0;
@@ -669,7 +669,7 @@ public partial class TFileDlgWindow : ILayoutModule
         LTurnsI.Animate = false;
         LTurnsI.AnimFrameDelay = 0;
         session.EndRead(LTurnsI);
-        LPlayers = new TAOWLabel(this);
+        LPlayers = new AOWLabel(this);
         session.BeginRead(LPlayers);
         LPlayers.Name = "LPlayers";
         LPlayers.Priority = 10;
@@ -680,8 +680,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Number of players"
         };
         LPlayers.CaptureInput = true;
-        LPlayers.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LPlayers.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        LPlayers.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LPlayers.Alignment.AlignHeight = AOWAlignHeight.Center;
         LPlayers.Alignment.HeightPercent = 0;
         LPlayers.Alignment.WidthPercent = 0;
         LPlayers.Alignment.LeftOffPercent = 60;
@@ -696,7 +696,7 @@ public partial class TFileDlgWindow : ILayoutModule
         LPlayers.Text = "##";
         LPlayers.TextColor = 9415072;
         session.EndRead(LPlayers);
-        LSize = new TAOWLabel(this);
+        LSize = new AOWLabel(this);
         session.BeginRead(LSize);
         LSize.Name = "LSize";
         LSize.Priority = 10;
@@ -707,8 +707,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Map Size"
         };
         LSize.CaptureInput = true;
-        LSize.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LSize.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        LSize.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LSize.Alignment.AlignHeight = AOWAlignHeight.Center;
         LSize.Alignment.HeightPercent = 0;
         LSize.Alignment.WidthPercent = 0;
         LSize.Alignment.LeftOffPercent = 60;
@@ -723,7 +723,7 @@ public partial class TFileDlgWindow : ILayoutModule
         LSize.Text = "##";
         LSize.TextColor = 9415072;
         session.EndRead(LSize);
-        LTowns = new TAOWLabel(this);
+        LTowns = new AOWLabel(this);
         session.BeginRead(LTowns);
         LTowns.Name = "LTowns";
         LTowns.Priority = 10;
@@ -734,8 +734,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Number of Towns"
         };
         LTowns.CaptureInput = true;
-        LTowns.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LTowns.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        LTowns.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LTowns.Alignment.AlignHeight = AOWAlignHeight.Center;
         LTowns.Alignment.HeightPercent = 0;
         LTowns.Alignment.WidthPercent = 0;
         LTowns.Alignment.LeftOffPercent = 60;
@@ -750,7 +750,7 @@ public partial class TFileDlgWindow : ILayoutModule
         LTowns.Text = "##";
         LTowns.TextColor = 9415072;
         session.EndRead(LTowns);
-        LTurns = new TAOWLabel(this);
+        LTurns = new AOWLabel(this);
         session.BeginRead(LTurns);
         LTurns.Name = "LTurns";
         LTurns.Priority = 10;
@@ -761,8 +761,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Current Turn"
         };
         LTurns.CaptureInput = true;
-        LTurns.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LTurns.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        LTurns.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LTurns.Alignment.AlignHeight = AOWAlignHeight.Center;
         LTurns.Alignment.HeightPercent = 0;
         LTurns.Alignment.WidthPercent = 0;
         LTurns.Alignment.LeftOffPercent = 60;
@@ -777,15 +777,15 @@ public partial class TFileDlgWindow : ILayoutModule
         LTurns.Text = "##";
         LTurns.TextColor = 9415072;
         session.EndRead(LTurns);
-        CeltL = new TAOWImage(this);
+        CeltL = new AOWImage(this);
         session.BeginRead(CeltL);
         CeltL.Name = "CeltL";
         CeltL.Priority = 100;
         CeltL.WinLeft = 27;
         CeltL.WinTop = 326;
         CeltL.CaptureInput = true;
-        CeltL.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        CeltL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CeltL.Alignment.AlignWidth = AOWAlignWidth.Left;
+        CeltL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CeltL.Alignment.HeightPercent = 0;
         CeltL.Alignment.WidthPercent = 0;
         CeltL.Alignment.LeftOffPercent = 0;
@@ -805,15 +805,15 @@ public partial class TFileDlgWindow : ILayoutModule
         CeltL.Animate = false;
         CeltL.AnimFrameDelay = 0;
         session.EndRead(CeltL);
-        CeltR = new TAOWImage(this);
+        CeltR = new AOWImage(this);
         session.BeginRead(CeltR);
         CeltR.Name = "CeltR";
         CeltR.Priority = 100;
         CeltR.WinLeft = 326;
         CeltR.WinTop = 326;
         CeltR.CaptureInput = true;
-        CeltR.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        CeltR.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CeltR.Alignment.AlignWidth = AOWAlignWidth.Right;
+        CeltR.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CeltR.Alignment.HeightPercent = 0;
         CeltR.Alignment.WidthPercent = 0;
         CeltR.Alignment.LeftOffPercent = 0;
@@ -833,15 +833,15 @@ public partial class TFileDlgWindow : ILayoutModule
         CeltR.Animate = false;
         CeltR.AnimFrameDelay = 0;
         session.EndRead(CeltR);
-        TCeltL = new TAoWFrame(this);
+        TCeltL = new AoWFrame(this);
         session.BeginRead(TCeltL);
         TCeltL.Name = "TCeltL";
         TCeltL.Priority = 0;
         TCeltL.WinLeft = 21;
         TCeltL.WinTop = 22;
         TCeltL.CaptureInput = true;
-        TCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TCeltL.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCeltL.Alignment.HeightPercent = 0;
         TCeltL.Alignment.WidthPercent = 0;
         TCeltL.Alignment.LeftOffPercent = 0;
@@ -855,20 +855,20 @@ public partial class TFileDlgWindow : ILayoutModule
         TCeltL.Masked = false;
         TCeltL.WinWidth = 338;
         TCeltL.WinHeight = 27;
-        TCeltL.FrameType = TFrameType.frHorizLine;
+        TCeltL.FrameType = FrameType.HorizLine;
         TCeltL.ILIndexFrame = 0;
         TCeltL.ILIndexLine = 55;
         TCeltL.ILIndexTexture = 0;
         session.EndRead(TCeltL);
-        TCelt = new TAOWImage(this);
+        TCelt = new AOWImage(this);
         session.BeginRead(TCelt);
         TCelt.Name = "TCelt";
         TCelt.Priority = 100;
         TCelt.WinLeft = 28;
         TCelt.WinTop = 22;
         TCelt.CaptureInput = true;
-        TCelt.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TCelt.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCelt.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TCelt.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCelt.Alignment.HeightPercent = 0;
         TCelt.Alignment.WidthPercent = 0;
         TCelt.Alignment.LeftOffPercent = 0;
@@ -888,7 +888,7 @@ public partial class TFileDlgWindow : ILayoutModule
         TCelt.Animate = false;
         TCelt.AnimFrameDelay = 0;
         session.EndRead(TCelt);
-        SPlayersI = new TAOWImage(this);
+        SPlayersI = new AOWImage(this);
         session.BeginRead(SPlayersI);
         SPlayersI.Name = "SPlayersI";
         SPlayersI.Priority = 0;
@@ -899,8 +899,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Number of players"
         };
         SPlayersI.CaptureInput = true;
-        SPlayersI.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SPlayersI.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SPlayersI.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SPlayersI.Alignment.AlignHeight = AOWAlignHeight.Top;
         SPlayersI.Alignment.HeightPercent = 0;
         SPlayersI.Alignment.WidthPercent = 0;
         SPlayersI.Alignment.LeftOffPercent = 0;
@@ -920,7 +920,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SPlayersI.Animate = false;
         SPlayersI.AnimFrameDelay = 0;
         session.EndRead(SPlayersI);
-        NewInfo = new TAOWPanel(this);
+        NewInfo = new AOWPanel(this);
         session.BeginRead(NewInfo);
         NewInfo.Name = "NewInfo";
         NewInfo.Priority = 10;
@@ -928,8 +928,8 @@ public partial class TFileDlgWindow : ILayoutModule
         NewInfo.WinTop = 156;
         NewInfo.WinWidth = 310;
         NewInfo.Masked = true;
-        NewInfo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        NewInfo.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        NewInfo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        NewInfo.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         NewInfo.Alignment.HeightPercent = 0;
         NewInfo.Alignment.WidthPercent = 0;
         NewInfo.Alignment.LeftOffPercent = 0;
@@ -947,7 +947,7 @@ public partial class TFileDlgWindow : ILayoutModule
         NewInfo.MinWidth = 0;
         NewInfo.MinHeight = 0;
         session.EndRead(NewInfo);
-        SSizeI = new TAOWImage(this);
+        SSizeI = new AOWImage(this);
         session.BeginRead(SSizeI);
         SSizeI.Name = "SSizeI";
         SSizeI.Priority = 0;
@@ -958,8 +958,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Map Size"
         };
         SSizeI.CaptureInput = true;
-        SSizeI.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SSizeI.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SSizeI.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SSizeI.Alignment.AlignHeight = AOWAlignHeight.Top;
         SSizeI.Alignment.HeightPercent = 0;
         SSizeI.Alignment.WidthPercent = 0;
         SSizeI.Alignment.LeftOffPercent = 0;
@@ -979,7 +979,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SSizeI.Animate = false;
         SSizeI.AnimFrameDelay = 0;
         session.EndRead(SSizeI);
-        STownsI = new TAOWImage(this);
+        STownsI = new AOWImage(this);
         session.BeginRead(STownsI);
         STownsI.Name = "STownsI";
         STownsI.Priority = 0;
@@ -990,8 +990,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Number of Towns"
         };
         STownsI.CaptureInput = true;
-        STownsI.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        STownsI.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        STownsI.Alignment.AlignWidth = AOWAlignWidth.Left;
+        STownsI.Alignment.AlignHeight = AOWAlignHeight.Top;
         STownsI.Alignment.HeightPercent = 0;
         STownsI.Alignment.WidthPercent = 0;
         STownsI.Alignment.LeftOffPercent = 0;
@@ -1011,7 +1011,7 @@ public partial class TFileDlgWindow : ILayoutModule
         STownsI.Animate = false;
         STownsI.AnimFrameDelay = 0;
         session.EndRead(STownsI);
-        SPlayers = new TAOWLabel(this);
+        SPlayers = new AOWLabel(this);
         session.BeginRead(SPlayers);
         SPlayers.Name = "SPlayers";
         SPlayers.Priority = 0;
@@ -1022,8 +1022,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Number of players"
         };
         SPlayers.CaptureInput = true;
-        SPlayers.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SPlayers.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        SPlayers.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SPlayers.Alignment.AlignHeight = AOWAlignHeight.Center;
         SPlayers.Alignment.HeightPercent = 0;
         SPlayers.Alignment.WidthPercent = 0;
         SPlayers.Alignment.LeftOffPercent = 60;
@@ -1038,7 +1038,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SPlayers.Text = "##";
         SPlayers.TextColor = 9415072;
         session.EndRead(SPlayers);
-        SSize = new TAOWLabel(this);
+        SSize = new AOWLabel(this);
         session.BeginRead(SSize);
         SSize.Name = "SSize";
         SSize.Priority = 0;
@@ -1049,8 +1049,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Map Size"
         };
         SSize.CaptureInput = true;
-        SSize.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SSize.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        SSize.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SSize.Alignment.AlignHeight = AOWAlignHeight.Center;
         SSize.Alignment.HeightPercent = 0;
         SSize.Alignment.WidthPercent = 0;
         SSize.Alignment.LeftOffPercent = 60;
@@ -1065,7 +1065,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SSize.Text = "##";
         SSize.TextColor = 9415072;
         session.EndRead(SSize);
-        STowns = new TAOWLabel(this);
+        STowns = new AOWLabel(this);
         session.BeginRead(STowns);
         STowns.Name = "STowns";
         STowns.Priority = 0;
@@ -1076,8 +1076,8 @@ public partial class TFileDlgWindow : ILayoutModule
             "Number of Towns"
         };
         STowns.CaptureInput = true;
-        STowns.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        STowns.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        STowns.Alignment.AlignWidth = AOWAlignWidth.Left;
+        STowns.Alignment.AlignHeight = AOWAlignHeight.Center;
         STowns.Alignment.HeightPercent = 0;
         STowns.Alignment.WidthPercent = 0;
         STowns.Alignment.LeftOffPercent = 60;
@@ -1092,7 +1092,7 @@ public partial class TFileDlgWindow : ILayoutModule
         STowns.Text = "##";
         STowns.TextColor = 9415072;
         session.EndRead(STowns);
-        NewPnl = new TAOWPanel(this);
+        NewPnl = new AOWPanel(this);
         session.BeginRead(NewPnl);
         NewPnl.Name = "NewPnl";
         NewPnl.Priority = 0;
@@ -1100,8 +1100,8 @@ public partial class TFileDlgWindow : ILayoutModule
         NewPnl.WinTop = 103;
         NewPnl.WinWidth = 338;
         NewPnl.Masked = true;
-        NewPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        NewPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        NewPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        NewPnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         NewPnl.Alignment.HeightPercent = 0;
         NewPnl.Alignment.WidthPercent = 0;
         NewPnl.Alignment.LeftOffPercent = 0;
@@ -1119,15 +1119,15 @@ public partial class TFileDlgWindow : ILayoutModule
         NewPnl.MinWidth = 0;
         NewPnl.MinHeight = 0;
         session.EndRead(NewPnl);
-        SaveLB = new TAOWListBox(this);
+        SaveLB = new AOWListBox(this);
         session.BeginRead(SaveLB);
         SaveLB.Name = "SaveLB";
         SaveLB.Priority = 30;
         SaveLB.WinLeft = 1;
         SaveLB.WinTop = 14;
         SaveLB.CaptureInput = true;
-        SaveLB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SaveLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SaveLB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SaveLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         SaveLB.Alignment.HeightPercent = 0;
         SaveLB.Alignment.WidthPercent = 0;
         SaveLB.Alignment.LeftOffPercent = 0;
@@ -1153,17 +1153,17 @@ public partial class TFileDlgWindow : ILayoutModule
         SaveLB.ILIndexTNormal = 21;
         SaveLB.ILIndexTSelected = 8;
         SaveLB.ItemHeight = 17;
-        SaveLB.TextAlign = TaowTextAlign.taLeft;
+        SaveLB.TextAlign = TaowTextAlign.Left;
         session.EndRead(SaveLB);
-        SFileName = new TAOWEdit(this);
+        SFileName = new AOWEdit(this);
         session.BeginRead(SFileName);
         SFileName.Name = "SFileName";
         SFileName.Priority = 1000;
         SFileName.WinLeft = 1;
         SFileName.WinTop = 0;
         SFileName.CaptureInput = true;
-        SFileName.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SFileName.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SFileName.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SFileName.Alignment.AlignHeight = AOWAlignHeight.Top;
         SFileName.Alignment.HeightPercent = 0;
         SFileName.Alignment.WidthPercent = 0;
         SFileName.Alignment.LeftOffPercent = 0;
@@ -1188,7 +1188,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SFileName.OnReturn = _ => Layout_SFileNameReturn_9();
         SFileName.PassWordChar = 0;
         session.EndRead(SFileName);
-        SavedInfo = new TAOWLabel(this);
+        SavedInfo = new AOWLabel(this);
         session.BeginRead(SavedInfo);
         SavedInfo.Name = "SavedInfo";
         SavedInfo.Visible = false;
@@ -1196,8 +1196,8 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo.WinLeft = 122;
         SavedInfo.WinTop = 142;
         SavedInfo.CaptureInput = true;
-        SavedInfo.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SavedInfo.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        SavedInfo.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SavedInfo.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         SavedInfo.Alignment.HeightPercent = 0;
         SavedInfo.Alignment.WidthPercent = 0;
         SavedInfo.Alignment.LeftOffPercent = 0;
@@ -1212,7 +1212,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo.Text = "Saved Game Info";
         SavedInfo.TextColor = 0;
         session.EndRead(SavedInfo);
-        SavePnl = new TAOWPanel(this);
+        SavePnl = new AOWPanel(this);
         session.BeginRead(SavePnl);
         SavePnl.Name = "SavePnl";
         SavePnl.Priority = 0;
@@ -1220,8 +1220,8 @@ public partial class TFileDlgWindow : ILayoutModule
         SavePnl.WinTop = 103;
         SavePnl.WinWidth = 338;
         SavePnl.Masked = true;
-        SavePnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SavePnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SavePnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SavePnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         SavePnl.Alignment.HeightPercent = 0;
         SavePnl.Alignment.WidthPercent = 0;
         SavePnl.Alignment.LeftOffPercent = 0;
@@ -1239,15 +1239,15 @@ public partial class TFileDlgWindow : ILayoutModule
         SavePnl.MinWidth = 0;
         SavePnl.MinHeight = 0;
         session.EndRead(SavePnl);
-        DateLB = new TAOWListBox(this);
+        DateLB = new AOWListBox(this);
         session.BeginRead(DateLB);
         DateLB.Name = "DateLB";
         DateLB.Priority = 20;
         DateLB.WinLeft = 180;
         DateLB.WinTop = 14;
         DateLB.CaptureInput = true;
-        DateLB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        DateLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        DateLB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        DateLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         DateLB.Alignment.HeightPercent = 0;
         DateLB.Alignment.WidthPercent = 0;
         DateLB.Alignment.LeftOffPercent = 0;
@@ -1272,17 +1272,17 @@ public partial class TFileDlgWindow : ILayoutModule
         DateLB.ILIndexTNormal = 21;
         DateLB.ILIndexTSelected = 8;
         DateLB.ItemHeight = 17;
-        DateLB.TextAlign = TaowTextAlign.taLeft;
+        DateLB.TextAlign = TaowTextAlign.Left;
         session.EndRead(DateLB);
-        SaveBtn = new TAOWButton(this);
+        SaveBtn = new AOWButton(this);
         session.BeginRead(SaveBtn);
         SaveBtn.Name = "SaveBtn";
         SaveBtn.Priority = 100;
         SaveBtn.WinLeft = 1;
         SaveBtn.WinTop = 0;
         SaveBtn.CaptureInput = true;
-        SaveBtn.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SaveBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SaveBtn.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SaveBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         SaveBtn.Alignment.HeightPercent = 0;
         SaveBtn.Alignment.WidthPercent = 0;
         SaveBtn.Alignment.LeftOffPercent = 0;
@@ -1305,15 +1305,15 @@ public partial class TFileDlgWindow : ILayoutModule
         SaveBtn.WinWidth = 180;
         SaveBtn.OnClick = _ => SaveBtnClick();
         session.EndRead(SaveBtn);
-        DateBtn = new TAOWButton(this);
+        DateBtn = new AOWButton(this);
         session.BeginRead(DateBtn);
         DateBtn.Name = "DateBtn";
         DateBtn.Priority = 100;
         DateBtn.WinLeft = 180;
         DateBtn.WinTop = 0;
         DateBtn.CaptureInput = true;
-        DateBtn.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        DateBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        DateBtn.Alignment.AlignWidth = AOWAlignWidth.Both;
+        DateBtn.Alignment.AlignHeight = AOWAlignHeight.Both;
         DateBtn.Alignment.HeightPercent = 0;
         DateBtn.Alignment.WidthPercent = 0;
         DateBtn.Alignment.LeftOffPercent = 0;
@@ -1336,15 +1336,15 @@ public partial class TFileDlgWindow : ILayoutModule
         DateBtn.WinWidth = 130;
         DateBtn.OnClick = _ => DateBtnClick();
         session.EndRead(DateBtn);
-        NSBar = new TAOWVScrollBar(this);
+        NSBar = new AOWVScrollBar(this);
         session.BeginRead(NSBar);
         NSBar.Name = "NSBar";
         NSBar.Priority = 0;
         NSBar.WinLeft = 293;
         NSBar.WinTop = 0;
         NSBar.CaptureInput = true;
-        NSBar.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        NSBar.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        NSBar.Alignment.AlignWidth = AOWAlignWidth.None;
+        NSBar.Alignment.AlignHeight = AOWAlignHeight.None;
         NSBar.Alignment.HeightPercent = 0;
         NSBar.Alignment.WidthPercent = 0;
         NSBar.Alignment.LeftOffPercent = 0;
@@ -1372,7 +1372,7 @@ public partial class TFileDlgWindow : ILayoutModule
         NSBar.ILIndexBack = 101;
         NSBar.ILIndexTab = 98;
         session.EndRead(NSBar);
-        DriveFr = new TAOWPanel(this);
+        DriveFr = new AOWPanel(this);
         session.BeginRead(DriveFr);
         DriveFr.Name = "DriveFr";
         DriveFr.Priority = 10;
@@ -1380,8 +1380,8 @@ public partial class TFileDlgWindow : ILayoutModule
         DriveFr.WinTop = 0;
         DriveFr.WinWidth = 100;
         DriveFr.Masked = true;
-        DriveFr.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        DriveFr.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        DriveFr.Alignment.AlignWidth = AOWAlignWidth.Left;
+        DriveFr.Alignment.AlignHeight = AOWAlignHeight.Top;
         DriveFr.Alignment.HeightPercent = 0;
         DriveFr.Alignment.WidthPercent = 0;
         DriveFr.Alignment.LeftOffPercent = 0;
@@ -1399,7 +1399,7 @@ public partial class TFileDlgWindow : ILayoutModule
         DriveFr.MinWidth = 0;
         DriveFr.MinHeight = 0;
         session.EndRead(DriveFr);
-        TopPnl = new TAOWPanel(this);
+        TopPnl = new AOWPanel(this);
         session.BeginRead(TopPnl);
         TopPnl.Name = "TopPnl";
         TopPnl.Priority = 0;
@@ -1407,8 +1407,8 @@ public partial class TFileDlgWindow : ILayoutModule
         TopPnl.WinTop = 58;
         TopPnl.WinWidth = 310;
         TopPnl.Masked = true;
-        TopPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TopPnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TopPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TopPnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         TopPnl.Alignment.HeightPercent = 0;
         TopPnl.Alignment.WidthPercent = 0;
         TopPnl.Alignment.LeftOffPercent = 0;
@@ -1426,7 +1426,7 @@ public partial class TFileDlgWindow : ILayoutModule
         TopPnl.MinWidth = 0;
         TopPnl.MinHeight = 0;
         session.EndRead(TopPnl);
-        PathFr = new TAOWPanel(this);
+        PathFr = new AOWPanel(this);
         session.BeginRead(PathFr);
         PathFr.Name = "PathFr";
         PathFr.Priority = 0;
@@ -1434,8 +1434,8 @@ public partial class TFileDlgWindow : ILayoutModule
         PathFr.WinTop = 20;
         PathFr.WinWidth = 70;
         PathFr.Masked = true;
-        PathFr.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PathFr.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        PathFr.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PathFr.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         PathFr.Alignment.HeightPercent = 0;
         PathFr.Alignment.WidthPercent = 0;
         PathFr.Alignment.LeftOffPercent = 0;
@@ -1453,15 +1453,15 @@ public partial class TFileDlgWindow : ILayoutModule
         PathFr.MinWidth = 0;
         PathFr.MinHeight = 0;
         session.EndRead(PathFr);
-        PathEdit = new TAOWEdit(this);
+        PathEdit = new AOWEdit(this);
         session.BeginRead(PathEdit);
         PathEdit.Name = "PathEdit";
         PathEdit.Priority = 1000;
         PathEdit.WinLeft = 70;
         PathEdit.WinTop = 20;
         PathEdit.CaptureInput = true;
-        PathEdit.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        PathEdit.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        PathEdit.Alignment.AlignWidth = AOWAlignWidth.Both;
+        PathEdit.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         PathEdit.Alignment.HeightPercent = 0;
         PathEdit.Alignment.WidthPercent = 0;
         PathEdit.Alignment.LeftOffPercent = 0;
@@ -1484,7 +1484,7 @@ public partial class TFileDlgWindow : ILayoutModule
         PathEdit.ILIndex = 15;
         PathEdit.PassWordChar = 0;
         session.EndRead(PathEdit);
-        NewLBFr = new TAOWPanel(this);
+        NewLBFr = new AOWPanel(this);
         session.BeginRead(NewLBFr);
         NewLBFr.Name = "NewLBFr";
         NewLBFr.Priority = 10;
@@ -1492,8 +1492,8 @@ public partial class TFileDlgWindow : ILayoutModule
         NewLBFr.WinTop = 6;
         NewLBFr.WinWidth = 310;
         NewLBFr.Masked = true;
-        NewLBFr.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        NewLBFr.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        NewLBFr.Alignment.AlignWidth = AOWAlignWidth.Both;
+        NewLBFr.Alignment.AlignHeight = AOWAlignHeight.Top;
         NewLBFr.Alignment.HeightPercent = 0;
         NewLBFr.Alignment.WidthPercent = 0;
         NewLBFr.Alignment.LeftOffPercent = 0;
@@ -1511,7 +1511,7 @@ public partial class TFileDlgWindow : ILayoutModule
         NewLBFr.MinWidth = 0;
         NewLBFr.MinHeight = 0;
         session.EndRead(NewLBFr);
-        NewInfo1 = new TAOWPanel(this);
+        NewInfo1 = new AOWPanel(this);
         session.BeginRead(NewInfo1);
         NewInfo1.Name = "NewInfo1";
         NewInfo1.Priority = 0;
@@ -1519,8 +1519,8 @@ public partial class TFileDlgWindow : ILayoutModule
         NewInfo1.WinTop = 20;
         NewInfo1.WinWidth = 105;
         NewInfo1.Masked = true;
-        NewInfo1.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        NewInfo1.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        NewInfo1.Alignment.AlignWidth = AOWAlignWidth.Both;
+        NewInfo1.Alignment.AlignHeight = AOWAlignHeight.Both;
         NewInfo1.Alignment.HeightPercent = 0;
         NewInfo1.Alignment.WidthPercent = 0;
         NewInfo1.Alignment.LeftOffPercent = 0;
@@ -1538,7 +1538,7 @@ public partial class TFileDlgWindow : ILayoutModule
         NewInfo1.MinWidth = 0;
         NewInfo1.MinHeight = 0;
         session.EndRead(NewInfo1);
-        NewInfo2 = new TAOWPanel(this);
+        NewInfo2 = new AOWPanel(this);
         session.BeginRead(NewInfo2);
         NewInfo2.Name = "NewInfo2";
         NewInfo2.Priority = 0;
@@ -1546,8 +1546,8 @@ public partial class TFileDlgWindow : ILayoutModule
         NewInfo2.WinTop = 20;
         NewInfo2.WinWidth = 103;
         NewInfo2.Masked = true;
-        NewInfo2.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        NewInfo2.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        NewInfo2.Alignment.AlignWidth = AOWAlignWidth.Both;
+        NewInfo2.Alignment.AlignHeight = AOWAlignHeight.Both;
         NewInfo2.Alignment.HeightPercent = 0;
         NewInfo2.Alignment.WidthPercent = 0;
         NewInfo2.Alignment.LeftOffPercent = 33;
@@ -1565,7 +1565,7 @@ public partial class TFileDlgWindow : ILayoutModule
         NewInfo2.MinWidth = 0;
         NewInfo2.MinHeight = 0;
         session.EndRead(NewInfo2);
-        NewInfo3 = new TAOWPanel(this);
+        NewInfo3 = new AOWPanel(this);
         session.BeginRead(NewInfo3);
         NewInfo3.Name = "NewInfo3";
         NewInfo3.Priority = 0;
@@ -1573,8 +1573,8 @@ public partial class TFileDlgWindow : ILayoutModule
         NewInfo3.WinTop = 20;
         NewInfo3.WinWidth = 103;
         NewInfo3.Masked = true;
-        NewInfo3.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        NewInfo3.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        NewInfo3.Alignment.AlignWidth = AOWAlignWidth.Both;
+        NewInfo3.Alignment.AlignHeight = AOWAlignHeight.Both;
         NewInfo3.Alignment.HeightPercent = 0;
         NewInfo3.Alignment.WidthPercent = 0;
         NewInfo3.Alignment.LeftOffPercent = 66;
@@ -1592,7 +1592,7 @@ public partial class TFileDlgWindow : ILayoutModule
         NewInfo3.MinWidth = 0;
         NewInfo3.MinHeight = 0;
         session.EndRead(NewInfo3);
-        SaveLBFr = new TAOWPanel(this);
+        SaveLBFr = new AOWPanel(this);
         session.BeginRead(SaveLBFr);
         SaveLBFr.Name = "SaveLBFr";
         SaveLBFr.Priority = 10;
@@ -1600,8 +1600,8 @@ public partial class TFileDlgWindow : ILayoutModule
         SaveLBFr.WinTop = 6;
         SaveLBFr.WinWidth = 310;
         SaveLBFr.Masked = true;
-        SaveLBFr.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SaveLBFr.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SaveLBFr.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SaveLBFr.Alignment.AlignHeight = AOWAlignHeight.Top;
         SaveLBFr.Alignment.HeightPercent = 0;
         SaveLBFr.Alignment.WidthPercent = 0;
         SaveLBFr.Alignment.LeftOffPercent = 0;
@@ -1619,15 +1619,15 @@ public partial class TFileDlgWindow : ILayoutModule
         SaveLBFr.MinWidth = 0;
         SaveLBFr.MinHeight = 0;
         session.EndRead(SaveLBFr);
-        SSBar = new TAOWVScrollBar(this);
+        SSBar = new AOWVScrollBar(this);
         session.BeginRead(SSBar);
         SSBar.Name = "SSBar";
         SSBar.Priority = 20;
         SSBar.WinLeft = 293;
         SSBar.WinTop = 14;
         SSBar.CaptureInput = true;
-        SSBar.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        SSBar.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SSBar.Alignment.AlignWidth = AOWAlignWidth.None;
+        SSBar.Alignment.AlignHeight = AOWAlignHeight.None;
         SSBar.Alignment.HeightPercent = 0;
         SSBar.Alignment.WidthPercent = 0;
         SSBar.Alignment.LeftOffPercent = 0;
@@ -1656,7 +1656,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SSBar.ILIndexBack = 101;
         SSBar.ILIndexTab = 98;
         session.EndRead(SSBar);
-        SavedInfo1 = new TAOWPanel(this);
+        SavedInfo1 = new AOWPanel(this);
         session.BeginRead(SavedInfo1);
         SavedInfo1.Name = "SavedInfo1";
         SavedInfo1.Priority = 0;
@@ -1664,8 +1664,8 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo1.WinTop = 20;
         SavedInfo1.WinWidth = 77;
         SavedInfo1.Masked = true;
-        SavedInfo1.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SavedInfo1.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SavedInfo1.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SavedInfo1.Alignment.AlignHeight = AOWAlignHeight.Both;
         SavedInfo1.Alignment.HeightPercent = 0;
         SavedInfo1.Alignment.WidthPercent = 0;
         SavedInfo1.Alignment.LeftOffPercent = 0;
@@ -1683,7 +1683,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo1.MinWidth = 0;
         SavedInfo1.MinHeight = 0;
         session.EndRead(SavedInfo1);
-        SavedInfo2 = new TAOWPanel(this);
+        SavedInfo2 = new AOWPanel(this);
         session.BeginRead(SavedInfo2);
         SavedInfo2.Name = "SavedInfo2";
         SavedInfo2.Priority = 0;
@@ -1691,8 +1691,8 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo2.WinTop = 20;
         SavedInfo2.WinWidth = 78;
         SavedInfo2.Masked = true;
-        SavedInfo2.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SavedInfo2.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SavedInfo2.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SavedInfo2.Alignment.AlignHeight = AOWAlignHeight.Both;
         SavedInfo2.Alignment.HeightPercent = 0;
         SavedInfo2.Alignment.WidthPercent = 0;
         SavedInfo2.Alignment.LeftOffPercent = 24;
@@ -1710,7 +1710,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo2.MinWidth = 0;
         SavedInfo2.MinHeight = 0;
         session.EndRead(SavedInfo2);
-        SavedInfo3 = new TAOWPanel(this);
+        SavedInfo3 = new AOWPanel(this);
         session.BeginRead(SavedInfo3);
         SavedInfo3.Name = "SavedInfo3";
         SavedInfo3.Priority = 0;
@@ -1718,8 +1718,8 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo3.WinTop = 20;
         SavedInfo3.WinWidth = 82;
         SavedInfo3.Masked = true;
-        SavedInfo3.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SavedInfo3.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SavedInfo3.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SavedInfo3.Alignment.AlignHeight = AOWAlignHeight.Both;
         SavedInfo3.Alignment.HeightPercent = 0;
         SavedInfo3.Alignment.WidthPercent = 0;
         SavedInfo3.Alignment.LeftOffPercent = 49;
@@ -1737,7 +1737,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo3.MinWidth = 0;
         SavedInfo3.MinHeight = 0;
         session.EndRead(SavedInfo3);
-        SavedInfo4 = new TAOWPanel(this);
+        SavedInfo4 = new AOWPanel(this);
         session.BeginRead(SavedInfo4);
         SavedInfo4.Name = "SavedInfo4";
         SavedInfo4.Priority = 0;
@@ -1745,8 +1745,8 @@ public partial class TFileDlgWindow : ILayoutModule
         SavedInfo4.WinTop = 20;
         SavedInfo4.WinWidth = 75;
         SavedInfo4.Masked = true;
-        SavedInfo4.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SavedInfo4.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SavedInfo4.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SavedInfo4.Alignment.AlignHeight = AOWAlignHeight.Both;
         SavedInfo4.Alignment.HeightPercent = 0;
         SavedInfo4.Alignment.WidthPercent = 0;
         SavedInfo4.Alignment.LeftOffPercent = 75;

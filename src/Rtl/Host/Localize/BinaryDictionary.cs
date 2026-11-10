@@ -1,6 +1,6 @@
 namespace Aow.Rtl.Localize;
 
-public partial class TIvDictionary
+public partial class IvDictionary
 {
     public void Open() => OpenDictionary();
     public void Close() => dictionary.Close();
