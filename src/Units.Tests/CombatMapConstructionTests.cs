@@ -1,11 +1,15 @@
 using System.Diagnostics;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.World.Map;
+using Xunit.Sdk;
 
 namespace Aow.Units.Tests;
 
@@ -50,12 +54,12 @@ public sealed class CombatMapConstructionTests
                         AoWCombatMap.Current = null!;
                         var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
                         AoWCombatMap? value = null;
-                        System.Exception? caught = null;
+                        Exception? caught = null;
                         try
                         {
                             value = Assert.IsType<AoWCombatMap>(OrderingRecording.Create(typeof(AoWCombatMap), owner, route, fixture.Engine));
                         }
-                        catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { caught = error; }
+                        catch (Exception error) when (error is not XunitException) { caught = error; }
                         finally { AoWHSSet.Current = set; }
                         Assert.Equal(failure == 0, value is not null);
                         var published = AoWCombatMap.Current;
@@ -97,7 +101,7 @@ public sealed class CombatMapConstructionTests
             if (target is not null)
             {
                 Assert.False(plain, "Regenerate on the base commit before constructor edits.");
-                File.WriteAllText(target, actual.ToJsonString(new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n", StringComparison.Ordinal) + "\n", new System.Text.UTF8Encoding(false));
+                File.WriteAllText(target, actual.ToJsonString(new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n", StringComparison.Ordinal) + "\n", new UTF8Encoding(false));
                 return;
             }
             using var stream = typeof(CombatMapConstructionTests).Assembly.GetManifestResourceStream("Aow.Units.Tests.CombatMapConstructionSnapshot.json")!;

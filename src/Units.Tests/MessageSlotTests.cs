@@ -1,4 +1,6 @@
 using System.Reflection;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
@@ -106,18 +108,18 @@ public sealed class MessageSlotTests
     [Fact]
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
-        using var engine = new Engine(null!);
+        using GameEngine engine = new GameEngine(null!);
         EMsg message = default;
         EMsg.InitMsg(ref message, 0x20000008, engine);
         message.Payload = engine;
-        Assert.Same(engine, message.Payload.As<Engine>());
+        Assert.Same(engine, message.Payload.As<GameEngine>());
         Assert.Throws<InvalidCastException>(() => message.Payload.Int);
         Assert.Equal(-1, message.Result);
         EMsg.InitMsg(ref message, 0x20020002, engine);
         Assert.False(message.Payload.HasValue);
         message.Payload = 5;
         Assert.Equal(5, (sbyte)message.Payload.Int);
-        Assert.Null(message.Payload.As<Engine>());
+        Assert.Null(message.Payload.As<GameEngine>());
     }
 
     // TMapFieldMsg.Param[0]: 0x1102 carries the placed army, 0x110a the distance to the viewer.

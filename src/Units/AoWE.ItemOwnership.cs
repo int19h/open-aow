@@ -1,3 +1,4 @@
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
@@ -24,7 +25,7 @@ namespace Aow.Game.Units
     {
         internal ItemHS Sprite;
 
-        public override Engine.Engine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
+        public override GameEngine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
 
         public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level)
         {

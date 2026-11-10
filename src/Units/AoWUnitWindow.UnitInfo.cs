@@ -1,9 +1,12 @@
 #nullable disable
+using Aow.Engine.Nodes;
+using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
@@ -18,9 +21,9 @@ public partial class UnitWindow
         {
             DialogHosts.General.BuildAbilities();
             U = DialogHosts.General.FSelectedUnit;
-            if (U != null && World.Map.AoWHSMap.Current.FSeatedPlayer == U.FPlayer)
+            if (U != null && AoWHSMap.Current.FSeatedPlayer == U.FPlayer)
             {
-                World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(64, true, true);
+                AoWHSMap.Current.FTutorialControl.ShowMessage(64, true, true);
             }
 
             if (U is Hero)
@@ -32,7 +35,7 @@ public partial class UnitWindow
                 H = null;
             }
 
-            if (Combat.AoWCombatMap.Current == null && DialogHosts.General.FUnitList != null && DialogHosts.General.IndexOfUnit(U) > -1 && DialogHosts.General.FSelectedUnits[1] > -1)
+            if (AoWCombatMap.Current == null && DialogHosts.General.FUnitList != null && DialogHosts.General.IndexOfUnit(U) > -1 && DialogHosts.General.FSelectedUnits[1] > -1)
             {
                 DialogHosts.UnitWindow.PPrev.Visible = true;
                 DialogHosts.UnitWindow.PNext.Visible = true;
@@ -57,10 +60,10 @@ public partial class UnitWindow
                 DialogHosts.UnitWindow.TypeV.Text = raceNames;
                 DialogHosts.UnitWindow.RelationIcn.Visible = true;
                 var uRace = U.GetRace();
-                var playerRelation = World.Map.AoWHSMap.Current.FRaces.GetRace(uRace).GetPlayerRelation(World.Map.AoWHSMap.Current.FSeatedPlayer);
+                var playerRelation = AoWHSMap.Current.FRaces.GetRace(uRace).GetPlayerRelation(AoWHSMap.Current.FSeatedPlayer);
                 DialogHosts.UnitWindow.RelationIcn.CurrentImage = (int)playerRelation + 11;
                 var race2 = U.GetRace();
-                var playerRelation2 = World.Map.AoWHSMap.Current.FRaces.GetRace(race2).GetPlayerRelation(World.Map.AoWHSMap.Current.FSeatedPlayer);
+                var playerRelation2 = AoWHSMap.Current.FRaces.GetRace(race2).GetPlayerRelation(AoWHSMap.Current.FSeatedPlayer);
                 var status = AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation2]);
                 DialogHosts.UnitWindow.RelationV.Text = status;
             }
@@ -72,7 +75,7 @@ public partial class UnitWindow
                 DialogHosts.UnitWindow.RelationV.Text = none;
             }
 
-            if (World.Map.AoWHSMap.Current.FSeatedPlayer == U.FPlayer && !(U is Leader) && World.Map.AoWHSMap.Current.FCombatMap == null)
+            if (AoWHSMap.Current.FSeatedPlayer == U.FPlayer && !(U is Leader) && AoWHSMap.Current.FCombatMap == null)
             {
                 DialogHosts.UnitWindow.DisbandBtn.Visible = true;
                 DialogHosts.UnitWindow.BCloseBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
@@ -144,10 +147,10 @@ public partial class UnitWindow
                 else
                 {
                     DialogHosts.UnitWindow.SelPnl.Visible = true;
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 0)
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 0)
                     {
                         DialogHosts.UnitWindow.Sel1.Visible = true;
-                        var sphere = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(0);
+                        var sphere = AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(0);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
                         DialogHosts.UnitWindow.Sel1.ILIndexUp = sphereToImage;
                     }
@@ -156,10 +159,10 @@ public partial class UnitWindow
                         DialogHosts.UnitWindow.Sel1.Visible = false;
                     }
 
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 1)
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 1)
                     {
                         DialogHosts.UnitWindow.Sel2.Visible = true;
-                        var sphere = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(1);
+                        var sphere = AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(1);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
                         DialogHosts.UnitWindow.Sel2.ILIndexUp = sphereToImage;
                     }
@@ -168,10 +171,10 @@ public partial class UnitWindow
                         DialogHosts.UnitWindow.Sel2.Visible = false;
                     }
 
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 2)
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 2)
                     {
                         DialogHosts.UnitWindow.Sel3.Visible = true;
-                        var sphere = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(2);
+                        var sphere = AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(2);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
                         DialogHosts.UnitWindow.Sel3.ILIndexUp = sphereToImage;
                     }
@@ -180,10 +183,10 @@ public partial class UnitWindow
                         DialogHosts.UnitWindow.Sel3.Visible = false;
                     }
 
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 3)
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 3)
                     {
                         DialogHosts.UnitWindow.Sel4.Visible = true;
-                        var sphere = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(3);
+                        var sphere = AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(3);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
                         DialogHosts.UnitWindow.Sel4.ILIndexUp = sphereToImage;
                     }
@@ -192,10 +195,10 @@ public partial class UnitWindow
                         DialogHosts.UnitWindow.Sel4.Visible = false;
                     }
 
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 4)
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 4)
                     {
                         DialogHosts.UnitWindow.Sel5.Visible = true;
-                        var sphere = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(4);
+                        var sphere = AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(4);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
                         DialogHosts.UnitWindow.Sel5.ILIndexUp = sphereToImage;
                     }
@@ -204,10 +207,10 @@ public partial class UnitWindow
                         DialogHosts.UnitWindow.Sel5.Visible = false;
                     }
 
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 5)
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 5)
                     {
                         DialogHosts.UnitWindow.Sel6.Visible = true;
-                        var sphere = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(5);
+                        var sphere = AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(5);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
                         DialogHosts.UnitWindow.Sel6.ILIndexUp = sphereToImage;
                     }
@@ -216,10 +219,10 @@ public partial class UnitWindow
                         DialogHosts.UnitWindow.Sel6.Visible = false;
                     }
 
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 6)
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 6)
                     {
                         DialogHosts.UnitWindow.Sel7.Visible = true;
-                        var sphere = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(6);
+                        var sphere = AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(6);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
                         DialogHosts.UnitWindow.Sel7.ILIndexUp = sphereToImage;
                     }
@@ -232,7 +235,7 @@ public partial class UnitWindow
                     DialogHosts.UnitWindow.SphereLbl.Text = leaderSpheres;
                 }
 
-                if (World.Map.AoWHSMap.Current.FCombat == null && H.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer || World.Map.AoWHSMap.Current.FCombat != null && World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)World.Map.AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == H.FPlayer)
+                if (AoWHSMap.Current.FCombat == null && H.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.FCombat != null && AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == H.FPlayer)
                 {
                     var items = AbilityRules.TranslateRStr(ItemsRStr);
                     DialogHosts.UnitWindow.UnitTab.Items.Add(items);
@@ -269,7 +272,7 @@ public partial class UnitWindow
             }
 
             DialogHosts.UnitWindow.UnitWin.Visible = true;
-            if (H != null && (World.Map.AoWHSMap.Current.FCombat == null && H.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer || World.Map.AoWHSMap.Current.FCombat != null && World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)World.Map.AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == H.FPlayer))
+            if (H != null && (AoWHSMap.Current.FCombat == null && H.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.FCombat != null && AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == H.FPlayer))
             {
                 if (H.FInventory.GetItem(0) != null)
                 {
@@ -435,7 +438,7 @@ public partial class UnitWindow
                 var hitPoints = U.GetHitPoints();
                 var hits = U.GetHits();
                 DialogHosts.UnitWindow.UHits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
-                if (World.Map.AoWHSMap.Current.FCombatMap == null)
+                if (AoWHSMap.Current.FCombatMap == null)
                 {
                     var movePoints = U.GetMovePoints();
                     var moves = U.GetMoves();
@@ -508,17 +511,17 @@ public partial class UnitWindow
                 MoraleLbl.Text = format;
                 var unitType = U.GetUnitType();
                 MoraleLbl.Visible = unitType != UnitType.Machine;
-                if (World.Map.AoWHSMap.Current.FCombatMap == null)
+                if (AoWHSMap.Current.FCombatMap == null)
                 {
                     U.ListAbilityInfo(T1AbilityLB.Items, T1TypeLB.Items, T1SrcLB.Items);
-                    Engine.Nodes.StringSorting.SortStringsEx(T1AbilityLB.Items, CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
+                    StringSorting.SortStringsEx(T1AbilityLB.Items, CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
                 }
                 else
                 {
                     if (DialogHosts.General.FCombatUnit != null && DialogHosts.General.FCombatUnit.FUnit != null && DialogHosts.General.FCombatUnit.FUnit.FUnit != null)
                     {
                         DialogHosts.General.FCombatUnit.FUnit.FUnit.ListAbilityInfo(T1AbilityLB.Items, T1TypeLB.Items, T1SrcLB.Items);
-                        Engine.Nodes.StringSorting.SortStringsEx(T1AbilityLB.Items, CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
+                        StringSorting.SortStringsEx(T1AbilityLB.Items, CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
                     }
                 }
 

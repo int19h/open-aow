@@ -1,10 +1,13 @@
 // Translated from Gems.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
+using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
@@ -137,7 +140,7 @@ public partial class Gems : ILTerrainMO
 
             if (condition)
             {
-                Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
+                AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
             var player = AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
@@ -145,7 +148,7 @@ public partial class Gems : ILTerrainMO
 
             Event = new LocationTextEventLog(null);
             Event.FPlayer = ArmyHS.FArmy.FPlayer;
-            Event.FText = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
+            Event.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             Event.SetLocation(GetXhx(), yhx2, lhx2);
@@ -169,7 +172,7 @@ public partial class Gems : ILTerrainMO
         public override int ResourceUserClassID() => 132014;
 
         // Gems.pas:134
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(GoldRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(GoldRStr);
 
         private static readonly string GoldRStr = "Gold";
 

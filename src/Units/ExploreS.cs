@@ -1,10 +1,12 @@
 // Translated from ExploreS.pas.
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
@@ -178,7 +180,7 @@ public partial class ExplorationSite : Structure
     public virtual bool GetExplored() => true;
 
     // ExploreS.pas:138
-    public virtual void SetupCombat(Combat.Combat Combat, ArmyHS Army)
+    public virtual void SetupCombat(Combat.Battle Combat, ArmyHS Army)
     {
         Combat.FOnExecuted = CombatExecuted;
         var yhx = Army.GetYhx();
@@ -206,7 +208,7 @@ public partial class ExplorationSite : Structure
     {
         bool Result = default;
         ArmyHS ArmyHS;
-        Combat.Combat Combat;
+        Combat.Battle Combat;
         sbyte Player;
         CombatEventLog Event;
         ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
@@ -331,7 +333,7 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:113
-    public void CombatExecuted(Combat.Combat Combat)
+    public void CombatExecuted(Combat.Battle Combat)
     {
         CombatData Data;
         CombatObject Obj;
@@ -350,7 +352,7 @@ public partial class ExplorationSite : Structure
             }
         }
 
-        if (Combat is FastCombat)
+        if (Combat is FastBattle)
         {
             ExecuteSearchDone(CombatType.Fast, Combat.FCombatResult);
         }
@@ -425,7 +427,7 @@ public partial class ExplorationSite : Structure
 
             try
             {
-                Engine.Collections.IntegerList.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                IntegerList.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {

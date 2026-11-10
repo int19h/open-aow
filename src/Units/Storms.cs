@@ -1,14 +1,16 @@
 // Translated from Storms.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
+using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
@@ -18,7 +20,7 @@ using Aow.Game.World.Movement;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Draw.Animation
+namespace Aow.Game.Draw.Animations
 {
 
     // player
@@ -174,7 +176,7 @@ namespace Aow.Game.Draw.Animation
             AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.FCurrentPlayer, X, Y, L, 4);
             if (AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.TerrainVisible(X, Y, L, 4))
             {
-                Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
+                AudioPlayback.PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
             }
 
             PlaceHX(AoWHSMap.Current.MapContainer, X, Y, L);
@@ -467,7 +469,7 @@ namespace Aow.Game.Draw.Animation
             NewFrame();
             if (FStormImages.GetSafe(FFrameCounter) != null)
             {
-                Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
+                AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
             }
 
             if (FStormImages.Count == FFrameCounter)
@@ -603,7 +605,7 @@ namespace Aow.Game.Draw.Animation
                 if (condition)
                 {
                     var random = Random(2);
-                    Audio.AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[random]);
+                    AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[random]);
                 }
             }
 

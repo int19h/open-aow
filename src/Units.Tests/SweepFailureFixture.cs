@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text.Json;
+using Aow.Engine.Nodes;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Spells;
 
@@ -10,10 +11,10 @@ internal static class SweepFailureFixture
     internal static readonly string[] Names =
     [
         "Aow.Game.World.Structures.City",
-        "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell",
-        "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell",
-        "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain",
-        "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell",
+        "Aow.Game.Magic.Spells.HolyGroundSpell",
+        "Aow.Game.Magic.Spells.UnholyGroundSpell",
+        "Aow.Game.Magic.Spells.RaiseTerrain",
+        "Aow.Game.Magic.Spells.PoisonPlantSpell",
         "Aow.Game.World.Map.AoWMapLevel",
         "Aow.Game.Combat.AoWCombatMapLevel",
     ];

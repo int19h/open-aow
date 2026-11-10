@@ -1,11 +1,12 @@
 // Translated from HolyG.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -434,7 +435,7 @@ namespace Aow.Game.Commands
     }
 }
 
-namespace Aow.Game.Magic.Spells.GlobalTarget
+namespace Aow.Game.Magic.Spells
 {
 
     public partial class HolyGroundSpell : GlobalTargetSpell

@@ -1,9 +1,12 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
+using Aow.Engine.Nodes;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
+using Xunit.Sdk;
 
 namespace Aow.Units.Tests;
 
@@ -120,10 +123,10 @@ public sealed class EventLogConstructionTests
                             Assert.IsType(type, value);
                             state = OrderingRecording.Snapshot(value);
                         }
-                        catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
+                        catch (Exception error) when (error is not XunitException) { state = error.GetType().FullName + ":" + error.Message; }
                         Assert.NotNull(value);
                         actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.FRefCount }));
-                        Game.Magic.Abilities.GameTables.AoWEngine.FDictionary = fixture.Dictionary;
+                        GameTables.AoWEngine.FDictionary = fixture.Dictionary;
                         AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying); });
                         if (owner is not null) value?.AddRef();
                         value?.Dispose();

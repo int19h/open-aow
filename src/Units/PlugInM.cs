@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine;
+namespace Aow.Engine;
 
 // FPlugIns (file names, Objects the package handles), FPlugInsLoaded, FPlugInDirectory,
 // FPlugInExtension ('dpl'), FOnLoadPlugIn

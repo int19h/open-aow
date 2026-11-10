@@ -1,3 +1,5 @@
+using Aow.Engine;
+using Aow.Engine.Nodes;
 using Aow.Game.Audio;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
@@ -38,8 +40,8 @@ public sealed class MapNetSoundDispatchTests
 
     static MapNetSoundDispatchTests()
     {
-        EClass.Register<SpecializedField>(MapField.ClassID, static owner => new SpecializedField(owner), 40);
-        EClass.Register<SpecializedLevel>(MapLevel.ClassID, static owner => new SpecializedLevel(owner), 124);
+        EClass.Register(MapField.ClassID, static owner => new SpecializedField(owner), 40);
+        EClass.Register(MapLevel.ClassID, static owner => new SpecializedLevel(owner), 124);
     }
 
     [Fact]

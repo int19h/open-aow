@@ -30,7 +30,7 @@ public partial class City
         {
             if (FRace >= 0)
             {
-                var race = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(FRace);
+                var race = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace);
                 int size = ((Resource)FResource).FSize;
                 if (race != null) FCityImage = race.GetCityImage(size, terrain, field.Lhx);
                 if (FCityImage == null) FCityImage = images[images.ImageExist(offset) ? offset : 0];

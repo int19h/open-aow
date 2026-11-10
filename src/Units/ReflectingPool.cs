@@ -1,7 +1,9 @@
 // Translated from ReflectingPool.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -339,7 +341,7 @@ public partial class ReflectingPool : PlayerStructure
         // ReflectingPool.pas:42
 
         // ReflectingPool.pas:263
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ReflectingPoolRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(ReflectingPoolRStr);
 
         private static readonly string ReflectingPoolRStr = "Reflecting Pool";
 

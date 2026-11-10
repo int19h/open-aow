@@ -1,13 +1,16 @@
 // Translated from Mine.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
 using Aow.Game.Combat;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -51,7 +54,7 @@ public partial class Mine : PlayerStructure
         base.Activate();
         if (FPlayer != -1)
         {
-            Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
+            AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
         }
     }
 
@@ -60,7 +63,7 @@ public partial class Mine : PlayerStructure
     {
         if (FPlayer != -1)
         {
-            Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
+            AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
         }
 
         base.Deactivate();
@@ -86,7 +89,7 @@ public partial class Mine : PlayerStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(AbilityRules.TranslateRStr(GameText.ProducingXIncomeRStr), [IntToStr(income)]);
     }
 
     // Mine.pas:99
@@ -107,9 +110,9 @@ public partial class Mine : PlayerStructure
                         }
                         else
                         {
-                            if (Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0))
+                            if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0))
                             {
-                                CandidatePriority = 50 - Map.AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
+                                CandidatePriority = 50 - AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                 if (CandidatePriority < 25)
                                 {
                                     CandidatePriority = 25;
@@ -150,13 +153,13 @@ public partial class Mine : PlayerStructure
             {
                 if (FPlayer != -1)
                 {
-                    Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
+                    AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
                 }
 
                 base.SetPlayer(Player);
                 if (FPlayer != -1)
                 {
-                    Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
+                    AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
                 }
             }
             else
@@ -183,12 +186,12 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:178
-    public override string GetCombatEventText(Combat.Combat Combat)
+    public override string GetCombatEventText(Combat.Battle Combat)
     {
         string Result;
         if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
         {
-            Result = Magic.Abilities.AbilityRules.TranslateRStr(MineBattleWonRStr);
+            Result = AbilityRules.TranslateRStr(MineBattleWonRStr);
         }
         else
         {
@@ -226,7 +229,7 @@ public partial class Mine : PlayerStructure
         // Mine.pas:41
 
         // Mine.pas:197
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(MineRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(MineRStr);
 
         private static readonly string MineRStr = "Mine";
 

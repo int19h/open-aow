@@ -1,3 +1,4 @@
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine.Nodes;
@@ -28,7 +29,7 @@ public sealed class TacticalCombatWallCastTests
         var settings = new CombatMoveControlSettings(null!);
         XYLList path = new Movepath();
         int value = 7;
-        var combat = new TacticalCombat(null!);
+        var combat = new TacticalBattle(null!);
         var objects = combat.FCombatData.FCombatObjects;
         var unit = new TacticalCombatUnit(objects) { FCombat = combat };
         var wall = new CombatWall(objects) { FCombat = combat };
@@ -50,7 +51,7 @@ public sealed class TacticalCombatWallCastTests
         var map = new AoWCombatMap(null!);
         try
         {
-            var combat = new TacticalCombat(null!);
+            var combat = new TacticalBattle(null!);
             map.SetCombat(combat);
             var objects = combat.FCombatData.FCombatObjects;
             var hero = new AbstractUnit(null!);

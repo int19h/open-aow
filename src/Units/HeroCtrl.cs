@@ -1,7 +1,8 @@
 // Translated from HeroCtrl.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
 using Aow.Game.Draw.Images;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
@@ -40,7 +41,7 @@ public partial class HeroControlGrid : CustomImageDrawGrid
         DefaultColWidth = 155;
         DefaultRowHeight = 46;
         GrowDirection = ILGrowDirection.Vertical;
-        ScrollBars = Aow.Rtl.CustomGrid.ScrollStyle.Vertical;
+        ScrollBars = CustomGrid.ScrollStyle.Vertical;
         FIndices = new IntegerList();
         FStream = new MemoryStream();
         FSort = 0;

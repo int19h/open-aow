@@ -1,7 +1,14 @@
 using System.Runtime.CompilerServices;
+using Aow.Engine.Nodes;
+using Aow.Formats;
+using Aow.Game;
+using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
+using Aow.Game.Host;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
@@ -25,8 +32,8 @@ internal static class FrameFixtureChecks
             checks++;
         }
         // The fixture host replays native scripts, so the game writes original names under it.
-        Check(!RtlUnit.WritesOwnExtensions && Game.Saves.FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
-            && Game.Saves.FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save) == ".asg", "fixture host writes original extensions");
+        Check(!RtlUnit.WritesOwnExtensions && FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
+            && FileBoundary.WriteExtension(DocumentKind.Save) == ".asg", "fixture host writes original extensions");
         var instance = new object();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
         Check(!new GDPlay().Connected && new GDPlay().ConnectionType == ConnectionType.None, "offline connection queries");
@@ -47,7 +54,7 @@ internal static class FrameFixtureChecks
 
         var oldWindow = DialogHosts.MWindow;
         var oldMap = AoWHSMap.Current;
-        var oldEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        GameEngine oldEngine = GameTables.AoWEngine;
         var oldSettings = RtlUnit.Settings;
         try
         {
@@ -66,7 +73,7 @@ internal static class FrameFixtureChecks
             controller.HideTransientWindows();
             Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
 
-            var players = new PlayerList(null!) { FChildren = new Game.Engine.Nodes.EObjectList() };
+            var players = new PlayerList(null!) { FChildren = new EObjectList() };
             players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Playing });
             players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Terminated });
             players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Playing });
@@ -82,14 +89,14 @@ internal static class FrameFixtureChecks
             Check(bar.PInd.WinWidth == 14 && bar.TBMessEdit.Alignment.RightOffset == 292 &&
                 bar.TBMessEdit.Alignment.LeftOffset == 48, "indicator counts active players and reserves the right side");
             Check(!bar.PInd.FAligned && !bar.TBMessEdit.FAligned, "indicator invalidates alignment");
-            Check(Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)MagicSphere.Life] == "Life" &&
-                Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)MagicSphere.Cosmos] == "Cosmos", "sphere names are initialized");
-            Check(Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)Player.Behavior.Normal] == "Normal" &&
-                Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)Player.Behavior.Random] == "Random", "setup behavior names are initialized");
+            Check(GameTables.TMagicSphereRStr[(int)MagicSphere.Life] == "Life" &&
+                GameTables.TMagicSphereRStr[(int)MagicSphere.Cosmos] == "Cosmos", "sphere names are initialized");
+            Check(GameTables.TPlayerBehaviorRStr[(int)Player.Behavior.Normal] == "Normal" &&
+                GameTables.TPlayerBehaviorRStr[(int)Player.Behavior.Random] == "Random", "setup behavior names are initialized");
 
             RtlUnit.Settings = new MemorySettingsStore();
-            Game.Magic.Abilities.GameTables.AoWEngine = oldEngine;
-            Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetMovementSpeed(AoWRegistry.MovementSpeed.Normal);
+            GameTables.AoWEngine = oldEngine;
+            GameTables.AoWEngine.FRegistry.SetMovementSpeed(AoWRegistry.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
             var world = new MWindow(null) { MapWindow = mapWindow };
             world.MapWindowUpdate();
@@ -113,7 +120,7 @@ internal static class FrameFixtureChecks
         {
             DialogHosts.MWindow = oldWindow;
             AoWHSMap.Current = oldMap;
-            Game.Magic.Abilities.GameTables.AoWEngine = oldEngine;
+            GameTables.AoWEngine = oldEngine;
             RtlUnit.Settings = oldSettings;
             FrameFixtureInputs.AddressAnimationPhase = null;
             FrameFixtureInputs.MeasuredFrameRate = null;
@@ -137,13 +144,13 @@ internal static class FrameFixtureChecks
             Directory.CreateDirectory(scratch);
             RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, scratch, [], clock, null));
             Startup.InitializeAll();
-            Game.Audio.NullSoundSystem.Install();
-            Game.Magic.Abilities.GameTables.ValidateAoWEngine();
+            NullSoundSystem.Install();
+            GameTables.ValidateAoWEngine();
         }
 
         public void Dispose()
         {
-            Game.Magic.Abilities.GameTables.AoWEngine.Dispose();
+            GameTables.AoWEngine.Dispose();
             RtlUnit.Files = files;
             RtlUnit.Settings = settings;
             RtlUnit.Dialogs = dialogs;

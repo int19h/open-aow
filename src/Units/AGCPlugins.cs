@@ -1,11 +1,14 @@
 // Translated from AGCPlugins.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -84,7 +87,7 @@ public partial class AIGroupRazeControl : AIGroupControlPlugin
     // AGCPlugins.pas:90
     public void Reset()
     {
-        FDamageTypes = Magic.Abilities.AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        FDamageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         FMode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.CannotDefend);
         FCityStrengthFactor = 2;
         FStructureStrengthFactor = 2;
@@ -265,7 +268,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupControlPlugin
         this.FSelector.FTargetInfo.Mode = AITargetMode.Defend;
 
         FPathStep = 7;
-        FDamageTypes = Magic.Abilities.AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        FDamageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         FBattleFieldRadius = 10;
         FMovePointsFactor = -1;
         FMode = Set<ModeElement>.Of();

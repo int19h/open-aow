@@ -21,7 +21,7 @@ namespace Aow.Game.Combat
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.World.Structures
 {
 
     public sealed class DefenseRequirementsQuery
@@ -44,7 +44,7 @@ namespace Aow.Game.Combat
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Events
 {
 
     public sealed class ShowMessageNotification

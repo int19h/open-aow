@@ -78,7 +78,7 @@ namespace Aow.Game.Draw
             Field.AddHS(this, 0);
         }
 
-        public override Engine.Engine GetEngine() => hexagon.GetEngine();
+        public override GameEngine GetEngine() => hexagon.GetEngine();
         public override byte GetLevel() => ((IsometricHexagonResource)hexagon.FResource).FDynamicLevel;
         public override sbyte GetXhx() => Field.Xhx;
         public override sbyte GetYhx() => Field.Yhx;

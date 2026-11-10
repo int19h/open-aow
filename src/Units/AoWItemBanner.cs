@@ -3,6 +3,7 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -33,7 +34,7 @@ public partial class ItemBanner : DataModule
         Item Item;
         int X;
         int Y;
-        Item = World.Map.AoWHSMap.Current.FItemControl.FindItem(ItemID);
+        Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
         if (Item != null)
         {
             ItemNameLbl.Text = Item.FOwnerName;
@@ -127,7 +128,7 @@ public partial class ItemBanner : DataModule
             {
                 if (Item.GetAbEnabled(X))
                 {
-                    var name = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(X).GetName(Item);
+                    var name = AoWHSSet.Current.FAbilityControl.GetAbility(X).GetName(Item);
                     AbLB.Items.AddObject(name, IntToObject(X));
                 }
             }
@@ -154,7 +155,7 @@ public partial class ItemBanner : DataModule
     public void DrawBoxPreDraw(SurfaceDesc SurfDesc)
     {
         Item Item;
-        Item = World.Map.AoWHSMap.Current.FItemControl.FindItem(ItemID);
+        Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
         if (Item != null)
         {
             Item.Show(DrawBox.WinLeft, DrawBox.WinTop, SurfDesc);

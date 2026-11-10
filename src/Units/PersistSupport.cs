@@ -1,19 +1,20 @@
 using System.Globalization;
 using Aow.Formats.Tree;
+using Aow.Game;
 using Aow.Game.Engine;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine.Nodes
+namespace Aow.Engine.Nodes
 {
 
     // The engine side of the persistence tree. Formats does not name these types.
     public sealed class EnginePersistableFactory : IPersistableFactory
     {
-        private readonly AoWEngine engine;
+        private readonly GameEngine engine;
         private readonly Dictionary<string, EClass> byName;
 
-        public EnginePersistableFactory(AoWEngine engine)
+        public EnginePersistableFactory(GameEngine engine)
         {
             this.engine = engine ?? throw new InvalidOperationException("The engine is not running.");
             byName = new Dictionary<string, EClass>();
@@ -70,7 +71,7 @@ namespace Aow.Game.Engine.Nodes
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Engine
 {
 
     public static class PersistSupport

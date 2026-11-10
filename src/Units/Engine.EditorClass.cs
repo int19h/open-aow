@@ -1,7 +1,8 @@
+using Aow.Game;
 using Aow.Game.Engine;
 using Aow.Rtl;
 
-namespace Aow.Game.Engine.Nodes;
+namespace Aow.Engine.Nodes;
 
 // The class-side members of an editor class that the engine's editor list reads without an
 // instance (Engine.pas TEObjectEditor class methods). A class with its own values re-lists the
@@ -10,16 +11,16 @@ public interface IEObjectEditorClass
 {
     static abstract int EditorClassID { get; }
 
-    static abstract void Edit(EObject Obj, Engine AEngine, EditDoneEvent Done);
+    static abstract void Edit(EObject Obj, GameEngine AEngine, EditDoneEvent Done);
 }
 
 // One explicit registration per editor class keeps descriptor identity in the editor list.
 public sealed class EditorClass
 {
     private static readonly Catalog<Type, EditorClass> catalog = new("editor class");
-    private readonly Action<EObject, Engine, EditDoneEvent> edit;
+    private readonly Action<EObject, GameEngine, EditDoneEvent> edit;
 
-    private EditorClass(EClass eclass, int editorClassId, Action<EObject, Engine, EditDoneEvent> edit)
+    private EditorClass(EClass eclass, int editorClassId, Action<EObject, GameEngine, EditDoneEvent> edit)
     {
         Class = eclass;
         EditorClassID = editorClassId;
@@ -30,7 +31,7 @@ public sealed class EditorClass
     public string ClassName => Class.ClassName;
     public int EditorClassID { get; }
 
-    public void Edit(EObject Obj, Engine AEngine, EditDoneEvent Done) => edit(Obj, AEngine, Done);
+    public void Edit(EObject Obj, GameEngine AEngine, EditDoneEvent Done) => edit(Obj, AEngine, Done);
 
     public static EditorClass Register<T>() where T : EObjectEditor, IEObjectEditorClass =>
         catalog.Add(typeof(T), new EditorClass(EClass.Of<T>(), T.EditorClassID, static (obj, engine, done) => T.Edit(obj, engine, done)));

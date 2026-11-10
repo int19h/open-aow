@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -34,7 +39,7 @@ public sealed class SweepConstructionTests
     {
         private readonly int previousSeed = Runtime.RandSeed;
         private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly GameEngine previousEngine = GameTables.AoWEngine;
         private readonly AoWHSMap previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
@@ -44,7 +49,7 @@ public sealed class SweepConstructionTests
             Runtime.RandSeed = 123456789;
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
             AoWHSSet.Current = set;
-            Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+            GameTables.AoWEngine = EngineFixture.Engine;
             AoWHSMap.Current = null!;
             AoWHSSet.Current.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
@@ -55,7 +60,7 @@ public sealed class SweepConstructionTests
             Runtime.RandSeed = previousSeed;
 
             AoWHSSet.Current = previousSet;
-            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            GameTables.AoWEngine = previousEngine;
             AoWHSMap.Current = previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
@@ -68,7 +73,7 @@ public sealed class SweepConstructionTests
         object? State(object? item, string path)
         {
             if (item is null) return null;
-            if (item is AoWEngine) return "$engine";
+            if (item is GameEngine) return "$engine";
             Type type = item.GetType();
             if (item is string text) return text;
             if (type.IsEnum) return Convert.ToInt64(item);
@@ -115,10 +120,10 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Structures.AltarOfPestilence+Resource",
         "Aow.Game.World.Structures.Altar",
         "Aow.Game.World.Structures.AltarResource",
-        "Aow.Game.Draw.Animation.Animation",
+        "Aow.Game.Draw.Animations.Animation",
         "Aow.Game.Commands.AnimationTE",
-        "Aow.Game.Draw.Animation.ImageSequenceAnimation",
-        "Aow.Game.Draw.Animation.TwinkleAnimation",
+        "Aow.Game.Draw.Animations.ImageSequenceAnimation",
+        "Aow.Game.Draw.Animations.TwinkleAnimation",
         "Aow.Game.World.Hexes.AoWBorderHexagon",
         "Aow.Game.World.Hexes.AoWHexagon",
         "Aow.Game.World.Hexes.AoWHexagon+Resource",
@@ -143,7 +148,7 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Structures.BuildersGuild",
         "Aow.Game.World.Structures.BuildersGuild+Resource",
         "Aow.Game.World.Structures.BloodShrine",
-        "Aow.Game.Draw.Animation.BloodShrineAnimation",
+        "Aow.Game.Draw.Animations.BloodShrineAnimation",
         "Aow.Game.World.Structures.BloodShrine+Resource",
         "Aow.Game.World.Hexes.BorderHexagon",
         "Aow.Game.World.Hexes.BorderHexagon+Resource",
@@ -225,7 +230,7 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.HillMOR",
         "Aow.Game.World.Terrain.HolyGround",
         "Aow.Game.World.Terrain.HolyGround+Resource",
-        "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell",
+        "Aow.Game.Magic.Spells.HolyGroundSpell",
         "Aow.Game.Commands.HolyGroundSpellTE",
         "Aow.Game.World.Terrain.House",
         "Aow.Game.World.Terrain.House+Resource",
@@ -256,7 +261,7 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Structures.Monsterlair+Resource",
         "Aow.Game.World.MountainMO",
         "Aow.Game.World.MountainMOR",
-        "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain",
+        "Aow.Game.Magic.Spells.RaiseTerrain",
         "Aow.Game.Commands.RaiseTerrainTE",
         "Aow.Game.World.Terrain.RaisedMountain",
         "Aow.Game.World.Terrain.RaisedMountain+Resource",
@@ -277,7 +282,7 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.PoisonCloud+Resource",
         "Aow.Game.World.Terrain.PoisonPlant",
         "Aow.Game.World.Terrain.PoisonPlant+Resource",
-        "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell",
+        "Aow.Game.Magic.Spells.PoisonPlantSpell",
         "Aow.Game.Commands.PoisonPlantSpellTE",
         "Aow.Game.World.Structures.PowerNode",
         "Aow.Game.World.Structures.PowerNode+Resource",
@@ -304,16 +309,16 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.SmokeCloud",
         "Aow.Game.World.SmokeCloud+Resource",
         "Aow.Game.World.Structures.SpringOfLife",
-        "Aow.Game.Draw.Animation.SpringOfLifeAnimation",
+        "Aow.Game.Draw.Animations.SpringOfLifeAnimation",
         "Aow.Game.World.Structures.SpringOfLife+Resource",
-        "Aow.Game.Draw.Animation.BlastStorm",
-        "Aow.Game.Draw.Animation.DeathStorm",
-        "Aow.Game.Draw.Animation.DivineStorm",
-        "Aow.Game.Draw.Animation.FireStorm",
-        "Aow.Game.Draw.Animation.IceStorm",
-        "Aow.Game.Draw.Animation.LightningStorm",
-        "Aow.Game.Draw.Animation.PestilenceStorm",
-        "Aow.Game.Draw.Animation.Storm",
+        "Aow.Game.Draw.Animations.BlastStorm",
+        "Aow.Game.Draw.Animations.DeathStorm",
+        "Aow.Game.Draw.Animations.DivineStorm",
+        "Aow.Game.Draw.Animations.FireStorm",
+        "Aow.Game.Draw.Animations.IceStorm",
+        "Aow.Game.Draw.Animations.LightningStorm",
+        "Aow.Game.Draw.Animations.PestilenceStorm",
+        "Aow.Game.Draw.Animations.Storm",
         "Aow.Game.Commands.StormSpellTE",
         "Aow.Game.World.Structures.Teleport",
         "Aow.Game.World.Structures.Teleport+Resource",
@@ -325,7 +330,7 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Terrain.Townhall+Resource",
         "Aow.Game.World.Terrain.UnHolyGround",
         "Aow.Game.World.Terrain.UnHolyGround+Resource",
-        "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell",
+        "Aow.Game.Magic.Spells.UnholyGroundSpell",
         "Aow.Game.Commands.UnholyGroundSpellTE",
         "Aow.Game.World.Structures.WaterNode",
         "Aow.Game.World.Structures.WaterNode+Resource",
@@ -371,7 +376,7 @@ public sealed class SweepConstructionTests
         try { return action(); }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
-            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw();
+            ExceptionDispatchInfo.Capture(error.InnerException).Throw();
             throw;
         }
     }
@@ -408,11 +413,11 @@ public sealed class SweepConstructionTests
                     Assert.Same(owner, value.Owner);
                     states.Add("success:" + Snapshot(value));
                 }
-                catch (System.Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
+                catch (Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
                 finally
                 {
                     try { value?.Dispose(); }
-                    catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                    catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
                 }
                 states.Add("owner:" + (owner?.Members.Count ?? 0));
                 if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
@@ -425,11 +430,11 @@ public sealed class SweepConstructionTests
     private static EObject Saved(Type type, ECustomNode owner)
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        using var engine = new Engine(null!);
+        using GameEngine engine = new GameEngine(null!);
         var descriptor = EClass.Of(type);
-        engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
+        engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
         try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
-        catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+        catch (Exception error) when (PortedExceptions.Is(error)) { }
         engine.RegisterEClasses([descriptor]);
         return engine.CreateEObject(descriptor.ClassID, owner);
     }
@@ -444,7 +449,7 @@ public sealed class SweepConstructionTests
         using var fixture = new Fixture();
         Type type = typeof(Spell).Assembly.GetType(name)!;
         if (name.EndsWith(".AoWNewCombatMapSettings", StringComparison.Ordinal))
-            typeof(HSEngine).GetField("FHSSFileName", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(Game.Magic.Abilities.GameTables.AoWEngine, "");
+            typeof(GameEngine).GetField("FHSSFileName", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(GameTables.AoWEngine, "");
         Type[] signature = name.EndsWith(".CombatMoveControl", StringComparison.Ordinal) ? [typeof(HSMap)] : [];
         var value = (object)Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
         try

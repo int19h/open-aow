@@ -1,7 +1,9 @@
 // Translated from AirNode.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -38,7 +40,7 @@ public partial class AirNode : ProductionPlace
         // AirNode.pas:27
 
         // AirNode.pas:52
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AirNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(AirNodeRStr);
 
         private static readonly string AirNodeRStr = "Air Node";
 

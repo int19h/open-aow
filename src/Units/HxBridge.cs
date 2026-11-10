@@ -1,8 +1,10 @@
 // Translated from HxBridge.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
@@ -187,7 +189,7 @@ public partial class HexagonBridge : AbstractRoad
     }
 
     // HxBridge.pas:94
-    public override bool LinkToResource(Engine.Engine AEngine)
+    public override bool LinkToResource(GameEngine AEngine)
     {
         bool Result = base.LinkToResource(AEngine);
         FTerrain = FResource.TerrainList.Terrain[0];

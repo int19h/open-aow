@@ -1,6 +1,8 @@
 // Translated from Pyramid.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -25,7 +27,7 @@ public partial class Pyramid : ItemExplorationSite
         public override int ResourceUserClassID() => 131982;
 
         // Pyramid.pas:37
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(PyramidRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(PyramidRStr);
 
         private static readonly string PyramidRStr = "Pyramid";
 

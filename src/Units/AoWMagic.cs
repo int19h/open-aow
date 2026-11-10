@@ -1,16 +1,15 @@
 // Translated from AoWMagic.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Events;
 using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Magic.Spells.Global;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
@@ -156,22 +155,22 @@ public partial class MagicWin : DataModule
         switch (FEnchantmentSort)
         {
             case 0:
-                Engine.Nodes.StringSorting.SortStringsAscending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
+                StringSorting.SortStringsAscending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
                 break;
             case 1:
-                Engine.Nodes.StringSorting.SortStringsDescending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
+                StringSorting.SortStringsDescending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
                 break;
             case 2:
-                Engine.Nodes.StringSorting.SortStringsAscending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
+                StringSorting.SortStringsAscending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
                 break;
             case 3:
-                Engine.Nodes.StringSorting.SortStringsDescending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
+                StringSorting.SortStringsDescending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
                 break;
             case 4:
-                Engine.Nodes.StringSorting.SortStringsNumericalAscending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
+                StringSorting.SortStringsNumericalAscending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
                 break;
             case 5:
-                Engine.Nodes.StringSorting.SortStringsNumericalDescending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
+                StringSorting.SortStringsNumericalDescending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
                 break;
         }
     }
@@ -182,22 +181,22 @@ public partial class MagicWin : DataModule
         switch (FGlobalEnchantmentSort)
         {
             case 0:
-                Engine.Nodes.StringSorting.SortStringsAscending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                StringSorting.SortStringsAscending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
                 break;
             case 1:
-                Engine.Nodes.StringSorting.SortStringsDescending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                StringSorting.SortStringsDescending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
                 break;
             case 2:
-                Engine.Nodes.StringSorting.SortStringsAscending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                StringSorting.SortStringsAscending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                 break;
             case 3:
-                Engine.Nodes.StringSorting.SortStringsDescending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                StringSorting.SortStringsDescending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                 break;
             case 4:
-                Engine.Nodes.StringSorting.SortStringsNumericalAscending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                StringSorting.SortStringsNumericalAscending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
             case 5:
-                Engine.Nodes.StringSorting.SortStringsNumericalDescending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                StringSorting.SortStringsNumericalDescending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
         }
     }
@@ -208,16 +207,16 @@ public partial class MagicWin : DataModule
         switch (FPowerSort)
         {
             case 0:
-                Engine.Nodes.StringSorting.SortStringsAscending(PowerSourceList.Items, [PowerValueList.Items]);
+                StringSorting.SortStringsAscending(PowerSourceList.Items, [PowerValueList.Items]);
                 break;
             case 1:
-                Engine.Nodes.StringSorting.SortStringsDescending(PowerSourceList.Items, [PowerValueList.Items]);
+                StringSorting.SortStringsDescending(PowerSourceList.Items, [PowerValueList.Items]);
                 break;
             case 2:
-                Engine.Nodes.StringSorting.SortStringsNumericalAscending(PowerValueList.Items, [PowerSourceList.Items]);
+                StringSorting.SortStringsNumericalAscending(PowerValueList.Items, [PowerSourceList.Items]);
                 break;
             case 3:
-                Engine.Nodes.StringSorting.SortStringsNumericalDescending(PowerValueList.Items, [PowerSourceList.Items]);
+                StringSorting.SortStringsNumericalDescending(PowerValueList.Items, [PowerSourceList.Items]);
                 break;
         }
     }

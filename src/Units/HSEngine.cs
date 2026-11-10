@@ -1,13 +1,18 @@
 // Translated from HSEngine.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Formats;
+using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Saves;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -524,7 +529,7 @@ namespace Aow.Game.World.Map
         internal int FHeight;
         internal int FLevelCount;
         internal HSMap FMap;
-        internal Engine.Engine FEngine;
+        internal GameEngine FEngine;
 
         // HSEngine.pas:3167
         public override void SetOwner(ECustomNode AOwner)
@@ -534,7 +539,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3203
-        public override Engine.Engine GetEngine() => FEngine;
+        public override GameEngine GetEngine() => FEngine;
 
         // HSEngine.pas:3173
         public override void ReadWrite(EStorageStream Stream)
@@ -593,7 +598,7 @@ namespace Aow.Game.World.Map
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = Msg.Payload.As<Engine.Engine>();
+                FEngine = Msg.Payload.As<GameEngine>();
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -782,7 +787,7 @@ namespace Aow.Game.World.Map
 
         internal HSMapMouse FMouse;
         internal MapContainer FMapContainer;
-        internal HSEngine FEngine;
+        internal GameEngine FEngine;
         internal HexagonSpriteSelection FSelection;
         internal VisibilityList FStaticVisibleHS;
         internal VisibilityList FDynamicVisibleHS;
@@ -807,7 +812,7 @@ namespace Aow.Game.World.Map
         internal CenterViewEvent FOnCenterView;
         internal ChangeViewEvent FOnChangeView;
         internal ViewLevelEvent FOnViewLevel;
-        internal Engine.ProgressEvent FOnProgress;
+        internal Aow.Engine.ProgressEvent FOnProgress;
         internal int FTerrainChangedLockCounter;
 
         internal EventStore<HSMap> FNewFrameEventsStore;
@@ -902,7 +907,7 @@ namespace Aow.Game.World.Map
 
             if (!Stream.StorageMode().Contains(EngineServices.smPartial) && Stream.StorageMode().Contains(StorageModeElement.Read) && !IsEmpty(FHSSFileName))
             {
-                ((HSEngine)Stream.Engine).InitializeHSSet(Stream.Engine.StartupDirectory + FHSSFileName, Stream.OnProgress);
+                ((GameEngine)Stream.Engine).InitializeHSSet(Stream.Engine.StartupDirectory + FHSSFileName, Stream.OnProgress);
             }
 
             B = (sbyte)FVersion;
@@ -939,7 +944,7 @@ namespace Aow.Game.World.Map
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = (HSEngine)Msg.Payload.As<Engine.Engine>();
+                FEngine = Msg.Payload.As<GameEngine>();
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -1724,7 +1729,7 @@ namespace Aow.Game.World.Map
 
         public HSMapMouse Mouse { get => FMouse; }
         public MapContainer MapContainer { get => FMapContainer; }
-        public HSEngine Engine { get => FEngine; }
+        public GameEngine Engine { get => FEngine; }
         public HexagonSpriteSelection Selection { get => FSelection; }
         public VisibilityList StaticVisibleHS { get => FStaticVisibleHS; }
         public VisibilityList DynamicVisibleHS { get => FDynamicVisibleHS; }
@@ -1747,7 +1752,7 @@ namespace Aow.Game.World.Map
         public CenterViewEvent OnCenterView { get => FOnCenterView; set => FOnCenterView = value; }
         public ChangeViewEvent OnChangeView { get => FOnChangeView; set => FOnChangeView = value; }
         public ViewLevelEvent OnViewLevel { get => FOnViewLevel; set => FOnViewLevel = value; }
-        public Engine.ProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
+        public Aow.Engine.ProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
 
         public event NotifyEvent<HSMap> NewFrameEvents
         {
@@ -1791,16 +1796,17 @@ namespace Aow.Game.World.Map
         public delegate void ViewLevelEvent(int Lhx);
 
     }
+}
+
+namespace Aow.Game
+{
 
     // FStatus, FHSSet, FHSMap, FHSSetSearchPath, FHSSFileName, FOnHSMLoaded, FOnHSMClose,
     // FOnHSSLoaded, FOnHSSClose. The engine of the hex map: it owns the set (.hss: a 52-byte
     // header, the stored set and a CRC32) and the map (.hsm: a 16-byte header and the stored map,
     // compressed). the event lists are told when a map or a set is loaded or closed
-    public partial class HSEngine : Engine.Engine
+    public partial class GameEngine : ENode
     {
-        // HSEngine.pas:4957
-        public new const int ClassID = 65537;
-
         internal Set<HSEngineStatusElement> FStatus;
         protected internal HSSet FHSSet;
         protected internal HSMap FHSMap;
@@ -1823,65 +1829,26 @@ namespace Aow.Game.World.Map
             remove => FOnHSMCloseStore.Remove(value);
         }
 
-        internal EventStore<HSEngine> FOnHSSLoadedStore;
+        internal EventStore<GameEngine> FOnHSSLoadedStore;
 
-        internal event NotifyEvent<HSEngine> FOnHSSLoaded
+        internal event NotifyEvent<GameEngine> FOnHSSLoaded
         {
             add => FOnHSSLoadedStore.Add(value);
             remove => FOnHSSLoadedStore.Remove(value);
         }
 
-        internal EventStore<HSEngine> FOnHSSCloseStore;
+        internal EventStore<GameEngine> FOnHSSCloseStore;
 
-        internal event NotifyEvent<HSEngine> FOnHSSClose
+        internal event NotifyEvent<GameEngine> FOnHSSClose
         {
             add => FOnHSSCloseStore.Add(value);
             remove => FOnHSSCloseStore.Remove(value);
         }
 
-        // HSEngine.pas:4941
-        public override void Dispose()
-        {
-            FOnHSMLoadedStore.Clear();
-            FOnHSMCloseStore.Clear();
-            CloseHSM(null);
-            base.Dispose();
-            FOnHSMLoadedStore.Clear();
-            FOnHSMCloseStore.Clear();
-            FOnHSSLoadedStore.Clear();
-            FOnHSSCloseStore.Clear();
-        }
-
-        private protected HSEngine(ConstructionContext context, ECustomNode owner) : base(context, owner)
-        {
-            FOnHSMLoadedStore = new();
-            FOnHSMCloseStore = new();
-            FOnHSSLoadedStore = new();
-            FOnHSSCloseStore = new();
-            RegisterEClasses([EClass.Of<MapContainer>(), EClass.Of<MapLevel>(), EClass.Of<HSMap>(), EClass.Of<HSSet>()]);
-            RegisterEClasses([EClass.Of<MapObjectResource>(), EClass.Of<MultiHexMOR>()]);
-            RegisterEClasses([EClass.Of<AbstractHexagon>(), EClass.Of<AbstractBorderHexagon>(), EClass.Of<AbstractRoad>()]);
-            HSEngineDID = RegisterDebugID("HS-Engine");
-            FHSSFileName = "noname.hss";
-            CreateHSSet();
-        }
-
-        // HSEngine.pas:5019
-        public virtual void CreateHSSet()
-        {
-            FHSSet = new HSSet(this);
-        }
-
-        // HSEngine.pas:4962
-        public virtual void SetHSMap(HSMap Value)
-        {
-            FHSMap = Value;
-        }
-
         // HSEngine.pas:5210
         // The preflight of the file boundary finishes before the current map is freed. A refused
         // file leaves the current game and the file as they were (own-formats.md 2.7 and 4.1).
-        public virtual void LoadHSM(string FileName, bool Edit, Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public virtual void LoadHSM(string FileName, bool Edit, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             CompressStream Stream;
             HSMHeader Header = default;
@@ -1944,7 +1911,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5137
-        public virtual HSMap CreatePreviewHSM(string FileName, Aow.Formats.GameProfile Profile)
+        public virtual HSMap CreatePreviewHSM(string FileName, GameProfile Profile)
         {
             CompressStream Stream;
             string FullName;
@@ -1999,7 +1966,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5291
         // The engine writes the image in memory and the file boundary writes the document, so a
         // failed conversion or write keeps the old file (own-formats.md 4.2).
-        public virtual void SaveHSM(string FileName, Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public virtual void SaveHSM(string FileName, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             CompressStream Stream;
             HSMHeader Header;
@@ -2027,18 +1994,6 @@ namespace Aow.Game.World.Map
             }
         }
 
-        // HSEngine.pas:5368
-        public virtual void CloseHSM(Engine.ProgressEvent AProgress)
-        {
-            if (FHSMap != null)
-            {
-                FHSMap.FOnProgress = AProgress;
-                FOnHSMCloseStore.Raise(FHSMap);
-                FHSMap?.Dispose();
-                SetHSMap(null);
-            }
-        }
-
         // HSEngine.pas:5093
         public virtual void CloseHSS()
         {
@@ -2062,7 +2017,7 @@ namespace Aow.Game.World.Map
                 {
                     Header = default;
                     // An own scenario set lists the header of its validated image (own-formats.md 4.1).
-                    var head = FileBoundary.ListingHeader(Dir + SR.Name, Aow.Formats.GameProfile.ScenarioSet, 52);
+                    var head = FileBoundary.ListingHeader(Dir + SR.Name, GameProfile.ScenarioSet, 52);
                     if (head.Length == 52)
                     {
                         Header = MemoryMarshal.Read<HSSHeader>(head);
@@ -2105,7 +2060,7 @@ namespace Aow.Game.World.Map
 
         // HSEngine.pas:5024
         // The preflight raises before the current set is cleared (own-formats.md 2.7).
-        public void LoadHSS(string FileName, bool Edit, Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void LoadHSS(string FileName, bool Edit, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             MemoryStream Mem;
             HSSHeader Header = default;
@@ -2149,7 +2104,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5060
-        public void SaveHSS(string FileName, Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void SaveHSS(string FileName, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             MemoryStream Mem;
             int CRC = default;
@@ -2180,7 +2135,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5100
-        public void LoadPreviewHSM(string FileName, Aow.Formats.GameProfile Profile)
+        public void LoadPreviewHSM(string FileName, GameProfile Profile)
         {
             CompressStream Stream;
             HSMHeader Header = default;
@@ -2235,7 +2190,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5171
-        public HSMap LoadHSMEx(string FileName, bool Edit, Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public HSMap LoadHSMEx(string FileName, bool Edit, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
         {
             CompressStream Stream;
             string FullName;
@@ -2297,7 +2252,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5251
-        public void LoadHSMfromStream(Stream Stream, bool Edit, Engine.ProgressEvent AProgress)
+        public void LoadHSMfromStream(Stream Stream, bool Edit, Aow.Engine.ProgressEvent AProgress)
         {
             CompressStream CStream;
             HSMHeader Header = default;
@@ -2352,7 +2307,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5316
-        public void SaveHSMtoStream(Stream Stream, Engine.ProgressEvent AProgress)
+        public void SaveHSMtoStream(Stream Stream, Aow.Engine.ProgressEvent AProgress)
         {
             CompressStream CStream;
             HSMHeader Header;
@@ -2383,13 +2338,13 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5341
         // Every caller derives the name (RELEASE.HSS, the set a map names), so the own sibling opens
         // first (own-formats.md 2.9).
-        public void InitializeHSSet(string FileName, Engine.ProgressEvent AProgress)
+        public void InitializeHSSet(string FileName, Aow.Engine.ProgressEvent AProgress)
         {
             EMsg Msg = default;
             FileName = FileBoundary.ReadName(FileName);
             if (FHSSet == null || CompareText(FileName, FHSSFileName) != 0)
             {
-                LoadHSS(FileName, false, AProgress, Aow.Formats.GameProfile.ScenarioSet);
+                LoadHSS(FileName, false, AProgress, GameProfile.ScenarioSet);
             }
             else
             {
@@ -2432,21 +2387,17 @@ namespace Aow.Game.World.Map
             remove => FOnHSMCloseStore.Remove(value);
         }
 
-        public event NotifyEvent<HSEngine> OnHSSLoaded
+        public event NotifyEvent<GameEngine> OnHSSLoaded
         {
             add => FOnHSSLoadedStore.Add(value);
             remove => FOnHSSLoadedStore.Remove(value);
         }
 
-        public event NotifyEvent<HSEngine> OnHSSClose
+        public event NotifyEvent<GameEngine> OnHSSClose
         {
             add => FOnHSSCloseStore.Add(value);
             remove => FOnHSSCloseStore.Remove(value);
         }
-
-        // HSEngine.pas:803
-        public static HSEngine Create(ECustomNode owner) =>
-            ConstructionContext.Create(owner, static (context, owner) => new HSEngine(context, owner));
 
         private static FixedArray_byte_4 HSMID = FixedArray_byte_4.From("HSM\0"u8);
         internal static int HSEngineDID;
@@ -2656,7 +2607,7 @@ namespace Aow.Game.Draw
             MapF = (MapField)Owner;
             if (MapF != null)
             {
-                ((HSEngine)((MapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEventsStore.Raise(this);
+                ((GameEngine)((MapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEventsStore.Raise(this);
             }
         }
 
@@ -2696,7 +2647,7 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:57
-        public virtual bool CanSelect(int Xhp, int Yhp) => Owner != null && ((HSEngine)((MapLevel)Owner.Owner).FEngine).FHSMap.FStatus.Contains(HSMapStatusElement.Editting);
+        public virtual bool CanSelect(int Xhp, int Yhp) => Owner != null && ((GameEngine)((MapLevel)Owner.Owner).FEngine).FHSMap.FStatus.Contains(HSMapStatusElement.Editting);
 
         // HXSPRITE.PAS:107
         public virtual void Select()
@@ -3713,7 +3664,7 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:63
-        public virtual MapObjectResourceList GetResourceList(Engine.Engine AEngine) => ((HSEngine)AEngine).FHSSet.FMapObjectResourceList;
+        public virtual MapObjectResourceList GetResourceList(GameEngine AEngine) => AEngine.FHSSet.FMapObjectResourceList;
 
         // MAPOBJ.PAS:68
         public virtual void SetResource(MapObjectResource Value)
@@ -3776,7 +3727,7 @@ namespace Aow.Game.World
             SetLevel(26);
         }
 
-        protected internal HSEngine FEngine;
+        protected internal GameEngine FEngine;
         protected internal int FShowPriorityOffset;
         protected internal ImageLibrary FImageLibrary;
         protected internal ImageSequenceList FImageSequenceList;
@@ -3801,7 +3752,7 @@ namespace Aow.Game.World
         public override int ClassVersion() => 1;
 
         // MAPOBJ.PAS:400
-        public override Engine.Engine GetEngine() => FEngine;
+        public override GameEngine GetEngine() => FEngine;
 
         // MAPOBJ.PAS:470
         public override void ReadWrite(EStorageStream Stream)
@@ -3853,7 +3804,7 @@ namespace Aow.Game.World
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FEngine = (HSEngine)Msg.Payload.As<Engine.Engine>();
+                FEngine = Msg.Payload.As<GameEngine>();
                 if (FImageSequenceList != null)
                 {
                     FImageSequenceList.FILManager = FEngine.FHSSet.FImageLibraryManager;
@@ -4078,7 +4029,7 @@ namespace Aow.Game.World
             }
         }
 
-        public HSEngine Engine { get => FEngine; }
+        public GameEngine Engine { get => FEngine; }
         public int ShowPriorityOffset { get => FShowPriorityOffset; set => FShowPriorityOffset = value; }
         public ImageLibrary ImageLibrary { get => FImageLibrary; }
         public ImageSequenceList ImageSequenceList { get => FImageSequenceList; set => FImageSequenceList = value; }
@@ -4650,21 +4601,21 @@ namespace Aow.Game.World.Map
         protected internal int FCount;
         protected internal MapContainer FMapContainer;
         protected internal HSMap FMap;
-        protected internal Engine.Engine FEngine;
+        protected internal GameEngine FEngine;
         protected internal int FMapFieldCID;
         protected internal int FFieldSize;
         protected internal int FFieldsSize;
         public FixedArray_Aow_Units_FixedArray_int_8_2 FHNOffsets;
 
         // HSEngine.pas:2925
-        public override Engine.Engine GetEngine() => FEngine;
+        public override GameEngine GetEngine() => FEngine;
 
         // HSEngine.pas:2913
         public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = Msg.Payload.As<Engine.Engine>();
+                FEngine = Msg.Payload.As<GameEngine>();
                 FMapContainer = (MapContainer)Owner;
                 FMap = FMapContainer.FMap;
             }
@@ -5768,7 +5719,7 @@ namespace Aow.Game.World.Map
     // a terrain type on a map field
     public partial class MORTerrainControl : EObject
     {
-        internal HSEngine FHSEngine;
+        internal GameEngine FHSEngine;
         internal int FTries;
         internal DelphiList FResources;
         internal Type FMOClass;
@@ -5823,7 +5774,7 @@ namespace Aow.Game.World.Map
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FHSEngine = (HSEngine)Msg.Payload.As<Engine.Engine>();
+                FHSEngine = Msg.Payload.As<GameEngine>();
                 Initialize();
             }
         }
@@ -5990,7 +5941,7 @@ namespace Aow.Game.World.Map
             }
         }
 
-        public HSEngine HSEngine { get => FHSEngine; }
+        public GameEngine HSEngine { get => FHSEngine; }
         public int Tries { get => FTries; set => FTries = value; }
         public DelphiList Resources { get => FResources; }
         public Type MOClass { get => FMOClass; set => FMOClass = value; }
@@ -6042,20 +5993,20 @@ namespace Aow.Game.World.Map
             FResourceEditSettings = new EResourceEditSettings(this);
             FResourceEditSettings.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared));
             FImageLibraryManager = new ImageLibraryManager(null);
-            FSFXManager = new Audio.SFXManager(null);
+            FSFXManager = new SFXManager(null);
         }
 
         internal Set<HSSetStatusElement> FStatus;
         internal HexagonControl FHexagonControl;
         internal RoadControl FRoadControl;
-        internal Engine.Engine FActivatedEngine;
+        internal GameEngine FActivatedEngine;
 
-        public Engine.Engine ActivatedEngine { get => FActivatedEngine; }
+        public GameEngine ActivatedEngine { get => FActivatedEngine; }
 
         internal MapObjectResourceList FMapObjectResourceList;
         internal EResourceEditSettings FResourceEditSettings;
         internal ImageLibraryManager FImageLibraryManager;
-        internal Audio.SFXManager FSFXManager;
+        internal SFXManager FSFXManager;
         internal PlugInControl FPlugInControl;
         internal string FName = "";
         internal StringList FTerrainTypes;
@@ -6118,7 +6069,7 @@ namespace Aow.Game.World.Map
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FActivatedEngine = Msg.Payload.As<Engine.Engine>();
+                FActivatedEngine = Msg.Payload.As<GameEngine>();
             }
         }
 
@@ -6188,7 +6139,7 @@ namespace Aow.Game.World.Map
         public MapObjectResourceList MapObjectResourceList { get => FMapObjectResourceList; }
         public EResourceEditSettings ResourceEditSettings { get => FResourceEditSettings; }
         public ImageLibraryManager ImageLibraryManager { get => FImageLibraryManager; }
-        public Audio.SFXManager SFXManager { get => FSFXManager; }
+        public SFXManager SFXManager { get => FSFXManager; }
         public PlugInControl PlugInControl { get => FPlugInControl; }
         public string Name { get => FName; set => FName = value; }
         public StringList TerrainTypes { get => FTerrainTypes; }
@@ -6202,7 +6153,7 @@ namespace Aow.Game.World.Map
     // called from Loaded and Destroy
     public partial class HexagonSpriteEngine : EComponent
     {
-        internal HSEngine FHSEngine;
+        internal GameEngine FHSEngine;
 
         // HSEngine.pas:5381
         public HexagonSpriteEngine(Component owner) : base(owner)
@@ -6215,7 +6166,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5388
-        public virtual void SetHSEngine(HSEngine Value)
+        public virtual void SetHSEngine(GameEngine Value)
         {
             FHSEngine = Value;
             Engine = FHSEngine;
@@ -6224,7 +6175,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5394
         public virtual void CreateEngine()
         {
-            SetHSEngine(HSEngine.Create(null));
+            SetHSEngine(GameEngine.Create(null));
         }
 
         // HSEngine.pas:5399
@@ -6252,7 +6203,7 @@ namespace Aow.Game.World.Map
             return Result;
         }
 
-        public HSEngine HSEngine { get => FHSEngine; set => SetHSEngine(value); }
+        public GameEngine HSEngine { get => FHSEngine; set => SetHSEngine(value); }
         public string HSSetSearchPath { get => GetHSSetSearchPath(); set => SetHSSetSearchPath(value); }
     }
 }
@@ -6611,7 +6562,7 @@ namespace Aow.Game.Draw
         // LibImgHS.PAS:152
         public override void Remove()
         {
-            HSEngine Engine;
+            GameEngine Engine;
             if (FStatus.Contains(StatusElement.PlacedOnMap))
             {
                 if (FStatus.Contains(StatusElement.MapIsOwner))
@@ -6635,7 +6586,7 @@ namespace Aow.Game.Draw
                 }
                 else
                 {
-                    Engine = (HSEngine)GetEngine();
+                    Engine = GetEngine();
                     if (GetVisible())
                     {
                         if (GetLevel() <= 15)
@@ -6815,7 +6766,7 @@ namespace Aow.Game.World
 
     // HSEngine.EMapObjectResourceMissing: TMapObject.ReadWrite raises it when the resource id read
     // from the stream is not in the resource list
-    public partial class MapObjectResourceMissingException : System.Exception
+    public partial class MapObjectResourceMissingException : Exception
     {
         // SysUtils.pas:174
         public MapObjectResourceMissingException(string Msg) : base(Msg)

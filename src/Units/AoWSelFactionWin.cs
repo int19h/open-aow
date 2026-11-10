@@ -1,8 +1,13 @@
-// Translated from AoWSelFactionWin.pas.
-using Aow.Game.Engine.Buffers;
+using Aow.Engine.Buffers;
+using Aow.Formats;
+using Aow.Game.Draw.Images;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Saves;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWSelFactionWin.pas.
 using Aow.Rtl.Localize;
@@ -122,7 +127,7 @@ public partial class SelFactionWin : DataModule
         {
             DSphere.Visible = false;
             LSphere.Visible = false;
-            var chooseFaction = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
+            var chooseFaction = AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
             TopLbl.Text = chooseFaction;
         }
     }
@@ -134,7 +139,7 @@ public partial class SelFactionWin : DataModule
         {
             DSphere.Visible = true;
             LSphere.Visible = false;
-            var cultOfStorms = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.CultOfStormsRStr);
+            var cultOfStorms = AbilityRules.TranslateRStr(LobbyText.CultOfStormsRStr);
             TopLbl.Text = cultOfStorms;
         }
     }
@@ -146,7 +151,7 @@ public partial class SelFactionWin : DataModule
         {
             DSphere.Visible = false;
             LSphere.Visible = true;
-            var keepers = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.KeepersRStr);
+            var keepers = AbilityRules.TranslateRStr(LobbyText.KeepersRStr);
             TopLbl.Text = keepers;
         }
     }
@@ -175,7 +180,7 @@ public partial class SelFactionWin : DataModule
                     LStart.Visible = false;
                     LSphere.Visible = false;
                     TopLbl.Visible = true;
-                    var chooseFaction = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
+                    var chooseFaction = AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
                     TopLbl.Text = chooseFaction;
                     FactionPnl.ILIndexTexture = 0;
                 }
@@ -189,7 +194,7 @@ public partial class SelFactionWin : DataModule
                         DStart.Visible = false;
                         DSphere.Visible = false;
                         TopLbl.Visible = true;
-                        var chooseFaction = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
+                        var chooseFaction = AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
                         TopLbl.Text = chooseFaction;
                         FactionPnl.ILIndexTexture = 0;
                     }
@@ -224,26 +229,26 @@ public partial class SelFactionWin : DataModule
             case 0:
                 LoadWorldCampaign(DialogHosts.WorldMap, "Keepers.cam");
                 Dialog.CharGenPnl.ILIndexTexture = 10;
-                Engine.AoWHSSet.Current.FTextControl.RetrieveText(10, (StringCollection)(object)val);
+                AoWHSSet.Current.FTextControl.RetrieveText(10, (StringCollection)(object)val);
                 break;
             case 1:
                 LoadWorldCampaign(DialogHosts.WorldMap, "Storm.cam");
                 Dialog.CharGenPnl.ILIndexTexture = 11;
-                Engine.AoWHSSet.Current.FTextControl.RetrieveText(11, (StringCollection)(object)val);
+                AoWHSSet.Current.FTextControl.RetrieveText(11, (StringCollection)(object)val);
                 break;
         }
         ParseFontText(((StringCollection)val).Text, (StringCollection)(object)Dialog.FScrollText, DialogHosts.FontModule.AoW15WhiteGrey, 300);
-        Session.WMCampaign campaign = DialogHosts.WorldMap.GetCampaign();
-        int iD = Session.WMCampaign.GetCampaignScenario(campaign, 0).FPaths[0];
+        WMCampaign campaign = DialogHosts.WorldMap.GetCampaign();
+        int iD = WMCampaign.GetCampaignScenario(campaign, 0).FPaths[0];
         int index = campaign.FScenarios.IndexOfID(iD);
-        Session.WMCampaignScenario campaignScenario = Session.WMCampaign.GetCampaignScenario(DialogHosts.WorldMap.GetCampaign(), index);
-        World.Map.AoWHSMap tAoWHSMap = (World.Map.AoWHSMap)Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(Saves.FileBoundary.ReadName(Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName), Aow.Formats.GameProfile.WorldMap);
+        WMCampaignScenario campaignScenario = WMCampaign.GetCampaignScenario(DialogHosts.WorldMap.GetCampaign(), index);
+        AoWHSMap tAoWHSMap = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName), GameProfile.WorldMap);
         int i;
-        for (i = 0; i < tAoWHSMap.Count && tAoWHSMap.FPlayers.GetPlayers(i).FPlayerType != Session.PlayerType.Human; i++)
+        for (i = 0; i < tAoWHSMap.Count && tAoWHSMap.FPlayers.GetPlayers(i).FPlayerType != PlayerType.Human; i++)
         {
         }
-        Session.Player players = tAoWHSMap.FPlayers.GetPlayers(i);
-        Dialog.FLeader.Assign(players.FLeaderSetup, Magic.Abilities.GameTables.AoWEngine);
+        Player players = tAoWHSMap.FPlayers.GetPlayers(i);
+        Dialog.FLeader.Assign(players.FLeaderSetup, GameTables.AoWEngine);
         tAoWHSMap?.Dispose();
         if (val != null)
         {
@@ -253,10 +258,10 @@ public partial class SelFactionWin : DataModule
 
     private static void LoadWorldCampaign(WorldMap Dialog, string Name)
     {
-        Magic.Abilities.GameTables.AoWEngine.LoadCampaign(Saves.FileBoundary.ReadName(Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name));
+        GameTables.AoWEngine.LoadCampaign(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name));
     }
 
-    private static void ParseFontText(string Text, StringCollection Strings, Draw.Images.ImageLibraryFont Font, int MaxWidth)
+    private static void ParseFontText(string Text, StringCollection Strings, ImageLibraryFont Font, int MaxWidth)
     {
         int i = 1;
         int num = 0;

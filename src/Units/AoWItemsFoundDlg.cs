@@ -9,7 +9,6 @@ using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Magic.Spells.Global;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;

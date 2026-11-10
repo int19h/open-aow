@@ -1,7 +1,10 @@
 using System.Reflection;
+using System.Text;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Game;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Rtl.Localize;
 
 namespace Aow.Units.Tests;
@@ -58,7 +61,7 @@ public sealed class StorageStreamConstructionTests
     {
         using var memory = Memory([0x55, 0]);
         memory.Position = 1;
-        var engine = new Engine(null!);
+        GameEngine engine = new GameEngine(null!);
         EStorageStream stream;
         stream = kind switch
         {
@@ -178,7 +181,7 @@ public sealed class StorageStreamConstructionTests
         writer.Dispose();
         byte[] bytes = memory.ToArray();
         Assert.Equal(export ? "\r\n[:4:]\r\n[7]=|Oak|\r\n[9]=|Hill|\r\n"
-            : "\r\n[:4:]\r\n[7]=Oak\r\n[9]=Hill\r\n", System.Text.Encoding.Latin1.GetString(bytes));
+            : "\r\n[:4:]\r\n[7]=Oak\r\n[9]=Hill\r\n", Encoding.Latin1.GetString(bytes));
         memory.Position = 0;
         var reader = new EReadTextStorageStream(memory, null!, 0);
         var loaded = new StoredObject();
@@ -213,7 +216,7 @@ public sealed class StorageStreamConstructionTests
             else if (kind == 1) _ = new CompareStorageStream(memory, null!);
             else _ = new SetupCompareStorageStream(memory, null!, true);
         });
-        Assert.Equal("Stream read error", ((System.Exception)error).Message);
+        Assert.Equal("Stream read error", ((Exception)error).Message);
         Assert.Equal(2L, memory.Position);
         Assert.Equal(2L, memory.Length);
     }
@@ -233,7 +236,7 @@ public sealed class StorageStreamConstructionTests
     {
         using var memory = Memory("[::]\r\n[]=broken\r\n"u8);
         var error = Assert.Throws<FormatException>(() => new EReadTextStorageStream(memory, null!, 0));
-        Assert.Equal("'' is not a valid integer value", ((System.Exception)error).Message);
+        Assert.Equal("'' is not a valid integer value", ((Exception)error).Message);
         Assert.Equal(memory.Length, memory.Position);
         long end = memory.Position;
         memory.Write([0x33]);

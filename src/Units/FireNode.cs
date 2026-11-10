@@ -1,7 +1,9 @@
 // Translated from FireNode.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -37,7 +39,7 @@ public partial class FireNode : ProductionPlace
         // FireNode.pas:26
 
         // FireNode.pas:50
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(FireNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(FireNodeRStr);
 
         private static readonly string FireNodeRStr = "Fire Node";
 

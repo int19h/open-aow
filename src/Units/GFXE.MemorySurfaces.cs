@@ -1,3 +1,4 @@
+using Aow.Engine.Buffers;
 using Aow.Graphics;
 using Aow.Rtl;
 
@@ -42,8 +43,8 @@ internal static class MemorySurfaces
 
     private static int PFIDtoMASK(int PixelFormatID, ref int RMask, ref int GMask, ref int BMask, ref int AMask)
     {
-        var order = default(Engine.Buffers.FixedArray_byte_4);
-        var masks = default(Engine.Buffers.FixedArray_int_4);
+        var order = default(FixedArray_byte_4);
+        var masks = default(FixedArray_int_4);
         int bitCount = PixelFormatID & 255;
         int pos = 0;
         order[(int)((uint)PixelFormatID >> 8) & 3] = 0;

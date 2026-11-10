@@ -1,7 +1,9 @@
 // Translated from LifeNode.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -38,7 +40,7 @@ public partial class LifeNode : ProductionPlace
         // LifeNode.pas:27
 
         // LifeNode.pas:52
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(LifeNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(LifeNodeRStr);
 
         private static readonly string LifeNodeRStr = "Life Node";
 

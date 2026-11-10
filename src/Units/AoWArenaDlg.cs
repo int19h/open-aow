@@ -1,5 +1,6 @@
 // Translated from AoWArenaDlg.pas.
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
@@ -7,6 +8,7 @@ using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWArenaDlg.pas.
 using Aow.Rtl.Localize;
@@ -53,7 +55,7 @@ public partial class ArenaDlg : DataModule
     {
         Rect SaveRect;
         P2UnitShowInfo Info;
-        Draw.Images.LibraryImage Img;
+        LibraryImage Img;
         AbstractUnit U;
         Alignment Alignment;
         if (Index < FEvent.GetCount())
@@ -128,7 +130,7 @@ public partial class ArenaDlg : DataModule
         }
         else
         {
-            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(Reason);
         }
     }
 
@@ -210,7 +212,7 @@ public partial class ArenaDlg : DataModule
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         var yhx = FEvent.FArena.GetYhx();
-        World.Map.HexGeometry.HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
+        HexGeometry.HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -225,17 +227,17 @@ public partial class ArenaDlg : DataModule
 
         SurfaceDesc.CreateSDfromSD(SD, R, ref MapSD);
         var lhx = FEvent.FArena.GetLhx();
-        World.Map.AoWHSMap.Current.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
-        World.Map.AoWHSMap.Current.UpdateStaticScene();
-        World.Map.AoWHSMap.Current.UpdateDynamicScene();
-        World.Map.AoWHSMap.Current.DrawStaticScene(ref MapSD);
-        World.Map.AoWHSMap.Current.DrawDynamicScene(ref MapSD);
+        AoWHSMap.Current.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
+        AoWHSMap.Current.UpdateStaticScene();
+        AoWHSMap.Current.UpdateDynamicScene();
+        AoWHSMap.Current.DrawStaticScene(ref MapSD);
+        AoWHSMap.Current.DrawDynamicScene(ref MapSD);
     }
 
     // AoWArenaDlg.pas:224
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (World.Map.AoWHSMap.Current.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // AoWArenaDlg.pas:229

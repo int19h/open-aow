@@ -1,6 +1,10 @@
+using Aow.Engine;
+using Aow.Game;
+using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Grids;
 using Aow.Game.World.Map;
 
@@ -19,14 +23,14 @@ public sealed class UiConstructionFailureTests
     [InlineData(5)]
     public void PlainComponentsPublishCompletedState(int family)
     {
-        var engine = EngineFixture.Engine;
+        GameEngine engine = EngineFixture.Engine;
         var previousLoaded = engine.FOnHSMLoadedStore;
         var previousClose = engine.FOnHSMCloseStore;
         engine.FOnHSMLoadedStore = new EventStore<HSMap>();
         engine.FOnHSMCloseStore = new EventStore<HSMap>();
-        Game.Magic.Abilities.GameTables.AoWEngine = engine;
+        GameTables.AoWEngine = engine;
         AoWHSMap.Current = null!;
-        Game.Combat.AoWCombatMap.Current = null!;
+        AoWCombatMap.Current = null!;
         var owner = new Component(null!);
         try
         {

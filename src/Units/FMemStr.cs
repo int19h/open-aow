@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine.Storage;
+namespace Aow.Engine.Storage;
 
 // { The game's FMemStr unit (Enginep.dpl), written for Delphi 3.02 and compared with the original code
 //   by tools/match.py. TFastMemoryStream is Delphi 3's TMemoryStream with a direct Position field, a

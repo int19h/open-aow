@@ -1,4 +1,5 @@
 // Translated from FleeLoc.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
@@ -87,7 +88,7 @@ namespace Aow.Game.World
         public override bool CanSelect(int Xhp, int Yhp) => true;
 
         // FleeLoc.pas:79
-        public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+        public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
         // FleeLoc.pas:87
         public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;

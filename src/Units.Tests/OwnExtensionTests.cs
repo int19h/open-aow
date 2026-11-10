@@ -175,10 +175,10 @@ public sealed class OwnExtensionWriteTests
 
     private static string Save(string name) => Path.Combine(EngineFixture.Root, "Save", name);
 
-    private void Run(Action<AoWEngine, AoWHSMap> action)
+    private void Run(Action<Game.GameEngine, AoWHSMap> action)
     {
         Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
-        var engine = EngineFixture.Engine;
+        Game.GameEngine engine = EngineFixture.Engine;
         var map = new AoWHSMap(null!);
         var previousMap = engine.FHSMap;
         var previousLog = FileBoundary.Log;

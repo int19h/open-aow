@@ -1,8 +1,10 @@
 #nullable enable
+using System.Buffers.Binary;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Rtl;
 using Aow.Rtl.Host;
@@ -36,7 +38,7 @@ public static class FileBoundary
         {
             bytes = ReadAll(files, fileName);
         }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
             var report = new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, "The file cannot be read: " + e.Message) { File = fileName } };
             Record(files, fileName, report);
@@ -85,7 +87,7 @@ public static class FileBoundary
         {
             Replace(files, fileName, result.Bytes);
         }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
             result.Report.Error = new FormatDiagnostic(Codes.Output, "The file cannot be written: " + e.Message) { File = fileName };
             Record(files, fileName, result.Report);
@@ -111,7 +113,7 @@ public static class FileBoundary
             while (total < count && (read = stream.Read(head, total, count - total)) > 0) total += read;
             head = head[..total];
         }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
             return [];
         }
@@ -139,7 +141,7 @@ public static class FileBoundary
     /// no stored CRC, and is logged.
     /// </summary>
     public static int ImageCrc32(string fileName, GameProfile profile) =>
-        Load(fileName, profile, "crc") is { } image ? Engine.Nodes.EngineServices.GetCRC32(image, image.Length) : 0;
+        Load(fileName, profile, "crc") is { } image ? EngineServices.GetCRC32(image, image.Length) : 0;
 
     /// <summary>
     /// The four bytes at the end of the engine image, the stored CRC of a scenario set that
@@ -149,7 +151,7 @@ public static class FileBoundary
     {
         // A scenario set image passed its preflight, so it holds its header and trailing CRC.
         var image = Load(fileName, profile, "crc") ?? throw new GameFileErrorException(LastFailure!);
-        return System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(image.Length - 4));
+        return BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(image.Length - 4));
     }
 
     /// <summary>
@@ -293,7 +295,7 @@ public static class FileBoundary
         {
             return files.Layer(fileName);
         }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
             return "unresolved";
         }
@@ -356,7 +358,7 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
 }
 
 /// <summary>A refused open or write at the file boundary. It carries the shared diagnostic.</summary>
-public sealed class GameFileErrorException(FileLogRecord record) : System.Exception(record.ToString())
+public sealed class GameFileErrorException(FileLogRecord record) : Exception(record.ToString())
 {
     public FileLogRecord Record { get; } = record;
 }

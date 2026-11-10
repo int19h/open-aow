@@ -1,7 +1,8 @@
 // Translated from LeadrGrd.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
 using Aow.Game.Draw.Images;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
@@ -36,7 +37,7 @@ public partial class LeaderGrid : CustomImageDrawGrid
         DefaultColWidth = 155;
         DefaultRowHeight = 56;
         GrowDirection = ILGrowDirection.Vertical;
-        ScrollBars = Aow.Rtl.CustomGrid.ScrollStyle.Vertical;
+        ScrollBars = CustomGrid.ScrollStyle.Vertical;
         FStream = new MemoryStream();
     }
 

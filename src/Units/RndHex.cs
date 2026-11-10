@@ -1,7 +1,9 @@
 // Translated from RndHex.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Hexes;
+using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Hexes;
 
@@ -33,7 +35,7 @@ public partial class RndHexagonResource : HexagonResource
         {
             Lhx = Msg.Data[1];
             Radius = Msg.Param[1].Int;
-            Map.HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
+            HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
             var terrain = FTerrainList.GetTerrain(0);
             FEngine.HSMap.ChangeTerrain(null, Xhx, Yhx, Lhx, Radius, terrain);
             Msg.MsgID = 0;

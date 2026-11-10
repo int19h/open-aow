@@ -3,9 +3,15 @@ using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Aow.Engine;
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Engine;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Rtl.Localize;
+using Xunit.Sdk;
 
 namespace Aow.Units.Tests;
 
@@ -37,11 +43,11 @@ public sealed class EngineStartupTests
             using var fixture = new EngineFixture.RecordingHost(route);
             Runtime.InstallHost(fixture);
             var events = fixture.Events;
-            Engine? value = null;
-            System.Exception? caught = null;
+            GameEngine? value = null;
+            Exception? caught = null;
             void Thrown(object? sender, FirstChanceExceptionEventArgs args)
             {
-                if (args.Exception is Xunit.Sdk.XunitException) return;
+                if (args.Exception is XunitException) return;
                 string[] destroy = new StackTrace(args.Exception).GetFrames()
                     .Where(x => x.GetMethod()?.Name == "Dispose")
                     .Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray();
@@ -54,13 +60,13 @@ public sealed class EngineStartupTests
                 {
                     value = route switch
                     {
-                        "Engine" => new Engine(null!),
-                        "HS" => HSEngine.Create(null!),
-                        _ => AoWEngine.Create(null!)
+                        "Engine" => new GameEngine(null!),
+                        "HS" => GameEngine.Create(null!),
+                        _ => GameEngine.Create(null!)
                     };
                 }
-                catch (System.Exception error) { caught = error; }
-                var engine = value ?? Game.Magic.Abilities.GameTables.AoWEngine;
+                catch (Exception error) { caught = error; }
+                GameEngine engine = value ?? GameTables.AoWEngine;
                 Assert.NotNull(engine);
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
                 var result = new JsonObject
@@ -74,17 +80,17 @@ public sealed class EngineStartupTests
                 };
                 if (route == "AoW")
                 {
-                    Assert.True(Game.Magic.Abilities.GameTables.ValidateAoWEngine());
-                    Assert.Same(value, Game.Magic.Abilities.GameTables.AoWEngine);
+                    Assert.True(GameTables.ValidateAoWEngine());
+                    Assert.Same(value, GameTables.AoWEngine);
                     result["ValidateAgain"] = true;
-                    result["FinalSnapshot"] = Snapshot((AoWEngine)value!, fixture);
+                    result["FinalSnapshot"] = Snapshot((GameEngine)value!, fixture);
                     result["MovePointTables"] = MovePoints();
                 }
                 else if (caught is not null)
                 {
                     Assert.Null(value);
-                    Assert.Same(engine, Game.Magic.Abilities.GameTables.AoWEngine);
-                    Assert.True(Game.Magic.Abilities.GameTables.ValidateAoWEngine());
+                    Assert.Same(engine, GameTables.AoWEngine);
+                    Assert.True(GameTables.ValidateAoWEngine());
                     result["ValidateAfterFailure"] = true;
                 }
                 if (value is not null)
@@ -92,7 +98,7 @@ public sealed class EngineStartupTests
                     events.Add(fixture.Event("Destroy.begin", value.GetType().Name));
                     value.Dispose();
                     events.Add(fixture.Event("Destroy.end", value.GetType().Name));
-                    Assert.Equal(-1, Game.Engine.Nodes.EngineHost.Engines.IndexOf(value));
+                    Assert.Equal(-1, EngineHost.Engines.IndexOf(value));
                 }
                 result["StateAfterDestruction"] = fixture.State();
                 // Failed early destructors leave partial objects. Free their independent resources
@@ -132,10 +138,10 @@ public sealed class EngineStartupTests
                 object buckets = value.GetType().GetField("FLists", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
                 object Bucket(int i) => buckets switch
                 {
-                    Game.Engine.Buffers.FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
-                    Game.Engine.Buffers.FixedArray_Aow_Units_Engine_TStringHashList_256 a => a[i],
-                    Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 a => a[i],
-                    Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
+                    FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
+                    FixedArray_Aow_Units_Engine_TStringHashList_256 a => a[i],
+                    FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 a => a[i],
+                    FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
                     _ => throw new InvalidOperationException("Unknown hash bucket layout")
                 };
                 var lists = new HashSet<object>(ReferenceEqualityComparer.Instance);
@@ -160,7 +166,7 @@ public sealed class EngineStartupTests
         return result;
     }
 
-    private static JsonObject Snapshot(AoWEngine engine, EngineFixture.RecordingHost fixture) => new()
+    private static JsonObject Snapshot(GameEngine engine, EngineFixture.RecordingHost fixture) => new()
     {
         ["Version"] = engine.FVersion,
         ["User"] = engine.FUser.Mask,
@@ -186,12 +192,11 @@ public sealed class EngineStartupTests
             for (int t = 0; t < 16; t++)
             {
                 var overlay = new JsonObject();
-                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)Game.Magic.Abilities.MovementTables.MovePointTables[mask][t][o + 1];
+                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)MovementTables.MovePointTables[mask][t][o + 1];
                 terrain[$"Terrain[{t}]"] = overlay;
             }
             result[$"Mask[{mask}]"] = terrain;
         }
         return result;
     }
-
 }

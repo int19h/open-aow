@@ -1,3 +1,4 @@
+using Aow.Engine.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
@@ -35,7 +36,7 @@ namespace Aow.Game.Units
     {
         internal Hero Hero;
 
-        public override Engine.Engine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
+        public override GameEngine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
         public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
     }
 
@@ -43,7 +44,7 @@ namespace Aow.Game.Units
     {
         internal Hero Hero;
 
-        public override Engine.Engine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
+        public override GameEngine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
         public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
     }
 }

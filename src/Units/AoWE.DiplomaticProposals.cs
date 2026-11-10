@@ -1,8 +1,10 @@
+using Aow.Engine.Collections;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -155,10 +157,10 @@ namespace Aow.Game.Session
         // Modifier, scaled by how Race regards the race of Other, or Modifier itself for Other's own race.
         protected static int RaceModifier(sbyte Other, sbyte Race, int Modifier)
         {
-            if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Other).FPlayerRace != Race)
+            if (AoWHSMap.Current.FPlayers.GetPlayers(Other).FPlayerRace != Race)
             {
-                var players = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Other);
-                return Round((double)((World.Map.AoWHSMap.Current.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * Modifier) * 0.01);
+                var players = AoWHSMap.Current.FPlayers.GetPlayers(Other);
+                return Round((double)((AoWHSMap.Current.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * Modifier) * 0.01);
             }
 
             return Modifier;
@@ -166,12 +168,12 @@ namespace Aow.Game.Session
 
         // The relation of First to Second.
         protected static DiplomaticRelation Relation(sbyte First, sbyte Second) =>
-            World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation((sbyte)(byte)First, (sbyte)(byte)Second);
+            AoWHSMap.Current.FPlayers.GetDiplomaticRelation((sbyte)(byte)First, (sbyte)(byte)Second);
 
         // Shows Log at once when Player is seated.
         protected static void ShowTo(EventLog Log, sbyte Player)
         {
-            if (Player == World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (Player == AoWHSMap.Current.FSeatedPlayer)
             {
                 Log.Execute(false, ExecuteTrigger.Event, null);
             }
@@ -189,24 +191,24 @@ namespace Aow.Game.Session
         // Delivers the proposal to the target's logbook (Diplomacy.pas:992, the arm of the kinds that wait for an answer).
         protected static void Deliver(DiplomaticAction Action)
         {
-            World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).PlayerSeen((sbyte)(byte)Action.FSource);
-            if (Action.FSource == World.Map.AoWHSMap.Current.FSeatedPlayer)
+            AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).PlayerSeen((sbyte)(byte)Action.FSource);
+            if (Action.FSource == AoWHSMap.Current.FSeatedPlayer)
             {
                 var p5MessageSent = AbilityRules.TranslateRStr(P5MessageSentRStr);
-                World.Map.AoWHSMap.Current.ShowMessage(p5MessageSent);
+                AoWHSMap.Current.ShowMessage(p5MessageSent);
             }
 
             var Log = Action.CreateEventLog();
-            World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.AddEvent(Log);
+            AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.AddEvent(Log);
             ShowTo(Log, Action.FTarget);
             Log.Release();
-            World.Map.AoWHSMap.Current.FDiplomaticRelationsChangedEventsStore.Raise(Action);
+            AoWHSMap.Current.FDiplomaticRelationsChangedEventsStore.Raise(Action);
         }
 
         // Drops the target's logbook entry of the answered proposal.
         protected static void RemoveTargetLog(DiplomaticAction Action)
         {
-            var Log = (DiplomaticActionEventLog)World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.FindID(Action.FEventLogID);
+            var Log = (DiplomaticActionEventLog)AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.FindID(Action.FEventLogID);
             if (Log != null)
             {
                 Log.SetOwner(null);
@@ -216,9 +218,9 @@ namespace Aow.Game.Session
         // Moves the target's logbook entry, now holding the answer, to the source and shows it there.
         protected static void ReturnToSource(DiplomaticAction Action)
         {
-            var Log = (DiplomaticActionEventLog)World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.FindID(Action.FEventLogID);
+            var Log = (DiplomaticActionEventLog)AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.FindID(Action.FEventLogID);
             Log.SetDiplomaticAction(Action);
-            World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).FEventLogbook.AddEvent(Log);
+            AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).FEventLogbook.AddEvent(Log);
             ShowTo(Log, Action.FSource);
         }
 
@@ -243,10 +245,10 @@ namespace Aow.Game.Session
         private static void BroadcastDiplomaticEvent(DiplomaticActionEventLog Log, sbyte Exclude)
         {
             int i = 0;
-            for (int num = World.Map.AoWHSMap.Current.FPlayers.Count - 1; i <= num; i++)
+            for (int num = AoWHSMap.Current.FPlayers.Count - 1; i <= num; i++)
             {
-                Player players = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(i);
-                if (players.FStatus == Player.Status.Playing && i != Exclude && (i == Log.FAction.FSource || i == Log.FAction.FTarget || (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)Log.FAction.FSource) != -1 && World.Map.AoWHSMap.Current.FPlayers.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)Log.FAction.FTarget) != -1)))
+                Player players = AoWHSMap.Current.FPlayers.GetPlayers(i);
+                if (players.FStatus == Player.Status.Playing && i != Exclude && (i == Log.FAction.FSource || i == Log.FAction.FTarget || (AoWHSMap.Current.FPlayers.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)Log.FAction.FSource) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)Log.FAction.FTarget) != -1)))
                 {
                     EventLog tEventLog = (EventLog)Log.Copy(GameTables.AoWEngine);
                     players.FEventLogbook.AddEvent(tEventLog);
@@ -293,12 +295,12 @@ namespace Aow.Game.Session
         public override void Sent(DiplomaticAction Action)
         {
             Action.ApplyRelationModifiers();
-            World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).PlayerSeen((sbyte)(byte)Action.FSource);
-            World.Map.AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.War);
-            if (Action.FSource == World.Map.AoWHSMap.Current.FSeatedPlayer)
+            AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).PlayerSeen((sbyte)(byte)Action.FSource);
+            AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.War);
+            if (Action.FSource == AoWHSMap.Current.FSeatedPlayer)
             {
                 var p5WarDeclared = AbilityRules.TranslateRStr(P5WarDeclaredRStr);
-                World.Map.AoWHSMap.Current.ShowMessage(p5WarDeclared);
+                AoWHSMap.Current.ShowMessage(p5WarDeclared);
             }
 
             Broadcast(Action, -1, Action.FTarget);
@@ -315,7 +317,7 @@ namespace Aow.Game.Session
                 return RaceModifier(Action.FTarget, Race, Modifier);
             }
 
-            if (Player == Action.FTarget && Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.War && World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).FPlayerRace == Race)
+            if (Player == Action.FTarget && Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.War && AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).FPlayerRace == Race)
             {
                 return -20;
             }
@@ -340,7 +342,7 @@ namespace Aow.Game.Session
         public override string LogText(DiplomaticAction Action)
         {
             var subject = AbilityRules.TranslateRStr(P5PeaceOfferRStr);
-            var accepted = Action.FSource == World.Map.AoWHSMap.Current.FSeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateRStr(GameTables.P5PeaceRStr);
+            var accepted = Action.FSource == AoWHSMap.Current.FSeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateRStr(GameTables.P5PeaceRStr);
             return Outcome(Action, subject, subject, accepted, "");
         }
 
@@ -356,7 +358,7 @@ namespace Aow.Game.Session
 
         public override void Accepted(DiplomaticAction Action)
         {
-            World.Map.AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Peace);
+            AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Peace);
             Broadcast(Action, -1, Action.FSource);
             RemoveTargetLog(Action);
         }
@@ -369,10 +371,10 @@ namespace Aow.Game.Session
             string ErrorText = "";
             sbyte Source = Action.FSource;
             sbyte Target = Action.FTarget;
-            var Last = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Target).FDiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.None, Target, Source, -1);
-            if (IdealPeace.IndexOf((byte)Source) != -1 || (Last != null && World.Map.AoWHSMap.Current.FDay - Last.FDay <= 1))
+            var Last = AoWHSMap.Current.FPlayers.GetPlayers(Target).FDiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.None, Target, Source, -1);
+            if (IdealPeace.IndexOf((byte)Source) != -1 || (Last != null && AoWHSMap.Current.FDay - Last.FDay <= 1))
             {
-                if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Target).FAIControl.CanOfferPeace((byte)Source))
+                if (AoWHSMap.Current.FPlayers.GetPlayers(Target).FAIControl.CanOfferPeace((byte)Source))
                 {
                     Action.Accept(ref ErrorText);
                 }
@@ -383,15 +385,15 @@ namespace Aow.Game.Session
             }
             else
             {
-                if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Target).FAIControl.CanOfferPeace((byte)Source))
+                if (AoWHSMap.Current.FPlayers.GetPlayers(Target).FAIControl.CanOfferPeace((byte)Source))
                 {
-                    if (World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Source, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance)) + 1 < World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Source, Set<DiplomaticRelation>.Of(DiplomaticRelation.War)))
+                    if (AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Source, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance)) + 1 < AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Source, Set<DiplomaticRelation>.Of(DiplomaticRelation.War)))
                     {
-                        Last = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Target).FDiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.Reject, Source, Target, -1);
-                        if (Last == null || World.Map.AoWHSMap.Current.FDay - Last.FDay > 8)
+                        Last = AoWHSMap.Current.FPlayers.GetPlayers(Target).FDiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.Reject, Source, Target, -1);
+                        if (Last == null || AoWHSMap.Current.FDay - Last.FDay > 8)
                         {
                             // { Original bug: escrow gold is counted twice. }
-                            if (World.Map.AoWHSMap.Current.Random(3) == 1 && World.Map.AoWHSMap.Current.Random(250) + 100 < Action.FEscrowGold + Action.FEscrowGold)
+                            if (AoWHSMap.Current.Random(3) == 1 && AoWHSMap.Current.Random(250) + 100 < Action.FEscrowGold + Action.FEscrowGold)
                             {
                                 Action.Accept(ref ErrorText);
                             }
@@ -423,7 +425,7 @@ namespace Aow.Game.Session
             var diplomaticRelation = Relation(Action.FSource, Action.FTarget);
             if (!Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.War).Contains(diplomaticRelation))
             {
-                var Last = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).CreateDiplomaticAction(new DeclareWar(), Action.FTarget, -1);
+                var Last = AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).CreateDiplomaticAction(new DeclareWar(), Action.FTarget, -1);
                 if (Last != null)
                 {
                     Last.Send(ref ErrorText);
@@ -468,7 +470,7 @@ namespace Aow.Game.Session
         public override string LogText(DiplomaticAction Action)
         {
             var subject = AbilityRules.TranslateRStr(P5AllianceProposalRStr);
-            var accepted = Action.FSource == World.Map.AoWHSMap.Current.FSeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateRStr(P5MadeAllianceRStr);
+            var accepted = Action.FSource == AoWHSMap.Current.FSeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateRStr(P5MadeAllianceRStr);
             return Outcome(Action, subject, subject, accepted, subject);
         }
 
@@ -484,7 +486,7 @@ namespace Aow.Game.Session
 
         public override void Accepted(DiplomaticAction Action)
         {
-            World.Map.AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Alliance);
+            AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Alliance);
             Broadcast(Action, -1, Action.FSource);
             RemoveTargetLog(Action);
         }
@@ -495,9 +497,9 @@ namespace Aow.Game.Session
         public override void AnswerAI(DiplomaticAction Action, sbyte Player, DiplomaticRelation Relation, ByteList IdealPeace, ByteList IdealWar)
         {
             string ErrorText = "";
-            if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FAIControl.CanProposeAlliance((byte)Action.FSource))
+            if (AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FAIControl.CanProposeAlliance((byte)Action.FSource))
             {
-                RandSeed = (int)(((uint)(World.Map.AoWHSMap.Current.FInitialRandomSeed + World.Map.AoWHSMap.Current.FDay + Action.FSource + Action.FTarget)) >> 2);
+                RandSeed = (int)(((uint)(AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + Action.FSource + Action.FTarget)) >> 2);
                 int Chance = (Action.FEscrowGold + Action.FEscrowMana) / 25 + 30;
                 if (Chance > 60)
                 {
@@ -544,7 +546,7 @@ namespace Aow.Game.Session
     }
 }
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Session
 {
 
     // Kind 3: the source writes to the target.
@@ -590,11 +592,11 @@ namespace Aow.Game.Session
         public override void Sent(DiplomaticAction Action)
         {
             Action.ApplyRelationModifiers();
-            World.Map.AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Peace);
-            if (Action.FSource == World.Map.AoWHSMap.Current.FSeatedPlayer)
+            AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Peace);
+            if (Action.FSource == AoWHSMap.Current.FSeatedPlayer)
             {
                 var p5AllianceBroken = AbilityRules.TranslateRStr(P5AllianceBrokenRStr);
-                World.Map.AoWHSMap.Current.ShowMessage(p5AllianceBroken);
+                AoWHSMap.Current.ShowMessage(p5AllianceBroken);
             }
 
             Broadcast(Action, -1, Action.FTarget);
@@ -662,18 +664,18 @@ namespace Aow.Game.Session
         // Moves every race's relation to source and target by the proposal's modifiers (Diplomacy.pas:826, 992).
         public void ApplyRelationModifiers()
         {
-            World.Map.AoWHSMap.Current.LockRelationsChanged();
-            for (int I = 0, last = World.Map.AoWHSMap.Current.FRaces.Count - 1; I <= last; I++)
+            AoWHSMap.Current.LockRelationsChanged();
+            for (int I = 0, last = AoWHSMap.Current.FRaces.Count - 1; I <= last; I++)
             {
-                var playerRelationValue = World.Map.AoWHSMap.Current.FRaces.GetRace(I).GetPlayerRelationValue(FSource);
+                var playerRelationValue = AoWHSMap.Current.FRaces.GetRace(I).GetPlayerRelationValue(FSource);
                 var relationModifier = GetRelationModifier(FSource, (sbyte)I);
-                World.Map.AoWHSMap.Current.FRaces.GetRace(I).SetPlayerRelationValue(FSource, relationModifier + playerRelationValue);
-                var playerRelationValue2 = World.Map.AoWHSMap.Current.FRaces.GetRace(I).GetPlayerRelationValue(FTarget);
+                AoWHSMap.Current.FRaces.GetRace(I).SetPlayerRelationValue(FSource, relationModifier + playerRelationValue);
+                var playerRelationValue2 = AoWHSMap.Current.FRaces.GetRace(I).GetPlayerRelationValue(FTarget);
                 var relationModifier2 = GetRelationModifier(FTarget, (sbyte)I);
-                World.Map.AoWHSMap.Current.FRaces.GetRace(I).SetPlayerRelationValue(FTarget, relationModifier2 + playerRelationValue2);
+                AoWHSMap.Current.FRaces.GetRace(I).SetPlayerRelationValue(FTarget, relationModifier2 + playerRelationValue2);
             }
 
-            World.Map.AoWHSMap.Current.UnlockRelationsChanged();
+            AoWHSMap.Current.UnlockRelationsChanged();
         }
     }
 }

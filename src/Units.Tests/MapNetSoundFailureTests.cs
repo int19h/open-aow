@@ -1,4 +1,7 @@
+using Aow.Engine;
+using Aow.Engine.Nodes;
 using Aow.Game.Audio;
+using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Map;
@@ -106,7 +109,7 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void PlainWorldAndCombatLevelsKeepTheRegisteredTypeAndOwner()
     {
-        foreach (var descriptor in new[] { EClass.Of<AoWMapLevel>(), EClass.Of<Game.Combat.AoWCombatMapLevel>() })
+        foreach (var descriptor in new[] { EClass.Of<AoWMapLevel>(), EClass.Of<AoWCombatMapLevel>() })
         {
             var owner = new SoundOwner();
             var level = Assert.IsAssignableFrom<MapLevel>(descriptor.Create(owner));

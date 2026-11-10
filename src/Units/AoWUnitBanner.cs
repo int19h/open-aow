@@ -2,6 +2,7 @@
 using Aow.Game.Combat;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -61,7 +62,7 @@ public partial class UnitBanner : DataModule
             for (int I = 0, last = DialogHosts.General.FAbilities.Count - 1; I <= last; I++)
             {
                 A = (CombatAbilityRef)DialogHosts.General.FAbilities[I];
-                var name2 = Engine.AoWHSSet.Current.FAbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.FSelectedUnit);
+                var name2 = AoWHSSet.Current.FAbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.FSelectedUnit);
                 AbLB.Items.Add(name2);
             }
 
@@ -107,7 +108,7 @@ public partial class UnitBanner : DataModule
             if (AbLB.Selected > -1 && AbLB.Selected < DialogHosts.General.FActiveAbilityCount)
             {
                 var ability = DialogHosts.General.FAbilities[AbLB.Selected];
-                Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.FSelectedUnit, ref Reason);
+                AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.FSelectedUnit, ref Reason);
                 BannerPopup.Visible = false;
             }
             else

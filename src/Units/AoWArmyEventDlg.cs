@@ -1,13 +1,16 @@
 // Translated from AoWArmyEventDlg.pas.
+using Aow.Engine.Collections;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Events;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWArmyEventDlg.pas.
 using Aow.Rtl.Localize;
@@ -222,7 +225,7 @@ public partial class ArmyEventDlg : DataModule
         Dialog.FUnits.Clear();
         for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
         {
-            if (!Army.GetUnitConcealedForPlayer(I, World.Map.AoWHSMap.Current.FSeatedPlayer) || Log.FDamageValues[I] != 0)
+            if (!Army.GetUnitConcealedForPlayer(I, AoWHSMap.Current.FSeatedPlayer) || Log.FDamageValues[I] != 0)
             {
                 Dialog.FUnits.Add((byte)I);
                 Image = Log.FArmyView.GetUnit(I).GetUnitGFXResourceIndex();

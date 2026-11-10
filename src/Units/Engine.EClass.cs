@@ -1,7 +1,8 @@
+using Aow.Engine.Nodes;
 using Aow.Game.Engine.Nodes;
 using Aow.Rtl;
 
-namespace Aow.Game.Engine;
+namespace Aow.Engine;
 
 // The engine's class descriptor: one per TEObject descendant, registered in inheritance order by
 // ClassRegistry from a module initializer. It carries the saved class id, the native instance size,
@@ -10,6 +11,7 @@ namespace Aow.Game.Engine;
 public sealed class EClass
 {
     private static readonly Catalog<Type, EClass> catalog = new("engine class");
+    private static readonly List<EClass> aliases = [];
     private Func<ECustomNode, EObject> create;
 
     private EClass(Type type, int classId, EClass parent, Func<ECustomNode, EObject> create, int instanceSize)
@@ -42,8 +44,11 @@ public sealed class EClass
     public bool InheritsFrom(Type type) => type.IsAssignableFrom(Type);
     public override string ToString() => ClassName;
 
-    // Every registered descriptor in registration order.
+    // Every registered descriptor in registration order. Aliases are the folded engine ids.
     public static IReadOnlyList<EClass> All => catalog.All;
+
+    // Class ids 17 and 65537 construct GameEngine. The type catalog keeps id 131073.
+    internal static IReadOnlyList<EClass> Aliases => aliases;
 
     public static EClass Of<T>() where T : EObject => Of(typeof(T));
 
@@ -57,5 +62,19 @@ public sealed class EClass
         ArgumentOutOfRangeException.ThrowIfNegative(instanceSize);
         var parent = type == typeof(EObject) ? null : Of(type.BaseType);
         return catalog.Add(type, new EClass(type, classId, parent, create, instanceSize));
+    }
+
+    // A second class id for a type that the catalog already names. The folded engine keeps
+    // 131073 on the type and records 17 and 65537 here. Each alias still constructs that type.
+    internal static EClass Alias<T>(int classId, Func<ECustomNode, T> create, int instanceSize)
+        where T : EObject
+    {
+        var type = typeof(T);
+        ArgumentNullException.ThrowIfNull(create);
+        ArgumentOutOfRangeException.ThrowIfNegative(instanceSize);
+        var parent = type == typeof(EObject) ? null : Of(type.BaseType);
+        var alias = new EClass(type, classId, parent, create, instanceSize);
+        aliases.Add(alias);
+        return alias;
     }
 }

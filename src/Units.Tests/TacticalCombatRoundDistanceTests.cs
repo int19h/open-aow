@@ -10,9 +10,9 @@ namespace Aow.Units.Tests;
 [EngineState]
 public sealed class TacticalCombatRoundDistanceTests
 {
-    private static TacticalCombat Build(byte round, byte sideIndex)
+    private static TacticalBattle Build(byte round, byte sideIndex)
     {
-        var combat = new TacticalCombat(null!);
+        var combat = new TacticalBattle(null!);
         _ = new CombatPlayer(combat.FCombatData.FPlayers) { FSideIndex = sideIndex };
         combat.FCombatData.FRound = round;
         combat.FCombatData.FCurrentPlayer = 0;
@@ -25,7 +25,7 @@ public sealed class TacticalCombatRoundDistanceTests
     [InlineData(1, 0, 1)]
     public void ATacticalCombatAnswersTheRoundDistance(byte round, byte sideIndex, int distance)
     {
-        Combat combat = Build(round, sideIndex);
+        Battle combat = Build(round, sideIndex);
         Assert.Equal(distance, combat.GetRoundDistance());
     }
 

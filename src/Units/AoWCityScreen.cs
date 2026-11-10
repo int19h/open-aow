@@ -1,4 +1,7 @@
 // Translated from AoWCityScreen.pas.
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
@@ -10,6 +13,7 @@ using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
 using Aow.Game.World;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWCityScreen.pas.
@@ -359,22 +363,22 @@ public partial class CityScreen : DataModule
         switch (FMigrationSort)
         {
             case 0:
-                Engine.Nodes.StringSorting.SortStringsNumericalAscending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
+                StringSorting.SortStringsNumericalAscending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
                 break;
             case 1:
-                Engine.Nodes.StringSorting.SortStringsNumericalDescending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
+                StringSorting.SortStringsNumericalDescending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
                 break;
             case 2:
-                Engine.Nodes.StringSorting.SortStringsAscending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
+                StringSorting.SortStringsAscending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
                 break;
             case 3:
-                Engine.Nodes.StringSorting.SortStringsDescending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
+                StringSorting.SortStringsDescending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
                 break;
             case 4:
-                Engine.Nodes.StringSorting.SortStringsAscending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
+                StringSorting.SortStringsAscending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
                 break;
             case 5:
-                Engine.Nodes.StringSorting.SortStringsDescending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
+                StringSorting.SortStringsDescending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
                 break;
         }
     }
@@ -444,7 +448,7 @@ public partial class CityScreen : DataModule
             if (P.FResearched)
             {
                 SelectAction(CityAction.Produce);
-                World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(58, true, true);
+                AoWHSMap.Current.FTutorialControl.ShowMessage(58, true, true);
             }
             else
             {
@@ -647,7 +651,7 @@ public partial class CityScreen : DataModule
                 if (GameTables.AoWEngine.FDebug)
                 {
                     var unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(U.FUnitResource.UnitResourceIndex(), FCity.FPlayer, 0);
-                    World.Map.AoWHSMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
+                    AoWHSMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
                 }
 
                 UAbilitiesLB.Items.Clear();
@@ -736,7 +740,7 @@ public partial class CityScreen : DataModule
         FMigrations = FCity.CreateMigrationSelection();
         var raceNamesPluralText = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FCity.FRace]);
         CurrentRace.Text = raceNamesPluralText;
-        var playerRelation = World.Map.AoWHSMap.Current.FRaces.GetRace(FCity.FRace).GetPlayerRelation(FCity.FPlayer);
+        var playerRelation = AoWHSMap.Current.FRaces.GetRace(FCity.FRace).GetPlayerRelation(FCity.FPlayer);
         var statusText = AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation]);
         CurrentRelation.Text = statusText;
         MigrationRaceLB.Items.Clear();
@@ -855,7 +859,7 @@ public partial class CityScreen : DataModule
     {
         if (Dlg.Visible && Sender == FCity)
         {
-            if (FCity.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (FCity.FPlayer == AoWHSMap.Current.FSeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -896,7 +900,7 @@ public partial class CityScreen : DataModule
             var armyYhx = Army.GetYhx();
             var xhx = Army.GetXhx();
             var fCityYhx = FCity.GetYhx();
-            Direction = World.Map.HexGeometry.dHXtoHN(FCity.GetXhx(), fCityYhx, xhx, armyYhx);
+            Direction = HexGeometry.dHXtoHN(FCity.GetXhx(), fCityYhx, xhx, armyYhx);
             for (int J = 0, lastJ = Army.FArmy.GetCount() - 1; J <= lastJ; J++)
             {
                 var unit = Army.FArmy.GetUnit(J);
@@ -909,7 +913,7 @@ public partial class CityScreen : DataModule
         if (FPreview.FCenterViewLocation != null)
         {
             var mapObjectYhx = mapObject.GetYhx();
-            World.Map.HexGeometry.HXtoHP(mapObject.GetXhx(), mapObjectYhx, ref FViewX, ref FViewY);
+            HexGeometry.HXtoHP(mapObject.GetXhx(), mapObjectYhx, ref FViewX, ref FViewY);
             FViewX = FViewX + 16 - MapView.WinWidth / 2;
             FViewY = FViewY + 16 - MapView.WinHeight / 2;
         }
@@ -919,7 +923,7 @@ public partial class CityScreen : DataModule
             FViewY = 800;
         }
 
-        World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(56, true, true);
+        AoWHSMap.Current.FTutorialControl.ShowMessage(56, true, true);
         DialogHosts.General.Manager.OverlayPriority = 49;
         Dlg.Visible = true;
     }
@@ -1006,7 +1010,7 @@ public partial class CityScreen : DataModule
             case 0:
                 SetMode(1);
                 SelectDefaultAction();
-                World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(57, true, true);
+                AoWHSMap.Current.FTutorialControl.ShowMessage(57, true, true);
                 break;
             case 1:
                 switch (FAction)
@@ -1019,7 +1023,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1031,19 +1035,19 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
                     case CityAction.Raze:
-                        if (FCity.CanRaze(World.Map.AoWHSMap.Current.FSeatedPlayer, ref Reason))
+                        if (FCity.CanRaze(AoWHSMap.Current.FSeatedPlayer, ref Reason))
                         {
-                            FCity.Raze(World.Map.AoWHSMap.Current.FSeatedPlayer);
+                            FCity.Raze(AoWHSMap.Current.FSeatedPlayer);
                             Dlg.Visible = false;
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1055,7 +1059,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1067,20 +1071,20 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
                     case CityAction.Produce:
                         if (FCity.CanProduce(FProductionIndex, false, ref Reason))
                         {
-                            World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(59, true, true);
+                            AoWHSMap.Current.FTutorialControl.ShowMessage(59, true, true);
                             FCity.Produce(FProductionIndex, false);
                             SetMode(0);
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1092,7 +1096,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1100,7 +1104,7 @@ public partial class CityScreen : DataModule
                         Race = ((MigrationItem)MigrationRaceLB.Items.Objects[MigrationRaceLB.Selected]).FRace;
                         if (FCity.CanMigrate(Race, ref Reason))
                         {
-                            World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(66, true, true);
+                            AoWHSMap.Current.FTutorialControl.ShowMessage(66, true, true);
                             FCity.Migrate(Race);
                             SetMode(0);
                         }
@@ -1135,7 +1139,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1146,7 +1150,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1157,7 +1161,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1168,7 +1172,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1179,7 +1183,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -1195,7 +1199,7 @@ public partial class CityScreen : DataModule
                     }
                     else
                     {
-                        World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                        AoWHSMap.Current.ShowWarning(Reason);
                     }
                 }
 
@@ -1216,7 +1220,7 @@ public partial class CityScreen : DataModule
             SetMode(0);
         }
 
-        World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(60, true, true);
+        AoWHSMap.Current.FTutorialControl.ShowMessage(60, true, true);
     }
 
     // AoWCityScreen.pas:472
@@ -1541,7 +1545,7 @@ public partial class CityScreen : DataModule
             Preview.NewFrame();
         }
 
-        MapView.FDrawn = MapView.FDrawn && (World.Map.AoWHSMap.Current.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // AoWCityScreen.pas:688
@@ -1572,17 +1576,17 @@ public partial class CityScreen : DataModule
         int Start;
         int Index;
         PlayerStructure S;
-        Start = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FCity);
+        Start = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FCity);
         Index = Start;
         Index -= 1;
         if (Index < 0)
         {
-            Index = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
+            Index = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
         }
 
         while (Index != Start)
         {
-            S = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
+            S = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
             if (S is City)
             {
                 Index = Start + 1;
@@ -1592,7 +1596,7 @@ public partial class CityScreen : DataModule
             Index += -1;
             if (Index < 0)
             {
-                Index = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
+                Index = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
             }
         }
     }
@@ -1603,16 +1607,16 @@ public partial class CityScreen : DataModule
         int Start;
         int Index;
         PlayerStructure S;
-        Start = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FCity);
+        Start = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FCity);
         Index = Start + 1;
-        if (Index >= World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
+        if (Index >= AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
         {
             Index = 0;
         }
 
         while (Index != Start)
         {
-            S = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
+            S = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
             if (S is City)
             {
                 Index = Start - 1;
@@ -1620,7 +1624,7 @@ public partial class CityScreen : DataModule
             }
 
             Index += 1;
-            if (Index >= World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
+            if (Index >= AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
             {
                 Index = 0;
             }
@@ -1638,5 +1642,5 @@ public partial class CityScreen : DataModule
     internal static readonly string StatusRStr = "Status";
     private static readonly string XRelationMinusYRStr = "%s Relation %d";
     private static readonly string XRelationPlusYRStr = "%s Relation +%d";
-    internal static Engine.Buffers.FixedArray_string_7 TCivilStatusRStr = Engine.Buffers.FixedArray_string_7.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful", "Oppressed", "Slavery"]);
+    internal static FixedArray_string_7 TCivilStatusRStr = FixedArray_string_7.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful", "Oppressed", "Slavery"]);
 }

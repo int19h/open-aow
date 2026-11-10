@@ -2,7 +2,7 @@
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Engine.Collections;
+namespace Aow.Engine.Collections;
 
 // no fields. TObjectList.LoadFromStream constructs items with their ordinary constructor. The
 // stream methods are empty here and overridden by the items

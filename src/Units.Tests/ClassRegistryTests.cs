@@ -1,12 +1,23 @@
+using System.Reflection;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Formats;
+using Aow.Formats.Schema;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
+using Aow.Game.Audio;
+using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Events;
+using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
+using Aow.Game.Units;
 using Aow.Game.World;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
 namespace Aow.Units.Tests;
@@ -25,7 +36,7 @@ public sealed class ClassRegistryTests
         {
             var descriptor = EClass.Of(type);
             Assert.Equal(type, descriptor.Type);
-            Assert.Equal((int)type.GetField("ClassID", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassID);
+            Assert.Equal((int)type.GetField("ClassID", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassID);
             Assert.Equal(type == typeof(EObject) ? null : type.BaseType, descriptor.Parent?.Type);
         }
         CheckFamily(typeof(IAIPlayerActionClass), types, AIPlayerActionClass.All.Select(c => c.Class.Type));
@@ -42,8 +53,8 @@ public sealed class ClassRegistryTests
     [Fact]
     public void EverySchemaClassRequiringAUnitMappingHasItsLine()
     {
-        var schema = Aow.Formats.GameFiles.Schema;
-        Assert.Equal(Aow.Formats.Schema.FormatVersions.UnitMappings.Order(StringComparer.Ordinal), FormatMapping.All.Keys.Order(StringComparer.Ordinal));
+        var schema = GameFiles.Schema;
+        Assert.Equal(FormatVersions.UnitMappings.Order(StringComparer.Ordinal), FormatMapping.All.Keys.Order(StringComparer.Ordinal));
         foreach (var (name, rules) in FormatMapping.All)
         {
             var cls = schema.Find(name);
@@ -52,7 +63,7 @@ public sealed class ClassRegistryTests
             foreach (var member in rules.SelectMany(r => r.Members))
                 Assert.True(member == "Children" ? cls.KeepsChildren : cls.PropertyByName(member) is not null, $"{name} has no member {member}.");
         }
-        foreach (var name in Aow.Formats.Schema.FormatVersions.FlatMappings)
+        foreach (var name in FormatVersions.FlatMappings)
         {
             Assert.NotNull(schema.Find(name));
             Assert.False(FormatMapping.All.ContainsKey(name), name + " keeps its flat mapping in version 1.");
@@ -61,9 +72,9 @@ public sealed class ClassRegistryTests
         // kind family's FromFields and ToFields.
         foreach (var cls in schema.Classes.Where(c => c.Mapping is not null))
         {
-            Assert.Contains(cls.Name, Aow.Formats.Schema.FormatVersions.UnitMappings);
+            Assert.Contains(cls.Name, FormatVersions.UnitMappings);
             Assert.Contains(FormatMapping.All[cls.Name], r => r is KindCases);
-            Assert.Same(FormatMapping.All[cls.Name].OfType<KindCases>().Single(), Aow.Formats.CaseMappings.Find(cls.Name));
+            Assert.Same(FormatMapping.All[cls.Name].OfType<KindCases>().Single(), CaseMappings.Find(cls.Name));
         }
     }
 
@@ -72,7 +83,7 @@ public sealed class ClassRegistryTests
     [Fact]
     public void CaseTablesMatchTheRegisteredKinds()
     {
-        var schema = Aow.Formats.GameFiles.Schema;
+        var schema = GameFiles.Schema;
         var production = schema.Get("ProductionItem").Mapping!;
         Assert.Equal(Enumerable.Range(0, 256).Where(ProductionOrder.IsRegistered).Select(k => (long)k), production.Cases.Select(c => c.Key!.Value));
         foreach (var c in production.Cases)
@@ -127,13 +138,13 @@ public sealed class ClassRegistryTests
     private static readonly Dictionary<Type, Type> IncompleteCleanup = new()
     {
         [typeof(AIGroupControl)] = typeof(NullReferenceException),
-        [typeof(Game.Units.Army)] = typeof(NullReferenceException),
-        [typeof(Game.Events.ArmyEventLog)] = typeof(NullReferenceException),
+        [typeof(Army)] = typeof(NullReferenceException),
+        [typeof(ArmyEventLog)] = typeof(NullReferenceException),
         [typeof(ArmyHS)] = typeof(NullReferenceException),
-        [typeof(Game.Events.ArmyInfoEventLog)] = typeof(NullReferenceException),
-        [typeof(Game.Units.ArmyView)] = typeof(NullReferenceException),
-        [typeof(Game.Combat.CombatParty)] = typeof(NullReferenceException),
-        [typeof(Game.Combat.FastCombatParty)] = typeof(NullReferenceException),
+        [typeof(ArmyInfoEventLog)] = typeof(NullReferenceException),
+        [typeof(ArmyView)] = typeof(NullReferenceException),
+        [typeof(CombatParty)] = typeof(NullReferenceException),
+        [typeof(FastCombatParty)] = typeof(NullReferenceException),
         [typeof(HuntAGC)] = typeof(NullReferenceException),
         [typeof(WorldFXHS)] = typeof(NullReferenceException),
         [typeof(CCorpseHS)] = typeof(NullReferenceException),
@@ -149,12 +160,12 @@ public sealed class ClassRegistryTests
         [typeof(SkirmishAGC)] = typeof(NullReferenceException),
         [typeof(Crypt)] = typeof(NullReferenceException),
         [typeof(Dungeon)] = typeof(NullReferenceException),
-        [typeof(Game.Units.PrisonersArmy)] = typeof(NullReferenceException),
+        [typeof(PrisonersArmy)] = typeof(NullReferenceException),
         [typeof(ECustomNode)] = typeof(AbstractErrorException),
         [typeof(DefendersArmy)] = typeof(NullReferenceException),
         [typeof(ExplorationSite)] = typeof(NullReferenceException),
         [typeof(WatcherHS)] = typeof(NullReferenceException),
-        [typeof(Game.World.Map.MapFieldTandO)] = typeof(AbstractErrorException),
+        [typeof(MapFieldTandO)] = typeof(AbstractErrorException),
         [typeof(LibraryHS)] = typeof(NullReferenceException),
         [typeof(GuardAGC)] = typeof(NullReferenceException),
         [typeof(GuardAreaAGC)] = typeof(NullReferenceException),
@@ -169,10 +180,10 @@ public sealed class ClassRegistryTests
         [typeof(SuicidalAGC)] = typeof(NullReferenceException),
         [typeof(TransportAGC)] = typeof(NullReferenceException),
         [typeof(Monsterlair)] = typeof(NullReferenceException),
-        [typeof(Game.Net.ENodeView)] = typeof(AbstractErrorException),
+        [typeof(ENodeView)] = typeof(AbstractErrorException),
         [typeof(Pyramid)] = typeof(NullReferenceException),
         [typeof(Ruin)] = typeof(NullReferenceException),
-        [typeof(Game.Audio.ENodeAccess)] = typeof(AbstractErrorException),
+        [typeof(ENodeAccess)] = typeof(AbstractErrorException),
     };
 
     private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered) =>

@@ -1,11 +1,12 @@
 using Aow.Game.Commands;
 using Aow.Game.Engine;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 #nullable enable
 
-namespace Aow.Game.Engine
+namespace Aow.Game.Host
 {
 
     public static class HeadlessHooks

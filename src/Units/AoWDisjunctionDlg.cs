@@ -1,4 +1,5 @@
 // Translated from AoWDisjunctionDlg.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Spells;
@@ -99,16 +100,16 @@ public partial class DisjunctionDlg : DataModule
         switch (FSortOrder)
         {
             case 0:
-                Engine.Nodes.StringSorting.SortStringsAscending(EnchantmentList.Items, [OwnerList.Items]);
+                StringSorting.SortStringsAscending(EnchantmentList.Items, [OwnerList.Items]);
                 break;
             case 1:
-                Engine.Nodes.StringSorting.SortStringsDescending(EnchantmentList.Items, [OwnerList.Items]);
+                StringSorting.SortStringsDescending(EnchantmentList.Items, [OwnerList.Items]);
                 break;
             case 2:
-                Engine.Nodes.StringSorting.SortStringsAscending(OwnerList.Items, [EnchantmentList.Items]);
+                StringSorting.SortStringsAscending(OwnerList.Items, [EnchantmentList.Items]);
                 break;
             case 3:
-                Engine.Nodes.StringSorting.SortStringsDescending(OwnerList.Items, [EnchantmentList.Items]);
+                StringSorting.SortStringsDescending(OwnerList.Items, [EnchantmentList.Items]);
                 break;
         }
     }
@@ -125,9 +126,9 @@ public partial class DisjunctionDlg : DataModule
             DisjunctionMana.TextColor = 255;
         }
 
-        var spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(51);
+        var spell = AoWHSSet.Current.FSpellControl.GetSpell(51);
         var mana = FCaster.GetMana();
-        var fSpellControlSpell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(51);
+        var fSpellControlSpell = AoWHSSet.Current.FSpellControl.GetSpell(51);
         var fCasterMana = FCaster.GetMana();
         DisjunctionMana.Text = IntToStr(spell.FBaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.FBaseManaCost + fCasterMana);
         DisjunctionChance.Text = IntToStr(FCaster.FDispelChance) + "%";

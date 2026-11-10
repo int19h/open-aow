@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
+using Aow.Engine;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -34,7 +40,7 @@ public sealed class RemainingConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly GameEngine previousEngine = GameTables.AoWEngine;
         private readonly AoWHSMap previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
@@ -43,7 +49,7 @@ public sealed class RemainingConstructionTests
         {
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
             AoWHSSet.Current = set;
-            Game.Magic.Abilities.GameTables.AoWEngine = null!;
+            GameTables.AoWEngine = null!;
             AoWHSMap.Current = null!;
             AoWHSSet.Current.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
@@ -52,7 +58,7 @@ public sealed class RemainingConstructionTests
         public void Dispose()
         {
             AoWHSSet.Current = previousSet;
-            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            GameTables.AoWEngine = previousEngine;
             AoWHSMap.Current = previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
@@ -65,7 +71,7 @@ public sealed class RemainingConstructionTests
         object? State(object? item, string path)
         {
             if (item is null) return null;
-            if (item is AoWEngine) return "$engine";
+            if (item is GameEngine) return "$engine";
             Type type = item.GetType();
             if (item is string text) return text;
             if (type.IsEnum) return Convert.ToInt64(item);
@@ -96,7 +102,7 @@ public sealed class RemainingConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Game.Engine.Collections.ListObject",
+        "Aow.Engine.Collections.ListObject",
         "Aow.Game.Ai.Groups.AIGroupRazeControl",
         "Aow.Game.Ai.Groups.AIGroupDefendTargetSelector",
         "Aow.Game.Ai.Groups.AIGroupWanderControl",
@@ -121,7 +127,7 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Combat.TacticalCombatUnit",
         "Aow.Game.Combat.TacticalCombatPlayer",
         "Aow.Game.Combat.TacticalCombatPlayerList",
-        "Aow.Game.Combat.TacticalCombat",
+        "Aow.Game.Combat.TacticalBattle",
         "Aow.Game.Combat.RndTacHsm",
         "Aow.Game.Ui.Dialogs.WMCampaignScenarioPage",
         "Aow.Game.Ui.Dialogs.WMCampaignScenarioPageList",
@@ -155,10 +161,10 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Events.EventLogList",
         "Aow.Game.Events.EventLogbook",
         "Aow.Game.World.Structures.DefendersArmy",
-        "Aow.Game.Engine.Hash.IntegerHashList",
-        "Aow.Game.Engine.Hash.IntegerHashTable256",
-        "Aow.Game.Engine.Hash.StringHashList",
-        "Aow.Game.Engine.Hash.StringHashTable256",
+        "Aow.Engine.Hash.IntegerHashList",
+        "Aow.Engine.Hash.IntegerHashTable256",
+        "Aow.Engine.Hash.StringHashList",
+        "Aow.Engine.Hash.StringHashTable256",
         "Aow.Game.Ai.Groups.GuardAG",
         "Aow.Game.Ai.Groups.GuardAGC",
         "Aow.Game.Ai.Groups.GuardAreaAG",
@@ -205,7 +211,7 @@ public sealed class RemainingConstructionTests
         try { return action(); }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
-            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw();
+            ExceptionDispatchInfo.Capture(error.InnerException).Throw();
             throw;
         }
     }
@@ -216,11 +222,11 @@ public sealed class RemainingConstructionTests
         if (route == 2)
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
-            using var engine = new Engine(null!);
+            using GameEngine engine = new GameEngine(null!);
             var meta = EClass.Of(type);
-            engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
-            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+            catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
             return engine.CreateEObject(meta.ClassID, owner);
         }
@@ -230,7 +236,7 @@ public sealed class RemainingConstructionTests
             return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
-        Type[] signature = typeof(EObject).IsAssignableFrom(type) ? [typeof(ECustomNode)] : [];
+        Type[] signature = typeof(EObject).IsAssignableFrom(type) ? [typeof(global::Aow.Engine.Nodes.ECustomNode)] : [];
         var constructor = type.GetConstructor(signature);
         if (factory is not null) return (object)Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
         if (constructor is not null) return (object)Invoke(() => constructor.Invoke(signature.Length == 0 ? [] : [owner]))!;
@@ -263,11 +269,11 @@ public sealed class RemainingConstructionTests
                     if (engineObject) Assert.Same(owner, ((EObject)value).Owner);
                     state = "success:" + Snapshot(value);
                 }
-                catch (System.Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
+                catch (Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
                 finally
                 {
                     try { (value as IDisposable)?.Dispose(); }
-                    catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                    catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
                 }
                 states.Add(state);
                 states.Add("owner:" + (owner?.Members.Count ?? 0));

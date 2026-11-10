@@ -1,11 +1,16 @@
 // Translated from EventLog.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Formats.Tree;
+using Aow.Game.Audio;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -26,9 +31,9 @@ public partial class EventLog : EObject
         FRefCount = 1;
     }
 
-    public int FDay = World.Map.AoWHSMap.Current is { } map ? map.FDay : 0;
+    public int FDay = AoWHSMap.Current is { } map ? map.FDay : 0;
     public int FID;
-    public sbyte FPlayer = World.Map.AoWHSMap.Current is { } map ? map.FCurrentPlayer : (sbyte)0;
+    public sbyte FPlayer = AoWHSMap.Current is { } map ? map.FCurrentPlayer : (sbyte)0;
     public int FRefCount;
 
     // EventLog.pas:334
@@ -93,20 +98,20 @@ public partial class EventLog : EObject
         bool condition = FPlayer > 0;
         if (condition)
         {
-            var count = World.Map.AoWHSMap.Current.FPlayers.GetCount();
+            var count = AoWHSMap.Current.FPlayers.GetCount();
             condition = FPlayer < count;
         }
 
         if (condition)
         {
-            Index = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+            Index = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
         }
         else
         {
             Index = 12;
         }
 
-        return Magic.Abilities.AbilityRules.RaceColors[Index];
+        return AbilityRules.RaceColors[Index];
     }
 
     // EventLog.pas:386
@@ -116,13 +121,13 @@ public partial class EventLog : EObject
         bool condition = FPlayer > 0;
         if (condition)
         {
-            var count = World.Map.AoWHSMap.Current.FPlayers.GetCount();
+            var count = AoWHSMap.Current.FPlayers.GetCount();
             condition = FPlayer < count;
         }
 
         if (condition)
         {
-            Result = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+            Result = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
         }
         else
         {
@@ -152,13 +157,13 @@ public partial class EventLog : EObject
     // EventLog.pas:444
     public virtual void PlayLoggedSFX(EventLogbook Logbook)
     {
-        Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
+        AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
     }
 
     // EventLog.pas:449
     public virtual void NotifyLogged(EventLogbook Logbook)
     {
-        if (World.Map.AoWHSMap.Current.FSeatedPlayer == Logbook.FPlayer && World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None)
+        if (AoWHSMap.Current.FSeatedPlayer == Logbook.FPlayer && AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None)
         {
             PlayLoggedSFX(Logbook);
         }
@@ -168,16 +173,16 @@ public partial class EventLog : EObject
     public virtual bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
     {
         bool Result = default;
-        if (Trigger == ExecuteTrigger.User || ((Trigger == ExecuteTrigger.Event || (Trigger == ExecuteTrigger.NewTurn && World.Map.AoWHSMap.Current.FRequestCombatType)) && World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer))
+        if (Trigger == ExecuteTrigger.User || ((Trigger == ExecuteTrigger.Event || (Trigger == ExecuteTrigger.NewTurn && AoWHSMap.Current.FRequestCombatType)) && AoWHSMap.Current.FSeatedPlayer == FPlayer))
         {
-            World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
+            AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
             Result = true;
         }
         else
         {
             if (Trigger == ExecuteTrigger.Event)
             {
-                Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
+                AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
             }
 
             Result = false;
@@ -195,30 +200,30 @@ public partial class EventLog : EObject
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            World.Map.AoWHSMap.Current.CenterViewTo(X, Y, L);
-            World.Map.AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
+            AoWHSMap.Current.CenterViewTo(X, Y, L);
+            AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
         }
     }
 
     // EventLog.pas:419
     public void CenterViewTo(sbyte X, sbyte Y, sbyte L)
     {
-        World.Map.AoWHSMap.Current.CenterViewTo(X, Y, L);
-        World.Map.AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
+        AoWHSMap.Current.CenterViewTo(X, Y, L);
+        AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
     }
 
     internal static void DistributeEventLog(EventLog Log, bool Execute)
     {
         Player Player;
         EventLog CopyLog;
-        for (int I = 0, last = World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
         {
-            Player = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
+            Player = AoWHSMap.Current.FPlayers.GetPlayers(I);
             if (Player.FStatus == Session.Player.Status.Playing)
             {
-                CopyLog = (EventLog)Log.Copy(Magic.Abilities.GameTables.AoWEngine);
+                CopyLog = (EventLog)Log.Copy(GameTables.AoWEngine);
                 Player.FEventLogbook.AddEvent(CopyLog);
-                if (I == World.Map.AoWHSMap.Current.FSeatedPlayer && Execute)
+                if (I == AoWHSMap.Current.FSeatedPlayer && Execute)
                 {
                     CopyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
@@ -232,14 +237,14 @@ public partial class EventLog : EObject
     {
         Player TargetPlayer;
         EventLog CopyLog;
-        for (int I = 0, last = World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
         {
-            TargetPlayer = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
-            if (TargetPlayer.FStatus == Session.Player.Status.Playing && (I == Player || !World.Map.AoWHSMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
+            TargetPlayer = AoWHSMap.Current.FPlayers.GetPlayers(I);
+            if (TargetPlayer.FStatus == Session.Player.Status.Playing && (I == Player || !AoWHSMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
             {
-                CopyLog = (EventLog)Log.Copy(Magic.Abilities.GameTables.AoWEngine);
+                CopyLog = (EventLog)Log.Copy(GameTables.AoWEngine);
                 TargetPlayer.FEventLogbook.AddEvent(CopyLog);
-                if (I == World.Map.AoWHSMap.Current.FSeatedPlayer && World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human && Execute)
+                if (I == AoWHSMap.Current.FSeatedPlayer && AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human && Execute)
                 {
                     CopyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
@@ -341,7 +346,7 @@ public partial class MessageEventLog : EventLog
     public MessageEventLog(ECustomNode owner) : base(owner)
     {
         FMessage = new StringList();
-        FTitle = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.MessageRStr);
+        FTitle = AbilityRules.TranslateRStr(GameText.MessageRStr);
         FButtons = Buttons.Ok;
         FPressedButton = PressedEventLogButton.None;
         FLayout = Layout.Normal;
@@ -427,7 +432,7 @@ public partial class HelpMessageEventLog : EventLog
     public HelpMessageEventLog(ECustomNode owner) : base(owner)
     {
         FMessage = new StringList();
-        FHelpFileName = Magic.Abilities.AbilityRules.TranslateRStr(HelpRStr);
+        FHelpFileName = AbilityRules.TranslateRStr(HelpRStr);
         FMode = 0;
     }
 
@@ -756,7 +761,7 @@ public partial class EventLogbook : EObject
     // EventLog.pas:600
     public void AddEvent(EventLog Event)
     {
-        Assert(World.Map.AoWHSMap.Current.GetSynchronised(), "", "EventLog.pas", 704);
+        Assert(AoWHSMap.Current.GetSynchronised(), "", "EventLog.pas", 704);
         Event.SetOwner(FEvents);
         Event.FID = CreateUniqueID();
         Event.NotifyLogged(this);
@@ -857,15 +862,15 @@ public partial class GameOverEventLog : EventLog
     public override string GetText()
     {
         string Result = "";
-        switch (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGameOverStatus)
+        switch (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGameOverStatus)
         {
             case GameOverStatus.Lost:
-                var name = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
-                Result = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(GameOverDefeatEventLogRStr), [name]);
+                var name = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
+                Result = RtlUnit.Format(AbilityRules.TranslateRStr(GameOverDefeatEventLogRStr), [name]);
                 break;
             case GameOverStatus.Won:
-                var name2 = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
-                Result = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(GameOverVictoryEventLogRStr), [name2]);
+                var name2 = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
+                Result = RtlUnit.Format(AbilityRules.TranslateRStr(GameOverVictoryEventLogRStr), [name2]);
                 break;
         }
 
@@ -879,9 +884,9 @@ public partial class GameOverEventLog : EventLog
         switch (Trigger)
         {
             case ExecuteTrigger.User:
-                if (World.Map.AoWHSMap.Current.FSeatedPlayer != FPlayer)
+                if (AoWHSMap.Current.FSeatedPlayer != FPlayer)
                 {
-                    World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
+                    AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
                     Result = true;
                 }
                 else
@@ -891,11 +896,11 @@ public partial class GameOverEventLog : EventLog
 
                 break;
             case ExecuteTrigger.Event:
-                World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
+                AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
                 Result = true;
                 break;
             case ExecuteTrigger.NewTurn:
-                World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
+                AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
                 Result = true;
                 break;
             default:
@@ -909,7 +914,7 @@ public partial class GameOverEventLog : EventLog
     // EventLog.pas:791
     public void Handled()
     {
-        World.Map.AoWHSMap.Current.GameOverEventHandled(FPlayer);
+        AoWHSMap.Current.GameOverEventHandled(FPlayer);
     }
 
     private static readonly string GameOverDefeatEventLogRStr = "%s is defeated!";
@@ -932,7 +937,7 @@ public partial class NewDayEventLog : TextEventLog
     // EventLog.pas:815
     public override void PlayLoggedSFX(EventLogbook Logbook)
     {
-        if (World.Map.AoWHSMap.Current.FDay > 1)
+        if (AoWHSMap.Current.FDay > 1)
         {
             base.PlayLoggedSFX(Logbook);
         }
@@ -959,7 +964,7 @@ public partial class TutorialMessageEventLog : HelpMessageEventLog
     // EventLog.pas:871
     public TutorialMessageEventLog(ECustomNode owner) : base(owner)
     {
-        FHelpFileName = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TutorialRStr);
+        FHelpFileName = AbilityRules.TranslateRStr(GameText.TutorialRStr);
     }
 
 }
@@ -970,7 +975,7 @@ public partial class SaveGameEventLog : EventLog
     // EventLog.pas:874
     public SaveGameEventLog(ECustomNode owner) : base(owner)
     {
-        FTitle = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.SaveRStr);
+        FTitle = AbilityRules.TranslateRStr(GameText.SaveRStr);
         FMode = Set<SaveGameEventLogModeElement>.Of();
     }
 
@@ -989,8 +994,8 @@ public partial class PasswordEventLog : EventLog
     public PasswordEventLog(ECustomNode owner) : base(owner)
     {
         FPassword = "";
-        FPrompt = Magic.Abilities.AbilityRules.TranslateRStr(EnterPasswordRStr);
-        FTitle = Magic.Abilities.AbilityRules.TranslateRStr(PasswordVerificationRStr);
+        FPrompt = AbilityRules.TranslateRStr(EnterPasswordRStr);
+        FTitle = AbilityRules.TranslateRStr(PasswordVerificationRStr);
         FPressedButton = PressedEventLogButton.None;
     }
 

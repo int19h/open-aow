@@ -1,9 +1,16 @@
 using System.Diagnostics;
+using System.Globalization;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
+using Aow.Formats;
+using Aow.Game;
+using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
@@ -17,7 +24,7 @@ internal static class Program
 {
     private static int Main(string[] args)
     {
-        Aow.Rtl.Host.ProcessSafety.Initialize();
+        ProcessSafety.Initialize();
         if (GateSwitches.CultureError("Headless") is { } culture)
         {
             Console.Error.WriteLine(culture);
@@ -59,8 +66,8 @@ internal static class Program
                     case "--seed":
                         string seedText = Value();
                         long seedValue = seedText.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
-                            ? long.Parse(seedText.AsSpan(2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture)
-                            : long.Parse(seedText, System.Globalization.CultureInfo.InvariantCulture);
+                            ? long.Parse(seedText.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)
+                            : long.Parse(seedText, CultureInfo.InvariantCulture);
                         if (seedValue < int.MinValue || seedValue > uint.MaxValue) throw new ArgumentOutOfRangeException("seed");
                         seed = unchecked((int)seedValue);
                         break;
@@ -101,7 +108,7 @@ internal static class Program
             if (fileLogPath is not null)
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
-                var log = fileLog = new StreamWriter(fileLogPath, false, new System.Text.UTF8Encoding(false)) { NewLine = "\n" };
+                var log = fileLog = new StreamWriter(fileLogPath, false, new UTF8Encoding(false)) { NewLine = "\n" };
                 FileBoundary.Log = record => { log.WriteLine(record.ToJson()); log.Flush(); };
             }
             if (randomTracePath is not null)
@@ -115,11 +122,11 @@ internal static class Program
                 if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
             }
             Startup.InitializeAll();
-            Game.Audio.NullSoundSystem.Install();
-            CombatClasses.Register(Game.Magic.Abilities.GameTables.AoWEngine);
+            NullSoundSystem.Install();
+            CombatClasses.Register(GameTables.AoWEngine);
             gameplay = true;
-            Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
-            if (Game.Magic.Abilities.GameTables.AoWEngine.HSMap is not AoWHSMap map)
+            GameTables.AoWEngine.LoadHSM(input, false, null!, GameProfile.WorldMap);
+            if (GameTables.AoWEngine.HSMap is not AoWHSMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             map.SetViewPort(map.ViewXhp, map.ViewYhp, map.ViewL, 0, 0);
             Shim.RandSeed = seed;
@@ -196,7 +203,7 @@ internal static class Program
             complete = ended || saves.Count >= turns + 1;
             Console.WriteLine($"complete: {complete}, day {day}, turns {day - firstDay}, frames {frames}, TODOs reached {todos.Count}, dialogs {host.DialogCount}, game ended {ended}");
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             error = e.ToString();
             Console.Error.WriteLine(error);

@@ -1,9 +1,11 @@
 // Translated from FlagEvents.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -206,7 +208,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 132461;
 
             // FlagEvents.pas:223
-            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(FlagMessageEventRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(FlagMessageEventRStr);
 
             private static readonly string FlagMessageEventRStr = "Flag Message Event";
 
@@ -273,7 +275,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 132459;
 
             // FlagEvents.pas:274
-            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(TutorialMessageEventRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(TutorialMessageEventRStr);
 
             private static readonly string TutorialMessageEventRStr = "Tutorial Message Event";
 

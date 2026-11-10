@@ -7,6 +7,8 @@ using Aow.Game.World.Map;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using static Aow.Rtl.RtlUnit;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Host;
 namespace Aow.Game.World.Hexes;
 
 public partial class AoWWaterHexagon
@@ -26,7 +28,7 @@ public partial class AoWWaterHexagon
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         // { Original uses the shared engine settings and the Flood enchantment. }
-        if (Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0 && (((((AoWMapField)Owner).FFieldFlags >> 16) & 255) != 0 || !((AbstractAoWHSMap)((MapLevel)Owner.Owner).Map).FFogEnabled))
+        if (GameTables.AoWEngine.FAnimationDetail != 0 && (((((AoWMapField)Owner).FFieldFlags >> 16) & 255) != 0 || !((AbstractAoWHSMap)((MapLevel)Owner.Owner).Map).FFogEnabled))
         {
             FAnimationFrame = (sbyte)(FAnimationFrame + 1);
             if (FAnimationFrame >= 0)
@@ -87,7 +89,7 @@ public partial class AoWWaterHexagon
 
                 if (!Showing)
                 {
-                    if (Magic.Abilities.GameTables.AoWEngine.FAnimationDetail == 1)
+                    if (GameTables.AoWEngine.FAnimationDetail == 1)
                     {
                         FAnimationFrame = (sbyte)(-20 - Random(25));
                     }

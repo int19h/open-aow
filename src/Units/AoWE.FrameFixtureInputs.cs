@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using Aow.Rtl;
 
-namespace Aow.Game.Engine;
+namespace Aow.Game.Host;
 
 /// <summary>
 /// Explicit capture inputs. Address reads the identity hash unless a unit test pins one value.

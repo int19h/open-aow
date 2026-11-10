@@ -1,6 +1,9 @@
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
@@ -19,8 +22,8 @@ public sealed class UnitSelectionDrawTests
     public void UnitSlotsDrawThroughTheirOwnComponentType()
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        var previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
-        Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+        GameEngine previousEngine = GameTables.AoWEngine;
+        GameTables.AoWEngine = EngineFixture.Engine;
         var dialog = new UnitSelectionDlg(null!);
         try
         {
@@ -35,7 +38,7 @@ public sealed class UnitSelectionDrawTests
         {
             dialog.FEvent = null!;
             dialog.Dispose();
-            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            GameTables.AoWEngine = previousEngine;
         }
     }
 }

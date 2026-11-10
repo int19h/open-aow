@@ -1,6 +1,9 @@
 // Translated from AoWWorldMap.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
@@ -9,23 +12,20 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
 using Aow.Game.World;
@@ -431,7 +431,7 @@ namespace Aow.Game.Ui.Dialogs
                     case 4:
                         var campaign27 = GetCampaign();
                         var campaignScenario11 = WMCampaign.GetCampaignScenario(GetCampaign(), campaign27.FNextScenarioID);
-                        Preview = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName), Aow.Formats.GameProfile.WorldMap);
+                        Preview = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName), GameProfile.WorldMap);
                         if (Preview != null)
                         {
                             Index = Preview.FPlayers.IndexOfPlayerType(PlayerType.Human);
@@ -1118,7 +1118,7 @@ namespace Aow.Game.Ui.Dialogs
             switch (FBookAction)
             {
                 case 3:
-                    BookWin.StartAnim((Grids.PageTurnMode)1);
+                    BookWin.StartAnim((PageTurnMode)1);
                     var campaign = GetCampaign();
                     campaign.FPage -= 2;
                     UpdateCampaignState();
@@ -1264,7 +1264,7 @@ namespace Aow.Game.Ui.Dialogs
 
         private static readonly string AssignXNewSpheresRStr = "Assign %s new spheres!";
 
-        private static void RegisterWorldMapCampaign(Engine.Engine AEngine)
+        private static void RegisterWorldMapCampaign(GameEngine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<WMCampaignScenarioPage>(), EClass.Of<WMCampaignScenario>(), EClass.Of<WMCampaign>()]);
         }

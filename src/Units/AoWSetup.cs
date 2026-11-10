@@ -1,12 +1,15 @@
 // Translated from AoWSetup.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Saves;
@@ -688,7 +691,7 @@ public partial class SetupControl : Component
                 FileName = FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FSettings.FMapName);
                 if (FileExists(FileName))
                 {
-                    if (FileBoundary.ImageCrc32(FileName, Aow.Formats.GameProfile.WorldMap) == FSettings.FMapCRC)
+                    if (FileBoundary.ImageCrc32(FileName, GameProfile.WorldMap) == FSettings.FMapCRC)
                     {
                         Validation = MapValidationInfo.Valid;
                     }
@@ -896,7 +899,7 @@ public partial class SetupControl : Component
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads, for an own document as for an original (own-formats.md 4.1).
-            Stream = Engine.Engine.ImageStream(FileBoundary.LoadOrRaise(GameTables.AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
+            Stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(GameTables.AoWEngine.StartupDirectory + FSettings.FMapName, GameProfile.WorldMap));
             if (FOnSendMap != null)
             {
                 var size = (int)Stream.Length;
@@ -1928,7 +1931,7 @@ public partial class SetupControl : Component
         bool FirstHuman = default;
         PlayerSetupSettings Settings = default;
         AoWHSMap Preview;
-        Preview = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
+        Preview = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + FileName, GameProfile.WorldMap);
         if (GetHost() && Preview != null && (!GameTables.AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != PlayerConnectionType.Email)
         {
             GameTables.AoWEngine.InitializeHSSet(GameTables.AoWEngine.StartupDirectory + Preview.HSSFileName, null);
@@ -1938,7 +1941,7 @@ public partial class SetupControl : Component
             FSettings.FMapDay = Preview.FDay;
             FSettings.FFileName = Preview.FMapName;
             // The map CRC is taken over the engine image, so an own copy and its original agree (own-formats.md 4.1).
-            var fileCRC = FileBoundary.ImageCrc32(GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
+            var fileCRC = FileBoundary.ImageCrc32(GameTables.AoWEngine.StartupDirectory + FileName, GameProfile.WorldMap);
             FSettings.FMapCRC = fileCRC;
             FSettings.FSetCRC = AoWHSSet.Current.FHSSCRC;
             FSettings.FRandomSeed = RandSeed;

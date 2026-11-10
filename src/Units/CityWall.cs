@@ -1,10 +1,14 @@
 // Translated from CityWall.pas.
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World.Map;
@@ -367,7 +371,7 @@ public partial class CityWall : CombatILTerrain
                 AoWCombatMap.Current.FCombat.FCombatData.FWallBreached = true;
                 if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
                 {
-                    Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
+                    AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
                 Effect = AoWCombatMap.Current.AddEffect(TfxType.WallSmoke);
@@ -381,7 +385,7 @@ public partial class CityWall : CombatILTerrain
             {
                 if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
                 {
-                    Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
+                    AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
             }
         }
@@ -478,7 +482,7 @@ public partial class CityWall : CombatILTerrain
         }
     }
 
-    private static Engine.Buffers.FixedArray_int_2 WallISIndex = Engine.Buffers.FixedArray_int_2.From([30, 0]);
+    private static FixedArray_int_2 WallISIndex = FixedArray_int_2.From([30, 0]);
 
     public new partial class Resource : CombatILTerrainResource
     {

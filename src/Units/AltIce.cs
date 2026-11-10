@@ -1,7 +1,8 @@
-// Translated from AltIce.pas.
-using Aow.Game.Draw.Animation;
+using Aow.Engine.Nodes;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
@@ -34,7 +35,7 @@ public partial class AltarOfIce : Altar
         // AltIce.pas:26
 
         // AltIce.pas:49
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AltarOfIceRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(AltarOfIceRStr);
 
         private static readonly string AltarOfIceRStr = "Altar of Ice";
 

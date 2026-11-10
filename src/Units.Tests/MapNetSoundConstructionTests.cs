@@ -1,3 +1,6 @@
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Audio;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
@@ -44,7 +47,7 @@ public sealed class MapNetSoundConstructionTests
     public void DirectMetaAndSavedIdKeepExactTypeOwnerAndState(Type type, bool owned)
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        var engine = new Engine(null!);
+        GameEngine engine = new GameEngine(null!);
         var owner = new MapOwner();
         ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : owner : null!;
         var meta = EClass.Of(type);
@@ -329,9 +332,9 @@ public sealed class MapNetSoundConstructionTests
     {
         internal bool Observed;
 
-        public override void Notification(Component child, Aow.Rtl.Component.Operation operation)
+        public override void Notification(Component child, Component.Operation operation)
         {
-            if (operation == Aow.Rtl.Component.Operation.Insert && child is UnitSfxManager manager)
+            if (operation == Component.Operation.Insert && child is UnitSfxManager manager)
             {
                 Assert.Null(manager.FSFX);
                 Observed = true;

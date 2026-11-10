@@ -1,9 +1,9 @@
 // Translated from MapCtrl.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;

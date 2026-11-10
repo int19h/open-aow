@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Game;
+using Aow.Game.Combat;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Ui.Controls;
 using Aow.Game.World.Map;
@@ -18,40 +24,40 @@ public sealed class UiConstructionTests
     {
         internal readonly List<string> Observations = [];
 
-        public override void Notification(Component child, Aow.Rtl.Component.Operation operation)
+        public override void Notification(Component child, Component.Operation operation)
         {
-            if (operation == Aow.Rtl.Component.Operation.Insert) Observations.Add(Snapshot(child));
+            if (operation == Component.Operation.Insert) Observations.Add(Snapshot(child));
             base.Notification(child, operation);
         }
     }
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWEngine previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly GameEngine previousEngine = GameTables.AoWEngine;
         private readonly AoWHSMap previousMap = AoWHSMap.Current;
-        private readonly Game.Combat.AoWCombatMap previousCombat = Game.Combat.AoWCombatMap.Current;
+        private readonly AoWCombatMap previousCombat = AoWCombatMap.Current;
         private readonly EventStore<HSMap> loaded;
         private readonly EventStore<HSMap> closed;
 
         internal Fixture()
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
-            Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
-            loaded = Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore;
-            closed = Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore;
-            Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = new EventStore<HSMap>();
-            Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = new EventStore<HSMap>();
+            GameTables.AoWEngine = EngineFixture.Engine;
+            loaded = GameTables.AoWEngine.FOnHSMLoadedStore;
+            closed = GameTables.AoWEngine.FOnHSMCloseStore;
+            GameTables.AoWEngine.FOnHSMLoadedStore = new EventStore<HSMap>();
+            GameTables.AoWEngine.FOnHSMCloseStore = new EventStore<HSMap>();
             AoWHSMap.Current = null!;
-            Game.Combat.AoWCombatMap.Current = null!;
+            AoWCombatMap.Current = null!;
         }
 
         public void Dispose()
         {
-            Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = loaded;
-            Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = closed;
-            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            GameTables.AoWEngine.FOnHSMLoadedStore = loaded;
+            GameTables.AoWEngine.FOnHSMCloseStore = closed;
+            GameTables.AoWEngine = previousEngine;
             AoWHSMap.Current = previousMap;
-            Game.Combat.AoWCombatMap.Current = previousCombat;
+            AoWCombatMap.Current = previousCombat;
         }
     }
 
@@ -203,7 +209,7 @@ public sealed class UiConstructionTests
         "Aow.Game.World.Map.HexagonSpriteEngine",
         "Aow.Game.Draw.HSLibrary",
         "Aow.Game.Ui.Grids.AoWMapControl",
-        "Aow.Game.Engine.PlugInManager",
+        "Aow.Engine.PlugInManager",
         "Aow.Game.Ui.Grids.Scanner",
         "Aow.Game.Ui.Windows.StartMenu",
         "Aow.Game.Ui.Dialogs.CombatChoice",
@@ -247,7 +253,7 @@ public sealed class UiConstructionTests
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
-            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw();
+            ExceptionDispatchInfo.Capture(error.InnerException).Throw();
             throw;
         }
     }
@@ -270,15 +276,15 @@ public sealed class UiConstructionTests
                 Assert.Same(owner, value.Owner);
                 states.Add("success:" + Snapshot(value));
             }
-            catch (System.Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
+            catch (Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
             finally
             {
                 try { value?.Dispose(); }
-                catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            states.Add("subscriptions:" + Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore.Count + ":" + Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore.Count);
+            states.Add("subscriptions:" + GameTables.AoWEngine.FOnHSMLoadedStore.Count + ":" + GameTables.AoWEngine.FOnHSMCloseStore.Count);
             string actual = string.Join("\n", states);
             string key = name + ".owner" + owned;
             ConstructionSnapshot.Check("UiConstruction", key, actual);

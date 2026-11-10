@@ -1,13 +1,16 @@
 // Translated from SmokeCloud.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -18,7 +21,7 @@ namespace Aow.Game.Magic.Spells
 {
 
     // FCloud
-    public partial class SmokeCloudEnchantment : Magic.GlobalEnchantment
+    public partial class SmokeCloudEnchantment : GlobalEnchantment
     {
         // SmokeCloud.pas:99
         public new const int ClassID = 135748;
@@ -413,7 +416,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 135746;
 
             // SmokeCloud.pas:388
-            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.SmokeCloudRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(GameText.SmokeCloudRStr);
 
         }
 

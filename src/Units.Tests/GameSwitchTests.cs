@@ -1,9 +1,10 @@
 using System.Text;
+using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Json;
+using Aow.Game;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Saves;
 using Aow.Game.World.Map;
 using Aow.Platform;
@@ -133,7 +134,7 @@ public sealed class GameSwitchTests
         string file = Path.Combine(directory, edit + ".asg");
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
-        var engine = EngineFixture.Engine;
+        GameEngine engine = EngineFixture.Engine;
         var live = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FDay = 7; value.FMapName = "live"; });
         var previous = engine.FHSMap;
         engine.FHSMap = live;

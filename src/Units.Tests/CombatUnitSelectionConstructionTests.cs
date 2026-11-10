@@ -1,8 +1,11 @@
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using Aow.Game.Combat;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
+using Aow.Game.World.Map;
+using Xunit.Sdk;
 
 namespace Aow.Units.Tests;
 
@@ -19,7 +22,7 @@ public sealed class CombatUnitSelectionConstructionTests
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
-            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw();
+            ExceptionDispatchInfo.Capture(error.InnerException).Throw();
             throw;
         }
     }
@@ -45,7 +48,7 @@ public sealed class CombatUnitSelectionConstructionTests
                 Assert.Same(entry.ImageLibrary, value.FTargetImages);
                 state = OrderingRecording.Snapshot(value);
             }
-            catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
+            catch (Exception error) when (error is not XunitException) { state = error.GetType().FullName + ":" + error.Message; }
             finally { AoWHSSet.Current = set; }
             Assert.Equal(fail == 0, value is not null);
             actual.Add("fail" + fail, JsonSerializer.Serialize(new { State = state, Before = before, After = entry.RefCount }));

@@ -1,13 +1,16 @@
 // Translated from Teleport.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
+using Aow.Game.Audio;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World;
@@ -66,7 +69,7 @@ public partial class Teleport : Structure
 
             if (notFogEnabled || AoWHSMap.Current.VisibleForPlayer(FDestinationX, FDestinationY, FDestinationL, AoWHSMap.Current.FSeatedPlayer))
             {
-                Audio.AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
+                AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
             }
 
             ShowTeleportAnimations();
@@ -128,7 +131,7 @@ public partial class Teleport : Structure
         bool Result;
         if (FDestinationX == 0 || FDestinationY == 0)
         {
-            Messages.Add(Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.WarningRStr) + ": " + Magic.Abilities.AbilityRules.TranslateRStr(InvalidLocationSpecifiedRStr));
+            Messages.Add(AbilityRules.TranslateRStr(GameText.WarningRStr) + ": " + AbilityRules.TranslateRStr(InvalidLocationSpecifiedRStr));
             Result = false;
         }
         else
@@ -256,8 +259,8 @@ public partial class Teleport : Structure
                 {
                     var player = Field.GetPlayer();
                     var playerPlayerRace = AoWHSMap.Current.FPlayers.GetPlayers(player);
-                    var raceNamesPlural = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-                    MessageText = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
+                    var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
+                    MessageText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
                     AoWHSMap.Current.ShowMessage(MessageText);
                     Result = false;
                 }
@@ -309,7 +312,7 @@ public partial class Teleport : Structure
         // Teleport.pas:45
 
         // Teleport.pas:302
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(TeleportRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(TeleportRStr);
 
         internal static readonly string TeleportRStr = "Teleport";
 

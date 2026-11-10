@@ -1,4 +1,8 @@
+using System.Reflection;
 using System.Text;
+using Aow.Engine;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
@@ -443,7 +447,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         Assert.Equal(35, MapEvents.EventRenderers.All.Count);
         Assert.False(MapEvents.EventRenderers.TryGet(EventView.None, out _));
-        var keys = typeof(EventView).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+        var keys = typeof(EventView).GetFields(BindingFlags.Public | BindingFlags.Static)
             .Select(f => (EventView)f.GetValue(null)!).ToArray();
         Assert.Equal(36, keys.Length);
         Assert.Equal(keys.Length, keys.Select(k => k.Name).Distinct().Count());

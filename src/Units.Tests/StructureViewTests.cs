@@ -1,9 +1,13 @@
+using System.Reflection;
 using System.Text;
+using Aow.Engine;
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -59,7 +63,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private static void Apply(Structure structure, State state)
     {
         if (structure is PlayerStructure player) player.FPlayer = state.Owned ? Viewer : OtherPlayer;
-        Game.Magic.Abilities.GameTables.AoWEngine.FDebug = state.Debug;
+        GameTables.AoWEngine.FDebug = state.Debug;
         structure.FBuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
         if (state.Razed) Raze(structure);
         if (structure is City city)
@@ -95,7 +99,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         if (Structure.GetRazed()) return "Razed";
         if (Structure is PlayerStructure)
         {
-            if (((PlayerStructure)Structure).FPlayer == Seated || Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+            if (((PlayerStructure)Structure).FPlayer == Seated || GameTables.AoWEngine.FDebug)
             {
                 if (Structure is City) return ((City)Structure).FMode.Contains(City.ModeElement.Warmode) ? "WarCity" : "City";
                 if (Structure is ProductionPlace) return ((ProductionPlace)Structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
@@ -207,7 +211,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private sealed class Scene : IDisposable
     {
         private readonly AoWHSMap previousMap = AoWHSMap.Current;
-        private readonly bool previousDebug = Game.Magic.Abilities.GameTables.AoWEngine.FDebug;
+        private readonly bool previousDebug = GameTables.AoWEngine.FDebug;
         private readonly List<Structure> created = [];
         internal readonly AoWHSMap Map;
 
@@ -230,7 +234,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         public void Dispose()
         {
             AoWHSMap.Current = previousMap;
-            Game.Magic.Abilities.GameTables.AoWEngine.FDebug = previousDebug;
+            GameTables.AoWEngine.FDebug = previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
             foreach (var structure in created) _ = Record.Exception(structure.Dispose);
         }
@@ -373,7 +377,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                             if (actualSeed != Runtime.RandSeed) mismatches.Add($"{state}: random draws differ");
                             names.Add(actual.Length == 8 && actual[0] == 'e' ? actual[..7] + "?" : actual);
                         }
-                output.WriteLine($"{type.Name} ({EClass.Of(type).ClassID}): {string.Join(" ", names)}");
+                output.WriteLine($"{type.Name} ({(EClass.Of(type).ClassID)}): {string.Join(" ", names)}");
             }
         }
         finally { Runtime.RandSeed = previousSeed; }
@@ -390,7 +394,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         {
             var declaring = type.GetMethod(nameof(Structure.CombatMapName))!.DeclaringType!;
             Assert.True(declaring == type || declaring == typeof(Structure), $"{type.Name} inherits CombatMapName from {declaring.Name}");
-            var owner = type.GetMethod("OwnerPanel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            var owner = type.GetMethod("OwnerPanel", BindingFlags.Instance | BindingFlags.NonPublic);
             resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, nameof(Structure.InfoPanel))}" +
                 (owner is null ? "" : $" (OwnerPanel {owner.DeclaringType!.Name})") + ", " +
                 $"InfoButton {Declaring(type, nameof(Structure.InfoButton))}, DoubleClick {Declaring(type, nameof(Structure.DoubleClick))}, " +

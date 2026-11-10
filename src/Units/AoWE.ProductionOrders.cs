@@ -4,6 +4,7 @@ using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -116,8 +117,8 @@ namespace Aow.Game.World.Structures
         // Changes the relation of City's race to the control's player by Change.
         protected static void ChangeRelation(ProductionControl Control, City City, int Change)
         {
-            var playerRelationValue = Map.AoWHSMap.Current.FRaces.GetRace(City.FRace).GetPlayerRelationValue(Control.GetPlayer());
-            Map.AoWHSMap.Current.FRaces.GetRace(City.FRace).SetPlayerRelationValue(Control.GetPlayer(), playerRelationValue + Change);
+            var playerRelationValue = AoWHSMap.Current.FRaces.GetRace(City.FRace).GetPlayerRelationValue(Control.GetPlayer());
+            AoWHSMap.Current.FRaces.GetRace(City.FRace).SetPlayerRelationValue(Control.GetPlayer(), playerRelationValue + Change);
         }
 
         // Adds Text at City to the logbook of the control's player.
@@ -129,14 +130,14 @@ namespace Aow.Game.World.Structures
             var lhx = City.GetLhx();
             var yhx = City.GetYhx();
             Event.SetLocation(City.GetXhx(), yhx, lhx);
-            Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FPlayer).FEventLogbook.AddEvent(Event);
+            AoWHSMap.Current.FPlayers.GetPlayers(Event.FPlayer).FEventLogbook.AddEvent(Event);
             Event.Release();
         }
 
         // Charges the settings' costs to the settings' player.
         protected static void Pay(ProductionControl Control)
         {
-            var player = Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.FSettings.FPlayer);
+            var player = AoWHSMap.Current.FPlayers.GetPlayers(Control.FSettings.FPlayer);
             player.SetGems(player.FGems - Control.FSettings.FGold);
             player.FMagicControl.SetMana(player.FMagicControl.FMana - Control.FSettings.FMana);
         }
@@ -170,7 +171,7 @@ namespace Aow.Game.World.Structures
             }
 
             var format = Control.UnitProductionGold(Index) != 0 ? GameText.ProduceXRStr : GameText.SummonXRStr;
-            var unitName = Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
+            var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
             return AbilityRules.Format(AbilityRules.TranslateRStr(format), [unitName]);
         }
 
@@ -183,7 +184,7 @@ namespace Aow.Game.World.Structures
             }
 
             var format = Control.UnitProductionGold(Index) != 0 ? GameText.ProducingXRStr : GameText.SummoningXRStr;
-            var unitName = Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
+            var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
             return AbilityRules.Format(AbilityRules.TranslateRStr(format), [unitName]);
         }
 
@@ -191,10 +192,10 @@ namespace Aow.Game.World.Structures
         {
             bool Result;
             Waiting(Control, ref Reason);
-            var players = Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
+            var players = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
             if (Control.UnitProductionGold(Index) <= players.FGems)
             {
-                var fPlayersPlayers = Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
+                var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
                 if (Control.UnitProductionMana(Index) <= fPlayersPlayers.FMagicControl.FMana)
                 {
                     Result = true;
@@ -240,7 +241,7 @@ namespace Aow.Game.World.Structures
         {
             if (Control.UnitProduced())
             {
-                if (Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human && Control.FSettings.FGroupID != 0)
+                if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human && Control.FSettings.FGroupID != 0)
                 {
                     Control.GroupProductionProduced(Control.FSettings.FUnit, Control.FSettings.FGroupID);
                 }
@@ -283,7 +284,7 @@ namespace Aow.Game.World.Structures
                 return AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
-            var unitName = Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
+            var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
             return AbilityRules.Format(AbilityRules.TranslateRStr(GameText.InstallXRStr), [unitName]);
         }
 
@@ -295,14 +296,14 @@ namespace Aow.Game.World.Structures
                 return AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
-            var unitName = Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
+            var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
             return AbilityRules.Format(AbilityRules.TranslateRStr(InstallingXRStr), [unitName]);
         }
 
         public override bool CanExecute(ProductionControl Control, ref string Reason)
         {
             Waiting(Control, ref Reason);
-            var players = Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
+            var players = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
             if (Control.UnitResearchGold(Index) <= players.FGems)
             {
                 return true;
@@ -415,7 +416,7 @@ namespace Aow.Game.World.Structures
                 return base.CanExecute(Control, ref Reason);
             }
 
-            if (Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).FGems >= city.UpgradeCost())
+            if (AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).FGems >= city.UpgradeCost())
             {
                 return true;
             }
@@ -436,8 +437,8 @@ namespace Aow.Game.World.Structures
             Control.FSettings.FTurnsLeft = Control.FSettings.FTurnsTotal;
             Control.FSettings.FPlayer = Control.GetPlayer();
             Control.FSettings.FGold = city.UpgradeCost();
-            var player = Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
-            Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(player.FGems - Control.FSettings.FGold);
+            var player = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
+            AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(player.FGems - Control.FSettings.FGold);
             Control.FStatus = ProductionControl.Status.Producing;
         }
 
@@ -492,7 +493,7 @@ namespace Aow.Game.World.Structures
                 return base.CanExecute(Control, ref Reason);
             }
 
-            if (Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).FGems >= city.FortifyCost())
+            if (AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).FGems >= city.FortifyCost())
             {
                 return true;
             }
@@ -513,8 +514,8 @@ namespace Aow.Game.World.Structures
             Control.FSettings.FTurnsLeft = Control.FSettings.FTurnsTotal;
             Control.FSettings.FPlayer = Control.GetPlayer();
             Control.FSettings.FGold = city.FortifyCost();
-            var playerGems = Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
-            Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(playerGems.FGems - Control.FSettings.FGold);
+            var playerGems = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
+            AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(playerGems.FGems - Control.FSettings.FGold);
             Control.FStatus = ProductionControl.Status.Producing;
         }
 
@@ -701,8 +702,8 @@ namespace Aow.Game.World.Structures
 
             Control.BeginUpdate();
             Log(Control, city, RtlUnit.Format(AbilityRules.TranslateRStr(CityLootedRStr), [city.GetName(), IntToStr(city.FIncome * 3)]));
-            var playerGems = Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
-            Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(playerGems.FGems + city.FIncome * 3);
+            var playerGems = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
+            AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(playerGems.FGems + city.FIncome * 3);
             city.FOverlay.SetMode(CityOverlayHS.CityOverlayMode.Idle);
             city.SetRazed(true);
             Control.EndUpdate();

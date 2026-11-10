@@ -1,4 +1,8 @@
+using System.Globalization;
 using System.Text;
+using Aow.Engine;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Json;
 using Aow.Formats.Migrations;
@@ -7,10 +11,10 @@ using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace Aow.Units.Tests;
 
@@ -197,7 +201,7 @@ public sealed class PersistCorpusTests
                 {
                     Load(loaded, image);
                 }
-                catch (System.Exception error) when (PortedExceptions.Is(error))
+                catch (Exception error) when (PortedExceptions.Is(error))
                 {
                     // The fixture loads no game resources, so a part that needs one (a unit's
                     // resource) cannot load. Such an instance proves nothing either way.
@@ -262,7 +266,7 @@ public sealed class PersistCorpusTests
             Block(cls.Name, RefusalName(error));
             return false;
         }
-        catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
+        catch (Exception error) when (error is not XunitException)
         {
             throw new InvalidOperationException(file + " " + cls.Name + " failed. " + error.Message, error);
         }
@@ -395,7 +399,7 @@ public sealed class PersistCorpusTests
                 var one = left.Members[i];
                 var other = right.Members[i];
                 if (!string.Equals(one.Name, other.Name, StringComparison.Ordinal))
-                    return path + " member " + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + one.Name + " / " + other.Name;
+                    return path + " member " + i.ToString(CultureInfo.InvariantCulture) + " " + one.Name + " / " + other.Name;
                 string nested = FirstDifference(one.Value, other.Value, Join(path, one.Name));
                 if (nested.Length != 0) return nested;
             }
@@ -406,7 +410,7 @@ public sealed class PersistCorpusTests
             int count = Math.Max(leftItems.Items.Count, rightItems.Items.Count);
             for (int i = 0; i < count; i++)
             {
-                string at = path + "[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]";
+                string at = path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]";
                 if (i >= leftItems.Items.Count) return at + " extra";
                 if (i >= rightItems.Items.Count) return at + " missing";
                 string nested = FirstDifference(leftItems.Items[i], rightItems.Items[i], at);

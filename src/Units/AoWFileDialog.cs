@@ -1,6 +1,8 @@
 // Translated from AoWFileDialog.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Engine.Nodes;
+using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
@@ -9,20 +11,16 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Host;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Magic.Spells.Global;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
@@ -152,7 +150,7 @@ public partial class FileDlgWindow : DataModule
     public void LoadSelectedGame(string Name)
     {
         AoWHSMap Map = default;
-        if (Aow.Formats.DocumentKind.CampaignSave.HasExtension(ExtractFileExt(Name)))
+        if (DocumentKind.CampaignSave.HasExtension(ExtractFileExt(Name)))
         {
             if (!GameTables.AoWEngine.FDemo)
             {
@@ -167,7 +165,7 @@ public partial class FileDlgWindow : DataModule
         }
         else
         {
-            Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(Name, Aow.Formats.GameProfile.WorldMap);
+            Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(Name, GameProfile.WorldMap);
             if (Map != null)
             {
                 GameTables.AoWEngine.CloseCampaign();
@@ -220,14 +218,14 @@ public partial class FileDlgWindow : DataModule
     // own extension (own-formats.md 2.9), so the shown name tells the two apart.
     public static bool ListsFile(int Mode, bool Campaign, string Extension)
     {
-        bool IsCampaignSave = Aow.Formats.DocumentKind.CampaignSave.HasExtension(Extension);
-        bool IsSave = Aow.Formats.DocumentKind.Save.HasExtension(Extension);
+        bool IsCampaignSave = DocumentKind.CampaignSave.HasExtension(Extension);
+        bool IsSave = DocumentKind.Save.HasExtension(Extension);
         bool IncludeFile = false;
         IncludeFile = IncludeFile || Mode == 1 && Campaign && IsCampaignSave;
         IncludeFile = IncludeFile || Mode == 1 && !Campaign && IsSave;
         IncludeFile = IncludeFile || Mode == 0 && (IsSave || IsCampaignSave);
         // { Original accepts .asg in every mode, including map selection. }
-        IncludeFile = IncludeFile || Mode == 2 && Aow.Formats.DocumentKind.Map.HasExtension(Extension) || IsSave;
+        IncludeFile = IncludeFile || Mode == 2 && DocumentKind.Map.HasExtension(Extension) || IsSave;
         return IncludeFile;
     }
 
@@ -439,20 +437,20 @@ public partial class FileDlgWindow : DataModule
                             FileDialog.Visible = false;
                             // The save takes the extension the host writes, beside an original of the same name
                             // (own-formats.md 4.2).
-                            SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.CampaignSave.OriginalExtension);
+                            SFileName.Text = FileBoundary.WriteName(SFileName.Text + DocumentKind.CampaignSave.OriginalExtension);
                             SaveCampaign(DialogHosts.General, SFileName.Text);
                         }
                         else
                         {
                             if (FSaveEvent != null)
                             {
-                                FSaveEvent.FFileName = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension, FDirectory);
+                                FSaveEvent.FFileName = FileBoundary.WriteName(SFileName.Text + DocumentKind.Save.OriginalExtension, FDirectory);
                                 FileDialog.Visible = false;
                             }
                             else
                             {
                                 FileDialog.Visible = false;
-                                SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension);
+                                SFileName.Text = FileBoundary.WriteName(SFileName.Text + DocumentKind.Save.OriginalExtension);
                                 SaveGame(DialogHosts.General, SFileName.Text);
                             }
                         }
@@ -511,9 +509,9 @@ public partial class FileDlgWindow : DataModule
         {
             var item = FileLB.Items[FileLB.Selected];
             SFileName.Text = item;
-            if (!Aow.Formats.DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SFileName.Text)))
+            if (!DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SFileName.Text)))
             {
-                Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(SFileName.Text, Aow.Formats.GameProfile.WorldMap);
+                Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(SFileName.Text, GameProfile.WorldMap);
                 if (Map != null)
                 {
                     var count = Map.FPlayers.GetCount();
@@ -617,11 +615,11 @@ public partial class FileDlgWindow : DataModule
                     // The default name shows the file the save writes (own-formats.md 4.2).
                     if (GameTables.AoWEngine.FCampaign != null)
                     {
-                        SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.CampaignSave.OriginalExtension);
+                        SFileName.Text = FileBoundary.WriteName(SFileName.Text + DocumentKind.CampaignSave.OriginalExtension);
                     }
                     else
                     {
-                        SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension);
+                        SFileName.Text = FileBoundary.WriteName(SFileName.Text + DocumentKind.Save.OriginalExtension);
                     }
                 }
 
@@ -636,7 +634,7 @@ public partial class FileDlgWindow : DataModule
                 break;
             case 2:
                 var lastExtension = ExtractFileExt(FLastFileName);
-                if (lastExtension == Aow.Formats.DocumentKind.Map.OriginalExtension || lastExtension == Aow.Formats.DocumentKind.Map.OwnExtension)
+                if (lastExtension == DocumentKind.Map.OriginalExtension || lastExtension == DocumentKind.Map.OwnExtension)
                 {
                     var fileName3 = ExtractFileName(FLastFileName);
                     FileName.Text = fileName3;
@@ -878,7 +876,7 @@ public partial class FileDlgWindow : DataModule
 
     private static void LoadCampaign(General Controller, string Name)
     {
-        byte[] Image = FileBoundary.Load(Name, Aow.Formats.GameProfile.Campaign);
+        byte[] Image = FileBoundary.Load(Name, GameProfile.Campaign);
         if (Image == null)
         {
             return;

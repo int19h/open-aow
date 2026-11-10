@@ -1,11 +1,13 @@
 // Translated from AoWUnitSelDlg.pas.
 using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWUnitSelDlg.pas.
 using Aow.Rtl.Localize;
@@ -52,7 +54,7 @@ public partial class UnitSelectionDlg : DataModule
     {
         Rect SaveRect;
         P2UnitShowInfo Info;
-        Draw.Images.LibraryImage Img;
+        LibraryImage Img;
         Alignment Alignment;
         if (Index < FEvent.FUnits.GetCount())
         {
@@ -116,7 +118,7 @@ public partial class UnitSelectionDlg : DataModule
         FEventLog.AddRef();
         FEvent = Request.FUnitSelector;
         FEvent.AddRef();
-        U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+        U = AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
         if (U != null)
         {
             SourcePnl.Visible = true;
@@ -167,7 +169,7 @@ public partial class UnitSelectionDlg : DataModule
         }
         else
         {
-            World.Map.AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(Reason);
         }
     }
 
@@ -241,7 +243,7 @@ public partial class UnitSelectionDlg : DataModule
         AbstractUnit U;
         if (FEvent != null)
         {
-            U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+            U = AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
             if (U != null)
             {
                 R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;

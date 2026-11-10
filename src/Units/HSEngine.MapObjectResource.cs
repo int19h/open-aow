@@ -1,6 +1,7 @@
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Rtl;
 
 namespace Aow.Game.World;
@@ -18,7 +19,7 @@ public partial class MapObject
         FResource = null;
     }
 
-    public virtual bool LinkToResource(Engine.Engine engine)
+    public virtual bool LinkToResource(GameEngine engine)
     {
         if (!GetResourceLinked())
         {

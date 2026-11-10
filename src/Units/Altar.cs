@@ -1,11 +1,13 @@
 // Translated from Altar.pas.
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
@@ -112,12 +114,12 @@ public partial class Altar : PlayerStructure
         string Result;
         if (GetRechargeDays() != FRechargeDays)
         {
-            var fmtDaysLeftStr = Magic.Abilities.DurationText.FmtDaysLeftStr(GetRechargeDays() - FRechargeDays);
-            Result = Magic.Abilities.AbilityRules.TranslateRStr(ChargingRStr) + " (" + fmtDaysLeftStr + ")";
+            var fmtDaysLeftStr = DurationText.FmtDaysLeftStr(GetRechargeDays() - FRechargeDays);
+            Result = AbilityRules.TranslateRStr(ChargingRStr) + " (" + fmtDaysLeftStr + ")";
         }
         else
         {
-            Result = Magic.Abilities.AbilityRules.TranslateRStr(ReadyRStr);
+            Result = AbilityRules.TranslateRStr(ReadyRStr);
         }
 
         return Result;
@@ -146,13 +148,13 @@ public partial class Altar : PlayerStructure
                     var targetMana = TargetMana();
                     if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.FAIBudget.FDefaultBudget, true))
                     {
-                        BattleFieldInfo.SetupBattleFieldInfo(ref Friendly, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(ref Friendly, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                         Friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
                         var lhx2 = GetLhx();
                         var yhx2 = GetYhx();
                         var xhx = GetXhx();
                         AoWHSMap.Current.RetrieveBattleFieldInfo(xhx, yhx2, lhx2, 1, ref Friendly);
-                        BattleFieldInfo.SetupBattleFieldInfo(ref Enemy, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(ref Enemy, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                         var lhx3 = GetLhx();
                         var yhx3 = GetYhx();
                         var xhx2 = GetXhx();
@@ -233,7 +235,7 @@ public partial class Altar : PlayerStructure
         else
         {
             Result = false;
-            Reason = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.NotEnoughManaRStr);
+            Reason = AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
         }
 
         return Result;
@@ -258,10 +260,10 @@ public partial class Altar : PlayerStructure
             FStorm = CreateStorm();
             FStorm.UpdateTargetSelection(AoWHSMap.Current.FTargetSelection);
             var name = FStorm.Name();
-            var format = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.SelectTargetLocationForXOnMapRStr), [name]);
+            var format = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.SelectTargetLocationForXOnMapRStr), [name]);
             Selection.FText.Text = format;
             Selection.FTitle = EditName();
-            Selection.FCancelText = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.CancelRStr);
+            Selection.FCancelText = AbilityRules.TranslateRStr(GameText.CancelRStr);
             Selection.FSourceImage = GetTopBorderImage();
             Selection.FValidTargetImage = GetMiddleBorderImage();
             Selection.FInvalidTargetImage = GetBottomBorderImage();

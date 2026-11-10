@@ -28,7 +28,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -54,7 +54,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -79,7 +79,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -130,7 +130,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -156,7 +156,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -181,7 +181,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -610,7 +610,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -665,7 +665,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -1077,7 +1077,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -1132,7 +1132,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -1544,7 +1544,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -1599,7 +1599,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -2011,7 +2011,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -2066,7 +2066,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -2478,7 +2478,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -2533,7 +2533,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -2945,7 +2945,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -3000,7 +3000,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -3412,7 +3412,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -3467,7 +3467,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -3847,13 +3847,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.Animation.owner0": {
+  "Aow.Game.Draw.Animations.Animation.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.Animation",
+            "$type": "Aow.Game.Draw.Animations.Animation",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -3868,7 +3868,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -3887,13 +3887,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.Animation.owner1": {
+  "Aow.Game.Draw.Animations.Animation.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.Animation",
+            "$type": "Aow.Game.Draw.Animations.Animation",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -3908,7 +3908,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -3929,7 +3929,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.Animation",
+              "$type": "Aow.Game.Draw.Animations.Animation",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -3944,7 +3944,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -4013,13 +4013,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.ImageSequenceAnimation.owner0": {
+  "Aow.Game.Draw.Animations.ImageSequenceAnimation.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.ImageSequenceAnimation",
+            "$type": "Aow.Game.Draw.Animations.ImageSequenceAnimation",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -4034,7 +4034,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -4058,13 +4058,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.ImageSequenceAnimation.owner1": {
+  "Aow.Game.Draw.Animations.ImageSequenceAnimation.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.ImageSequenceAnimation",
+            "$type": "Aow.Game.Draw.Animations.ImageSequenceAnimation",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -4079,7 +4079,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -4105,7 +4105,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.ImageSequenceAnimation",
+              "$type": "Aow.Game.Draw.Animations.ImageSequenceAnimation",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -4120,7 +4120,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -4144,13 +4144,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.TwinkleAnimation.owner0": {
+  "Aow.Game.Draw.Animations.TwinkleAnimation.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.TwinkleAnimation",
+            "$type": "Aow.Game.Draw.Animations.TwinkleAnimation",
             "Animation.FAnimationLevel": 28,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -4165,7 +4165,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -4182,7 +4182,7 @@
             "TwinkleAnimation.FDuration": 0,
             "TwinkleAnimation.FImageSequence": null,
             "TwinkleAnimation.FMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.TwinkleModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.TwinkleModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -4199,13 +4199,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.TwinkleAnimation.owner1": {
+  "Aow.Game.Draw.Animations.TwinkleAnimation.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.TwinkleAnimation",
+            "$type": "Aow.Game.Draw.Animations.TwinkleAnimation",
             "Animation.FAnimationLevel": 28,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -4220,7 +4220,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -4237,7 +4237,7 @@
             "TwinkleAnimation.FDuration": 0,
             "TwinkleAnimation.FImageSequence": null,
             "TwinkleAnimation.FMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.TwinkleModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.TwinkleModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -4256,7 +4256,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.TwinkleAnimation",
+              "$type": "Aow.Game.Draw.Animations.TwinkleAnimation",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -4271,7 +4271,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -4288,7 +4288,7 @@
               "TwinkleAnimation.FDuration": 0,
               "TwinkleAnimation.FImageSequence": null,
               "TwinkleAnimation.FMode": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.TwinkleModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.TwinkleModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -4309,7 +4309,7 @@
     "$jsonText": {
       "$type": "Aow.Game.World.Map.AbstractAoWHSMapMouse",
       "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
@@ -4328,27 +4328,27 @@
       "HSMapMouse.FHSMap": null,
       "HSMapMouse.FIgnoreDown": false,
       "HSMapMouse.FOnCaptureChangedStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
       "HSMapMouse.FOnDblClickStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
       "HSMapMouse.FOnDownStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
       "HSMapMouse.FOnMoveStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
       "HSMapMouse.FOnUpStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
@@ -4478,9 +4478,9 @@
             "MapLevel.FFieldSize": 0,
             "MapLevel.FFieldsSize": 0,
             "MapLevel.FHNOffsets": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+              "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
               "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+                "$type": "Aow.Engine.Buffers.FixedArray_int_8",
                 "FixedArray_int_8.element0": 0
               }
             },
@@ -4510,9 +4510,9 @@
             "MapLevel.FFieldSize": 0,
             "MapLevel.FFieldsSize": 0,
             "MapLevel.FHNOffsets": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+              "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
               "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+                "$type": "Aow.Engine.Buffers.FixedArray_int_8",
                 "FixedArray_int_8.element0": 0
               }
             },
@@ -4538,9 +4538,9 @@
               "MapLevel.FFieldSize": 0,
               "MapLevel.FFieldsSize": 0,
               "MapLevel.FHNOffsets": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+                "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
                 "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-                  "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+                  "$type": "Aow.Engine.Buffers.FixedArray_int_8",
                   "FixedArray_int_8.element0": 0
                 }
               },
@@ -4569,7 +4569,7 @@
             "ItemHS.FItems": {
               "$type": "Aow.Game.Units.ItemHSList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -4599,7 +4599,7 @@
             "ItemHS.FItems": {
               "$type": "Aow.Game.Units.ItemHSList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -4741,7 +4741,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -4793,7 +4793,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -5847,7 +5847,7 @@
             "EObject.FOwner": null,
             "Hexagon.FTransitionSides": 0,
             "Hexagon.FTransitions": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
               "FixedArray_byte_3.element0": 0
             },
             "MapObject.FResource": null,
@@ -5878,7 +5878,7 @@
             "EObject.FOwner": "$owner",
             "Hexagon.FTransitionSides": 0,
             "Hexagon.FTransitions": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
               "FixedArray_byte_3.element0": 0
             },
             "MapObject.FResource": null,
@@ -5905,7 +5905,7 @@
               "EObject.FOwner": "$owner",
               "Hexagon.FTransitionSides": 0,
               "Hexagon.FTransitions": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+                "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
                 "FixedArray_byte_3.element0": 0
               },
               "MapObject.FResource": null,
@@ -6135,7 +6135,7 @@
             "AoWWaterHexagon.FAnimationFrame": -8,
             "AoWWaterHexagon.FAnimationIndex": 0,
             "AoWWaterHexagon.FShoreTerrain": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_6",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_6",
               "FixedArray_byte_6.element0": 0
             },
             "EObject.FOwner": null,
@@ -6170,7 +6170,7 @@
             "AoWWaterHexagon.FAnimationFrame": -8,
             "AoWWaterHexagon.FAnimationIndex": 0,
             "AoWWaterHexagon.FShoreTerrain": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_6",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_6",
               "FixedArray_byte_6.element0": 0
             },
             "EObject.FOwner": "$owner",
@@ -6201,7 +6201,7 @@
               "AoWWaterHexagon.FAnimationFrame": 0,
               "AoWWaterHexagon.FAnimationIndex": 0,
               "AoWWaterHexagon.FShoreTerrain": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_6",
+                "$type": "Aow.Engine.Buffers.FixedArray_byte_6",
                 "FixedArray_byte_6.element0": 0
               },
               "EObject.FOwner": "$owner",
@@ -6604,9 +6604,9 @@
             "MapLevel.FFieldSize": 0,
             "MapLevel.FFieldsSize": 0,
             "MapLevel.FHNOffsets": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+              "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
               "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+                "$type": "Aow.Engine.Buffers.FixedArray_int_8",
                 "FixedArray_int_8.element0": 0
               }
             },
@@ -6636,9 +6636,9 @@
             "MapLevel.FFieldSize": 0,
             "MapLevel.FFieldsSize": 0,
             "MapLevel.FHNOffsets": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+              "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
               "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+                "$type": "Aow.Engine.Buffers.FixedArray_int_8",
                 "FixedArray_int_8.element0": 0
               }
             },
@@ -6664,9 +6664,9 @@
               "MapLevel.FFieldSize": 0,
               "MapLevel.FFieldsSize": 0,
               "MapLevel.FHNOffsets": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+                "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
                 "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-                  "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+                  "$type": "Aow.Engine.Buffers.FixedArray_int_8",
                   "FixedArray_int_8.element0": 0
                 }
               },
@@ -6687,7 +6687,7 @@
     "$jsonText": {
       "$type": "Aow.Game.Combat.AoWCombatMapMouse",
       "AbstractAoWHSMapMouse.FRectangleSelectEventsStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.AbstractAoWHSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
@@ -6706,27 +6706,27 @@
       "HSMapMouse.FHSMap": null,
       "HSMapMouse.FIgnoreDown": false,
       "HSMapMouse.FOnCaptureChangedStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
       "HSMapMouse.FOnDblClickStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
       "HSMapMouse.FOnDownStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
       "HSMapMouse.FOnMoveStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
       "HSMapMouse.FOnUpStore": {
-        "$type": "Aow.Game.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.HSMapMouse, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.count": 0,
         "EventStore\u00601.items": null
       },
@@ -6893,7 +6893,7 @@
             "ItemHS.FItems": {
               "$type": "Aow.Game.Units.ItemHSList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -6924,7 +6924,7 @@
             "ItemHS.FItems": {
               "$type": "Aow.Game.Units.ItemHSList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -7034,11 +7034,11 @@
       "MoveControl.FExploredMask": 0,
       "MoveControl.FFieldOffsets": [
         {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+          "$type": "Aow.Engine.Buffers.FixedArray_int_8",
           "FixedArray_int_8.element0": 0
         },
         {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+          "$type": "Aow.Engine.Buffers.FixedArray_int_8",
           "FixedArray_int_8.element0": 0
         }
       ],
@@ -7085,9 +7085,9 @@
         "Set\u00601.low": 0
       },
       "MoveControl.FMovePointTable": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
+        "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
         "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
+          "$type": "Aow.Engine.Buffers.FixedArray_sbyte_16",
           "FixedArray_sbyte_16.element0": 0
         }
       },
@@ -7095,9 +7095,9 @@
       "MoveControl.FOnMovePoint": null,
       "MoveControl.FPlayer": 0,
       "MoveControl.FPointOffsets": {
-        "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
+        "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_8_2",
         "FixedArray_Aow_Units_FixedArray_int_8_2.element0": {
-          "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
+          "$type": "Aow.Engine.Buffers.FixedArray_int_8",
           "FixedArray_int_8.element0": 0
         }
       },
@@ -8146,7 +8146,7 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.ArenaTE",
             "ArenaTE.FUnitIDs": {
-              "$type": "Aow.Game.Engine.Collections.IntegerList",
+              "$type": "Aow.Engine.Collections.IntegerList",
               "IntegerList.FCapacity": 0,
               "IntegerList.FCount": 0,
               "IntegerList.FDefault": 0,
@@ -8178,7 +8178,7 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.ArenaTE",
             "ArenaTE.FUnitIDs": {
-              "$type": "Aow.Game.Engine.Collections.IntegerList",
+              "$type": "Aow.Engine.Collections.IntegerList",
               "IntegerList.FCapacity": 0,
               "IntegerList.FCount": 0,
               "IntegerList.FDefault": 0,
@@ -8253,7 +8253,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -8279,7 +8279,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -8304,7 +8304,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -8355,7 +8355,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -8381,7 +8381,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -8406,7 +8406,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -8907,13 +8907,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.BloodShrineAnimation.owner0": {
+  "Aow.Game.Draw.Animations.BloodShrineAnimation.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.BloodShrineAnimation",
+            "$type": "Aow.Game.Draw.Animations.BloodShrineAnimation",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -8928,7 +8928,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -8947,13 +8947,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.BloodShrineAnimation.owner1": {
+  "Aow.Game.Draw.Animations.BloodShrineAnimation.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.BloodShrineAnimation",
+            "$type": "Aow.Game.Draw.Animations.BloodShrineAnimation",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -8968,7 +8968,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -8989,7 +8989,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.BloodShrineAnimation",
+              "$type": "Aow.Game.Draw.Animations.BloodShrineAnimation",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -9004,7 +9004,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -10554,7 +10554,7 @@
             "City.FEnchantmentList": {
               "$type": "Aow.Game.Magic.GlobalEnchantmentList",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -10602,7 +10602,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.City.FEnchantmentList.ENode.FChildren.DelphiList.items"
                 },
@@ -10627,7 +10627,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.City.FEnchantmentList.ENode.FChildren.DelphiList.items"
                 },
@@ -10669,7 +10669,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -10704,7 +10704,7 @@
             "City.FEnchantmentList": {
               "$type": "Aow.Game.Magic.GlobalEnchantmentList",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -10752,7 +10752,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.City.FEnchantmentList.ENode.FChildren.DelphiList.items"
                 },
@@ -10777,7 +10777,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.City.FEnchantmentList.ENode.FChildren.DelphiList.items"
                 },
@@ -10819,7 +10819,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -12225,7 +12225,7 @@
             "$type": "Aow.Game.World.Hexes.CombatHexagon",
             "CombatHexagon.FImageVariant": 0,
             "CombatHexagon.FTransitions": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
               "FixedArray_byte_3.element0": 0
             },
             "EObject.FOwner": null,
@@ -12256,7 +12256,7 @@
             "$type": "Aow.Game.World.Hexes.CombatHexagon",
             "CombatHexagon.FImageVariant": 0,
             "CombatHexagon.FTransitions": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
               "FixedArray_byte_3.element0": 0
             },
             "EObject.FOwner": "$owner",
@@ -12283,7 +12283,7 @@
               "$type": "Aow.Game.World.Hexes.CombatHexagon",
               "CombatHexagon.FImageVariant": 0,
               "CombatHexagon.FTransitions": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+                "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
                 "FixedArray_byte_3.element0": 0
               },
               "EObject.FOwner": "$owner",
@@ -12514,7 +12514,7 @@
             "AoWWaterHexagon.FAnimationFrame": -8,
             "AoWWaterHexagon.FAnimationIndex": 0,
             "AoWWaterHexagon.FShoreTerrain": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_6",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_6",
               "FixedArray_byte_6.element0": 0
             },
             "EObject.FOwner": null,
@@ -12549,7 +12549,7 @@
             "AoWWaterHexagon.FAnimationFrame": -8,
             "AoWWaterHexagon.FAnimationIndex": 0,
             "AoWWaterHexagon.FShoreTerrain": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_6",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_6",
               "FixedArray_byte_6.element0": 0
             },
             "EObject.FOwner": "$owner",
@@ -12580,7 +12580,7 @@
               "AoWWaterHexagon.FAnimationFrame": 0,
               "AoWWaterHexagon.FAnimationIndex": 0,
               "AoWWaterHexagon.FShoreTerrain": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_6",
+                "$type": "Aow.Engine.Buffers.FixedArray_byte_6",
                 "FixedArray_byte_6.element0": 0
               },
               "EObject.FOwner": "$owner",
@@ -13848,7 +13848,7 @@
           "$jsonText": {
             "$type": "Aow.Game.World.Hexes.CombatRoad",
             "CombatRoad.FImages": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_7",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_7",
               "FixedArray_byte_7.element0": 0
             },
             "EObject.FOwner": null,
@@ -13878,7 +13878,7 @@
           "$jsonText": {
             "$type": "Aow.Game.World.Hexes.CombatRoad",
             "CombatRoad.FImages": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_7",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_7",
               "FixedArray_byte_7.element0": 0
             },
             "EObject.FOwner": "$owner",
@@ -13904,7 +13904,7 @@
             "$jsonText": {
               "$type": "Aow.Game.World.Hexes.CombatRoad",
               "CombatRoad.FImages": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_7",
+                "$type": "Aow.Engine.Buffers.FixedArray_byte_7",
                 "FixedArray_byte_7.element0": 0
               },
               "EObject.FOwner": "$owner",
@@ -15717,7 +15717,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -15776,7 +15776,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -16215,7 +16215,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -16229,7 +16229,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -16319,7 +16319,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -16333,7 +16333,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -16758,7 +16758,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -16784,7 +16784,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -16809,7 +16809,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -16860,7 +16860,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -16886,7 +16886,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -16911,7 +16911,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -17362,7 +17362,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -17418,7 +17418,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Dungeon.FPrisoners.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -17509,7 +17509,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -17565,7 +17565,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Dungeon.FPrisoners.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -18016,7 +18016,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -18042,7 +18042,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -18067,7 +18067,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -18118,7 +18118,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -18144,7 +18144,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -18169,7 +18169,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -18621,7 +18621,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -18713,7 +18713,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -19155,7 +19155,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -19224,7 +19224,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -19647,7 +19647,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -19673,7 +19673,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -19698,7 +19698,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -19749,7 +19749,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -19775,7 +19775,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -19800,7 +19800,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -23152,7 +23152,7 @@
             "EObject.FOwner": null,
             "Hexagon.FTransitionSides": 0,
             "Hexagon.FTransitions": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
               "FixedArray_byte_3.element0": 0
             },
             "MapObject.FResource": null,
@@ -23183,7 +23183,7 @@
             "EObject.FOwner": "$owner",
             "Hexagon.FTransitionSides": 0,
             "Hexagon.FTransitions": {
-              "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+              "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
               "FixedArray_byte_3.element0": 0
             },
             "MapObject.FResource": null,
@@ -23210,7 +23210,7 @@
               "EObject.FOwner": "$owner",
               "Hexagon.FTransitionSides": 0,
               "Hexagon.FTransitions": {
-                "$type": "Aow.Game.Engine.Buffers.FixedArray_byte_3",
+                "$type": "Aow.Engine.Buffers.FixedArray_byte_3",
                 "FixedArray_byte_3.element0": 0
               },
               "MapObject.FResource": null,
@@ -24065,13 +24065,13 @@
       }
     ]
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell.owner0": {
+  "Aow.Game.Magic.Spells.HolyGroundSpell.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell",
+            "$type": "Aow.Game.Magic.Spells.HolyGroundSpell",
             "EObject.FOwner": null,
             "GlobalTargetSpell.FAboveGroundOnly": false,
             "GlobalTargetSpell.FCasterID": 0,
@@ -24100,11 +24100,11 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -24123,11 +24123,11 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -24153,7 +24153,7 @@
             "Spell.FCastSounds": {
               "$type": "Aow.Game.Audio.SFXLibrary",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
               },
@@ -24192,13 +24192,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell.owner1": {
+  "Aow.Game.Magic.Spells.HolyGroundSpell.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell",
+            "$type": "Aow.Game.Magic.Spells.HolyGroundSpell",
             "EObject.FOwner": "$owner",
             "GlobalTargetSpell.FAboveGroundOnly": false,
             "GlobalTargetSpell.FCasterID": 0,
@@ -24227,11 +24227,11 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -24250,11 +24250,11 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -24280,7 +24280,7 @@
             "Spell.FCastSounds": {
               "$type": "Aow.Game.Audio.SFXLibrary",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
               },
@@ -24321,7 +24321,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell",
+              "$type": "Aow.Game.Magic.Spells.HolyGroundSpell",
               "EObject.FOwner": "$owner",
               "GlobalTargetSpell.FAboveGroundOnly": false,
               "GlobalTargetSpell.FCasterID": 0,
@@ -24767,14 +24767,14 @@
             "EObject.FOwner": null,
             "HexagonBridge.FDirection": -1,
             "HexagonBridge.FSideA": {
-              "$type": "Aow.Game.Engine.Collections.ByteList",
+              "$type": "Aow.Engine.Collections.ByteList",
               "ByteList.FCapacity": 0,
               "ByteList.FCount": 0,
               "ByteList.FDefault": 0,
               "ByteList.FList": []
             },
             "HexagonBridge.FSideB": {
-              "$type": "Aow.Game.Engine.Collections.ByteList",
+              "$type": "Aow.Engine.Collections.ByteList",
               "ByteList.FCapacity": 0,
               "ByteList.FCount": 0,
               "ByteList.FDefault": 0,
@@ -24809,14 +24809,14 @@
             "EObject.FOwner": "$owner",
             "HexagonBridge.FDirection": -1,
             "HexagonBridge.FSideA": {
-              "$type": "Aow.Game.Engine.Collections.ByteList",
+              "$type": "Aow.Engine.Collections.ByteList",
               "ByteList.FCapacity": 0,
               "ByteList.FCount": 0,
               "ByteList.FDefault": 0,
               "ByteList.FList": []
             },
             "HexagonBridge.FSideB": {
-              "$type": "Aow.Game.Engine.Collections.ByteList",
+              "$type": "Aow.Engine.Collections.ByteList",
               "ByteList.FCapacity": 0,
               "ByteList.FCount": 0,
               "ByteList.FDefault": 0,
@@ -26839,7 +26839,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -26853,7 +26853,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -26943,7 +26943,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -26957,7 +26957,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -27382,7 +27382,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -27408,7 +27408,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -27433,7 +27433,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -27484,7 +27484,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -27510,7 +27510,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -27535,7 +27535,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -29459,7 +29459,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -29517,7 +29517,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -29951,7 +29951,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -29965,7 +29965,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -30055,7 +30055,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -30069,7 +30069,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -30768,13 +30768,13 @@
       }
     ]
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain.owner0": {
+  "Aow.Game.Magic.Spells.RaiseTerrain.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain",
+            "$type": "Aow.Game.Magic.Spells.RaiseTerrain",
             "EObject.FOwner": null,
             "GlobalTargetSpell.FAboveGroundOnly": true,
             "GlobalTargetSpell.FCasterID": 0,
@@ -30803,11 +30803,11 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -30826,11 +30826,11 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -30856,7 +30856,7 @@
             "Spell.FCastSounds": {
               "$type": "Aow.Game.Audio.SFXLibrary",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
               },
@@ -30895,13 +30895,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain.owner1": {
+  "Aow.Game.Magic.Spells.RaiseTerrain.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain",
+            "$type": "Aow.Game.Magic.Spells.RaiseTerrain",
             "EObject.FOwner": "$owner",
             "GlobalTargetSpell.FAboveGroundOnly": true,
             "GlobalTargetSpell.FCasterID": 0,
@@ -30930,11 +30930,11 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -30953,11 +30953,11 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -30983,7 +30983,7 @@
             "Spell.FCastSounds": {
               "$type": "Aow.Game.Audio.SFXLibrary",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
               },
@@ -31024,7 +31024,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain",
+              "$type": "Aow.Game.Magic.Spells.RaiseTerrain",
               "EObject.FOwner": "$owner",
               "GlobalTargetSpell.FAboveGroundOnly": false,
               "GlobalTargetSpell.FCasterID": 0,
@@ -33958,13 +33958,13 @@
       }
     ]
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell.owner0": {
+  "Aow.Game.Magic.Spells.PoisonPlantSpell.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell",
+            "$type": "Aow.Game.Magic.Spells.PoisonPlantSpell",
             "EObject.FOwner": null,
             "GlobalTargetSpell.FAboveGroundOnly": false,
             "GlobalTargetSpell.FCasterID": 0,
@@ -33993,11 +33993,11 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -34016,11 +34016,11 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -34046,7 +34046,7 @@
             "Spell.FCastSounds": {
               "$type": "Aow.Game.Audio.SFXLibrary",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
               },
@@ -34085,13 +34085,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell.owner1": {
+  "Aow.Game.Magic.Spells.PoisonPlantSpell.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell",
+            "$type": "Aow.Game.Magic.Spells.PoisonPlantSpell",
             "EObject.FOwner": "$owner",
             "GlobalTargetSpell.FAboveGroundOnly": false,
             "GlobalTargetSpell.FCasterID": 0,
@@ -34120,11 +34120,11 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -34143,11 +34143,11 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -34173,7 +34173,7 @@
             "Spell.FCastSounds": {
               "$type": "Aow.Game.Audio.SFXLibrary",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
               },
@@ -34214,7 +34214,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell",
+              "$type": "Aow.Game.Magic.Spells.PoisonPlantSpell",
               "EObject.FOwner": "$owner",
               "GlobalTargetSpell.FAboveGroundOnly": false,
               "GlobalTargetSpell.FCasterID": 0,
@@ -34359,7 +34359,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -34426,7 +34426,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -34858,7 +34858,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -34884,7 +34884,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -34909,7 +34909,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -34960,7 +34960,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -34986,7 +34986,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -35011,7 +35011,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -35463,7 +35463,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -35477,7 +35477,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -35567,7 +35567,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -35581,7 +35581,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -36006,7 +36006,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -36032,7 +36032,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -36057,7 +36057,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -36108,7 +36108,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -36134,7 +36134,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -36159,7 +36159,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -36585,7 +36585,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -36638,7 +36638,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -37543,7 +37543,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -37557,7 +37557,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -37647,7 +37647,7 @@
               "Army.FX": -1,
               "Army.FY": -1,
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.ItemExplorationSite.FItems.EChangeNotifyNode.FChildren.DelphiList.items"
               },
@@ -37661,7 +37661,7 @@
             "ItemExplorationSite.FItems": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": []
               },
@@ -38086,7 +38086,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -38112,7 +38112,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -38137,7 +38137,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -38188,7 +38188,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -38214,7 +38214,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -38239,7 +38239,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -38671,7 +38671,7 @@
               "StringCollection.UpdateCount": 0
             },
             "Sign.FTextSeen": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -38729,7 +38729,7 @@
               "StringCollection.UpdateCount": 0
             },
             "Sign.FTextSeen": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -39908,13 +39908,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.SpringOfLifeAnimation.owner0": {
+  "Aow.Game.Draw.Animations.SpringOfLifeAnimation.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.SpringOfLifeAnimation",
+            "$type": "Aow.Game.Draw.Animations.SpringOfLifeAnimation",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -39929,7 +39929,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -39948,13 +39948,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.SpringOfLifeAnimation.owner1": {
+  "Aow.Game.Draw.Animations.SpringOfLifeAnimation.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.SpringOfLifeAnimation",
+            "$type": "Aow.Game.Draw.Animations.SpringOfLifeAnimation",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -39969,7 +39969,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -39990,7 +39990,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.SpringOfLifeAnimation",
+              "$type": "Aow.Game.Draw.Animations.SpringOfLifeAnimation",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -40005,7 +40005,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -40325,13 +40325,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.BlastStorm.owner0": {
+  "Aow.Game.Draw.Animations.BlastStorm.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.BlastStorm",
+            "$type": "Aow.Game.Draw.Animations.BlastStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40346,7 +40346,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40367,13 +40367,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.BlastStorm.owner1": {
+  "Aow.Game.Draw.Animations.BlastStorm.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.BlastStorm",
+            "$type": "Aow.Game.Draw.Animations.BlastStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40388,7 +40388,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40411,7 +40411,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.BlastStorm",
+              "$type": "Aow.Game.Draw.Animations.BlastStorm",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -40426,7 +40426,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -40447,13 +40447,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.DeathStorm.owner0": {
+  "Aow.Game.Draw.Animations.DeathStorm.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.DeathStorm",
+            "$type": "Aow.Game.Draw.Animations.DeathStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40468,7 +40468,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40489,13 +40489,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.DeathStorm.owner1": {
+  "Aow.Game.Draw.Animations.DeathStorm.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.DeathStorm",
+            "$type": "Aow.Game.Draw.Animations.DeathStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40510,7 +40510,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40533,7 +40533,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.DeathStorm",
+              "$type": "Aow.Game.Draw.Animations.DeathStorm",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -40548,7 +40548,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -40569,13 +40569,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.DivineStorm.owner0": {
+  "Aow.Game.Draw.Animations.DivineStorm.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.DivineStorm",
+            "$type": "Aow.Game.Draw.Animations.DivineStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40590,7 +40590,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40611,13 +40611,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.DivineStorm.owner1": {
+  "Aow.Game.Draw.Animations.DivineStorm.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.DivineStorm",
+            "$type": "Aow.Game.Draw.Animations.DivineStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40632,7 +40632,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40655,7 +40655,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.DivineStorm",
+              "$type": "Aow.Game.Draw.Animations.DivineStorm",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -40670,7 +40670,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -40691,13 +40691,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.FireStorm.owner0": {
+  "Aow.Game.Draw.Animations.FireStorm.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.FireStorm",
+            "$type": "Aow.Game.Draw.Animations.FireStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40712,7 +40712,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40732,13 +40732,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.FireStorm.owner1": {
+  "Aow.Game.Draw.Animations.FireStorm.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.FireStorm",
+            "$type": "Aow.Game.Draw.Animations.FireStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40753,7 +40753,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40775,7 +40775,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.FireStorm",
+              "$type": "Aow.Game.Draw.Animations.FireStorm",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -40790,7 +40790,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -40810,13 +40810,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.IceStorm.owner0": {
+  "Aow.Game.Draw.Animations.IceStorm.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.IceStorm",
+            "$type": "Aow.Game.Draw.Animations.IceStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40831,7 +40831,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40852,13 +40852,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.IceStorm.owner1": {
+  "Aow.Game.Draw.Animations.IceStorm.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.IceStorm",
+            "$type": "Aow.Game.Draw.Animations.IceStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40873,7 +40873,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40896,7 +40896,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.IceStorm",
+              "$type": "Aow.Game.Draw.Animations.IceStorm",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -40911,7 +40911,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -40932,13 +40932,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.LightningStorm.owner0": {
+  "Aow.Game.Draw.Animations.LightningStorm.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.LightningStorm",
+            "$type": "Aow.Game.Draw.Animations.LightningStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40953,7 +40953,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -40974,13 +40974,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.LightningStorm.owner1": {
+  "Aow.Game.Draw.Animations.LightningStorm.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.LightningStorm",
+            "$type": "Aow.Game.Draw.Animations.LightningStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -40995,7 +40995,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -41018,7 +41018,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.LightningStorm",
+              "$type": "Aow.Game.Draw.Animations.LightningStorm",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -41033,7 +41033,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -41054,13 +41054,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.PestilenceStorm.owner0": {
+  "Aow.Game.Draw.Animations.PestilenceStorm.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.PestilenceStorm",
+            "$type": "Aow.Game.Draw.Animations.PestilenceStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -41075,7 +41075,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -41096,13 +41096,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.PestilenceStorm.owner1": {
+  "Aow.Game.Draw.Animations.PestilenceStorm.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.PestilenceStorm",
+            "$type": "Aow.Game.Draw.Animations.PestilenceStorm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -41117,7 +41117,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -41140,7 +41140,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.PestilenceStorm",
+              "$type": "Aow.Game.Draw.Animations.PestilenceStorm",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -41155,7 +41155,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -41176,13 +41176,13 @@
       }
     ]
   },
-  "Aow.Game.Draw.Animation.Storm.owner0": {
+  "Aow.Game.Draw.Animations.Storm.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.Storm",
+            "$type": "Aow.Game.Draw.Animations.Storm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -41197,7 +41197,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -41217,13 +41217,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Draw.Animation.Storm.owner1": {
+  "Aow.Game.Draw.Animations.Storm.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.Animation.Storm",
+            "$type": "Aow.Game.Draw.Animations.Storm",
             "Animation.FAnimationLevel": 26,
             "Animation.FAnimationMap": null,
             "Animation.FDimensions": {
@@ -41238,7 +41238,7 @@
             "Animation.FOnNewFrame": null,
             "Animation.FOnShow": null,
             "Animation.FState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -41260,7 +41260,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Draw.Animation.Storm",
+              "$type": "Aow.Game.Draw.Animations.Storm",
               "Animation.FAnimationLevel": 0,
               "Animation.FAnimationMap": null,
               "Animation.FDimensions": {
@@ -41275,7 +41275,7 @@
               "Animation.FOnNewFrame": null,
               "Animation.FOnShow": null,
               "Animation.FState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animation.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation+StateElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -42135,7 +42135,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -42197,7 +42197,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -43244,13 +43244,13 @@
       }
     ]
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell.owner0": {
+  "Aow.Game.Magic.Spells.UnholyGroundSpell.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell",
+            "$type": "Aow.Game.Magic.Spells.UnholyGroundSpell",
             "EObject.FOwner": null,
             "GlobalTargetSpell.FAboveGroundOnly": false,
             "GlobalTargetSpell.FCasterID": 0,
@@ -43279,11 +43279,11 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -43302,11 +43302,11 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -43332,7 +43332,7 @@
             "Spell.FCastSounds": {
               "$type": "Aow.Game.Audio.SFXLibrary",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
               },
@@ -43371,13 +43371,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell.owner1": {
+  "Aow.Game.Magic.Spells.UnholyGroundSpell.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell",
+            "$type": "Aow.Game.Magic.Spells.UnholyGroundSpell",
             "EObject.FOwner": "$owner",
             "GlobalTargetSpell.FAboveGroundOnly": false,
             "GlobalTargetSpell.FCasterID": 0,
@@ -43406,11 +43406,11 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -43429,11 +43429,11 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Game.Engine.Hash.StringHashTable256",
+                    "$type": "Aow.Engine.Hash.StringHashTable256",
                     "StringHashTable256.FLists": {
-                      "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
+                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
                       "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Game.Engine.Hash.StringHashList",
+                        "$type": "Aow.Engine.Hash.StringHashList",
                         "HashList.FCapacity": 0,
                         "HashList.FCount": 0,
                         "HashList.FItems": null
@@ -43459,7 +43459,7 @@
             "Spell.FCastSounds": {
               "$type": "Aow.Game.Audio.SFXLibrary",
               "ENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "$type": "Aow.Engine.Nodes.EObjectList",
                 "DelphiList.count": 0,
                 "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
               },
@@ -43500,7 +43500,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell",
+              "$type": "Aow.Game.Magic.Spells.UnholyGroundSpell",
               "EObject.FOwner": "$owner",
               "GlobalTargetSpell.FAboveGroundOnly": false,
               "GlobalTargetSpell.FCasterID": 0,
@@ -43645,7 +43645,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -43671,7 +43671,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -43696,7 +43696,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },
@@ -43747,7 +43747,7 @@
             "PlayerStructure.FProductionPriority": 0,
             "PlayerStructure.FUnfogRange": 0,
             "PlayerStructure.FVictoryLocations": {
-              "$type": "Aow.Game.Engine.Collections.BitList",
+              "$type": "Aow.Engine.Collections.BitList",
               "BitList.FCapacity": 0,
               "BitList.FCount": 0,
               "BitList.FDefault": false,
@@ -43773,7 +43773,7 @@
               "ProductionControl.FQueue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": []
                 },
@@ -43798,7 +43798,7 @@
               "ProductionControl.FUnitProductions": {
                 "$type": "Aow.Game.Units.UnitProductionList",
                 "ENode.FChildren": {
-                  "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                  "$type": "Aow.Engine.Nodes.EObjectList",
                   "DelphiList.count": 0,
                   "DelphiList.items": "$ref:$.ProductionPlace.FProductionControl.ProductionControl.FQueue.ENode.FChildren.DelphiList.items"
                 },

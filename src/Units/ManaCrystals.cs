@@ -1,12 +1,15 @@
 // Translated from ManaCrystals.pas.
 using System.Runtime.InteropServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Ai;
+using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
@@ -150,7 +153,7 @@ public partial class ManaCrystals : ILTerrainMO
 
         if (condition)
         {
-            Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
+            AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
         var player = AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
@@ -158,7 +161,7 @@ public partial class ManaCrystals : ILTerrainMO
 
         Log = new LocationTextEventLog(null);
         Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
-        Log.FText = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
+        Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
         var lhx2 = GetLhx();
         var yhx2 = GetYhx();
         Log.SetLocation(GetXhx(), yhx2, lhx2);
@@ -194,7 +197,7 @@ public partial class ManaCrystals : ILTerrainMO
         public override int ResourceUserClassID() => 132030;
 
         // ManaCrystals.pas:165
-        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ManaCrystalsRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(ManaCrystalsRStr);
 
         private static readonly string ManaCrystalsRStr = "Mana Crystals";
 

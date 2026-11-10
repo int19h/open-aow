@@ -1,8 +1,10 @@
 // Translated from CombatHex.pas.
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
@@ -32,14 +34,14 @@ public partial class CombatHexagon : AbstractHexagon
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                ((AoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(Combat.AoWCombatMap.Current.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
+                ((AoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(AoWCombatMap.Current.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
             }
             else
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                ((AoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(Combat.AoWCombatMap.Current.MapContainer, xhx, yhx, lhx, 0);
+                ((AoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(AoWCombatMap.Current.MapContainer, xhx, yhx, lhx, 0);
             }
         }
     }
@@ -96,7 +98,7 @@ public partial class CombatHexagon : AbstractHexagon
     }
 
     // CombatHex.pas:73
-    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
     // CombatHex.pas:134
     public override void UpdateTransitions()
@@ -320,7 +322,7 @@ public partial class WaterCombatHexagon : AoWWaterHexagon
     public new const int ClassID = 2229655;
 
     // CombatHex.pas:216
-    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
     public new partial class Resource : AoWWaterHexagon.Resource
     {

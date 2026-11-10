@@ -1,7 +1,8 @@
+using Aow.Game;
 using Aow.Game.Engine;
 namespace Aow.Units.Tests;
 
-/// <summary>Pins the unit table of <see cref="Startup"/>: the order of the initialization and
+/// <summary>Pins the unit table of <see cref="global::Aow.Game.Startup"/>: the order of the initialization and
 /// finalization sections, for the full set and for a selection, as the nested chain before the
 /// table ran them.</summary>
 public sealed class StartupOrderTests
@@ -17,14 +18,14 @@ public sealed class StartupOrderTests
     [
         ("GFXE", "Aow.Game.Draw.GfxState", "Initialize", "Finalize"),
         ("ImageLib", "Aow.Game.Draw.Images.ImageLibraries", "Initialize", "Finalize"),
-        ("Engine", "Aow.Game.Engine.Nodes.EngineHost", "Initialize", "Finalize"),
+        ("Engine", "Aow.Engine.Nodes.EngineHost", "Initialize", "Finalize"),
         ("Sound", "Aow.Game.Audio.AudioHost", "Initialize", "Finalize"),
         ("AoWE", "Aow.Game.Magic.Abilities.GameTables", "Initialize", "Finalize"),
         ("City", "Aow.Game.World.Structures.CityRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
         ("BehaviorAG", "Aow.Game.Ai.Groups.BehaviorRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
         ("MainAG", "Aow.Game.Ai.Groups.MainRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
         ("IndependentAG", "Aow.Game.Ai.Groups.IndependentRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
-        ("AoWEReg", "Aow.Game.Engine.GameClasses", "Register", ""),
+        ("AoWEReg", "Aow.Game.GameClasses", "Register", ""),
         ("AoWTitleScene", "Aow.Game.Ui.Dialogs.TitleCaptions", "Initialize", ""),
     ];
 

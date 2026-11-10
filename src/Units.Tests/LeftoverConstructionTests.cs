@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.Json;
+using Aow.Engine;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Game;
 using Aow.Game.Ai;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -36,7 +42,7 @@ public sealed class LeftoverConstructionTests
     {
         private readonly int previousSeed = Runtime.RandSeed;
         private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly GameEngine previousEngine = GameTables.AoWEngine;
         private readonly AoWHSMap previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
@@ -46,7 +52,7 @@ public sealed class LeftoverConstructionTests
             Runtime.RandSeed = 123456789;
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
             AoWHSSet.Current = set;
-            Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+            GameTables.AoWEngine = EngineFixture.Engine;
             AoWHSMap.Current = null!;
             AoWHSSet.Current.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
@@ -57,7 +63,7 @@ public sealed class LeftoverConstructionTests
             Runtime.RandSeed = previousSeed;
 
             AoWHSSet.Current = previousSet;
-            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            GameTables.AoWEngine = previousEngine;
             AoWHSMap.Current = previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
@@ -70,7 +76,7 @@ public sealed class LeftoverConstructionTests
         object? State(object? item, string path)
         {
             if (item is null) return null;
-            if (item is AoWEngine) return "$engine";
+            if (item is GameEngine) return "$engine";
             Type type = item.GetType();
             if (item is string text) return text;
             if (type.IsEnum) return Convert.ToInt64(item);
@@ -124,7 +130,7 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Commands.ChangePlayerMagicTE",
         "Aow.Game.Commands.ChangePlayerSettingsTE",
         "Aow.Game.Commands.CheatTE",
-        "Aow.Game.Combat.Combat",
+        "Aow.Game.Combat.Battle",
         "Aow.Game.Combat.Actions.CombatAction",
         "Aow.Game.Commands.CombatFlowControlTE",
         "Aow.Game.Combat.CombatObject",
@@ -166,25 +172,25 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Commands.TerminatePlayerTE",
         "Aow.Game.Magic.Abilities.UnitEnchantmentAbility",
         "Aow.Game.Draw.UnitShadowHS",
-        "Aow.Game.Magic.Spells.Unit.UnitSpell",
+        "Aow.Game.Magic.Spells.UnitSpell",
         "Aow.Game.Commands.UnitSpellTE",
         "Aow.Game.Draw.WorldFXHS",
         "Aow.Game.Commands.CityEnchantmentSpellTE",
         "Aow.Game.Commands.CityTargetSpellTE",
         "Aow.Game.Commands.TownGateTE",
-        "Aow.Game.Engine.Nodes.EChangeNotifyEventList",
-        "Aow.Game.Engine.Nodes.EChangeNotifyNode",
-        "Aow.Game.Engine.Nodes.EControlStyleInverseSortNode",
-        "Aow.Game.Engine.Nodes.EControlStyleNode",
-        "Aow.Game.Engine.Nodes.ECustomNode",
-        "Aow.Game.Engine.Nodes.ECustomOwner",
-        "Aow.Game.Engine.Nodes.EInverseSortNode",
-        "Aow.Game.Engine.Nodes.ENode",
-        "Aow.Game.Engine.Nodes.EObjectEditor",
-        "Aow.Game.Engine.Nodes.EReferenceNode",
-        "Aow.Game.Engine.Nodes.EResource",
-        "Aow.Game.Engine.Nodes.EResourceList",
-        "Aow.Game.Engine.Nodes.ESortNode",
+        "Aow.Engine.Nodes.EChangeNotifyEventList",
+        "Aow.Engine.Nodes.EChangeNotifyNode",
+        "Aow.Engine.Nodes.EControlStyleInverseSortNode",
+        "Aow.Engine.Nodes.EControlStyleNode",
+        "Aow.Engine.Nodes.ECustomNode",
+        "Aow.Engine.Nodes.ECustomOwner",
+        "Aow.Engine.Nodes.EInverseSortNode",
+        "Aow.Engine.Nodes.ENode",
+        "Aow.Engine.Nodes.EObjectEditor",
+        "Aow.Engine.Nodes.EReferenceNode",
+        "Aow.Engine.Nodes.EResource",
+        "Aow.Engine.Nodes.EResourceList",
+        "Aow.Engine.Nodes.ESortNode",
         "Aow.Game.Commands.GlobalEnchantmentSpellTE",
         "Aow.Game.Draw.BirdsViewHS",
         "Aow.Game.Draw.ConcealAreaHS",
@@ -192,7 +198,7 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Commands.WarpPartyTE",
         "Aow.Game.Commands.FireBarrierTE",
         "Aow.Game.Commands.FreezeWaterTE",
-        "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell",
+        "Aow.Game.Magic.Spells.GlobalTargetSpell",
         "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls",
         "Aow.Game.Commands.HealingShowersTE",
         "Aow.Game.Commands.LevelTerrainTE",
@@ -224,7 +230,7 @@ public sealed class LeftoverConstructionTests
         try { return action(); }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
-            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(error.InnerException).Throw();
+            ExceptionDispatchInfo.Capture(error.InnerException).Throw();
             throw;
         }
     }
@@ -261,11 +267,11 @@ public sealed class LeftoverConstructionTests
                     Assert.Same(owner, value.Owner);
                     states.Add("success:" + Snapshot(value));
                 }
-                catch (System.Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
+                catch (Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
                 finally
                 {
                     try { value?.Dispose(); }
-                    catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                    catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
                 }
                 states.Add("owner:" + (owner?.Members.Count ?? 0));
                 if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
@@ -278,11 +284,11 @@ public sealed class LeftoverConstructionTests
     private static EObject Saved(Type type, ECustomNode owner)
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
-        using var engine = new Engine(null!);
+        using GameEngine engine = new GameEngine(null!);
         var descriptor = EClass.Of(type);
-        engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
+        engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
         try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
-        catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+        catch (Exception error) when (PortedExceptions.Is(error)) { }
         engine.RegisterEClasses([descriptor]);
         return engine.CreateEObject(descriptor.ClassID, owner);
     }

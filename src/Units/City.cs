@@ -1,18 +1,20 @@
 // Translated from City.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine.Buffers;
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Formats.Tree;
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -651,7 +653,7 @@ namespace Aow.Game.World.Structures
                         {
                             if (Msg.MsgID == 4359)
                             {
-                                InitCombat(Msg.Param[0].As<Combat.Combat>(), Msg.Param[1].As<ArmyHS>());
+                                InitCombat(Msg.Param[0].As<Combat.Battle>(), Msg.Param[1].As<ArmyHS>());
                                 Msg.Result = 1;
                             }
                             else
@@ -990,11 +992,11 @@ namespace Aow.Game.World.Structures
                 }
                 else
                 {
-                    Relation = Engine.Status.Friendly;
+                    Relation = Session.Status.Friendly;
                 }
 
                 // { Original condition makes this neutral-player adjustment unreachable. }
-                if (Set<Status>.Of(Engine.Status.Hostile, Engine.Status.Wary, Engine.Status.Neutral).Contains(Relation) && Player == FPlayer && FPlayer == 0)
+                if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(Relation) && Player == FPlayer && FPlayer == 0)
                 {
                     Maximum = Round(Maximum) + 7500;
                     Minimum = Maximum;
@@ -1044,7 +1046,7 @@ namespace Aow.Game.World.Structures
                 if (condition)
                 {
                     var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
-                    condition = Set<Status>.Of(Engine.Status.Hostile, Engine.Status.Wary).Contains(playerRelation);
+                    condition = Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(playerRelation);
                 }
 
                 if (condition)
@@ -1230,7 +1232,7 @@ namespace Aow.Game.World.Structures
                                 if (FPlayer == 0)
                                 {
                                     var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Info.Player);
-                                    if (Set<Status>.Of(Engine.Status.Polite, Engine.Status.Friendly).Contains(playerRelation))
+                                    if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation))
                                     {
                                         Amount = JoinAmount(Info.Player);
                                         if (Amount != -1)
@@ -1277,7 +1279,7 @@ namespace Aow.Game.World.Structures
                         if (condition)
                         {
                             var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Info.Player);
-                            condition = Set<Status>.Of(Engine.Status.Polite, Engine.Status.Friendly).Contains(playerRelation);
+                            condition = Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation);
                         }
 
                         if (condition && GetActiveAction() != CityAction.Migrate)
@@ -1389,7 +1391,7 @@ namespace Aow.Game.World.Structures
         }
 
         // City.pas:2225
-        public override void FinalizeCombat(Combat.Combat Combat)
+        public override void FinalizeCombat(Combat.Battle Combat)
         {
             if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
             {
@@ -1401,7 +1403,7 @@ namespace Aow.Game.World.Structures
         }
 
         // City.pas:2214
-        public override string GetCombatEventText(Combat.Combat Combat)
+        public override string GetCombatEventText(Combat.Battle Combat)
         {
             string Result = "";
             if (!GetRazed())
@@ -1894,7 +1896,7 @@ namespace Aow.Game.World.Structures
                     if (test)
                     {
                         var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
-                        test = Set<Status>.Of(Engine.Status.Hostile, Engine.Status.Wary, Engine.Status.Neutral).Contains(playerRelation);
+                        test = Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(playerRelation);
                     }
 
                     if (test)
@@ -1905,7 +1907,7 @@ namespace Aow.Game.World.Structures
                         for (int I = 0, last = Selection.Count - 1; I <= last; I++)
                         {
                             var itemRelation = Selection.GetItems(I);
-                            if (Set<Status>.Of(Engine.Status.Polite, Engine.Status.Friendly).Contains(itemRelation.FRelation))
+                            if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(itemRelation.FRelation))
                             {
                                 var itemRace = Selection.GetItems(I);
                                 bool passed = AoWHSMap.Current.FPlayers.RaceToPlayer(itemRace.FRace) == -1;
@@ -1981,14 +1983,14 @@ namespace Aow.Game.World.Structures
             if (condition)
             {
                 var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
-                bool contains = Set<Status>.Of(Engine.Status.Hostile, Engine.Status.Wary, Engine.Status.Neutral).Contains(playerRelation);
+                bool contains = Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(playerRelation);
                 if (contains)
                 {
                     bool test = false;
                     if (GetActiveOrder() is Migrate migrate)
                     {
                         var playerRelation2 = AoWHSMap.Current.FRaces.GetRace(migrate.Race).GetPlayerRelation(FPlayer);
-                        test = Set<Status>.Of(Engine.Status.Polite, Engine.Status.Friendly).Contains(playerRelation2);
+                        test = Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation2);
                     }
 
                     contains = !test;
@@ -2421,7 +2423,7 @@ namespace Aow.Game.World.Structures
                 if (AoWHSMap.Current.FRaces.GetRace(I).FEnabled)
                 {
                     Item = CreateMigrationItem((sbyte)I);
-                    if (Item != null && Set<Status>.Of(Engine.Status.Neutral, Engine.Status.Polite, Engine.Status.Friendly).Contains(Item.FRelation))
+                    if (Item != null && Set<Status>.Of(Session.Status.Neutral, Session.Status.Polite, Session.Status.Friendly).Contains(Item.FRelation))
                     {
                         Item.Owner = Result;
                     }
@@ -2650,7 +2652,7 @@ namespace Aow.Game.World.Structures
             {
                 if (FMode.Contains(ModeElement.Anarchy))
                 {
-                    Relation = Engine.Status.Hostile;
+                    Relation = Session.Status.Hostile;
                 }
                 else
                 {
@@ -2659,19 +2661,19 @@ namespace Aow.Game.World.Structures
 
                 switch (Relation)
                 {
-                    case Engine.Status.Hostile:
+                    case Session.Status.Hostile:
                         Value = -35;
                         break;
-                    case Engine.Status.Wary:
+                    case Session.Status.Wary:
                         Value = -25;
                         break;
-                    case Engine.Status.Neutral:
+                    case Session.Status.Neutral:
                         Value = 0;
                         break;
-                    case Engine.Status.Polite:
+                    case Session.Status.Polite:
                         Value = 15;
                         break;
-                    case Engine.Status.Friendly:
+                    case Session.Status.Friendly:
                         Value = 25;
                         break;
                     default:
@@ -2719,7 +2721,7 @@ namespace Aow.Game.World.Structures
                     }
 
                     Armies?.Dispose();
-                    if (Set<Status>.Of(Engine.Status.Hostile, Engine.Status.Wary).Contains(Relation))
+                    if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(Relation))
                     {
                         Units = new UnitList(null);
                         GenerateRebelUnits(Units);
@@ -2761,7 +2763,7 @@ namespace Aow.Game.World.Structures
                     }
                     else
                     {
-                        if (Set<Status>.Of(Engine.Status.Polite, Engine.Status.Friendly).Contains(Relation))
+                        if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(Relation))
                         {
                             ArmyValue = ArmyValue / (GetSize() * 10);
                             if (ArmyValue > 10)
@@ -2794,7 +2796,7 @@ namespace Aow.Game.World.Structures
                             {
                                 if (Value < 30)
                                 {
-                                    if (Set<Status>.Of(Engine.Status.Hostile, Engine.Status.Wary).Contains(Relation))
+                                    if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(Relation))
                                     {
                                         Result = CivilStatus.Oppressed;
                                     }
@@ -2805,7 +2807,7 @@ namespace Aow.Game.World.Structures
                                 }
                                 else
                                 {
-                                    if (Set<Status>.Of(Engine.Status.Hostile, Engine.Status.Wary).Contains(Relation))
+                                    if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(Relation))
                                     {
                                         Result = CivilStatus.Slavery;
                                     }
@@ -2892,7 +2894,7 @@ namespace Aow.Game.World.Structures
         }
 
         // City.pas:2206
-        public void InitCombat(Combat.Combat Combat, ArmyHS Army)
+        public void InitCombat(Combat.Battle Combat, ArmyHS Army)
         {
             if (FPlayer == 0)
             {
@@ -2970,7 +2972,7 @@ namespace Aow.Game.World.Structures
             else
             {
                 var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Player);
-                if (Set<Status>.Of(Engine.Status.Polite, Engine.Status.Friendly).Contains(playerRelation))
+                if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation))
                 {
                     Result = 0;
                 }
@@ -3126,7 +3128,7 @@ namespace Aow.Game.World.Structures
             {
                 Value = 5000;
                 var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
-                if (Set<Status>.Of(Engine.Status.Hostile, Engine.Status.Wary).Contains(playerRelation))
+                if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(playerRelation))
                 {
                     Value = Value * 2;
                 }

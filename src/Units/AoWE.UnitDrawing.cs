@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;

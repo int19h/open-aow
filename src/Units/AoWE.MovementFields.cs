@@ -1,5 +1,6 @@
 using Aow.Game.Ai;
 using Aow.Game.Engine;
+using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Rtl;

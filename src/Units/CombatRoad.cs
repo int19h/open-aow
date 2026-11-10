@@ -1,8 +1,9 @@
 // Translated from CombatRoad.pas.
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -59,7 +60,7 @@ public partial class CombatRoad : AbstractRoad
     }
 
     // CombatRoad.pas:54
-    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
     // CombatRoad.pas:57
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)

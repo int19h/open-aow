@@ -1,4 +1,5 @@
 // Translated from CMapCtrl.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;

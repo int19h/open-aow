@@ -1,4 +1,6 @@
 // Translated from AoWCampaignSettings.pas.
+using Aow.Engine.Buffers;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
@@ -39,18 +41,18 @@ public partial class CampaignSettingsDlg : DataModule
         for (int levelOrdinal = (int)(AoWCampaign.CampaignDifficultyLevel)0; levelOrdinal <= (int)(AoWCampaign.CampaignDifficultyLevel)2; levelOrdinal++)
         {
             Level = (AoWCampaign.CampaignDifficultyLevel)levelOrdinal;
-            var campaignDifficultyLevel = Magic.Abilities.AbilityRules.TranslateRStr(TCampaignDifficultyLevelRStr[(int)Level]);
+            var campaignDifficultyLevel = AbilityRules.TranslateRStr(TCampaignDifficultyLevelRStr[(int)Level]);
             DifficultyLevelCB.Items.AddObject(campaignDifficultyLevel, IntToObject((int)Level));
         }
 
-        var indexOfObject = DifficultyLevelCB.Items.IndexOfObject(IntToObject((int)Magic.Abilities.GameTables.AoWEngine.FCampaign.FDifficultyLevel));
+        var indexOfObject = DifficultyLevelCB.Items.IndexOfObject(IntToObject((int)GameTables.AoWEngine.FCampaign.FDifficultyLevel));
         DifficultyLevelCB.Selected = indexOfObject;
         TurnModeCB.Items.Clear();
-        var playMode = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TPlayModeRStr[(int)PlayMode.Turn]);
+        var playMode = AbilityRules.TranslateRStr(GameText.TPlayModeRStr[(int)PlayMode.Turn]);
         TurnModeCB.Items.AddObject(playMode, IntToObject((int)PlayMode.Turn));
-        var playModeText = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TPlayModeRStr[(int)PlayMode.Simultaneous]);
+        var playModeText = AbilityRules.TranslateRStr(GameText.TPlayModeRStr[(int)PlayMode.Simultaneous]);
         TurnModeCB.Items.AddObject(playModeText, IntToObject((int)PlayMode.Simultaneous));
-        var itemsIndexOfObject = TurnModeCB.Items.IndexOfObject(IntToObject((int)Magic.Abilities.GameTables.AoWEngine.FCampaign.FPlayMode));
+        var itemsIndexOfObject = TurnModeCB.Items.IndexOfObject(IntToObject((int)GameTables.AoWEngine.FCampaign.FPlayMode));
         TurnModeCB.Selected = itemsIndexOfObject;
     }
 
@@ -58,9 +60,9 @@ public partial class CampaignSettingsDlg : DataModule
     public void OKBtnClick()
     {
         var objectValue = DifficultyLevelCB.Items.Objects[DifficultyLevelCB.Selected];
-        Magic.Abilities.GameTables.AoWEngine.FCampaign.FDifficultyLevel = (AoWCampaign.CampaignDifficultyLevel)ObjectToInt(objectValue);
+        GameTables.AoWEngine.FCampaign.FDifficultyLevel = (AoWCampaign.CampaignDifficultyLevel)ObjectToInt(objectValue);
         var objectValue2 = TurnModeCB.Items.Objects[TurnModeCB.Selected];
-        Magic.Abilities.GameTables.AoWEngine.FCampaign.FPlayMode = (PlayMode)ObjectToInt(objectValue2);
+        GameTables.AoWEngine.FCampaign.FPlayMode = (PlayMode)ObjectToInt(objectValue2);
         Dlg.Visible = false;
     }
 
@@ -70,5 +72,5 @@ public partial class CampaignSettingsDlg : DataModule
         Dlg.Visible = false;
     }
 
-    private static Engine.Buffers.FixedArray_string_3 TCampaignDifficultyLevelRStr = Engine.Buffers.FixedArray_string_3.From(["Easy", "Normal", "Hard"]);
+    private static FixedArray_string_3 TCampaignDifficultyLevelRStr = FixedArray_string_3.From(["Easy", "Normal", "Hard"]);
 }

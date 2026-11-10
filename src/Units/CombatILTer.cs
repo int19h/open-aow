@@ -1,9 +1,10 @@
 // Translated from CombatILTer.pas.
 using System.Runtime.CompilerServices;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
@@ -97,7 +98,7 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:163
-        public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+        public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
         // CombatILTer.pas:93
         public override bool CanPlaceOnHS(HexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;

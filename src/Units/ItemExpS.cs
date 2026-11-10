@@ -1,10 +1,12 @@
 // Translated from ItemExpS.pas.
+using Aow.Engine.Collections;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Collections;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
@@ -90,7 +92,7 @@ namespace Aow.Game.World.Structures
         public override bool GetExplored() => FItems.Count == 0;
 
         // ItemExpS.pas:146
-        public override void SetupCombat(Combat.Combat Combat, ArmyHS Army)
+        public override void SetupCombat(Combat.Battle Combat, ArmyHS Army)
         {
             base.SetupCombat(Combat, Army);
             Combat.FItems = FItems;

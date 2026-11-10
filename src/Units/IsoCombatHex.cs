@@ -1,8 +1,10 @@
 // Translated from IsoCombatHex.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
+using Aow.Game.Host;
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
@@ -19,7 +21,7 @@ public partial class IsometricCombatHexagon : UpperIsometricHexagon
     public new const int ClassID = 2229514;
 
     // IsoCombatHex.pas:43
-    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
     // IsoCombatHex.pas:46
     public override void ShowDynamic(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)

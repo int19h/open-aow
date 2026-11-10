@@ -1,10 +1,10 @@
 {
-  "Aow.Game.Magic.Spells.City.Anarchy": {
+  "Aow.Game.Magic.Spells.Anarchy": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.Anarchy",
+        "$type": "Aow.Game.Magic.Spells.Anarchy",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 2,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -28,7 +28,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -65,9 +65,9 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.Anarchy",
+        "$type": "Aow.Game.Magic.Spells.Anarchy",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -103,12 +103,12 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.AnimateRuins": {
+  "Aow.Game.Magic.Spells.AnimateRuins": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.AnimateRuins",
+        "$type": "Aow.Game.Magic.Spells.AnimateRuins",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 10,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -132,7 +132,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -169,9 +169,9 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.AnimateRuins",
+        "$type": "Aow.Game.Magic.Spells.AnimateRuins",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -207,13 +207,13 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.AntiMagicShell": {
+  "Aow.Game.Magic.Spells.AntiMagicShell": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.AntiMagicShell",
+        "$type": "Aow.Game.Magic.Spells.AntiMagicShell",
         "CityEnchantmentSpell.FAIBudget": 0,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 1,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -226,7 +226,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 2,
         "CityEnchantmentSpell.FEnchantmentSpellID": 100,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 1,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -250,7 +250,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -287,10 +287,10 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.AntiMagicShell",
+        "$type": "Aow.Game.Magic.Spells.AntiMagicShell",
         "CityEnchantmentSpell.FAIBudget": 0,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -303,7 +303,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 0,
         "CityEnchantmentSpell.FEnchantmentSpellID": 0,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -339,13 +339,13 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.CityEnchantmentSpell": {
+  "Aow.Game.Magic.Spells.CityEnchantmentSpell": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.CityEnchantmentSpell",
+        "$type": "Aow.Game.Magic.Spells.CityEnchantmentSpell",
         "CityEnchantmentSpell.FAIBudget": 0,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -358,7 +358,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 0,
         "CityEnchantmentSpell.FEnchantmentSpellID": 0,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -382,7 +382,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -419,10 +419,10 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.CityEnchantmentSpell",
+        "$type": "Aow.Game.Magic.Spells.CityEnchantmentSpell",
         "CityEnchantmentSpell.FAIBudget": 0,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -435,7 +435,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 0,
         "CityEnchantmentSpell.FEnchantmentSpellID": 0,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -471,12 +471,12 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.CityTargetSpell": {
+  "Aow.Game.Magic.Spells.CityTargetSpell": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.CityTargetSpell",
+        "$type": "Aow.Game.Magic.Spells.CityTargetSpell",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -500,7 +500,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -537,9 +537,9 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.CityTargetSpell",
+        "$type": "Aow.Game.Magic.Spells.CityTargetSpell",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -575,13 +575,13 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.FountainOfLife": {
+  "Aow.Game.Magic.Spells.FountainOfLife": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.FountainOfLife",
+        "$type": "Aow.Game.Magic.Spells.FountainOfLife",
         "CityEnchantmentSpell.FAIBudget": 600,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 1,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -594,7 +594,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 0,
         "CityEnchantmentSpell.FEnchantmentSpellID": 50,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 1,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -618,7 +618,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -655,10 +655,10 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.FountainOfLife",
+        "$type": "Aow.Game.Magic.Spells.FountainOfLife",
         "CityEnchantmentSpell.FAIBudget": 0,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -671,7 +671,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 0,
         "CityEnchantmentSpell.FEnchantmentSpellID": 0,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -707,13 +707,13 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.GoldRush": {
+  "Aow.Game.Magic.Spells.GoldRush": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.GoldRush",
+        "$type": "Aow.Game.Magic.Spells.GoldRush",
         "CityEnchantmentSpell.FAIBudget": 600,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 2,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -726,7 +726,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 1,
         "CityEnchantmentSpell.FEnchantmentSpellID": 25,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 1,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -750,7 +750,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -787,10 +787,10 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.GoldRush",
+        "$type": "Aow.Game.Magic.Spells.GoldRush",
         "CityEnchantmentSpell.FAIBudget": 0,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -803,7 +803,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 0,
         "CityEnchantmentSpell.FEnchantmentSpellID": 0,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -839,12 +839,12 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.TownGate": {
+  "Aow.Game.Magic.Spells.TownGate": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.TownGate",
+        "$type": "Aow.Game.Magic.Spells.TownGate",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 5,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -868,7 +868,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -905,9 +905,9 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.TownGate",
+        "$type": "Aow.Game.Magic.Spells.TownGate",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -943,12 +943,12 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.TownQuake": {
+  "Aow.Game.Magic.Spells.TownQuake": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.TownQuake",
+        "$type": "Aow.Game.Magic.Spells.TownQuake",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 2,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -972,7 +972,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1009,9 +1009,9 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.TownQuake",
+        "$type": "Aow.Game.Magic.Spells.TownQuake",
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -1047,13 +1047,13 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.City.Warmonger": {
+  "Aow.Game.Magic.Spells.Warmonger": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.Warmonger",
+        "$type": "Aow.Game.Magic.Spells.Warmonger",
         "CityEnchantmentSpell.FAIBudget": 0,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 6,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -1066,7 +1066,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 3,
         "CityEnchantmentSpell.FEnchantmentSpellID": 50,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 1,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": true,
@@ -1090,7 +1090,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1127,10 +1127,10 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.City.Warmonger",
+        "$type": "Aow.Game.Magic.Spells.Warmonger",
         "CityEnchantmentSpell.FAIBudget": 0,
         "CityEnchantmentSpell.FAICastSituation": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityEnchantmentCastSpellSituationElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -1143,7 +1143,7 @@
         "CityEnchantmentSpell.FEnchantmentID": 0,
         "CityEnchantmentSpell.FEnchantmentSpellID": 0,
         "CityTargetSpell.FCityTargetMode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.City.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.CityTargetModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set\u00601.a": 0,
           "Set\u00601.b": 0,
           "Set\u00601.bounded": false,
@@ -1179,10 +1179,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.AnimateDead": {
+  "Aow.Game.Magic.Spells.AnimateDead": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.AnimateDead",
+        "$type": "Aow.Game.Magic.Spells.AnimateDead",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1208,7 +1208,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1245,7 +1245,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.AnimateDead",
+        "$type": "Aow.Game.Magic.Spells.AnimateDead",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1309,10 +1309,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.CallFlames": {
+  "Aow.Game.Magic.Spells.CallFlames": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.CallFlames",
+        "$type": "Aow.Game.Magic.Spells.CallFlames",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 9,
@@ -1338,7 +1338,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1375,7 +1375,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.CallFlames",
+        "$type": "Aow.Game.Magic.Spells.CallFlames",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1413,10 +1413,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.ChainLightning": {
+  "Aow.Game.Magic.Spells.ChainLightning": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.ChainLightning",
+        "$type": "Aow.Game.Magic.Spells.ChainLightning",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -1442,7 +1442,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1479,7 +1479,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.ChainLightning",
+        "$type": "Aow.Game.Magic.Spells.ChainLightning",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1517,10 +1517,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.ColdBreath": {
+  "Aow.Game.Magic.Spells.ColdBreath": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.ColdBreath",
+        "$type": "Aow.Game.Magic.Spells.ColdBreath",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -1546,7 +1546,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1583,7 +1583,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.ColdBreath",
+        "$type": "Aow.Game.Magic.Spells.ColdBreath",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1621,10 +1621,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.CombatSpell": {
+  "Aow.Game.Magic.Spells.CombatSpell": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.CombatSpell",
+        "$type": "Aow.Game.Magic.Spells.CombatSpell",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1650,7 +1650,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1687,7 +1687,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.CombatSpell",
+        "$type": "Aow.Game.Magic.Spells.CombatSpell",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1789,10 +1789,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.DeathRay": {
+  "Aow.Game.Magic.Spells.DeathRay": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.DeathRay",
+        "$type": "Aow.Game.Magic.Spells.DeathRay",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
@@ -1818,7 +1818,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1855,7 +1855,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.DeathRay",
+        "$type": "Aow.Game.Magic.Spells.DeathRay",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1893,10 +1893,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.DiseaseCloud": {
+  "Aow.Game.Magic.Spells.DiseaseCloud": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.DiseaseCloud",
+        "$type": "Aow.Game.Magic.Spells.DiseaseCloud",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -1922,7 +1922,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -1959,7 +1959,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.DiseaseCloud",
+        "$type": "Aow.Game.Magic.Spells.DiseaseCloud",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -1997,10 +1997,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Entangle": {
+  "Aow.Game.Magic.Spells.Entangle": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Entangle",
+        "$type": "Aow.Game.Magic.Spells.Entangle",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 7,
@@ -2026,7 +2026,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2063,7 +2063,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Entangle",
+        "$type": "Aow.Game.Magic.Spells.Entangle",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -2138,7 +2138,7 @@
         "MultiTargetCombatSpellCA.FSpellID": 0,
         "MultiTargetCombatSpellCA.FSucceeded": false,
         "MultiTargetCombatSpellCA.FTargetIDs": {
-          "$type": "Aow.Game.Engine.Collections.ByteList",
+          "$type": "Aow.Engine.Collections.ByteList",
           "ByteList.FCapacity": 0,
           "ByteList.FCount": 0,
           "ByteList.FDefault": 0,
@@ -2170,7 +2170,7 @@
         "MultiTargetCombatSpellCA.FSpellID": 0,
         "MultiTargetCombatSpellCA.FSucceeded": false,
         "MultiTargetCombatSpellCA.FTargetIDs": {
-          "$type": "Aow.Game.Engine.Collections.ByteList",
+          "$type": "Aow.Engine.Collections.ByteList",
           "ByteList.FCapacity": 0,
           "ByteList.FCount": 0,
           "ByteList.FDefault": 0,
@@ -2191,10 +2191,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.FireBall": {
+  "Aow.Game.Magic.Spells.FireBall": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.FireBall",
+        "$type": "Aow.Game.Magic.Spells.FireBall",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
@@ -2220,7 +2220,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2257,7 +2257,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.FireBall",
+        "$type": "Aow.Game.Magic.Spells.FireBall",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -2295,10 +2295,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.FireBreath": {
+  "Aow.Game.Magic.Spells.FireBreath": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.FireBreath",
+        "$type": "Aow.Game.Magic.Spells.FireBreath",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -2324,7 +2324,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2361,7 +2361,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.FireBreath",
+        "$type": "Aow.Game.Magic.Spells.FireBreath",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -2399,10 +2399,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.FlamingArrow": {
+  "Aow.Game.Magic.Spells.FlamingArrow": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.FlamingArrow",
+        "$type": "Aow.Game.Magic.Spells.FlamingArrow",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
@@ -2428,7 +2428,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2465,7 +2465,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.FlamingArrow",
+        "$type": "Aow.Game.Magic.Spells.FlamingArrow",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -2503,10 +2503,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.FrostBeams": {
+  "Aow.Game.Magic.Spells.FrostBeams": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.FrostBeams",
+        "$type": "Aow.Game.Magic.Spells.FrostBeams",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 9,
@@ -2532,7 +2532,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2569,7 +2569,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.FrostBeams",
+        "$type": "Aow.Game.Magic.Spells.FrostBeams",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -2607,10 +2607,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Geyser": {
+  "Aow.Game.Magic.Spells.Geyser": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Geyser",
+        "$type": "Aow.Game.Magic.Spells.Geyser",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 9,
@@ -2636,7 +2636,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2673,7 +2673,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Geyser",
+        "$type": "Aow.Game.Magic.Spells.Geyser",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -2711,10 +2711,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.GreatHail": {
+  "Aow.Game.Magic.Spells.GreatHail": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.GreatHail",
+        "$type": "Aow.Game.Magic.Spells.GreatHail",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 5,
@@ -2740,7 +2740,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2777,7 +2777,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.GreatHail",
+        "$type": "Aow.Game.Magic.Spells.GreatHail",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -2815,10 +2815,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.HighPrayer": {
+  "Aow.Game.Magic.Spells.HighPrayer": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.HighPrayer",
+        "$type": "Aow.Game.Magic.Spells.HighPrayer",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -2844,7 +2844,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2881,7 +2881,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.HighPrayer",
+        "$type": "Aow.Game.Magic.Spells.HighPrayer",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -2919,10 +2919,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.IceShards": {
+  "Aow.Game.Magic.Spells.IceShards": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.IceShards",
+        "$type": "Aow.Game.Magic.Spells.IceShards",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -2948,7 +2948,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -2985,7 +2985,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.IceShards",
+        "$type": "Aow.Game.Magic.Spells.IceShards",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3023,10 +3023,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.MindDecay": {
+  "Aow.Game.Magic.Spells.MindDecay": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.MindDecay",
+        "$type": "Aow.Game.Magic.Spells.MindDecay",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 5,
@@ -3052,7 +3052,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -3089,7 +3089,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.MindDecay",
+        "$type": "Aow.Game.Magic.Spells.MindDecay",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3164,7 +3164,7 @@
         "MultiTargetCombatSpellCA.FSpellID": 0,
         "MultiTargetCombatSpellCA.FSucceeded": false,
         "MultiTargetCombatSpellCA.FTargetIDs": {
-          "$type": "Aow.Game.Engine.Collections.ByteList",
+          "$type": "Aow.Engine.Collections.ByteList",
           "ByteList.FCapacity": 0,
           "ByteList.FCount": 0,
           "ByteList.FDefault": 0,
@@ -3185,10 +3185,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Ooze": {
+  "Aow.Game.Magic.Spells.Ooze": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Ooze",
+        "$type": "Aow.Game.Magic.Spells.Ooze",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3214,7 +3214,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -3251,7 +3251,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Ooze",
+        "$type": "Aow.Game.Magic.Spells.Ooze",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3289,10 +3289,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.RecallSpirit": {
+  "Aow.Game.Magic.Spells.RecallSpirit": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.RecallSpirit",
+        "$type": "Aow.Game.Magic.Spells.RecallSpirit",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3318,7 +3318,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -3355,7 +3355,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.RecallSpirit",
+        "$type": "Aow.Game.Magic.Spells.RecallSpirit",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3419,10 +3419,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.SacredWrath": {
+  "Aow.Game.Magic.Spells.SacredWrath": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.SacredWrath",
+        "$type": "Aow.Game.Magic.Spells.SacredWrath",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -3448,7 +3448,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -3485,7 +3485,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.SacredWrath",
+        "$type": "Aow.Game.Magic.Spells.SacredWrath",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3523,10 +3523,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.SacrificialFlame": {
+  "Aow.Game.Magic.Spells.SacrificialFlame": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.SacrificialFlame",
+        "$type": "Aow.Game.Magic.Spells.SacrificialFlame",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
@@ -3552,7 +3552,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -3589,7 +3589,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.SacrificialFlame",
+        "$type": "Aow.Game.Magic.Spells.SacrificialFlame",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3627,10 +3627,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Shockwave": {
+  "Aow.Game.Magic.Spells.Shockwave": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Shockwave",
+        "$type": "Aow.Game.Magic.Spells.Shockwave",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
@@ -3656,7 +3656,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -3693,7 +3693,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Shockwave",
+        "$type": "Aow.Game.Magic.Spells.Shockwave",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3731,10 +3731,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Slow": {
+  "Aow.Game.Magic.Spells.Slow": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Slow",
+        "$type": "Aow.Game.Magic.Spells.Slow",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 9,
@@ -3760,7 +3760,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -3797,7 +3797,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Slow",
+        "$type": "Aow.Game.Magic.Spells.Slow",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3861,10 +3861,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.SolarFlare": {
+  "Aow.Game.Magic.Spells.SolarFlare": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.SolarFlare",
+        "$type": "Aow.Game.Magic.Spells.SolarFlare",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
@@ -3890,7 +3890,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -3927,7 +3927,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.SolarFlare",
+        "$type": "Aow.Game.Magic.Spells.SolarFlare",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -3965,10 +3965,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Stoning": {
+  "Aow.Game.Magic.Spells.Stoning": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Stoning",
+        "$type": "Aow.Game.Magic.Spells.Stoning",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 5,
@@ -3994,7 +3994,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -4031,7 +4031,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Stoning",
+        "$type": "Aow.Game.Magic.Spells.Stoning",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -4069,10 +4069,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Swarm": {
+  "Aow.Game.Magic.Spells.Swarm": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Swarm",
+        "$type": "Aow.Game.Magic.Spells.Swarm",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -4098,7 +4098,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -4135,7 +4135,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Swarm",
+        "$type": "Aow.Game.Magic.Spells.Swarm",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -4223,10 +4223,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Terror": {
+  "Aow.Game.Magic.Spells.Terror": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Terror",
+        "$type": "Aow.Game.Magic.Spells.Terror",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -4252,7 +4252,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -4289,7 +4289,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Terror",
+        "$type": "Aow.Game.Magic.Spells.Terror",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -4327,10 +4327,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Tremors": {
+  "Aow.Game.Magic.Spells.Tremors": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Tremors",
+        "$type": "Aow.Game.Magic.Spells.Tremors",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -4356,7 +4356,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -4393,7 +4393,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Tremors",
+        "$type": "Aow.Game.Magic.Spells.Tremors",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -4431,10 +4431,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.TurnUndead": {
+  "Aow.Game.Magic.Spells.TurnUndead": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.TurnUndead",
+        "$type": "Aow.Game.Magic.Spells.TurnUndead",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 6,
@@ -4460,7 +4460,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -4497,7 +4497,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.TurnUndead",
+        "$type": "Aow.Game.Magic.Spells.TurnUndead",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -4599,10 +4599,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.Vaporize": {
+  "Aow.Game.Magic.Spells.Vaporize": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Vaporize",
+        "$type": "Aow.Game.Magic.Spells.Vaporize",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 7,
@@ -4628,7 +4628,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -4665,7 +4665,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.Vaporize",
+        "$type": "Aow.Game.Magic.Spells.Vaporize",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -4703,10 +4703,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Combat.WindsOfFury": {
+  "Aow.Game.Magic.Spells.WindsOfFury": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.WindsOfFury",
+        "$type": "Aow.Game.Magic.Spells.WindsOfFury",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 8,
@@ -4732,7 +4732,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -4769,7 +4769,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Combat.WindsOfFury",
+        "$type": "Aow.Game.Magic.Spells.WindsOfFury",
         "CombatSpell.FCombatInfo": {
           "$type": "Aow.Game.Magic.Spells.SpellCombatInfo",
           "SpellCombatInfo.Attack": 0,
@@ -4807,10 +4807,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.AirMastery": {
+  "Aow.Game.Magic.Spells.AirMastery": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.AirMastery",
+        "$type": "Aow.Game.Magic.Spells.AirMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 750,
         "Spell.FBaseManaCost": 1,
@@ -4826,7 +4826,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -4863,7 +4863,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.AirMastery",
+        "$type": "Aow.Game.Magic.Spells.AirMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -4891,10 +4891,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.AirMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.AirMasteryEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.AirMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.AirMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 175,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -4927,7 +4927,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.AirMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.AirMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -4959,10 +4959,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.DeathMastery": {
+  "Aow.Game.Magic.Spells.DeathMastery": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.DeathMastery",
+        "$type": "Aow.Game.Magic.Spells.DeathMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 1000,
         "Spell.FBaseManaCost": 1,
@@ -4978,7 +4978,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -5015,7 +5015,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.DeathMastery",
+        "$type": "Aow.Game.Magic.Spells.DeathMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -5043,10 +5043,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.DeathMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.DeathMasteryEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.DeathMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.DeathMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 175,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5079,7 +5079,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.DeathMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.DeathMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5111,10 +5111,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.EarthMastery": {
+  "Aow.Game.Magic.Spells.EarthMastery": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.EarthMastery",
+        "$type": "Aow.Game.Magic.Spells.EarthMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 1000,
         "Spell.FBaseManaCost": 1,
@@ -5130,7 +5130,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -5167,7 +5167,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.EarthMastery",
+        "$type": "Aow.Game.Magic.Spells.EarthMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -5195,10 +5195,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.EarthMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.EarthMasteryEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.EarthMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.EarthMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 175,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5231,7 +5231,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.EarthMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.EarthMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5263,10 +5263,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoads": {
+  "Aow.Game.Magic.Spells.EnchantedRoads": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoads",
+        "$type": "Aow.Game.Magic.Spells.EnchantedRoads",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 750,
         "Spell.FBaseManaCost": 1,
@@ -5282,7 +5282,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -5319,7 +5319,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoads",
+        "$type": "Aow.Game.Magic.Spells.EnchantedRoads",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -5347,10 +5347,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoadsEnchantment": {
+  "Aow.Game.Magic.Spells.EnchantedRoadsEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoadsEnchantment",
+        "$type": "Aow.Game.Magic.Spells.EnchantedRoadsEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 50,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5383,7 +5383,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoadsEnchantment",
+        "$type": "Aow.Game.Magic.Spells.EnchantedRoadsEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5415,10 +5415,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.FireMastery": {
+  "Aow.Game.Magic.Spells.FireMastery": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FireMastery",
+        "$type": "Aow.Game.Magic.Spells.FireMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 1000,
         "Spell.FBaseManaCost": 1,
@@ -5434,7 +5434,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -5471,7 +5471,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FireMastery",
+        "$type": "Aow.Game.Magic.Spells.FireMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -5499,10 +5499,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.FireMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.FireMasteryEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FireMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.FireMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 175,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5535,7 +5535,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FireMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.FireMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5567,10 +5567,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.Flood": {
+  "Aow.Game.Magic.Spells.Flood": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.Flood",
+        "$type": "Aow.Game.Magic.Spells.Flood",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": -1,
         "Spell.FBaseManaCost": 1,
@@ -5586,7 +5586,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -5623,7 +5623,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.Flood",
+        "$type": "Aow.Game.Magic.Spells.Flood",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -5651,10 +5651,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.FloodControl": {
+  "Aow.Game.Magic.Spells.FloodControl": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FloodControl",
+        "$type": "Aow.Game.Magic.Spells.FloodControl",
         "EObject.FOwner": "$owner",
         "FloodControl.FHeight": 0,
         "FloodControl.FOriginalTerrain": [],
@@ -5663,7 +5663,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FloodControl",
+        "$type": "Aow.Game.Magic.Spells.FloodControl",
         "EObject.FOwner": "$owner",
         "FloodControl.FHeight": 0,
         "FloodControl.FOriginalTerrain": [],
@@ -5671,14 +5671,14 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.FloodEnchantment": {
+  "Aow.Game.Magic.Spells.FloodEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FloodEnchantment",
+        "$type": "Aow.Game.Magic.Spells.FloodEnchantment",
         "EObject.FOwner": "$owner",
         "FloodEnchantment.FDispelPlayer": 0,
         "FloodEnchantment.FFloodControl": {
-          "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FloodControl",
+          "$type": "Aow.Game.Magic.Spells.FloodControl",
           "EObject.FOwner": null,
           "FloodControl.FHeight": 0,
           "FloodControl.FOriginalTerrain": [],
@@ -5718,7 +5718,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.FloodEnchantment",
+        "$type": "Aow.Game.Magic.Spells.FloodEnchantment",
         "EObject.FOwner": "$owner",
         "FloodEnchantment.FDispelPlayer": 0,
         "FloodEnchantment.FFloodControl": null,
@@ -5755,10 +5755,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell": {
+  "Aow.Game.Magic.Spells.GlobalEnchantmentSpell": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell",
+        "$type": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": -1,
         "Spell.FBaseManaCost": 0,
@@ -5774,7 +5774,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -5811,7 +5811,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.GlobalEnchantmentSpell",
+        "$type": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -5839,10 +5839,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.Harmony": {
+  "Aow.Game.Magic.Spells.Harmony": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.Harmony",
+        "$type": "Aow.Game.Magic.Spells.Harmony",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": -1,
         "Spell.FBaseManaCost": 15,
@@ -5858,7 +5858,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -5895,7 +5895,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.Harmony",
+        "$type": "Aow.Game.Magic.Spells.Harmony",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -5923,10 +5923,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.HarmonyEnchantment": {
+  "Aow.Game.Magic.Spells.HarmonyEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.HarmonyEnchantment",
+        "$type": "Aow.Game.Magic.Spells.HarmonyEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 50,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5960,7 +5960,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.HarmonyEnchantment",
+        "$type": "Aow.Game.Magic.Spells.HarmonyEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -5993,10 +5993,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.Hatred": {
+  "Aow.Game.Magic.Spells.Hatred": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.Hatred",
+        "$type": "Aow.Game.Magic.Spells.Hatred",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": -1,
         "Spell.FBaseManaCost": 20,
@@ -6012,7 +6012,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -6049,7 +6049,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.Hatred",
+        "$type": "Aow.Game.Magic.Spells.Hatred",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -6077,10 +6077,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.HatredEnchantment": {
+  "Aow.Game.Magic.Spells.HatredEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.HatredEnchantment",
+        "$type": "Aow.Game.Magic.Spells.HatredEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 50,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6114,7 +6114,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.HatredEnchantment",
+        "$type": "Aow.Game.Magic.Spells.HatredEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6147,10 +6147,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.LifeMastery": {
+  "Aow.Game.Magic.Spells.LifeMastery": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.LifeMastery",
+        "$type": "Aow.Game.Magic.Spells.LifeMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 1000,
         "Spell.FBaseManaCost": 1,
@@ -6166,7 +6166,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -6203,7 +6203,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.LifeMastery",
+        "$type": "Aow.Game.Magic.Spells.LifeMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -6231,10 +6231,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.LifeMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.LifeMasteryEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.LifeMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.LifeMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 175,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6267,7 +6267,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.LifeMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.LifeMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6299,10 +6299,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeak": {
+  "Aow.Game.Magic.Spells.PowerLeak": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeak",
+        "$type": "Aow.Game.Magic.Spells.PowerLeak",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 750,
         "Spell.FBaseManaCost": 1,
@@ -6318,7 +6318,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -6355,7 +6355,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeak",
+        "$type": "Aow.Game.Magic.Spells.PowerLeak",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -6383,10 +6383,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeakEnchantment": {
+  "Aow.Game.Magic.Spells.PowerLeakEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeakEnchantment",
+        "$type": "Aow.Game.Magic.Spells.PowerLeakEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 25,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6419,7 +6419,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeakEnchantment",
+        "$type": "Aow.Game.Magic.Spells.PowerLeakEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6451,10 +6451,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.SpellWard": {
+  "Aow.Game.Magic.Spells.SpellWard": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.SpellWard",
+        "$type": "Aow.Game.Magic.Spells.SpellWard",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": -1,
         "Spell.FBaseManaCost": 1,
@@ -6470,7 +6470,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -6507,7 +6507,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.SpellWard",
+        "$type": "Aow.Game.Magic.Spells.SpellWard",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -6535,10 +6535,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.SpellWardEnchantment": {
+  "Aow.Game.Magic.Spells.SpellWardEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.SpellWardEnchantment",
+        "$type": "Aow.Game.Magic.Spells.SpellWardEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 50,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6571,7 +6571,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.SpellWardEnchantment",
+        "$type": "Aow.Game.Magic.Spells.SpellWardEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6603,10 +6603,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.WaterMastery": {
+  "Aow.Game.Magic.Spells.WaterMastery": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.WaterMastery",
+        "$type": "Aow.Game.Magic.Spells.WaterMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 1000,
         "Spell.FBaseManaCost": 1,
@@ -6622,7 +6622,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -6659,7 +6659,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.WaterMastery",
+        "$type": "Aow.Game.Magic.Spells.WaterMastery",
         "EObject.FOwner": "$owner",
         "GlobalEnchantmentSpell.FAIBasePriority": 0,
         "Spell.FBaseManaCost": 0,
@@ -6687,10 +6687,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalEnchantment.WaterMasteryEnchantment": {
+  "Aow.Game.Magic.Spells.WaterMasteryEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.WaterMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.WaterMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 175,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6723,7 +6723,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalEnchantment.WaterMasteryEnchantment",
+        "$type": "Aow.Game.Magic.Spells.WaterMasteryEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -6755,10 +6755,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.AnimateHero": {
+  "Aow.Game.Magic.Spells.AnimateHero": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.AnimateHero",
+        "$type": "Aow.Game.Magic.Spells.AnimateHero",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -6773,7 +6773,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -6810,7 +6810,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.AnimateHero",
+        "$type": "Aow.Game.Magic.Spells.AnimateHero",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -6837,10 +6837,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.BirdsView": {
+  "Aow.Game.Magic.Spells.BirdsView": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.BirdsView",
+        "$type": "Aow.Game.Magic.Spells.BirdsView",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -6855,7 +6855,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -6892,7 +6892,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.BirdsView",
+        "$type": "Aow.Game.Magic.Spells.BirdsView",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -6919,10 +6919,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.CallHero": {
+  "Aow.Game.Magic.Spells.CallHero": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.CallHero",
+        "$type": "Aow.Game.Magic.Spells.CallHero",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -6937,7 +6937,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -6974,7 +6974,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.CallHero",
+        "$type": "Aow.Game.Magic.Spells.CallHero",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7001,10 +7001,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.ConcealArea": {
+  "Aow.Game.Magic.Spells.ConcealArea": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.ConcealArea",
+        "$type": "Aow.Game.Magic.Spells.ConcealArea",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -7019,7 +7019,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7056,7 +7056,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.ConcealArea",
+        "$type": "Aow.Game.Magic.Spells.ConcealArea",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7083,10 +7083,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.Crusade": {
+  "Aow.Game.Magic.Spells.Crusade": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.Crusade",
+        "$type": "Aow.Game.Magic.Spells.Crusade",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7101,7 +7101,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7138,7 +7138,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.Crusade",
+        "$type": "Aow.Game.Magic.Spells.Crusade",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7165,10 +7165,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.Disjunction": {
+  "Aow.Game.Magic.Spells.Disjunction": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.Disjunction",
+        "$type": "Aow.Game.Magic.Spells.Disjunction",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7183,7 +7183,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7220,7 +7220,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.Disjunction",
+        "$type": "Aow.Game.Magic.Spells.Disjunction",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7247,10 +7247,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.DisjunctionSpellCaster": {
+  "Aow.Game.Magic.Spells.DisjunctionSpellCaster": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.DisjunctionSpellCaster",
+        "$type": "Aow.Game.Magic.Spells.DisjunctionSpellCaster",
         "DisjunctionSpellCaster.FDispelChance": 50,
         "DisjunctionSpellCaster.FEnchantmentID": 0,
         "EObject.FOwner": "$owner",
@@ -7261,7 +7261,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.DisjunctionSpellCaster",
+        "$type": "Aow.Game.Magic.Spells.DisjunctionSpellCaster",
         "DisjunctionSpellCaster.FDispelChance": 0,
         "DisjunctionSpellCaster.FEnchantmentID": 0,
         "EObject.FOwner": "$owner",
@@ -7271,10 +7271,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.ResurrectHero": {
+  "Aow.Game.Magic.Spells.ResurrectHero": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.ResurrectHero",
+        "$type": "Aow.Game.Magic.Spells.ResurrectHero",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7289,7 +7289,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7326,7 +7326,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.ResurrectHero",
+        "$type": "Aow.Game.Magic.Spells.ResurrectHero",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7353,10 +7353,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Global.WarpParty": {
+  "Aow.Game.Magic.Spells.WarpParty": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.WarpParty",
+        "$type": "Aow.Game.Magic.Spells.WarpParty",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 1,
         "Spell.FCastDuration": 0,
@@ -7371,7 +7371,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7408,7 +7408,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Global.WarpParty",
+        "$type": "Aow.Game.Magic.Spells.WarpParty",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -7435,10 +7435,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.FireBarrier": {
+  "Aow.Game.Magic.Spells.FireBarrier": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.FireBarrier",
+        "$type": "Aow.Game.Magic.Spells.FireBarrier",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7456,7 +7456,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7493,7 +7493,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.FireBarrier",
+        "$type": "Aow.Game.Magic.Spells.FireBarrier",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7523,10 +7523,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.FreezeWater": {
+  "Aow.Game.Magic.Spells.FreezeWater": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.FreezeWater",
+        "$type": "Aow.Game.Magic.Spells.FreezeWater",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7544,7 +7544,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7581,7 +7581,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.FreezeWater",
+        "$type": "Aow.Game.Magic.Spells.FreezeWater",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7611,10 +7611,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell": {
+  "Aow.Game.Magic.Spells.GlobalTargetSpell": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell",
+        "$type": "Aow.Game.Magic.Spells.GlobalTargetSpell",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7632,7 +7632,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7669,7 +7669,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpell",
+        "$type": "Aow.Game.Magic.Spells.GlobalTargetSpell",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7699,10 +7699,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.HealingShowers": {
+  "Aow.Game.Magic.Spells.HealingShowers": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.HealingShowers",
+        "$type": "Aow.Game.Magic.Spells.HealingShowers",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7720,7 +7720,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7757,7 +7757,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.HealingShowers",
+        "$type": "Aow.Game.Magic.Spells.HealingShowers",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7787,10 +7787,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.LevelTerrain": {
+  "Aow.Game.Magic.Spells.LevelTerrain": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.LevelTerrain",
+        "$type": "Aow.Game.Magic.Spells.LevelTerrain",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7808,7 +7808,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7845,7 +7845,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.LevelTerrain",
+        "$type": "Aow.Game.Magic.Spells.LevelTerrain",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7875,10 +7875,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.Rejuvenate": {
+  "Aow.Game.Magic.Spells.Rejuvenate": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.Rejuvenate",
+        "$type": "Aow.Game.Magic.Spells.Rejuvenate",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": true,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7896,7 +7896,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -7933,7 +7933,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.Rejuvenate",
+        "$type": "Aow.Game.Magic.Spells.Rejuvenate",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7963,10 +7963,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.SmokeCloudSpell": {
+  "Aow.Game.Magic.Spells.SmokeCloudSpell": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.SmokeCloudSpell",
+        "$type": "Aow.Game.Magic.Spells.SmokeCloudSpell",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -7984,7 +7984,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8021,7 +8021,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.SmokeCloudSpell",
+        "$type": "Aow.Game.Magic.Spells.SmokeCloudSpell",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -8051,10 +8051,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.Tornado": {
+  "Aow.Game.Magic.Spells.Tornado": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.Tornado",
+        "$type": "Aow.Game.Magic.Spells.Tornado",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": true,
         "GlobalTargetSpell.FCasterID": 0,
@@ -8072,7 +8072,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8109,7 +8109,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.Tornado",
+        "$type": "Aow.Game.Magic.Spells.Tornado",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -8139,10 +8139,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.Vortex": {
+  "Aow.Game.Magic.Spells.Vortex": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.Vortex",
+        "$type": "Aow.Game.Magic.Spells.Vortex",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -8160,7 +8160,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8197,7 +8197,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.Vortex",
+        "$type": "Aow.Game.Magic.Spells.Vortex",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -8227,10 +8227,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.Watcher": {
+  "Aow.Game.Magic.Spells.Watcher": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.Watcher",
+        "$type": "Aow.Game.Magic.Spells.Watcher",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -8248,7 +8248,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8285,7 +8285,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.Watcher",
+        "$type": "Aow.Game.Magic.Spells.Watcher",
         "EObject.FOwner": "$owner",
         "GlobalTargetSpell.FAboveGroundOnly": false,
         "GlobalTargetSpell.FCasterID": 0,
@@ -8315,10 +8315,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.WatcherEnchantment": {
+  "Aow.Game.Magic.Spells.WatcherEnchantment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.WatcherEnchantment",
+        "$type": "Aow.Game.Magic.Spells.WatcherEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 50,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -8352,7 +8352,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.GlobalTarget.WatcherEnchantment",
+        "$type": "Aow.Game.Magic.Spells.WatcherEnchantment",
         "EObject.FOwner": "$owner",
         "GlobalEnchantment.FDispelMana": 0,
         "GlobalEnchantment.FEnchantmentID": 0,
@@ -8412,7 +8412,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8484,7 +8484,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8556,7 +8556,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8630,7 +8630,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8704,7 +8704,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8776,7 +8776,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8848,7 +8848,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8922,7 +8922,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -8996,7 +8996,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9068,7 +9068,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9142,7 +9142,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9214,7 +9214,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9286,7 +9286,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9358,7 +9358,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9430,7 +9430,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9502,7 +9502,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9574,7 +9574,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9646,7 +9646,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9718,7 +9718,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9792,7 +9792,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9864,7 +9864,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -9936,7 +9936,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10010,7 +10010,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10102,7 +10102,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10174,7 +10174,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10194,7 +10194,7 @@
         "AdjustableAbility.FAbilityType": 0,
         "EObject.FOwner": "$owner",
         "MultiLevelAbility.FLevelCosts": {
-          "$type": "Aow.Game.Engine.Collections.IntegerList",
+          "$type": "Aow.Engine.Collections.IntegerList",
           "IntegerList.FCapacity": 5,
           "IntegerList.FCount": 5,
           "IntegerList.FDefault": 0,
@@ -10262,7 +10262,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10354,7 +10354,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10428,7 +10428,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10502,7 +10502,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10574,7 +10574,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10648,7 +10648,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10740,7 +10740,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10812,7 +10812,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10884,7 +10884,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -10956,7 +10956,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11030,7 +11030,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11102,7 +11102,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11174,7 +11174,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11246,7 +11246,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11318,7 +11318,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11392,7 +11392,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11412,7 +11412,7 @@
         "AdjustableAbility.FAbilityType": 0,
         "EObject.FOwner": "$owner",
         "MultiLevelAbility.FLevelCosts": {
-          "$type": "Aow.Game.Engine.Collections.IntegerList",
+          "$type": "Aow.Engine.Collections.IntegerList",
           "IntegerList.FCapacity": 5,
           "IntegerList.FCount": 5,
           "IntegerList.FDefault": 0,
@@ -11480,7 +11480,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11552,7 +11552,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11624,7 +11624,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11698,7 +11698,7 @@
         "Ability.FSFXLibrary": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11743,10 +11743,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonAirElemental": {
+  "Aow.Game.Magic.Spells.SummonAirElemental": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonAirElemental",
+        "$type": "Aow.Game.Magic.Spells.SummonAirElemental",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 40,
@@ -11761,7 +11761,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11811,7 +11811,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonAirElemental",
+        "$type": "Aow.Game.Magic.Spells.SummonAirElemental",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -11840,10 +11840,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonBlackDragon": {
+  "Aow.Game.Magic.Spells.SummonBlackDragon": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonBlackDragon",
+        "$type": "Aow.Game.Magic.Spells.SummonBlackDragon",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 40,
@@ -11858,7 +11858,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -11908,7 +11908,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonBlackDragon",
+        "$type": "Aow.Game.Magic.Spells.SummonBlackDragon",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -11937,10 +11937,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonBlackSpider": {
+  "Aow.Game.Magic.Spells.SummonBlackSpider": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonBlackSpider",
+        "$type": "Aow.Game.Magic.Spells.SummonBlackSpider",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 5,
@@ -11955,7 +11955,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12005,7 +12005,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonBlackSpider",
+        "$type": "Aow.Game.Magic.Spells.SummonBlackSpider",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12034,10 +12034,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonBoar": {
+  "Aow.Game.Magic.Spells.SummonBoar": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonBoar",
+        "$type": "Aow.Game.Magic.Spells.SummonBoar",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 5,
@@ -12052,7 +12052,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12102,7 +12102,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonBoar",
+        "$type": "Aow.Game.Magic.Spells.SummonBoar",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12131,10 +12131,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonEarthElemental": {
+  "Aow.Game.Magic.Spells.SummonEarthElemental": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonEarthElemental",
+        "$type": "Aow.Game.Magic.Spells.SummonEarthElemental",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 40,
@@ -12149,7 +12149,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12199,7 +12199,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonEarthElemental",
+        "$type": "Aow.Game.Magic.Spells.SummonEarthElemental",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12228,10 +12228,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonFireElemental": {
+  "Aow.Game.Magic.Spells.SummonFireElemental": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonFireElemental",
+        "$type": "Aow.Game.Magic.Spells.SummonFireElemental",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 40,
@@ -12246,7 +12246,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12296,7 +12296,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonFireElemental",
+        "$type": "Aow.Game.Magic.Spells.SummonFireElemental",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12325,10 +12325,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonFireSprite": {
+  "Aow.Game.Magic.Spells.SummonFireSprite": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonFireSprite",
+        "$type": "Aow.Game.Magic.Spells.SummonFireSprite",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 10,
@@ -12343,7 +12343,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12393,7 +12393,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonFireSprite",
+        "$type": "Aow.Game.Magic.Spells.SummonFireSprite",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12422,10 +12422,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonFrog": {
+  "Aow.Game.Magic.Spells.SummonFrog": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonFrog",
+        "$type": "Aow.Game.Magic.Spells.SummonFrog",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 5,
@@ -12440,7 +12440,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12490,7 +12490,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonFrog",
+        "$type": "Aow.Game.Magic.Spells.SummonFrog",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12519,10 +12519,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonGoldDragon": {
+  "Aow.Game.Magic.Spells.SummonGoldDragon": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonGoldDragon",
+        "$type": "Aow.Game.Magic.Spells.SummonGoldDragon",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 40,
@@ -12537,7 +12537,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12587,7 +12587,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonGoldDragon",
+        "$type": "Aow.Game.Magic.Spells.SummonGoldDragon",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12616,10 +12616,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonGreatEagle": {
+  "Aow.Game.Magic.Spells.SummonGreatEagle": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonGreatEagle",
+        "$type": "Aow.Game.Magic.Spells.SummonGreatEagle",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 10,
@@ -12634,7 +12634,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12684,7 +12684,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonGreatEagle",
+        "$type": "Aow.Game.Magic.Spells.SummonGreatEagle",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12713,10 +12713,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonMermaid": {
+  "Aow.Game.Magic.Spells.SummonMermaid": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonMermaid",
+        "$type": "Aow.Game.Magic.Spells.SummonMermaid",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 5,
@@ -12731,7 +12731,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12781,7 +12781,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonMermaid",
+        "$type": "Aow.Game.Magic.Spells.SummonMermaid",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12810,10 +12810,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonSpell": {
+  "Aow.Game.Magic.Spells.SummonSpell": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonSpell",
+        "$type": "Aow.Game.Magic.Spells.SummonSpell",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12828,7 +12828,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12873,7 +12873,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonSpell",
+        "$type": "Aow.Game.Magic.Spells.SummonSpell",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12902,10 +12902,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonSyron": {
+  "Aow.Game.Magic.Spells.SummonSyron": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonSyron",
+        "$type": "Aow.Game.Magic.Spells.SummonSyron",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 40,
@@ -12920,7 +12920,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -12970,7 +12970,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonSyron",
+        "$type": "Aow.Game.Magic.Spells.SummonSyron",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -12999,10 +12999,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Summon.SummonWaterElemental": {
+  "Aow.Game.Magic.Spells.SummonWaterElemental": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonWaterElemental",
+        "$type": "Aow.Game.Magic.Spells.SummonWaterElemental",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 40,
@@ -13017,7 +13017,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13067,7 +13067,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Summon.SummonWaterElemental",
+        "$type": "Aow.Game.Magic.Spells.SummonWaterElemental",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13096,10 +13096,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.Bless": {
+  "Aow.Game.Magic.Spells.Bless": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Bless",
+        "$type": "Aow.Game.Magic.Spells.Bless",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 5,
@@ -13114,7 +13114,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13155,7 +13155,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Bless",
+        "$type": "Aow.Game.Magic.Spells.Bless",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13186,10 +13186,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.Concealment": {
+  "Aow.Game.Magic.Spells.Concealment": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Concealment",
+        "$type": "Aow.Game.Magic.Spells.Concealment",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -13204,7 +13204,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13245,7 +13245,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Concealment",
+        "$type": "Aow.Game.Magic.Spells.Concealment",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13276,10 +13276,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.CosmeticSurgery": {
+  "Aow.Game.Magic.Spells.CosmeticSurgery": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.CosmeticSurgery",
+        "$type": "Aow.Game.Magic.Spells.CosmeticSurgery",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13294,7 +13294,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13335,7 +13335,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.CosmeticSurgery",
+        "$type": "Aow.Game.Magic.Spells.CosmeticSurgery",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13366,10 +13366,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.CosmeticSurgerySpellCaster": {
+  "Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.CosmeticSurgerySpellCaster",
+        "$type": "Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster",
         "CosmeticSurgerySpellCaster.FFaceIndex": 0,
         "CosmeticSurgerySpellCaster.FTargetUnitID": 0,
         "EObject.FOwner": "$owner",
@@ -13380,7 +13380,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.CosmeticSurgerySpellCaster",
+        "$type": "Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster",
         "CosmeticSurgerySpellCaster.FFaceIndex": 0,
         "CosmeticSurgerySpellCaster.FTargetUnitID": 0,
         "EObject.FOwner": "$owner",
@@ -13390,10 +13390,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.DarkGift": {
+  "Aow.Game.Magic.Spells.DarkGift": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.DarkGift",
+        "$type": "Aow.Game.Magic.Spells.DarkGift",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 5,
@@ -13408,7 +13408,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13449,7 +13449,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.DarkGift",
+        "$type": "Aow.Game.Magic.Spells.DarkGift",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13480,10 +13480,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.DispelMagic": {
+  "Aow.Game.Magic.Spells.DispelMagic": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.DispelMagic",
+        "$type": "Aow.Game.Magic.Spells.DispelMagic",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -13498,7 +13498,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13539,7 +13539,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.DispelMagic",
+        "$type": "Aow.Game.Magic.Spells.DispelMagic",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13576,7 +13576,7 @@
         "$type": "Aow.Game.Combat.Actions.DispelMagicSpellCA",
         "CombatAction.FRefCount": 1,
         "DispelMagicCA.FEnchantmentIDs": {
-          "$type": "Aow.Game.Engine.Collections.IntegerList",
+          "$type": "Aow.Engine.Collections.IntegerList",
           "IntegerList.FCapacity": 0,
           "IntegerList.FCount": 0,
           "IntegerList.FDefault": 0,
@@ -13622,10 +13622,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.EnchantWeapon": {
+  "Aow.Game.Magic.Spells.EnchantWeapon": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.EnchantWeapon",
+        "$type": "Aow.Game.Magic.Spells.EnchantWeapon",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 5,
@@ -13640,7 +13640,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13681,7 +13681,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.EnchantWeapon",
+        "$type": "Aow.Game.Magic.Spells.EnchantWeapon",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13712,10 +13712,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.FireAura": {
+  "Aow.Game.Magic.Spells.FireAura": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.FireAura",
+        "$type": "Aow.Game.Magic.Spells.FireAura",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -13730,7 +13730,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13771,7 +13771,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.FireAura",
+        "$type": "Aow.Game.Magic.Spells.FireAura",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13802,10 +13802,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.FreeMovement": {
+  "Aow.Game.Magic.Spells.FreeMovement": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.FreeMovement",
+        "$type": "Aow.Game.Magic.Spells.FreeMovement",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -13820,7 +13820,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13861,7 +13861,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.FreeMovement",
+        "$type": "Aow.Game.Magic.Spells.FreeMovement",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13892,10 +13892,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.Fury": {
+  "Aow.Game.Magic.Spells.Fury": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Fury",
+        "$type": "Aow.Game.Magic.Spells.Fury",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -13910,7 +13910,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -13951,7 +13951,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Fury",
+        "$type": "Aow.Game.Magic.Spells.Fury",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -13982,10 +13982,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.Haste": {
+  "Aow.Game.Magic.Spells.Haste": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Haste",
+        "$type": "Aow.Game.Magic.Spells.Haste",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -14000,7 +14000,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14041,7 +14041,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Haste",
+        "$type": "Aow.Game.Magic.Spells.Haste",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -14072,10 +14072,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.HealingWater": {
+  "Aow.Game.Magic.Spells.HealingWater": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.HealingWater",
+        "$type": "Aow.Game.Magic.Spells.HealingWater",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -14090,7 +14090,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14131,7 +14131,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.HealingWater",
+        "$type": "Aow.Game.Magic.Spells.HealingWater",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -14162,10 +14162,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.HolyChampion": {
+  "Aow.Game.Magic.Spells.HolyChampion": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.HolyChampion",
+        "$type": "Aow.Game.Magic.Spells.HolyChampion",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -14180,7 +14180,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14221,7 +14221,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.HolyChampion",
+        "$type": "Aow.Game.Magic.Spells.HolyChampion",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -14252,10 +14252,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.LiquidForm": {
+  "Aow.Game.Magic.Spells.LiquidForm": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.LiquidForm",
+        "$type": "Aow.Game.Magic.Spells.LiquidForm",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -14270,7 +14270,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14311,7 +14311,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.LiquidForm",
+        "$type": "Aow.Game.Magic.Spells.LiquidForm",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -14342,10 +14342,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.Remedy": {
+  "Aow.Game.Magic.Spells.Remedy": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Remedy",
+        "$type": "Aow.Game.Magic.Spells.Remedy",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -14360,7 +14360,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14401,7 +14401,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.Remedy",
+        "$type": "Aow.Game.Magic.Spells.Remedy",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -14432,10 +14432,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.StoneSkin": {
+  "Aow.Game.Magic.Spells.StoneSkin": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.StoneSkin",
+        "$type": "Aow.Game.Magic.Spells.StoneSkin",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 5,
@@ -14450,7 +14450,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14491,7 +14491,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.StoneSkin",
+        "$type": "Aow.Game.Magic.Spells.StoneSkin",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -14522,10 +14522,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.UnholyChampion": {
+  "Aow.Game.Magic.Spells.UnholyChampion": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.UnholyChampion",
+        "$type": "Aow.Game.Magic.Spells.UnholyChampion",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -14540,7 +14540,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14581,7 +14581,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.UnholyChampion",
+        "$type": "Aow.Game.Magic.Spells.UnholyChampion",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -14612,10 +14612,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.WaterWalking": {
+  "Aow.Game.Magic.Spells.WaterWalking": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.WaterWalking",
+        "$type": "Aow.Game.Magic.Spells.WaterWalking",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -14630,7 +14630,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14671,7 +14671,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.WaterWalking",
+        "$type": "Aow.Game.Magic.Spells.WaterWalking",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,
@@ -14702,10 +14702,10 @@
       }
     }
   },
-  "Aow.Game.Magic.Spells.Unit.WindWalking": {
+  "Aow.Game.Magic.Spells.WindWalking": {
     "State": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.WindWalking",
+        "$type": "Aow.Game.Magic.Spells.WindWalking",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 5,
         "Spell.FCastDuration": 0,
@@ -14720,7 +14720,7 @@
         "Spell.FCastSounds": {
           "$type": "Aow.Game.Audio.SFXLibrary",
           "ENode.FChildren": {
-            "$type": "Aow.Game.Engine.Nodes.EObjectList",
+            "$type": "Aow.Engine.Nodes.EObjectList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
@@ -14761,7 +14761,7 @@
     },
     "Observation": {
       "$jsonText": {
-        "$type": "Aow.Game.Magic.Spells.Unit.WindWalking",
+        "$type": "Aow.Game.Magic.Spells.WindWalking",
         "EObject.FOwner": "$owner",
         "Spell.FBaseManaCost": 0,
         "Spell.FCastDuration": 0,

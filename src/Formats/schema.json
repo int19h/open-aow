@@ -815,8 +815,8 @@
       "properties": []
     },
     {
-      "name": "AoWEngine",
-      "parent": "HSEngine",
+      "name": "GameEngine",
+      "parent": "ENode",
       "id": 131073,
       "properties": []
     },
@@ -1602,7 +1602,7 @@
       "properties": []
     },
     {
-      "name": "Combat",
+      "name": "Battle",
       "parent": "EObject",
       "id": 80,
       "properties": [
@@ -2798,12 +2798,6 @@
       ]
     },
     {
-      "name": "Engine",
-      "parent": "ENode",
-      "id": 17,
-      "properties": []
-    },
-    {
       "name": "EnhancementAbility",
       "parent": "AdjustableAbility",
       "id": 80,
@@ -2976,8 +2970,8 @@
       "properties": []
     },
     {
-      "name": "FastCombat",
-      "parent": "Combat",
+      "name": "FastBattle",
+      "parent": "Battle",
       "id": 131760,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -3518,12 +3512,6 @@
         {"name": "Yhp", "id": 5, "codec": "i32"},
         {"name": "Lhx", "id": 6, "codec": "u8"}
       ]
-    },
-    {
-      "name": "HSEngine",
-      "parent": "Engine",
-      "id": 65537,
-      "properties": []
     },
     {
       "name": "HSMap",
@@ -6569,8 +6557,8 @@
       ]
     },
     {
-      "name": "TacticalCombat",
-      "parent": "Combat",
+      "name": "TacticalBattle",
+      "parent": "Battle",
       "id": 2228496,
       "engines": ["tactical"],
       "properties": []

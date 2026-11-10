@@ -1,8 +1,9 @@
 #nullable enable
+using Aow.Game;
 using Aow.Game.Engine;
 using Aow.Rtl;
 
-namespace Aow.Game.Engine.Nodes;
+namespace Aow.Engine.Nodes;
 
 // The editor clipboard has no host in the Engine set.
 public partial class ECopyComponent : Component
@@ -20,7 +21,7 @@ public partial class ECopyComponent : Component
     public int Count => objects.Count;
     public EObjectList EObjectList => objects;
 
-    public void CopyToClipboard(Engine engine, string name) { }
+    public void CopyToClipboard(GameEngine engine, string name) { }
 
-    public void PasteFromClipboard(Engine engine, string name) { }
+    public void PasteFromClipboard(GameEngine engine, string name) { }
 }

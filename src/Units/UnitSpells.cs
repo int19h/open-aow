@@ -1,18 +1,19 @@
 // Translated from UnitSpells.pas.
+using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
+using Aow.Engine.Storage;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
-using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
-using Aow.Game.Engine.Storage;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Session;
 using Aow.Game.Units;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -40,7 +41,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // UnitSpells.pas:987
-        public override void Execute(Combat Combat)
+        public override void Execute(Battle Combat)
         {
             CombatUnit Source;
             base.Execute(Combat);
@@ -57,7 +58,7 @@ namespace Aow.Game.Combat.Actions
     }
 }
 
-namespace Aow.Game.Magic.Spells.Unit
+namespace Aow.Game.Magic.Spells
 {
 
     // inherited multiple targets, target range, dispel resistance, AI value
@@ -126,24 +127,24 @@ namespace Aow.Game.Magic.Spells.Unit
                 {
                     var dispelMana = GetDispelMana(Source);
                     Chance = Enchantments.GetEnchantments(I).DispelChance(dispelMana);
-                    if (Chance > World.Map.AoWHSMap.Current.Random(100))
+                    if (Chance > AoWHSMap.Current.Random(100))
                     {
                         Count += 1;
                         Enchantments.GetEnchantments(I).Dispel();
                     }
                 }
 
-                if (Source.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (Source.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
                     if (Count > 0)
                     {
                         var format = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
-                        World.Map.AoWHSMap.Current.ShowMessage(format);
+                        AoWHSMap.Current.ShowMessage(format);
                     }
                     else
                     {
                         var dispelMagicFailed = AbilityRules.TranslateRStr(GameText.DispelMagicFailedRStr);
-                        World.Map.AoWHSMap.Current.ShowMessage(dispelMagicFailed);
+                        AoWHSMap.Current.ShowMessage(dispelMagicFailed);
                     }
                 }
 
@@ -387,7 +388,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == World.Map.AoWHSMap.Current.FSeatedPlayer || World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
+            if (Player == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(X, Y, Layer, 0))
             {
                 AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
@@ -400,7 +401,7 @@ namespace Aow.Game.Magic.Spells.Unit
             Result = Result && !Target.GetAbilityEnabled(156);
             if (Result)
             {
-                if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Target.FPlayer).FPlayerType != PlayerType.Human && Target is Leader)
+                if (AoWHSMap.Current.FPlayers.GetPlayers(Target.FPlayer).FPlayerType != PlayerType.Human && Target is Leader)
                 {
                     Result = false;
                 }
@@ -698,7 +699,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == World.Map.AoWHSMap.Current.FSeatedPlayer || World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
+            if (Player == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(X, Y, Layer, 0))
             {
                 AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
@@ -856,7 +857,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == World.Map.AoWHSMap.Current.FSeatedPlayer || World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
+            if (Player == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(X, Y, Layer, 0))
             {
                 AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
@@ -1022,9 +1023,9 @@ namespace Aow.Game.Magic.Spells.Unit
             UnitSpellTE Event;
             string Reason = "";
             ((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(59)).ResetTargetSelection();
-            Source = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
-            Target = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FTargetUnitID);
-            if (Source != null && Target != null && CanCast(ref Reason) && !World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+            Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
+            Target = AoWHSMap.Current.FUnitControl.FindUnit(FTargetUnitID);
+            if (Source != null && Target != null && CanCast(ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
                 Event = new UnitSpellTE(null);
                 var spell = AoWHSSet.Current.FSpellControl.GetSpell(59);
@@ -1032,7 +1033,7 @@ namespace Aow.Game.Magic.Spells.Unit
                 Event.FTargetUnitIDs.Add(FTargetUnitID);
                 Event.FSpellData[0] = FFaceIndex;
                 Event.FTargetPlayer = (byte)Target.FPlayer;
-                World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+                AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -1097,7 +1098,7 @@ namespace Aow.Game.Magic.Spells.Unit
                     Caster.FFaceIndex = 0;
                 }
 
-                World.Map.AoWHSMap.Current.FCosmeticSurgeryEventsStore.Raise(Caster);
+                AoWHSMap.Current.FCosmeticSurgeryEventsStore.Raise(Caster);
                 Caster.Release();
                 Result = true;
             }
