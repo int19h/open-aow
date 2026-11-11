@@ -32,8 +32,7 @@ public sealed class MapNetSoundConstructionTests
             typeof(HexagonSprite), typeof(MapObject), typeof(AbstractHexagon), typeof(AbstractBorderHexagon), typeof(AbstractRoad),
             typeof(SFX), typeof(SFXSequence), typeof(MapObjectResource), typeof(MapObjectResourceList), typeof(MapLevel),
             typeof(HexagonSpriteSelection), typeof(MORTerrainControl), typeof(HexagonControl),
-            typeof(RoadControl), typeof(HSSet), typeof(CustomFixedVisibleHS), typeof(LibraryImageHS),
-            typeof(HPBasedHS), typeof(MultiHexMOR), typeof(AbstractHexagonResource),
+            typeof(RoadControl), typeof(HSSet), typeof(CustomFixedVisibleHS), typeof(MultiHexMOR), typeof(AbstractHexagonResource),
             typeof(PlayerCommunicator), typeof(TokenEvent), typeof(TokenEventList), typeof(DataPackage),
             typeof(PlayerCommunicationSettings), typeof(PlayerCommunicationSettingsList),
             typeof(TokenPackage), typeof(PassTokenTE), typeof(SyncTE), typeof(Songlist), typeof(SFXLibrary)];
@@ -141,15 +140,6 @@ public sealed class MapNetSoundConstructionTests
                 Assert.NotNull(set.FResourceEditSettings);
                 Assert.NotNull(set.FImageLibraryManager);
                 Assert.Equal(0, set.FSFXManager.SFX.Count);
-                break;
-            case LibraryImageHS image:
-                Assert.Equal(26, image.Level);
-                Assert.Equal(Set<LibraryImageHS.StatusElement>.Of(LibraryImageHS.StatusElement.MapIsOwner), image.FStatus);
-                break;
-            case HPBasedHS hp:
-                Assert.Equal(int.MinValue, hp.FXhp);
-                Assert.Equal(int.MinValue, hp.FYhp);
-                Assert.Equal(-1, hp.FLhx);
                 break;
             case MapObject sprite:
                 Assert.Null(sprite.FResource);

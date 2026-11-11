@@ -46,7 +46,6 @@ public sealed class EngineSupportTests
         Assert.Equal(0x12345678, value.HighPart);
         Assert.Equal(16, Marshal.SizeOf<Rect>());
         Assert.Equal(12, Marshal.OffsetOf<Rect>(nameof(Rect.Bottom)).ToInt32());
-        Assert.Equal(3, (int)BltMode.Center);
     }
 
     [Fact]

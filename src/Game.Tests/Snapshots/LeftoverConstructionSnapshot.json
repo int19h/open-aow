@@ -1491,32 +1491,32 @@
                                 },
                                 "EClass.\u003CType\u003Ek__BackingField": "Aow.Engine.Nodes.ECustomNode",
                                 "EClass.create": [
-                                  "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_91"
+                                  "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_87"
                                 ]
                               },
                               "EClass.\u003CType\u003Ek__BackingField": "Aow.Engine.Nodes.EChangeNotifyNode",
                               "EClass.create": [
-                                "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_261"
+                                "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_243"
                               ]
                             },
                             "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Units.UnitList",
                             "EClass.create": [
-                              "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_406"
+                              "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_377"
                             ]
                           },
                           "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Units.UnitUserList",
                           "EClass.create": [
-                            "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_655"
+                            "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_620"
                           ]
                         },
                         "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.Groups.AIGroup",
                         "EClass.create": [
-                          "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_771"
+                          "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_729"
                         ]
                       },
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.Groups.HuntAG",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_838"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_791"
                       ]
                     }
                   },
@@ -1557,7 +1557,7 @@
                       },
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.InitializeAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_179"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_168"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 1000,
@@ -1581,7 +1581,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.ProcessEventlogAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_198"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_185"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 999,
@@ -1605,7 +1605,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.BudgetManagerAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_132"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_126"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 25,
@@ -1629,7 +1629,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.CastSpellAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_134"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_128"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 23,
@@ -1653,7 +1653,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.ResearchSpellAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_203"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_189"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 22,
@@ -1681,12 +1681,12 @@
                         "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                         "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.StructureAIPA",
                         "EClass.create": [
-                          "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_214"
+                          "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_198"
                         ]
                       },
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.StructurePhase1AIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_399"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_370"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 21,
@@ -1710,7 +1710,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.GroupControlLoopAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_168"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_159"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 20,
@@ -1734,7 +1734,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.GroupControlAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_167"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_158"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 20,
@@ -1758,7 +1758,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[5].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.StructurePhase2AIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_400"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_371"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 15,
@@ -1782,7 +1782,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.DiplomacyAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_150"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_143"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 14,
@@ -1806,7 +1806,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.AutoProduceAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_131"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_125"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 12,
@@ -1830,7 +1830,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.EndTurnAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_158"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_150"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 10,
@@ -5042,32 +5042,32 @@
                                 },
                                 "EClass.\u003CType\u003Ek__BackingField": "Aow.Engine.Nodes.ECustomNode",
                                 "EClass.create": [
-                                  "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_91"
+                                  "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_87"
                                 ]
                               },
                               "EClass.\u003CType\u003Ek__BackingField": "Aow.Engine.Nodes.EChangeNotifyNode",
                               "EClass.create": [
-                                "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_261"
+                                "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_243"
                               ]
                             },
                             "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Units.UnitList",
                             "EClass.create": [
-                              "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_406"
+                              "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_377"
                             ]
                           },
                           "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Units.UnitUserList",
                           "EClass.create": [
-                            "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_655"
+                            "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_620"
                           ]
                         },
                         "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.Groups.AIGroup",
                         "EClass.create": [
-                          "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_771"
+                          "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_729"
                         ]
                       },
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.Groups.HuntAG",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_838"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_791"
                       ]
                     }
                   },
@@ -5108,7 +5108,7 @@
                       },
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.InitializeAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_179"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_168"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 1000,
@@ -5132,7 +5132,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.ProcessEventlogAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_198"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_185"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 999,
@@ -5156,7 +5156,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.BudgetManagerAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_132"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_126"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 25,
@@ -5180,7 +5180,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.CastSpellAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_134"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_128"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 23,
@@ -5204,7 +5204,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.ResearchSpellAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_203"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_189"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 22,
@@ -5232,12 +5232,12 @@
                         "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                         "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.StructureAIPA",
                         "EClass.create": [
-                          "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_214"
+                          "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_198"
                         ]
                       },
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.StructurePhase1AIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_399"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_370"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 21,
@@ -5261,7 +5261,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.GroupControlLoopAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_168"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_159"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 20,
@@ -5285,7 +5285,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.GroupControlAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_167"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_158"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 20,
@@ -5309,7 +5309,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[5].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.StructurePhase2AIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_400"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_371"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 15,
@@ -5333,7 +5333,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.DiplomacyAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_150"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_143"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 14,
@@ -5357,7 +5357,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.AutoProduceAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_131"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_125"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 12,
@@ -5381,7 +5381,7 @@
                       "EClass.\u003CParent\u003Ek__BackingField": "$ref:$.AoWHSMap.FAIPlayerActionManager.AIPlayerActionManager.FRegisteredClasses.DelphiList.items[0].AIPlayerActionClass.\u003CClass\u003Ek__BackingField.EClass.\u003CParent\u003Ek__BackingField",
                       "EClass.\u003CType\u003Ek__BackingField": "Aow.Game.Ai.EndTurnAIPA",
                       "EClass.create": [
-                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_158"
+                        "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_150"
                       ]
                     },
                     "AIPlayerActionClass.\u003CPriority\u003Ek__BackingField": 10,
@@ -15777,68 +15777,6 @@
   "Aow.Game.Magic.Spells.SpellCaster.owner1.route3": {
     "$sameAs": "Aow.Game.Magic.Spells.SpellCaster.owner1.route0"
   },
-  "Aow.Game.Commands.SpellTECallViewP4.owner0.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Commands.SpellTECallViewP4",
-            "EObject.FOwner": null,
-            "TokenEvent.FRefCount": 1,
-            "TokenEvent.FTokenCounter": -1
-          }
-        }
-      },
-      "owner:0"
-    ]
-  },
-  "Aow.Game.Commands.SpellTECallViewP4.owner0.route1": {
-    "$sameAs": "Aow.Game.Commands.SpellTECallViewP4.owner0.route0"
-  },
-  "Aow.Game.Commands.SpellTECallViewP4.owner0.route2": {
-    "$sameAs": "Aow.Game.Commands.SpellTECallViewP4.owner0.route0"
-  },
-  "Aow.Game.Commands.SpellTECallViewP4.owner0.route3": {
-    "$sameAs": "Aow.Game.Commands.SpellTECallViewP4.owner0.route0"
-  },
-  "Aow.Game.Commands.SpellTECallViewP4.owner1.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Commands.SpellTECallViewP4",
-            "EObject.FOwner": "$owner",
-            "TokenEvent.FRefCount": 1,
-            "TokenEvent.FTokenCounter": -1
-          }
-        }
-      },
-      "owner:0",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.Commands.SpellTECallViewP4",
-              "EObject.FOwner": "$owner",
-              "TokenEvent.FRefCount": 0,
-              "TokenEvent.FTokenCounter": 0
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "Aow.Game.Commands.SpellTECallViewP4.owner1.route1": {
-    "$sameAs": "Aow.Game.Commands.SpellTECallViewP4.owner1.route0"
-  },
-  "Aow.Game.Commands.SpellTECallViewP4.owner1.route2": {
-    "$sameAs": "Aow.Game.Commands.SpellTECallViewP4.owner1.route0"
-  },
-  "Aow.Game.Commands.SpellTECallViewP4.owner1.route3": {
-    "$sameAs": "Aow.Game.Commands.SpellTECallViewP4.owner1.route0"
-  },
   "Aow.Game.Audio.StartupSongList.owner0.route0": {
     "$lines": [
       {
@@ -19275,304 +19213,6 @@
   "Aow.Game.Magic.Spells.GlobalTargetSpell.owner1.route3": {
     "$sameAs": "Aow.Game.Magic.Spells.GlobalTargetSpell.owner1.route0"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner0.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls",
-            "EObject.FOwner": null,
-            "Spell.FBaseManaCost": 0,
-            "Spell.FCastDuration": 0,
-            "Spell.FCastImages": {
-              "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-              "ImageSequenceList.FILManager": {
-                "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
-                "Component.\u003CComponentState\u003Ek__BackingField": {
-                  "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set\u00601.a": 0,
-                  "Set\u00601.b": 0,
-                  "Set\u00601.bounded": false,
-                  "Set\u00601.c": 0,
-                  "Set\u00601.d": 0,
-                  "Set\u00601.high": 0,
-                  "Set\u00601.low": 0
-                },
-                "Component.\u003COwner\u003Ek__BackingField": null,
-                "Component.\u003CTag\u003Ek__BackingField": 0,
-                "Component.children": [],
-                "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager.FDiskList": {
-                  "$type": "Aow.Game.Draw.Images.ILManagerList",
-                  "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
-                  },
-                  "ILManagerList.FOwner": "$owner",
-                  "StringList.\u003CDuplicates\u003Ek__BackingField": 0,
-                  "StringList.\u003COnChange\u003Ek__BackingField": null,
-                  "StringList.\u003COnChanging\u003Ek__BackingField": null,
-                  "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false,
-                  "StringCollection.UpdateCount": 0
-                },
-                "ImageLibraryManager.FOwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ILManagerList",
-                  "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
-                  },
-                  "ILManagerList.FOwner": "$owner",
-                  "StringList.\u003CDuplicates\u003Ek__BackingField": 0,
-                  "StringList.\u003COnChange\u003Ek__BackingField": null,
-                  "StringList.\u003COnChanging\u003Ek__BackingField": null,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.StringList.items",
-                  "StringList.sorted": false,
-                  "StringCollection.UpdateCount": 0
-                },
-                "ImageLibraryManager.FSearchPath": ""
-              },
-              "ImageSequenceList.FImageLibrary": null,
-              "ImageSequenceList.FLinked": false,
-              "DelphiList.count": 0,
-              "DelphiList.items": []
-            },
-            "Spell.FCastSounds": {
-              "$type": "Aow.Game.Audio.SFXLibrary",
-              "ENode.FChildren": {
-                "$type": "Aow.Engine.Nodes.EObjectList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
-              },
-              "EObject.FOwner": null
-            },
-            "Spell.FMagicSphere": 0,
-            "Spell.FManaUpkeep": 0,
-            "Spell.FResearchCost": 1,
-            "Spell.FSpellControlTypes": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.SpellControlTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 1,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": true,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 1,
-              "Set\u00601.low": 0
-            },
-            "Spell.FSpellID": 0,
-            "Spell.FSpellLevel": 0,
-            "Spell.FSpellName": "",
-            "Spell.FSpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringList.\u003CDuplicates\u003Ek__BackingField": 0,
-              "StringList.\u003COnChange\u003Ek__BackingField": null,
-              "StringList.\u003COnChanging\u003Ek__BackingField": null,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.StringList.items",
-              "StringList.sorted": false,
-              "StringCollection.UpdateCount": 0
-            },
-            "Spell.FSpellType": 0
-          }
-        }
-      },
-      "owner:0"
-    ]
-  },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner0.route1": {
-    "$sameAs": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner0.route0"
-  },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner0.route2": {
-    "$sameAs": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner0.route0"
-  },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner0.route3": {
-    "$sameAs": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner0.route0"
-  },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner1.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls",
-            "EObject.FOwner": "$owner",
-            "Spell.FBaseManaCost": 0,
-            "Spell.FCastDuration": 0,
-            "Spell.FCastImages": {
-              "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-              "ImageSequenceList.FILManager": {
-                "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
-                "Component.\u003CComponentState\u003Ek__BackingField": {
-                  "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set\u00601.a": 0,
-                  "Set\u00601.b": 0,
-                  "Set\u00601.bounded": false,
-                  "Set\u00601.c": 0,
-                  "Set\u00601.d": 0,
-                  "Set\u00601.high": 0,
-                  "Set\u00601.low": 0
-                },
-                "Component.\u003COwner\u003Ek__BackingField": null,
-                "Component.\u003CTag\u003Ek__BackingField": 0,
-                "Component.children": [],
-                "Component.freeNotifies": null,
-                "Component.name": "",
-                "ImageLibraryManager.FDiskList": {
-                  "$type": "Aow.Game.Draw.Images.ILManagerList",
-                  "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
-                  },
-                  "ILManagerList.FOwner": "$owner",
-                  "StringList.\u003CDuplicates\u003Ek__BackingField": 0,
-                  "StringList.\u003COnChange\u003Ek__BackingField": null,
-                  "StringList.\u003COnChanging\u003Ek__BackingField": null,
-                  "StringList.count": 0,
-                  "StringList.items": [],
-                  "StringList.sorted": false,
-                  "StringCollection.UpdateCount": 0
-                },
-                "ImageLibraryManager.FOwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ILManagerList",
-                  "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
-                  },
-                  "ILManagerList.FOwner": "$owner",
-                  "StringList.\u003CDuplicates\u003Ek__BackingField": 0,
-                  "StringList.\u003COnChange\u003Ek__BackingField": null,
-                  "StringList.\u003COnChanging\u003Ek__BackingField": null,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.StringList.items",
-                  "StringList.sorted": false,
-                  "StringCollection.UpdateCount": 0
-                },
-                "ImageLibraryManager.FSearchPath": ""
-              },
-              "ImageSequenceList.FImageLibrary": null,
-              "ImageSequenceList.FLinked": false,
-              "DelphiList.count": 0,
-              "DelphiList.items": []
-            },
-            "Spell.FCastSounds": {
-              "$type": "Aow.Game.Audio.SFXLibrary",
-              "ENode.FChildren": {
-                "$type": "Aow.Engine.Nodes.EObjectList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.Spell.FCastImages.DelphiList.items"
-              },
-              "EObject.FOwner": null
-            },
-            "Spell.FMagicSphere": 0,
-            "Spell.FManaUpkeep": 0,
-            "Spell.FResearchCost": 1,
-            "Spell.FSpellControlTypes": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.SpellControlTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 1,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": true,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 1,
-              "Set\u00601.low": 0
-            },
-            "Spell.FSpellID": 0,
-            "Spell.FSpellLevel": 0,
-            "Spell.FSpellName": "",
-            "Spell.FSpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringList.\u003CDuplicates\u003Ek__BackingField": 0,
-              "StringList.\u003COnChange\u003Ek__BackingField": null,
-              "StringList.\u003COnChanging\u003Ek__BackingField": null,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.StringList.items",
-              "StringList.sorted": false,
-              "StringCollection.UpdateCount": 0
-            },
-            "Spell.FSpellType": 0
-          }
-        }
-      },
-      "owner:0",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls",
-              "EObject.FOwner": "$owner",
-              "Spell.FBaseManaCost": 0,
-              "Spell.FCastDuration": 0,
-              "Spell.FCastImages": null,
-              "Spell.FCastSounds": null,
-              "Spell.FMagicSphere": 0,
-              "Spell.FManaUpkeep": 0,
-              "Spell.FResearchCost": 0,
-              "Spell.FSpellControlTypes": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.SpellControlTypeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
-              "Spell.FSpellID": 0,
-              "Spell.FSpellLevel": 0,
-              "Spell.FSpellName": "",
-              "Spell.FSpellText": null,
-              "Spell.FSpellType": 0
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner1.route1": {
-    "$sameAs": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner1.route0"
-  },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner1.route2": {
-    "$sameAs": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner1.route0"
-  },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner1.route3": {
-    "$sameAs": "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls.owner1.route0"
-  },
   "Aow.Game.Commands.HealingShowersTE.owner0.route0": {
     "$lines": [
       {
@@ -20412,74 +20052,6 @@
   "Aow.Game.Draw.FixedVisibleHS.owner1.route3": {
     "$sameAs": "Aow.Game.Draw.FixedVisibleHS.owner1.route0"
   },
-  "Aow.Game.Draw.HPBasedHS.owner0.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Draw.HPBasedHS",
-            "EObject.FOwner": null,
-            "HPBasedHS.FLhx": -1,
-            "HPBasedHS.FVisible": false,
-            "HPBasedHS.FXhp": -2147483648,
-            "HPBasedHS.FYhp": -2147483648
-          }
-        }
-      },
-      "owner:0"
-    ]
-  },
-  "Aow.Game.Draw.HPBasedHS.owner0.route1": {
-    "$sameAs": "Aow.Game.Draw.HPBasedHS.owner0.route0"
-  },
-  "Aow.Game.Draw.HPBasedHS.owner0.route2": {
-    "$sameAs": "Aow.Game.Draw.HPBasedHS.owner0.route0"
-  },
-  "Aow.Game.Draw.HPBasedHS.owner0.route3": {
-    "$sameAs": "Aow.Game.Draw.HPBasedHS.owner0.route0"
-  },
-  "Aow.Game.Draw.HPBasedHS.owner1.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Draw.HPBasedHS",
-            "EObject.FOwner": "$owner",
-            "HPBasedHS.FLhx": -1,
-            "HPBasedHS.FVisible": false,
-            "HPBasedHS.FXhp": -2147483648,
-            "HPBasedHS.FYhp": -2147483648
-          }
-        }
-      },
-      "owner:0",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.Draw.HPBasedHS",
-              "EObject.FOwner": "$owner",
-              "HPBasedHS.FLhx": 0,
-              "HPBasedHS.FVisible": false,
-              "HPBasedHS.FXhp": 0,
-              "HPBasedHS.FYhp": 0
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "Aow.Game.Draw.HPBasedHS.owner1.route1": {
-    "$sameAs": "Aow.Game.Draw.HPBasedHS.owner1.route0"
-  },
-  "Aow.Game.Draw.HPBasedHS.owner1.route2": {
-    "$sameAs": "Aow.Game.Draw.HPBasedHS.owner1.route0"
-  },
-  "Aow.Game.Draw.HPBasedHS.owner1.route3": {
-    "$sameAs": "Aow.Game.Draw.HPBasedHS.owner1.route0"
-  },
   "Aow.Game.World.Map.HSSet.owner0.route0": {
     "$lines": [
       {
@@ -21163,76 +20735,6 @@
   "Aow.Game.World.Map.MapField.owner1.route3": {
     "$sameAs": "Aow.Game.World.Map.MapField.owner1.route0"
   },
-  "Aow.Game.World.Map.MapFieldTandO.owner0.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.World.Map.MapFieldTandO",
-            "EObject.FOwner": null,
-            "MapFieldTandO.FCounts": 0,
-            "MapFieldTandO.FHSList": null,
-            "MapFieldTandO.FTandO": 0,
-            "MapFieldTandO.FXYL": 0
-          }
-        }
-      },
-      "destroy:Aow.Rtl.AbstractErrorException:Abstract Error",
-      "owner:0"
-    ]
-  },
-  "Aow.Game.World.Map.MapFieldTandO.owner0.route1": {
-    "$sameAs": "Aow.Game.World.Map.MapFieldTandO.owner0.route0"
-  },
-  "Aow.Game.World.Map.MapFieldTandO.owner0.route2": {
-    "$sameAs": "Aow.Game.World.Map.MapFieldTandO.owner0.route0"
-  },
-  "Aow.Game.World.Map.MapFieldTandO.owner0.route3": {
-    "$sameAs": "Aow.Game.World.Map.MapFieldTandO.owner0.route0"
-  },
-  "Aow.Game.World.Map.MapFieldTandO.owner1.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.World.Map.MapFieldTandO",
-            "EObject.FOwner": "$owner",
-            "MapFieldTandO.FCounts": 0,
-            "MapFieldTandO.FHSList": null,
-            "MapFieldTandO.FTandO": 0,
-            "MapFieldTandO.FXYL": 0
-          }
-        }
-      },
-      "destroy:Aow.Rtl.AbstractErrorException:Abstract Error",
-      "owner:1",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.World.Map.MapFieldTandO",
-              "EObject.FOwner": "$owner",
-              "MapFieldTandO.FCounts": 0,
-              "MapFieldTandO.FHSList": null,
-              "MapFieldTandO.FTandO": 0,
-              "MapFieldTandO.FXYL": 0
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "Aow.Game.World.Map.MapFieldTandO.owner1.route1": {
-    "$sameAs": "Aow.Game.World.Map.MapFieldTandO.owner1.route0"
-  },
-  "Aow.Game.World.Map.MapFieldTandO.owner1.route2": {
-    "$sameAs": "Aow.Game.World.Map.MapFieldTandO.owner1.route0"
-  },
-  "Aow.Game.World.Map.MapFieldTandO.owner1.route3": {
-    "$sameAs": "Aow.Game.World.Map.MapFieldTandO.owner1.route0"
-  },
   "Aow.Game.World.Map.MapLevel.owner0.route0": {
     "$lines": [
       {
@@ -21889,67 +21391,6 @@
   "Aow.Game.World.Terrain.ILTerrainMO.owner1.route3": {
     "$sameAs": "Aow.Game.World.Terrain.ILTerrainMO.owner1.route0"
   },
-  "Aow.Game.Net.ENodeView.owner0.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Net.ENodeView",
-            "ENodeView.FChildren": null,
-            "EObject.FOwner": null
-          }
-        }
-      },
-      "destroy:Aow.Rtl.AbstractErrorException:Abstract Error",
-      "owner:0"
-    ]
-  },
-  "Aow.Game.Net.ENodeView.owner0.route1": {
-    "$sameAs": "Aow.Game.Net.ENodeView.owner0.route0"
-  },
-  "Aow.Game.Net.ENodeView.owner0.route2": {
-    "$sameAs": "Aow.Game.Net.ENodeView.owner0.route0"
-  },
-  "Aow.Game.Net.ENodeView.owner0.route3": {
-    "$sameAs": "Aow.Game.Net.ENodeView.owner0.route0"
-  },
-  "Aow.Game.Net.ENodeView.owner1.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Net.ENodeView",
-            "ENodeView.FChildren": null,
-            "EObject.FOwner": "$owner"
-          }
-        }
-      },
-      "destroy:Aow.Rtl.AbstractErrorException:Abstract Error",
-      "owner:1",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.Net.ENodeView",
-              "ENodeView.FChildren": null,
-              "EObject.FOwner": "$owner"
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "Aow.Game.Net.ENodeView.owner1.route1": {
-    "$sameAs": "Aow.Game.Net.ENodeView.owner1.route0"
-  },
-  "Aow.Game.Net.ENodeView.owner1.route2": {
-    "$sameAs": "Aow.Game.Net.ENodeView.owner1.route0"
-  },
-  "Aow.Game.Net.ENodeView.owner1.route3": {
-    "$sameAs": "Aow.Game.Net.ENodeView.owner1.route0"
-  },
   "Aow.Game.Commands.TokenEvent.owner0.route0": {
     "$lines": [
       {
@@ -22011,67 +21452,6 @@
   },
   "Aow.Game.Commands.TokenEvent.owner1.route3": {
     "$sameAs": "Aow.Game.Commands.TokenEvent.owner1.route0"
-  },
-  "Aow.Game.Audio.ENodeAccess.owner0.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Audio.ENodeAccess",
-            "ENodeAccess.FChildren": null,
-            "EObject.FOwner": null
-          }
-        }
-      },
-      "destroy:Aow.Rtl.AbstractErrorException:Abstract Error",
-      "owner:0"
-    ]
-  },
-  "Aow.Game.Audio.ENodeAccess.owner0.route1": {
-    "$sameAs": "Aow.Game.Audio.ENodeAccess.owner0.route0"
-  },
-  "Aow.Game.Audio.ENodeAccess.owner0.route2": {
-    "$sameAs": "Aow.Game.Audio.ENodeAccess.owner0.route0"
-  },
-  "Aow.Game.Audio.ENodeAccess.owner0.route3": {
-    "$sameAs": "Aow.Game.Audio.ENodeAccess.owner0.route0"
-  },
-  "Aow.Game.Audio.ENodeAccess.owner1.route0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Audio.ENodeAccess",
-            "ENodeAccess.FChildren": null,
-            "EObject.FOwner": "$owner"
-          }
-        }
-      },
-      "destroy:Aow.Rtl.AbstractErrorException:Abstract Error",
-      "owner:1",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.Audio.ENodeAccess",
-              "ENodeAccess.FChildren": null,
-              "EObject.FOwner": "$owner"
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "Aow.Game.Audio.ENodeAccess.owner1.route1": {
-    "$sameAs": "Aow.Game.Audio.ENodeAccess.owner1.route0"
-  },
-  "Aow.Game.Audio.ENodeAccess.owner1.route2": {
-    "$sameAs": "Aow.Game.Audio.ENodeAccess.owner1.route0"
-  },
-  "Aow.Game.Audio.ENodeAccess.owner1.route3": {
-    "$sameAs": "Aow.Game.Audio.ENodeAccess.owner1.route0"
   },
   "Aow.Game.Audio.Songlist.owner0.route0": {
     "$lines": [

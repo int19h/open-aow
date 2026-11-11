@@ -1,14 +1,10 @@
 // Translated from GlobalTargetSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.Magic.Spells.GlobalTarget;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -43,8 +39,8 @@ public partial class HealingShowersTE : GlobalTargetSpellTE
         base.Process(source, value);
         if (value == 0)
         {
-            AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
-            if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.WatchingTerrain(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
+            AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 2);
+            if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.WatchingTerrain(FLocation.X, FLocation.Y, FLocation.L, 2))
             {
                 AoWHSSet.Current.FSpellControl.GetSpell(73).FCastSounds.Play(0);
             }
@@ -62,9 +58,9 @@ public partial class HealingShowersTE : GlobalTargetSpellTE
         if (value == 50)
         {
             PlaySound = false;
-            AoWHSMap.Current.ChangeTerrainEx(null, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, null);
-            Level = AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer];
-            HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, 0);
+            AoWHSMap.Current.ChangeTerrainEx(null, FLocation.X, FLocation.Y, FLocation.L, 1, ChangeTerrain, null);
+            Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
+            HNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
@@ -162,9 +158,9 @@ public partial class HealingShowersTE : GlobalTargetSpellTE
         int Yhp = default;
         int Count;
         int Frame;
-        if (AoWHSMap.Current.ViewL == Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer)
+        if (AoWHSMap.Current.ViewL == FLocation.L)
         {
-            HexGeometry.HXtoHP(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FLocation.X, FLocation.Y, ref Xhp, ref Yhp);
             Xhp -= XhpSurf;
             Yhp -= YhpSurf;
             switch (GameTables.AoWEngine.FRegistry.GetDetailLevel())

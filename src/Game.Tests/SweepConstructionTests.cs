@@ -129,7 +129,6 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Hexes.AoWWaterHexagon",
         "Aow.Game.World.Hexes.AoWWaterHexagon+Resource",
         "Aow.Game.World.Hexes.AoWRoad",
-        "Aow.Game.Combat.AoWCombatMapField",
         "Aow.Game.Combat.AoWCombatMapLevel",
         "Aow.Game.Draw.CBloodHS",
         "Aow.Game.Draw.CCorpseHS",
@@ -165,7 +164,6 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Terrain.CityWallDoor+Resource",
         "Aow.Game.World.Terrain.CityWall+Resource",
         "Aow.Game.Draw.CombatFire",
-        "Aow.Game.Draw.CombatFire+Resource",
         "Aow.Game.World.Hexes.CombatHexagon",
         "Aow.Game.World.Hexes.CombatHexagon+Resource",
         "Aow.Game.World.Hexes.WaterCombatHexagon",
@@ -222,11 +220,8 @@ public sealed class SweepConstructionTests
         "Aow.Game.Draw.MovementHS",
         "Aow.Game.World.Terrain.Gems",
         "Aow.Game.World.Terrain.Gems+Resource",
-        "Aow.Game.Draw.LibraryHS",
         "Aow.Game.World.Hexes.Hexagon",
         "Aow.Game.World.Hexes.HexagonResource",
-        "Aow.Game.World.HillMO",
-        "Aow.Game.World.HillMOR",
         "Aow.Game.World.Terrain.HolyGround",
         "Aow.Game.World.Terrain.HolyGround+Resource",
         "Aow.Game.Magic.Spells.HolyGroundSpell",
@@ -252,8 +247,6 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Terrain.MainStructure+Resource",
         "Aow.Game.World.Terrain.ManaCrystals",
         "Aow.Game.World.Terrain.ManaCrystals+Resource",
-        "Aow.Game.World.Structures.Merchant",
-        "Aow.Game.World.Structures.Merchant+Resource",
         "Aow.Game.World.Structures.Mine",
         "Aow.Game.World.Structures.Mine+Resource",
         "Aow.Game.World.Structures.Monsterlair",
@@ -264,14 +257,6 @@ public sealed class SweepConstructionTests
         "Aow.Game.Commands.RaiseTerrainTE",
         "Aow.Game.World.Terrain.RaisedMountain",
         "Aow.Game.World.Terrain.RaisedMountain+Resource",
-        "Aow.Game.World.Movement.ChangeSongMoveOnEvent",
-        "Aow.Game.World.Movement.ChangeSongMoveOnEvent+Resource",
-        "Aow.Game.World.Movement.MoveOnEvent",
-        "Aow.Game.World.Movement.MoveOnEventResource",
-        "Aow.Game.World.Movement.PlaySampleMoveOnEvent",
-        "Aow.Game.World.Movement.PlaySampleMoveOnEvent+Resource",
-        "Aow.Game.World.Movement.ShowMessageMoveOnEvent",
-        "Aow.Game.World.Movement.ShowMessageMoveOnEvent+Resource",
         "Aow.Game.World.Terrain.OverlayObject",
         "Aow.Game.World.Terrain.OverlayObject+Resource",
         "Aow.Game.Draw.OverviewUnitHS",
@@ -289,11 +274,8 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Structures.ProductionPlaceResource",
         "Aow.Game.World.Structures.Pyramid",
         "Aow.Game.World.Structures.Pyramid+Resource",
-        "Aow.Game.World.Structures.RandomNode",
-        "Aow.Game.World.Structures.RandomNode+Resource",
         "Aow.Game.World.Structures.ReflectingPool",
         "Aow.Game.World.Structures.ReflectingPool+Resource",
-        "Aow.Game.World.Hexes.RndHexagonResource",
         "Aow.Game.World.Hexes.Road",
         "Aow.Game.World.Hexes.Road+Resource",
         "Aow.Game.World.Structures.Ruin",
@@ -325,8 +307,6 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Hexes.TerrainMOR",
         "Aow.Game.World.Structures.Tower",
         "Aow.Game.World.Structures.Tower+Resource",
-        "Aow.Game.World.Terrain.Townhall",
-        "Aow.Game.World.Terrain.Townhall+Resource",
         "Aow.Game.World.Terrain.UnHolyGround",
         "Aow.Game.World.Terrain.UnHolyGround+Resource",
         "Aow.Game.Magic.Spells.UnholyGroundSpell",
@@ -335,8 +315,6 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Structures.WaterNode+Resource",
         "Aow.Game.World.Structures.WizardsTower",
         "Aow.Game.World.Structures.WizardsTower+Resource",
-        "Aow.Game.World.Terrain.Workshop",
-        "Aow.Game.World.Terrain.Workshop+Resource",
         "Aow.Game.World.MultiHexMO",
         "Aow.Game.World.MultiHexMOR",
         "Aow.Game.Draw.HexagonSprite",
@@ -441,14 +419,11 @@ public sealed class SweepConstructionTests
     [Theory]
     [InlineData("Aow.Game.World.Map.AbstractAoWHSMapMouse")]
     [InlineData("Aow.Game.Combat.AoWCombatMapMouse")]
-    [InlineData("Aow.Game.Combat.AoWNewCombatMapSettings")]
     [InlineData("Aow.Game.Combat.CombatMoveControl")]
     public void HelperStateMatchesTheOriginalFactory(string name)
     {
         using var fixture = new Fixture();
         Type type = typeof(Spell).Assembly.GetType(name)!;
-        if (name.EndsWith(".AoWNewCombatMapSettings", StringComparison.Ordinal))
-            typeof(GameEngine).GetField("FHSSFileName", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(GameTables.AoWEngine, "");
         Type[] signature = name.EndsWith(".CombatMoveControl", StringComparison.Ordinal) ? [typeof(HSMap)] : [];
         var value = (object)Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
         try

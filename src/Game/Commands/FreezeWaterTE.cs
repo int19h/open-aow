@@ -1,14 +1,10 @@
 // Translated from GlobalTargetSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.Magic.Spells.GlobalTarget;
 
 using Aow.Game.World.Map;
 
@@ -28,21 +24,21 @@ public partial class FreezeWaterTE : GlobalTargetSpellTE
     {
         TwinkleAnimation Twinkle = default;
         base.Process(source, value);
-        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
-        if (AoWHSMap.Current.TerrainVisible((sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
+        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, (sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2);
+        if (AoWHSMap.Current.TerrainVisible((sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2))
         {
             Twinkle = new TwinkleAnimation(null);
             Twinkle.Setup(AoWHSSet.Current.FSpellControl.GetSpell(10).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), 100, 64, 50, 30);
-            AoWHSMap.Current.PlaceHX(Twinkle, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
+            AoWHSMap.Current.PlaceHX(Twinkle, FLocation.X, FLocation.Y, FLocation.L);
         }
 
         // Use the map's seated player.
-        if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.WatchingTerrain((sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).X, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, (sbyte)(byte)Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
+        if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.WatchingTerrain((sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2))
         {
             AoWHSSet.Current.FSpellControl.GetSpell(10).FCastSounds.Play(0);
         }
 
-        AoWHSMap.Current.ChangeTerrainEx(null, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 1, ChangeTerrain, TerrainChanged);
+        AoWHSMap.Current.ChangeTerrainEx(null, FLocation.X, FLocation.Y, FLocation.L, 1, ChangeTerrain, TerrainChanged);
         AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
         // The original event result is zero.
         return false;

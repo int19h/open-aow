@@ -137,29 +137,10 @@ public sealed class ClassesTests
         Assert.Equal(0, owner.ComponentCount);
     }
 
-    private class PublishedBase : Component
-    {
-        [Published, System.ComponentModel.DefaultValue(7)] public int Amount { get; set; }
-        [Published] public int ReadOnly => 1;
-        public int Hidden { get; set; }
-    }
-
-    private sealed class PublishedChild : PublishedBase
-    {
-        [Published("base")] public string Caption { get; set; } = "";
-        [Published] public int this[int index] { get => index; set { } }
-    }
-
     [Fact]
-    public void PublishedPropertiesAreCachedInheritedAndWritable()
+    public void PublishedAttributeStoresItsDefault()
     {
-        var properties = Rtti.PublishedProperties(typeof(PublishedChild));
-        Assert.Same(properties, Rtti.PublishedProperties(typeof(PublishedChild)));
-        Assert.Equal(new[] { "Amount", "Caption" }, properties.Select(p => p.Name));
-        var obj = new PublishedChild(); properties[0].Setter(obj, 19); properties[1].Setter(obj, "hello");
-        Assert.Equal(19, obj.Amount); Assert.Equal("hello", obj.Caption);
-        Assert.Equal(typeof(int), properties[0].Type); Assert.Equal(7, properties[0].DefaultValue); Assert.Equal("base", properties[1].DefaultValue);
         Assert.Null(new PublishedAttribute().DefaultValue);
-        Assert.Empty(Rtti.PublishedProperties(typeof(object)));
+        Assert.Equal("base", new PublishedAttribute("base").DefaultValue);
     }
 }

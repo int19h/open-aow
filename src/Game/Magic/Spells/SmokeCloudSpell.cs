@@ -1,14 +1,10 @@
 // Translated from GlobalTargetSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.Magic.Spells.GlobalTarget;
 
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -33,8 +29,8 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
         EResource Resource;
         SmokeCloud Cloud;
         var source = Event.GetSource();
-        AoWHSMap.Current.ValidateObservation(source.FPlayer, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Layer, 2);
-        if (Event.GetSource().FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Layer, 2))
+        AoWHSMap.Current.ValidateObservation(source.FPlayer, ((GlobalTargetSpellTE)Event).FLocation.X, ((GlobalTargetSpellTE)Event).FLocation.Y, ((GlobalTargetSpellTE)Event).FLocation.L, 2);
+        if (Event.GetSource().FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(((GlobalTargetSpellTE)Event).FLocation.X, ((GlobalTargetSpellTE)Event).FLocation.Y, ((GlobalTargetSpellTE)Event).FLocation.L, 2))
         {
             AoWHSSet.Current.FSpellControl.GetSpell(Event.FEventSpellID).FCastSounds.Play(0);
         }
@@ -48,7 +44,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             Cloud.FEnchantment.FPlayerIndex = Source.FPlayer;
             Cloud.FEnchantment.FEnchantmentManaUpkeep = this.FManaUpkeep;
             Cloud.FDrifting = false;
-            if (!AoWHSMap.Current.PlaceHX(Cloud, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref ((GlobalTargetSpellTE)Event).FLocation).Layer))
+            if (!AoWHSMap.Current.PlaceHX(Cloud, ((GlobalTargetSpellTE)Event).FLocation.X, ((GlobalTargetSpellTE)Event).FLocation.Y, ((GlobalTargetSpellTE)Event).FLocation.L))
             {
                 Cloud?.Dispose();
             }

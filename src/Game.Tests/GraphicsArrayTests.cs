@@ -1,45 +1,15 @@
-using Aow.Engine.Hash;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using LibraryImage = Aow.Game.Draw.Images.LibraryImage;
 
 namespace Aow.Game.Tests;
 
-// The blocks of records the original grows with ReallocMem and shifts with Move: the hash list of
-// HashTabU, the image items of a library and of an image node, the frame table list and the
-// invalidation matrix of DisplayC. The port holds each in an array with the original's count and
-// capacity. The expected counts, capacities and orders follow the Pascal of HashTabU.pas and
-// ImageLib.pas and DisplayC.pas at the line each test names.
+// The blocks of records the original grows with ReallocMem and shifts with Move: the image items
+// of a library and of an image node, the frame table list and the invalidation matrix of DisplayC.
+// The port holds each in an array with the original's count and capacity. The expected counts,
+// capacities and orders follow the Pascal of ImageLib.pas and DisplayC.pas at the line each test names.
 public sealed class GraphicsArrayTests
 {
-    // HashTabU.pas 120 to 171: the capacity grows by 16, Delete moves the tail down by one, Clear
-    // frees the block.
-    [Fact]
-    public void HashListGrowsBySixteenAndShiftsOnDelete()
-    {
-        var list = new IntegerHashList();
-        var items = Enumerable.Range(0, 40).Select(_ => new object()).ToArray();
-        for (int i = 0; i < 40; i++) list.Add(items[i], 1000 + i);
-        Assert.Equal(40, list.Count);
-        Assert.Equal(48, list.FCapacity);
-        Assert.Equal(48, list.FItems.Length);
-        list.Delete(1005);
-        Assert.Equal(39, list.Count);
-        Assert.Null(list.Find(1005));
-        Assert.Same(items[6], list.Find(1006));
-        Assert.Equal(1006, list.FItems[5].Key.Value);
-        Assert.Equal(1039, list.FItems[38].Key.Value);
-        Assert.Throws<InvalidOperationException>(() => list.Add(new object(), 1000));
-        list.Delete(1039);
-        Assert.Equal(38, list.Count);
-        Assert.Same(items[38], list.Find(1038));
-        list.Clear();
-        Assert.Equal(0, list.Count);
-        Assert.Equal(0, list.FCapacity);
-        Assert.Null(list.FItems);
-        Assert.Null(list.Find(1000));
-    }
-
     // ImageLib.pas 9699 to 9783: the capacity is rounded up to a multiple of 8 less one, new slots
     // hold no image and the reference -1, InsertItem moves the tail up and clears the slot (its
     // reference 0), DeleteItem moves the tail down and clears the last slot.

@@ -1,9 +1,7 @@
 using Aow.Engine;
 
 using Aow.Game.Combat;
-using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-using Aow.Game.Engine;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Grids;
 using Aow.Game.World.Map;
@@ -18,9 +16,6 @@ public sealed class UiConstructionFailureTests
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    [InlineData(3)]
-    [InlineData(4)]
-    [InlineData(5)]
     public void PlainComponentsPublishCompletedState(int family)
     {
         GameEngine engine = EngineFixture.Engine;
@@ -38,10 +33,7 @@ public sealed class UiConstructionFailureTests
             {
                 0 => new AoWMapControl(owner),
                 1 => new AoWCombatMapControl(owner),
-                2 => new HexagonSpriteEngine(owner),
-                3 => new AgeOfWondersEngine(owner),
-                4 => new InterfaceIL(owner),
-                _ => new HSLibrary(owner)
+                _ => new InterfaceIL(owner)
             };
             Assert.Same(owner, value.Owner);
             Assert.Same(value, owner.Components[0]);

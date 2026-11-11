@@ -137,8 +137,6 @@ public sealed class EngineStartupTests
                 object Bucket(int i) => buckets switch
                 {
                     FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
-                    FixedArray_Aow_Units_Engine_TStringHashList_256 a => a[i],
-                    FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 a => a[i],
                     FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
                     _ => throw new InvalidOperationException("Unknown hash bucket layout")
                 };

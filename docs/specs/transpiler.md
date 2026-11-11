@@ -323,9 +323,11 @@ forms, and the transpiler maps each mechanically:
    parameter, the `var Msg: DropMsg` parameter of `EditDropMsg`, the local
    `Values: TP1DamageValues` and the virtual method signature it feeds in `Ability.PAS:1326`), and
    its members by the real fields at every use, so that nothing of the view survives. A view field
-   that straddles two real fields or padding is an error when accessed. The survey found one such
-   field (`P1DamageValues.Reserved` (Delphi `TP1DamageValues`), over the 2-byte `DamageTypes` and 2 bytes of padding) and no
-   access to it. `XYLRec` (Delphi `TXYLRec`) is a view over an `Integer`, not a record, and its three uses in
+   that straddles two real fields or padding is an error when accessed. One view field covers
+   `DamageTypes` and two bytes of padding, and the product leaves that field unread. The damage
+   path writes `AbilityDamageValues.SourceDamage`, `SourceCost`, `TargetDamage` and `TargetCost`.
+   The `SpellLocation` and `Location` casts read `XYL.X`, `XYL.Y` and `XYL.L`. `XYLRec`
+   (Delphi `TXYLRec`) is a view over an `Integer`, not a record, and its three uses in
    `HSEngine.pas:3231-3232` become `Unsafe.BitCast<int, TXYL>(XYL).X` and so on.
 3. An address that escapes the expression (17 sites, 10 types): passed as `TObject(@Info)` to a
    synchronous notification (`ExecuteEventLogInfo` (Delphi `TExecuteEventLogInfo`), `MapChangedInfo` (Delphi `TMapChangedInfo`), `ShowMessageInfo` (Delphi `TShowMessageInfo`),

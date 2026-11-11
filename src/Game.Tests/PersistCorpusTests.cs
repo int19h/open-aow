@@ -39,7 +39,7 @@ public sealed class PersistCorpusTests
 
     private static readonly string[] Watched =
     [
-        "AbilityList", "GuardAG", "PassiveAG", "FortifyAG", "RaidAG", "ScoutAG", "NormalAG", "SkirmishAG",
+"GuardAG", "PassiveAG", "FortifyAG", "RaidAG", "ScoutAG", "NormalAG", "SkirmishAG",
         "GuardAreaAG", "PatrolAG", "RefugeAG", "DefenderAG", "AggressorAG", "ExpanderAG", "ScorcherAG",
         "SuicidalAG", "TransportAG", "AbstractBehaviorAG",
         "Storm", "IceStorm", "DeathStorm", "DivineStorm", "FireStorm", "LightningStorm", "PestilenceStorm", "BlastStorm",

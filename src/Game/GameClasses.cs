@@ -39,7 +39,6 @@ internal static class GameClasses
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<AoWWaterHexagon>(), EClass.Of<AoWWaterHexagon.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<UpperIsometricHexagon>(), EClass.Of<UpperIsometricHexagon.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<AoWTerrain>(), EClass.Of<AoWTerrain.Resource>()]);
-            (GameTables.AoWEngine).RegisterEClasses([EClass.Of<RndHexagonResource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<AoWRoad>(), EClass.Of<Road.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<HexagonBridge>(), EClass.Of<HexagonBridge.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<MountainMO>(), EClass.Of<MountainMOR>(), EClass.Of<RaiseTerrainTE>(), EClass.Of<RaisedMountain>(), EClass.Of<RaisedMountain.Resource>()]);
@@ -87,7 +86,6 @@ internal static class GameClasses
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<UnHolyGround>(), EClass.Of<UnHolyGround.Resource>(), EClass.Of<UnholyGroundSpellTE>()]);
             var unholyGroundSpell = new UnholyGroundSpell(null);
             (GameTables.AoWEngine).FGameSet.FSpellControl.RegisterSpell(unholyGroundSpell);
-            (GameTables.AoWEngine).RegisterEClasses([EClass.Of<Merchant>(), EClass.Of<Merchant.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<AltarOfFire>(), EClass.Of<AltarOfFire.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<AltarOfIce>(), EClass.Of<AltarOfIce.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<AltarOfLightning>(), EClass.Of<AltarOfLightning.Resource>()]);
@@ -313,9 +311,6 @@ internal static class GameClasses
             Control.RegisterSpell(new Bless(null));
             Control.RegisterSpell(new CosmeticSurgery(null));
             Control.RegisterSpell(new DarkGift(null));
-            (GameTables.AoWEngine).RegisterEClasses([EClass.Of<ChangeSongMoveOnEvent.Resource>(), EClass.Of<ChangeSongMoveOnEvent>()]);
-            (GameTables.AoWEngine).RegisterEClasses([EClass.Of<PlaySampleMoveOnEvent.Resource>(), EClass.Of<PlaySampleMoveOnEvent>()]);
-            (GameTables.AoWEngine).RegisterEClasses([EClass.Of<ShowMessageMoveOnEvent.Resource>(), EClass.Of<ShowMessageMoveOnEvent>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<MagicSanctuary>(), EClass.Of<MagicSanctuary.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<Arena>(), EClass.Of<ArenaTE>(), EClass.Of<Arena.Resource>()]);
             (GameTables.AoWEngine).RegisterEClasses([EClass.Of<ReflectingPool>(), EClass.Of<ReflectingPool.Resource>()]);

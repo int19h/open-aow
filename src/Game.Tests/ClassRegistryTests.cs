@@ -143,7 +143,6 @@ public sealed class ClassRegistryTests
         [typeof(ArmyInfoEventLog)] = typeof(NullReferenceException),
         [typeof(ArmyView)] = typeof(NullReferenceException),
         [typeof(CombatParty)] = typeof(NullReferenceException),
-        [typeof(FastCombatParty)] = typeof(NullReferenceException),
         [typeof(HuntAGC)] = typeof(NullReferenceException),
         [typeof(WorldFXHS)] = typeof(NullReferenceException),
         [typeof(CCorpseHS)] = typeof(NullReferenceException),
@@ -164,8 +163,6 @@ public sealed class ClassRegistryTests
         [typeof(DefendersArmy)] = typeof(NullReferenceException),
         [typeof(ExplorationSite)] = typeof(NullReferenceException),
         [typeof(WatcherHS)] = typeof(NullReferenceException),
-        [typeof(MapFieldTandO)] = typeof(AbstractErrorException),
-        [typeof(LibraryHS)] = typeof(NullReferenceException),
         [typeof(GuardAGC)] = typeof(NullReferenceException),
         [typeof(GuardAreaAGC)] = typeof(NullReferenceException),
         [typeof(PatrolAGC)] = typeof(NullReferenceException),
@@ -179,10 +176,8 @@ public sealed class ClassRegistryTests
         [typeof(SuicidalAGC)] = typeof(NullReferenceException),
         [typeof(TransportAGC)] = typeof(NullReferenceException),
         [typeof(Monsterlair)] = typeof(NullReferenceException),
-        [typeof(ENodeView)] = typeof(AbstractErrorException),
         [typeof(Pyramid)] = typeof(NullReferenceException),
         [typeof(Ruin)] = typeof(NullReferenceException),
-        [typeof(ENodeAccess)] = typeof(AbstractErrorException),
     };
 
     private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered) =>

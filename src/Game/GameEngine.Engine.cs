@@ -15,8 +15,6 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-
-using Aow.Game.Engine.Nodes;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
@@ -118,9 +116,9 @@ public partial class GameEngine : ENode
         RegisterEClasses([EClass.Of<AoWHSSet>(), EClass.Of<AoWHSMap>(), EClass.Of<AoWMapLevel>(), EClass.Of<AoWCampaign>(), EClass.Of<AoWCampaignScenario>()]);
         RegisterEClasses([EClass.Of<Player>(), EClass.Of<Race>(), EClass.Of<Unit>(), EClass.Of<RaceResource>(), EClass.Of<UnitGFXResource>(), EClass.Of<UnitResource>(), EClass.Of<UnitHS>()]);
         RegisterEClasses([EClass.Of<Hero>(), EClass.Of<HeroResource>(), EClass.Of<HeroUpgradeTE>(), EClass.Of<HeroJoinEventLog>(), EClass.Of<HeroEmergeEventLog>(), EClass.Of<Leader>(), EClass.Of<ItemGFX>(), EClass.Of<Item>(), EClass.Of<ItemTE>(), EClass.Of<ItemHS>(), EClass.Of<FaceResource>()]);
-        RegisterEClasses([EClass.Of<Army>(), EClass.Of<ArmyHS>(), EClass.Of<ArmyView>(), EClass.Of<ArmyEventLog>(), EClass.Of<ArmyID>(), EClass.Of<TurnInfoItem>(), EClass.Of<ShowMessageEventLog>()]);
+        RegisterEClasses([EClass.Of<Army>(), EClass.Of<ArmyHS>(), EClass.Of<ArmyView>(), EClass.Of<ArmyEventLog>(), EClass.Of<ArmyID>(), EClass.Of<TurnInfoItem>()]);
         RegisterEClasses([EClass.Of<ArmyDefaultMoveTE>(), EClass.Of<ArmyCombatMoveTE>(), EClass.Of<ArmyCombineMoveTE>(), EClass.Of<ArmyNegotiateMoveTE>(), EClass.Of<NegotiateTE>(), EClass.Of<SaveGameTE>(), EClass.Of<ChangePlayerMagicTE>(), EClass.Of<ChangeGlobalMagicTE>()]);
-        RegisterEClasses([EClass.Of<CombatLogbook>(), EClass.Of<CombatParty>(), EClass.Of<CombatData>(), EClass.Of<DamageCA>(), EClass.Of<DamageEffectCA>(), EClass.Of<FleeCA>(), EClass.Of<CombatUnit>()]);
+        RegisterEClasses([EClass.Of<CombatLogbook>(), EClass.Of<CombatParty>(), EClass.Of<CombatData>(), EClass.Of<DamageCA>(), EClass.Of<FleeCA>(), EClass.Of<CombatUnit>()]);
         RegisterEClasses([EClass.Of<FastBattle>(), EClass.Of<CombatWall>(), EClass.Of<FastCombatUnit>(), EClass.Of<MoveWallCA>(), EClass.Of<ProductionEventLog>()]);
         RegisterEClasses([EClass.Of<UpdateHeaderCA>(), EClass.Of<NewCombatTurnCA>(), EClass.Of<NewCombatRoundCA>(), EClass.Of<CombatObjectTurnDoneCA>()]);
         RegisterEClasses([EClass.Of<CombatEventLog>(), EClass.Of<CombatPlayer>(), EClass.Of<DiplomaticAction>(), EClass.Of<EmailGame>(), EClass.Of<RestartGameEventLog>()]);
@@ -356,7 +354,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8895
-    public void WriteEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public void WriteEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EWriteStorageStream(Stream, this, false);
@@ -372,7 +370,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8908
-    public void ReadEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public void ReadEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EReadStorageStream(Stream, this, false);
@@ -388,7 +386,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8921
-    public void WritePreviewEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public void WritePreviewEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EWriteStorageStream(Stream, this, true);
@@ -404,7 +402,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8934
-    public void ReadPreviewEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public void ReadPreviewEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EReadStorageStream(Stream, this, true);
@@ -420,7 +418,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8947
-    public void StoreEObject(Stream Stream, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public void StoreEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EWriteStorageStream(Stream, this, false);
@@ -436,7 +434,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8960
-    public EObject RetrieveEObject(Stream Stream, Aow.Engine.ProgressEvent AProgress)
+    public EObject RetrieveEObject(Stream Stream, Engine.ProgressEvent AProgress)
     {
         EObject Result = default;
         EStorageStream S;
@@ -457,13 +455,13 @@ public partial class GameEngine : ENode
     // Engine.pas:8973
     // The file goes through the game's file boundary with the caller's profile. A refused
     // preflight raises EGameFileError before an object is created (own-formats.md 4.1).
-    public EObject RetrieveFromFile(string FileName, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
+    public EObject RetrieveFromFile(string FileName, Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         return RetrieveFromImage(FileBoundary.LoadOrRaise(FileName, Profile), AProgress);
     }
 
     // Retrieves the object of an engine image whose preflight has passed.
-    public EObject RetrieveFromImage(byte[] Image, Aow.Engine.ProgressEvent AProgress)
+    public EObject RetrieveFromImage(byte[] Image, Engine.ProgressEvent AProgress)
     {
         EObject Result = default;
         MemoryStream M;
@@ -483,7 +481,7 @@ public partial class GameEngine : ENode
     // Engine.pas:8985
     // The engine writes the image in memory. The boundary converts, validates and replaces the
     // file only after the whole document is serialized.
-    public void StoreInFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
+    public void StoreInFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         MemoryStream M;
         M = new MemoryStream();
@@ -509,7 +507,7 @@ public partial class GameEngine : ENode
 
     // The in-scope form of WriteToFile for the hero and item lists (own-formats.md 4.1). The
     // three-argument form below stays the original byte path of the excluded PFS callers.
-    public void WriteToFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
+    public void WriteToFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         MemoryStream M;
         M = new MemoryStream();
@@ -525,7 +523,7 @@ public partial class GameEngine : ENode
     }
 
     // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
-    public void ReadFromFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
+    public void ReadFromFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         MemoryStream M;
         M = ImageStream(FileBoundary.LoadOrRaise(FileName, Profile));
@@ -540,7 +538,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8997
-    public void WriteToFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public void WriteToFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress)
     {
         MemoryStream M;
         Stream F = default;
@@ -566,7 +564,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9017
-    public void ReadFromFile(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public void ReadFromFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress)
     {
         MemoryStream M;
         Stream F;
@@ -593,7 +591,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9037
-    public void WriteToFileCRC(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public void WriteToFileCRC(string FileName, EObject Obj, Engine.ProgressEvent AProgress)
     {
         int CRC1 = default;
         int CRC2 = default;
@@ -627,7 +625,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9061
-    public bool ReadFromFileCRC(string FileName, EObject Obj, Aow.Engine.ProgressEvent AProgress)
+    public bool ReadFromFileCRC(string FileName, EObject Obj, Engine.ProgressEvent AProgress)
     {
         MemoryStream M;
         Stream F;
@@ -824,7 +822,6 @@ public partial class GameEngine : ENode
 
     internal static void RegisterHill(GameEngine AEngine)
     {
-        AEngine.RegisterEClasses([EClass.Of<HillMO>()]);
     }
 
     internal static void RegisterAltar(GameEngine AEngine)
@@ -834,7 +831,6 @@ public partial class GameEngine : ENode
 
     internal static void RegisterRandomNode(GameEngine AEngine)
     {
-        AEngine.RegisterEClasses([EClass.Of<RandomNode>(), EClass.Of<RandomNode.Resource>()]);
     }
 
     internal static void UnRegisterHolyGround(GameEngine Engine)

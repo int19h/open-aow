@@ -39,8 +39,7 @@ public sealed partial class EngineFixture
             {
                 typeof(GameTables), typeof(AbilityRules), typeof(GameText),
                 typeof(MovementTables), typeof(CombatAbilityTables), typeof(AbstractSets),
-                typeof(AlignmentTables), typeof(EmptySelections),
-                typeof(RankTables), typeof(RosterTables),
+                typeof(AlignmentTables),                 typeof(RankTables), typeof(RosterTables),
                 typeof(EngineHost), typeof(EngineServices), typeof(GameEngine),
                 typeof(HexGeometry), typeof(HexText),
                 typeof(ImageLibraries), typeof(AudioHost),

@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine;
 using Aow.Engine.Buffers;
 
@@ -252,11 +250,10 @@ public partial class Ability : EObject
     // Ability.PAS:1276
     public virtual void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
-        ref P1AbilityView.P1DamageValues p1DamageValues = ref Unsafe.As<AbilityDamageValues, P1AbilityView.P1DamageValues>(ref DamageValues);
-        p1DamageValues.Damage = 0;
-        p1DamageValues.Experience = 0;
-        p1DamageValues.CounterDamage = 0;
-        p1DamageValues.CounterExperience = 0;
+        DamageValues.SourceDamage = 0;
+        DamageValues.SourceCost = 0;
+        DamageValues.TargetDamage = 0;
+        DamageValues.TargetCost = 0;
     }
 
     // Ability.PAS:1487
@@ -267,14 +264,13 @@ public partial class Ability : EObject
     }
 
     // Ability.PAS:1287
-    // { Original leaves Reserved untouched. }
+    // { Original leaves the value at offset 16 untouched. }
     public virtual void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
-        ref P1AbilityView.P1DamageValues p1DamageValues = ref Unsafe.As<AbilityDamageValues, P1AbilityView.P1DamageValues>(ref DamageValues);
-        p1DamageValues.Damage = 0;
-        p1DamageValues.Experience = 0;
-        p1DamageValues.CounterDamage = 0;
-        p1DamageValues.CounterExperience = 0;
+        DamageValues.SourceDamage = 0;
+        DamageValues.SourceCost = 0;
+        DamageValues.TargetDamage = 0;
+        DamageValues.TargetCost = 0;
     }
 
     // Ability.PAS:1313
@@ -294,9 +290,9 @@ public partial class Ability : EObject
     // Ability.PAS:1324
     public virtual int tcGetDamageValue(CombatObject Source, CombatObject Target)
     {
-        P1AbilityView.P1DamageValues Values = default;
-        this.tcGetDamageValueEx(Source, Target, ref Unsafe.As<P1AbilityView.P1DamageValues, AbilityDamageValues>(ref Values));
-        return Values.Damage;
+        AbilityDamageValues Values = default;
+        this.tcGetDamageValueEx(Source, Target, ref Values);
+        return Values.SourceDamage;
     }
 
     // Ability.PAS:1568

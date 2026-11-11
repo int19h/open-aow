@@ -127,7 +127,6 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         ["CityProductionEventLog"] = "-=CityProduction",
         ["CityRebellionEventLog"] = "-=CityRebellion",
         ["CombatEventLog"] = "-=Combat",
-        ["CombatRestoreHotseatEventLog"] = "-=None",
         ["CombatTypeRequestEventLog"] = "-=CombatType",
         ["DiplomaticActionEventLog"] = "-=DiplomaticAction",
         ["EndTurnEventLog"] = "-=None",
@@ -161,7 +160,6 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         ["SaveGameEventLog"] = "-=SaveGame",
         ["SendEmailGameEventLog"] = "-=SendEmailGame",
         ["ShowBookEventLog"] = "-=InformationBook",
-        ["ShowMessageEventLog"] = "-=None",
         ["SpellCastEventLog"] = "-=None",
         ["TextEventLog"] = "-=None",
         ["TutorialMessageEventLog"] = "-=Tutorial",
@@ -329,7 +327,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     public void EveryEventLogClassIsCovered()
     {
         var types = EventLogTypes();
-        Assert.Equal(44, types.Length);
+        Assert.Equal(42, types.Length);
         Assert.Contains(typeof(EventLog), types);
         Assert.Equal(types.Select(t => t.Name).Order(StringComparer.Ordinal), Expected.Keys.Order(StringComparer.Ordinal));
     }

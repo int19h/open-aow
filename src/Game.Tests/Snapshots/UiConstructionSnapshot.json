@@ -9856,103 +9856,6 @@
       "subscriptions:0:0"
     ]
   },
-  "Aow.Game.Engine.AgeOfWondersEngine.owner0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Engine.AgeOfWondersEngine",
-            "AgeOfWondersEngine.FGameEngine": "Aow.Game.GameEngine",
-            "Component.\u003CComponentState\u003Ek__BackingField": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.\u003COwner\u003Ek__BackingField": null,
-            "Component.\u003CTag\u003Ek__BackingField": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "EComponent.FEngine": "Aow.Game.GameEngine",
-            "EComponent.FOnRegisterClasses": null,
-            "EComponent.FOnUnRegisterClasses": null,
-            "HexagonSpriteEngine.FHSEngine": "Aow.Game.GameEngine"
-          }
-        }
-      },
-      "owner:0",
-      "subscriptions:0:0"
-    ]
-  },
-  "Aow.Game.Engine.AgeOfWondersEngine.owner1": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Engine.AgeOfWondersEngine",
-            "AgeOfWondersEngine.FGameEngine": "Aow.Game.GameEngine",
-            "Component.\u003CComponentState\u003Ek__BackingField": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.\u003COwner\u003Ek__BackingField": "$owner",
-            "Component.\u003CTag\u003Ek__BackingField": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "EComponent.FEngine": "Aow.Game.GameEngine",
-            "EComponent.FOnRegisterClasses": null,
-            "EComponent.FOnUnRegisterClasses": null,
-            "HexagonSpriteEngine.FHSEngine": "Aow.Game.GameEngine"
-          }
-        }
-      },
-      "owner:0",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.Engine.AgeOfWondersEngine",
-              "AgeOfWondersEngine.FGameEngine": null,
-              "Component.\u003CComponentState\u003Ek__BackingField": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
-              "Component.\u003COwner\u003Ek__BackingField": "$owner",
-              "Component.\u003CTag\u003Ek__BackingField": 0,
-              "Component.children": [],
-              "Component.freeNotifies": null,
-              "Component.name": "",
-              "EComponent.FEngine": null,
-              "EComponent.FOnRegisterClasses": null,
-              "EComponent.FOnUnRegisterClasses": null,
-              "HexagonSpriteEngine.FHSEngine": null
-            }
-          }
-        ]
-      },
-      "subscriptions:0:0"
-    ]
-  },
   "Aow.Game.Ui.Controls.AOWEdit.owner0": {
     "$lines": [
       {
@@ -28625,13 +28528,13 @@
       "subscriptions:0:0"
     ]
   },
-  "Aow.Game.Engine.Nodes.EComponent.owner0": {
+  "Aow.Engine.Nodes.EComponent.owner0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Engine.Nodes.EComponent",
+            "$type": "Aow.Engine.Nodes.EComponent",
             "Component.\u003CComponentState\u003Ek__BackingField": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -28657,13 +28560,13 @@
       "subscriptions:0:0"
     ]
   },
-  "Aow.Game.Engine.Nodes.EComponent.owner1": {
+  "Aow.Engine.Nodes.EComponent.owner1": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Engine.Nodes.EComponent",
+            "$type": "Aow.Engine.Nodes.EComponent",
             "Component.\u003CComponentState\u003Ek__BackingField": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
@@ -28690,7 +28593,7 @@
         "$jsonText": [
           {
             "$jsonText": {
-              "$type": "Aow.Game.Engine.Nodes.EComponent",
+              "$type": "Aow.Engine.Nodes.EComponent",
               "Component.\u003CComponentState\u003Ek__BackingField": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -29235,276 +29138,6 @@
       "subscriptions:0:0"
     ]
   },
-  "Aow.Game.World.Map.HexagonSpriteEngine.owner0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.World.Map.HexagonSpriteEngine",
-            "Component.\u003CComponentState\u003Ek__BackingField": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.\u003COwner\u003Ek__BackingField": null,
-            "Component.\u003CTag\u003Ek__BackingField": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "EComponent.FEngine": "Aow.Game.GameEngine",
-            "EComponent.FOnRegisterClasses": null,
-            "EComponent.FOnUnRegisterClasses": null,
-            "HexagonSpriteEngine.FHSEngine": "Aow.Game.GameEngine"
-          }
-        }
-      },
-      "owner:0",
-      "subscriptions:0:0"
-    ]
-  },
-  "Aow.Game.World.Map.HexagonSpriteEngine.owner1": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.World.Map.HexagonSpriteEngine",
-            "Component.\u003CComponentState\u003Ek__BackingField": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.\u003COwner\u003Ek__BackingField": "$owner",
-            "Component.\u003CTag\u003Ek__BackingField": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "EComponent.FEngine": "Aow.Game.GameEngine",
-            "EComponent.FOnRegisterClasses": null,
-            "EComponent.FOnUnRegisterClasses": null,
-            "HexagonSpriteEngine.FHSEngine": "Aow.Game.GameEngine"
-          }
-        }
-      },
-      "owner:0",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.World.Map.HexagonSpriteEngine",
-              "Component.\u003CComponentState\u003Ek__BackingField": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
-              "Component.\u003COwner\u003Ek__BackingField": "$owner",
-              "Component.\u003CTag\u003Ek__BackingField": 0,
-              "Component.children": [],
-              "Component.freeNotifies": null,
-              "Component.name": "",
-              "EComponent.FEngine": null,
-              "EComponent.FOnRegisterClasses": null,
-              "EComponent.FOnUnRegisterClasses": null,
-              "HexagonSpriteEngine.FHSEngine": null
-            }
-          }
-        ]
-      },
-      "subscriptions:0:0"
-    ]
-  },
-  "Aow.Game.Draw.HSLibrary.owner0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Draw.HSLibrary",
-            "Component.\u003CComponentState\u003Ek__BackingField": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.\u003COwner\u003Ek__BackingField": null,
-            "Component.\u003CTag\u003Ek__BackingField": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "CustomImageLibrary.FCapacity": 0,
-            "CustomImageLibrary.FChangeLock": 0,
-            "CustomImageLibrary.FCount": 0,
-            "CustomImageLibrary.FDataOffset": 0,
-            "CustomImageLibrary.FFileName": "",
-            "CustomImageLibrary.FImages": null,
-            "CustomImageLibrary.FLoadOnDemand": true,
-            "CustomImageLibrary.FLoadedFileName": "",
-            "CustomImageLibrary.FOnChange": null,
-            "CustomImageLibrary.FPaletteManager": {
-              "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager.FPalettes": {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.HSLibrary.FList.DelphiList.items"
-              }
-            },
-            "CustomImageLibrary.FReloading": false,
-            "CustomImageLibrary.FStatus": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "HSLibrary.FEngine": null,
-            "HSLibrary.FHSEngine": null,
-            "HSLibrary.FList": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
-            }
-          }
-        }
-      },
-      "owner:0",
-      "subscriptions:0:0"
-    ]
-  },
-  "Aow.Game.Draw.HSLibrary.owner1": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Game.Draw.HSLibrary",
-            "Component.\u003CComponentState\u003Ek__BackingField": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.\u003COwner\u003Ek__BackingField": "$owner",
-            "Component.\u003CTag\u003Ek__BackingField": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "CustomImageLibrary.FCapacity": 0,
-            "CustomImageLibrary.FChangeLock": 0,
-            "CustomImageLibrary.FCount": 0,
-            "CustomImageLibrary.FDataOffset": 0,
-            "CustomImageLibrary.FFileName": "",
-            "CustomImageLibrary.FImages": null,
-            "CustomImageLibrary.FLoadOnDemand": true,
-            "CustomImageLibrary.FLoadedFileName": "",
-            "CustomImageLibrary.FOnChange": null,
-            "CustomImageLibrary.FPaletteManager": {
-              "$type": "Aow.Game.Draw.Images.PaletteManager",
-              "PaletteManager.FPalettes": {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.HSLibrary.FList.DelphiList.items"
-              }
-            },
-            "CustomImageLibrary.FReloading": false,
-            "CustomImageLibrary.FStatus": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "HSLibrary.FEngine": null,
-            "HSLibrary.FHSEngine": null,
-            "HSLibrary.FList": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
-            }
-          }
-        }
-      },
-      "owner:0",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Game.Draw.HSLibrary",
-              "Component.\u003CComponentState\u003Ek__BackingField": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
-              "Component.\u003COwner\u003Ek__BackingField": "$owner",
-              "Component.\u003CTag\u003Ek__BackingField": 0,
-              "Component.children": [],
-              "Component.freeNotifies": null,
-              "Component.name": "",
-              "CustomImageLibrary.FCapacity": 0,
-              "CustomImageLibrary.FChangeLock": 0,
-              "CustomImageLibrary.FCount": 0,
-              "CustomImageLibrary.FDataOffset": 0,
-              "CustomImageLibrary.FFileName": "",
-              "CustomImageLibrary.FImages": null,
-              "CustomImageLibrary.FLoadOnDemand": false,
-              "CustomImageLibrary.FLoadedFileName": "",
-              "CustomImageLibrary.FOnChange": null,
-              "CustomImageLibrary.FPaletteManager": null,
-              "CustomImageLibrary.FReloading": false,
-              "CustomImageLibrary.FStatus": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
-              "HSLibrary.FEngine": null,
-              "HSLibrary.FHSEngine": null,
-              "HSLibrary.FList": null
-            }
-          }
-        ]
-      },
-      "subscriptions:0:0"
-    ]
-  },
   "Aow.Game.Ui.Grids.AoWMapControl.owner0": {
     "$lines": [
       {
@@ -29718,121 +29351,6 @@
               "Component.children": [],
               "Component.freeNotifies": null,
               "Component.name": ""
-            }
-          }
-        ]
-      },
-      "subscriptions:0:0"
-    ]
-  },
-  "Aow.Engine.PlugInManager.owner0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Engine.PlugInManager",
-            "Component.\u003CComponentState\u003Ek__BackingField": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.\u003COwner\u003Ek__BackingField": null,
-            "Component.\u003CTag\u003Ek__BackingField": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "PlugInManager.FOnLoadPlugIn": null,
-            "PlugInManager.FPlugInDirectory": "",
-            "PlugInManager.FPlugInExtension": "dpl",
-            "PlugInManager.FPlugIns": {
-              "$type": "Aow.Rtl.StringList",
-              "StringList.\u003CDuplicates\u003Ek__BackingField": 0,
-              "StringList.\u003COnChange\u003Ek__BackingField": null,
-              "StringList.\u003COnChanging\u003Ek__BackingField": null,
-              "StringList.count": 0,
-              "StringList.items": [],
-              "StringList.sorted": false,
-              "StringCollection.UpdateCount": 0
-            },
-            "PlugInManager.FPlugInsLoaded": false
-          }
-        }
-      },
-      "owner:0",
-      "subscriptions:0:0"
-    ]
-  },
-  "Aow.Engine.PlugInManager.owner1": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Engine.PlugInManager",
-            "Component.\u003CComponentState\u003Ek__BackingField": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.\u003COwner\u003Ek__BackingField": "$owner",
-            "Component.\u003CTag\u003Ek__BackingField": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "PlugInManager.FOnLoadPlugIn": null,
-            "PlugInManager.FPlugInDirectory": "",
-            "PlugInManager.FPlugInExtension": "dpl",
-            "PlugInManager.FPlugIns": {
-              "$type": "Aow.Rtl.StringList",
-              "StringList.\u003CDuplicates\u003Ek__BackingField": 0,
-              "StringList.\u003COnChange\u003Ek__BackingField": null,
-              "StringList.\u003COnChanging\u003Ek__BackingField": null,
-              "StringList.count": 0,
-              "StringList.items": [],
-              "StringList.sorted": false,
-              "StringCollection.UpdateCount": 0
-            },
-            "PlugInManager.FPlugInsLoaded": false
-          }
-        }
-      },
-      "owner:0",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Engine.PlugInManager",
-              "Component.\u003CComponentState\u003Ek__BackingField": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
-              "Component.\u003COwner\u003Ek__BackingField": "$owner",
-              "Component.\u003CTag\u003Ek__BackingField": 0,
-              "Component.children": [],
-              "Component.freeNotifies": null,
-              "Component.name": "",
-              "PlugInManager.FOnLoadPlugIn": null,
-              "PlugInManager.FPlugInDirectory": "",
-              "PlugInManager.FPlugInExtension": "",
-              "PlugInManager.FPlugIns": null,
-              "PlugInManager.FPlugInsLoaded": false
             }
           }
         ]

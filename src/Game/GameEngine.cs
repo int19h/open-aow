@@ -856,7 +856,6 @@ public partial class GameEngine : ENode
 
     private static void P2RegisterGroupControls()
     {
-        GameTables.AoWEngine.RegisterEClasses([EClass.Of<GuardGC>(), EClass.Of<PassiveGC>(), EClass.Of<GuardAreaGC>(), EClass.Of<SuicidalGC>(), EClass.Of<PatrolGC>(), EClass.Of<ScoutGC>(), EClass.Of<RefugeGC>()]);
     }
 
     private static void P2RegisterMoveEvents(GameEngine AEngine)

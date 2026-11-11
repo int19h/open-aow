@@ -169,20 +169,4 @@ public partial class CombatFire : SingleHS
             while (!(Sequence == null));
         }
     }
-
-    public partial class Resource : ILTerrainMOR
-    {
-        public Resource(ECustomNode owner) : base(owner)
-        { }
-
-        // CombatFire.pas:160
-        public new const int ClassID = 2229579;
-
-        // CombatFire.pas:166
-        public override int ResourceUserClassID() => 2229578;
-
-        // CombatFire.pas:163
-        public override string ResourceEditName() => "Combat Fire";
-
-    }
 }

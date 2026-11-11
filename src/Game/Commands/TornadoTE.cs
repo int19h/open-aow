@@ -1,6 +1,4 @@
 // Translated from GlobalTargetSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Game.Ai.Groups;
@@ -12,7 +10,6 @@ using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.GlobalTarget;
 
 using Aow.Game.Units;
 
@@ -77,8 +74,8 @@ public partial class TornadoTE : GlobalTargetSpellTE
             FAngle = 0;
             var spell = AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
             AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
-            AoWHSMap.Current.ValidateObservation(source.FPlayer, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
-            if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
+            AoWHSMap.Current.ValidateObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 2);
+            if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(FLocation.X, FLocation.Y, FLocation.L, 2))
             {
                 AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
             }
@@ -94,7 +91,7 @@ public partial class TornadoTE : GlobalTargetSpellTE
 
         if (value == 80)
         {
-            MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
+            MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FLocation.X, FLocation.Y, FLocation.L);
             if (FArmyID != null && !MapF.GetMagicShieldActive())
             {
                 FArmyID.RetrieveArmy(ref Army, ref Selection);
@@ -164,18 +161,18 @@ public partial class TornadoTE : GlobalTargetSpellTE
                     Location.Packed = ((Tornado)AoWHSSet.Current.FSpellControl.GetSpell(68)).CalculateWarpLocation(Army, Selection);
                     if (Location.Packed != 16777215)
                     {
-                        if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
+                        if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(FLocation.X, FLocation.Y, FLocation.L, 2))
                         {
                             AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(1);
                         }
 
-                        if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.VisibleForPlayer(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, AoWHSMap.Current.FSeatedPlayer))
+                        if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.VisibleForPlayer(FLocation.X, FLocation.Y, FLocation.L, AoWHSMap.Current.FSeatedPlayer))
                         {
                             if (AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
                             {
                                 Anim = new ImageSequenceAnimation(null);
                                 Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
-                                AoWHSMap.Current.PlaceHX(Anim, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
+                                AoWHSMap.Current.PlaceHX(Anim, FLocation.X, FLocation.Y, FLocation.L);
                             }
                         }
 
@@ -252,9 +249,9 @@ public partial class TornadoTE : GlobalTargetSpellTE
         int Direction;
         int Radius;
         int Last;
-        if (AoWHSMap.Current.ViewL == Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer)
+        if (AoWHSMap.Current.ViewL == FLocation.L)
         {
-            HexGeometry.HXtoHP(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FLocation.X, FLocation.Y, ref Xhp, ref Yhp);
             Xhp -= XhpSurf;
             Yhp -= YhpSurf;
             FAngle = FAngle + 20 + FAnimation.FFrameCounter / 5;

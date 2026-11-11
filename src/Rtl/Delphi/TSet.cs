@@ -137,8 +137,3 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
     public static bool operator ==(Set<E> x, Set<E> y) => x.Equals(y);
     public static bool operator !=(Set<E> x, Set<E> y) => !x.Equals(y);
 }
-
-public static class SetExtensions
-{
-    public static Set<E> Range<E>(this Set<E> set, E low, E high) where E : unmanaged => set.WithRange(low, high);
-}

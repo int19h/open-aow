@@ -171,15 +171,3 @@ public sealed class PublishedAttribute : Attribute
 
     public object? DefaultValue { get; }
 }
-
-public static class Rtti
-{
-    private static readonly ConcurrentDictionary<Type, IReadOnlyList<PublishedProperty>> cache = new();
-
-    public static IReadOnlyList<PublishedProperty> PublishedProperties(Type type) => cache.GetOrAdd(type, t => Array.AsReadOnly(t.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-        .Where(p => p.GetCustomAttribute<PublishedAttribute>() is not null && p.SetMethod is not null && p.GetIndexParameters().Length == 0)
-        .OrderBy(p => p.Name, StringComparer.Ordinal)
-        .Select(p => new PublishedProperty(p.Name, p.PropertyType, p.GetCustomAttribute<System.ComponentModel.DefaultValueAttribute>()?.Value ?? p.GetCustomAttribute<PublishedAttribute>()!.DefaultValue, (o, v) => p.SetValue(o, v))).ToArray()));
-
-    public sealed record PublishedProperty(string Name, Type Type, object? DefaultValue, Action<object, object?> Setter);
-}

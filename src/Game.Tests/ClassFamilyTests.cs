@@ -6,7 +6,6 @@ using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
 
 using Aow.Game.Session;
-using Aow.Game.Ui.Grids;
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
@@ -182,12 +181,6 @@ public sealed class ClassFamilyTests
             node.Dispose();
             mapObject.Dispose();
         }
-    }
-
-    [Fact]
-    public void ItemGridConstructionStopsAtTheControlBoundary()
-    {
-        Assert.Throws<NotImplementedException>(() => new ItemGrid(null!));
     }
 
     [Fact]

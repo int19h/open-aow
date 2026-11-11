@@ -86,7 +86,7 @@ public static class GeneratedStyleSample
                 pointer += 1;
             }
             ref var sampleRecord = ref records[1];
-            sampleRecord.Flags = Set<TFlag>.Of(TFlag.First).Range(TFlag.Second, TFlag.Third);
+            sampleRecord.Flags = Set<TFlag>.Of(TFlag.First).WithRange(TFlag.Second, TFlag.Third);
             sampleRecord.Name = "abcdef";
             sampleRecord.Value += instance.ClassID;
             return records[1];

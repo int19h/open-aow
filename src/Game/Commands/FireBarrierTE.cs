@@ -1,11 +1,8 @@
 // Translated from GlobalTargetSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-using Aow.Game.Magic.Spells.GlobalTarget;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -41,8 +38,8 @@ public partial class FireBarrierTE : GlobalTargetSpellTE
         AoWMapField MapF;
         Fire Fire;
         RandSeed = AoWHSMap.Current.Random(16777215);
-        Level = AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer];
-        HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, 0);
+        Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
+        HNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
         while (Walk.Radius <= 1)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -50,7 +47,7 @@ public partial class FireBarrierTE : GlobalTargetSpellTE
                 MapF = (AoWMapField)Level.Field[Walk.X, Walk.Y];
                 if (((GlobalTargetSpell)(object)AoWHSSet.Current.FSpellControl.GetSpell(11)).ValidTargetMapF((MapField)(object)MapF) && MapF.GetArmyHS() == null)
                 {
-                    Fire = AoWHSSet.Current.FFireControl.PlaceFire(Walk.X, Walk.Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, FireType.Large);
+                    Fire = AoWHSSet.Current.FFireControl.PlaceFire(Walk.X, Walk.Y, FLocation.L, FireType.Large);
                     if (Fire != null)
                     {
                         Fire.SetupExplosion(Random(35));

@@ -1,9 +1,7 @@
-using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.Ui.Grids;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -49,46 +47,6 @@ public sealed class StableOrderTests
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
         Assert.Same(high, list.FChildren[2]);
-    }
-
-    [Fact]
-    public void HeroNameKeepsEqualNamesInInsertionOrder()
-    {
-        var heroes = new HeroList(null!);
-        _ = new Hero(heroes) { FHeroName = "m" };
-        _ = new Hero(heroes) { FHeroName = "a" };
-        _ = new Hero(heroes) { FHeroName = "a" };
-        HeroGrid.SortHeroList = heroes;
-        var indices = new IntegerList();
-        indices.Add(0);
-        indices.Add(1);
-        indices.Add(2);
-        indices.SortStable(HeroGrid.HeroGridCompareName);
-        Assert.Equal(1, indices[0]);
-        Assert.Equal(2, indices[1]);
-        Assert.Equal(0, indices[2]);
-        heroes.Dispose();
-    }
-
-    [Fact]
-    public void HeroLevelKeepsEqualLevelsInInsertionOrder()
-    {
-        var heroes = new HeroList(null!);
-        var high = new Hero(heroes) { FExperience = 15 };
-        var low = new Hero(heroes);
-        var tied = new Hero(heroes);
-        Assert.True(high.GetLevel() > low.GetLevel());
-        Assert.Equal(low.GetLevel(), tied.GetLevel());
-        HeroGrid.SortHeroList = heroes;
-        var indices = new IntegerList();
-        indices.Add(0);
-        indices.Add(1);
-        indices.Add(2);
-        indices.SortStable(HeroGrid.HeroGridCompareLevel);
-        Assert.Equal(1, indices[0]);
-        Assert.Equal(2, indices[1]);
-        Assert.Equal(0, indices[2]);
-        heroes.Dispose();
     }
 
     [Fact]

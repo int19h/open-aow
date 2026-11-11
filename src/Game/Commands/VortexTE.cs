@@ -1,6 +1,4 @@
 // Translated from GlobalTargetSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
@@ -12,8 +10,6 @@ using Aow.Game.Draw.Animations;
 using Aow.Game.Events;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.Magic.Spells.GlobalTarget;
 
 using Aow.Game.Units;
 
@@ -71,8 +67,8 @@ public partial class VortexTE : GlobalTargetSpellTE
             FAngle = 0;
             var spell = AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
             AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
-            AoWHSMap.Current.ValidateObservation(source.FPlayer, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2);
-            if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer, 2))
+            AoWHSMap.Current.ValidateObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 2);
+            if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(FLocation.X, FLocation.Y, FLocation.L, 2))
             {
                 AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
             }
@@ -179,9 +175,9 @@ public partial class VortexTE : GlobalTargetSpellTE
         int Direction;
         int Radius;
         int Count;
-        if (AoWHSMap.Current.ViewL == Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer)
+        if (AoWHSMap.Current.ViewL == FLocation.L)
         {
-            HexGeometry.HXtoHP(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FLocation.X, FLocation.Y, ref Xhp, ref Yhp);
             Xhp -= XhpSurf;
             Yhp -= YhpSurf;
             FAngle = FAngle + 20 + FAnimation.FFrameCounter / 5;

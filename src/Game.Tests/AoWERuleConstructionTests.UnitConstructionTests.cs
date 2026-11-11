@@ -13,8 +13,7 @@ public sealed partial class AoWERuleConstructionTests
 {
     public static IEnumerable<object[]> UnitClasses => new[]
     {
-        "AbstractUnit", "Unit", "Hero", "Leader", "AdjustableUnit", "WallUnit", "HeroCastingViewP4"
-    }.Select(name => new object[] { name });
+        "AbstractUnit", "Unit", "Hero", "Leader", "AdjustableUnit", "WallUnit"    }.Select(name => new object[] { name });
 
     private sealed class UnitOwner(bool reject) : EngineFixture.Owner
     {
