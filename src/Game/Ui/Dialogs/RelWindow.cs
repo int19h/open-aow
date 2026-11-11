@@ -176,11 +176,24 @@ public partial class RelWindow : DataModule
     public sbyte FSelectedRace;
     public IntegerList FPlayers;
     public IntegerList FRaces;
-    public DelphiList FControls;
+    public List<AOWImage> FImages;
+    public List<AOWCheckBox> FChecks;
     public ExecuteDoneEvent FDone;
     public DiplomaticActionEventLog FEvent;
     public int FGlowIntensity;
     public bool FGlowIncreasing;
+
+    // Slots 0..23 are images and slots 24..47 are check boxes, in RelWindowCreate order.
+    // An index outside 0..47 throws.
+    private AoWComponent ControlAt(int Index)
+    {
+        if (Index >= 0 && Index < 24)
+        {
+            return FImages[Index];
+        }
+
+        return FChecks[Index - 24];
+    }
 
     // AoWRelations.pas:221
     public void FillPlayers()
@@ -196,17 +209,18 @@ public partial class RelWindow : DataModule
 
         for (int I = 1; I <= 12; I++)
         {
+            var check = FChecks[I - 1];
             if (I <= FPlayers.Count)
             {
-                ((AoWComponent)FControls[I + 23]).Visible = true;
-                ((AOWControl)FControls[I + 23]).ToolTipText.Clear();
+                check.Visible = true;
+                check.ToolTipText.Clear();
                 var player = FPlayers[I - 1];
                 var name = AoWHSMap.Current.FPlayers.GetPlayers(player).GetName();
-                ((AOWControl)FControls[I + 23]).ToolTipText.Add(name);
+                check.ToolTipText.Add(name);
             }
             else
             {
-                ((AoWComponent)FControls[I + 23]).Visible = false;
+                check.Visible = false;
             }
         }
 
@@ -233,18 +247,19 @@ public partial class RelWindow : DataModule
 
         for (int I = 0; I <= 11; I++)
         {
+            var check = FChecks[I + 12];
             if (I < FRaces.Count)
             {
-                ((AoWComponent)FControls[I + 36]).Visible = true;
-                ((AOWControl)FControls[I + 36]).ToolTipText.Clear();
+                check.Visible = true;
+                check.ToolTipText.Clear();
                 var race = FRaces[I];
                 var fRacesRace = AoWHSMap.Current.FRaces.GetRace(race);
                 var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[fRacesRace.FRace]);
-                ((AOWControl)FControls[I + 36]).ToolTipText.Add(raceNamesPlural);
+                check.ToolTipText.Add(raceNamesPlural);
             }
             else
             {
-                ((AoWComponent)FControls[I + 36]).Visible = false;
+                check.Visible = false;
             }
         }
 
@@ -252,41 +267,41 @@ public partial class RelWindow : DataModule
         FGlowIntensity = 50;
         FGlowIncreasing = false;
         RelWin.Visible = true;
-        if (FControls[Player + 23] is AOWCheckBox playerCheck)
+        if (ControlAt(Player + 23) is AOWCheckBox playerCheck)
         {
             playerCheck.Checked = true;
         }
 
         Index = FPlayers.IndexOf(AoWHSMap.Current.FSeatedPlayer);
-        if (FControls[Index + 24] is AOWCheckBox seatedCheck)
+        var seated = ControlAt(Index + 24);
+        if (seated is AOWCheckBox seatedCheck)
         {
             seatedCheck.Checked = true;
         }
 
-        P1CBChange((AoWComponent)FControls[Index + 24], Index);
+        P1CBChange(seated, Index);
         AoWHSMap.Current.FTutorialControl.ShowMessage(65, true, true);
     }
 
     // AoWRelations.pas:270
     public void ResetChecks()
     {
-        AOWCheckBox Check;
         FSelectedIndex = -1;
         RelPnl.FAligned = false;
         RelWin.FDrawn = false;
         PlyrGlow.Alignment.TopOffset = 10;
-        for (int I = 24; I <= 35; I++)
+        for (int I = 0; I <= 11; I++)
         {
-            Check = (AOWCheckBox)FControls[I];
-            Check.Checked = false;
-            Check.Alignment.TopOffset = 10;
+            var check = FChecks[I];
+            check.Checked = false;
+            check.Alignment.TopOffset = 10;
         }
 
-        for (int I = 36; I <= 47; I++)
+        for (int I = 12; I <= 23; I++)
         {
-            Check = (AOWCheckBox)FControls[I];
-            Check.Checked = false;
-            Check.Alignment.TopOffset = 185;
+            var check = FChecks[I];
+            check.Checked = false;
+            check.Alignment.TopOffset = 185;
         }
     }
 
@@ -410,52 +425,52 @@ public partial class RelWindow : DataModule
     // AoWRelations.pas:370
     public void HighlightPlayer(sbyte Player)
     {
-        AOWCheckBox Check;
         ResetChecks();
         FSelectedPlayer = Player;
         FSelectedRace = -1;
         FSelectedIndex = FPlayers.IndexOf(Player);
         if (FSelectedIndex != -1)
         {
-            Check = (AOWCheckBox)FControls[FSelectedIndex + 24];
-            Check.Alignment.TopOffset = 20;
-            Check.Checked = true;
+            var check = FChecks[FSelectedIndex];
+            check.Alignment.TopOffset = 20;
+            check.Checked = true;
             if (AoWHSMap.Current.FSeatedPlayer == Player)
             {
-                PlyrGlow.Alignment.TopOffset = Check.Alignment.TopOffset;
+                PlyrGlow.Alignment.TopOffset = check.Alignment.TopOffset;
             }
         }
 
         for (int I = 0; I <= 11; I++)
         {
+            var image = FImages[I];
             if (I < FPlayers.Count)
             {
-                ((AoWComponent)FControls[I]).Visible = true;
+                image.Visible = true;
                 if (FPlayers[I] == Player)
                 {
-                    ((AOWImage)FControls[I]).CurrentImage = 2;
+                    image.CurrentImage = 2;
                 }
                 else
                 {
                     if (I > FRaces.Count)
                     {
-                        ((AOWImage)FControls[I]).CurrentImage = 0;
+                        image.CurrentImage = 0;
                     }
                     else
                     {
-                        ((AOWImage)FControls[I]).CurrentImage = 1;
+                        image.CurrentImage = 1;
                     }
                 }
             }
             else
             {
-                ((AOWImage)FControls[I]).CurrentImage = 2;
+                image.CurrentImage = 2;
             }
 
-            switch (((AOWImage)FControls[I]).CurrentImage)
+            switch (image.CurrentImage)
             {
                 case 1:
-                    ((AOWControl)FControls[I]).ToolTipText.Clear();
+                    image.ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
                         if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
@@ -468,7 +483,7 @@ public partial class RelWindow : DataModule
                                 {
                                     var player3 = FPlayers[I];
                                     var diplomaticRelation = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FSelectedPlayer, (sbyte)player3);
-                                    ((AOWControl)FControls[I]).ToolTipText.Add(GameTables.TDiplomaticRelationRStr[(int)diplomaticRelation]);
+                                    image.ToolTipText.Add(GameTables.TDiplomaticRelationRStr[(int)diplomaticRelation]);
                                 }
                             }
                         }
@@ -476,26 +491,27 @@ public partial class RelWindow : DataModule
 
                     break;
                 default:
-                    ((AOWControl)FControls[I]).ToolTipText.Clear();
+                    image.ToolTipText.Clear();
                     break;
             }
         }
 
         for (int I = 0; I <= 11; I++)
         {
+            var image = FImages[I + 12];
             if (I < FRaces.Count)
             {
-                ((AOWImage)FControls[I + 12]).CurrentImage = 4;
+                image.CurrentImage = 4;
             }
             else
             {
-                ((AOWImage)FControls[I + 12]).CurrentImage = 5;
+                image.CurrentImage = 5;
             }
 
-            switch (((AOWImage)FControls[I + 12]).CurrentImage)
+            switch (image.CurrentImage)
             {
                 case 4:
-                    ((AOWControl)FControls[I + 12]).ToolTipText.Clear();
+                    image.ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
                         if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
@@ -505,13 +521,13 @@ public partial class RelWindow : DataModule
                             var status = AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation]);
                             var race2 = FRaces[I];
                             var playerRelationValue = AoWHSMap.Current.FRaces.GetRace(race2).GetPlayerRelationValue(FSelectedPlayer);
-                            ((AOWControl)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                            image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                         }
                     }
 
                     break;
                 default:
-                    ((AOWControl)FControls[I + 12]).ToolTipText.Clear();
+                    image.ToolTipText.Clear();
                     break;
             }
         }
@@ -562,30 +578,31 @@ public partial class RelWindow : DataModule
     public void HighlightRace(sbyte Race)
     {
         int Index;
-        AOWCheckBox Check;
         ResetChecks();
         FSelectedPlayer = -1;
         FSelectedRace = Race;
         Index = FRaces.IndexOf(Race);
-        Check = (AOWCheckBox)FControls[Index + 36];
-        Check.Alignment.TopOffset = 175;
-        Check.Checked = true;
+        // A missing race yields -1, and check 11 is P12CB, the old slot 35.
+        var check = FChecks[Index + 12];
+        check.Alignment.TopOffset = 175;
+        check.Checked = true;
         FSelectedIndex = 20 + Index;
         for (int I = 0; I <= 11; I++)
         {
+            var image = FImages[I];
             if (I < FPlayers.Count)
             {
-                ((AOWImage)FControls[I]).CurrentImage = 1;
+                image.CurrentImage = 1;
             }
             else
             {
-                ((AOWImage)FControls[I]).CurrentImage = 2;
+                image.CurrentImage = 2;
             }
 
-            switch (((AOWImage)FControls[I]).CurrentImage)
+            switch (image.CurrentImage)
             {
                 case 1:
-                    ((AOWControl)FControls[I]).ToolTipText.Clear();
+                    image.ToolTipText.Clear();
                     var player = FPlayers[I];
                     if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                     {
@@ -594,20 +611,21 @@ public partial class RelWindow : DataModule
                         var status = AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation]);
                         var player3 = FPlayers[I];
                         var playerRelationValue = AoWHSMap.Current.FRaces.GetRace(FSelectedRace).GetPlayerRelationValue((sbyte)player3);
-                        ((AOWControl)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                        image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                     }
 
                     break;
                 default:
-                    ((AOWControl)FControls[I]).ToolTipText.Clear();
+                    image.ToolTipText.Clear();
                     break;
             }
         }
 
         for (int I = 0; I <= 11; I++)
         {
-            ((AOWImage)FControls[I + 12]).CurrentImage = 5;
-            ((AOWControl)FControls[I + 12]).ToolTipText.Clear();
+            var image = FImages[I + 12];
+            image.CurrentImage = 5;
+            image.ToolTipText.Clear();
         }
     }
 
@@ -686,62 +704,24 @@ public partial class RelWindow : DataModule
         FActions = new DiplomaticActionList(null);
         FRaces = new IntegerList();
         FPlayers = new IntegerList();
-        FControls = new DelphiList();
-        FControls.Add(P1I);
-        FControls.Add(P2I);
-        FControls.Add(P3I);
-        FControls.Add(P4I);
-        FControls.Add(P5I);
-        FControls.Add(P6I);
-        FControls.Add(P7I);
-        FControls.Add(P8I);
-        FControls.Add(P9I);
-        FControls.Add(P10I);
-        FControls.Add(P11I);
-        FControls.Add(P12I);
-        FControls.Add(R1I);
-        FControls.Add(R2I);
-        FControls.Add(R3I);
-        FControls.Add(R4I);
-        FControls.Add(R5I);
-        FControls.Add(R6I);
-        FControls.Add(R7I);
-        FControls.Add(R8I);
-        FControls.Add(R9I);
-        FControls.Add(R10I);
-        FControls.Add(R11I);
-        FControls.Add(R12I);
-        FControls.Add(P1CB);
-        FControls.Add(P2CB);
-        FControls.Add(P3CB);
-        FControls.Add(P4CB);
-        FControls.Add(P5CB);
-        FControls.Add(P6CB);
-        FControls.Add(P7CB);
-        FControls.Add(P8CB);
-        FControls.Add(P9CB);
-        FControls.Add(P10CB);
-        FControls.Add(P11CB);
-        FControls.Add(P12CB);
-        FControls.Add(R1CB);
-        FControls.Add(R2CB);
-        FControls.Add(R3CB);
-        FControls.Add(R4CB);
-        FControls.Add(R5CB);
-        FControls.Add(R6CB);
-        FControls.Add(R7CB);
-        FControls.Add(R8CB);
-        FControls.Add(R9CB);
-        FControls.Add(R10CB);
-        FControls.Add(R11CB);
-        FControls.Add(R12CB);
+        FImages =
+        [
+            P1I, P2I, P3I, P4I, P5I, P6I, P7I, P8I, P9I, P10I, P11I, P12I,
+            R1I, R2I, R3I, R4I, R5I, R6I, R7I, R8I, R9I, R10I, R11I, R12I,
+        ];
+        FChecks =
+        [
+            P1CB, P2CB, P3CB, P4CB, P5CB, P6CB, P7CB, P8CB, P9CB, P10CB, P11CB, P12CB,
+            R1CB, R2CB, R3CB, R4CB, R5CB, R6CB, R7CB, R8CB, R9CB, R10CB, R11CB, R12CB,
+        ];
     }
 
     // AoWRelations.pas:596
     public void RelWindowDestroy()
     {
         FActions?.Dispose();
-        FControls?.Dispose();
+        FImages?.Clear();
+        FChecks?.Clear();
         FPlayers?.Dispose();
         FRaces?.Dispose();
     }
