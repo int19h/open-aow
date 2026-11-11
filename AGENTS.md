@@ -28,3 +28,31 @@ the recovered Delphi 3 source in `D:\git\aow`. `docs/process.md` describes how w
   report that claims completion carries the done measure's command output.
 - Prose in documents and comments is plain English: no "should", "may", "could", "would",
   "might", no semicolons, no em-dashes.
+
+## How new code is written
+
+These rules apply to code written from now on. Existing code moves to them over time through
+tooling and reviews, so a change does not rewrite old code to them unless its brief says so. A
+tool that generates C# emits code that follows them.
+
+- Use the modern C# features the toolchain supports, up to C# 15.
+- Data is immutable by default. Mutable state needs a reason.
+- An immutable type is `readonly`: a `record class` or `record struct` as fits, with a primary
+  constructor where possible. Members use `required` and `readonly` where they apply.
+- A property is an auto-property where possible. Otherwise its backing store is the `field`
+  keyword when nothing outside the accessors needs it. A property set only during
+  initialization has `init`, not `set`.
+- All fields are private. Anything visible outside its type is a property, get-only when
+  nothing writes it after construction.
+- Names follow the .NET identifier-names guide
+  (https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names):
+  PascalCase for types, members and constants, camelCase for parameters and locals, `_camelCase`
+  for private instance fields, `s_camelCase` for private static fields. Whole words, no
+  abbreviations except widely known ones, judged in this project's context (`Aow`, `Hex`,
+  `Info`, `Id`, `IO`, `UI`, `AI`, `Tcp`, `Cpu` and the file format names). Two-letter acronyms
+  are uppercase, longer ones Pascal-cased.
+- Code that works with data uses pattern matching and deconstruction where they make it clearer.
+- Calls use named arguments. A call with one argument needs none. From the second argument on,
+  name the arguments, except where a strong positional convention carries the meaning (`x, y`,
+  `x, y, z`, `width, height` and the like). A boolean argument is always named unless it is the
+  first argument.
