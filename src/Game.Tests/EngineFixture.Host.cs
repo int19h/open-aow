@@ -53,8 +53,8 @@ public sealed partial class EngineFixture
             if (fault == "dictionary") File.WriteAllBytes(Path.Combine(root, "Dict", "ResStr.mld"), [0]);
             if (fault == "plugin") File.WriteAllBytes(Path.Combine(root, "PLUGINS", "X.DPL"), []);
             files.SetCurrentDirectory(root);
-            EngineHost.Engines = new DelphiList();
-            EngineHost.PlugIns = new DelphiList();
+            EngineHost.Engines = new List<GameEngine>();
+            EngineHost.PlugIns = new List<Engine.PlugIn>();
             EngineHost.Packages = new StringList();
             EngineHost.VerifyEObjectEnabled = true;
             GameTables.AoWEngine = null!;
@@ -159,7 +159,7 @@ public sealed partial class EngineFixture
                 partial.FDictionary?.Dispose();
                 partial.FEmailGames?.Dispose();
             }
-            EngineHost.Engines?.Dispose(); EngineHost.PlugIns?.Dispose(); EngineHost.Packages?.Dispose();
+            EngineHost.Engines?.Clear(); EngineHost.PlugIns?.Clear(); EngineHost.Packages?.Dispose();
             foreach (var pair in globals) pair.Key.SetValue(null, pair.Value);
             LocalizationRuntime.StartupDirectory = previousLocalization;
             RestoreServices();

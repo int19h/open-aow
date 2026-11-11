@@ -129,7 +129,7 @@ public partial class CombatPredictorUnit : IDisposable
             for (int I = FOpponents.Count - 1; I >= 0; I--)
             {
                 FPredictor.FWork += 1;
-                U = (CombatPredictorUnit)FOpponents.List[I];
+                U = FOpponents.List[I];
                 V = FUnit.GetCombatValue(U.FUnit, 0);
                 if (V < 0)
                 {
@@ -173,7 +173,7 @@ public partial class CombatPredictorUnit : IDisposable
         {
             for (int I = FOpponents.Count - 1; I >= 0; I--)
             {
-                U = (CombatPredictorUnit)FOpponents.List[I];
+                U = FOpponents.List[I];
                 J = FWallTargets.IndexOfItemC(U.FCPUID);
                 if (J == -1)
                 {
@@ -224,7 +224,7 @@ public partial class CombatPredictorUnit : IDisposable
             FWallCombatValue = 0;
             for (int I = FOpponents.Count - 1; I >= 0; I--)
             {
-                U = (CombatPredictorUnit)FOpponents.List[I];
+                U = FOpponents.List[I];
                 if (!Passing)
                 {
                     if (FBehindWall != 0)

@@ -61,7 +61,7 @@ public partial class UnitBanner : DataModule
             DialogHosts.General.BuildAbilities();
             for (int I = 0, last = DialogHosts.General.FAbilities.Count - 1; I <= last; I++)
             {
-                A = (CombatAbilityRef)DialogHosts.General.FAbilities[I];
+                A = DialogHosts.General.FAbilities[I];
                 var name2 = AoWHSSet.Current.FAbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.FSelectedUnit);
                 AbLB.Items.Add(name2);
             }

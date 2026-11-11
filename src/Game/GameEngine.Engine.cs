@@ -42,7 +42,7 @@ namespace Aow.Game;
 public partial class GameEngine : ENode
 {
     internal int FMsgCount;
-    internal EObjectClassList FEClasses;
+    internal List<EClass> FEClasses;
     internal IntegerHashTable256 FClassTable;
     internal EObjectEditorList FEditors;
     internal EControlStyleNode FControlNode;
@@ -90,7 +90,7 @@ public partial class GameEngine : ENode
         UpdateStartupDirectory();
         FOptions = Set<EngineModeElement>.Of(eoVerifyClasses);
         FDebugEventsStore = new();
-        FEClasses = new EObjectClassList();
+        FEClasses = new List<EClass>();
         FClassTable = new IntegerHashTable256();
         FEditors = new EObjectEditorList();
         FControlNode = new EControlStyleNode(this);
@@ -165,7 +165,7 @@ public partial class GameEngine : ENode
         FDebugIDs?.Dispose();
         base.Dispose();
         FClassTable?.Dispose();
-        FEClasses?.Dispose();
+        FEClasses?.Clear();
         if (fullInstance || fullConstruction)
         {
             FOnHSMLoadedStore.Clear();
@@ -335,7 +335,7 @@ public partial class GameEngine : ENode
         L = new EObjectClassList();
         for (int I = 0, last = FEClasses.Count - 1; I <= last; I++)
         {
-            if (((EClass)FEClasses[I]).InheritsFrom(AClass))
+            if ((FEClasses[I]).InheritsFrom(AClass))
             {
                 L.Add(FEClasses[I]);
             }
@@ -716,7 +716,7 @@ public partial class GameEngine : ENode
         }
     }
 
-    public EObjectClassList EClasses { get => FEClasses; }
+    public List<EClass> EClasses { get => FEClasses; }
     public IntegerHashTable256 ClassTable { get => FClassTable; }
     public EObjectEditorList Editors { get => FEditors; }
     public EControlStyleNode ControlNode { get => FControlNode; }
@@ -774,7 +774,7 @@ public partial class GameEngine : ENode
     {
         for (int I = 0, last = EngineHost.PlugIns.Count - 1; I <= last; I++)
         {
-            ((PlugIn)EngineHost.PlugIns[I]).Initialize(AEngine);
+            (EngineHost.PlugIns[I]).Initialize(AEngine);
         }
     }
 
@@ -782,7 +782,7 @@ public partial class GameEngine : ENode
     {
         for (int I = 0, last = EngineHost.PlugIns.Count - 1; I <= last; I++)
         {
-            ((PlugIn)EngineHost.PlugIns[I]).Finalize(AEngine);
+            (EngineHost.PlugIns[I]).Finalize(AEngine);
         }
     }
 

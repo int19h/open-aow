@@ -120,14 +120,14 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(124, level.EClass.InstanceSize);
                 break;
             case HexagonSpriteSelection selection:
-                Assert.Equal(0, selection.LocationHS.Count);
+                Assert.Empty(selection.LocationHS);
                 Assert.Equal(0, selection.FOnSelectStore.Count);
                 Assert.Equal(0, selection.FOnDeselectStore.Count);
                 break;
             case MORTerrainControl control:
                 Assert.Equal(typeof(MapObject), control.MOClass);
                 Assert.Equal(5, control.Tries);
-                Assert.Equal(0, control.FResources.Count);
+                Assert.Empty(control.FResources);
                 break;
             case HSSet set:
                 Assert.NotNull(set.FPlugInControl);
@@ -261,7 +261,7 @@ public sealed class MapNetSoundConstructionTests
                 case TokenExecuter executer:
                     Assert.Equal(0, executer.FEvents.Count);
                     Assert.Equal(0, executer.FSystemEvents.Count);
-                    Assert.Equal(0, executer.FTCList.Count);
+                    Assert.Empty(executer.FTCList);
                     Assert.Equal(0, executer.FOnEventsExecutedStore.Count);
                     Assert.Equal(0, executer.FOnActivateTCStore.Count);
                     break;
@@ -288,6 +288,8 @@ public sealed class MapNetSoundConstructionTests
                     Assert.Equal(0, song.SongNames.Count);
                     break;
                 case StringList strings: Assert.Equal(0, strings.Count); break;
+                case SampleList samples: Assert.Equal(0, samples.Count); break;
+                case SampleDataList data: Assert.Equal(0, data.Count); break;
                 case DelphiList list: Assert.Equal(0, list.Count); break;
             }
         }
@@ -300,9 +302,9 @@ public sealed class MapNetSoundConstructionTests
         using var manager = new TokenManager(null!);
         var control = new TokenControl(manager, 7);
         Assert.Same(control, manager.FTokenExecuter.FTCList[0]);
-        Assert.Equal(1, manager.FTokenExecuter.FTCList.Count);
+        Assert.Single(manager.FTokenExecuter.FTCList);
         control.Dispose();
-        Assert.Equal(0, manager.FTokenExecuter.FTCList.Count);
+        Assert.Empty(manager.FTokenExecuter.FTCList);
     }
 
     [Fact]

@@ -18,18 +18,18 @@ public partial class UnitControl : EObject
     public UnitControl(ECustomNode owner) : base(owner)
     {
         FUnitTable = new IntegerHashTable256();
-        FUnits = new DelphiList();
+        FUnits = new List<AbstractUnit>();
         FNextUnitID = 1;
     }
 
     public int FNextUnitID;
     public IntegerHashTable256 FUnitTable;
-    public DelphiList FUnits;
+    public List<AbstractUnit> FUnits;
 
     // Unit.PAS:8
     public override void Dispose()
     {
-        FUnits?.Dispose();
+        FUnits?.Clear();
         FUnitTable?.Dispose();
         base.Dispose();
     }
@@ -53,12 +53,12 @@ public partial class UnitControl : EObject
     {
         for (int I = FUnits.Count - 1; I >= 0; I--)
         {
-            ((AbilityOwner)FUnits.List[I]).Changed();
+            (FUnits[I]).Changed();
         }
     }
 
     // Unit.PAS:31
-    public AbstractUnit GetUnit(int Index) => (AbstractUnit)FUnits.List[Index];
+    public AbstractUnit GetUnit(int Index) => FUnits[Index];
 
     // Unit.PAS:35
     public AbstractUnit FindUnit(int ID) => (AbstractUnit)FUnitTable.Find(ID);

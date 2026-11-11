@@ -15,7 +15,7 @@ namespace Aow.Game.World.Map;
 // the map
 public partial class HexagonSpriteSelection : EControlStyleNode
 {
-    internal DelphiList FLocationHS;
+    internal List<HexagonSprite> FLocationHS;
 
     internal EventStore<ECustomNode> FOnSelectStore;
 
@@ -38,7 +38,7 @@ public partial class HexagonSpriteSelection : EControlStyleNode
     // HSEngine.pas:3681
     public HexagonSpriteSelection(ECustomNode owner) : base(owner)
     {
-        FLocationHS = new DelphiList();
+        FLocationHS = new List<HexagonSprite>();
         FOnSelectStore = new();
         FOnDeselectStore = new();
     }
@@ -47,7 +47,7 @@ public partial class HexagonSpriteSelection : EControlStyleNode
     public override void Dispose()
     {
         base.Dispose();
-        FLocationHS?.Dispose();
+        FLocationHS?.Clear();
         FOnSelectStore.Clear();
         FOnDeselectStore.Clear();
     }
@@ -156,7 +156,7 @@ public partial class HexagonSpriteSelection : EControlStyleNode
     {
         while (FLocationHS.Count != 0)
         {
-            Unselect((HexagonSprite)FLocationHS.Last());
+            Unselect(FLocationHS[FLocationHS.Count - 1]);
         }
     }
 
@@ -166,7 +166,7 @@ public partial class HexagonSpriteSelection : EControlStyleNode
     }
 
     public HSAccessor HS => new HSAccessor(this);
-    public DelphiList LocationHS { get => FLocationHS; }
+    public List<HexagonSprite> LocationHS { get => FLocationHS; }
 
     public event NotifyEvent<ECustomNode> OnSelect
     {

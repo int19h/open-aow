@@ -208,7 +208,7 @@ public partial class CAbRangedTE : TokenEvent
                         {
                             EndX = -1;
                             EndY = -1;
-                            Effect = (TfxHS)AoWCombatMap.Current.FEffects[EffectIndex];
+                            Effect = AoWCombatMap.Current.FEffects[EffectIndex];
                             if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 117)
                             {
                                 if (Effect.FEffectType == TfxType.Rock)
@@ -612,9 +612,9 @@ public partial class CAbRangedTE : TokenEvent
                                                                                 {
                                                                                     if (I != EffectIndex)
                                                                                     {
-                                                                                        if (((TfxHS)AoWCombatMap.Current.FEffects[I]).FTarget == Effect.FTarget)
+                                                                                        if ((AoWCombatMap.Current.FEffects[I]).FTarget == Effect.FTarget)
                                                                                         {
-                                                                                            ((TfxHS)AoWCombatMap.Current.FEffects[I]).FTarget = null;
+                                                                                            (AoWCombatMap.Current.FEffects[I]).FTarget = null;
                                                                                         }
                                                                                     }
                                                                                 }

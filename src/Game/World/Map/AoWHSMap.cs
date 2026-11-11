@@ -251,7 +251,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
         remove => FUpdateVisibilityEventsStore.Remove(value);
     }
 
-    public DelphiList FEffects;
+    public List<WorldFXHS> FEffects;
     public int FUpdateVisibilityLockCount;
     public bool FVisibilityChanged;
     public int FArmyUpdateCount;
@@ -363,7 +363,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
             (FEffects[I] as IDisposable)?.Dispose();
         }
 
-        FEffects?.Dispose();
+        FEffects?.Clear();
         FTutorialControl?.Dispose();
         FPlayers.BeginUpdate();
         FArmyChangedEventsStore.Clear();
@@ -625,7 +625,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
         FPlayMode = PlayMode.None;
         FKeyboard = new AoWHSMapKeyboard(null);
         FTargetSelection = new TargetSelectionControl();
-        FEffects = new DelphiList();
+        FEffects = new List<WorldFXHS>();
         FDefendersSeed = 0;
         FHeroCountMax = 5;
         FSelectedArmy = new SelectedArmy();
@@ -2732,13 +2732,13 @@ public partial class AoWHSMap : AbstractAoWHSMap
             I = 0;
             while (I < FEffects.Count)
             {
-                Effect = (WorldFXHS)FEffects[I];
+                Effect = FEffects[I];
                 if (Effect.FDone)
                 {
                     DynamicFixedVisibleHS.RemoveChild(Effect);
                     DynamicVisibleHS.RemoveChild(Effect);
                     Effect?.Dispose();
-                    FEffects.Delete(I);
+                    FEffects.RemoveAt(I);
                 }
                 else
                 {

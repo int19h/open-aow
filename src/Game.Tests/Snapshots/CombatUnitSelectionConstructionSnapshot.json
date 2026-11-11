@@ -24,11 +24,7 @@
           },
           "CombatUnitSelectionControl.FRangedPath": {
             "$type": "Aow.Game.Draw.XYZList",
-            "XYZList.FList": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
-            }
+            "XYZList.FList": []
           },
           "CombatUnitSelectionControl.FRangedPathHS": {
             "$type": "Aow.Game.Draw.RangedPathHS",
@@ -67,11 +63,7 @@
               "CustomImageLibrary.FOnChange": null,
               "CustomImageLibrary.FPaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager.FPalettes": {
-                  "$type": "Aow.Rtl.DelphiList",
-                  "DelphiList.count": 0,
-                  "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
-                }
+                "PaletteManager.FPalettes": []
               },
               "CustomImageLibrary.FReloading": false,
               "CustomImageLibrary.FStatus": {
@@ -147,9 +139,9 @@
                 "$type": "Aow.Game.World.Map.XYL",
                 "XYL.Flag": 0,
                 "XYL.L": -1,
+                "XYL.Packed": 16777215,
                 "XYL.X": -1,
                 "XYL.XY": 65535,
-                "XYL.Packed": 16777215,
                 "XYL.Y": -1
               },
               "XYLList.FList": []

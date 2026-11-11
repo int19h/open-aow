@@ -8,12 +8,12 @@ namespace Aow.Game.Draw;
 public partial class XYZList : IDisposable
 {
 
-    internal DelphiList FList;
+    internal List<XYZ> FList;
 
     // aowFX.pas:93
     public XYZList()
     {
-        FList = new DelphiList();
+        FList = new List<XYZ>();
     }
 
     // aowFX.pas:98
@@ -24,7 +24,7 @@ public partial class XYZList : IDisposable
             _ = GetXYZ(I);
         }
 
-        FList?.Dispose();
+        FList?.Clear();
     }
 
     // aowFX.pas:108
@@ -47,7 +47,7 @@ public partial class XYZList : IDisposable
     // aowFX.pas:122
     public void Delete(int Index)
     {
-        FList.Delete(Index);
+        FList.RemoveAt(Index);
     }
 
     // aowFX.pas:128
@@ -56,7 +56,7 @@ public partial class XYZList : IDisposable
         XYZ Result;
         if (Index >= 0 && Index < FList.Count)
         {
-            Result = (XYZ)FList[Index];
+            Result = FList[Index];
         }
         else
         {

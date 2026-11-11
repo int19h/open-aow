@@ -72,7 +72,7 @@ public partial class ResultsWin : DataModule
     public int FMaxStructures;
     public int FMaxStrength;
     public ByteList FPlayers;
-    public DelphiList FControls;
+    public List<AOWCheckBox> FControls;
 
     // AoWResultsWin.pas:93
     public void UpdateSelection()
@@ -349,7 +349,7 @@ public partial class ResultsWin : DataModule
     public void ResultsWinCreate()
     {
         FPlayers = new ByteList();
-        FControls = new DelphiList();
+        FControls = new List<AOWCheckBox>();
         FControls.Add(P1CB);
         FControls.Add(P2CB);
         FControls.Add(P3CB);
@@ -368,7 +368,7 @@ public partial class ResultsWin : DataModule
     public void ResultsWinDestroy()
     {
         FPlayers?.Dispose();
-        FControls?.Dispose();
+        FControls?.Clear();
     }
 
     // AoWResultsWin.pas:294

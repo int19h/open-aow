@@ -255,7 +255,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
         var previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         var tally = new Tally();
         try
         {
@@ -268,7 +268,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
         finally
         {
-            ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
 

@@ -34,7 +34,7 @@ public partial class AOWPanel : AOWBaseWindow
         if (FTabPanel != null)
         {
             var indexOf = FTabPanel.FPanels.IndexOf(this);
-            FTabPanel.FPanels.Delete(indexOf);
+            FTabPanel.FPanels.RemoveAt(indexOf);
         }
 
         base.Dispose();
@@ -495,7 +495,7 @@ public partial class AOWPanel : AOWBaseWindow
                 {
                     for (int J = 0, last = FDrawCount - 1; J <= last; J++)
                     {
-                        D = (TaowRect)FDrawList[J];
+                        D = FDrawList[J];
                         OldClip = SurfDesc.ClipRect;
                         var rect = new Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                         SurfDesc.ClipRect = rect;
@@ -535,7 +535,7 @@ public partial class AOWPanel : AOWBaseWindow
                         C.FDrawn = true;
                         for (int J = 0, last = FDrawCount - 1; J <= last; J++)
                         {
-                            D = (TaowRect)FDrawList[J];
+                            D = FDrawList[J];
                             InvalidateRect(I + 1, ref D.R, null);
                         }
 
@@ -748,10 +748,10 @@ public partial class AOWPanel : AOWBaseWindow
                 I = 0;
                 while (I < FTabPanel.FPanels.Count)
                 {
-                    P = (AOWPanel)FTabPanel.FPanels[I];
+                    P = FTabPanel.FPanels[I];
                     if (P == this)
                     {
-                        FTabPanel.FPanels.Delete(I);
+                        FTabPanel.FPanels.RemoveAt(I);
                         I = FTabPanel.FPanels.Count;
                     }
 
@@ -766,7 +766,7 @@ public partial class AOWPanel : AOWBaseWindow
                 NewIndex = -1;
                 while (I < FTabPanel.FPanels.Count)
                 {
-                    P = (AOWPanel)FTabPanel.FPanels[I];
+                    P = FTabPanel.FPanels[I];
                     if (P.FPriority > FPriority)
                     {
                         NewIndex = I;

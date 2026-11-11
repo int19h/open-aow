@@ -1,4 +1,8 @@
 
+using Aow.Engine;
+
+using Aow.Game;
+
 using Aow.Rtl;
 
 namespace Aow.Engine.Nodes;
@@ -35,9 +39,9 @@ public static class EngineHost
 
     internal static bool VerifyEObjectEnabled;
 
-    public static DelphiList Engines;
+    public static List<GameEngine> Engines;
 
-    public static DelphiList PlugIns;
+    public static List<PlugIn> PlugIns;
 
     public static StringList Packages;
 
@@ -47,8 +51,8 @@ public static class EngineHost
     {
         CRC32Table = [];
         VerifyEObjectEnabled = true;
-        Engines = new DelphiList();
-        PlugIns = new DelphiList();
+        Engines = new List<GameEngine>();
+        PlugIns = new List<PlugIn>();
         Packages = new StringList();
     }
 
@@ -57,8 +61,8 @@ public static class EngineHost
         ReleaseCRC32Table();
         UnloadExternalPlugIns();
         Packages?.Dispose();
-        Engines?.Dispose();
-        PlugIns?.Dispose();
+        Engines?.Clear();
+        PlugIns?.Clear();
     }
 
 }

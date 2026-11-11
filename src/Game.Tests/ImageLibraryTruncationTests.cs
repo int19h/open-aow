@@ -36,7 +36,7 @@ public sealed class ImageLibraryTruncationTests
         var stream = new MemoryStream();
         var library = new ImageLibrary(null!);
         var previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
@@ -51,7 +51,7 @@ public sealed class ImageLibraryTruncationTests
         {
             library.Dispose();
             stream.Dispose();
-            ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }

@@ -13,16 +13,16 @@ public partial class AIGroupManager : AIGroupList
     public AIGroupManager(ECustomNode owner) : base(owner)
     {
         FNextID = 1;
-        FRegisteredClasses = new DelphiList();
+        FRegisteredClasses = new List<AIGroupClass>();
     }
 
     public int FNextID;
-    public DelphiList FRegisteredClasses;
+    public List<AIGroupClass> FRegisteredClasses;
 
     // AIGroup.pas:571
     public override void Dispose()
     {
-        FRegisteredClasses?.Dispose();
+        FRegisteredClasses?.Clear();
         base.Dispose();
     }
 
@@ -65,12 +65,12 @@ public partial class AIGroupManager : AIGroupList
         while (!Found && I != 0)
         {
             I -= 1;
-            Found = Behavior == ((AIGroupClass)FRegisteredClasses[I]).Behavior;
+            Found = Behavior == (FRegisteredClasses[I]).Behavior;
         }
 
         if (Found)
         {
-            Result = ((AIGroupClass)FRegisteredClasses[I]).Create(this);
+            Result = (FRegisteredClasses[I]).Create(this);
             Result.FGroupID = CreateUniqueID();
             Result.FPlayer = Player;
             Result.FIndependentRelation = Relation;

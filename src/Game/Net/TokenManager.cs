@@ -11,7 +11,7 @@ public partial class TokenManager : IDisposable
     public TokenManager(object owner)
     {
         FOwner = owner;
-        FTokenControls = new DelphiList();
+        FTokenControls = new List<TokenControl>();
         FTokenExecuter = CreateTokenExecuter();
         FTokenPackageDistributer = CreateTokenPackageDistributer();
     }
@@ -19,7 +19,7 @@ public partial class TokenManager : IDisposable
     internal TokenExecuter FTokenExecuter;
     internal TokenPackageDistributer FTokenPackageDistributer;
     internal object FOwner;
-    internal DelphiList FTokenControls;
+    internal List<TokenControl> FTokenControls;
     internal NetworkMessageEvent FOnMessage;
 
     // NetworkE.pas:1642
@@ -64,7 +64,7 @@ public partial class TokenManager : IDisposable
         bool Result;
         if (APlayer < FTokenControls.Count && FTokenControls[APlayer] != null)
         {
-            bool condition = FTokenExecuter.FSystemEvents.Count != 0 || ((TokenControl)FTokenControls[APlayer]).GetCount() != 0;
+            bool condition = FTokenExecuter.FSystemEvents.Count != 0 || (FTokenControls[APlayer]).GetCount() != 0;
             if (!condition)
             {
                 var item = FTokenControls[APlayer];
@@ -123,7 +123,7 @@ public partial class TokenManager : IDisposable
                 (FTokenControls[FTokenControls.Count - 1] as IDisposable)?.Dispose();
             }
 
-            FTokenControls.Delete(FTokenControls.Count - 1);
+            FTokenControls.RemoveAt(FTokenControls.Count - 1);
         }
     }
 
@@ -134,7 +134,7 @@ public partial class TokenManager : IDisposable
     public virtual void Dispose()
     {
         ClearPlayers();
-        FTokenControls?.Dispose();
+        FTokenControls?.Clear();
         FTokenExecuter?.Dispose();
     }
 
@@ -147,7 +147,7 @@ public partial class TokenManager : IDisposable
         TokenControl Result;
         if (APlayer < FTokenControls.Count)
         {
-            Result = (TokenControl)FTokenControls[APlayer];
+            Result = FTokenControls[APlayer];
         }
         else
         {

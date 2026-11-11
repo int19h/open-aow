@@ -16,42 +16,42 @@ public partial class FireControl : IDisposable
     // FResources
     public FireControl()
     {
-        FResources = new DelphiList();
+        FResources = new List<Fire.Resource>();
     }
 
-    public DelphiList FResources;
+    public List<Fire.Resource> FResources;
 
     // Structur.PAS:3726
     public virtual void Dispose()
     {
-        FResources?.Dispose();
+        FResources?.Clear();
     }
 
     // Structur.PAS:3732
     public Fire.Resource GetRndFireResource(FireType FireType)
     {
         Fire.Resource Result;
-        DelphiList Resources;
-        Resources = new DelphiList();
+        List<Fire.Resource> Resources;
+        Resources = new List<Fire.Resource>();
         for (int I = 0, last = FResources.Count - 1; I <= last; I++)
         {
-            if (((Fire.Resource)FResources.List[I]).FFireType == FireType)
+            if (FResources[I].FFireType == FireType)
             {
-                Resources.Add(FResources.List[I]);
+                Resources.Add(FResources[I]);
             }
         }
 
         if (Resources.Count != 0)
         {
             var random = Random(Resources.Count);
-            Result = (Fire.Resource)Resources.List[random];
+            Result = Resources[random];
         }
         else
         {
             Result = null;
         }
 
-        Resources?.Dispose();
+        Resources?.Clear();
         return Result;
     }
 

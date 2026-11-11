@@ -15,7 +15,7 @@ public partial class MORTerrainControl : EObject
 {
     internal GameEngine FHSEngine;
     internal int FTries;
-    internal DelphiList FResources;
+    internal List<DelphiList> FResources;
     internal Type FMOClass;
 
     // HSEngine.pas:4522
@@ -33,7 +33,7 @@ public partial class MORTerrainControl : EObject
     public override void Dispose()
     {
         Clear();
-        FResources?.Dispose();
+        FResources?.Clear();
         FResources = null;
         base.Dispose();
     }
@@ -44,7 +44,7 @@ public partial class MORTerrainControl : EObject
     // HSEngine.pas:4489
     public MORTerrainControl(ECustomNode owner) : base(owner)
     {
-        FResources = new DelphiList();
+        FResources = new List<DelphiList>();
         FMOClass = typeof(MapObject);
         FTries = 5;
     }
@@ -57,7 +57,7 @@ public partial class MORTerrainControl : EObject
             for (int I = FResources.Count - 1; I >= 0; I--)
             {
                 (FResources[I] as IDisposable)?.Dispose();
-                FResources.Delete(I);
+                FResources.RemoveAt(I);
             }
         }
     }
@@ -82,7 +82,7 @@ public partial class MORTerrainControl : EObject
         int Count;
         MapObjectResource R;
         I = TerrainType;
-        List = (DelphiList)FResources[I];
+        List = FResources[I];
         Count = List.Count;
         if (Count != 0)
         {
@@ -106,7 +106,7 @@ public partial class MORTerrainControl : EObject
         MapField MapF;
         MapObject MO;
         MapObject Result = null;
-        List = (DelphiList)FResources[TerrainType];
+        List = FResources[TerrainType];
         if (List.Count != 0)
         {
             R = null;
@@ -144,7 +144,7 @@ public partial class MORTerrainControl : EObject
         MapField MapF;
         MapObject MO;
         MapObject Result = null;
-        if (((DelphiList)FResources[TerrainType]).Count != 0)
+        if ((FResources[TerrainType]).Count != 0)
         {
             R = null;
             MapF = Container.GetField(X, Y, L);
@@ -179,7 +179,7 @@ public partial class MORTerrainControl : EObject
         MapObjectResource Result;
         DelphiList List;
         int I;
-        List = (DelphiList)FResources[TerrainType];
+        List = FResources[TerrainType];
         if (List.Count != 0)
         {
             I = 0;
@@ -226,18 +226,18 @@ public partial class MORTerrainControl : EObject
         TerrainType = Resource.FTerrainList.GetTerrain(0);
         if (TerrainType >= 0 && TerrainType < FResources.Count)
         {
-            if (((DelphiList)FResources.List[TerrainType]).IndexOf(Resource) != -1 || Resource == null)
+            if ((FResources[TerrainType]).IndexOf(Resource) != -1 || Resource == null)
             {
                 throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
             }
 
-            ((DelphiList)FResources.List[TerrainType]).Add(Resource);
+            (FResources[TerrainType]).Add(Resource);
         }
     }
 
     public GameEngine HSEngine { get => FHSEngine; }
     public int Tries { get => FTries; set => FTries = value; }
-    public DelphiList Resources { get => FResources; }
+    public List<DelphiList> Resources { get => FResources; }
     public Type MOClass { get => FMOClass; set => FMOClass = value; }
 
 }

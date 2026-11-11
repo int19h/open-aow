@@ -13,73 +13,65 @@ public class DelphiList : IDisposable
     {
         get => count;
         // CLASSES.PAS TList.SetCount.
-        set
-        {
-            if (value < 0 || value > 134217727) Error("List count out of bounds (%d)", value);
-            if (value > Capacity) Capacity = value;
-            if (value > count) Array.Clear(items, count, value - count);
-            count = value;
-        }
+        set => DelphiListCore.SetCount(ref items, ref count, value);
     }
 
     public int Capacity
     {
         get => items.Length;
         // CLASSES.PAS TList.SetCapacity.
-        set
-        {
-            if (value < count || value > 134217727) Error("List capacity out of bounds (%d)", value);
-            Array.Resize(ref items, value);
-        }
+        set => DelphiListCore.SetCapacity(ref items, count, value);
     }
 
     // CLASSES.PAS TList.Get and TList.Put.
-    public object? this[int index] { get { Check(index); return items[index]; } set { Check(index); items[index] = value; } }
-
-    private void Check(int index) { if (index < 0 || index >= count) Error("List index out of bounds (%d)", index); }
+    public object? this[int index]
+    {
+        get { DelphiListCore.Check(index, count); return items[index]; }
+        set { DelphiListCore.Check(index, count); items[index] = value; }
+    }
 
     // CLASSES.PAS TList.Error.
     public static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, data));
+
     // CLASSES.PAS TList.Grow.
-    protected virtual void Grow() => Capacity += Capacity > 64 ? Capacity / 4 : Capacity > 8 ? 16 : 4;
+    protected virtual void Grow() => Capacity += DelphiListCore.Growth(Capacity);
 
     // CLASSES.PAS TList.Add.
-    public int Add(object? item) { if (count == Capacity) Grow(); items[count] = item; return count++; }
+    public int Add(object? item)
+    {
+        if (count == Capacity) Grow();
+        items[count] = item;
+        return count++;
+    }
 
     // CLASSES.PAS TList.Insert.
     public void Insert(int index, object? item)
     {
-        if (index < 0 || index > count) Error("List index out of bounds (%d)", index);
+        DelphiListCore.CheckInsert(index, count);
         if (count == Capacity) Grow();
-        Array.Copy(items, index, items, index + 1, count - index);
-        items[index] = item;
-        count++;
+        DelphiListCore.InsertAt(items, ref count, index, item);
     }
 
     // CLASSES.PAS TList.Delete leaves the spare slot intact.
-    public void Delete(int index) { Check(index); count--; Array.Copy(items, index + 1, items, index, count - index); }
+    public void Delete(int index) => DelphiListCore.Delete(items, ref count, index);
 
     // CLASSES.PAS TList.IndexOf compares pointer identity.
-    public int IndexOf(object? item)
-    {
-        for (int i = 0; i < count; i++)
-            if (ReferenceEquals(items[i], item) || items[i] is IPointerBox left && item is IPointerBox right &&
-                ReferenceEquals(left.StorageIdentity, right.StorageIdentity) && left.ByteIndex == right.ByteIndex) return i;
-        return -1;
-    }
+    public int IndexOf(object? item) => DelphiListCore.IndexOf(items, count, item);
 
     // CLASSES.PAS TList.Remove.
-    public int Remove(object? item) { int i = IndexOf(item); if (i >= 0) Delete(i); return i; }
+    public int Remove(object? item) => DelphiListCore.Remove(items, ref count, item);
 
     // CLASSES.PAS TList.Exchange.
-    public void Exchange(int first, int second) { Check(first); Check(second); (items[first], items[second]) = (items[second], items[first]); }
+    public void Exchange(int first, int second) => DelphiListCore.Exchange(items, count, first, second);
 
     // CLASSES.PAS TList.Move.
     public void Move(int current, int target)
     {
         if (current == target) return;
-        Check(target);
-        object? item = this[current]; Delete(current); Insert(target, item);
+        DelphiListCore.Check(target, count);
+        object? item = this[current];
+        Delete(current);
+        Insert(target, item);
     }
 
     // CLASSES.PAS TList.First and TList.Last.
@@ -90,10 +82,14 @@ public class DelphiList : IDisposable
     public void Clear() { Count = 0; Capacity = 0; }
 
     // CLASSES.PAS TList.Pack.
-    public void Pack() { for (int i = count - 1; i >= 0; i--) if (items[i] is null) Delete(i); }
+    public void Pack() => DelphiListCore.Pack(items, ref count);
 
     // CLASSES.PAS TList.Expand.
-    public DelphiList Expand() { if (count == Capacity) Grow(); return this; }
+    public DelphiList Expand()
+    {
+        if (count == Capacity) Grow();
+        return this;
+    }
 
     // CLASSES.PAS TList.Sort and QuickSort. Equal keys retain the Delphi swap order.
     public static Action<DelphiList, ListSortCompare>? TraceSort { get; set; }
@@ -101,43 +97,14 @@ public class DelphiList : IDisposable
     public void Sort(ListSortCompare compare)
     {
         TraceSort?.Invoke(this, compare);
-        if (count > 0) QuickSort(0, count - 1, compare);
+        DelphiListCore.Sort(items, count, compare);
     }
 
     // Keeps the order of equal items. The address tie-breaks call this, and every other sort keeps the quicksort.
     public void SortStable(ListSortCompare compare)
     {
         TraceSort?.Invoke(this, compare);
-        for (int i = 1; i < count; i++)
-        {
-            object? item = items[i];
-            int j = i - 1;
-            while (j >= 0 && compare(items[j], item) > 0)
-            {
-                items[j + 1] = items[j];
-                j--;
-            }
-            items[j + 1] = item;
-        }
-    }
-
-    private void QuickSort(int left, int right, ListSortCompare compare)
-    {
-        int i;
-        do
-        {
-            i = left;
-            int j = right;
-            object? pivot = items[(left + right) >> 1];
-            do
-            {
-                while (compare(items[i], pivot) < 0) i++;
-                while (compare(items[j], pivot) > 0) j--;
-                if (i <= j) { (items[i], items[j]) = (items[j], items[i]); i++; j--; }
-            } while (i <= j);
-            if (left < j) QuickSort(left, j, compare);
-            left = i;
-        } while (i < right);
+        DelphiListCore.SortStable(items, count, compare);
     }
 
     // CLASSES.PAS TList.Destroy.

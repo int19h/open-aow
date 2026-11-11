@@ -59,7 +59,7 @@ public sealed class GraphicsConstructionTests
                 Assert.Equal(0, image.Height);
                 if (image is ImageNode) Assert.Equal("(multi images)", image.FileName);
                 Assert.Equal(0, owner.Count);
-                Assert.Equal(0, ((DelphiList)Field(Field(owner, "FPaletteManager")!, "FPalettes")!).Count);
+                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "FPaletteManager")!, "FPalettes")!);
                 image.Dispose();
             }
     }

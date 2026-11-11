@@ -144,7 +144,7 @@ public sealed class ClassFamilyTests
         Assert.Equal(2, manager.FRegisteredClasses.Count);
         Assert.Same(classes[1], manager.FRegisteredClasses[1]);
         manager.UnregisterAIGroupClasses(classes);
-        Assert.Equal(0, manager.FRegisteredClasses.Count);
+        Assert.Empty(manager.FRegisteredClasses);
     }
 
     [Fact]

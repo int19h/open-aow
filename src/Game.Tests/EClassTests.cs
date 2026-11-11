@@ -63,7 +63,7 @@ public sealed class EClassTests
         if (EngineHost.Engines is null) EngineHost.Initialize();
         using GameEngine engine = new GameEngine(null!);
         var engines = new List<GameEngine> { engine };
-        foreach (GameEngine other in EngineHost.Engines!.List.OfType<GameEngine>())
+        foreach (GameEngine other in EngineHost.Engines!)
             if (!ReferenceEquals(other, engine)) engines.Add(other);
         Assert.Contains(EClass.Of<EControlStyleObject>(), ProductRegistered(engine));
         foreach (GameEngine registered in engines)
@@ -85,7 +85,7 @@ public sealed class EClassTests
         var result = new List<EClass>();
         for (int i = 0; i < engine.EClasses.Count; i++)
         {
-            var eclass = engine.EClasses.EClasses[i];
+            var eclass = engine.EClasses[i];
             if (eclass.Type.Assembly == typeof(EObject).Assembly) result.Add(eclass);
         }
         return result;

@@ -26,7 +26,7 @@ public partial class CombatMoveTE : MoveTE
 
     public TacticalCombatUnit FUnit;
     public int FDelay;
-    public DelphiList FObjects;
+    public List<TacticalCombatUnit> FObjects;
     public TacticalCombatUnit FPreviousUnit;
     public TacticalCombatUnit FFreeStrikeUnit;
     public sbyte FNeighbour;
@@ -38,7 +38,7 @@ public partial class CombatMoveTE : MoveTE
     {
         if (FObjects != null)
         {
-            FObjects?.Dispose();
+            FObjects?.Clear();
         }
 
         base.Dispose();
@@ -60,7 +60,7 @@ public partial class CombatMoveTE : MoveTE
         HS = (TacticalCombatUnitHS)MapField.FindOwnedChild(2228484);
         if (HS != null)
         {
-            FObjects = new DelphiList();
+            FObjects = new List<TacticalCombatUnit>();
             FUnit = HS.FUnit;
             Result = true;
         }

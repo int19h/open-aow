@@ -18,16 +18,16 @@ public partial class SpellControl : EObject
     // Spells.PAS:577
     public SpellControl(ECustomNode owner) : base(owner)
     {
-        FRegisteredSpells = new DelphiList();
+        FRegisteredSpells = new List<Spell>();
     }
 
-    public DelphiList FRegisteredSpells;
+    public List<Spell> FRegisteredSpells;
 
     // Spells.PAS:582
     public override void Dispose()
     {
         UnregisterAll();
-        FRegisteredSpells?.Dispose();
+        FRegisteredSpells?.Clear();
         base.Dispose();
     }
 
@@ -39,7 +39,7 @@ public partial class SpellControl : EObject
         {
             if (FRegisteredSpells[I] != null)
             {
-                Stream.rwEObject((EObject)FRegisteredSpells[I], I + 10);
+                Stream.rwEObject(FRegisteredSpells[I], I + 10);
             }
         }
     }
@@ -88,7 +88,7 @@ public partial class SpellControl : EObject
                 FRegisteredSpells.Add(null);
             }
 
-            FRegisteredSpells.List[ID] = Spell;
+            FRegisteredSpells[ID] = Spell;
             Spell.FCastImages.LinkToIL();
         }
         else
@@ -109,11 +109,11 @@ public partial class SpellControl : EObject
                 throw new InvalidOperationException("Cannot Unregister Spell (" + IntToStr(ID) + ")");
             }
 
-            if (FRegisteredSpells.List[ID] != null)
+            if (FRegisteredSpells[ID] != null)
             {
                 Spell.FCastImages.ReleaseIL();
-                ((Spell)FRegisteredSpells.List[ID])?.Dispose();
-                FRegisteredSpells.List[ID] = null;
+                (FRegisteredSpells[ID])?.Dispose();
+                FRegisteredSpells[ID] = null;
             }
         }
         else
@@ -125,9 +125,9 @@ public partial class SpellControl : EObject
     // Spells.PAS:646
     public void UnregisterSpellID(int SpellID)
     {
-        if (FRegisteredSpells.List[SpellID] != null)
+        if (FRegisteredSpells[SpellID] != null)
         {
-            UnregisterSpell((Spell)FRegisteredSpells.List[SpellID]);
+            UnregisterSpell(FRegisteredSpells[SpellID]);
         }
     }
 
@@ -138,7 +138,7 @@ public partial class SpellControl : EObject
         {
             if (FRegisteredSpells[I] != null)
             {
-                UnregisterSpell((Spell)FRegisteredSpells[I]);
+                UnregisterSpell(FRegisteredSpells[I]);
             }
         }
     }
@@ -149,9 +149,9 @@ public partial class SpellControl : EObject
         SpellStrings.Clear();
         for (int I = 0, last = this.FRegisteredSpells.Count - 1; I <= last; I++)
         {
-            if (this.FRegisteredSpells.List[I] != null && Spheres.Contains(((Spell)this.FRegisteredSpells.List[I]).FMagicSphere))
+            if (this.FRegisteredSpells[I] != null && Spheres.Contains((this.FRegisteredSpells[I]).FMagicSphere))
             {
-                SpellStrings.AddObject(((Spell)this.FRegisteredSpells.List[I]).FSpellName, IntToObject(I));
+                SpellStrings.AddObject((this.FRegisteredSpells[I]).FSpellName, IntToObject(I));
             }
         }
     }
@@ -165,7 +165,7 @@ public partial class SpellControl : EObject
         Candidates = new IntegerList();
         for (int I = this.FRegisteredSpells.Count - 1; I >= 0; I--)
         {
-            Spell = (Spell)this.FRegisteredSpells.List[I];
+            Spell = this.FRegisteredSpells[I];
             if (Spell != null && Spheres.Contains(Spell.FMagicSphere) && Spell.FSpellLevel >= MinLevel && Spell.FSpellLevel <= MaxLevel)
             {
                 Candidates.Add(I);

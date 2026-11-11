@@ -452,7 +452,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         var previousTables = (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable);
         (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
-        ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         try
         {
             GfxState.InitBlendTables(5, 31);
@@ -466,7 +466,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         }
         finally
         {
-            ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
             ImageLibraries.BaseImageLibraryPath = previousBase;
             GfxState.AlphaBlendTable?.Dispose();

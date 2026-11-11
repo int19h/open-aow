@@ -33,7 +33,7 @@ public partial class RndTacHsm : IDisposable
     public FixedArray_int_308 FTagWeights;
     public FixedArray_sbyte_7 FTerrain;
     public FixedArray_sbyte_7 FTags;
-    public FixedArray_Aow_Rtl_TList_286 FResources;
+    public FixedArray_List_MapObjectResource_286 FResources;
     // original allocates one extra list
     public int FHomePosition;
 
@@ -42,7 +42,7 @@ public partial class RndTacHsm : IDisposable
     {
         for (int I = 0; I <= 285; I++)
         {
-            FResources[I]?.Dispose();
+            FResources[I]?.Clear();
         }
     }
 
@@ -51,7 +51,7 @@ public partial class RndTacHsm : IDisposable
     {
         for (int I = 0; I <= 285; I++)
         {
-            var list = new DelphiList();
+            var list = new List<MapObjectResource>();
             FResources[I] = list;
         }
 
@@ -809,7 +809,7 @@ public partial class RndTacHsm : IDisposable
                                 if (FResources[FTerrain[I - 1] * 19 + J].Count > 0)
                                 {
                                     var random = Random(FResources[FTerrain[I - 1] * 19 + J].Count);
-                                    ((MapObjectResource)FResources[FTerrain[I - 1] * 19 + J][random]).PlaceResourceUser(AoWCombatMap.Current, (sbyte)Col, (sbyte)Row, 0);
+                                    (FResources[FTerrain[I - 1] * 19 + J][random]).PlaceResourceUser(AoWCombatMap.Current, (sbyte)Col, (sbyte)Row, 0);
                                 }
                             }
                         }

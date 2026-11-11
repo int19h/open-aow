@@ -6,10 +6,10 @@ namespace Aow.Game.Draw;
 // FList
 public partial class DisplayModeList : IDisposable
 {
-    internal DelphiList FList;
+    internal List<DisplayModeItem> FList;
 
     // GFXE.pas:12629
-    internal DisplayModeItem GetItems(int Index) => (DisplayModeItem)FList.List[Index];
+    internal DisplayModeItem GetItems(int Index) => FList[Index];
 
     // GFXE.pas:12634
     internal int GetCount() => FList.Count;
@@ -17,14 +17,14 @@ public partial class DisplayModeList : IDisposable
     // GFXE.pas:12611
     public DisplayModeList()
     {
-        FList = new DelphiList();
+        FList = new List<DisplayModeItem>();
     }
 
     // GFXE.pas:12617
     public virtual void Dispose()
     {
         Clear();
-        FList?.Dispose();
+        FList?.Clear();
     }
 
     // GFXE.pas:12624
@@ -50,7 +50,7 @@ public partial class DisplayModeList : IDisposable
     // GFXE.pas:12650
     public void Delete(int Index)
     {
-        FList.Delete(Index);
+        FList.RemoveAt(Index);
     }
 
     public sealed class ItemsAccessor(DisplayModeList target)

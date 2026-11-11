@@ -5,10 +5,10 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPredictorUnitList : DelphiList
+public partial class CombatPredictorUnitList : DelphiList<CombatPredictorUnit>
 {
     // CombatPredictor.pas:253
-    public CombatPredictorUnit GetUnits(int Index) => (CombatPredictorUnit)List[Index];
+    public CombatPredictorUnit GetUnits(int Index) => List[Index];
 
     // CombatPredictor.pas:256
     public int IndexOfUnit(AbstractUnit AUnit)
@@ -17,7 +17,7 @@ public partial class CombatPredictorUnitList : DelphiList
         while (Result != 0)
         {
             Result -= 1;
-            if (((CombatPredictorUnit)List[Result]).FUnit == AUnit)
+            if (List[Result].FUnit == AUnit)
             {
                 return Result;
             }
@@ -33,7 +33,7 @@ public partial class CombatPredictorUnitList : DelphiList
         while (Result != 0)
         {
             Result -= 1;
-            if (((CombatPredictorUnit)List[Result]).FCPUID == CPUID)
+            if (List[Result].FCPUID == CPUID)
             {
                 return Result;
             }

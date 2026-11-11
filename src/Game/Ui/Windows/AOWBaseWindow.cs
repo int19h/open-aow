@@ -191,7 +191,7 @@ public partial class AOWBaseWindow : AOWWindowControl
                             {
                                 for (int J = 0, last = FDrawCount - 1; J <= last; J++)
                                 {
-                                    D = (TaowRect)FDrawList[J];
+                                    D = FDrawList[J];
                                     R = SD.ClipRect;
                                     var rect = new Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                     SD.ClipRect = rect;
@@ -227,7 +227,7 @@ public partial class AOWBaseWindow : AOWWindowControl
                                     C.Draw(SD);
                                     for (int J = 0, last = FDrawCount - 1; J <= last; J++)
                                     {
-                                        D = (TaowRect)FDrawList[J];
+                                        D = FDrawList[J];
                                         InvalidateRect(I + 1, ref D.R, null);
                                     }
 
@@ -275,7 +275,7 @@ public partial class AOWBaseWindow : AOWWindowControl
 
                                     for (int J = 0, last = FBltCount - 1; J <= last; J++)
                                     {
-                                        D = (TaowRect)FBltList[J];
+                                        D = FBltList[J];
                                         R = new Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                         if (!FMasked)
                                         {

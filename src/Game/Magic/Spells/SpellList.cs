@@ -9,10 +9,10 @@ public partial class SpellList : IDisposable
     // Spells.PAS:695
     public SpellList()
     {
-        FSpells = new DelphiList();
+        FSpells = new DelphiList<Spell>();
     }
 
-    public DelphiList FSpells;
+    public DelphiList<Spell> FSpells;
 
     // Spells.PAS:700
     public virtual void Dispose()
@@ -26,7 +26,7 @@ public partial class SpellList : IDisposable
         Spell Result;
         if (Index >= 0 && Index < GetCount())
         {
-            Result = (Spell)FSpells[Index];
+            Result = FSpells[Index];
         }
         else
         {
@@ -69,22 +69,22 @@ public partial class SpellList : IDisposable
         FSpells.Sort(P4CompareSpellLevels);
     }
 
-    public static int P4CompareSpellNames(object Item1, object Item2)
+    public static int P4CompareSpellNames(Spell Item1, Spell Item2)
     {
-        int num = RtlUnit.CompareText(((Spell)Item1).FSpellName, ((Spell)Item2).FSpellName);
+        int num = RtlUnit.CompareText(Item1.FSpellName, Item2.FSpellName);
         if (num == 0)
         {
-            num = ((Spell)Item1).FSpellLevel - ((Spell)Item2).FSpellLevel;
+            num = Item1.FSpellLevel - Item2.FSpellLevel;
         }
         return num;
     }
 
-    public static int P4CompareSpellLevels(object Item1, object Item2)
+    public static int P4CompareSpellLevels(Spell Item1, Spell Item2)
     {
-        int num = ((Spell)Item1).FSpellLevel - ((Spell)Item2).FSpellLevel;
+        int num = Item1.FSpellLevel - Item2.FSpellLevel;
         if (num == 0)
         {
-            num = RtlUnit.CompareText(((Spell)Item1).FSpellName, ((Spell)Item2).FSpellName);
+            num = RtlUnit.CompareText(Item1.FSpellName, Item2.FSpellName);
         }
         return num;
     }

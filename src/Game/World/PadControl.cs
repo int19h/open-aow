@@ -14,14 +14,14 @@ namespace Aow.Game.World;
 // pad resources, terrain types
 public partial class PadControl : EControlStyleObject
 {
-    public DelphiList FPadResources;
+    public List<MapObjectResource> FPadResources;
     public BitList FTerrainTypes;
 
     // MoveT.PAS:3622
     public override void Dispose()
     {
         FTerrainTypes?.Dispose();
-        FPadResources?.Dispose();
+        FPadResources?.Clear();
         base.Dispose();
     }
 
@@ -29,7 +29,7 @@ public partial class PadControl : EControlStyleObject
     public PadControl(ECustomNode owner) : base(owner)
     {
         FTerrainTypes = new BitList();
-        FPadResources = new DelphiList();
+        FPadResources = new List<MapObjectResource>();
         SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.FixedChild));
     }
 
@@ -39,7 +39,7 @@ public partial class PadControl : EControlStyleObject
         MapObjectResource Result;
         if (Size < FPadResources.Count)
         {
-            Result = (MapObjectResource)FPadResources.List[Size];
+            Result = FPadResources[Size];
         }
         else
         {
@@ -57,7 +57,7 @@ public partial class PadControl : EControlStyleObject
             FPadResources.Add(null);
         }
 
-        FPadResources.List[Size] = Resource;
+        FPadResources[Size] = Resource;
     }
 
     // MoveT.PAS:3641

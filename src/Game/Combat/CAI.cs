@@ -18,11 +18,11 @@ namespace Aow.Game.Combat;
 public partial class CAI : IDisposable
 {
     public CombatSideIndex FSide;
-    public DelphiList Units;
-    public DelphiList Allies;
-    public DelphiList Enemies;
-    public DelphiList Moves;
-    public DelphiList Walls;
+    public List<CombatObject> Units;
+    public List<CombatObject> Allies;
+    public List<CombatObject> Enemies;
+    public List<TaiMove> Moves;
+    public List<CityWall> Walls;
     public int CurrentMove;
     public int FUnitIndex;
     public int FUnitLimit;
@@ -36,26 +36,26 @@ public partial class CAI : IDisposable
     // AoWTC.pas:762
     public virtual void Dispose()
     {
-        Units?.Dispose();
-        Allies?.Dispose();
-        Enemies?.Dispose();
-        Walls?.Dispose();
+        Units?.Clear();
+        Allies?.Clear();
+        Enemies?.Clear();
+        Walls?.Clear();
         for (int I = 0, last = Moves.Count - 1; I <= last; I++)
         {
             (Moves[I] as IDisposable)?.Dispose();
         }
 
-        Moves?.Dispose();
+        Moves?.Clear();
     }
 
     // AoWTC.pas:752
     public CAI()
     {
-        Units = new DelphiList();
-        Allies = new DelphiList();
-        Enemies = new DelphiList();
-        Moves = new DelphiList();
-        Walls = new DelphiList();
+        Units = new List<CombatObject>();
+        Allies = new List<CombatObject>();
+        Enemies = new List<CombatObject>();
+        Moves = new List<TaiMove>();
+        Walls = new List<CityWall>();
     }
 
     // AoWTC.pas:774
@@ -216,9 +216,9 @@ public partial class CAI : IDisposable
             {
                 var yhx = ((TacticalCombatUnit)Enemies[I]).FUnitHS.GetYhx();
                 Distance = HexGeometry.dHXtoRad(X, Y, ((TacticalCombatUnit)Enemies[I]).FUnitHS.GetXhx(), yhx);
-                if (Distance < 15 && ((CombatObject)Enemies[I]).GetTargetStrength() > 0)
+                if (Distance < 15 && (Enemies[I]).GetTargetStrength() > 0)
                 {
-                    Result = Result - ((CombatObject)Enemies[I]).GetTargetStrength() * (15 - Distance);
+                    Result = Result - (Enemies[I]).GetTargetStrength() * (15 - Distance);
                 }
             }
 
@@ -228,9 +228,9 @@ public partial class CAI : IDisposable
                 {
                     var yhx = ((TacticalCombatUnit)Units[I]).FUnitHS.GetYhx();
                     Distance = HexGeometry.dHXtoRad(X, Y, ((TacticalCombatUnit)Units[I]).FUnitHS.GetXhx(), yhx);
-                    if (Distance < 15 && ((CombatObject)Units[I]).GetTargetStrength() > 0)
+                    if (Distance < 15 && (Units[I]).GetTargetStrength() > 0)
                     {
-                        Result = Result + ((CombatObject)Units[I]).GetTargetStrength() * (15 - Distance);
+                        Result = Result + (Units[I]).GetTargetStrength() * (15 - Distance);
                     }
                 }
             }
@@ -239,9 +239,9 @@ public partial class CAI : IDisposable
             {
                 var yhx = ((TacticalCombatUnit)Allies[I]).FUnitHS.GetYhx();
                 Distance = HexGeometry.dHXtoRad(X, Y, ((TacticalCombatUnit)Allies[I]).FUnitHS.GetXhx(), yhx);
-                if (Distance < 15 && ((CombatObject)Allies[I]).GetTargetStrength() > 0)
+                if (Distance < 15 && (Allies[I]).GetTargetStrength() > 0)
                 {
-                    Result = Result + ((CombatObject)Allies[I]).GetTargetStrength() * (15 - Distance);
+                    Result = Result + (Allies[I]).GetTargetStrength() * (15 - Distance);
                 }
             }
         }
@@ -478,15 +478,15 @@ public partial class CAI : IDisposable
     }
 
     // AoWTC.pas:980
-    public void EvalAll(ref int Value, DelphiList List, CombatObject Ignore, int Spell, TacticalCombatUnit U)
+    public void EvalAll(ref int Value, List<CombatObject> List, CombatObject Ignore, int Spell, TacticalCombatUnit U)
     {
         CombatObject Target;
         AbilityDamageValues DV = default;
         for (int I = 0, last = List.Count - 1; I <= last; I++)
         {
-            if ((CombatObject)List[I] != Ignore)
+            if (List[I] != Ignore)
             {
-                Target = (CombatObject)List[I];
+                Target = List[I];
                 AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Target, ref DV);
                 if (DV.SourceDamage > 0)
                 {
@@ -2399,7 +2399,7 @@ public partial class CAI : IDisposable
                                     int last = AoWCombatMap.Current.FWalls.Count - 1;
                                     for (; J <= last; J += 1)
                                     {
-                                        bool condition = ((CityWall)AoWCombatMap.Current.FWalls[J]).FHitPoints > 0;
+                                        bool condition = (AoWCombatMap.Current.FWalls[J]).FHitPoints > 0;
                                         if (condition)
                                         {
                                             var wall = AoWCombatMap.Current.FWalls[J];
@@ -2547,7 +2547,7 @@ public partial class CAI : IDisposable
                                     int last = Walls.Count - 1;
                                     for (; J <= last; J += 1)
                                     {
-                                        Wall = (CityWall)Walls[J];
+                                        Wall = Walls[J];
                                         if (!(U.FUnit is Hero) || FHeroMoves == 0)
                                         {
                                             var yhx = Wall.GetYhx();
@@ -2564,11 +2564,11 @@ public partial class CAI : IDisposable
                                         for (; J <= limit; J += 1)
                                         {
                                             var yhx = U.FUnitHS.GetYhx();
-                                            var yhx2 = ((HexagonSprite)AoWCombatMap.Current.FWalls[J]).GetYhx();
-                                            N = HexGeometry.dHXtoRad(((HexagonSprite)AoWCombatMap.Current.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
-                                            if (((CityWall)AoWCombatMap.Current.FWalls[J]).FHitPoints > 0 && N < L)
+                                            var yhx2 = (AoWCombatMap.Current.FWalls[J]).GetYhx();
+                                            N = HexGeometry.dHXtoRad((AoWCombatMap.Current.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
+                                            if ((AoWCombatMap.Current.FWalls[J]).FHitPoints > 0 && N < L)
                                             {
-                                                Wall = (CityWall)AoWCombatMap.Current.FWalls[J];
+                                                Wall = AoWCombatMap.Current.FWalls[J];
                                                 L = N;
                                             }
                                         }
@@ -2626,7 +2626,7 @@ public partial class CAI : IDisposable
 
                         while (FUnitIndex < Moves.Count && FUnitLimit < 50)
                         {
-                            Move = (TaiMove)Moves[FUnitIndex];
+                            Move = Moves[FUnitIndex];
                             if (Move.MoveType != TaiMoveType.Fake)
                             {
                                 J = 0;
@@ -2640,7 +2640,7 @@ public partial class CAI : IDisposable
                                 int last2 = Moves.Count - 1;
                                 for (; J <= last2; J += 1)
                                 {
-                                    OtherMove = (TaiMove)Moves[J];
+                                    OtherMove = Moves[J];
                                     if (Move.UnitHS.FUnit != OtherMove.UnitHS.FUnit)
                                     {
                                         K = HexGeometry.dHXtoRad(Move.X, Move.Y, OtherMove.X, OtherMove.Y) * 4 - OtherMove.UnitHS.FUnit.FMovePoints;
@@ -2765,10 +2765,10 @@ public partial class CAI : IDisposable
                                     for (; J <= last2; J += 1)
                                     {
                                         var yhx = U.FUnitHS.GetYhx();
-                                        var yhx2 = ((HexagonSprite)AoWCombatMap.Current.FFleeLocations[J]).GetYhx();
-                                        var dHXtoRad2 = HexGeometry.dHXtoRad(((HexagonSprite)AoWCombatMap.Current.FFleeLocations[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
-                                        var yhx3 = ((HexagonSprite)AoWCombatMap.Current.FFleeLocations[J]).GetYhx();
-                                        CreateMove(TaiMoveType.Move, ((HexagonSprite)AoWCombatMap.Current.FFleeLocations[J]).GetXhx(), yhx3, 110000000 - dHXtoRad2 * 10, 0, 0, U, null);
+                                        var yhx2 = (AoWCombatMap.Current.FFleeLocations[J]).GetYhx();
+                                        var dHXtoRad2 = HexGeometry.dHXtoRad((AoWCombatMap.Current.FFleeLocations[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
+                                        var yhx3 = (AoWCombatMap.Current.FFleeLocations[J]).GetYhx();
+                                        CreateMove(TaiMoveType.Move, (AoWCombatMap.Current.FFleeLocations[J]).GetXhx(), yhx3, 110000000 - dHXtoRad2 * 10, 0, 0, U, null);
                                     }
                                 }
                             }
@@ -2777,11 +2777,11 @@ public partial class CAI : IDisposable
                         I = 0;
                         while (I < Moves.Count)
                         {
-                            Move = (TaiMove)Moves[I];
+                            Move = Moves[I];
                             switch (Move.MoveType)
                             {
                                 case TaiMoveType.Fake:
-                                    Moves.Delete(I);
+                                    Moves.RemoveAt(I);
                                     break;
                                 default:
                                     {
@@ -2801,12 +2801,12 @@ public partial class CAI : IDisposable
                         int last3 = Moves.Count - 1;
                         for (; I <= last3; I += 1)
                         {
-                            Move = (TaiMove)Moves[I];
+                            Move = Moves[I];
                             J = 0;
                             K = -1;
                             while (J < I)
                             {
-                                OtherMove = (TaiMove)Moves[J];
+                                OtherMove = Moves[J];
                                 if (Move.Value > OtherMove.Value)
                                 {
                                     K = J;
@@ -2820,7 +2820,12 @@ public partial class CAI : IDisposable
 
                             if (K > -1)
                             {
-                                Moves.Move(I, K);
+                                if (I != K)
+                                {
+                                    var relocated = Moves[I];
+                                    Moves.RemoveAt(I);
+                                    Moves.Insert(K, relocated);
+                                }
                             }
                         }
 
@@ -2838,7 +2843,7 @@ public partial class CAI : IDisposable
                         Moved = false;
                         while (Moves.Count > 0 && !Moved)
                         {
-                            Move = (TaiMove)Moves[0];
+                            Move = Moves[0];
                             switch (Move.MoveType)
                             {
                                 case TaiMoveType.Move:
@@ -3034,8 +3039,8 @@ public partial class CAI : IDisposable
                             }
 
                             (
-                            ((object)Moves[0]) as IDisposable)?.Dispose();
-                            Moves.Delete(0);
+                            (Moves[0]) as IDisposable)?.Dispose();
+                            Moves.RemoveAt(0);
                         }
 
                         if (!Moved)

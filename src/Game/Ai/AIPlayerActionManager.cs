@@ -11,10 +11,10 @@ public partial class AIPlayerActionManager : EObject
     // AI.pas:36
     public AIPlayerActionManager(ECustomNode owner) : base(owner)
     {
-        FRegisteredClasses = new DelphiList();
+        FRegisteredClasses = new DelphiList<AIPlayerActionClass>();
     }
 
-    public DelphiList FRegisteredClasses;
+    public DelphiList<AIPlayerActionClass> FRegisteredClasses;
 
     // AI.pas:42
     public override void Dispose()
@@ -27,7 +27,7 @@ public partial class AIPlayerActionManager : EObject
     public int GetCount() => FRegisteredClasses.Count;
 
     // AI.pas:53
-    public AIPlayerActionClass GetRegisteredClasses(int Index) => (AIPlayerActionClass)FRegisteredClasses.List[Index];
+    public AIPlayerActionClass GetRegisteredClasses(int Index) => FRegisteredClasses.List[Index];
 
     // AI.pas:63
     public void RegisterClasses(ReadOnlySpan<AIPlayerActionClass> Classes)
@@ -54,9 +54,9 @@ public partial class AIPlayerActionManager : EObject
         }
     }
 
-    private static int CompareAIPlayerActionClasses(object Item1, object Item2)
+    private static int CompareAIPlayerActionClasses(AIPlayerActionClass Item1, AIPlayerActionClass Item2)
     {
-        return ((AIPlayerActionClass)Item2).Priority - ((AIPlayerActionClass)Item1).Priority;
+        return Item2.Priority - Item1.Priority;
     }
 
     // intf_P5_06.inc:32

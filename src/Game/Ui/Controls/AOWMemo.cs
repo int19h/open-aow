@@ -21,7 +21,7 @@ public partial class AOWMemo : AOWControl
 {
     public int F114;
     public StringList FItems;
-    public DelphiList FColorList;
+    public List<ColorChange> FColorList;
     public AOWVScrollBar FVScrollBar;
     public int FNumVisible;
     public int FTopItem;
@@ -56,7 +56,7 @@ public partial class AOWMemo : AOWControl
         FLines = new StringList();
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
-        FColorList = new DelphiList();
+        FColorList = new List<ColorChange>();
         FNumVisible = 3;
         FCursorChar = 124;
         FEditable = true;
@@ -71,7 +71,7 @@ public partial class AOWMemo : AOWControl
         {
         }
 
-        FColorList?.Dispose();
+        FColorList?.Clear();
         base.Dispose();
     }
 
@@ -161,7 +161,7 @@ public partial class AOWMemo : AOWControl
 
         for (int I = 0, last = FColorList.Count - 1; I <= last; I++)
         {
-            CC = (ColorChange)FColorList[I];
+            CC = FColorList[I];
         }
 
         FColorList.Clear();
@@ -187,7 +187,7 @@ public partial class AOWMemo : AOWControl
             Len = text.Length;
             if (Len > 6 && text[0] == FColorChangeChar)
             {
-                CC = (ColorChange)FColorList[FColorList.Count - 1];
+                CC = FColorList[FColorList.Count - 1];
                 CC.FHasColor = true;
                 try
                 {
@@ -437,7 +437,7 @@ public partial class AOWMemo : AOWControl
                     var count = FLines.Count;
                     if (FTopItem + I < count)
                     {
-                        CC = (ColorChange)FColorList[FTopItem + I];
+                        CC = FColorList[FTopItem + I];
                         if (CC.FHasColor)
                         {
                             FAOWFont.Color = CC.FColor;

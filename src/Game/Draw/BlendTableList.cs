@@ -6,25 +6,25 @@ namespace Aow.Game.Draw;
 // FList
 public partial class BlendTableList : IDisposable
 {
-    internal DelphiList FList;
+    internal List<BlendTable> FList;
 
     // GFXE.pas:9642
     internal int GetCount() => FList.Count;
 
     // GFXE.pas:9656
-    internal BlendTable GetTables(int Index) => (BlendTable)FList.List[Index];
+    internal BlendTable GetTables(int Index) => FList[Index];
 
     // GFXE.pas:9629
     public BlendTableList()
     {
-        FList = new DelphiList();
+        FList = new List<BlendTable>();
     }
 
     // GFXE.pas:9635
     public virtual void Dispose()
     {
         Clear();
-        FList?.Dispose();
+        FList?.Clear();
     }
 
     // GFXE.pas:9647
@@ -32,7 +32,7 @@ public partial class BlendTableList : IDisposable
     {
         while (FList.Count != 0)
         {
-            FList.Delete(FList.Count - 1);
+            FList.RemoveAt(FList.Count - 1);
         }
     }
 
@@ -45,7 +45,7 @@ public partial class BlendTableList : IDisposable
     // GFXE.pas:9666
     public void Delete(int Index)
     {
-        FList.Delete(Index);
+        FList.RemoveAt(Index);
     }
 
     public int Count { get => GetCount(); }

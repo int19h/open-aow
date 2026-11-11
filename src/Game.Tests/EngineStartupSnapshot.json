@@ -38,7 +38,7 @@
         "Type": "Aow.Game.Magic.Abilities.AbilityControl"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Abilities.Ability, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -953,7 +953,7 @@
         "Type": "Aow.Game.World.Map.HexagonControl"
       },
       "Engine.FGameSet.FCombatHexagons.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FCombatResources": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -965,7 +965,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.FGameSet.FCombatRoads.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FFaceResources": {
         "Type": "Aow.Game.Units.FaceResourceList"
@@ -977,7 +977,7 @@
         "Type": "Aow.Game.World.Terrain.FireControl"
       },
       "Engine.FGameSet.FFireControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.World.Terrain.Fire+Resource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FFlagControl": {
         "Type": "Aow.Game.World.FlagControl"
@@ -1037,7 +1037,7 @@
         "Type": "Aow.Game.World.PadControl"
       },
       "Engine.FGameSet.FPadControl.FPadResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FPadControl.FTerrainTypes": {
         "Type": "Aow.Engine.Collections.BitList"
@@ -1046,7 +1046,7 @@
         "Type": "Aow.Game.Magic.Spells.SpellControl"
       },
       "Engine.FGameSet.FSpellControl.FRegisteredSpells": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Spells.Spell, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FTextControl": {
         "Type": "Aow.Game.World.Map.TextControl"
@@ -1073,7 +1073,7 @@
         "Type": "Aow.Game.World.Map.HexagonControl"
       },
       "Engine.FGameSet.FHexagonControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FMapObjectResourceList": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -1100,7 +1100,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.FGameSet.FRoadControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FSFXManager": {
         "Type": "Aow.Game.Audio.SFXManager"
@@ -1130,7 +1130,7 @@
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Engine.EObjectClassList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
         "Type": "Aow.Engine.Nodes.EObjectEditorList"
@@ -75943,7 +75943,7 @@
         "Type": "Aow.Game.Magic.Abilities.AbilityControl"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Abilities.Ability, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76858,7 +76858,7 @@
         "Type": "Aow.Game.World.Map.HexagonControl"
       },
       "Engine.FGameSet.FCombatHexagons.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FCombatResources": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -76870,7 +76870,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.FGameSet.FCombatRoads.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FFaceResources": {
         "Type": "Aow.Game.Units.FaceResourceList"
@@ -76882,7 +76882,7 @@
         "Type": "Aow.Game.World.Terrain.FireControl"
       },
       "Engine.FGameSet.FFireControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.World.Terrain.Fire+Resource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FFlagControl": {
         "Type": "Aow.Game.World.FlagControl"
@@ -76942,7 +76942,7 @@
         "Type": "Aow.Game.World.PadControl"
       },
       "Engine.FGameSet.FPadControl.FPadResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FPadControl.FTerrainTypes": {
         "Type": "Aow.Engine.Collections.BitList"
@@ -76951,7 +76951,7 @@
         "Type": "Aow.Game.Magic.Spells.SpellControl"
       },
       "Engine.FGameSet.FSpellControl.FRegisteredSpells": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Spells.Spell, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FTextControl": {
         "Type": "Aow.Game.World.Map.TextControl"
@@ -76978,7 +76978,7 @@
         "Type": "Aow.Game.World.Map.HexagonControl"
       },
       "Engine.FGameSet.FHexagonControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FMapObjectResourceList": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -77005,7 +77005,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.FGameSet.FRoadControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FSFXManager": {
         "Type": "Aow.Game.Audio.SFXManager"
@@ -77035,7 +77035,7 @@
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Engine.EObjectClassList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
         "Type": "Aow.Engine.Nodes.EObjectEditorList"
@@ -77398,7 +77398,7 @@
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Engine.EObjectClassList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
         "Type": "Aow.Engine.Nodes.EObjectEditorList"
@@ -77695,7 +77695,7 @@
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Engine.EObjectClassList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
         "Type": "Aow.Engine.Nodes.EObjectEditorList"
@@ -77710,7 +77710,7 @@
         "Type": "Aow.Game.World.Map.HexagonControl"
       },
       "Engine.FChildren[1].FCombatHexagons.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FCombatResources": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -77722,7 +77722,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.FChildren[1].FCombatRoads.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FDecorationTypes": {
         "Type": "Aow.Rtl.StringList"
@@ -77731,7 +77731,7 @@
         "Type": "Aow.Game.World.Map.HexagonControl"
       },
       "Engine.FChildren[1].FHexagonControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FImageLibraryManager": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManager"
@@ -77773,7 +77773,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.FChildren[1].FRoadControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FSFXManager": {
         "Type": "Aow.Game.Audio.SFXManager"
@@ -77969,7 +77969,7 @@
         "Type": "Aow.Game.Magic.Abilities.AbilityControl"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Abilities.Ability, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FCombatHexagons": {
         "Type": "Aow.Game.World.Map.HexagonControl"
@@ -77993,7 +77993,7 @@
         "Type": "Aow.Game.World.Terrain.FireControl"
       },
       "Engine.FGameSet.FFireControl.FResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.World.Terrain.Fire+Resource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FFlagControl": {
         "Type": "Aow.Game.World.FlagControl"
@@ -78065,7 +78065,7 @@
         "Type": "Aow.Game.World.PadControl"
       },
       "Engine.FGameSet.FPadControl.FPadResources": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FPadControl.FTerrainTypes": {
         "Type": "Aow.Engine.Collections.BitList"
@@ -78074,7 +78074,7 @@
         "Type": "Aow.Game.Magic.Spells.SpellControl"
       },
       "Engine.FGameSet.FSpellControl.FRegisteredSpells": {
-        "Type": "Aow.Rtl.DelphiList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Spells.Spell, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FTextControl": {
         "Type": "Aow.Game.World.Map.TextControl"
@@ -78137,7 +78137,7 @@
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Engine.EObjectClassList"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
         "Type": "Aow.Engine.Nodes.EObjectEditorList"

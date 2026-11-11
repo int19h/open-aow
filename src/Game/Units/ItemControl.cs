@@ -17,12 +17,12 @@ public partial class ItemControl : EObject
     // Army.PAS:4639
     public ItemControl(ECustomNode owner) : base(owner)
     {
-        FItems = new DelphiList();
+        FItems = new List<Item>();
         FOnChangedStore = new();
         FOnItemChangedStore = new();
     }
 
-    public DelphiList FItems;
+    public List<Item> FItems;
 
     internal EventStore<ItemControl> FOnChangedStore;
 
@@ -51,12 +51,12 @@ public partial class ItemControl : EObject
         BeginUpdate();
         for (int I = FItems.Count - 1; I >= 0; I--)
         {
-            UnRegisterItem((Item)FItems.List[I]);
+            UnRegisterItem(FItems[I]);
         }
 
         FItems.Clear();
         Changed();
-        FItems?.Dispose();
+        FItems?.Clear();
         FOnItemChangedStore.Clear();
         FOnChangedStore.Clear();
         base.Dispose();
@@ -74,7 +74,7 @@ public partial class ItemControl : EObject
             ID = 10;
             for (int I = 0, last = FItems.Count - 1; I <= last; I++)
             {
-                Item = (Item)FItems[I];
+                Item = FItems[I];
                 if (Item.Owner == null)
                 {
                     Stream.rwCreateEObject(ref Item, null, ID);
@@ -109,9 +109,11 @@ public partial class ItemControl : EObject
                     ID = 10;
                     for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                     {
-                        if (((EObject)FItems.List[I]).Owner == null)
+                        if (FItems[I].Owner == null)
                         {
-                            Stream.rwCreateEObject(ref FItems.List[I], null, ID);
+                            Item item = FItems[I];
+                            Stream.rwCreateEObject(ref item, null, ID);
+                            FItems[I] = item;
                             ID += 1;
                         }
                     }
@@ -121,7 +123,7 @@ public partial class ItemControl : EObject
     }
 
     // Army.PAS:4707
-    public Item GetItem(int Index) => (Item)FItems.List[Index];
+    public Item GetItem(int Index) => FItems[Index];
 
     // Army.PAS:4712
     public int GetCount() => FItems.Count;
@@ -134,9 +136,9 @@ public partial class ItemControl : EObject
         while (I != 0)
         {
             I -= 1;
-            if (((Item)FItems.List[I]).FItemID == ItemID)
+            if ((FItems[I]).FItemID == ItemID)
             {
-                return (Item)FItems.List[I];
+                return FItems[I];
             }
         }
 
@@ -187,7 +189,7 @@ public partial class ItemControl : EObject
                 FLastID = 0;
             }
 
-            while (I != FItems.Count && ((Item)FItems.List[I]).FItemID != FLastID)
+            while (I != FItems.Count && (FItems[I]).FItemID != FLastID)
             {
                 I += 1;
             }
@@ -211,7 +213,7 @@ public partial class ItemControl : EObject
         BeginUpdate();
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            ((Item)FItems.List[I]).UpdateFromLibrary();
+            (FItems[I]).UpdateFromLibrary();
         }
 
         EndUpdate();
@@ -264,7 +266,7 @@ public partial class ItemControl : EObject
         List = new DoubleItemList<Item>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            Item = (Item)FItems.List[I];
+            Item = FItems[I];
             if (Item.FRefCount == 1 && Types.Contains(Item.FItemType))
             {
                 Value = Item.GetObtainValue();
@@ -303,7 +305,7 @@ public partial class ItemControl : EObject
         List = new DoubleItemList<Item>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            Item = (Item)FItems.List[I];
+            Item = FItems[I];
             if (Types.Contains(Item.FItemType) && Item.FRefCount == 1)
             {
                 List.AddAB(Item, (int)Item.FAvailability);
@@ -360,7 +362,7 @@ public partial class ItemControl : EObject
             FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Activated);
             for (int I = FItems.Count - 1; I >= 0; I--)
             {
-                ((Item)FItems.List[I]).Activate();
+                (FItems[I]).Activate();
             }
         }
     }
@@ -373,7 +375,7 @@ public partial class ItemControl : EObject
             FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Activated);
             for (int I = FItems.Count - 1; I >= 0; I--)
             {
-                ((Item)FItems.List[I]).Deactivate();
+                (FItems[I]).Deactivate();
             }
         }
     }
