@@ -24,18 +24,18 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:2373
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
-        EResource Resource;
+        EngineResource Resource;
         SmokeCloud Cloud;
         var source = Event.GetSource();
-        AoWHSMap.Current.ValidateObservation(source.FPlayer, ((GlobalTargetSpellTE)Event).FLocation.X, ((GlobalTargetSpellTE)Event).FLocation.Y, ((GlobalTargetSpellTE)Event).FLocation.L, 2);
-        if (Event.GetSource().FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(((GlobalTargetSpellTE)Event).FLocation.X, ((GlobalTargetSpellTE)Event).FLocation.Y, ((GlobalTargetSpellTE)Event).FLocation.L, 2))
+        AoWHSMap.Current.ValidateObservation(source.FPlayer, ((GlobalTargetSpellTokenEvent)Event).FLocation.X, ((GlobalTargetSpellTokenEvent)Event).FLocation.Y, ((GlobalTargetSpellTokenEvent)Event).FLocation.L, 2);
+        if (Event.GetSource().FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(((GlobalTargetSpellTokenEvent)Event).FLocation.X, ((GlobalTargetSpellTokenEvent)Event).FLocation.Y, ((GlobalTargetSpellTokenEvent)Event).FLocation.L, 2))
         {
             AoWHSSet.Current.FSpellControl.GetSpell(Event.FEventSpellID).FCastSounds.Play(0);
         }
 
-        Resource = (EResource)((ECustomNode)(object)AoWHSSet.Current.MapObjectResourceList).FindChild(135747);
+        Resource = (EngineResource)((ECustomNode)(object)AoWHSSet.Current.MapObjectResourceList).FindChild(135747);
         if (Resource != null)
         {
             Cloud = (SmokeCloud)Resource.CreateResourceUser();
@@ -44,7 +44,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             Cloud.FEnchantment.FPlayerIndex = Source.FPlayer;
             Cloud.FEnchantment.FEnchantmentManaUpkeep = this.FManaUpkeep;
             Cloud.FDrifting = false;
-            if (!AoWHSMap.Current.PlaceHX(Cloud, ((GlobalTargetSpellTE)Event).FLocation.X, ((GlobalTargetSpellTE)Event).FLocation.Y, ((GlobalTargetSpellTE)Event).FLocation.L))
+            if (!AoWHSMap.Current.PlaceHX(Cloud, ((GlobalTargetSpellTokenEvent)Event).FLocation.X, ((GlobalTargetSpellTokenEvent)Event).FLocation.Y, ((GlobalTargetSpellTokenEvent)Event).FLocation.L))
             {
                 Cloud?.Dispose();
             }
@@ -56,7 +56,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:2343
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         TargetSelectionControl Target;
         Target = TargetSelection;
@@ -69,10 +69,10 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:2356
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
-        GlobalTargetSpellTE Event;
-        Event = new GlobalTargetSpellTE(null);
+        GlobalTargetSpellTokenEvent Event;
+        Event = new GlobalTargetSpellTokenEvent(null);
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);

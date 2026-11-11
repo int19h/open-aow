@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatParty : EObject
+public partial class CombatParty : EngineObject
 {
     // Combat2.pas:47
     public new const int ClassID = 131746;

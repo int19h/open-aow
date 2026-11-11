@@ -1,7 +1,7 @@
 using Aow.Game.Draw.Images;
 using Aow.Game.Host;
-using Aow.Game.Ui.Controls;
-using Aow.Game.Ui.Windows;
+using Aow.Game.UI.Controls;
+using Aow.Game.UI.Windows;
 using Aow.Platform;
 
 namespace Aow.Game.Tests;
@@ -19,7 +19,7 @@ public sealed class MouseWheelTests
         public void MouseWheel(int steps, Set<ShiftState> shift, int x, int y) => Rolls.Add((steps, shift, x, y));
     }
 
-    private static void Place(AoWComponent component, AoWComponent owner, int left, int top, int width, int height, int priority = 0)
+    private static void Place(UIComponent component, UIComponent owner, int left, int top, int width, int height, int priority = 0)
     {
         component.FWinLeft = left;
         component.FWinTop = top;
@@ -29,15 +29,15 @@ public sealed class MouseWheelTests
         component.SetOwner(owner);
     }
 
-    private static void Fill(AOWListBox list, int count, int shown)
+    private static void Fill(ListBox list, int count, int shown)
     {
         list.F11C = shown;
         for (int i = 0; i < count; i++) list.FItems.Add("item" + i);
     }
 
-    private static AOWVScrollBar Bar(AoWComponent owner, int left, int top, int width, int height, int max, int visible)
+    private static VerticalScrollBar Bar(UIComponent owner, int left, int top, int width, int height, int max, int visible)
     {
-        var bar = new AOWVScrollBar(null);
+        var bar = new VerticalScrollBar(null);
         Place(bar, owner, left, top, width, height);
         bar.FMin = 0;
         bar.FMax = max;
@@ -98,12 +98,12 @@ public sealed class MouseWheelTests
     [Fact]
     public void DeepestChildWinsAndAnEmptyPanelReachesItsOneBar()
     {
-        var manager = new AOWWinManager(null);
-        var window = new AOWWindow(null);
+        var manager = new WindowManager(null);
+        var window = new Window(null);
         Place(window, manager, 100, 50, 400, 400, 1);
-        var panel = new AOWPanel(null);
+        var panel = new Panel(null);
         Place(panel, window, 20, 30, 220, 160);
-        var list = new AOWListBox(null);
+        var list = new ListBox(null);
         Place(list, panel, 10, 15, 80, 40);
         Fill(list, 10, 3);
         var bar = Bar(panel, 180, 10, 16, 80, 9, 3);
@@ -124,16 +124,16 @@ public sealed class MouseWheelTests
     [Fact]
     public void AChildThatDoesNotScrollLeavesTheWheelWithItsParent()
     {
-        var manager = new AOWWinManager(null);
-        var window = new AOWWindow(null);
+        var manager = new WindowManager(null);
+        var window = new Window(null);
         Place(window, manager, 0, 0, 400, 400, 1);
-        var panel = new AOWPanel(null);
+        var panel = new Panel(null);
         Place(panel, window, 0, 0, 300, 200);
-        var list = new AOWListBox(null);
+        var list = new ListBox(null);
         Place(list, panel, 0, 0, 40, 40);
         Fill(list, 8, 3);
         var bar = Bar(panel, 200, 0, 16, 80, 9, 3);
-        var label = new AOWLabel(null);
+        var label = new Label(null);
         Place(label, panel, 80, 80, 40, 20);
         Set<ShiftState> shift = default;
 
@@ -145,10 +145,10 @@ public sealed class MouseWheelTests
     [Fact]
     public void TwoVisibleBarsStayPutAndAHiddenBarIsNotCounted()
     {
-        var manager = new AOWWinManager(null);
-        var window = new AOWWindow(null);
+        var manager = new WindowManager(null);
+        var window = new Window(null);
         Place(window, manager, 0, 0, 400, 400, 1);
-        var panel = new AOWPanel(null);
+        var panel = new Panel(null);
         Place(panel, window, 0, 0, 300, 200);
         var first = Bar(panel, 200, 0, 16, 40, 9, 3);
         var second = Bar(panel, 200, 50, 16, 40, 9, 3);
@@ -173,16 +173,16 @@ public sealed class MouseWheelTests
     [Fact]
     public void AModalWindowBlocksEveryWindowUnderTheOverlay()
     {
-        var manager = new AOWWinManager(null);
+        var manager = new WindowManager(null);
         manager.FOverlayPriority = 10;
-        var back = new AOWWindow(null);
+        var back = new Window(null);
         Place(back, manager, 0, 0, 400, 300, 1);
-        var backList = new AOWListBox(null);
+        var backList = new ListBox(null);
         Place(backList, back, 0, 0, 400, 40);
         Fill(backList, 10, 3);
-        var modal = new AOWWindow(null);
+        var modal = new Window(null);
         Place(modal, manager, 0, 0, 100, 100, 10);
-        var modalList = new AOWListBox(null);
+        var modalList = new ListBox(null);
         Place(modalList, modal, 0, 0, 80, 40);
         Fill(modalList, 10, 3);
         Set<ShiftState> shift = default;
@@ -202,10 +202,10 @@ public sealed class MouseWheelTests
     [Fact]
     public void ScrollBarAndLinkedListClampAtBothEndsAndFireOnChange()
     {
-        var manager = new AOWWinManager(null);
-        var window = new AOWWindow(null);
+        var manager = new WindowManager(null);
+        var window = new Window(null);
         Place(window, manager, 0, 0, 200, 120, 1);
-        var list = new AOWListBox(null);
+        var list = new ListBox(null);
         Place(list, window, 0, 0, 80, 40);
         Fill(list, 10, 3);
         var bar = Bar(window, 90, 0, 16, 40, 9, 3);
@@ -241,12 +241,12 @@ public sealed class MouseWheelTests
     [Fact]
     public void ListBoxWithoutABarScrollsItsOwnOffset()
     {
-        var manager = new AOWWinManager(null);
-        var window = new AOWWindow(null);
+        var manager = new WindowManager(null);
+        var window = new Window(null);
         Place(window, manager, 0, 0, 200, 120, 1);
-        var panel = new AOWPanel(null);
+        var panel = new Panel(null);
         Place(panel, window, 0, 0, 180, 100);
-        var list = new AOWListBox(null);
+        var list = new ListBox(null);
         Place(list, panel, 10, 10, 80, 40);
         Fill(list, 10, 4);
         var bar = Bar(panel, 140, 10, 16, 40, 9, 3);
@@ -269,12 +269,12 @@ public sealed class MouseWheelTests
     [Fact]
     public void BookTurnsOnePagePerEventAndStopsAtTheEnds()
     {
-        var manager = new AOWWinManager(null);
-        var book = new AoWBookWindow(null);
+        var manager = new WindowManager(null);
+        var book = new BookWindow(null);
         Place(book, manager, 0, 0, 200, 160, 1);
         int page = 0;
-        var back = new AOWButton(null);
-        var forward = new AOWButton(null);
+        var back = new Button(null);
+        var forward = new Button(null);
         back.FVisible = false;
         back.FOnClick = _ =>
         {
@@ -290,7 +290,7 @@ public sealed class MouseWheelTests
         };
         book.PageBack = back;
         book.PageForward = forward;
-        var list = new AOWListBox(null);
+        var list = new ListBox(null);
         Place(list, book, 10, 10, 60, 30);
         Fill(list, 8, 3);
         Set<ShiftState> shift = default;
@@ -328,14 +328,14 @@ public sealed class MouseWheelTests
     [Fact]
     public void ShortListAndShortMemoLeaveTheWheelWithTheParent()
     {
-        var manager = new AOWWinManager(null);
-        var window = new AOWWindow(null);
+        var manager = new WindowManager(null);
+        var window = new Window(null);
         Place(window, manager, 0, 0, 200, 120, 1);
         var parent = Bar(window, 170, 10, 16, 80, 9, 3);
-        var list = new AOWListBox(null);
+        var list = new ListBox(null);
         Place(list, window, 10, 10, 70, 40);
         Fill(list, 2, 4);
-        var memo = new AOWMemo(null);
+        var memo = new Memo(null);
         Place(memo, window, 90, 10, 70, 40);
         memo.FCaptureInput = false;
         var memoBar = Bar(window, 140, 10, 16, 40, 0, 1);
@@ -364,10 +364,10 @@ public sealed class MouseWheelTests
     [Fact]
     public void ArrowClickAndHeldArrowStepClampAndFireOnChange()
     {
-        var window = new AOWWindow(null);
-        var manager = new AOWWinManager(null);
+        var window = new Window(null);
+        var manager = new WindowManager(null);
         Place(window, manager, 0, 0, 80, 80);
-        var bar = new AOWVScrollBar(null);
+        var bar = new VerticalScrollBar(null);
         Place(bar, window, 10, 10, 16, 40);
         bar.FMin = 0;
         bar.FMax = 5;
@@ -375,7 +375,7 @@ public sealed class MouseWheelTests
         bar.FSmallChange = 2;
         bar.F14C = bar.FMax - bar.FMin + 1;
         bar.FDelay = 1;
-        var library = new InterfaceIL(null);
+        var library = new InterfaceImageLibrary(null);
         var image = new Picture16(library);
         image.SetHeight(8);
         library.SetImage(0, image);

@@ -3,8 +3,8 @@
     "$jsonText": {
       "State": {
         "$jsonText": {
-          "$type": "Aow.Game.Draw.ArmyHS",
-          "ArmyHS.FArmy": {
+          "$type": "Aow.Game.Draw.ArmyHexSprite",
+          "ArmyHexSprite.FArmy": {
             "$type": "Aow.Game.Units.Army",
             "Army.FConcealedUnits": 0,
             "Army.FDestinationL": -1,
@@ -51,24 +51,24 @@
             "Army.FX": -1,
             "Army.FY": -1,
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null
+            "EngineObject.FOwner": null
           },
-          "ArmyHS.FMoveSteps": 0,
-          "ArmyHS.FUnitIndex": 0,
-          "ArmyHS.FUnitYOffset": 0,
-          "EObject.FOwner": null,
-          "UnitHS.FDirection": 3,
-          "UnitHS.FFlagID": 0,
-          "UnitHS.FMoveStep": -1,
-          "UnitHS.FShadow": null,
-          "UnitHS.FShowPriority": 1744830464,
-          "UnitHS.FStatus": 0,
-          "UnitHS.FUnitGFXResource": null
+          "ArmyHexSprite.FMoveSteps": 0,
+          "ArmyHexSprite.FUnitIndex": 0,
+          "ArmyHexSprite.FUnitYOffset": 0,
+          "EngineObject.FOwner": null,
+          "UnitHexSprite.FDirection": 3,
+          "UnitHexSprite.FFlagID": 0,
+          "UnitHexSprite.FMoveStep": -1,
+          "UnitHexSprite.FShadow": null,
+          "UnitHexSprite.FShowPriority": 1744830464,
+          "UnitHexSprite.FStatus": 0,
+          "UnitHexSprite.FUnitGFXResource": null
         }
       },
       "Events": null,
@@ -89,8 +89,8 @@
     "$jsonText": {
       "State": {
         "$jsonText": {
-          "$type": "Aow.Game.Draw.ArmyHS",
-          "ArmyHS.FArmy": {
+          "$type": "Aow.Game.Draw.ArmyHexSprite",
+          "ArmyHexSprite.FArmy": {
             "$type": "Aow.Game.Units.Army",
             "Army.FConcealedUnits": 0,
             "Army.FDestinationL": -1,
@@ -137,42 +137,42 @@
             "Army.FX": -1,
             "Army.FY": -1,
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null
+            "EngineObject.FOwner": null
           },
-          "ArmyHS.FMoveSteps": 0,
-          "ArmyHS.FUnitIndex": 0,
-          "ArmyHS.FUnitYOffset": 0,
-          "EObject.FOwner": "$owner",
-          "UnitHS.FDirection": 3,
-          "UnitHS.FFlagID": 0,
-          "UnitHS.FMoveStep": -1,
-          "UnitHS.FShadow": null,
-          "UnitHS.FShowPriority": 1744830464,
-          "UnitHS.FStatus": 0,
-          "UnitHS.FUnitGFXResource": null
+          "ArmyHexSprite.FMoveSteps": 0,
+          "ArmyHexSprite.FUnitIndex": 0,
+          "ArmyHexSprite.FUnitYOffset": 0,
+          "EngineObject.FOwner": "$owner",
+          "UnitHexSprite.FDirection": 3,
+          "UnitHexSprite.FFlagID": 0,
+          "UnitHexSprite.FMoveStep": -1,
+          "UnitHexSprite.FShadow": null,
+          "UnitHexSprite.FShowPriority": 1744830464,
+          "UnitHexSprite.FStatus": 0,
+          "UnitHexSprite.FUnitGFXResource": null
         }
       },
       "Events": [
         {
           "$jsonText": {
-            "$type": "Aow.Game.Draw.ArmyHS",
-            "ArmyHS.FArmy": null,
-            "ArmyHS.FMoveSteps": 0,
-            "ArmyHS.FUnitIndex": 0,
-            "ArmyHS.FUnitYOffset": 0,
-            "EObject.FOwner": "$owner",
-            "UnitHS.FDirection": 0,
-            "UnitHS.FFlagID": 0,
-            "UnitHS.FMoveStep": 0,
-            "UnitHS.FShadow": null,
-            "UnitHS.FShowPriority": 0,
-            "UnitHS.FStatus": 0,
-            "UnitHS.FUnitGFXResource": null
+            "$type": "Aow.Game.Draw.ArmyHexSprite",
+            "ArmyHexSprite.FArmy": null,
+            "ArmyHexSprite.FMoveSteps": 0,
+            "ArmyHexSprite.FUnitIndex": 0,
+            "ArmyHexSprite.FUnitYOffset": 0,
+            "EngineObject.FOwner": "$owner",
+            "UnitHexSprite.FDirection": 0,
+            "UnitHexSprite.FFlagID": 0,
+            "UnitHexSprite.FMoveStep": 0,
+            "UnitHexSprite.FShadow": null,
+            "UnitHexSprite.FShowPriority": 0,
+            "UnitHexSprite.FStatus": 0,
+            "UnitHexSprite.FUnitGFXResource": null
           }
         }
       ],

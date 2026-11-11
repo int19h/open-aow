@@ -27,7 +27,7 @@ namespace Aow.Game.World.Terrain;
 
 // { Interface declaration run owned by P1. }
 // FMode, FTurnsLeft, FAge, FShowPriority, FPlayer, FExplosionFrame
-public partial class Fire : ILTerrainMO
+public partial class Fire : ImageLibraryTerrainMapObject
 {
 
     public new const int ClassID = 132990;
@@ -62,7 +62,7 @@ public partial class Fire : ILTerrainMO
     }
 
     // Structur.PAS:3672
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer)
@@ -107,7 +107,7 @@ public partial class Fire : ILTerrainMO
     }
 
     // Structur.PAS:3517
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Frame;
         int X = default;
@@ -160,22 +160,22 @@ public partial class Fire : ILTerrainMO
     }
 
     // Structur.PAS:3589
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
-        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.MapFieldMsgProc(ref Msg);
         }
 
         if (Msg.MsgID == 4418 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
         {
-            ArmyPlaced(Msg.Param[0].As<ArmyHS>());
+            ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
             return;
         }
 
         if (Msg.MsgID == 4384 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
         {
-            if (!Msg.Param[0].As<ArmyHS>().FArmy.ImmunityTypes(255).Contains(DamageType.Fire))
+            if (!Msg.Param[0].As<ArmyHexSprite>().FArmy.ImmunityTypes(255).Contains(DamageType.Fire))
             {
                 Msg.Result = 1;
             }
@@ -183,7 +183,7 @@ public partial class Fire : ILTerrainMO
     }
 
     // Structur.PAS:3570
-    public override int CanMoveOver(in HSSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo Info)
     {
         int Result;
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
@@ -206,7 +206,7 @@ public partial class Fire : ILTerrainMO
     }
 
     // Structur.PAS:3564
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
         {
@@ -250,8 +250,8 @@ public partial class Fire : ILTerrainMO
     public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx, sbyte Default)
     {
         TerrainList Terrains;
-        FixedArray_byte_128 Counts;
-        HNWalkData Walk = default;
+        ByteArray128 Counts;
+        HexNumberWalkData Walk = default;
         sbyte TerrainType;
         sbyte Result = Default;
         Terrains = FResource.TerrainList;
@@ -261,7 +261,7 @@ public partial class Fire : ILTerrainMO
         }
 
         Counts = default;
-        HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.HN < Terrains.Count)
         {
             if (FResource.TerrainList.GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -277,7 +277,7 @@ public partial class Fire : ILTerrainMO
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         if (Default >= 0)
@@ -296,7 +296,7 @@ public partial class Fire : ILTerrainMO
     {
         int X = default;
         int Y = default;
-        HexagonSprite HS;
+        HexSprite HS;
         HexGeometry.HXtoHP(MapField.Xhx, MapField.Yhx, ref X, ref Y);
         HS = MapField.GetMaxLevelNoneTransparentHS();
         FShowPriority = 1744830464 + ((Y + 36) << 13) + (X + 16);
@@ -321,7 +321,7 @@ public partial class Fire : ILTerrainMO
     // Structur.PAS:3539
     public void TriggerDamage()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4357;
         Msg.Param[0] = this;
         Msg.Result = 0;
@@ -332,7 +332,7 @@ public partial class Fire : ILTerrainMO
     public bool CanDoDamage(UnitList Units)
     {
         int I;
-        AbstractUnit AUnit;
+        Troop AUnit;
         bool Result = false;
         I = Units.GetCount();
         while (!Result && I != 0)
@@ -346,9 +346,9 @@ public partial class Fire : ILTerrainMO
     }
 
     // Structur.PAS:3584
-    public void ArmyPlaced(ArmyHS ArmyHS)
+    public void ArmyPlaced(ArmyHexSprite ArmyHS)
     {
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             ArmyHS.FArmy.TriggerFireDamage();
         }
@@ -366,7 +366,7 @@ public partial class Fire : ILTerrainMO
     // Structur.PAS:3627
     public void NewTurnDone()
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapLevel MapLevel;
         int Chance;
         Fire Fire;
@@ -375,7 +375,7 @@ public partial class Fire : ILTerrainMO
             MapLevel = (MapLevel)Owner.Owner;
             var yhx = GetYhx();
             var xhx = GetXhx();
-            HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 1);
+            HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 1);
             while (Walk.Radius == 1)
             {
                 // { Original excludes the top row when spreading fire. }
@@ -395,7 +395,7 @@ public partial class Fire : ILTerrainMO
                     }
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -432,7 +432,7 @@ public partial class Fire : ILTerrainMO
     }
 
     // FFireType
-    public new partial class Resource : ILTerrainMOR
+    public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }
@@ -445,7 +445,7 @@ public partial class Fire : ILTerrainMO
         // FFireType
         public override void Dispose()
         {
-            if (FEngine != null && !AoWHSSet.Current.Status.Contains(HSSetStatusElement.Destroying))
+            if (FEngine != null && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
                 AoWHSSet.Current.FFireControl.UnregisterFireResource(this);
             }
@@ -461,7 +461,7 @@ public partial class Fire : ILTerrainMO
         }
 
         // Structur.PAS:3713
-        public override void MsgProc(ref EMsg Msg, EObject Sender)
+        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)

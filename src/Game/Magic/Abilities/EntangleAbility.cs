@@ -21,11 +21,11 @@ public partial class EntangleAbility : TouchAbility
     }
 
     // AoWAb.PAS:3058
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
-        EntangleCA Action;
-        StrikeCA Strike;
+        EntangleCombatAction Action;
+        StrikeCombatAction Strike;
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
         Action = CreateEntangleCA(Source, Target);
@@ -45,7 +45,7 @@ public partial class EntangleAbility : TouchAbility
     }
 
     // AoWAb.PAS:2999
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         float Probability;
@@ -63,7 +63,7 @@ public partial class EntangleAbility : TouchAbility
     }
 
     // AoWAb.PAS:3012
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         float Probability;
         if (WallSituation == WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
@@ -73,7 +73,7 @@ public partial class EntangleAbility : TouchAbility
             DamageValues.SourceDamage = Round((double)((double)hitPoints * Probability) * 100);
             var defenderHitPoints = Defender.GetHitPoints();
             DamageValues.SourceCost = defenderHitPoints;
-            var p4UnitStrikeDV = AbstractUnit.P4UnitStrikeDV(Defender, Attacker);
+            var p4UnitStrikeDV = Troop.P4UnitStrikeDV(Defender, Attacker);
             DamageValues.TargetDamage = Round((double)p4UnitStrikeDV * ((double)1 - Probability));
             var damage = Defender.GetDamage();
             DamageValues.TargetCost = damage;
@@ -92,7 +92,7 @@ public partial class EntangleAbility : TouchAbility
     // AoWAb.PAS:2991
     public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
     {
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Strength = Round((double)(unit.GetAttack() * 7 * 5) * 0.1);
             Types = Set<DamageType>.Of(DamageType.None);
@@ -136,9 +136,9 @@ public partial class EntangleAbility : TouchAbility
     public override bool CanTouch(CombatObject Source, CombatObject Target) => base.CanTouch(Source, Target) && (Source is CombatUnit && Target is CombatUnit && !Target.GetAbilityEnabled(94));
 
     // AoWAb.PAS:2979
-    public EntangleCA CreateEntangleCA(CombatObject Source, CombatObject Target)
+    public EntangleCombatAction CreateEntangleCA(CombatObject Source, CombatObject Target)
     {
-        EntangleCA Result = new EntangleCA(null);
+        EntangleCombatAction Result = new EntangleCombatAction(null);
         var combatTouchRole = CombatTouchRole((CombatUnit)Source, Target);
         Result.Initialize(Source.FID, Target.FID, combatTouchRole);
         return Result;

@@ -1,0 +1,279 @@
+// Translated from AoWArenaDlg.pas.
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+
+using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.UI.Controls;
+using Aow.Game.UI.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Rtl;
+using Aow.Rtl.Localize;
+using static Aow.Rtl.RtlUnit;
+
+namespace Aow.Game.UI.Dialogs;
+
+// arena event. completion callback
+public partial class ArenaDialog : DataModule
+{
+    public ArenaDialog(Component owner) : base(owner)
+    { }
+
+    public Button SelectBtn;
+    public Image TitleIcon;
+    public Button Close;
+    public Label Title;
+    public Button CancelBtn;
+    public Window Dlg;
+    public Panel UnitPnl;
+    public Panel MapViewPnl;
+    public CheckBox U1;
+    public CheckBox U2;
+    public CheckBox U3;
+    public CheckBox U4;
+    public CheckBox U5;
+    public CheckBox U6;
+    public CheckBox U7;
+    public CheckBox U8;
+    public Image DecoL;
+    public Image DecoR;
+    public Frame AoWFrame1;
+    public Panel SelectionInfoPnl;
+    public Label SelectionInfoLbl;
+    public Label SelectionLbl;
+    public UserDrawBox MapView;
+    public Image InfoSep;
+    public IvTranslator Translator;
+    public EnterArenaEventLog FEvent;
+    public ExecuteDoneEvent FOnClose;
+
+    // AoWArenaDlg.pas:104
+    public void DrawUnit(int Index, int X, int Y, ref LockedSurface SD)
+    {
+        Rect SaveRect;
+        UnitShowInfo Info;
+        LibraryImage Img;
+        Troop U;
+        Units.Alignment Alignment;
+        if (Index < FEvent.GetCount())
+        {
+            U = FEvent.GetUnit(Index);
+            SaveRect = SD.ClipRect;
+            var rect = new Rect(X + 5, Y + 4, X + 46, Y + 56);
+            SD.ClipRect = rect;
+            Alignment = U.GetAlignment();
+            if ((byte)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
+            {
+                Img = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
+                Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
+            }
+
+            Info = default;
+            Info.Direction = 3;
+            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            U.ShowEx(X - 8, Y - 5, SD, Info);
+            if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
+            {
+                Img = DialogHosts.IntGfxMod.UnitBGs[7];
+                Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
+            }
+
+            SD.ClipRect = SaveRect;
+            if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) != 0)
+            {
+                DialogHosts.FontModule.Age8.Color = 0;
+                var unitTrainCost = FEvent.FArena.UnitTrainCost(U);
+                DialogHosts.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
+            }
+        }
+    }
+
+    // AoWArenaDlg.pas:140
+    public void ClearEvent()
+    {
+        EnterArenaEventLog Event;
+        ExecuteDoneEvent Notify;
+        DialogHosts.General.Manager.OverlayPriority = 0;
+        Notify = FOnClose;
+        Event = FEvent;
+        FOnClose = null;
+        FEvent = null;
+        if (Notify != null)
+        {
+            Notify(Event);
+        }
+
+        if (Event != null)
+        {
+            Event.Release();
+        }
+    }
+
+    // AoWArenaDlg.pas:152
+    public void CloseClick()
+    {
+        DialogHosts.General.PlayButtonSound(0);
+        Dlg.Visible = false;
+    }
+
+    // AoWArenaDlg.pas:158
+    public void SelectBtnClick()
+    {
+        string Reason = "";
+        DialogHosts.General.PlayButtonSound(0);
+        if (FEvent.Train(ref Reason))
+        {
+            Dlg.Visible = false;
+        }
+        else
+        {
+            AoWHSMap.Current.ShowWarning(Reason);
+        }
+    }
+
+    // AoWArenaDlg.pas:170
+    public void U1Change(CheckBox Sender, int Slot)
+    {
+        string Reason = "";
+        if (Sender.Checked)
+        {
+            FEvent.SetSelection((byte)(FEvent.FSelection | (1 << Slot)));
+        }
+        else
+        {
+            FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << Slot)));
+        }
+
+        U1.Checked = (FEvent.FSelection & 1) != 0;
+        U2.Checked = (FEvent.FSelection & 2) != 0;
+        U3.Checked = (FEvent.FSelection & 4) != 0;
+        U4.Checked = (FEvent.FSelection & 8) != 0;
+        U5.Checked = (FEvent.FSelection & 16) != 0;
+        U6.Checked = (FEvent.FSelection & 32) != 0;
+        U7.Checked = (FEvent.FSelection & 64) != 0;
+        U8.Checked = (FEvent.FSelection & 128) != 0;
+        if ((FEvent.FTrainable & (1 << Slot)) != 0)
+        {
+            if (Sender.Checked)
+            {
+                DialogHosts.General.PlayButtonSound(1);
+            }
+            else
+            {
+                DialogHosts.General.PlayButtonSound(2);
+            }
+        }
+
+        if (FEvent.FSelection != 0)
+        {
+            if (FEvent.CanTrain(ref Reason))
+            {
+                SelectionInfoLbl.TextColor = 0;
+            }
+            else
+            {
+                SelectionInfoLbl.TextColor = 149;
+            }
+
+            var selectionInfo = FEvent.GetSelectionInfo();
+            SelectionInfoLbl.Text = selectionInfo;
+        }
+        else
+        {
+            SelectionInfoLbl.Text = "";
+        }
+    }
+
+    // AoWArenaDlg.pas:196
+    public void U1PreDraw(CheckBox Sender, LockedSurface SD, int Slot)
+    {
+        DrawUnit(Slot, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
+    }
+
+    // AoWArenaDlg.pas:201
+    public void DlgHide()
+    {
+        ClearEvent();
+    }
+
+    // AoWArenaDlg.pas:206
+    public void MapViewDraw(UIComponent Sender, LockedSurface SD)
+    {
+        int X = default;
+        int Y = default;
+        LockedSurface MapSD = default;
+        Rect R;
+        int W;
+        int H;
+        R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+        W = R.Right - R.Left;
+        H = R.Bottom - R.Top;
+        var yhx = FEvent.FArena.GetYhx();
+        HexGeometry.HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
+        X = X + 16 - (int)(((uint)W) >> 1);
+        Y = Y + 16 - (int)(((uint)H) >> 1);
+        if (X < 16)
+        {
+            X = 16;
+        }
+
+        if (Y < 16)
+        {
+            Y = 16;
+        }
+
+        LockedSurface.CreateSDfromSD(SD, R, ref MapSD);
+        var lhx = FEvent.FArena.GetLhx();
+        AoWHSMap.Current.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
+        AoWHSMap.Current.UpdateStaticScene();
+        AoWHSMap.Current.UpdateDynamicScene();
+        AoWHSMap.Current.DrawStaticScene(ref MapSD);
+        AoWHSMap.Current.DrawDynamicScene(ref MapSD);
+    }
+
+    // AoWArenaDlg.pas:224
+    public void MapViewUpdate()
+    {
+        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
+    }
+
+    // AoWArenaDlg.pas:229
+    public void DlgDrawBack()
+    {
+    }
+
+    // AoWArenaDlg.pas:232
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    {
+        if (Key == 27)
+        {
+            Dlg.Visible = false;
+        }
+    }
+
+    internal static void ShowArena(ArenaDialog Dialog, EnterArenaEventLog Event, ExecuteDoneEvent Done)
+    {
+        Assert(Dialog.FEvent == null, "", "AoWArenaDlg.pas", 94);
+        ResetArena(Dialog);
+        Dialog.FOnClose = Done;
+        Dialog.FEvent = Event;
+        Dialog.FEvent.AddRef();
+        DialogHosts.General.Manager.OverlayPriority = 49;
+        Dialog.Dlg.Visible = true;
+    }
+
+    internal static void ResetArena(ArenaDialog Dialog)
+    {
+        Dialog.U1.Checked = false;
+        Dialog.U2.Checked = false;
+        Dialog.U3.Checked = false;
+        Dialog.U4.Checked = false;
+        Dialog.U5.Checked = false;
+        Dialog.U6.Checked = false;
+        Dialog.U7.Checked = false;
+        Dialog.U8.Checked = false;
+        Dialog.SelectionInfoLbl.Text = "";
+    }
+
+}

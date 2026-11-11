@@ -23,7 +23,7 @@ namespace Aow.Game.Session;
 
 // RefCount, Day, Source, Target, OtherPlayer, Reaction, EscrowGold, EscrowMana, EventLogID and the
 // proposal (AoWE.DiplomaticProposals.cs), stored as ActionType, Gold, Mana and Message
-public partial class DiplomaticAction : EObject
+public partial class DiplomaticAction : EngineObject
 {
     // Diplomacy.pas:495
     public new const int ClassID = 131666;
@@ -98,7 +98,7 @@ public partial class DiplomaticAction : EObject
     }
 
     // Diplomacy.pas:613
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         bool Ignore;
         EventLog Log;
@@ -123,7 +123,7 @@ public partial class DiplomaticAction : EObject
     }
 
     // Diplomacy.pas:992
-    public virtual void ExecuteSend(DiplomaticActionTE TE)
+    public virtual void ExecuteSend(DiplomaticActionTokenEvent TE)
     {
         if (FReaction == DiplomaticActionReaction.None)
         {
@@ -139,7 +139,7 @@ public partial class DiplomaticAction : EObject
     }
 
     // Diplomacy.pas:826
-    public virtual void ExecuteAccept(DiplomaticActionTE TE)
+    public virtual void ExecuteAccept(DiplomaticActionTokenEvent TE)
     {
         FReaction = DiplomaticActionReaction.Accept;
         RetrieveDefaultMessage(FSource, FTarget, FOtherPlayer, FReaction);
@@ -154,7 +154,7 @@ public partial class DiplomaticAction : EObject
     }
 
     // Diplomacy.pas:950
-    public virtual void ExecuteReject(DiplomaticActionTE TE)
+    public virtual void ExecuteReject(DiplomaticActionTokenEvent TE)
     {
         DiplomaticActionEventLog Log;
         FReaction = Proposal.RejectReaction(this);
@@ -237,11 +237,11 @@ public partial class DiplomaticAction : EObject
     public virtual bool Send(ref string ErrorText)
     {
         bool Result;
-        DiplomaticActionTE TE;
+        DiplomaticActionTokenEvent TE;
         if (CanSend(ref ErrorText) && !AoWHSMap.Current.FPlayers.GetPlayers(FSource).GetBusy())
         {
             FDay = AoWHSMap.Current.FDay;
-            TE = new DiplomaticActionTE(null);
+            TE = new DiplomaticActionTokenEvent(null);
             TE.SetDiplomaticAction(this);
             TE.FOperation = 0;
             AoWHSMap.Current.FTokenManager.TokenControls[FSource].AddEvent(TE);
@@ -263,10 +263,10 @@ public partial class DiplomaticAction : EObject
     public virtual bool Accept(ref string ErrorText)
     {
         bool Result;
-        DiplomaticActionTE TE;
+        DiplomaticActionTokenEvent TE;
         if (CanAccept(ref ErrorText) && !AoWHSMap.Current.FPlayers.GetPlayers(FTarget).GetBusy())
         {
-            TE = new DiplomaticActionTE(null);
+            TE = new DiplomaticActionTokenEvent(null);
             TE.SetDiplomaticAction(this);
             TE.FOperation = 1;
             AoWHSMap.Current.FTokenManager.TokenControls[FTarget].AddEvent(TE);
@@ -288,10 +288,10 @@ public partial class DiplomaticAction : EObject
     public virtual bool Reject(ref string ErrorText)
     {
         bool Result;
-        DiplomaticActionTE TE;
+        DiplomaticActionTokenEvent TE;
         if (CanReject(ref ErrorText) && !AoWHSMap.Current.FPlayers.GetPlayers(FTarget).GetBusy())
         {
-            TE = new DiplomaticActionTE(null);
+            TE = new DiplomaticActionTokenEvent(null);
             TE.SetDiplomaticAction(this);
             TE.FOperation = 2;
             AoWHSMap.Current.FTokenManager.TokenControls[FTarget].AddEvent(TE);

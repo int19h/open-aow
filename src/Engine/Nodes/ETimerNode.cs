@@ -14,10 +14,10 @@ public partial class ETimerNode : ECustomNode
 
     internal int FTick;
     internal int FCount;
-    internal FixedArray_Aow_Rtl_TList_10 FTimerLists;
+    internal ListArray10 FTimerLists;
 
     // Engine.pas:1856
-    internal int FindTimerList(EObject Child)
+    internal int FindTimerList(EngineObject Child)
     {
         int I;
         int Result = -1;
@@ -63,7 +63,7 @@ public partial class ETimerNode : ECustomNode
     }
 
     // Engine.pas:1841
-    public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared, EngineServices.csReserved2);
+    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared, EngineServices.csReserved2);
 
     // Engine.pas:1846
     public override int GetCount() => FCount;
@@ -72,7 +72,7 @@ public partial class ETimerNode : ECustomNode
     public DelphiList GetTimerList(sbyte Timer) => FTimerLists[Timer - 1];
 
     // Engine.pas:1871
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         int Result;
         int L;
@@ -94,7 +94,7 @@ public partial class ETimerNode : ECustomNode
     }
 
     // Engine.pas:1885
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         int Result = FTimerLists[1 - 1].Add(Child);
         FCount += 1;
@@ -102,7 +102,7 @@ public partial class ETimerNode : ECustomNode
     }
 
     // Engine.pas:1891
-    public override EObject GetChild(int Index)
+    public override EngineObject GetChild(int Index)
     {
         int I;
         int Total;
@@ -119,17 +119,17 @@ public partial class ETimerNode : ECustomNode
 
         L = FTimerLists[I - 1];
         Total -= L.Count;
-        return (EObject)L.List[Index - Total];
+        return (EngineObject)L.List[Index - Total];
     }
 
     // Engine.pas:1910
-    public override void SetChild(int Index, EObject Child)
+    public override void SetChild(int Index, EngineObject Child)
     {
         throw new NotSupportedException("Set Child not supported (TETimerNode)");
     }
 
     // Engine.pas:1915
-    public int AddTimerChild(EObject Child, sbyte Timer)
+    public int AddTimerChild(EngineObject Child, sbyte Timer)
     {
         int Result = FTimerLists[Timer - 1].Add(Child);
         FCount += 1;
@@ -137,7 +137,7 @@ public partial class ETimerNode : ECustomNode
     }
 
     // Engine.pas:1921
-    public int RemoveTimerChild(EObject Child, sbyte Timer)
+    public int RemoveTimerChild(EngineObject Child, sbyte Timer)
     {
         int Result = FTimerLists[Timer - 1].Remove(Child);
         if (Result != -1)
@@ -153,7 +153,7 @@ public partial class ETimerNode : ECustomNode
     {
         for (int I = 0, last = FTimerLists[Timer - 1].Count - 1; I <= last; I++)
         {
-            ((EObject)FTimerLists[Timer - 1].List[I]).TimerEvent(FTick, this);
+            ((EngineObject)FTimerLists[Timer - 1].List[I]).TimerEvent(FTick, this);
         }
     }
 

@@ -23,7 +23,7 @@ public partial class FastBattle : Battle
     public int FWallSiegeObjectCount;
 
     // AIGroup.pas:7175
-    public override CombatUnit CreateCombatUnit() => new FastCombatUnit(null);
+    public override CombatUnit CreateCombatUnit() => new FastBattleUnit(null);
 
     // AIGroup.pas:7203
     public override bool Setup(byte AttackerPlayer, byte AttackerRelation, int AttackerX, int AttackerY, int AttackerL, byte DefenderPlayer, byte DefenderRelation, int X, int Y, int L, bool LogActions) => base.Setup(AttackerPlayer, AttackerRelation, AttackerX, AttackerY, AttackerL, DefenderPlayer, DefenderRelation, X, Y, L, LogActions);

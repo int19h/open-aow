@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Audio;
 
 // inherited Songs, SongNames
-public partial class StartupSongList : Songlist
+public partial class StartupSongList : SongList
 {
     // AoWHSMap.PAS:1215
     public StartupSongList(ECustomNode owner) : base(owner)

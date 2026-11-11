@@ -2,7 +2,8 @@ using System.Text.Json;
 using Aow.Game.Draw;
 
 using Aow.Game.Layout;
-using Aow.Game.Ui.Dialogs;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.UI.Dialogs;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
 
@@ -35,7 +36,7 @@ internal static class LocalizationFrameChecks
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
             coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
         }
-        string undead = Game.Magic.Abilities.AbilityRules.TranslateRStr("Undead(plural)");
+        string undead = AbilityRules.TranslateRStr("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
         string mapCaption = DialogHosts.SWindow.STitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
@@ -52,7 +53,7 @@ internal static class LocalizationFrameChecks
         foreach (var module in layouts.Modules.Values)
             for (int index = 0; index < module.ComponentCount; index++)
             {
-                if (module.Components[index] is not Game.Ui.Controls.AOWControl control ||
+                if (module.Components[index] is not Game.UI.Controls.Control control ||
                     !control.Visible || control.FAOWWindow is not { Visible: true } || control.FAOWFont is not { } font) continue;
                 var texts = new List<string> { control.FText };
                 if (control.GetType().GetProperty("Items")?.GetValue(control) is StringCollection items)
@@ -98,13 +99,13 @@ internal static class LocalizationFrameChecks
         if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
         if (language == 1)
         {
-            var left = new DIB16Surface(120, 40, PixelFormats.pfRGB555);
-            var right = new DIB16Surface(120, 40, PixelFormats.pfRGB555);
+            var left = new Dib16Surface(120, 40, PixelFormats.pfRGB555);
+            var right = new Dib16Surface(120, 40, PixelFormats.pfRGB555);
             try
             {
                 left.Cls(0);
                 right.Cls(0);
-                SurfaceDesc l = default, r = default;
+                LockedSurface l = default, r = default;
                 left.Lock(ref l);
                 right.Lock(ref r);
                 try

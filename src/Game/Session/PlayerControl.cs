@@ -22,7 +22,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Session;
 
 // exit callback, exit mode, password, disconnected-player list, sync warning shown
-public partial class PlayerControl : EObject
+public partial class PlayerControl : EngineObject
 {
     // PlayerC.PAS:1
     public PlayerControl(ECustomNode owner) : base(owner)
@@ -60,7 +60,7 @@ public partial class PlayerControl : EObject
     // PlayerC.PAS:76
     public virtual void NewDay()
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         TextEventLog Log = default;
         MessageEventLog MessageLog;
         AoWHSMap.Current.FDay += 1;
@@ -100,7 +100,7 @@ public partial class PlayerControl : EObject
 
         try
         {
-            EMsg.InitMsg(ref Msg, 537001985, this);
+            EngineMessage.InitMsg(ref Msg, 537001985, this);
             AoWHSMap.Current.SendMsg(ref Msg, this);
         }
         catch
@@ -140,7 +140,7 @@ public partial class PlayerControl : EObject
     // PlayerC.PAS:177
     public virtual void NewTurn(sbyte Player)
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         if (AoWHSMap.Current.FDay != 1)
         {
             var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
@@ -168,11 +168,11 @@ public partial class PlayerControl : EObject
         var players3 = AoWHSMap.Current.FPlayers.GetPlayers(Player);
         players3.FDay += 1;
         AoWHSMap.Current.LockUpdateVisibility();
-        EMsg.InitMsg(ref Msg, 537001986, this);
+        EngineMessage.InitMsg(ref Msg, 537001986, this);
         Msg.Payload = Player;
         AoWHSMap.Current.SendMsg(ref Msg, this);
         AoWHSMap.Current.FNewTurnEventsStore.Raise(Player);
-        EMsg.InitMsg(ref Msg, 537001987, this);
+        EngineMessage.InitMsg(ref Msg, 537001987, this);
         Msg.Payload = Player;
         AoWHSMap.Current.SendMsg(ref Msg, this);
         AoWHSMap.Current.UnLockUpdateVisibility();
@@ -239,8 +239,8 @@ public partial class PlayerControl : EObject
     // PlayerC.PAS:19
     public virtual void Setup()
     {
-        LocalPCC PCC = default;
-        if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        LocalPlayerCommunicationControl PCC = default;
+        if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             if (AoWHSMap.Current.FPlayerCommunicator.PCC == null)
             {
@@ -253,9 +253,9 @@ public partial class PlayerControl : EObject
         }
         else
         {
-            if ((AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(AoWHSMap.Current.FConnectionType)) && AoWHSMap.Current.FPlayerCommunicator.PCC == null)
+            if ((AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(AoWHSMap.Current.FConnectionType)) && AoWHSMap.Current.FPlayerCommunicator.PCC == null)
             {
-                PCC = new LocalPCC();
+                PCC = new LocalPlayerCommunicationControl();
                 PCC.Setup(AoWHSMap.Current.FPlayers.Count);
                 for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                 {
@@ -408,7 +408,7 @@ public partial class PlayerControl : EObject
             }
             else
             {
-                if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Modified) && AoWHSMap.Current.FGameStatus != AoWHSMap.GameStatus.Terminated && AoWHSMap.Current.FGameType != GameType.Tutorial)
+                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && AoWHSMap.Current.FGameStatus != AoWHSMap.GameStatus.Terminated && AoWHSMap.Current.FGameType != GameType.Tutorial)
                 {
                     if (!(FExitCallBack != null))
                     {
@@ -476,7 +476,7 @@ public partial class PlayerControl : EObject
     // PlayerC.PAS:153
     public virtual void EndTurn(sbyte Player)
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         int X = default;
         int Y = default;
         int L = default;
@@ -495,7 +495,7 @@ public partial class PlayerControl : EObject
             }
         }
 
-        EMsg.InitMsg(ref Msg, 537001991, this);
+        EngineMessage.InitMsg(ref Msg, 537001991, this);
         Msg.Payload = Player;
         AoWHSMap.Current.SendMsg(ref Msg, this);
         AoWHSMap.Current.UnlockRelationsChanged();
@@ -727,12 +727,12 @@ public partial class PlayerControl : EObject
     // PlayerC.PAS:372
     public void ExitNetworkGameCallBack(EventLog Log)
     {
-        TerminatePlayerTE TE;
+        TerminatePlayerTokenEvent TE;
         if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
         {
             if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous || AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
             {
-                TE = new TerminatePlayerTE(null);
+                TE = new TerminatePlayerTokenEvent(null);
                 TE.FPlayer = AoWHSMap.Current.FSeatedPlayer;
                 TE.FExitCallBack = FExitCallBack;
                 TE.FExitMode = FExitMode;

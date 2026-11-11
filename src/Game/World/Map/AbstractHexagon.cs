@@ -27,9 +27,9 @@ public partial class AbstractHexagon : MapObject
     }
 
     // MAPOBJ.PAS:704
-    public override void ChangeTerrain(in HSTerrainInfo Msg)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo Msg)
     {
-        HexagonControl Control;
+        HexControl Control;
         MapObjectResource R;
         if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
         {
@@ -59,13 +59,13 @@ public partial class AbstractHexagon : MapObject
     }
 
     // MAPOBJ.PAS:728
-    public override void TerrainChanged(in HSTerrainInfo Msg)
+    public override void TerrainChanged(in HexSpriteTerrainInfo Msg)
     {
         ChangeTerrain(Msg);
     }
 
     // MAPOBJ.PAS:762
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         if (Msg.MsgID != 16)
         {
@@ -95,7 +95,7 @@ public partial class AbstractHexagon : MapObject
     {
         bool Result;
         MapField MapField;
-        HexagonSprite HS;
+        HexSprite HS;
         if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount)
         {
             MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
@@ -126,7 +126,7 @@ public partial class AbstractHexagon : MapObject
     // MAPOBJ.PAS:750
     public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        HexagonSprite HS;
+        HexSprite HS;
         HS = MapContainer.GetField(Xhx, Yhx, Lhx).FindOwnedHS(typeof(AbstractHexagon));
         if (HS != null)
         {

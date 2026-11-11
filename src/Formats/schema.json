@@ -20,7 +20,7 @@
   "classes": [
     {
       "name": "AIBudget",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131740,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -46,7 +46,7 @@
     },
     {
       "name": "AIBudgetManager",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Budgets", "id": 20, "codec": "object", "class": "AIBudgetList"},
@@ -60,7 +60,7 @@
     },
     {
       "name": "AICastSpellAction",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -92,8 +92,8 @@
       "properties": []
     },
     {
-      "name": "AIExecuter",
-      "parent": "EObject",
+      "name": "AIExecutor",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -119,19 +119,19 @@
     },
     {
       "name": "AIGroupControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
-      "name": "AIGroupControlPlugin",
-      "parent": "EObject",
+      "name": "AIGroupTask",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIGroupControlTarget",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -143,19 +143,19 @@
     },
     {
       "name": "AIGroupCooperationControl",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIGroupDefendTargetSelector",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIGroupDefenseControl",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
@@ -175,13 +175,13 @@
     },
     {
       "name": "AIGroupProduction",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIGroupProductionControl",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
@@ -193,7 +193,7 @@
     },
     {
       "name": "AIGroupProductionLocation",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -205,31 +205,31 @@
     },
     {
       "name": "AIGroupRazeControl",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIGroupRecruitControl",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIGroupTargetFinder",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIGroupTargetSelector",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIGroupUnitProduction",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -241,79 +241,79 @@
     },
     {
       "name": "AIGroupWanderControl",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIMoveControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIMoveControlSettings",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
-      "name": "AIMoveExecuter",
-      "parent": "EObject",
+      "name": "AIMoveExecutor",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
-      "name": "AIMoveExecuterArmy",
-      "parent": "AIMoveExecuterUnitList",
+      "name": "AIMoveExecutorArmy",
+      "parent": "AIMoveExecutorUnitList",
       "id": 256,
       "properties": []
     },
     {
-      "name": "AIMoveExecuterArmyList",
+      "name": "AIMoveExecutorArmyList",
       "parent": "ENode",
       "id": 256,
       "properties": []
     },
     {
-      "name": "AIMoveExecuterControl",
-      "parent": "EObject",
+      "name": "AIMoveExecutorControl",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
-      "name": "AIMoveExecuterMove",
-      "parent": "AIMoveExecuterUnitList",
+      "name": "AIMoveExecutorMove",
+      "parent": "AIMoveExecutorUnitList",
       "id": 256,
       "properties": []
     },
     {
-      "name": "AIMoveExecuterMoveQueue",
+      "name": "AIMoveExecutorMoveQueue",
       "parent": "ENode",
       "id": 256,
       "properties": []
     },
     {
-      "name": "AIMoveExecuterUnit",
-      "parent": "EObject",
+      "name": "AIMoveExecutorUnit",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
-      "name": "AIMoveExecuterUnitList",
+      "name": "AIMoveExecutorUnitList",
       "parent": "ENode",
       "id": 256,
       "properties": []
     },
     {
       "name": "AIMoveTargetSelector",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIPlayerAction",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -325,13 +325,13 @@
     },
     {
       "name": "AIPlayerActionManager",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIPlayerControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "DefenseStrengthMultiplier", "id": 10, "codec": "float32"}
@@ -339,19 +339,19 @@
     },
     {
       "name": "AIProductionLocationFinder",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIRecruitmentGroup",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "AIRecruitmentGroupFinder",
-      "parent": "AIGroupControlPlugin",
+      "parent": "AIGroupTask",
       "id": 80,
       "properties": []
     },
@@ -377,19 +377,19 @@
     },
     {
       "name": "Ability",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Description", "id": 5, "codec": "strings"},
         {"name": "SkillPointCost", "id": 6, "codec": "i32"},
-        {"name": "SFXLibrary", "id": 7, "codec": "object", "class": "SFXLibrary"},
+        {"name": "SFXLibrary", "id": 7, "codec": "object", "class": "SfxLibrary"},
         {"name": "ImageSequences", "id": 8, "codec": "stream", "payload": "ImageSequenceList"},
         {"name": "SelectionTypes", "id": 9, "codec": "set", "set": "AbilitySelectionType", "width": 2}
       ]
     },
     {
       "name": "AbilityControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Abilities", "dynamic": 10, "codec": "object", "class": "Ability", "slotBase": 10}
@@ -397,7 +397,7 @@
     },
     {
       "name": "AbilityData",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -411,25 +411,25 @@
       ]
     },
     {
-      "name": "AbstractAoWCombatMap",
-      "parent": "AbstractAoWHSMap",
+      "name": "CustomCombatMap",
+      "parent": "GameMap",
       "id": 66048,
       "properties": []
     },
     {
-      "name": "AbstractAoWHSMap",
+      "name": "GameMap",
       "parent": "HSMap",
       "id": 66048,
       "properties": []
     },
     {
-      "name": "AbstractBehaviorAG",
+      "name": "BehaviorAIGroup",
       "parent": "AIGroup",
       "id": 136272,
       "properties": []
     },
     {
-      "name": "AbstractBehaviorAGC",
+      "name": "BehaviorAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -474,7 +474,7 @@
       "properties": []
     },
     {
-      "name": "AbstractUnit",
+      "name": "Troop",
       "parent": "AbilityOwner",
       "id": 80,
       "properties": [
@@ -486,22 +486,22 @@
       ]
     },
     {
-      "name": "AbstractUnitResource",
-      "parent": "EResource",
+      "name": "TroopResource",
+      "parent": "EngineResource",
       "id": 1024,
       "properties": [
         {"name": "UnitGFXResourceIndex", "id": 8, "codec": "i32"}
       ]
     },
     {
-      "name": "ActivateAbilityInfo",
-      "parent": "EObject",
+      "name": "AbilityActivation",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "AdjacentArmy",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -512,8 +512,8 @@
       "properties": []
     },
     {
-      "name": "AdjacentMEC",
-      "parent": "AIMoveExecuterControl",
+      "name": "AdjacentMoveExecutorControl",
+      "parent": "AIMoveExecutorControl",
       "id": 80,
       "properties": []
     },
@@ -524,21 +524,21 @@
       "properties": []
     },
     {
-      "name": "AdjustableUnit",
-      "parent": "AbstractUnit",
+      "name": "HypotheticalUnit",
+      "parent": "Troop",
       "id": 80,
       "properties": []
     },
     {
-      "name": "AggressorAG",
-      "parent": "AbstractBehaviorAG",
+      "name": "AggressorAIGroup",
+      "parent": "BehaviorAIGroup",
       "id": 136279,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "AggressorAGC",
-      "parent": "AbstractBehaviorAGC",
+      "name": "AggressorAIGroupControl",
+      "parent": "BehaviorAIGroupControl",
       "id": 80,
       "properties": []
     },
@@ -681,8 +681,8 @@
       "properties": []
     },
     {
-      "name": "AnimateDeadCA",
-      "parent": "ExclusiveCombatSpellCA",
+      "name": "AnimateDeadCombatAction",
+      "parent": "ExclusiveCombatSpellCombatAction",
       "id": 131782,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -707,7 +707,7 @@
     },
     {
       "name": "Animation",
-      "parent": "HexagonSprite",
+      "parent": "HexSprite",
       "id": 131815,
       "properties": [
         {"name": "Dimensions", "id": 10, "codec": "record", "record": "Rect", "size": 16},
@@ -718,7 +718,7 @@
       ]
     },
     {
-      "name": "AnimationTE",
+      "name": "AnimationTokenEvent",
       "parent": "TokenEvent",
       "id": 135433,
       "properties": [
@@ -739,13 +739,13 @@
       "properties": []
     },
     {
-      "name": "AoWCampaign",
-      "parent": "EObject",
+      "name": "Campaign",
+      "parent": "EngineObject",
       "id": 80,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Map", "id": 5, "dataId": 6, "codec": "campaign-map"},
-        {"name": "TransferSettings", "id": 7, "codec": "object", "class": "AoWCampaignTransferSettings"},
+        {"name": "TransferSettings", "id": 7, "codec": "object", "class": "CampaignTransferSettings"},
         {"name": "Scenarios", "id": 10, "codec": "object", "class": "AoWCampaignScenarioList"},
         {"name": "Name", "id": 12, "codec": "string"},
         {"name": "CurrentScenarioID", "id": 13, "codec": "i32"},
@@ -753,12 +753,12 @@
         {"name": "ScenarioStarted", "id": 15, "codec": "bool"},
         {"name": "RaceHistory", "id": 16, "codec": "byte-list"},
         {"name": "PlayMode", "id": 17, "codec": "enum", "enum": "PlayMode", "width": 1, "signed": false},
-        {"name": "DifficultyLevel", "id": 19, "codec": "enum", "enum": "AoWCampaign.CampaignDifficultyLevel", "width": 1, "signed": false}
+        {"name": "DifficultyLevel", "id": 19, "codec": "enum", "enum": "Campaign.DifficultyLevel", "width": 1, "signed": false}
       ]
     },
     {
-      "name": "AoWCampaignScenario",
-      "parent": "EObject",
+      "name": "CampaignScenario",
+      "parent": "EngineObject",
       "id": 131588,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -774,8 +774,8 @@
       "properties": []
     },
     {
-      "name": "AoWCampaignTransferSettings",
-      "parent": "EObject",
+      "name": "CampaignTransferSettings",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Heroes", "id": 20, "codec": "object", "class": "HeroList"},
@@ -789,14 +789,14 @@
       ]
     },
     {
-      "name": "AoWCombatMap",
-      "parent": "AbstractAoWCombatMap",
+      "name": "CombatMap",
+      "parent": "CustomCombatMap",
       "id": 2228480,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "AoWCombatMapLevel",
+      "name": "CombatMapLevel",
       "parent": "AoWMapLevel",
       "id": 2228482,
       "engines": ["tactical"],
@@ -810,7 +810,7 @@
     },
     {
       "name": "AoWHSMap",
-      "parent": "AbstractAoWHSMap",
+      "parent": "GameMap",
       "id": 131089,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -843,7 +843,7 @@
         {"name": "GlobalMagicControl", "id": 40, "codec": "object", "class": "GlobalMagicControl"},
         {"name": "SphereCount", "id": 41, "codec": "i32"},
         {"name": "TextControl", "id": 42, "codec": "object", "class": "TextControl"},
-        {"name": "CampaignSettings", "id": 43, "codec": "object", "class": "AoWHSMap.AoWMapCampaignSettings"},
+        {"name": "CampaignSettings", "id": 43, "codec": "object", "class": "AoWHSMap.MapCampaignSettings"},
         {"name": "HeroControlCopy", "id": 44, "codec": "object", "class": "HeroControl"},
         {"name": "VictoryCondition", "id": 45, "codec": "enum", "enum": "AoWHSMap.VictoryCondition", "width": 1, "signed": false},
         {"name": "VictoryMana", "id": 46, "codec": "i32"},
@@ -859,7 +859,7 @@
         {"name": "TutorialControl", "id": 56, "codec": "object", "class": "TutorialControl"},
         {"name": "TurnTimeBeep", "id": 58, "codec": "i32"},
         {"name": "LeadersFixed", "id": 59, "codec": "bool"},
-        {"name": "GameSongs", "id": 60, "codec": "object", "class": "Songlist"},
+        {"name": "GameSongs", "id": 60, "codec": "object", "class": "SongList"},
         {"name": "StartingGame", "id": 61, "codec": "bool"},
         {"name": "ShowAllPlayers", "id": 62, "codec": "bool"},
         {"name": "VictoryMode", "id": 63, "codec": "u8", "raw": true},
@@ -868,8 +868,8 @@
       "order": ["ConnectionType", "HSSFileName", "Unsafe", "ViewXhp", "ViewYhp", "ViewL", "Author", "Description", "Objectives", "IndependentAIMode", "CurrentPlayer", "TurnOrderMode", "TurnOrder", "Day", "SessionName", "Players", "Races", "ExplorationEnabled", "HeroControl", "MapName", "FogEnabled", "HeroCountMax", "DefendersSeed", "StartupSongs", "ItemControl", "GameStatus", "GameResult", "InitialRandomSeed", "GameType", "UnitControl", "PlayMode", "GlobalMagicControl", "SphereCount", "TextControl", "CampaignSettings", "HeroControlCopy", "VictoryCondition", "VictoryMana", "VictoryGold", "FixedLeaders", "AlliedVictory", "AIGroupManager", "DayLimit", "TurnTime", "UnlimitedMoves", "StructureControl", "TurnTimeElapsed", "TutorialControl", "TurnTimeBeep", "LeadersFixed", "LegacyProperty57", "GameSongs", "StartingGame", "ShowAllPlayers", "VictoryMode", "Children"]
     },
     {
-      "name": "AoWHSMapKeyboard",
-      "parent": "EObject",
+      "name": "HexSpriteMapKeyboard",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -908,8 +908,8 @@
       "properties": []
     },
     {
-      "name": "AoWHSMap.AoWMapCampaignSettings",
-      "parent": "EObject",
+      "name": "AoWHSMap.MapCampaignSettings",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "TransferPointsMax", "id": 20, "codec": "i32"},
@@ -936,8 +936,8 @@
       "fieldClass": "AoWMapField"
     },
     {
-      "name": "AoWMapObjectEditor",
-      "parent": "EObjectEditor",
+      "name": "MapObjectEditor",
+      "parent": "EngineObjectEditor",
       "id": 80,
       "properties": []
     },
@@ -949,15 +949,15 @@
       "properties": []
     },
     {
-      "name": "AoWTerrain",
-      "parent": "TerrainMO",
+      "name": "Terrain",
+      "parent": "TerrainMapObject",
       "id": 131430,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "AoWTerrain.Resource",
-      "parent": "TerrainMOR",
+      "name": "Terrain.Resource",
+      "parent": "TerrainMapObjectResource",
       "id": 131431,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -965,15 +965,15 @@
       ]
     },
     {
-      "name": "AoWWaterHexagon",
-      "parent": "LowerIsometricHexagon",
+      "name": "WaterHex",
+      "parent": "LowerIsometricHex",
       "id": 132925,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "AoWWaterHexagon.Resource",
-      "parent": "LowerIsometricHexagon.Resource",
+      "name": "WaterHex.Resource",
+      "parent": "LowerIsometricHex.Resource",
       "id": 132926,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -993,8 +993,8 @@
       "properties": []
     },
     {
-      "name": "ArenaTE",
-      "parent": "StructureTE",
+      "name": "ArenaTokenEvent",
+      "parent": "StructureTokenEvent",
       "id": 133294,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1020,8 +1020,8 @@
       ]
     },
     {
-      "name": "ArmyCombatMoveTE",
-      "parent": "MoveArmyTE",
+      "name": "ArmyCombatMoveTokenEvent",
+      "parent": "MoveArmyTokenEvent",
       "id": 135426,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1029,15 +1029,15 @@
       ]
     },
     {
-      "name": "ArmyCombineMoveTE",
-      "parent": "MoveArmyTE",
+      "name": "ArmyCombineMoveTokenEvent",
+      "parent": "MoveArmyTokenEvent",
       "id": 135427,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "ArmyDefaultMoveTE",
-      "parent": "MoveArmyTE",
+      "name": "ArmyDefaultMoveTokenEvent",
+      "parent": "MoveArmyTokenEvent",
       "id": 135428,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -1058,8 +1058,8 @@
       ]
     },
     {
-      "name": "ArmyHS",
-      "parent": "UnitHS",
+      "name": "ArmyHexSprite",
+      "parent": "UnitHexSprite",
       "id": 131607,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1073,8 +1073,8 @@
       "properties": []
     },
     {
-      "name": "ArmyID",
-      "parent": "EObject",
+      "name": "ArmyId",
+      "parent": "EngineObject",
       "id": 131616,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1104,8 +1104,8 @@
       "properties": []
     },
     {
-      "name": "ArmyNegotiateMoveTE",
-      "parent": "MoveArmyTE",
+      "name": "ArmyNegotiateMoveTokenEvent",
+      "parent": "MoveArmyTokenEvent",
       "id": 135430,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -1122,7 +1122,7 @@
       ]
     },
     {
-      "name": "AutoProduceAIPA",
+      "name": "AutoProduceAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
@@ -1134,8 +1134,8 @@
       "properties": []
     },
     {
-      "name": "BirdsViewHS",
-      "parent": "FixedVisibleHS",
+      "name": "BirdsViewHexSprite",
+      "parent": "FixedVisibleHexSprite",
       "id": 65872,
       "properties": []
     },
@@ -1223,7 +1223,7 @@
       "properties": []
     },
     {
-      "name": "BudgetManagerAIPA",
+      "name": "BudgetManagerAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
@@ -1255,7 +1255,7 @@
       "properties": []
     },
     {
-      "name": "CAbRangedTE",
+      "name": "CombatAbilityRangedTokenEvent",
       "parent": "TokenEvent",
       "id": 2236419,
       "engines": ["tactical"],
@@ -1269,8 +1269,8 @@
       ]
     },
     {
-      "name": "CAbTouchMoveTE",
-      "parent": "CombatMoveTE",
+      "name": "CombatAbilityTouchMoveTokenEvent",
+      "parent": "CombatMoveTokenEvent",
       "id": 2236418,
       "engines": ["tactical"],
       "properties": [
@@ -1278,47 +1278,47 @@
       ]
     },
     {
-      "name": "CBloodHS",
-      "parent": "SingleHS",
+      "name": "TacticalBattleBloodHexSprite",
+      "parent": "SingleHexSprite",
       "id": 2228487,
       "properties": []
     },
     {
-      "name": "CCorpseHS",
-      "parent": "SingleHS",
+      "name": "TacticalBattleCorpseHexSprite",
+      "parent": "SingleHexSprite",
       "id": 2228488,
       "properties": []
     },
     {
-      "name": "CEndCombatTE",
+      "name": "TacticalBattleEndCombatTokenEvent",
       "parent": "TokenEvent",
       "id": 2236421,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "CEndTurnTE",
+      "name": "TacticalBattleEndTurnTokenEvent",
       "parent": "TokenEvent",
       "id": 2236420,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "CItemHS",
-      "parent": "ItemHS",
+      "name": "TacticalBattleItemHexSprite",
+      "parent": "ItemHexSprite",
       "id": 131697,
       "properties": []
     },
     {
-      "name": "CMeleeMoveTE",
-      "parent": "CombatMoveTE",
+      "name": "TacticalBattleMeleeMoveTokenEvent",
+      "parent": "CombatMoveTokenEvent",
       "id": 2236417,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "COozeHS",
-      "parent": "SingleHS",
+      "name": "TacticalBattleOozeHexSprite",
+      "parent": "SingleHexSprite",
       "id": 2228489,
       "properties": []
     },
@@ -1335,7 +1335,7 @@
       "properties": []
     },
     {
-      "name": "CastSpellAIPA",
+      "name": "CastSpellAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
@@ -1377,31 +1377,31 @@
       "properties": []
     },
     {
-      "name": "ChangeGlobalMagicTE",
+      "name": "ChangeGlobalMagicTokenEvent",
       "parent": "TokenEvent",
       "id": 135446,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "Mode", "id": 20, "codec": "enum", "enum": "ChangeGlobalMagicTE.ChangeGlobalMagicMode", "width": 1, "signed": false},
+        {"name": "Mode", "id": 20, "codec": "enum", "enum": "ChangeGlobalMagicTokenEvent.Mode", "width": 1, "signed": false},
         {"name": "PlayerIndex", "id": 21, "codec": "u8"},
         {"name": "EnchantmentID", "id": 22, "codec": "i32"},
         {"name": "Value", "id": 23, "codec": "i32"}
       ]
     },
     {
-      "name": "ChangePlayerMagicTE",
+      "name": "ChangePlayerMagicTokenEvent",
       "parent": "TokenEvent",
       "id": 135445,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "Mode", "id": 20, "codec": "enum", "enum": "ChangePlayerMagicTE.ChangePlayerMagicMode", "width": 1, "signed": false},
+        {"name": "Mode", "id": 20, "codec": "enum", "enum": "ChangePlayerMagicTokenEvent.Mode", "width": 1, "signed": false},
         {"name": "PlayerIndex", "id": 21, "codec": "u8"},
         {"name": "Value", "id": 22, "codec": "i32"},
         {"name": "ExtraValue", "id": 23, "codec": "i32"}
       ]
     },
     {
-      "name": "ChangePlayerSettingsTE",
+      "name": "ChangePlayerSettingsTokenEvent",
       "parent": "TokenEvent",
       "id": 135974,
       "engines": ["game", "tactical", "campaign"],
@@ -1423,7 +1423,7 @@
       "properties": []
     },
     {
-      "name": "CheatTE",
+      "name": "CheatTokenEvent",
       "parent": "TokenEvent",
       "id": 131829,
       "engines": ["game", "tactical", "campaign"],
@@ -1449,7 +1449,7 @@
       ]
     },
     {
-      "name": "CityAIPA",
+      "name": "CityAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
@@ -1460,7 +1460,7 @@
       "id": 131820,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "TCityEnchantment.EnchantmentID", "id": 20, "codec": "enum", "enum": "CityEnchantmentID", "width": 1, "signed": false},
+        {"name": "TCityEnchantment.EnchantmentID", "id": 20, "codec": "enum", "enum": "CityEnchantmentId", "width": 1, "signed": false},
         {"name": "EnchantmentLocation", "id": 21, "codec": "i32"}
       ]
     },
@@ -1471,15 +1471,15 @@
       "properties": []
     },
     {
-      "name": "CityEnchantmentSpellTE",
-      "parent": "CityTargetSpellTE",
+      "name": "CityEnchantmentSpellTokenEvent",
+      "parent": "CityTargetSpellTokenEvent",
       "id": 131821,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "CityOverlayHS",
-      "parent": "SingleHS",
+      "name": "CityOverlayHexSprite",
+      "parent": "SingleHexSprite",
       "id": 65872,
       "properties": []
     },
@@ -1522,8 +1522,8 @@
       "properties": []
     },
     {
-      "name": "CityTargetSpellTE",
-      "parent": "SpellTE",
+      "name": "CityTargetSpellTokenEvent",
+      "parent": "SpellTokenEvent",
       "id": 135949,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1533,7 +1533,7 @@
     },
     {
       "name": "CityWall",
-      "parent": "CombatILTerrain",
+      "parent": "CombatImageLibraryTerrain",
       "id": 2229508,
       "engines": ["tactical"],
       "properties": []
@@ -1554,7 +1554,7 @@
     },
     {
       "name": "CityWall.Resource",
-      "parent": "CombatILTerrainResource",
+      "parent": "CombatImageLibraryTerrainResource",
       "id": 2229509,
       "engines": ["tactical"],
       "properties": [
@@ -1569,7 +1569,7 @@
     },
     {
       "name": "Battle",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Side0", "id": 10, "codec": "object", "class": "CombatSide"},
@@ -1580,7 +1580,7 @@
     },
     {
       "name": "CombatAction",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -1592,7 +1592,7 @@
     },
     {
       "name": "CombatData",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131747,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1629,27 +1629,27 @@
     },
     {
       "name": "CombatFire",
-      "parent": "SingleHS",
+      "parent": "SingleHexSprite",
       "id": 2229578,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "CombatFixedILTerrain",
-      "parent": "CombatILTerrain",
+      "name": "CombatFixedImageLibraryTerrain",
+      "parent": "CombatImageLibraryTerrain",
       "id": 2228536,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "CombatFixedILTerrain.Resource",
-      "parent": "CombatILTerrainResource",
+      "name": "CombatFixedImageLibraryTerrain.Resource",
+      "parent": "CombatImageLibraryTerrainResource",
       "id": 2228537,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "CombatFlowControlTE",
+      "name": "CombatFlowControlTokenEvent",
       "parent": "TokenEvent",
       "id": 135448,
       "engines": ["game", "tactical", "campaign"],
@@ -1659,29 +1659,29 @@
       ]
     },
     {
-      "name": "CombatHexagon",
+      "name": "CombatHex",
       "parent": "AbstractHexagon",
       "id": 2229504,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "CombatHexagon.Resource",
+      "name": "CombatHex.Resource",
       "parent": "AbstractHexagonResource",
       "id": 2229505,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "CombatILTerrain",
-      "parent": "ILTerrainMO",
+      "name": "CombatImageLibraryTerrain",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 2228534,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "CombatILTerrainResource",
-      "parent": "ILTerrainMOR",
+      "name": "CombatImageLibraryTerrainResource",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 2228535,
       "engines": ["tactical"],
       "properties": [
@@ -1690,14 +1690,14 @@
       ]
     },
     {
-      "name": "CombatILTerrainShadow",
-      "parent": "HexagonSprite",
+      "name": "CombatImageLibraryTerrainShadow",
+      "parent": "HexSprite",
       "id": 65872,
       "properties": []
     },
     {
       "name": "CombatLogbook",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131749,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1714,15 +1714,15 @@
       "properties": []
     },
     {
-      "name": "CombatMoveTE",
-      "parent": "MoveTE",
+      "name": "CombatMoveTokenEvent",
+      "parent": "MoveTokenEvent",
       "id": 2236416,
       "engines": ["tactical"],
       "properties": []
     },
     {
       "name": "CombatObject",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Position", "id": 10, "codec": "u8"},
@@ -1732,7 +1732,7 @@
       ]
     },
     {
-      "name": "CombatObjectTurnDoneCA",
+      "name": "CombatObjectTurnDoneCombatAction",
       "parent": "CombatAction",
       "id": 131772,
       "engines": ["game", "tactical", "campaign"],
@@ -1742,33 +1742,33 @@
     },
     {
       "name": "CombatObstacle",
-      "parent": "MultiHexMO",
+      "parent": "MultiHexMapObject",
       "id": 2229546,
       "engines": ["tactical"],
       "properties": []
     },
     {
       "name": "CombatObstacleOverlay",
-      "parent": "HexagonSprite",
+      "parent": "HexSprite",
       "id": 65872,
       "properties": []
     },
     {
       "name": "CombatObstacle.Resource",
-      "parent": "MultiHexMOR",
+      "parent": "MultiHexMapObjectResource",
       "id": 2229547,
       "engines": ["tactical"],
       "properties": []
     },
     {
       "name": "CombatObstacleShadow",
-      "parent": "HexagonSprite",
+      "parent": "HexSprite",
       "id": 65872,
       "properties": []
     },
     {
       "name": "CombatParty",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131746,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1788,7 +1788,7 @@
     },
     {
       "name": "CombatPlayer",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131744,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1836,8 +1836,8 @@
       "properties": []
     },
     {
-      "name": "CombatSpellCA",
-      "parent": "DamageCA",
+      "name": "CombatSpellCombatAction",
+      "parent": "DamageCombatAction",
       "id": 131778,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1847,32 +1847,32 @@
     },
     {
       "name": "CombatSpellCaster",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "CombatStructure",
-      "parent": "CombatFixedILTerrain",
+      "parent": "CombatFixedImageLibraryTerrain",
       "id": 2229510,
       "properties": []
     },
     {
       "name": "CombatStructureResource",
-      "parent": "CombatFixedILTerrain.Resource",
+      "parent": "CombatFixedImageLibraryTerrain.Resource",
       "id": 2229511,
       "properties": []
     },
     {
       "name": "CombatTerrain",
-      "parent": "TerrainMO",
+      "parent": "TerrainMapObject",
       "id": 2228582,
       "engines": ["tactical"],
       "properties": []
     },
     {
       "name": "CombatTerrain.Resource",
-      "parent": "TerrainMOR",
+      "parent": "TerrainMapObjectResource",
       "id": 2228583,
       "engines": ["tactical"],
       "properties": [
@@ -1884,7 +1884,7 @@
     },
     {
       "name": "CombatTerrainShadow",
-      "parent": "HexagonSprite",
+      "parent": "HexSprite",
       "id": 65872,
       "properties": []
     },
@@ -1900,7 +1900,7 @@
       "id": 131745,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "AbilityOwner", "id": 20, "codec": "created", "family": "AbstractUnit"},
+        {"name": "AbilityOwner", "id": 20, "codec": "created", "family": "Troop"},
         {"name": "Disabled", "id": 21, "codec": "bool"}
       ]
     },
@@ -1931,8 +1931,8 @@
       ]
     },
     {
-      "name": "CommandCA",
-      "parent": "SingleTargetCA",
+      "name": "CommandCombatAction",
+      "parent": "SingleTargetCombatAction",
       "id": 131763,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -1965,8 +1965,8 @@
       "properties": []
     },
     {
-      "name": "ConcealAreaHS",
-      "parent": "FixedVisibleHS",
+      "name": "ConcealAreaHexSprite",
+      "parent": "FixedVisibleHexSprite",
       "id": 65872,
       "properties": []
     },
@@ -1989,7 +1989,7 @@
       "properties": []
     },
     {
-      "name": "ConstructStructureTE",
+      "name": "ConstructStructureTokenEvent",
       "parent": "TokenEvent",
       "id": 135962,
       "engines": ["game", "tactical", "campaign"],
@@ -2001,7 +2001,7 @@
     },
     {
       "name": "ConstructionControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -2040,14 +2040,14 @@
     },
     {
       "name": "Crop",
-      "parent": "ILTerrainMO",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 131946,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
       "name": "Crop.Resource",
-      "parent": "ILTerrainMOR",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 131947,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -2086,7 +2086,7 @@
     },
     {
       "name": "CustomAbilityList",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "inherits": false,
       "properties": [
@@ -2095,8 +2095,8 @@
       ]
     },
     {
-      "name": "CustomFixedVisibleHS",
-      "parent": "FixedVisibleHS",
+      "name": "CustomFixedVisibleHexSprite",
+      "parent": "FixedVisibleHexSprite",
       "id": 65872,
       "properties": []
     },
@@ -2107,14 +2107,14 @@
       "properties": []
     },
     {
-      "name": "DamageCA",
-      "parent": "SingleTargetCA",
+      "name": "DamageCombatAction",
+      "parent": "SingleTargetCombatAction",
       "id": 131761,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Damage", "id": 15, "codec": "u8"},
-        {"name": "Effects", "id": 16, "codec": "record", "record": "P3PackedDamageTypes", "size": 2},
-        {"name": "DamageTypes", "id": 17, "codec": "record", "record": "P3PackedDamageTypes", "size": 2}
+        {"name": "Effects", "id": 16, "codec": "record", "record": "PackedDamageTypes", "size": 2},
+        {"name": "DamageTypes", "id": 17, "codec": "record", "record": "PackedDamageTypes", "size": 2}
       ]
     },
     {
@@ -2131,7 +2131,7 @@
     },
     {
       "name": "DataPackage",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "inherits": false,
       "properties": [
@@ -2192,21 +2192,21 @@
       "properties": []
     },
     {
-      "name": "DefaultMEC",
-      "parent": "AIMoveExecuterControl",
+      "name": "DefaultMoveExecutorControl",
+      "parent": "AIMoveExecutorControl",
       "id": 80,
       "properties": []
     },
     {
-      "name": "DefenderAG",
-      "parent": "AbstractBehaviorAG",
+      "name": "DefenderAIGroup",
+      "parent": "BehaviorAIGroup",
       "id": 136278,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "DefenderAGC",
-      "parent": "AbstractBehaviorAGC",
+      "name": "DefenderAIGroupControl",
+      "parent": "BehaviorAIGroupControl",
       "id": 80,
       "properties": []
     },
@@ -2217,14 +2217,14 @@
       "properties": []
     },
     {
-      "name": "DiplomacyAIPA",
+      "name": "DiplomacyAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
     },
     {
       "name": "DiplomaticAction",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131666,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2275,7 +2275,7 @@
       "properties": []
     },
     {
-      "name": "DiplomaticActionTE",
+      "name": "DiplomaticActionTokenEvent",
       "parent": "TokenEvent",
       "id": 135432,
       "engines": ["game", "tactical", "campaign"],
@@ -2286,7 +2286,7 @@
     },
     {
       "name": "DiplomaticRelationHistoryItem",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131354,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2302,7 +2302,7 @@
       "properties": []
     },
     {
-      "name": "DisbandUnitTE",
+      "name": "DisbandUnitTokenEvent",
       "parent": "TokenEvent",
       "id": 135447,
       "engines": ["game", "tactical", "campaign"],
@@ -2330,8 +2330,8 @@
       "properties": []
     },
     {
-      "name": "DisjunctionTE",
-      "parent": "SpellTE",
+      "name": "DisjunctionTokenEvent",
+      "parent": "SpellTokenEvent",
       "id": 135961,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2352,8 +2352,8 @@
       "properties": []
     },
     {
-      "name": "DispelMagicAbilityCA",
-      "parent": "DispelMagicCA",
+      "name": "DispelMagicAbilityCombatAction",
+      "parent": "DispelMagicCombatAction",
       "id": 131775,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -2369,7 +2369,7 @@
       ]
     },
     {
-      "name": "DispelMagicAbilityTE",
+      "name": "DispelMagicAbilityTokenEvent",
       "parent": "TokenEvent",
       "id": 131827,
       "engines": ["game", "tactical", "campaign"],
@@ -2381,16 +2381,16 @@
       ]
     },
     {
-      "name": "DispelMagicCA",
-      "parent": "SingleTargetCA",
+      "name": "DispelMagicCombatAction",
+      "parent": "SingleTargetCombatAction",
       "id": 80,
       "properties": [
         {"name": "EnchantmentIDs", "id": 50, "codec": "int-list"}
       ]
     },
     {
-      "name": "DispelMagicSpellCA",
-      "parent": "DispelMagicCA",
+      "name": "DispelMagicSpellCombatAction",
+      "parent": "DispelMagicCombatAction",
       "id": 131793,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2461,8 +2461,8 @@
       ]
     },
     {
-      "name": "DynamicIsometricHexagon",
-      "parent": "HexagonSprite",
+      "name": "DynamicIsometricHex",
+      "parent": "HexSprite",
       "id": 131439,
       "properties": []
     },
@@ -2490,22 +2490,22 @@
       "id": 257,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ControlStyle", "id": 2, "codec": "set", "set": "EControlStyleElement", "width": 1}
+        {"name": "ControlStyle", "id": 2, "codec": "set", "set": "ControlStyleElement", "width": 1}
       ]
     },
     {
-      "name": "EControlStyleObject",
-      "parent": "EObject",
+      "name": "ControlStyleObject",
+      "parent": "EngineObject",
       "id": 81,
       "engines": ["game", "tactical", "campaign"],
       "inherits": false,
       "properties": [
-        {"name": "ControlStyle", "id": 1, "codec": "set", "set": "EControlStyleElement", "width": 1}
+        {"name": "ControlStyle", "id": 1, "codec": "set", "set": "ControlStyleElement", "width": 1}
       ]
     },
     {
       "name": "ECustomNode",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Children", "id": 1, "codec": "children", "phase": "children"}
@@ -2517,7 +2517,7 @@
       "id": 259,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ControlStyle", "id": 2, "codec": "set", "set": "EControlStyleElement", "width": 1}
+        {"name": "ControlStyle", "id": 2, "codec": "set", "set": "ControlStyleElement", "width": 1}
       ]
     },
     {
@@ -2533,14 +2533,14 @@
       "properties": []
     },
     {
-      "name": "EObject",
+      "name": "EngineObject",
       "id": 80,
       "inherits": false,
       "properties": []
     },
     {
-      "name": "EObjectEditor",
-      "parent": "EObject",
+      "name": "EngineObjectEditor",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -2551,8 +2551,8 @@
       "properties": []
     },
     {
-      "name": "EResource",
-      "parent": "EObject",
+      "name": "EngineResource",
+      "parent": "EngineObject",
       "id": 1024,
       "properties": [
         {"name": "ResourceID", "id": 1, "codec": "i32"},
@@ -2561,8 +2561,8 @@
       ]
     },
     {
-      "name": "EResourceEditSettings",
-      "parent": "EControlStyleObject",
+      "name": "ResourceEditSettings",
+      "parent": "ControlStyleObject",
       "id": 1026,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2616,7 +2616,7 @@
     },
     {
       "name": "EmailGame",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 136960,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2629,7 +2629,7 @@
     },
     {
       "name": "EmailGameControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -2666,7 +2666,7 @@
     },
     {
       "name": "Enchantment",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "DispelResistance", "id": 10, "codec": "u8"},
@@ -2682,7 +2682,7 @@
       "properties": []
     },
     {
-      "name": "EndTurnAIPA",
+      "name": "EndTurnAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
@@ -2695,14 +2695,14 @@
       "properties": []
     },
     {
-      "name": "EndTurnTE",
+      "name": "EndTurnTokenEvent",
       "parent": "TokenEvent",
       "id": 135425,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Day", "id": 20, "codec": "i32"},
         {"name": "Player", "id": 21, "codec": "u8"},
-        {"name": "Mode", "id": 22, "codec": "enum", "enum": "EndTurnTE.EndTurnMode", "width": 1, "signed": false}
+        {"name": "Mode", "id": 22, "codec": "enum", "enum": "EndTurnTokenEvent.Mode", "width": 1, "signed": false}
       ]
     },
     {
@@ -2724,8 +2724,8 @@
       "properties": []
     },
     {
-      "name": "EntangleCA",
-      "parent": "SingleTargetCA",
+      "name": "EntangleCombatAction",
+      "parent": "SingleTargetCombatAction",
       "id": 131774,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2733,8 +2733,8 @@
       ]
     },
     {
-      "name": "EntangleSpellCA",
-      "parent": "ExclusiveCombatSpellCA",
+      "name": "EntangleSpellCombatAction",
+      "parent": "ExclusiveCombatSpellCombatAction",
       "id": 131784,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -2765,7 +2765,7 @@
     },
     {
       "name": "EventLog",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "TEventLog.Day", "id": 10, "codec": "i32"},
@@ -2781,7 +2781,7 @@
     },
     {
       "name": "EventLogbook",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131808,
       "properties": [
         {"name": "Events", "id": 10, "codec": "object", "class": "EventLogList"},
@@ -2789,7 +2789,7 @@
       ]
     },
     {
-      "name": "ExclusiveCombatSpellCA",
+      "name": "ExclusiveCombatSpellCombatAction",
       "parent": "CombatAction",
       "id": 80,
       "properties": [
@@ -2801,15 +2801,15 @@
       ]
     },
     {
-      "name": "ExpanderAG",
-      "parent": "AbstractBehaviorAG",
+      "name": "ExpanderAIGroup",
+      "parent": "BehaviorAIGroup",
       "id": 136290,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "ExpanderAGC",
-      "parent": "AbstractBehaviorAGC",
+      "name": "ExpanderAIGroupControl",
+      "parent": "BehaviorAIGroupControl",
       "id": 80,
       "properties": []
     },
@@ -2846,7 +2846,7 @@
     },
     {
       "name": "FaceResource",
-      "parent": "EResource",
+      "parent": "EngineResource",
       "id": 131696,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2885,31 +2885,31 @@
       "properties": []
     },
     {
-      "name": "FastCombatHighPrayerCA",
-      "parent": "MultiTargetCombatSpellCA",
+      "name": "FastBattleHighPrayerCombatAction",
+      "parent": "MultiTargetCombatSpellCombatAction",
       "id": 131783,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "FastCombatTerrorCA",
-      "parent": "MultiTargetCombatSpellCA",
+      "name": "FastBattleTerrorCombatAction",
+      "parent": "MultiTargetCombatSpellCombatAction",
       "id": 131777,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "FastCombatUnit",
+      "name": "FastBattleUnit",
       "parent": "CombatUnit",
       "id": 131791,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "State", "id": 40, "codec": "set", "set": "FastCombatUnitStateElement", "width": 1}
+        {"name": "State", "id": 40, "codec": "set", "set": "FastBattleUnitStateElement", "width": 1}
       ]
     },
     {
       "name": "Fire",
-      "parent": "ILTerrainMO",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 132990,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -2944,8 +2944,8 @@
       "properties": []
     },
     {
-      "name": "FireBarrierTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "FireBarrierTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135940,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -2991,7 +2991,7 @@
     },
     {
       "name": "Fire.Resource",
-      "parent": "ILTerrainMOR",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 132991,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -3012,28 +3012,28 @@
       "properties": []
     },
     {
-      "name": "FixedILTerrainMO",
-      "parent": "ILTerrainMO",
+      "name": "FixedImageLibraryTerrainMapObject",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 131464,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "FixedILTerrainMOR",
-      "parent": "ILTerrainMOR",
+      "name": "FixedImageLibraryTerrainMapObjectResource",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 131465,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "FixedVisibleHS",
-      "parent": "HexagonSprite",
+      "name": "FixedVisibleHexSprite",
+      "parent": "HexSprite",
       "id": 65872,
       "properties": []
     },
     {
       "name": "FlagControl",
-      "parent": "EControlStyleObject",
+      "parent": "ControlStyleObject",
       "id": 81,
       "properties": []
     },
@@ -3088,7 +3088,7 @@
       "properties": []
     },
     {
-      "name": "FleeCA",
+      "name": "FleeCombatAction",
       "parent": "CombatAction",
       "id": 131776,
       "engines": ["game", "tactical", "campaign"],
@@ -3118,7 +3118,7 @@
     },
     {
       "name": "FloodControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Width", "id": 20, "codec": "i32"},
@@ -3140,14 +3140,14 @@
       ]
     },
     {
-      "name": "FortifyAG",
+      "name": "FortifyAIGroup",
       "parent": "AIGroup",
       "id": 136281,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "FortifyAGC",
+      "name": "FortifyAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -3177,8 +3177,8 @@
       "properties": []
     },
     {
-      "name": "FreezeWaterTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "FreezeWaterTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135939,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -3196,8 +3196,8 @@
       "properties": []
     },
     {
-      "name": "FrozenWaterHS",
-      "parent": "SingleHS",
+      "name": "FrozenWaterHexSprite",
+      "parent": "SingleHexSprite",
       "id": 131436,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -3227,7 +3227,7 @@
       ]
     },
     {
-      "name": "GameOverTE",
+      "name": "GameOverTokenEvent",
       "parent": "TokenEvent",
       "id": 135441,
       "engines": ["game", "tactical", "campaign"],
@@ -3238,7 +3238,7 @@
     },
     {
       "name": "Gems",
-      "parent": "ILTerrainMO",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 132014,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -3248,7 +3248,7 @@
     },
     {
       "name": "Gems.Resource",
-      "parent": "ILTerrainMOR",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 132015,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -3261,7 +3261,7 @@
     },
     {
       "name": "GlobalEnchantment",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "TGlobalEnchantment.EnchantmentID", "id": 10, "codec": "i32"},
@@ -3294,8 +3294,8 @@
       "properties": []
     },
     {
-      "name": "GlobalEnchantmentSpellTE",
-      "parent": "SpellTE",
+      "name": "GlobalEnchantmentSpellTokenEvent",
+      "parent": "SpellTokenEvent",
       "id": 135954,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -3304,7 +3304,7 @@
     },
     {
       "name": "GlobalMagicControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Enchantments", "id": 10, "codec": "object", "class": "GlobalEnchantmentList"},
@@ -3319,8 +3319,8 @@
       "properties": []
     },
     {
-      "name": "GlobalTargetSpellTE",
-      "parent": "SpellTE",
+      "name": "GlobalTargetSpellTokenEvent",
+      "parent": "SpellTokenEvent",
       "id": 135976,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -3341,37 +3341,37 @@
     },
     {
       "name": "GroupControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
-      "name": "GroupControlAIPA",
+      "name": "GroupControlAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
     },
     {
-      "name": "GroupControlLoopAIPA",
+      "name": "GroupControlLoopAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
     },
     {
-      "name": "GuardAG",
+      "name": "GuardAIGroup",
       "parent": "AIGroup",
       "id": 136275,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "GuardAGC",
+      "name": "GuardAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
     },
     {
-      "name": "GuardAreaAG",
+      "name": "GuardAreaAIGroup",
       "parent": "AIGroup",
       "id": 136273,
       "engines": ["game", "tactical", "campaign"],
@@ -3380,7 +3380,7 @@
       ]
     },
     {
-      "name": "GuardAreaAGC",
+      "name": "GuardAreaAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -3406,8 +3406,8 @@
       "properties": [
         {"name": "Name", "id": 4, "codec": "string"},
         {"name": "MapObjectResourceList", "id": 5, "codec": "object", "class": "MapObjectResourceList"},
-        {"name": "ResourceEditSettings", "id": 6, "codec": "object", "class": "EResourceEditSettings"},
-        {"name": "PlugInControl", "id": 7, "codec": "object", "class": "PlugInControl"}
+        {"name": "ResourceEditSettings", "id": 6, "codec": "object", "class": "ResourceEditSettings"},
+        {"name": "PlugInControl", "id": 7, "codec": "object", "class": "PluginControl"}
       ]
     },
     {
@@ -3468,8 +3468,8 @@
       ]
     },
     {
-      "name": "HealingCA",
-      "parent": "SingleTargetCA",
+      "name": "HealingCombatAction",
+      "parent": "SingleTargetCombatAction",
       "id": 131773,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -3481,14 +3481,14 @@
       "properties": []
     },
     {
-      "name": "HealingShowersTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "HealingShowersTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135975,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "HealingTE",
+      "name": "HealingTokenEvent",
       "parent": "TokenEvent",
       "id": 131826,
       "engines": ["game", "tactical", "campaign"],
@@ -3513,7 +3513,7 @@
     },
     {
       "name": "Hero",
-      "parent": "AbstractUnit",
+      "parent": "Troop",
       "id": 131632,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -3553,7 +3553,7 @@
     },
     {
       "name": "HeroControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Heroes", "id": 20, "codec": "object", "class": "HeroList"}
@@ -3602,7 +3602,7 @@
     },
     {
       "name": "HeroLibraryManager",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "SystemLibrary", "id": 20, "codec": "object", "class": "HeroLibrary"}
@@ -3622,14 +3622,14 @@
     },
     {
       "name": "HeroResource",
-      "parent": "AbstractUnitResource",
+      "parent": "TroopResource",
       "id": 131633,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Name", "id": 10, "codec": "string"},
         {"name": "Race", "id": 11, "codec": "u8"},
         {"name": "HeroType", "id": 12, "codec": "enum", "enum": "HeroType", "width": 1, "signed": false},
-        {"name": "Alignment", "id": 13, "codec": "enum", "enum": "Alignment", "width": 1, "signed": false},
+        {"name": "Alignment", "id": 13, "codec": "enum", "enum": "Units.Alignment", "width": 1, "signed": false},
         {"name": "Hidden", "id": 14, "codec": "bool"},
         {"name": "Attack", "id": 15, "codec": "u8"},
         {"name": "Defense", "id": 16, "codec": "u8"},
@@ -3654,13 +3654,13 @@
       "properties": []
     },
     {
-      "name": "HeroUpdateTE",
+      "name": "HeroUpdateTokenEvent",
       "parent": "TokenEvent",
       "id": 135429,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "UnitID", "id": 20, "codec": "i32"},
-        {"name": "Mode", "id": 21, "codec": "enum", "enum": "HeroUpdateTE.HeroUpdateMode", "width": 1, "signed": false},
+        {"name": "Mode", "id": 21, "codec": "enum", "enum": "HeroUpdateTokenEvent.Mode", "width": 1, "signed": false},
         {"name": "ItemID", "id": 22, "codec": "i32"},
         {"name": "Parameter", "id": 23, "codec": "i32"}
       ]
@@ -3678,7 +3678,7 @@
       ]
     },
     {
-      "name": "HeroUpgradeTE",
+      "name": "HeroUpgradeTokenEvent",
       "parent": "TokenEvent",
       "id": 135965,
       "engines": ["game", "tactical", "campaign"],
@@ -3701,22 +3701,22 @@
       "properties": []
     },
     {
-      "name": "HexagonBridge",
+      "name": "HexBridge",
       "parent": "AbstractRoad",
       "id": 133242,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "HexagonBridge.Resource",
+      "name": "HexBridge.Resource",
       "parent": "AbstractRoadResource",
       "id": 133243,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "HexagonControl",
-      "parent": "MORTerrainControl",
+      "name": "HexControl",
+      "parent": "MapObjectResourceTerrainControl",
       "id": 80,
       "properties": []
     },
@@ -3727,13 +3727,13 @@
       "properties": []
     },
     {
-      "name": "HexagonSprite",
-      "parent": "EObject",
+      "name": "HexSprite",
+      "parent": "EngineObject",
       "id": 65872,
       "properties": []
     },
     {
-      "name": "HexagonSpriteSelection",
+      "name": "HexSpriteSelection",
       "parent": "EControlStyleNode",
       "id": 257,
       "properties": []
@@ -3776,7 +3776,7 @@
     },
     {
       "name": "HolyGround",
-      "parent": "ILTerrainMO",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 131987,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -3787,7 +3787,7 @@
     },
     {
       "name": "HolyGround.Resource",
-      "parent": "ILTerrainMOR",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 131988,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -3799,8 +3799,8 @@
       "properties": []
     },
     {
-      "name": "HolyGroundSpellTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "HolyGroundSpellTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135942,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -3820,7 +3820,7 @@
       "properties": []
     },
     {
-      "name": "HuntAG",
+      "name": "HuntAIGroup",
       "parent": "AIGroup",
       "id": 136288,
       "engines": ["game", "tactical", "campaign"],
@@ -3829,21 +3829,21 @@
       ]
     },
     {
-      "name": "HuntAGC",
+      "name": "HuntAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
     },
     {
-      "name": "ILTerrainMO",
-      "parent": "MultiHexMO",
+      "name": "ImageLibraryTerrainMapObject",
+      "parent": "MultiHexMapObject",
       "id": 131462,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "ILTerrainMOR",
-      "parent": "MultiHexMOR",
+      "name": "ImageLibraryTerrainMapObjectResource",
+      "parent": "MultiHexMapObjectResource",
       "id": 131463,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -3881,7 +3881,7 @@
     },
     {
       "name": "IncomeSource",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -3892,7 +3892,7 @@
       "properties": []
     },
     {
-      "name": "InitializeAIPA",
+      "name": "InitializeAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
@@ -3904,8 +3904,8 @@
       "properties": []
     },
     {
-      "name": "InvokeDeathCA",
-      "parent": "SingleTargetCA",
+      "name": "InvokeDeathCombatAction",
+      "parent": "SingleTargetCombatAction",
       "id": 131780,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -3913,27 +3913,27 @@
       ]
     },
     {
-      "name": "IsometricCombatHexagon",
-      "parent": "UpperIsometricHexagon",
+      "name": "IsometricCombatHex",
+      "parent": "UpperIsometricHex",
       "id": 2229514,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "IsometricCombatHexagon.Resource",
-      "parent": "UpperIsometricHexagon.Resource",
+      "name": "IsometricCombatHex.Resource",
+      "parent": "UpperIsometricHex.Resource",
       "id": 2229515,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "IsometricHexagon",
+      "name": "IsometricHex",
       "parent": "AbstractHexagon",
       "id": 131437,
       "properties": []
     },
     {
-      "name": "IsometricHexagonResource",
+      "name": "IsometricHexResource",
       "parent": "AbstractHexagonResource",
       "id": 131438,
       "properties": []
@@ -3964,7 +3964,7 @@
     },
     {
       "name": "ItemControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "LastID", "id": 9, "codec": "i32"},
@@ -3998,8 +3998,8 @@
       "properties": []
     },
     {
-      "name": "ItemGFX",
-      "parent": "EResource",
+      "name": "ItemGraphics",
+      "parent": "EngineResource",
       "id": 131689,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -4016,13 +4016,13 @@
       "properties": []
     },
     {
-      "name": "ItemHS",
-      "parent": "SingleHS",
+      "name": "ItemHexSprite",
+      "parent": "SingleHexSprite",
       "id": 131697,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Items", "id": 4, "codec": "object", "class": "ItemHSList"},
-        {"name": "GenerateMode", "id": 5, "codec": "enum", "enum": "ItemHS.ItemGenerateMode", "width": 1, "signed": false}
+        {"name": "GenerateMode", "id": 5, "codec": "enum", "enum": "ItemHexSprite.GenerateMode", "width": 1, "signed": false}
       ]
     },
     {
@@ -4042,7 +4042,7 @@
     },
     {
       "name": "ItemLibraryManager",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "SystemLibrary", "id": 20, "codec": "object", "class": "ItemLibrary"}
@@ -4055,7 +4055,7 @@
       "properties": []
     },
     {
-      "name": "ItemTE",
+      "name": "ItemTokenEvent",
       "parent": "TokenEvent",
       "id": 131698,
       "engines": ["game", "tactical", "campaign"],
@@ -4094,7 +4094,7 @@
     },
     {
       "name": "LeaderSetupControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -4121,8 +4121,8 @@
       "properties": []
     },
     {
-      "name": "LevelTerrainTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "LevelTerrainTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135945,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -4191,20 +4191,20 @@
       ]
     },
     {
-      "name": "LowerIsometricHexagon",
-      "parent": "IsometricHexagon",
+      "name": "LowerIsometricHex",
+      "parent": "IsometricHex",
       "id": 131442,
       "properties": []
     },
     {
-      "name": "LowerIsometricHexagon.Resource",
-      "parent": "IsometricHexagonResource",
+      "name": "LowerIsometricHex.Resource",
+      "parent": "IsometricHexResource",
       "id": 131443,
       "properties": []
     },
     {
-      "name": "MORTerrainControl",
-      "parent": "EObject",
+      "name": "MapObjectResourceTerrainControl",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -4216,8 +4216,8 @@
       "properties": []
     },
     {
-      "name": "MagicSanctuaryOverlayHS",
-      "parent": "SingleHS",
+      "name": "MagicSanctuaryOverlayHexSprite",
+      "parent": "SingleHexSprite",
       "id": 65872,
       "properties": []
     },
@@ -4244,7 +4244,7 @@
     },
     {
       "name": "ManaCrystals",
-      "parent": "ILTerrainMO",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 132030,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -4254,7 +4254,7 @@
     },
     {
       "name": "ManaCrystals.Resource",
-      "parent": "ILTerrainMOR",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 132031,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -4294,7 +4294,7 @@
     },
     {
       "name": "MapObject",
-      "parent": "HexagonSprite",
+      "parent": "HexSprite",
       "id": 65878,
       "inherits": false,
       "properties": [
@@ -4303,7 +4303,7 @@
     },
     {
       "name": "MapObjectResource",
-      "parent": "EResource",
+      "parent": "EngineResource",
       "id": 65876,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -4341,7 +4341,7 @@
     },
     {
       "name": "MigrationItem",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -4358,8 +4358,8 @@
       "properties": []
     },
     {
-      "name": "MindDecayCA",
-      "parent": "ExclusiveCombatSpellCA",
+      "name": "MindDecayCombatAction",
+      "parent": "ExclusiveCombatSpellCombatAction",
       "id": 131787,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -4381,36 +4381,36 @@
       "properties": []
     },
     {
-      "name": "Monsterlair",
+      "name": "MonsterLair",
       "parent": "ItemExplorationSite",
       "id": 131886,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "Monsterlair.Resource",
+      "name": "MonsterLair.Resource",
       "parent": "ItemExplorationSiteResource",
       "id": 131887,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "MountainMO",
-      "parent": "AoWTerrain",
+      "name": "MountainMapObject",
+      "parent": "Terrain",
       "id": 131432,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "MountainMOR",
-      "parent": "AoWTerrain.Resource",
+      "name": "MountainMapObjectResource",
+      "parent": "Terrain.Resource",
       "id": 131433,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "MoveArmyTE",
-      "parent": "MoveTE",
+      "name": "MoveArmyTokenEvent",
+      "parent": "MoveTokenEvent",
       "id": 135424,
       "properties": [
         {"name": "UnitIDs", "id": 30, "codec": "int-list"},
@@ -4427,13 +4427,13 @@
     },
     {
       "name": "MoveControlSettings",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
       "name": "MoveSettings",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -4444,7 +4444,7 @@
       "properties": []
     },
     {
-      "name": "MoveTE",
+      "name": "MoveTokenEvent",
       "parent": "TokenEvent",
       "id": 1361,
       "properties": [
@@ -4453,7 +4453,7 @@
     },
     {
       "name": "MoveTarget",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -4464,7 +4464,7 @@
       "properties": []
     },
     {
-      "name": "MoveWallCA",
+      "name": "MoveWallCombatAction",
       "parent": "CombatAction",
       "id": 131767,
       "engines": ["game", "tactical", "campaign"],
@@ -4480,14 +4480,14 @@
       "properties": []
     },
     {
-      "name": "MovementHS",
-      "parent": "SingleHS",
+      "name": "MovementHexSprite",
+      "parent": "SingleHexSprite",
       "id": 2228490,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "MultiHexMO",
+      "name": "MultiHexMapObject",
       "parent": "MapObject",
       "id": 65878,
       "properties": [
@@ -4496,7 +4496,7 @@
       ]
     },
     {
-      "name": "MultiHexMOR",
+      "name": "MultiHexMapObjectResource",
       "parent": "MapObjectResource",
       "id": 65877,
       "engines": ["game", "tactical", "campaign"],
@@ -4524,7 +4524,7 @@
       ]
     },
     {
-      "name": "MultiMoveTE",
+      "name": "MultiMoveTokenEvent",
       "parent": "TokenEvent",
       "id": 135442,
       "engines": ["game", "tactical", "campaign"],
@@ -4534,7 +4534,7 @@
       ]
     },
     {
-      "name": "MultiTargetCombatSpellCA",
+      "name": "MultiTargetCombatSpellCombatAction",
       "parent": "CombatAction",
       "id": 80,
       "properties": [
@@ -4562,17 +4562,17 @@
         {"name": "Object", "id": 43, "codec": "enum", "enum": "NegotiateObject", "width": 1, "signed": false},
         {"name": "Data1", "id": 44, "codec": "i32"},
         {"name": "Data2", "id": 45, "codec": "i32"},
-        {"name": "ArmyID", "id": 46, "codec": "created", "family": "ArmyID"}
+        {"name": "ArmyID", "id": 46, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
-      "name": "NegotiateTE",
+      "name": "NegotiateTokenEvent",
       "parent": "TokenEvent",
       "id": 135431,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Gold", "id": 30, "codec": "i32"},
-        {"name": "Offer", "id": 31, "codec": "enum", "enum": "NegotiateTE.NegotiateOffer", "width": 1, "signed": false},
+        {"name": "Offer", "id": 31, "codec": "enum", "enum": "NegotiateTokenEvent.NegotiateOffer", "width": 1, "signed": false},
         {"name": "X", "id": 32, "codec": "u8"},
         {"name": "Y", "id": 33, "codec": "u8"},
         {"name": "L", "id": 34, "codec": "u8"},
@@ -4583,20 +4583,20 @@
         {"name": "Data1", "id": 39, "codec": "i32"},
         {"name": "Data2", "id": 40, "codec": "i32"},
         {"name": "Mode", "id": 41, "codec": "set", "set": "NegotiateModeElement", "width": 1},
-        {"name": "Result", "id": 42, "codec": "enum", "enum": "NegotiateTE.NegotiateResult", "width": 1, "signed": false},
-        {"name": "ArmyID", "id": 43, "codec": "created", "family": "ArmyID"},
+        {"name": "Result", "id": 42, "codec": "enum", "enum": "NegotiateTokenEvent.NegotiateResult", "width": 1, "signed": false},
+        {"name": "ArmyID", "id": 43, "codec": "created", "family": "ArmyId"},
         {"name": "EventLogID", "id": 44, "codec": "i32"}
       ]
     },
     {
-      "name": "NewCombatRoundCA",
+      "name": "NewCombatRoundCombatAction",
       "parent": "CombatAction",
       "id": 131771,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "NewCombatTurnCA",
+      "name": "NewCombatTurnCombatAction",
       "parent": "CombatAction",
       "id": 131770,
       "engines": ["game", "tactical", "campaign"],
@@ -4618,15 +4618,15 @@
       "properties": []
     },
     {
-      "name": "NormalAG",
-      "parent": "AbstractBehaviorAG",
+      "name": "NormalAIGroup",
+      "parent": "BehaviorAIGroup",
       "id": 136292,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "NormalAGC",
-      "parent": "AbstractBehaviorAGC",
+      "name": "NormalAIGroupControl",
+      "parent": "BehaviorAIGroupControl",
       "id": 80,
       "properties": []
     },
@@ -4638,14 +4638,14 @@
     },
     {
       "name": "OverlayObject",
-      "parent": "FixedILTerrainMO",
+      "parent": "FixedImageLibraryTerrainMapObject",
       "id": 131228,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
       "name": "OverlayObject.Resource",
-      "parent": "FixedILTerrainMOR",
+      "parent": "FixedImageLibraryTerrainMapObjectResource",
       "id": 131229,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -4653,42 +4653,42 @@
       ]
     },
     {
-      "name": "OverviewUnitHS",
-      "parent": "UnitHS",
+      "name": "OverviewUnitHexSprite",
+      "parent": "UnitHexSprite",
       "id": 131604,
       "properties": []
     },
     {
-      "name": "PBEMPlayerControl",
+      "name": "PbemPlayerControl",
       "parent": "TurnPlayerControl",
       "id": 131667,
       "properties": []
     },
     {
-      "name": "PBEMPlayerSettings",
-      "parent": "EObject",
+      "name": "PbemPlayerSettings",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "Status", "id": 20, "codec": "set", "set": "PBEMPlayerStatusElement", "width": 1},
+        {"name": "Status", "id": 20, "codec": "set", "set": "PbemPlayerStatusElement", "width": 1},
         {"name": "EmailGame", "id": 21, "codec": "object", "class": "EmailGame"}
       ]
     },
     {
       "name": "Pad",
-      "parent": "FixedILTerrainMO",
+      "parent": "FixedImageLibraryTerrainMapObject",
       "id": 131334,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
       "name": "PadControl",
-      "parent": "EControlStyleObject",
+      "parent": "ControlStyleObject",
       "id": 81,
       "properties": []
     },
     {
       "name": "Pad.Resource",
-      "parent": "FixedILTerrainMOR",
+      "parent": "FixedImageLibraryTerrainMapObjectResource",
       "id": 131335,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -4700,7 +4700,7 @@
       "properties": []
     },
     {
-      "name": "PassTokenTE",
+      "name": "PassTokenTokenEvent",
       "parent": "TokenEvent",
       "id": 1364,
       "engines": ["game", "tactical", "campaign"],
@@ -4713,14 +4713,14 @@
       "properties": []
     },
     {
-      "name": "PassiveAG",
+      "name": "PassiveAIGroup",
       "parent": "AIGroup",
       "id": 136280,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "PassiveAGC",
+      "name": "PassiveAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -4732,7 +4732,7 @@
       "properties": []
     },
     {
-      "name": "PatrolAG",
+      "name": "PatrolAIGroup",
       "parent": "AIGroup",
       "id": 136274,
       "engines": ["game", "tactical", "campaign"],
@@ -4744,7 +4744,7 @@
       ]
     },
     {
-      "name": "PatrolAGC",
+      "name": "PatrolAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -4764,7 +4764,7 @@
     },
     {
       "name": "Player",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131104,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -4805,7 +4805,7 @@
         {"name": "AIBudget", "id": 51, "codec": "object", "class": "AIBudgetManager"},
         {"name": "DiplomaticActions", "id": 52, "codec": "object", "class": "DiplomaticActionList"},
         {"name": "AIValidAttackPlayers", "id": 53, "codec": "bit-list"},
-        {"name": "PBEMSettings", "id": 54, "codec": "object", "class": "PBEMPlayerSettings"},
+        {"name": "PBEMSettings", "id": 54, "codec": "object", "class": "PbemPlayerSettings"},
         {"name": "HeroEmerging", "id": 56, "codec": "bool"},
         {"name": "BaseHeroJoinDay", "id": 57, "codec": "i32"},
         {"name": "DiplomaticRelations", "id": 58, "codec": "object", "class": "PlayerDiplomaticRelations"}
@@ -4813,7 +4813,7 @@
     },
     {
       "name": "PlayerCommunicationSettings",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "ConnectionMode", "id": 5, "codec": "enum", "enum": "ConnectionMode", "width": 1, "signed": false},
@@ -4828,7 +4828,7 @@
     },
     {
       "name": "PlayerCommunicator",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -4840,7 +4840,7 @@
     },
     {
       "name": "PlayerControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -4860,7 +4860,7 @@
     },
     {
       "name": "PlayerDiplomaticRelations",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Relations", "id": 20, "codec": "byte-list"},
@@ -4875,7 +4875,7 @@
     },
     {
       "name": "PlayerMagicControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Mana", "id": 20, "codec": "i32"},
@@ -4897,7 +4897,7 @@
       "id": 131824,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "Mode", "id": 20, "codec": "enum", "enum": "PlayerMagicEventLog.PlayerMagicEventMode", "width": 1, "signed": false},
+        {"name": "Mode", "id": 20, "codec": "enum", "enum": "PlayerMagicEventLog.EventMode", "width": 1, "signed": false},
         {"name": "SpellID", "id": 21, "codec": "i32"},
         {"name": "Value", "id": 22, "codec": "i32"},
         {"name": "EnchantmentName", "id": 23, "codec": "string"},
@@ -4906,7 +4906,7 @@
     },
     {
       "name": "PlayerSetupSettings",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131683,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -4921,7 +4921,7 @@
     },
     {
       "name": "PlayerStatistics",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "TurnInfo", "id": 20, "codec": "object", "class": "TurnInfo"},
@@ -4966,8 +4966,8 @@
       "properties": []
     },
     {
-      "name": "PlugInControl",
-      "parent": "EObject",
+      "name": "PluginControl",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "UsedPlugIns", "id": 1, "codec": "strings"}
@@ -4975,7 +4975,7 @@
     },
     {
       "name": "PoisonCloud",
-      "parent": "MultiHexMO",
+      "parent": "MultiHexMapObject",
       "id": 135743,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -4987,14 +4987,14 @@
     },
     {
       "name": "PoisonCloud.Resource",
-      "parent": "MultiHexMOR",
+      "parent": "MultiHexMapObjectResource",
       "id": 135744,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
       "name": "PoisonPlant",
-      "parent": "ILTerrainMO",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 131998,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5005,7 +5005,7 @@
     },
     {
       "name": "PoisonPlant.Resource",
-      "parent": "ILTerrainMOR",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 131999,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -5017,8 +5017,8 @@
       "properties": []
     },
     {
-      "name": "PoisonPlantSpellTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "PoisonPlantSpellTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135941,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -5036,8 +5036,8 @@
       "properties": []
     },
     {
-      "name": "PossessCA",
-      "parent": "SingleTargetCA",
+      "name": "PossessCombatAction",
+      "parent": "SingleTargetCombatAction",
       "id": 131765,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5090,7 +5090,7 @@
     },
     {
       "name": "PowerSource",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -5113,14 +5113,14 @@
       "properties": []
     },
     {
-      "name": "ProcessEventlogAIPA",
+      "name": "ProcessEventLogAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
     },
     {
       "name": "ProductionControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Queue", "id": 20, "codec": "object", "class": "ProductionQueue"},
@@ -5139,7 +5139,7 @@
     },
     {
       "name": "ProductionItem",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131735,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5203,7 +5203,7 @@
     },
     {
       "name": "ProductionSettings",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Gold", "id": 10, "codec": "i32"},
@@ -5219,7 +5219,7 @@
       ]
     },
     {
-      "name": "ProductionTE",
+      "name": "ProductionTokenEvent",
       "parent": "TokenEvent",
       "id": 131736,
       "engines": ["game", "tactical", "campaign"],
@@ -5257,7 +5257,7 @@
     },
     {
       "name": "Race",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131586,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5278,7 +5278,7 @@
     },
     {
       "name": "RaceResource",
-      "parent": "EResource",
+      "parent": "EngineResource",
       "id": 131585,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5286,7 +5286,7 @@
         {"name": "RaceName", "id": 6, "codec": "string"},
         {"name": "Description", "id": 7, "codec": "string"},
         {"name": "ImageLibraryName", "id": 8, "codec": "string"},
-        {"name": "Alignments", "id": 9, "codec": "set", "set": "Alignment", "width": 1},
+        {"name": "Alignments", "id": 9, "codec": "set", "set": "Units.Alignment", "width": 1},
         {"name": "UnitIndexes", "id": 10, "codec": "stream", "payload": "UnitIndexList"},
         {"name": "SpecialUnitIndexes", "id": 11, "codec": "stream", "payload": "UnitIndexList"},
         {"name": "HeroUnitIndex", "id": 12, "codec": "i32"},
@@ -5300,14 +5300,14 @@
       "properties": []
     },
     {
-      "name": "RaidAG",
+      "name": "RaidAIGroup",
       "parent": "AIGroup",
       "id": 136293,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "RaidAGC",
+      "name": "RaidAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -5319,15 +5319,15 @@
       "properties": []
     },
     {
-      "name": "RaiseTerrainTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "RaiseTerrainTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135946,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
       "name": "RaisedMountain",
-      "parent": "ILTerrainMO",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 131434,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5338,7 +5338,7 @@
     },
     {
       "name": "RaisedMountain.Resource",
-      "parent": "ILTerrainMOR",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 131435,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -5350,8 +5350,8 @@
       "properties": []
     },
     {
-      "name": "RangedAttackCA",
-      "parent": "DamageCA",
+      "name": "RangedAttackCombatAction",
+      "parent": "DamageCombatAction",
       "id": 131753,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5359,8 +5359,8 @@
       ]
     },
     {
-      "name": "RangedPathHS",
-      "parent": "FixedVisibleHS",
+      "name": "RangedPathHexSprite",
+      "parent": "FixedVisibleHexSprite",
       "id": 2228485,
       "properties": []
     },
@@ -5383,8 +5383,8 @@
       "properties": []
     },
     {
-      "name": "RecallSpiritCA",
-      "parent": "ExclusiveCombatSpellCA",
+      "name": "RecallSpiritCombatAction",
+      "parent": "ExclusiveCombatSpellCombatAction",
       "id": 131781,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -5404,14 +5404,14 @@
       "properties": []
     },
     {
-      "name": "RefugeAG",
+      "name": "RefugeAIGroup",
       "parent": "AIGroup",
       "id": 136289,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "RefugeAGC",
+      "name": "RefugeAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -5423,8 +5423,8 @@
       "properties": []
     },
     {
-      "name": "RejuvenateTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "RejuvenateTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135952,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -5437,7 +5437,7 @@
     },
     {
       "name": "RemotePlayer",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131682,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5455,7 +5455,7 @@
       "properties": []
     },
     {
-      "name": "ResearchSpellAIPA",
+      "name": "ResearchSpellAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
@@ -5487,7 +5487,7 @@
     },
     {
       "name": "RoadControl",
-      "parent": "MORTerrainControl",
+      "parent": "MapObjectResourceTerrainControl",
       "id": 80,
       "properties": []
     },
@@ -5519,8 +5519,8 @@
       "properties": []
     },
     {
-      "name": "SFX",
-      "parent": "EObject",
+      "name": "Sfx",
+      "parent": "EngineObject",
       "id": 2162689,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5528,14 +5528,14 @@
       ]
     },
     {
-      "name": "SFXLibrary",
+      "name": "SfxLibrary",
       "parent": "ENode",
       "id": 2162691,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "SFXSequence",
+      "name": "SfxSequence",
       "parent": "ENode",
       "id": 2162690,
       "engines": ["game", "tactical", "campaign"],
@@ -5544,7 +5544,7 @@
       ]
     },
     {
-      "name": "SMTPEventLog",
+      "name": "SmtpEventLog",
       "parent": "EventLog",
       "id": 80,
       "properties": []
@@ -5568,7 +5568,7 @@
       "properties": []
     },
     {
-      "name": "SaveGameTE",
+      "name": "SaveGameTokenEvent",
       "parent": "TokenEvent",
       "id": 135444,
       "engines": ["game", "tactical", "campaign"],
@@ -5577,27 +5577,27 @@
       ]
     },
     {
-      "name": "ScorcherAG",
-      "parent": "AbstractBehaviorAG",
+      "name": "ScorcherAIGroup",
+      "parent": "BehaviorAIGroup",
       "id": 136291,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "ScorcherAGC",
-      "parent": "AbstractBehaviorAGC",
+      "name": "ScorcherAIGroupControl",
+      "parent": "BehaviorAIGroupControl",
       "id": 80,
       "properties": []
     },
     {
-      "name": "ScoutAG",
+      "name": "ScoutAIGroup",
       "parent": "AIGroup",
       "id": 136277,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "ScoutAGC",
+      "name": "ScoutAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -5621,8 +5621,8 @@
       "properties": []
     },
     {
-      "name": "SelfDestructCA",
-      "parent": "DamageCA",
+      "name": "SelfDestructCombatAction",
+      "parent": "DamageCombatAction",
       "id": 131764,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -5635,7 +5635,7 @@
     },
     {
       "name": "SetupPackage",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131681,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5723,33 +5723,33 @@
       "properties": []
     },
     {
-      "name": "SimultaniousPlayerControl",
+      "name": "SimultaneousPlayerControl",
       "parent": "PlayerControl",
       "id": 131665,
       "properties": []
     },
     {
-      "name": "SingleCombatHexagon",
+      "name": "SingleCombatHex",
       "parent": "AbstractHexagon",
       "id": 2229534,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "SingleCombatHexagon.Resource",
+      "name": "SingleCombatHex.Resource",
       "parent": "AbstractHexagonResource",
       "id": 2229535,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "SingleHS",
-      "parent": "HexagonSprite",
+      "name": "SingleHexSprite",
+      "parent": "HexSprite",
       "id": 65872,
       "properties": []
     },
     {
-      "name": "SingleTargetCA",
+      "name": "SingleTargetCombatAction",
       "parent": "CombatAction",
       "id": 80,
       "properties": [
@@ -5759,15 +5759,15 @@
       ]
     },
     {
-      "name": "SkirmishAG",
-      "parent": "AbstractBehaviorAG",
+      "name": "SkirmishAIGroup",
+      "parent": "BehaviorAIGroup",
       "id": 136294,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "SkirmishAGC",
-      "parent": "AbstractBehaviorAGC",
+      "name": "SkirmishAIGroupControl",
+      "parent": "BehaviorAIGroupControl",
       "id": 80,
       "properties": []
     },
@@ -5778,8 +5778,8 @@
       "properties": []
     },
     {
-      "name": "SlowCA",
-      "parent": "ExclusiveCombatSpellCA",
+      "name": "SlowCombatAction",
+      "parent": "ExclusiveCombatSpellCombatAction",
       "id": 131792,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -5792,7 +5792,7 @@
     },
     {
       "name": "SmokeCloud",
-      "parent": "MultiHexMO",
+      "parent": "MultiHexMapObject",
       "id": 135746,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5812,7 +5812,7 @@
     },
     {
       "name": "SmokeCloud.Resource",
-      "parent": "MultiHexMOR",
+      "parent": "MultiHexMapObjectResource",
       "id": 135747,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -5830,8 +5830,8 @@
       "properties": []
     },
     {
-      "name": "Songlist",
-      "parent": "EObject",
+      "name": "SongList",
+      "parent": "EngineObject",
       "id": 2162692,
       "properties": [
         {"name": "Songs", "id": 10, "codec": "strings"}
@@ -5839,11 +5839,11 @@
     },
     {
       "name": "Spell",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "SpellText", "id": 10, "codec": "strings"},
-        {"name": "CastSounds", "id": 11, "codec": "object", "class": "SFXLibrary"},
+        {"name": "CastSounds", "id": 11, "codec": "object", "class": "SfxLibrary"},
         {"name": "CastImages", "id": 12, "codec": "stream", "payload": "ImageSequenceList"},
         {"name": "BaseManaCost", "id": 13, "codec": "i32"},
         {"name": "ManaUpkeep", "id": 14, "codec": "i32"},
@@ -5864,7 +5864,7 @@
     },
     {
       "name": "SpellCaster",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -5876,14 +5876,14 @@
     },
     {
       "name": "SpellControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "Spells", "dynamic": 10, "codec": "object", "class": "Spell", "slotBase": 10}
       ]
     },
     {
-      "name": "SpellTE",
+      "name": "SpellTokenEvent",
       "parent": "TokenEvent",
       "id": 135936,
       "engines": ["game", "tactical", "campaign"],
@@ -5929,7 +5929,7 @@
     },
     {
       "name": "StartupSongList",
-      "parent": "Songlist",
+      "parent": "SongList",
       "id": 2162692,
       "properties": []
     },
@@ -5964,8 +5964,8 @@
       "properties": []
     },
     {
-      "name": "StormSpellTE",
-      "parent": "SpellTE",
+      "name": "StormSpellTokenEvent",
+      "parent": "SpellTokenEvent",
       "id": 135937,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5981,8 +5981,8 @@
       "properties": []
     },
     {
-      "name": "StrikeCA",
-      "parent": "DamageCA",
+      "name": "StrikeCombatAction",
+      "parent": "DamageCombatAction",
       "id": 131754,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -5997,7 +5997,7 @@
     },
     {
       "name": "Structure",
-      "parent": "FixedILTerrainMO",
+      "parent": "FixedImageLibraryTerrainMapObject",
       "id": 131914,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6007,7 +6007,7 @@
       ]
     },
     {
-      "name": "StructureAIPA",
+      "name": "StructureAIPlayerAction",
       "parent": "AIPlayerAction",
       "id": 80,
       "properties": []
@@ -6020,7 +6020,7 @@
     },
     {
       "name": "StructureControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "NextID", "id": 20, "codec": "i32"},
@@ -6028,20 +6028,20 @@
       ]
     },
     {
-      "name": "StructurePhase1AIPA",
-      "parent": "StructureAIPA",
+      "name": "StructurePhase1AIPlayerAction",
+      "parent": "StructureAIPlayerAction",
       "id": 80,
       "properties": []
     },
     {
-      "name": "StructurePhase2AIPA",
-      "parent": "StructureAIPA",
+      "name": "StructurePhase2AIPlayerAction",
+      "parent": "StructureAIPlayerAction",
       "id": 80,
       "properties": []
     },
     {
       "name": "StructureResource",
-      "parent": "FixedILTerrainMOR",
+      "parent": "FixedImageLibraryTerrainMapObjectResource",
       "id": 131915,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6054,12 +6054,12 @@
     },
     {
       "name": "StructureShadow",
-      "parent": "HexagonSprite",
+      "parent": "HexSprite",
       "id": 65872,
       "properties": []
     },
     {
-      "name": "StructureTE",
+      "name": "StructureTokenEvent",
       "parent": "TokenEvent",
       "id": 135440,
       "engines": ["game", "tactical", "campaign"],
@@ -6082,8 +6082,8 @@
       "properties": []
     },
     {
-      "name": "SubMove",
-      "parent": "EObject",
+      "name": "PathFindingStep",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
@@ -6094,14 +6094,14 @@
       "properties": []
     },
     {
-      "name": "SuicidalAG",
+      "name": "SuicidalAIGroup",
       "parent": "AIGroup",
       "id": 136276,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "SuicidalAGC",
+      "name": "SuicidalAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -6179,8 +6179,8 @@
       "properties": []
     },
     {
-      "name": "SummonSpellTE",
-      "parent": "SpellTE",
+      "name": "SummonSpellTokenEvent",
+      "parent": "SpellTokenEvent",
       "id": 135947,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6212,7 +6212,7 @@
       "properties": []
     },
     {
-      "name": "SyncTE",
+      "name": "SyncTokenEvent",
       "parent": "TokenEvent",
       "id": 1365,
       "engines": ["game", "tactical", "campaign"],
@@ -6228,20 +6228,20 @@
       "properties": []
     },
     {
-      "name": "TacticalCombatHighPrayerCA",
-      "parent": "ExclusiveCombatSpellCA",
+      "name": "TacticalBattleHighPrayerCombatAction",
+      "parent": "ExclusiveCombatSpellCombatAction",
       "id": 131786,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "TacticalCombatPlayer",
+      "name": "TacticalBattlePlayer",
       "parent": "CombatPlayer",
       "id": 131744,
       "properties": []
     },
     {
-      "name": "TacticalCombatTerrorCA",
+      "name": "TacticalBattleTerrorCombatAction",
       "parent": "CombatAction",
       "id": 131785,
       "engines": ["game", "tactical", "campaign"],
@@ -6253,14 +6253,14 @@
       ]
     },
     {
-      "name": "TacticalCombatUnit",
+      "name": "TacticalBattleUnit",
       "parent": "CombatUnit",
       "id": 131745,
       "properties": []
     },
     {
-      "name": "TacticalCombatUnitHS",
-      "parent": "UnitHS",
+      "name": "TacticalBattleUnitHexSprite",
+      "parent": "UnitHexSprite",
       "id": 2228484,
       "properties": []
     },
@@ -6284,14 +6284,14 @@
       "properties": []
     },
     {
-      "name": "TerminateCombatTE",
+      "name": "TerminateCombatTokenEvent",
       "parent": "TokenEvent",
       "id": 2236422,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "TerminatePlayerTE",
+      "name": "TerminatePlayerTokenEvent",
       "parent": "TokenEvent",
       "id": 131836,
       "engines": ["game", "tactical", "campaign"],
@@ -6300,14 +6300,14 @@
       ]
     },
     {
-      "name": "TerrainMO",
-      "parent": "MultiHexMO",
+      "name": "TerrainMapObject",
+      "parent": "MultiHexMapObject",
       "id": 131430,
       "properties": []
     },
     {
-      "name": "TerrainMOR",
-      "parent": "MultiHexMOR",
+      "name": "TerrainMapObjectResource",
+      "parent": "MultiHexMapObjectResource",
       "id": 131431,
       "properties": [
         {"name": "TerrainType", "id": 17, "codec": "u8"},
@@ -6328,7 +6328,7 @@
     },
     {
       "name": "TextControlItem",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131738,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6348,7 +6348,7 @@
     },
     {
       "name": "TokenEvent",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 1361,
       "properties": [
         {"name": "TokenCounter", "id": 10, "codec": "i32"}
@@ -6356,7 +6356,7 @@
     },
     {
       "name": "TokenEventList",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 1362,
       "properties": [
         {"name": "List", "id": 5, "codec": "object", "class": "EReferenceNode"}
@@ -6378,12 +6378,12 @@
       "properties": []
     },
     {
-      "name": "TornadoTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "TornadoTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135972,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ArmyID", "id": 40, "codec": "created", "family": "ArmyID"}
+        {"name": "ArmyID", "id": 40, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
@@ -6421,13 +6421,13 @@
       "properties": []
     },
     {
-      "name": "TownGateTE",
-      "parent": "CityTargetSpellTE",
+      "name": "TownGateTokenEvent",
+      "parent": "CityTargetSpellTokenEvent",
       "id": 135950,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "TeleportLocation", "id": 30, "codec": "i32"},
-        {"name": "ArmyID", "id": 31, "codec": "created", "family": "ArmyID"}
+        {"name": "ArmyID", "id": 31, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
@@ -6437,14 +6437,14 @@
       "properties": []
     },
     {
-      "name": "TransportAG",
+      "name": "TransportAIGroup",
       "parent": "AIGroup",
       "id": 136295,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "TransportAGC",
+      "name": "TransportAIGroupControl",
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
@@ -6456,8 +6456,8 @@
       "properties": []
     },
     {
-      "name": "TransportMEC",
-      "parent": "AIMoveExecuterControl",
+      "name": "TransportMoveExecutorControl",
+      "parent": "AIMoveExecutorControl",
       "id": 80,
       "properties": []
     },
@@ -6475,7 +6475,7 @@
     },
     {
       "name": "TurnInfoItem",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131739,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6505,15 +6505,15 @@
       "properties": []
     },
     {
-      "name": "TurnUndeadCA",
-      "parent": "DamageCA",
+      "name": "TurnUndeadCombatAction",
+      "parent": "DamageCombatAction",
       "id": 131769,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "TurnUndeadSpellCA",
-      "parent": "CombatSpellCA",
+      "name": "TurnUndeadSpellCombatAction",
+      "parent": "CombatSpellCombatAction",
       "id": 131788,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -6526,7 +6526,7 @@
     },
     {
       "name": "TutorialControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "ShownMessages", "id": 20, "codec": "int-list"}
@@ -6561,8 +6561,8 @@
       "properties": []
     },
     {
-      "name": "UnHolyGround",
-      "parent": "ILTerrainMO",
+      "name": "UnholyGround",
+      "parent": "ImageLibraryTerrainMapObject",
       "id": 131985,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6572,8 +6572,8 @@
       ]
     },
     {
-      "name": "UnHolyGround.Resource",
-      "parent": "ILTerrainMOR",
+      "name": "UnholyGround.Resource",
+      "parent": "ImageLibraryTerrainMapObjectResource",
       "id": 131986,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -6603,15 +6603,15 @@
       "properties": []
     },
     {
-      "name": "UnholyGroundSpellTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "UnholyGroundSpellTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135943,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
       "name": "Unit",
-      "parent": "AbstractUnit",
+      "parent": "Troop",
       "id": 131603,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6623,7 +6623,7 @@
     },
     {
       "name": "UnitControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": [
         {"name": "NextUnitID", "id": 10, "codec": "i32"}
@@ -6658,8 +6658,8 @@
       ]
     },
     {
-      "name": "UnitGFXResource",
-      "parent": "EResource",
+      "name": "UnitGraphicsResource",
+      "parent": "EngineResource",
       "id": 131600,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6668,11 +6668,11 @@
         {"name": "Name", "id": 7, "codec": "string"},
         {"name": "FaceIndex", "id": 8, "codec": "i32"},
         {"name": "_UnitGFXResource_30", "id": 10, "codec": "u8", "raw": true},
-        {"name": "SFXLibrary0", "id": 15, "codec": "object", "class": "SFXLibrary"},
-        {"name": "SFXLibrary1", "id": 16, "codec": "object", "class": "SFXLibrary"},
-        {"name": "SFXLibrary2", "id": 17, "codec": "object", "class": "SFXLibrary"},
-        {"name": "SFXLibrary3", "id": 18, "codec": "object", "class": "SFXLibrary"},
-        {"name": "SFXLibrary4", "id": 19, "codec": "object", "class": "SFXLibrary"}
+        {"name": "SFXLibrary0", "id": 15, "codec": "object", "class": "SfxLibrary"},
+        {"name": "SFXLibrary1", "id": 16, "codec": "object", "class": "SfxLibrary"},
+        {"name": "SFXLibrary2", "id": 17, "codec": "object", "class": "SfxLibrary"},
+        {"name": "SFXLibrary3", "id": 18, "codec": "object", "class": "SfxLibrary"},
+        {"name": "SFXLibrary4", "id": 19, "codec": "object", "class": "SfxLibrary"}
       ]
     },
     {
@@ -6682,8 +6682,8 @@
       "properties": []
     },
     {
-      "name": "UnitHS",
-      "parent": "HexagonSprite",
+      "name": "UnitHexSprite",
+      "parent": "HexSprite",
       "id": 131604,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6698,13 +6698,13 @@
     },
     {
       "name": "UnitPositionControl",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 80,
       "properties": []
     },
     {
-      "name": "UnitPositionHS",
-      "parent": "SingleHS",
+      "name": "UnitPositionHexSprite",
+      "parent": "SingleHexSprite",
       "id": 2228483,
       "engines": ["tactical"],
       "properties": [
@@ -6715,7 +6715,7 @@
     },
     {
       "name": "UnitProduction",
-      "parent": "EObject",
+      "parent": "EngineObject",
       "id": 131737,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6731,13 +6731,13 @@
     },
     {
       "name": "UnitResource",
-      "parent": "AbstractUnitResource",
+      "parent": "TroopResource",
       "id": 131602,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Name", "id": 10, "codec": "string"},
         {"name": "Nickname", "id": 11, "codec": "string"},
-        {"name": "Alignment", "id": 12, "codec": "enum", "enum": "Alignment", "width": 1, "signed": false},
+        {"name": "Alignment", "id": 12, "codec": "enum", "enum": "Units.Alignment", "width": 1, "signed": false},
         {"name": "Race", "id": 13, "codec": "u8"},
         {"name": "Attack", "id": 14, "codec": "u8"},
         {"name": "Defense", "id": 15, "codec": "u8"},
@@ -6772,14 +6772,14 @@
       "properties": []
     },
     {
-      "name": "UnitSelectorAAI",
-      "parent": "ActivateAbilityInfo",
+      "name": "UnitSelectionActivation",
+      "parent": "AbilityActivation",
       "id": 80,
       "properties": []
     },
     {
-      "name": "UnitShadowHS",
-      "parent": "HexagonSprite",
+      "name": "UnitShadowHexSprite",
+      "parent": "HexSprite",
       "id": 65872,
       "properties": []
     },
@@ -6790,7 +6790,7 @@
       "properties": []
     },
     {
-      "name": "UnitSpellCA",
+      "name": "UnitSpellCombatAction",
       "parent": "CombatAction",
       "id": 131779,
       "engines": ["game", "tactical", "campaign"],
@@ -6809,8 +6809,8 @@
       "properties": []
     },
     {
-      "name": "UnitSpellTE",
-      "parent": "SpellTE",
+      "name": "UnitSpellTokenEvent",
+      "parent": "SpellTokenEvent",
       "id": 135944,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -6826,7 +6826,7 @@
       "properties": []
     },
     {
-      "name": "UpdateHeaderCA",
+      "name": "UpdateHeaderCombatAction",
       "parent": "CombatAction",
       "id": 131766,
       "engines": ["game", "tactical", "campaign"],
@@ -6835,7 +6835,7 @@
       ]
     },
     {
-      "name": "UpdateSignTE",
+      "name": "UpdateSignTokenEvent",
       "parent": "TokenEvent",
       "id": 131343,
       "engines": ["game", "tactical", "campaign"],
@@ -6847,15 +6847,15 @@
       ]
     },
     {
-      "name": "UpperIsometricHexagon",
-      "parent": "IsometricHexagon",
+      "name": "UpperIsometricHex",
+      "parent": "IsometricHex",
       "id": 131440,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "UpperIsometricHexagon.Resource",
-      "parent": "IsometricHexagonResource",
+      "name": "UpperIsometricHex.Resource",
+      "parent": "IsometricHexResource",
       "id": 131441,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
@@ -6897,17 +6897,17 @@
       "properties": []
     },
     {
-      "name": "VortexTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "VortexTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135973,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ArmyID", "id": 40, "codec": "created", "family": "ArmyID"}
+        {"name": "ArmyID", "id": 40, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
-      "name": "WMCampaign",
-      "parent": "AoWCampaign",
+      "name": "WorldMapCampaign",
+      "parent": "Campaign",
       "id": 2248704,
       "engines": ["campaign"],
       "properties": [
@@ -6915,8 +6915,8 @@
       ]
     },
     {
-      "name": "WMCampaignScenario",
-      "parent": "AoWCampaignScenario",
+      "name": "WorldMapCampaignScenario",
+      "parent": "CampaignScenario",
       "id": 2248705,
       "engines": ["campaign"],
       "properties": [
@@ -6933,8 +6933,8 @@
       ]
     },
     {
-      "name": "WMCampaignScenarioPage",
-      "parent": "EObject",
+      "name": "CampaignScenarioPage",
+      "parent": "EngineObject",
       "id": 2248706,
       "engines": ["campaign"],
       "properties": [
@@ -6963,8 +6963,8 @@
       "properties": []
     },
     {
-      "name": "WallUnit",
-      "parent": "AbstractUnit",
+      "name": "WallCombatant",
+      "parent": "Troop",
       "id": 80,
       "properties": []
     },
@@ -6981,13 +6981,13 @@
       "properties": []
     },
     {
-      "name": "WarpPartyTE",
-      "parent": "SpellTE",
+      "name": "WarpPartyTokenEvent",
+      "parent": "SpellTokenEvent",
       "id": 135948,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "WarpLocation", "id": 30, "codec": "i32"},
-        {"name": "ArmyID", "id": 31, "codec": "created", "family": "ArmyID"}
+        {"name": "ArmyID", "id": 31, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
@@ -7003,8 +7003,8 @@
       "properties": []
     },
     {
-      "name": "WatcherHS",
-      "parent": "SingleHS",
+      "name": "WatcherHexSprite",
+      "parent": "SingleHexSprite",
       "id": 132989,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -7012,22 +7012,22 @@
       ]
     },
     {
-      "name": "WatcherTE",
-      "parent": "GlobalTargetSpellTE",
+      "name": "WatcherTokenEvent",
+      "parent": "GlobalTargetSpellTokenEvent",
       "id": 135963,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
-      "name": "WaterCombatHexagon",
-      "parent": "AoWWaterHexagon",
+      "name": "WaterCombatHex",
+      "parent": "WaterHex",
       "id": 2229655,
       "engines": ["tactical"],
       "properties": []
     },
     {
-      "name": "WaterCombatHexagon.Resource",
-      "parent": "AoWWaterHexagon.Resource",
+      "name": "WaterCombatHex.Resource",
+      "parent": "WaterHex.Resource",
       "id": 2229656,
       "engines": ["tactical"],
       "properties": []
@@ -7078,8 +7078,8 @@
       "properties": []
     },
     {
-      "name": "WebCA",
-      "parent": "SingleTargetCA",
+      "name": "WebCombatAction",
+      "parent": "SingleTargetCombatAction",
       "id": 131768,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
@@ -7130,14 +7130,14 @@
       "properties": []
     },
     {
-      "name": "WorldFXHS",
-      "parent": "FixedVisibleHS",
+      "name": "WorldEffectHexSprite",
+      "parent": "FixedVisibleHexSprite",
       "id": 65872,
       "properties": []
     },
     {
-      "name": "TfxHS",
-      "parent": "FixedVisibleHS",
+      "name": "BattleEffectSprite",
+      "parent": "FixedVisibleHexSprite",
       "id": 2228486,
       "properties": []
     }

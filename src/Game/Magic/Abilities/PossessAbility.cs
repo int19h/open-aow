@@ -23,11 +23,11 @@ public partial class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2737
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
-        PossessCA Action;
-        StrikeCA Strike;
+        PossessCombatAction Action;
+        StrikeCombatAction Strike;
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
         Action = CreatePossessCA(Source, Target);
@@ -47,7 +47,7 @@ public partial class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2673
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         float Probability;
@@ -65,7 +65,7 @@ public partial class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2686
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         float Probability;
         if (WallSituation == WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
@@ -99,7 +99,7 @@ public partial class PossessAbility : TouchAbility
     // AoWAb.PAS:2664
     public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
     {
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Strength = Round((double)(unit.GetAttack() * 25) * 0.1);
             Types = Set<DamageType>.Of(DamageType.None);
@@ -148,7 +148,7 @@ public partial class PossessAbility : TouchAbility
     public override bool CanTouch(CombatObject Source, CombatObject Target) => base.CanTouch(Source, Target) && (Source is CombatUnit && Target is CombatUnit && !Target.GetAbilityEnabled(106) && ((CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine && !(((CombatUnit)Target).FUnit is Leader));
 
     // AoWAb.PAS:2656
-    public override bool CanTouchUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool CanTouchUnit(Troop Source, Troop Target)
     {
         bool Result = base.CanTouchUnit(Source, Target);
         // { Original excludes humanoids here, but machines in CanTouch. }
@@ -156,9 +156,9 @@ public partial class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2640
-    public PossessCA CreatePossessCA(CombatObject Source, CombatObject Target)
+    public PossessCombatAction CreatePossessCA(CombatObject Source, CombatObject Target)
     {
-        PossessCA Result = new PossessCA(null);
+        PossessCombatAction Result = new PossessCombatAction(null);
         var combatTouchRole = CombatTouchRole((CombatUnit)Source, Target);
         Result.Initialize(Source.FID, Target.FID, combatTouchRole);
         return Result;

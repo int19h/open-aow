@@ -109,7 +109,7 @@ Two Delphi features need a design, not a mapping:
    (`is`, `ClassName`, equality, `InheritsFrom`) use `System.Type`. Dispatch on a class (virtual
    class methods, virtual constructors through a class reference, 15 `class of` types) uses a
    metaclass object that exists only for the classes that need one: 1,014 of 1,307 under the
-   survey of 2026-10-25, almost all through `EObject.ClassID` (Delphi `TEObject`), with nothing emitted per class
+   survey of 2026-10-25, almost all through `EngineObject.ClassID` (Delphi `TEObject`), with nothing emitted per class
    beyond the class methods the source declares (`specs/transpiler.md` 4.4). In Delphi a virtual
    class method called on an instance dispatches on the instance's run-time class, which the
    survey found at 222 sites, so instances reach their metaclass through `ClassType`. In the second
@@ -120,12 +120,12 @@ Two Delphi features need a design, not a mapping:
    and 51 address-taking sites on 20 of them: 17 are synchronous aliases that live for one call
    and become cells, the rest are array elements, allocated blocks and views, each with a
    mechanical mapping (`specs/transpiler.md` 4.3). Of the eight variant records, six are byte
-   unions and became explicit-layout structs in the first stage. `EMsg` (Delphi `TEMsg`) and `ShowInfo` (Delphi `TShowInfo`) overlay a
+   unions and became explicit-layout structs in the first stage. `EngineMessage` (Delphi `TEMsg`) and `ShowInfo` (Delphi `TShowInfo`) overlay a
    reference with an integer, and the first stage gave that slot the shim's integer-or-reference
-   value, `IntOrRef`. Milestone 9.6 (`specs/unions-and-kinds.md`) settled all eight. `XYL` (Delphi `TXYL`),
-   `PaletteEntry` (Delphi `TPaletteEntry`) and `DefenseRequirements` (Delphi `TDefenseRequirements`) stay explicit-layout structs, since game logic reads
+   value, `IntOrRef`. Milestone 9.6 (`specs/unions-and-kinds.md`) settled all eight. `MapCoordinate` (Delphi `TXYL`),
+   `Entry` (Delphi `TPaletteEntry`) and `DefenseRequirements` (Delphi `TDefenseRequirements`) stay explicit-layout structs, since game logic reads
    both views. The three combat-info buffers of `AoWTC` became plain `AbilityCombatInfo` (Delphi `TAbilityCombatInfo`) locals,
-   because their second arm is never read. The message slots of `EMsg` and `MapFieldMsg` (Delphi `TMapFieldMsg`) became
+   because their second arm is never read. The message slots of `EngineMessage` and `MapFieldMessage` (Delphi `TMapFieldMsg`) became
    the union `MsgArg` and the blend slot of `ShowInfo` the union `BlendValue` (section 9).
 
 ### Names
@@ -139,6 +139,10 @@ A name that clashes with a .NET type is a reason to use the .NET type. A distinc
 Own-format documents store the current names. The loader accepts an older stored name through `src/Rtl/Delphi/names.csv`. A name that comes from an original game file stays the Delphi string. Form class names in the language dictionaries are that case.
 
 A Delphi citation in these documents keeps the Delphi name. That is a Delphi unit, a Delphi routine, a quoted Delphi source line, or a `.pas` or `.dfm` reference. Where prose names a port type and the Delphi name helps a reader find the source, the C# name comes first and the Delphi name follows once in parentheses.
+
+Names follow the .NET identifier-names guide. A type, a member and a constant use PascalCase. A parameter and a local use camelCase. A private instance field uses `_camelCase` and a private static field uses `s_camelCase`. Names are whole words. The short words kept in this project are Aow, Hex, Info, Id, IO, UI, AI, Tcp, Cpu and the file format names. A two-letter acronym is uppercase. A longer acronym is Pascal-cased.
+
+A ported type drops the Delphi T prefix and any recovery prefix. A generic parameter stays `TFoo`. The Delphi prefix still marks a type that is not fully ported. A type uses the CLR name when that name is the meaning, as in `Int32` and `SByte`. A nested type does not repeat its owner. A metaclass keeps `Class` at the end of its name. A type name has no `Abstract` prefix. The hex and road bases keep the names issue 200 owns, which are `AbstractHexagon`, `AbstractBorderHexagon`, `AbstractRoad`, `AbstractHexagonResource`, `AbstractBorderHexagonResource` and `AbstractRoadResource`.
 
 ## 3. Transpile strategy
 
@@ -170,7 +174,7 @@ rules code with editor dialogs. It was reviewed against `doc/modules.md` and the
 
 | set | units | lines | treatment |
 |---|---|---|---|
-| engine | Engine, inc/HashTab, EList, FMemStr, PlugInM | 11,900 | transpile. The clipboard and popup menu members of `EComponent` (Delphi `TEComponent`) get stub overrides |
+| engine | Engine, inc/HashTab, EList, FMemStr, PlugInM | 11,900 | transpile. The clipboard and popup menu members of `EngineComponent` (Delphi `TEComponent`) get stub overrides |
 | zlib | zlib.pas and the C object files it links | 500 | rewrite: the unit is a binding to C code, see open question 5 |
 | engine, design time | ImgLComp, EResGrid, DebMDlg | 1,800 | drop (editor property grids and a debug dialog) |
 | image library | ImageLib core classes, HashTabU | 8,800 | transpile. 11 routines with inline assembly get hand-written overrides |
@@ -181,21 +185,21 @@ rules code with editor dialogs. It was reviewed against `doc/modules.md` and the
 | game UI toolkit | aowInt, except AoWDialogForm and AOWInterfaceEditor; AOWTools | 11,900 | transpile. The two excluded units are design-time only |
 | game screens | AoW.exe: the 77 data module units, E1, E2 and E3 flow units | 27,000 | transpile. The form files become layout data, see below |
 | host window | AoW.exe: AoWUnit (`MainForm`) | 500 | rewrite as the platform host |
-| sound, rules side | Sound (`SoundSystem` (Delphi `TSoundSystem`), `SFX` (Delphi `TSFX`), `SFXLibrary` (Delphi `TSFXLibrary`), `Songlist` (Delphi `TSonglist`)) | 1,600 | transpile, minus the manager list boxes |
+| sound, rules side | Sound (`SoundSystem` (Delphi `TSoundSystem`), `Sfx` (Delphi `TSFX`), `SfxLibrary` (Delphi `TSFXLibrary`), `SongList` (Delphi `TSonglist`)) | 1,600 | transpile, minus the manager list boxes |
 | sound, backend | GalSndS, Galaxy, DSound | 1,000 | rewrite: a new `SoundSystem` descendant on SDL audio and a module player |
 | sound, editor | SFXEdDlg, SpinEdit | 300 | drop |
 | graphics | GFXE, GFXDiag, DisplayC | 16,100 | transpile the Pascal surface, clipping, palette and blend table code of GFXE and the display control's loop of DisplayC; rewrite the 28 assembler blitters; replace the DIB and DirectDraw surfaces with memory surfaces of the same names and the eight display controllers with one SDL presenter; drop GFXDiag and the DirectDraw binding. `specs/graphics.md` |
 | zoom display | Adcpack | 400 | drop: nothing in the game or the editor imports it |
-| ability plug-in | AbilityP (AbilPack) | 500 | drop: a `PlugIn` (Delphi `TPlugIn`) package that only `LoadExternalPlugIns` could load from a `PLUGINS` directory, which the shipped game does not have; neither executable loads it statically (`data/initialization-order.json`) |
+| ability plug-in | AbilityP (AbilPack) | 500 | drop: a `Plugin` (Delphi `TPlugIn`) package that only `LoadExternalPlugIns` could load from a `PLUGINS` directory, which the shipped game does not have; neither executable loads it statically (`data/initialization-order.json`) |
 | effects | aowFX | 300 | transpile (pure particle code) |
-| network, protocol | NetworkE | 1,800 | transpile (token protocol on `EObject`) |
+| network, protocol | NetworkE | 1,800 | transpile (token protocol on `EngineObject`) |
 | network, transport | aowDPlay | 2,100 | rewrite on sockets |
 | video | Video, VFW | 1,000 | rewrite (one `VideoPlayer` (Delphi `TVideoPlayer`) component, intro and ending only) |
 | editor | AoWEd.exe (88 units), ILToolsP | 15,200 | later, separate project |
 | third party | Localize, Vcladdon, ims | | replace, see below |
 
 Where aowInt ends and AoW.exe begins. aowInt is a widget toolkit of `Component` (Delphi `TComponent`) descendants
-(`AoWComponent` (Delphi `TAoWComponent`), `AOWControl` (Delphi `TAOWControl`), `AOWWindow` (Delphi `TAOWWindow`) and about 25 controls) that draw onto a `Surface` (Delphi `TSurface`)
+(`UIComponent` (Delphi `TAoWComponent`), `Control` (Delphi `TAOWControl`), `Window` (Delphi `TAOWWindow`) and about 25 controls) that draw onto a `Surface` (Delphi `TSurface`)
 and take mouse and key events from the host. Its only VCL dependencies are the `Component`
 streaming base, the types `ShiftState` (Delphi `TShiftState`), `MouseButton` (Delphi `TMouseButton`), `TColor` and `TCursor`, three uses of
 `Application` and the clipboard in `AoWEdit`. All of those go to the RTL shim. AoW.exe adds three
@@ -203,8 +207,8 @@ things on top of the toolkit:
 
 1. The 77 screens. Each is a `DataModule` descendant whose components (679 labels, 445 panels, 402
    images, 388 buttons and so on) are declared in a form file and bound to handler methods by name.
-   The form files reference two shared modules for fonts and interface images (`FontModule`, 1,184
-   references, and `IntGfxMod`, 2,690 references) and hold 62 Multilizer translator components.
+   The form files reference two shared modules for fonts and interface images (`UIFonts`, 1,184
+   references, and `UIGraphics`, 2,690 references) and hold 62 Multilizer translator components.
 2. The flow units (E1GameFlow, E2GameFlow, E3EventDialogs, E2WindowLayout, the Globals units),
    which open and close screens and route event log entries to dialogs.
 3. `MainForm`, the one VCL form. It owns the `Display` (Delphi `TDisplay`) control, switches between the full screen
@@ -219,7 +223,7 @@ host, since everything it does is window and input plumbing.
 
 The graphics contract. GFXE exports 193 routines and 37 types, but the code that stays uses a
 small part. The rules use 34 routines and 7 types, the UI 38 and 7, the image library 42 and 9.
-The surface description record `SurfaceDesc` (Delphi `TSurfaceDesc`) appears 334 times in the rules and is the center of
+The surface description record `LockedSurface` (Delphi `TSurfaceDesc`) appears 334 times in the rules and is the center of
 the contract. The rewritten layer must provide:
 
 - `Surface`, `DataSurface` (Delphi `TDataSurface`) and the surface the display owns, with lock, unlock, resize, restore
@@ -492,7 +496,7 @@ path, and C# assemblies stay desktop only.
 8. Editor. Decided on 2026-10-25: wanted, and out of scope for the first release. Whether it keeps
    the VCL form layout or moves onto the game's UI toolkit is decided when it is scheduled.
 9. Networking. Decided on 2026-10-25: multiplayer is wanted, and out of scope for the first
-   release. The engine's transport hook is two calls, `RemotePCC.OnSendData` (Delphi `TRemotePCC`) and
+   release. The engine's transport hook is two calls, `RemotePlayerCommunicationControl.OnSendData` (Delphi `TRemotePCC`) and
    `ReceiveDataPackage`, wired by `aowSetupEvents` to the DirectPlay component, which only
    `AoW.exe` uses (68 sites); the port ships a stand-in that reports no connections until
    `specs/networking.md` exists. The transport will be sockets.
@@ -536,7 +540,7 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   puns stay explicit-layout structs. Milestone 9.6 (`specs/unions-and-kinds.md`) applied the rule:
   - Three unions hold data closed by nature, each a custom `[Union]` struct that stores its value
     cases without boxing: `FormatArg` for the arguments of `Format` (`src/Rtl/Legacy/FormatArg.cs`, in
-    place of `TVarRec`), `MsgArg` for the slots of the engine messages `EMsg` and `MapFieldMsg`
+    place of `TVarRec`), `MsgArg` for the slots of the engine messages `EngineMessage` and `MapFieldMessage`
     (`src/Rtl/Legacy/MsgArg.cs`), and `BlendValue` for the percentage or table of `ShowInfo`
     (`src/Game/Draw/BlendValue.cs`).
   - Four kind families became virtual dispatch (section 6): structure and event log views, whose

@@ -242,7 +242,7 @@ public partial class CustomImageLibrary : Component
         int Reference = default;
         int StartPos;
         MemoryStream MS;
-        ILBHeader Header = default;
+        ImageLibraryHeader Header = default;
         int SubIndex;
         LibraryImage Image;
         FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
@@ -351,7 +351,7 @@ public partial class CustomImageLibrary : Component
         int StartPos;
         string SwapName;
         int I;
-        ILBHeader Header = default;
+        ImageLibraryHeader Header = default;
         StartPos = (int)(Stream.Position);
         SwapName = ExtractFilePath(RtlUnit.Application.ExeName) + "\\SWAP.$$$";
         Swap = OpenFile(SwapName, 65535);

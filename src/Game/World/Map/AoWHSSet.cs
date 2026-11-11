@@ -49,7 +49,7 @@ public partial class AoWHSSet : HSSet
     public AbilityControl FAbilityControl;
     public SpellControl FSpellControl;
     public MapObjectResourceList FCombatResources;
-    public HexagonControl FCombatHexagons;
+    public HexControl FCombatHexagons;
     public RoadControl FCombatRoads;
     public ImageSequenceList FImageSequences;
     public TextControl FTextControl;
@@ -157,8 +157,8 @@ public partial class AoWHSSet : HSSet
     {
         BitList Enabled;
         FCombatResources = new MapObjectResourceList(this);
-        FCombatResources.SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild));
-        FCombatHexagons = new HexagonControl(this);
+        FCombatResources.SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild));
+        FCombatHexagons = new HexControl(this);
         FCombatHexagons.MOClass = typeof(AbstractHexagon);
         FCombatRoads = new RoadControl(this);
         FCombatRoads.MOClass = typeof(AbstractRoad);
@@ -251,13 +251,13 @@ public partial class AoWHSSet : HSSet
         FAbilityControl = new AbilityControl(null);
         FSpellControl = new SpellControl(null);
         FTextControl = new TextControl(null);
-        FGeneralImages = ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "GENERAL.ILB");
-        FCursorImages = ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "CURSORS.ILB");
-        FCombatImages = ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "COMBAT.ILB");
+        FGeneralImages = ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
+        FCursorImages = ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
+        FCombatImages = ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
     }
 
     // Ability.PAS:206
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         FItemLibraries.MsgProc(ref Msg, Sender);
@@ -293,9 +293,9 @@ public partial class AoWHSSet : HSSet
     // Ability.PAS:109
     public int RetrieveHSSCRC()
     {
-        IntegerList CRCs;
+        Int32List CRCs;
         string Path;
-        CRCs = new IntegerList();
+        CRCs = new Int32List();
         Path = ExtractFilePath(GameTables.AoWEngine.HSSFileName);
         // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
         CRCs.Add(GetFileCRC(Path + "ABILITY.PFS", false));

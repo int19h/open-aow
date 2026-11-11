@@ -23,7 +23,7 @@ public partial class SummonBlackSpider : SummonSpell
     }
 
     // SummonSpells.pas:470
-    public override void SetupSummonSpellTE(SummonSpellTE Event)
+    public override void SetupSummonSpellTE(SummonSpellTokenEvent Event)
     {
         base.SetupSummonSpellTE(Event);
     }

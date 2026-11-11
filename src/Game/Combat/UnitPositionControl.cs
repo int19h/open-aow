@@ -7,10 +7,10 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
-// FPositions: packed XYL entries, eight per army position
-public partial class UnitPositionControl : EObject
+// FPositions: packed MapCoordinate entries, eight per army position
+public partial class UnitPositionControl : EngineObject
 {
-    public XYLList FPositions;
+    public MapCoordinateList FPositions;
 
     // AoWTC.pas:4943
     public override void Dispose()
@@ -23,15 +23,15 @@ public partial class UnitPositionControl : EObject
     // AoWTC.pas:4936
     public UnitPositionControl(ECustomNode owner) : base(owner)
     {
-        FPositions = new XYLList();
+        FPositions = new MapCoordinateList();
         var packXYL = HexGeometry.PackXYL(-1, -1, -1);
         FPositions.Default = packXYL;
     }
 
     // AoWTC.pas:4990
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
-        UnitPositionHS HS;
+        UnitPositionHexSprite HS;
         int X = default;
         int Y = default;
         int L;
@@ -40,13 +40,13 @@ public partial class UnitPositionControl : EObject
         {
             L = Msg.Data[1];
             HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
-            if (AoWCombatMap.Current.MapContainer.GetField(X, Y, L).TerrainType != 15)
+            if (CombatMap.Current.MapContainer.GetField(X, Y, L).TerrainType != 15)
             {
-                HS = (UnitPositionHS)AoWCombatMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
+                HS = (UnitPositionHexSprite)CombatMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
                 if (HS == null)
                 {
-                    HS = new UnitPositionHS(null);
-                    if (!AoWCombatMap.Current.PlaceHX(HS, X, Y, L))
+                    HS = new UnitPositionHexSprite(null);
+                    if (!CombatMap.Current.PlaceHX(HS, X, Y, L))
                     {
                         HS?.Dispose();
                         HS = null;
@@ -61,9 +61,9 @@ public partial class UnitPositionControl : EObject
     }
 
     // AoWTC.pas:4950
-    public XYL GetUnitPosition(int Position, int Index)
+    public MapCoordinate GetUnitPosition(int Position, int Index)
     {
-        XYL Result = default;
+        MapCoordinate Result = default;
         int I;
         I = Position * 8 + Index;
         if (I < FPositions.Count)
@@ -81,7 +81,7 @@ public partial class UnitPositionControl : EObject
     }
 
     // AoWTC.pas:4963
-    public void SetUnitPosition(int Position, int Index, XYL Value)
+    public void SetUnitPosition(int Position, int Index, MapCoordinate Value)
     {
         if (Position < 7 && Index < 8)
         {

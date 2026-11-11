@@ -29,8 +29,8 @@ public partial class RecallSpirit : CombatSpell
     // CombatSpells.pas:2008
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        RecallSpiritCA Action;
-        Action = new RecallSpiritCA(null);
+        RecallSpiritCombatAction Action;
+        Action = new RecallSpiritCombatAction(null);
         Action.FSourceID = Source.FID;
         Action.FTargetID = Target.FID;
         Action.FSucceeded = Target.FStatus.Contains(CombatObjectStatusElement.Destroyed);

@@ -17,14 +17,14 @@ public partial class AdjacentArmyList : ENode
     public AdjacentArmy GetAdjacentArmies(int Index) => (AdjacentArmy)FChildren.List[Index];
 
     // AIGroup.pas:5076
-    public int IndexOfLoc(XYL Location)
+    public int IndexOfLoc(MapCoordinate Location)
     {
         int Result = Count;
         Location.Flag = 0;
         while (Result != 0)
         {
             Result -= 1;
-            if (Unsafe.As<XYL, int>(ref ((AdjacentArmy)FChildren.List[Result]).FLocation) == Unsafe.As<XYL, int>(ref Location))
+            if (Unsafe.As<MapCoordinate, int>(ref ((AdjacentArmy)FChildren.List[Result]).FLocation) == Unsafe.As<MapCoordinate, int>(ref Location))
             {
                 return Result;
             }
@@ -56,14 +56,14 @@ public partial class AdjacentArmyList : ENode
     // AIGroup.pas:5106
     public bool GetAdjacent()
     {
-        XYLList Locations;
-        Locations = new XYLList();
+        MapCoordinateList Locations;
+        Locations = new MapCoordinateList();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             Locations.Add(GetAdjacentArmies(I).FLocation);
         }
 
-        bool Result = XYLList.LocationsConnected(Locations);
+        bool Result = MapCoordinateList.LocationsConnected(Locations);
         Locations?.Dispose();
         return Result;
     }

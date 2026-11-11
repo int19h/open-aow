@@ -452,7 +452,7 @@ public partial class ImageSequenceList : DelphiList
     // ImageLib.pas:9270
     // { Shows the layers of Index for Frame without looping; returns False when no layer has an
     //   image for Frame }
-    public bool Show(int Index, int X, int Y, int Frame, in SurfaceDesc SD)
+    public bool Show(int Index, int X, int Y, int Frame, in LockedSurface SD)
     {
         ImageSequence Sequence;
         int I;
@@ -504,7 +504,7 @@ public partial class ImageSequenceList : DelphiList
     }
 
     // ImageLib.pas:9311
-    public void ShowLooped(int Index, int X, int Y, int Frame, in SurfaceDesc SD)
+    public void ShowLooped(int Index, int X, int Y, int Frame, in LockedSurface SD)
     {
         ImageSequence Sequence;
         int I;
@@ -528,7 +528,7 @@ public partial class ImageSequenceList : DelphiList
     }
 
     // ImageLib.pas:9330
-    public void ShowLoopedEx(int Index, int X, int Y, int Frame, int Offset, in SurfaceDesc SD)
+    public void ShowLoopedEx(int Index, int X, int Y, int Frame, int Offset, in LockedSurface SD)
     {
         ImageSequence Sequence;
         int I;

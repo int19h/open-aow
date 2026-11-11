@@ -395,7 +395,7 @@ public partial class ImageSequence : IDisposable
 
         if (!IsEmpty(FImageLibraryName))
         {
-            FImageLibrary = FOwner.FILManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
+            FImageLibrary = FOwner.FILManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
         }
         else
         {
@@ -410,7 +410,7 @@ public partial class ImageSequence : IDisposable
         {
             if (!IsEmpty(FImageLibraryName))
             {
-                FOwner.FILManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
+                FOwner.FILManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
             }
 
             FImageLibrary = null;
@@ -501,10 +501,10 @@ public partial class ImageSequence : IDisposable
 
     internal static void BltImageSequence(ImageSequence Sequence, int DC, int X, int Y, in Rect R, int Frame, int BkColor)
     {
-        SurfaceDesc SD = default;
-        DIB16Surface Surface;
+        LockedSurface SD = default;
+        Dib16Surface Surface;
         int Index;
-        Surface = new DIB16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565);
+        Surface = new Dib16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565);
         Surface.Cls(BkColor);
         Surface.Lock(ref SD);
         while (Sequence != null)

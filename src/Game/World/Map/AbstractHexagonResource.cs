@@ -14,7 +14,7 @@ public partial class AbstractHexagonResource : MapObjectResource
     // MAPOBJ.PAS:770
 
     // MAPOBJ.PAS:781
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 65556)
@@ -27,6 +27,6 @@ public partial class AbstractHexagonResource : MapObjectResource
     }
 
     // MAPOBJ.PAS:776
-    public virtual HexagonControl GetHexagonControl() => FEngine.FHSSet.FHexagonControl;
+    public virtual HexControl GetHexagonControl() => FEngine.FHSSet.FHexagonControl;
 
 }

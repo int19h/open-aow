@@ -2,9 +2,7 @@
 using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
@@ -39,12 +37,12 @@ public partial class UnitSpell : Spell
     public int FAIValue;
 
     // Spells.PAS:1444
-    public override void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
     {
         AICastSpellAction Action;
         string Reason = "";
         int Priority = default;
-        AbstractUnit Target = default;
+        Troop Target = default;
         bool Valid;
         if (FAIValue != -1 && Source.Owner is Army)
         {
@@ -62,13 +60,13 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1466
-    public override bool AIExecuteCastSpellAction(AbstractUnit Source)
+    public override bool AIExecuteCastSpellAction(Troop Source)
     {
         bool Result;
         string Reason = "";
         int Priority = default;
-        AbstractUnit Target = default;
-        UnitSpellTE Event;
+        Troop Target = default;
+        UnitSpellTokenEvent Event;
         if (((Hero)Source).CanCastSpell(FSpellID, ref Reason))
         {
             AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, 0);
@@ -80,7 +78,7 @@ public partial class UnitSpell : Spell
                 }
                 else if (AIRetrieveOptimalTargetUnit(Source, Source.UnitListOwner, ref Target, ref Priority))
                 {
-                    Event = new UnitSpellTE(null);
+                    Event = new UnitSpellTokenEvent(null);
                     Event.Initialize(FSpellID, Source, null, FBaseManaCost);
                     Event.FTargetPlayer = (byte)Source.FPlayer;
                     Event.FTargetUnitIDs.Add(Target.FUnitID);
@@ -115,7 +113,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1355
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         UnitSpellCaster Caster;
@@ -157,7 +155,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1379
-    public override bool CanActivateCombat(AbstractUnit source, ref string reason)
+    public override bool CanActivateCombat(Troop source, ref string reason)
     {
         bool Result;
         if (!FSpellControlTypes.Contains(SpellControlTypeElement.Combat) || !base.CanActivateCombat(source, ref reason))
@@ -176,10 +174,10 @@ public partial class UnitSpell : Spell
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
         CombatAction Result;
-        UnitSpellCA Action;
+        UnitSpellCombatAction Action;
         if (FSpellControlTypes.Contains(SpellControlTypeElement.Combat))
         {
-            Action = new UnitSpellCA(null);
+            Action = new UnitSpellCombatAction(null);
             Action.FSpellID = FSpellID;
             Action.FSourceID = Source.FID;
             Action.FTargetID = Target.FID;
@@ -199,7 +197,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1218
-    public override void GetCombatInfo(AbstractUnit Source, ref SpellCombatInfo Info)
+    public override void GetCombatInfo(Troop Source, ref SpellCombatInfo Info)
     {
         base.GetCombatInfo(Source, ref Info);
         Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
@@ -207,10 +205,10 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1226
-    public virtual bool ValidTargetUnit(AbstractUnit Source, AbstractUnit Target) => true;
+    public virtual bool ValidTargetUnit(Troop Source, Troop Target) => true;
 
     // Spells.PAS:1228
-    public virtual void ValidateUnitSelection(AbstractUnit Source, UnitList Targets, ref byte Selection)
+    public virtual void ValidateUnitSelection(Troop Source, UnitList Targets, ref byte Selection)
     {
         var count = Targets.GetCount();
         Selection = (byte)(Selection & P4SelectionMasks[count]);
@@ -227,7 +225,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1238
-    public virtual void SetupUSC(UnitSpellCaster Caster, AbstractUnit Source, UnitList Targets)
+    public virtual void SetupUSC(UnitSpellCaster Caster, Troop Source, UnitList Targets)
     {
         Caster.FCasterSourceID = Source.FUnitID;
         Caster.FCasterSpellID = FSpellID;
@@ -253,14 +251,14 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1254
-    public virtual bool CastSpell(AbstractUnit Source, UnitList Targets)
+    public virtual bool CastSpell(Troop Source, UnitList Targets)
     {
         bool Result;
-        UnitSpellTE Event;
+        UnitSpellTokenEvent Event;
         ResetTargetSelection();
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new UnitSpellTE(null);
+            Event = new UnitSpellTokenEvent(null);
             var castingMana = ((Hero)Source).CastingMana(this);
             Event.Initialize(FSpellID, Source, Targets, castingMana);
             AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
@@ -276,10 +274,10 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1344
-    public virtual bool ValidTargetParty(AbstractUnit Source, ArmyHS Party) => !Party.FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed);
+    public virtual bool ValidTargetParty(Troop Source, ArmyHexSprite Party) => !Party.FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed);
 
     // Spells.PAS:1346
-    public virtual void TargetPartySelected(AbstractUnit Source, ArmyHS Party)
+    public virtual void TargetPartySelected(Troop Source, ArmyHexSprite Party)
     {
         UnitSpellCaster Caster;
         Caster = new UnitSpellCaster(null);
@@ -289,15 +287,15 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1224
-    public virtual bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data) => false;
+    public virtual bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data) => false;
 
     // Spells.PAS:1400
-    public virtual UnitSpellCA CreateCAEx(CombatObject Source, CombatObject Target, int Mana)
+    public virtual UnitSpellCombatAction CreateCAEx(CombatObject Source, CombatObject Target, int Mana)
     {
-        UnitSpellCA Result;
+        UnitSpellCombatAction Result;
         if (FSpellControlTypes.Contains(SpellControlTypeElement.Combat))
         {
-            Result = new UnitSpellCA(null);
+            Result = new UnitSpellCombatAction(null);
             Result.FSpellID = FSpellID;
             Result.FSourceID = Source.FID;
             Result.FTargetID = Target.FID;
@@ -311,7 +309,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1411
-    public virtual void ExecuteCA(Combat.Battle Combat, UnitSpellCA Action)
+    public virtual void ExecuteCA(Battle Combat, UnitSpellCombatAction Action)
     {
         CombatObject Source;
         CombatObject Target;
@@ -330,12 +328,12 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1422
-    public virtual bool AIRetrieveOptimalTargetUnit(AbstractUnit Source, UnitList Targets, ref AbstractUnit Target, ref int Priority)
+    public virtual bool AIRetrieveOptimalTargetUnit(Troop Source, UnitList Targets, ref Troop Target, ref int Priority)
     {
         bool Result;
-        DoubleItemList<AbstractUnit> List;
+        DoubleItemList<Troop> List;
         int Value;
-        List = new DoubleItemList<AbstractUnit>();
+        List = new DoubleItemList<Troop>();
         for (int I = 0, last = Targets.GetCount() - 1; I <= last; I++)
         {
             if (ValidTargetUnit(Source, Targets.GetUnit(I)) && Targets.GetUnit(I).GetUnitType() != UnitType.Machine)
@@ -364,8 +362,8 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1269
     public void OnValidateTarget(TargetSelectionControl Control, sbyte X, sbyte Y, sbyte L, ref bool Valid)
     {
-        AbstractUnit Source;
-        ArmyHS Party;
+        Troop Source;
+        ArmyHexSprite Party;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(Control.FSourceUnitID);
         if (Source != null)
         {
@@ -395,8 +393,8 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1289
     public void OnTargetSelectionChange(TargetSelectionControl Control)
     {
-        AbstractUnit Source;
-        ArmyHS Party;
+        Troop Source;
+        ArmyHexSprite Party;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(Control.FSourceUnitID);
         if (Source != null)
         {
@@ -433,7 +431,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1318
-    public void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl Control)
+    public void SetupTargetSelection(Troop Source, TargetSelectionControl Control)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -466,6 +464,6 @@ public partial class UnitSpell : Spell
         Control.FInvalidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(22).GetPreviewImage();
     }
 
-    private static FixedArray_byte_9 P4SelectionMasks = FixedArray_byte_9.From((ReadOnlySpan<byte>)new byte[9] { 0, 1, 3, 7, 15, 31, 63, 127, 255 });
+    private static ByteArray9 P4SelectionMasks = ByteArray9.From((ReadOnlySpan<byte>)new byte[9] { 0, 1, 3, 7, 15, 31, 63, 127, 255 });
     private static readonly string P4SelectTargetPartyForXRStr = "Select target party for %s on map";
 }

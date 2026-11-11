@@ -45,7 +45,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:68
     public void FogChanged()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4358;
         SendMapFieldMsg(ref Msg);
     }
@@ -68,7 +68,7 @@ public partial class AoWMapField : MapField
     public sbyte GetPlayer()
     {
         sbyte Result;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         if ((FFieldFlags & 33554432) != 0)
         {
             Msg.MsgID = 4352;
@@ -87,7 +87,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:103
     public int GetScannerIcon()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4364;
         Msg.Param[0] = 0;
         Msg.Result = 0;
@@ -98,7 +98,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:113
     public int GetCombatTerrainTag()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4386;
         Msg.Result = 0;
         SendMapFieldMsg(ref Msg);
@@ -108,7 +108,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:122
     public bool GetConcealmentActive()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4392;
         Msg.Result = 0;
         Msg.Param[0] = 0;
@@ -119,7 +119,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:132
     public bool GetMagicShieldActive()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4393;
         Msg.Result = 0;
         Msg.Param[0] = 0;
@@ -130,7 +130,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:142
     public ProductionControl GetProductionControl()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4609;
         Msg.Result = 0;
         SendMapFieldMsg(ref Msg);
@@ -140,7 +140,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:165
     public MoveAction GetMoveAction(sbyte Player)
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4353;
         Msg.Param[0] = Player;
         Msg.Param[1] = 0;
@@ -151,7 +151,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:175
     public byte GetIndependentRelation()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4389;
         Msg.Result = -1;
         SendMapFieldMsg(ref Msg);
@@ -161,7 +161,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:184
     public byte GetDefensePriority()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4390;
         Msg.Result = 0;
         SendMapFieldMsg(ref Msg);
@@ -171,7 +171,7 @@ public partial class AoWMapField : MapField
     // AoWHSMap.PAS:204
     public WallType GetWallType()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4387;
         Msg.Param[0] = this;
         Msg.Result = 0;
@@ -180,12 +180,12 @@ public partial class AoWMapField : MapField
     }
 
     // AoWHSMap.PAS:214
-    public ArmyHS GetArmyHS() => (ArmyHS)FindOwnedChild(131607);
+    public ArmyHexSprite GetArmyHS() => (ArmyHexSprite)FindOwnedChild(131607);
 
     // AoWHSMap.PAS:218
     public void RestoreTerrain()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 4402;
         Msg.Param[0] = this;
         Msg.Result = 0;

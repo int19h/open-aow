@@ -27,7 +27,7 @@ public partial class HeroLibrary : HeroList
     }
 
     // Hero.PAS:2592
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         var hero = (Hero)Child;
         // { Original checks unit IDs rather than library IDs for a collision. }

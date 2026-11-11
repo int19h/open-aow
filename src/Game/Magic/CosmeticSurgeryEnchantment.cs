@@ -39,7 +39,7 @@ public partial class CosmeticSurgeryEnchantment : UnitEnchantment
     // AoWAb.PAS:901
     public override string GetName()
     {
-        AbstractUnit Source;
+        Troop Source;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
         // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
         var name = Source.GetName();

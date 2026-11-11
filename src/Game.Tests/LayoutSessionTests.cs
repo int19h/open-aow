@@ -1,6 +1,6 @@
 
 using Aow.Game.Layout;
-using Aow.Game.Ui.Controls;
+using Aow.Game.UI.Controls;
 
 namespace Aow.Game.Tests;
 
@@ -22,7 +22,7 @@ public sealed class LayoutSessionTests
         public FailingModule() : base(null!) { }
 
         public Tracked? First;
-        public AOWLabel? Second;
+        public Label? Second;
 
         public void InitializeComponent(LayoutSession session)
         {
@@ -32,7 +32,7 @@ public sealed class LayoutSessionTests
             session.BeginRead(First);
             First.Name = "Child";
             session.EndRead(First);
-            Second = new AOWLabel(this);
+            Second = new Label(this);
             session.BeginRead(Second);
             Second.Name = "Child";
             session.EndRead(Second);
@@ -121,7 +121,7 @@ public sealed class LayoutSessionTests
     {
         var session = new LayoutSession();
         using var root = new DataModule(null!);
-        var child = new AOWLabel(root);
+        var child = new Label(root);
         Assert.True(child.ComponentState.IsEmpty);
         session.Begin(root);
         Assert.True(root.ComponentState.Contains(ComponentState.Loading));

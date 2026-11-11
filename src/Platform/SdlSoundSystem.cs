@@ -135,7 +135,7 @@ public class SdlSoundSystem : SoundSystem
             {
                 using var stream = RtlUnit.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
                 using var data = new MemoryStream(); stream.CopyTo(data);
-                var song = OpenMptModule.Load(data.GetBuffer().AsSpan(0, (int)data.Length), repeat);
+                var song = TrackerSong.Load(data.GetBuffer().AsSpan(0, (int)data.Length), repeat);
                 if (song is null) return false;
                 Mixer.ReplaceSong(song);
                 fileName = name; loop = repeat; fadeIn = newFadeIn;

@@ -18,8 +18,8 @@ internal static class SpellTargets
 
     internal static void NotifySpellSphere(sbyte Player, MagicSphere Sphere)
     {
-        EMsg Msg = default;
-        EMsg.InitMsg(ref Msg, 537002242, null);
+        EngineMessage Msg = default;
+        EngineMessage.InitMsg(ref Msg, 537002242, null);
         Msg.Param[0] = Player;
         Msg.Param[1] = (int)Sphere;
         AoWHSMap.Current.SendMsg(ref Msg, null);

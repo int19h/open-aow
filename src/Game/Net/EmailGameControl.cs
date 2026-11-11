@@ -18,7 +18,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Net;
 
 // games
-public partial class EmailGameControl : EObject
+public partial class EmailGameControl : EngineObject
 {
     // Diplomacy.pas:2489
     public EmailGameControl(ECustomNode owner) : base(owner)
@@ -175,7 +175,7 @@ public partial class EmailGameControl : EObject
                 condition = Map.FCurrentPlayer < count;
             }
 
-            if (condition && Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PBEMPlayerStatusElement.NewTurn))
+            if (condition && Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PbemPlayerStatusElement.NewTurn))
             {
                 var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
                 if (CompareText(Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FEmailAddress, localEmailAddress) == 0)

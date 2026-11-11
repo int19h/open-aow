@@ -7,7 +7,7 @@ using Aow.Game.Commands;
 namespace Aow.Game.Net;
 
 // FList (stored with id 5), a reference node of token events
-public partial class TokenEventList : EObject
+public partial class TokenEventList : EngineObject
 {
     // NetworkE.pas:995
     public new const int ClassID = CID_TokenEventList;
@@ -34,7 +34,7 @@ public partial class TokenEventList : EObject
     }
 
     // NetworkE.pas:1006
-    public override void Assign(EObject Source, GameEngine AEngine)
+    public override void Assign(EngineObject Source, GameEngine AEngine)
     {
         FList.Clear();
         AddEvents((TokenEventList)Source);
@@ -70,7 +70,7 @@ public partial class TokenEventList : EObject
         int C;
         int Result = 0;
         C = FList.Count;
-        while (Result != C && ((EObject)FList.FChildren.List[Result]).EClass.ClassID != AClassID)
+        while (Result != C && ((EngineObject)FList.FChildren.List[Result]).EClass.ClassID != AClassID)
         {
             Result += 1;
         }

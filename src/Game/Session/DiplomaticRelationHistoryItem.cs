@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Session;
 
 // day, relation
-public partial class DiplomaticRelationHistoryItem : EObject
+public partial class DiplomaticRelationHistoryItem : EngineObject
 {
     public new const int ClassID = 131354;
 

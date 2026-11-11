@@ -139,7 +139,7 @@ public partial class TurnPlayerControl : PlayerControl
                     if (Spells.GetCount() > 0)
                     {
                         MagicLog = new PlayerMagicEventLog(null);
-                        MagicLog.FMode = PlayerMagicEventLog.PlayerMagicEventMode.StartResearch;
+                        MagicLog.FMode = PlayerMagicEventLog.EventMode.StartResearch;
                         AoWHSMap.Current.TriggerExecuteEventLog(MagicLog, false, null);
                         MagicLog.Release();
                     }

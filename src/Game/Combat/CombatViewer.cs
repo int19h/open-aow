@@ -191,7 +191,7 @@ public partial class CombatViewer : IDisposable
     }
 
     // Combat2.pas:667
-    public void ShowObject(CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public void ShowObject(CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         if (FLogbook.FActions.Count >= FPosition)
         {
@@ -204,7 +204,7 @@ public partial class CombatViewer : IDisposable
     }
 
     // Combat2.pas:674
-    public void ShowFieldObject(CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public void ShowFieldObject(CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         bool condition = FPosition > 0;
         if (condition)
@@ -224,7 +224,7 @@ public partial class CombatViewer : IDisposable
     }
 
     // Combat2.pas:681
-    public void ShowFightingObjects(int Frame, int X, int Y, in SurfaceDesc Surface)
+    public void ShowFightingObjects(int Frame, int X, int Y, in LockedSurface Surface)
     {
         bool condition = FPosition > 0;
         if (condition)
@@ -240,7 +240,7 @@ public partial class CombatViewer : IDisposable
     }
 
     // Combat2.pas:688
-    public void DefaultShowFightingObjects(CombatObject Source, CombatObject Target, int Frame, int X, int Y, in SurfaceDesc Surface)
+    public void DefaultShowFightingObjects(CombatObject Source, CombatObject Target, int Frame, int X, int Y, in LockedSurface Surface)
     {
         if (Target != null)
         {

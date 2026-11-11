@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // ID, Text, Name
-public partial class TextControlItem : EObject
+public partial class TextControlItem : EngineObject
 {
     public new const int ClassID = 131738;
 

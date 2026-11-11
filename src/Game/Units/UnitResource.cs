@@ -19,7 +19,7 @@ namespace Aow.Game.Units;
 
 // FName. FRace. FChampion. FNickname. unit statistics. FAbilities[rank]. FTransportCapacity.
 // FDescription. FObtainValue. size. blood
-public partial class UnitResource : AbstractUnitResource
+public partial class UnitResource : TroopResource
 {
     public new const int ClassID = 131602;
 
@@ -60,7 +60,7 @@ public partial class UnitResource : AbstractUnitResource
     public sbyte FLevel;
     public UnitType FUnitType;
     public UnitGender FGender;
-    public FixedArray_Aow_Units_AoWE_TAbilityOwner_3 FAbilities;
+    public AbilityOwnerArray3 FAbilities;
     public byte FTransportCapacity;
     public StringList FDescription;
     public int FObtainValue;
@@ -122,12 +122,12 @@ public partial class UnitResource : AbstractUnitResource
     public override int ResourceUserClassID() => 131604;
 
     // UnitRes.PAS:134
-    public override EObject CreateResourceUser()
+    public override EngineObject CreateResourceUser()
     {
-        EObject Result = base.CreateResourceUser();
+        EngineObject Result = base.CreateResourceUser();
         if (Result != null)
         {
-            ((UnitHS)Result).SetUnitGFXResourceIndex(FUnitGFXResourceIndex);
+            ((UnitHexSprite)Result).SetUnitGFXResourceIndex(FUnitGFXResourceIndex);
         }
 
         return Result;
@@ -138,7 +138,7 @@ public partial class UnitResource : AbstractUnitResource
     {
         sbyte Player;
         Unit AUnit;
-        if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             Player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx)).GetPlayer();
             if (Player == -1)

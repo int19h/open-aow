@@ -31,12 +31,12 @@ public partial class CommandAbility : TouchAbility
     public override AbilityType GetAbilityType() => AbilityType.Combat;
 
     // AoWAb.PAS:5288
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
         int Distance;
         CombatObject Target;
         AbilityDamageValues Values = default;
-        FastCombatCommand Command;
+        FastBattleCommand Command;
         Distance = Commands.FCombat.GetRoundDistance();
         if (Commands.FSource.GetMoves() >= 32)
         {
@@ -51,7 +51,7 @@ public partial class CommandAbility : TouchAbility
                 fcGetDamageValueEx(Commands.FSource, Target, WallSituation.None, ref Values);
                 if (Values.SourceDamage != 0)
                 {
-                    Command = new FastCombatCommand(FAbilityID);
+                    Command = new FastBattleCommand(FAbilityID);
                     Command.FTarget = Commands.FTargetSide.GetObjects(I);
                     Command.FExpectedDV = AbilityRules.DVtoDEV(Values.SourceDamage, Values.TargetDamage, Commands.FSource, Target);
                     Command.FMoveCost = 0;
@@ -62,11 +62,11 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5266
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
-        CommandCA Action;
-        StrikeCA Strike;
+        CommandCombatAction Action;
+        StrikeCombatAction Strike;
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
         Action = CreateCommandCA((CombatUnit)Source, (CombatUnit)Target);
@@ -98,7 +98,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5194
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         float Probability;
@@ -116,7 +116,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5213
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         float Probability;
         if (WallSituation == WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && Defender.GetUnitType() != UnitType.Machine)
@@ -126,7 +126,7 @@ public partial class CommandAbility : TouchAbility
             DamageValues.SourceDamage = Round((double)(hitPoints * 200) * Probability);
             var defenderHitPoints = Defender.GetHitPoints();
             DamageValues.SourceCost = defenderHitPoints * 2;
-            var p4UnitStrikeDV = AbstractUnit.P4UnitStrikeDV(Defender, Attacker);
+            var p4UnitStrikeDV = Troop.P4UnitStrikeDV(Defender, Attacker);
             DamageValues.TargetDamage = Round((double)p4UnitStrikeDV * ((double)1 - Probability));
             var damage = Defender.GetDamage();
             DamageValues.TargetCost = damage;
@@ -145,7 +145,7 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5205
     public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
     {
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Strength = Round((double)(GetTouchAttack(GetLevel(unit)) * (unit.GetAttack() * 5)) * 0.1);
             Types = Set<DamageType>.Of(DamageType.None);
@@ -195,7 +195,7 @@ public partial class CommandAbility : TouchAbility
     public override bool CanTouch(CombatObject Source, CombatObject Target) => base.CanTouch(Source, Target) && (Source is CombatUnit && Target is CombatUnit && ((CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine && !Target.GetAbilityEnabled(107));
 
     // AoWAb.PAS:5184
-    public override bool CanTouchUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool CanTouchUnit(Troop Source, Troop Target)
     {
         bool Result;
         if (base.CanTouchUnit(Source, Target))
@@ -238,9 +238,9 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5259
-    public virtual CommandCA CreateCommandCA(CombatUnit Source, CombatUnit Target)
+    public virtual CommandCombatAction CreateCommandCA(CombatUnit Source, CombatUnit Target)
     {
-        CommandCA Result = new CommandCA(null);
+        CommandCombatAction Result = new CommandCombatAction(null);
         bool condition = !(Target.FUnit is Leader) && CombatTouchRole(Source, Target);
         Result.Initialize(Source.FID, Target.FID, condition);
         Result.FAbilityID = FAbilityID;
@@ -250,7 +250,7 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5157
     public virtual void ResetCommandedUnits(CombatUnit Source)
     {
-        AbstractUnit UnitOwner;
+        Troop UnitOwner;
         CommandAbilityData Data;
         CombatUnit Target;
         UnitOwner = Source.FUnit;
@@ -274,7 +274,7 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5135
     public virtual void Uncommand(CombatUnit Target)
     {
-        AbstractUnit UnitOwner;
+        Troop UnitOwner;
         CommandedAbilityData Data;
         CombatUnit Source;
         CommandAbilityData SourceData;
@@ -302,8 +302,8 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5093
-    public override EClass AbilityDataClass() => P4CommandDataClass;
+    public override EngineClass AbilityDataClass() => P4CommandDataClass;
 
-    internal static EClass P4CommandDataClass = EClass.Of<CommandAbilityData>();
+    internal static EngineClass P4CommandDataClass = EngineClass.Of<CommandAbilityData>();
 
 }

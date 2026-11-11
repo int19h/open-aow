@@ -52,10 +52,10 @@ public partial class ESortNode : ECustomNode
     }
 
     // Engine.pas:1488
-    public override EObject GetChild(int Index) => FItems[Index].Child;
+    public override EngineObject GetChild(int Index) => FItems[Index].Child;
 
     // Engine.pas:1493
-    public override void SetChild(int Index, EObject Child)
+    public override void SetChild(int Index, EngineObject Child)
     {
         FItems[Index].Child = Child;
     }
@@ -70,7 +70,7 @@ public partial class ESortNode : ECustomNode
     }
 
     // Engine.pas:1525
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         int Result = FCount - 1;
         while (Result >= 0 && Child != FItems[Result].Child)
@@ -91,10 +91,10 @@ public partial class ESortNode : ECustomNode
     }
 
     // Engine.pas:1537
-    public override int AddChild(EObject Child) => AddSortChild(Child, 0);
+    public override int AddChild(EngineObject Child) => AddSortChild(Child, 0);
 
     // Engine.pas:1542
-    public virtual int AddSortChild(EObject Child, int SortValue)
+    public virtual int AddSortChild(EngineObject Child, int SortValue)
     {
         int Result;
         int I;
@@ -200,7 +200,7 @@ public partial class ESortNode : ECustomNode
     public struct SortItem
     {
         public int SortValue;
-        public EObject Child;
+        public EngineObject Child;
     }
 
     // Engine.pas:922

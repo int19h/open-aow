@@ -24,8 +24,8 @@ public partial class PlayerMagicEventLog : EventLog
 
     public new const int ClassID = 131824;
 
-    public PlayerMagicEventMode FMode;
-    public XYL FLocation;
+    public EventMode FMode;
+    public MapCoordinate FLocation;
     public int FSpellID;
     public int FValue;
     public string FEnchantmentName = "";
@@ -47,11 +47,11 @@ public partial class PlayerMagicEventLog : EventLog
         string Result = "";
         switch (FMode)
         {
-            case PlayerMagicEventMode.SpellResearched:
+            case EventMode.SpellResearched:
                 var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
                 Result = AbilityRules.Format(AbilityRules.TranslateRStr(P4XResearchedRStr), [spell.FSpellName]);
                 break;
-            case PlayerMagicEventMode.OutOfMana:
+            case EventMode.OutOfMana:
                 if (AoWHSMap.Current.FSeatedPlayer == FPlayer)
                 {
                     Result = AbilityRules.Format(AbilityRules.TranslateRStr(P4XRemovedOutOfManaRStr), [FEnchantmentName]);
@@ -74,10 +74,10 @@ public partial class PlayerMagicEventLog : EventLog
         bool Show;
         switch (FMode)
         {
-            case PlayerMagicEventMode.OutOfMana:
+            case EventMode.OutOfMana:
                 Show = Trigger == ExecuteTrigger.User;
                 break;
-            case PlayerMagicEventMode.SpellResearched:
+            case EventMode.SpellResearched:
                 if (Trigger != ExecuteTrigger.User)
                 {
                     if (AoWHSMap.Current.FPlayMode == PlayMode.Turn)
@@ -95,7 +95,7 @@ public partial class PlayerMagicEventLog : EventLog
                 }
 
                 break;
-            case PlayerMagicEventMode.StartResearch:
+            case EventMode.StartResearch:
                 Show = true;
                 break;
             default:
@@ -130,7 +130,7 @@ public partial class PlayerMagicEventLog : EventLog
     private static readonly string P4XResearchedRStr = "%s researched";
     private static readonly string P4XRemovedOutOfManaRStr = "%s removed (out of mana)";
 
-    public enum PlayerMagicEventMode : byte
+    public enum EventMode : byte
     {
         SpellResearched = 0, OutOfMana = 1, StartResearch = 2
     }

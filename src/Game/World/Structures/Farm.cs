@@ -1,8 +1,7 @@
 // Translated from Farm.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
@@ -32,7 +31,7 @@ public partial class Farm : PlayerCropStructure
     }
 
     // Farm.pas:130
-    public override void TerrainChanged(in HSTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
     {
         base.TerrainChanged(Info);
         if (Info.HN == 0)
@@ -130,7 +129,7 @@ public partial class Farm : PlayerCropStructure
             }
             else
             {
-                if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
                     Count = ((PlayerCropStructureResource)FResource).FCropLocations.Count;
                 }

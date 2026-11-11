@@ -27,7 +27,7 @@ public sealed class ValidationContext(JsonObject document, FileProfile profile, 
     public JsonObject Root => (JsonObject)Document["root"]!;
 
     /// <summary>A located diagnostic for a value: path, line and column, rejected value and constraint.</summary>
-    public FormatDiagnostic At(string code, string message, JsonValue value, DocPath path, string? rejected = null, string? constraint = null) =>
+    public FormatDiagnostic At(string code, string message, JsonValue value, DocumentNodePath path, string? rejected = null, string? constraint = null) =>
         new(code, message)
         {
             File = File,

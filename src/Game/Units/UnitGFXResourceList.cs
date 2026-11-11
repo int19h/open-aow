@@ -12,16 +12,16 @@ public partial class UnitGFXResourceList : EResourceList
     // UnitHS.PAS:133
     public UnitGFXResourceList(ECustomNode owner) : base(owner)
     {
-        SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, EngineServices.csKeepIndex));
+        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, EngineServices.csKeepIndex));
     }
 
     // UnitHS.PAS:138
-    public UnitGFXResource GetUnitGFXResource(int Index)
+    public UnitGraphicsResource GetUnitGFXResource(int Index)
     {
-        UnitGFXResource Result;
+        UnitGraphicsResource Result;
         if (Index >= 0 && Index < FChildren.Count)
         {
-            Result = (UnitGFXResource)FChildren.List[Index];
+            Result = (UnitGraphicsResource)FChildren.List[Index];
         }
         else
         {
@@ -39,7 +39,7 @@ public partial class UnitGFXResourceList : EResourceList
         {
             if (FChildren.List[I] != null)
             {
-                List.AddObject(((UnitGFXResource)Children[I]).FName, IntToObject(I));
+                List.AddObject(((UnitGraphicsResource)Children[I]).FName, IntToObject(I));
             }
         }
     }

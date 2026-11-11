@@ -20,7 +20,7 @@ public sealed partial class EngineFixture
     {
         private readonly string fault;
         private readonly string root = Path.Combine(Path.GetTempPath(), "open-aow-engine-" + Guid.NewGuid().ToString("N"));
-        private readonly SystemIoFileSystem files = new();
+        private readonly PhysicalFileSystem files = new();
         private readonly Dictionary<FieldInfo, object?> globals = [];
         private readonly IFileSystem previousFiles = Runtime.Files;
         private readonly ISettingsStore? previousSettings = Runtime.Settings;
@@ -38,7 +38,7 @@ public sealed partial class EngineFixture
             foreach (Type type in new[]
             {
                 typeof(GameTables), typeof(AbilityRules), typeof(GameText),
-                typeof(MovementTables), typeof(CombatAbilityTables), typeof(AbstractSets),
+                typeof(MovementTables), typeof(CombatAbilityTables), typeof(TroopConstants),
                 typeof(AlignmentTables),                 typeof(RankTables), typeof(RosterTables),
                 typeof(EngineHost), typeof(EngineServices), typeof(GameEngine),
                 typeof(HexGeometry), typeof(HexText),
@@ -54,7 +54,7 @@ public sealed partial class EngineFixture
             if (fault == "plugin") File.WriteAllBytes(Path.Combine(root, "PLUGINS", "X.DPL"), []);
             files.SetCurrentDirectory(root);
             EngineHost.Engines = new List<GameEngine>();
-            EngineHost.PlugIns = new List<Engine.PlugIn>();
+            EngineHost.PlugIns = new List<Engine.Plugin>();
             EngineHost.Packages = new StringList();
             EngineHost.VerifyEObjectEnabled = true;
             GameTables.AoWEngine = null!;

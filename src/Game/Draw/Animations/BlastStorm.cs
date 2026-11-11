@@ -24,7 +24,7 @@ public partial class BlastStorm : Storm
     public CustomImageLibrary FStormImages;
 
     // Storms.pas:338
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;
@@ -62,7 +62,7 @@ public partial class BlastStorm : Storm
         Rect R = default;
         base.InitializeStorm(Player, X, Y, L);
         var stormFileName = StormFileName();
-        FStormImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), stormFileName);
+        FStormImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         if (GetVisible())
         {
             FStormImages.LoadDiscardableImageData();
@@ -146,7 +146,7 @@ public partial class BlastStorm : Storm
     {
         FStormImages.ReleaseDiscardableImageData();
         var stormFileName = StormFileName();
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), stormFileName);
+        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         base.FinalizeStorm();
     }
 

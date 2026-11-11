@@ -29,7 +29,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1918
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -38,7 +38,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
         SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Earth);
         Source.GetLocation(ref X, ref Y, ref L);
         AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-        AoWHSMap.Current.AddEffect(TworldFXType.EarthMastery);
+        AoWHSMap.Current.AddEffect(WorldEffectType.EarthMastery);
         FCastSounds.Play(0);
         CastingDone(Source, Event.FEventMana);
         return false;
@@ -48,7 +48,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     public override GlobalEnchantment CreateEnchantment() => new EarthMasteryEnchantment(null);
 
     // GlobalEnchantmentSpells.pas:1890
-    public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int MaxX;
         int MaxY;

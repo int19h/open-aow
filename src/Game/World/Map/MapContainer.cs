@@ -58,7 +58,7 @@ public partial class MapContainer : ENode
     // HSEngine.pas:3197
     public override void MainReadWrite(EStorageStream Stream)
     {
-        if (!((HSMap)Owner).FStatus.Contains(HSMapStatusElement.PreviewMode))
+        if (!((HSMap)Owner).FStatus.Contains(HexSpriteMapStatusElement.PreviewMode))
         {
             base.MainReadWrite(Stream);
         }
@@ -83,7 +83,7 @@ public partial class MapContainer : ENode
     }
 
     // HSEngine.pas:3213
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         if (Msg.MsgID == 536870920)
         {
@@ -113,7 +113,7 @@ public partial class MapContainer : ENode
     public virtual bool AddLevel(int AClassID)
     {
         bool Result;
-        EClass LevelClass;
+        EngineClass LevelClass;
         MapLevel Level;
         LevelClass = FEngine.GetEClass(AClassID);
         if (LevelClass != null)
@@ -134,9 +134,9 @@ public partial class MapContainer : ENode
     }
 
     // HSEngine.pas:3277
-    public virtual void New(NewHSMapSettings Settings)
+    public virtual void New(NewHexSpriteMapSettings Settings)
     {
-        EClass LevelClass;
+        EngineClass LevelClass;
         MapLevel Level;
         Clear();
         try

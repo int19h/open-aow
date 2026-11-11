@@ -26,7 +26,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
         FBaseManaCost = 1;
         FSpellLevel = 4;
         FMagicSphere = MagicSphere.Water;
-        FEnchantmentID = CityEnchantmentID.FountainOfLife;
+        FEnchantmentID = CityEnchantmentId.FountainOfLife;
         FCastDuration = 20;
         FAIPriority = 500;
         FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.LeaderInCity);
@@ -35,7 +35,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
     }
 
     // CitySpells.pas:692
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         bool Result = default;
         City TargetCity = default;
@@ -43,7 +43,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
         Result = base.ExecuteTE(Event, Source, ExecuteCount);
         if (ExecuteCount == 0)
         {
-            TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
+            TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
             A = new Animation(null);
             A.FAnimationLevel = 27;
             A.FOnShow = ShowFountain;
@@ -56,7 +56,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
     }
 
     // CitySpells.pas:666
-    public void ShowFountain(Animation Animation, int X, int Y, in SurfaceDesc SD)
+    public void ShowFountain(Animation Animation, int X, int Y, in LockedSurface SD)
     {
         int DX;
         int VY;

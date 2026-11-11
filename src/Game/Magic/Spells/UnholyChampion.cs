@@ -26,14 +26,14 @@ public partial class UnholyChampion : UnitSpell
     }
 
     // UnitSpells.pas:569
-    public override bool ValidTargetUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool ValidTargetUnit(Troop Source, Troop Target)
     {
         bool Result = base.ValidTargetUnit(Source, Target);
         return Result && !Target.GetAbilityEnabled(147) && !Target.GetAbilityEnabled(161) && AoWHSSet.Current.FAbilityControl.GetAbility(147).CanExpand(Target);
     }
 
     // UnitSpells.pas:550
-    public override bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
+    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
     {
         bool Result;
         UnitEnchantment Enchantment;

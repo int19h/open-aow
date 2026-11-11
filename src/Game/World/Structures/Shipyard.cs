@@ -1,7 +1,6 @@
 // Translated from Shipyard.pas.
 using Aow.Engine.Nodes;
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;

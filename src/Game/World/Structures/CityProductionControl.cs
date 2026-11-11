@@ -41,7 +41,7 @@ public partial class CityProductionControl : ProductionControl
         bool Valid;
         int Count;
         MapLevel Level;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         CityProductionEventLog Log;
         City = FCity;
         Valid = false;
@@ -49,7 +49,7 @@ public partial class CityProductionControl : ProductionControl
         Level = (MapLevel)City.Owner.Owner;
         var yhx = City.GetYhx();
         var xhx = City.GetXhx();
-        HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
         while (Walk.HN < Count && !Valid)
         {
             if (City.FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -58,7 +58,7 @@ public partial class CityProductionControl : ProductionControl
                 Valid = FSettings.FUnit.Place(Walk.X, Walk.Y, lhx, City.FPlayer, Set<UnitPlaceModeElement>.Of()) != null;
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         if (!Valid)
@@ -116,7 +116,7 @@ public partial class CityProductionControl : ProductionControl
     public override Unit CreateUnitProduction(int Index)
     {
         Unit Result = base.CreateUnitProduction(Index);
-        if (Result != null && FCity.FEnchantments.Contains(CityEnchantmentID.Warmonger))
+        if (Result != null && FCity.FEnchantments.Contains(CityEnchantmentId.Warmonger))
         {
             Result.SetRank(Unit.Rank.Silver);
         }

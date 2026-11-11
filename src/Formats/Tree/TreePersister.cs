@@ -6,7 +6,7 @@ namespace Aow.Formats.Tree;
 /// <summary>
 /// The load's <see cref="LoadErrorHandler"/>, with the same stop flag as the original stream.
 /// A null handler continues. Once a handler stops the load, later exceptions stop too.
-/// An empty message is reported as "Error Reading EObject".
+/// An empty message is reported as "Error Reading EngineObject".
 /// </summary>
 sealed class LoadErrorPolicy
 {
@@ -35,7 +35,7 @@ public static class TreeWriter
     public static ObjectNode Write(IPersistable obj, IPersistableFactory factory)
     {
         var node = new ObjectNode(null, null);
-        var persister = new MemberPersister(node, false, factory, DocPath.Root);
+        var persister = new MemberPersister(node, false, factory, DocumentNodePath.Root);
         obj.Persist(persister);
         return node;
     }
@@ -49,7 +49,7 @@ public static class TreeReader
 {
     public static void Read(ObjectNode node, IPersistable obj, IPersistableFactory factory, LoadErrorHandler? onError = null)
     {
-        var persister = new MemberPersister(node, true, factory, DocPath.Root, new LoadErrorPolicy(onError));
+        var persister = new MemberPersister(node, true, factory, DocumentNodePath.Root, new LoadErrorPolicy(onError));
         obj.Persist(persister);
         persister.Finish();
     }
@@ -61,20 +61,20 @@ sealed class MemberPersister : IPersister
     private readonly IReadOnlyList<(string Name, TreeValue Value)> existing;
     private readonly Action<string, TreeValue>? add;
     private readonly HashSet<string> consumed = new(StringComparer.Ordinal);
-    private readonly DocPath path;
+    private readonly DocumentNodePath path;
     private readonly LoadErrorPolicy? errors;
 
-    public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocPath path, LoadErrorPolicy? errors = null)
+    public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
         : this(node.Members, loading ? null : node.Add, loading, factory, path, errors)
     {
     }
 
-    public MemberPersister(RecordNode node, bool loading, IPersistableFactory factory, DocPath path, LoadErrorPolicy? errors = null)
+    public MemberPersister(RecordNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
         : this(node.Members, loading ? null : node.Add, loading, factory, path, errors)
     {
     }
 
-    private MemberPersister(IReadOnlyList<(string Name, TreeValue Value)> existing, Action<string, TreeValue>? add, bool loading, IPersistableFactory factory, DocPath path, LoadErrorPolicy? errors)
+    private MemberPersister(IReadOnlyList<(string Name, TreeValue Value)> existing, Action<string, TreeValue>? add, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors)
     {
         this.existing = existing;
         this.add = add;
@@ -163,11 +163,11 @@ sealed class MemberPersister : IPersister
         {
             var found = Take(name);
             if (found is null) value = false;
-            else if (found is BoolNode node) value = node.Value;
+            else if (found is BooleanNode node) value = node.Value;
             else throw Type(name, "a boolean");
             return;
         }
-        if (value) Store(name, new BoolNode(true));
+        if (value) Store(name, new BooleanNode(true));
     }
 
     public void String(string name, ref string value)
@@ -205,7 +205,7 @@ sealed class MemberPersister : IPersister
             objects.Clear();
             var found = Take(name);
             if (found is null) return;
-            if (found is not LinesExNode node) throw Type(name, "lines with objects");
+            if (found is not LinesWithValuesNode node) throw Type(name, "lines with objects");
             foreach (var line in node.Lines ?? Split(node.RawText ?? "")) lines.Add(line);
             if (lines.Count != node.Objects.Count)
                 throw TreeErrors.Fail(Codes.Corrupt, $"The text has {lines.Count} lines and {node.Objects.Count} object values.", path.Member(name));
@@ -215,7 +215,7 @@ sealed class MemberPersister : IPersister
         if (lines.Count == 0) return;
         if (lines.Count != objects.Count)
             throw TreeErrors.Fail(Codes.Corrupt, $"The text has {lines.Count} lines and {objects.Count} object values.", path.Member(name));
-        Store(name, LinesExNode.FromLines(lines is List<string> list ? list : [.. lines], objects is List<int> ids ? ids : [.. objects]));
+        Store(name, LinesWithValuesNode.FromLines(lines is List<string> list ? list : [.. lines], objects is List<int> ids ? ids : [.. objects]));
     }
 
     public void Bytes(string name, Span<byte> data)
@@ -247,14 +247,14 @@ sealed class MemberPersister : IPersister
         {
             var found = Take(name);
             if (found is null) return;
-            if (found is BoolNode node) Unsafe.As<bool, byte>(ref value) = node.Value ? (byte)1 : (byte)0;
+            if (found is BooleanNode node) Unsafe.As<bool, byte>(ref value) = node.Value ? (byte)1 : (byte)0;
             else if (found is IntegerNode { Width: 1, Signed: false } number && number.Value is >= 0 and <= 255)
                 Unsafe.As<bool, byte>(ref value) = (byte)number.Value;
             else throw Type(name, "a boolean");
             return;
         }
         byte stored = Unsafe.As<bool, byte>(ref value);
-        if (stored is 0 or 1) Store(name, new BoolNode(stored != 0));
+        if (stored is 0 or 1) Store(name, new BooleanNode(stored != 0));
         else Store(name, new IntegerNode(1, false, stored));
     }
 
@@ -564,12 +564,12 @@ sealed class ItemSlot : IItemSlot
     private readonly TreeValue? loaded;
     private readonly bool loading;
     private readonly IPersistableFactory factory;
-    private readonly DocPath path;
+    private readonly DocumentNodePath path;
     private readonly LoadErrorPolicy? errors;
     private TreeValue? stored;
     private bool used;
 
-    public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocPath path, LoadErrorPolicy? errors = null)
+    public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
     {
         this.loaded = loaded;
         this.loading = loading;
@@ -601,11 +601,11 @@ sealed class ItemSlot : IItemSlot
         Use();
         if (loading)
         {
-            if (loaded is not BoolNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a boolean.", path);
+            if (loaded is not BooleanNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a boolean.", path);
             value = node.Value;
             return;
         }
-        stored = new BoolNode(value);
+        stored = new BooleanNode(value);
     }
 
     public void String(ref string value)

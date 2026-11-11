@@ -26,7 +26,7 @@ public partial class MoveSelector : IDisposable
     public MoveControlSettings FMoveControlSettings;
     public MoveSettingsList FMoveSettingsList;
     public int FCurrentMove;
-    public AbstractAoWHSMap FMap;
+    public GameMap FMap;
     public Set<MoveSelectorStatusElement> FStatus;
 
     // Structur.PAS:4118
@@ -47,7 +47,7 @@ public partial class MoveSelector : IDisposable
     public virtual void MouseDownEvent(object Sender)
     {
         object Capture;
-        HSMapMouse Mouse;
+        HexSpriteMapMouse Mouse;
         Mouse = FMap.Mouse;
         Capture = Mouse.Capture;
         if ((Capture != this && Capture != AoWHSMap.Current.FTargetSelection) || Mouse.Button == MouseButton.Right)
@@ -124,7 +124,7 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4225
-    public virtual void Activate(AbstractAoWHSMap Map)
+    public virtual void Activate(GameMap Map)
     {
         if (FStatus.Contains(MoveSelectorStatusElement.Activated))
         {
@@ -162,7 +162,7 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4253
-    public virtual void ShowMovePaths(in SurfaceDesc Surface)
+    public virtual void ShowMovePaths(in LockedSurface Surface)
     {
         int X1;
         int Y1;
@@ -370,7 +370,7 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4157
-    public int AddMoveObject(HexagonSprite Obj)
+    public int AddMoveObject(HexSprite Obj)
     {
         MoveSettings Settings;
         Settings = new MoveSettings(null);

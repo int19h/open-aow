@@ -16,8 +16,8 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-// selection SFX, description, scanner icon. . other recovered resource fields below
-public partial class StructureResource : FixedILTerrainMOR
+// selection Sfx, description, scanner icon. . other recovered resource fields below
+public partial class StructureResource : FixedImageLibraryTerrainMapObjectResource
 {
     public StructureResource(ECustomNode owner) : base(owner)
     {
@@ -79,7 +79,7 @@ public partial class StructureResource : FixedILTerrainMOR
     public override int ResourceUserClassID() => 131914;
 
     // Structur.PAS:1940
-    public virtual void Show(int X, int Y, in SurfaceDesc SurfaceDesc, Structure Structure)
+    public virtual void Show(int X, int Y, in LockedSurface SurfaceDesc, Structure Structure)
     {
         int Index;
         int Offset;

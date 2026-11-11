@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // items, change events, update lock, item change events, last ID, status
-public partial class ItemControl : EObject
+public partial class ItemControl : EngineObject
 {
     // Army.PAS:4639
     public ItemControl(ECustomNode owner) : base(owner)

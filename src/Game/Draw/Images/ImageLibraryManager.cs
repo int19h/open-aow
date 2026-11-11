@@ -10,14 +10,14 @@ public partial class ImageLibraryManager : Component
 {
 
     internal string FSearchPath = "";
-    internal ILManagerList FDiskList;
-    internal ILManagerList FOwnedList;
+    internal ImageLibraryManagerList FDiskList;
+    internal ImageLibraryManagerList FOwnedList;
 
     // ImageLib.pas:8260
     public ImageLibraryManager(Component owner) : base(owner)
     {
-        FDiskList = new ILManagerList(this);
-        FOwnedList = new ILManagerList(this);
+        FDiskList = new ImageLibraryManagerList(this);
+        FOwnedList = new ImageLibraryManagerList(this);
     }
 
     // ImageLib.pas:8267
@@ -37,14 +37,14 @@ public partial class ImageLibraryManager : Component
     }
 
     // ImageLib.pas:8281
-    public void UnloadIL(Set<ILManagerCategoryElement> Category)
+    public void UnloadIL(Set<ImageLibraryManagerCategoryElement> Category)
     {
-        if (Category.Contains(ILManagerCategoryElement.Disk))
+        if (Category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
             FDiskList.UnloadIL();
         }
 
-        if (Category.Contains(ILManagerCategoryElement.Owned))
+        if (Category.Contains(ImageLibraryManagerCategoryElement.Owned))
         {
             FOwnedList.UnloadIL();
         }
@@ -105,15 +105,15 @@ public partial class ImageLibraryManager : Component
     // ImageLib.pas:8331
     // { A missing owned library is created empty and added. The exception for a missing library is
     //   raised and swallowed at once (it only shows in the debugger), as in the original. }
-    public CustomImageLibrary LinkToIL(Set<ILManagerCategoryElement> Category, string FileName)
+    public CustomImageLibrary LinkToIL(Set<ImageLibraryManagerCategoryElement> Category, string FileName)
     {
         CustomImageLibrary Result = null;
-        if (Category.Contains(ILManagerCategoryElement.Disk))
+        if (Category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
             Result = FDiskList.LinkToIL(FileName);
         }
 
-        if (Category.Contains(ILManagerCategoryElement.Owned) && Result == null)
+        if (Category.Contains(ImageLibraryManagerCategoryElement.Owned) && Result == null)
         {
             Result = FOwnedList.LinkToIL(FileName);
             if (Result == null)
@@ -138,16 +138,16 @@ public partial class ImageLibraryManager : Component
     }
 
     // ImageLib.pas:8352
-    public void ReleaseIL(Set<ILManagerCategoryElement> Category, string FileName)
+    public void ReleaseIL(Set<ImageLibraryManagerCategoryElement> Category, string FileName)
     {
         bool Released;
         Released = false;
-        if (Category.Contains(ILManagerCategoryElement.Disk))
+        if (Category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
             Released = FDiskList.ReleaseIL(FileName);
         }
 
-        if (Category.Contains(ILManagerCategoryElement.Owned) && !Released)
+        if (Category.Contains(ImageLibraryManagerCategoryElement.Owned) && !Released)
         {
             FOwnedList.ReleaseIL(FileName);
         }
@@ -165,8 +165,8 @@ public partial class ImageLibraryManager : Component
         FOwnedList.LoadFromStream(Stream);
     }
 
-    public ILManagerList DiskList { get => FDiskList; }
-    public ILManagerList OwnedList { get => FOwnedList; }
+    public ImageLibraryManagerList DiskList { get => FDiskList; }
+    public ImageLibraryManagerList OwnedList { get => FOwnedList; }
 
     [Published]
     public string SearchPath { get => FSearchPath; set => FSearchPath = value; }

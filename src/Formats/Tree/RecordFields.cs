@@ -40,7 +40,7 @@ internal abstract class RecordFieldInfo
     internal abstract PropertyCodec CreateCodec();
 
     /// <summary>A zero integer and an explicit false are absent in the document.</summary>
-    internal virtual bool OmitsDocument(JsonValue value) => value is JsonBool { Value: false };
+    internal virtual bool OmitsDocument(JsonValue value) => value is JsonBoolean { Value: false };
 
     /// <summary>A zero integer is absent in the tree of a record.</summary>
     internal virtual bool OmitsImage(TreeValue value) => false;
@@ -68,7 +68,7 @@ internal sealed class IntegerRecordField : RecordFieldInfo
     public override int Width => ElementWidth;
     public override bool Signed => ElementSigned;
 
-    internal override bool OmitsDocument(JsonValue value) => value is JsonInteger { Value: 0 } || value is JsonBool { Value: false };
+    internal override bool OmitsDocument(JsonValue value) => value is JsonInteger { Value: 0 } || value is JsonBoolean { Value: false };
 
     internal override bool OmitsImage(TreeValue value) => value is IntegerNode { Value: 0 };
 
@@ -117,14 +117,14 @@ internal sealed class IntegerRecordField : RecordFieldInfo
     private delegate void IntegerMove<T>(IPersister persister, string name, ref T value);
 }
 
-internal sealed class BoolRecordField : RecordFieldInfo
+internal sealed class BooleanRecordField : RecordFieldInfo
 {
     public override RecordFieldKind Kind => RecordFieldKind.Bool;
     public override int Width => 1;
 
-    internal override bool OmitsImage(TreeValue value) => value is IntegerNode { Value: 0 } || value is BoolNode { Value: false };
+    internal override bool OmitsImage(TreeValue value) => value is IntegerNode { Value: 0 } || value is BooleanNode { Value: false };
 
-    internal override PropertyCodec CreateCodec() => new RecordBoolCodec(Name);
+    internal override PropertyCodec CreateCodec() => new RecordBooleanCodec(Name);
 
     internal override void Transfer(IPersister persister, Span<byte> image)
     {

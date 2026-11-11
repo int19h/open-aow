@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Audio;
 
-// every TSample (ProcessSound updates them)
+// every Sample (ProcessSound updates them)
 public partial class SampleList : DelphiList<Sample>
 {
     // Sound.pas:710

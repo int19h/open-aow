@@ -12,7 +12,7 @@ public partial class Surface : IDisposable
     public virtual int GetColor(int X, int Y)
     {
         int Result = default;
-        SurfaceDesc SD = default;
+        LockedSurface SD = default;
         int V;
         ushort W;
         byte Index;
@@ -35,7 +35,7 @@ public partial class Surface : IDisposable
                     case PixelFormats.pfPAL8:
                         Assert(SD.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                         Index = SD.View().Byte(X + Y * SD.Pitch);
-                        ref readonly GFXEPalette.PaletteEntry E = ref SD.Palette.Entries[Index];
+                        ref readonly Palette.Entry E = ref SD.Palette.Entries[Index];
                         Result = E.R + (E.G << 8) + (E.B << 16);
                         break;
                     case PixelFormats.pfRGB24:
@@ -71,7 +71,7 @@ public partial class Surface : IDisposable
     public virtual int GetPixelInfo(int X, int Y)
     {
         int Result = default;
-        SurfaceDesc SD = default;
+        LockedSurface SD = default;
         int P;
         if (Succeeded(Lock(ref SD)))
         {
@@ -137,7 +137,7 @@ public partial class Surface : IDisposable
     public virtual int GetPixelFormatID()
     {
         int Result;
-        SurfaceDesc SD = default;
+        LockedSurface SD = default;
         if (Succeeded(Lock(ref SD)))
         {
             Result = SD.PixelFormatID;
@@ -155,8 +155,8 @@ public partial class Surface : IDisposable
     public virtual int Blt(Surface Dest, Rect? SrcRect, int X, int Y)
     {
         int Result;
-        SurfaceDesc DSD = default;
-        SurfaceDesc SSD = default;
+        LockedSurface DSD = default;
+        LockedSurface SSD = default;
         Rect R = default;
         SurfaceView S;
         SurfaceView D;
@@ -289,8 +289,8 @@ public partial class Surface : IDisposable
     public virtual int BltColorKey(Surface Dest, Rect? SrcRect, int X, int Y, int ColorKey)
     {
         int Result;
-        SurfaceDesc DSD = default;
-        SurfaceDesc SSD = default;
+        LockedSurface DSD = default;
+        LockedSurface SSD = default;
         Rect R = default;
         SurfaceView S;
         SurfaceView D;
@@ -460,13 +460,13 @@ public partial class Surface : IDisposable
     }
 
     // GFXE.pas:12225
-    public virtual int Lock(ref SurfaceDesc SD) => PixelFormats.GFXE_NOTSUPPORTED;
+    public virtual int Lock(ref LockedSurface SD) => PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12248
     public virtual int Unlock() => PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12230
-    public virtual int LockEx(ref SurfaceDesc SD, in Rect R)
+    public virtual int LockEx(ref LockedSurface SD, in Rect R)
     {
         int Result;
         bool condition = R.Left >= 0 && R.Top >= 0;
@@ -504,7 +504,7 @@ public partial class Surface : IDisposable
     }
 
     // GFXE.pas:12253
-    public virtual int UnlockEx(in SurfaceDesc SD) => Unlock();
+    public virtual int UnlockEx(in LockedSurface SD) => Unlock();
 
     // GFXE.pas:12220
     public virtual int UpdatePalette() => PixelFormats.GFXE_NOTSUPPORTED;

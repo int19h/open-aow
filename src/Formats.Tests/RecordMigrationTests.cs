@@ -46,17 +46,17 @@ public sealed class RecordMigrationTests : FormatsTest
         Assert.Equal(3, ((JsonInteger)((JsonObject)again.Document["root"]!)["VictoryMode"]!).Value);
         var root = (JsonObject)read.Document["root"]!;
         var ctx = new EncodeContext(FormatSchema.Current, "game", "world-hsm", "record-migration.json", FormatLimits.Default, ExportOptions.Default);
-        Assert.NotNull(LayoutReader.Read(ctx, root, DocPath.Root));
+        Assert.NotNull(LayoutReader.Read(ctx, root, DocumentNodePath.Root));
         var fingerprint = ((JsonObject)root["$layout"]!).Find("fingerprint")!;
         string current = ((JsonString)fingerprint.Value).Value;
         string wrong = current[0] == '0' ? new string('f', 64) : new string('0', 64);
         fingerprint.Value = new JsonString(wrong);
         var exact = new EncodeContext(FormatSchema.Current, "game", "world-hsm", "record-migration.json", FormatLimits.Default, new ExportOptions { ExactLayout = true });
-        var compared = Assert.Throws<ConversionException>(() => LayoutReader.Read(exact, root, DocPath.Root));
+        var compared = Assert.Throws<ConversionException>(() => LayoutReader.Read(exact, root, DocumentNodePath.Root));
         Assert.Equal(Codes.Layout, compared.Diagnostic.Code);
         Assert.Equal("The retained exact layout is stale after an edit. --exact-layout refuses to rebuild it.", compared.Diagnostic.Message);
         fingerprint.Value = new JsonString("stale");
-        var malformed = Assert.Throws<ConversionException>(() => LayoutReader.Read(ctx, root, DocPath.Root));
+        var malformed = Assert.Throws<ConversionException>(() => LayoutReader.Read(ctx, root, DocumentNodePath.Root));
         Assert.Equal(Codes.Layout, malformed.Diagnostic.Code);
         Assert.Equal("The $layout fingerprint is not 64 lowercase hexadecimal digits.", malformed.Diagnostic.Message);
     }
@@ -93,7 +93,7 @@ public sealed class RecordMigrationTests : FormatsTest
         Assert.Equal([0L], ((JsonArray)ability["values"]!).Items.Select(item => ((JsonInteger)item).Value).ToList());
         Assert.Equal("80", ((JsonString)ability["$reserved"]!).Value);
         Assert.Equal(2, ((JsonInteger)((JsonObject)applied[3]["root"]!)["Champion"]!).Value);
-        Assert.False(((JsonBool)((JsonObject)applied[4]["root"]!)["Champion"]!).Value);
+        Assert.False(((JsonBoolean)((JsonObject)applied[4]["root"]!)["Champion"]!).Value);
         var first = applied.Select(JsonWriter.ToUtf8).ToArray();
         FormatSchema.Substituted = FormatSchema.Load(Encoding.UTF8.GetBytes("""{"version":3,"classes":[]}"""), "empty.json");
         try
@@ -139,7 +139,7 @@ public sealed class RecordMigrationTests : FormatsTest
         var absent = Read(Envelope("hero-list", new JsonObject()
             .Add("$class", new JsonString("TUnitResource"))
             .Add("Champion", new JsonString("00"))));
-        Assert.False(((JsonBool)((JsonObject)absent.Document["root"]!)["Champion"]!).Value);
+        Assert.False(((JsonBoolean)((JsonObject)absent.Document["root"]!)["Champion"]!).Value);
     }
 
     [Fact]

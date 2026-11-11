@@ -20,9 +20,9 @@ public partial class UnholyChampionAbility : EnhancementAbility
     public override bool CanExpand(AbilityOwner owner)
     {
         bool Result = base.CanExpand(owner);
-        if (Result && owner is AbstractUnit)
+        if (Result && owner is Troop)
         {
-            Result = AlignmentTables.alsPureEvil.Contains(((AbstractUnit)owner).GetAlignment());
+            Result = AlignmentTables.alsPureEvil.Contains(((Troop)owner).GetAlignment());
         }
 
         return Result;

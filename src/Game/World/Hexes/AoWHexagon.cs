@@ -17,7 +17,7 @@ public partial class AoWHexagon : Hexagon
     { }
 
     // AoWHex.pas:119
-    public override void ChangeTerrain(in HSTerrainInfo Msg)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo Msg)
     {
         MapObjectResource R;
         if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
@@ -41,7 +41,7 @@ public partial class AoWHexagon : Hexagon
     }
 
     // AoWHex.pas:139
-    public override void TerrainChanged(in HSTerrainInfo Msg)
+    public override void TerrainChanged(in HexSpriteTerrainInfo Msg)
     {
         if (Set<byte>.WithBounds(0, 255).With(0).With(6).With(14).Contains((byte)Msg.TerrainType))
         {
@@ -63,7 +63,7 @@ public partial class AoWHexagon : Hexagon
     }
 
     // AoWHex.pas:109
-    public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
     {
         if (HN == 0)
         {
@@ -237,8 +237,8 @@ public partial class AoWHexagon : Hexagon
         }
     }
 
-    private static FixedArray_byte_3 SideHN = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
-    private static FixedArray_byte_3 SideClear = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 246, 237, 219 });
+    private static ByteArray3 SideHN = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
+    private static ByteArray3 SideClear = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 246, 237, 219 });
 
     public new partial class Resource : HexagonResource
     {
@@ -246,7 +246,7 @@ public partial class AoWHexagon : Hexagon
         { }
 
         // AoWHex.pas:254
-        public override void MsgProc(ref EMsg Msg, EObject Sender)
+        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
         {
             if (Msg.MsgID == 65556)
             {

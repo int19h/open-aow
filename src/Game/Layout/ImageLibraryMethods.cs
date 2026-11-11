@@ -32,7 +32,7 @@ public static class ImageLibraryMethods
         return Result;
     }
 
-    public static void DrawILT(this ImageLibrary library, int Index, in Rect R, ref SurfaceDesc SurfDesc)
+    public static void DrawILT(this ImageLibrary library, int Index, in Rect R, ref LockedSurface SurfDesc)
     {
         int ClipRight;
         int ClipBottom;

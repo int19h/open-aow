@@ -79,7 +79,7 @@ public sealed class JsonInteger(long value) : JsonValue
     public override string KindName => "integer";
 }
 
-public sealed class JsonBool(bool value) : JsonValue
+public sealed class JsonBoolean(bool value) : JsonValue
 {
     public bool Value { get; } = value;
     public override string KindName => "boolean";

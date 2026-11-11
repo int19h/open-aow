@@ -16,13 +16,13 @@ public partial class CompressStream : MemoryStream
     public void LoadFromStream(Stream Stream)
     {
         bool Compressed = default;
-        FixedArray_byte_4 Magic = default;
+        ByteArray4 Magic = default;
         ZLibStream D;
         byte[] Buffer;
         int Count;
         Stream.ReadExactly(((Span<byte>)Magic).Slice(0, 4));
         Stream.ReadExactly(Bytes.Of(ref Compressed, 1));
-        if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, CompressMagic))
+        if (!ArrayEquals<ByteArray4, byte>(Magic, CompressMagic))
         {
             Compressed = false;
             Stream.Seek(0, SeekOrigin.Begin);
@@ -60,7 +60,7 @@ public partial class CompressStream : MemoryStream
     }
 
     // Engine.pas:1752
-    public int SaveToStreamEx(Stream Stream, CompressLevel Level)
+    public int SaveToStreamEx(Stream Stream, Level Level)
     {
         ZLibStream C;
         int StartSize;
@@ -69,7 +69,7 @@ public partial class CompressStream : MemoryStream
         StartSize = (int)Stream.Length;
         Stream.Write(((ReadOnlySpan<byte>)CompressMagic).Slice(0, 4));
         Stream.Write(Bytes.Of(ref Level, 1));
-        if (Level != CompressLevel.None)
+        if (Level != Level.None)
         {
             C = new ZLibStream(Stream, ZLibLevels.ForByte((byte)Level), true);
             try
@@ -93,11 +93,11 @@ public partial class CompressStream : MemoryStream
     // Engine.pas:1776
     public void SaveToStream(Stream Stream)
     {
-        SaveToStreamEx(Stream, CompressLevel.Default);
+        SaveToStreamEx(Stream, Level.Default);
     }
 
     // Engine.pas:1781
-    public int SaveToFileEx(string FileName, CompressLevel Level)
+    public int SaveToFileEx(string FileName, Level Level)
     {
         int Result = default;
         Stream F;
@@ -121,7 +121,7 @@ public partial class CompressStream : MemoryStream
         F = OpenFile(FileName, 65535);
         try
         {
-            SaveToStreamEx(F, CompressLevel.Default);
+            SaveToStreamEx(F, Level.Default);
         }
         finally
         {
@@ -151,9 +151,9 @@ public partial class CompressStream : MemoryStream
         }
     }
 
-    private static FixedArray_byte_4 CompressMagic = FixedArray_byte_4.From("CFS\0"u8);
+    private static ByteArray4 CompressMagic = ByteArray4.From("CFS\0"u8);
 
-    public enum CompressLevel : byte
+    public enum Level : byte
     {
         None = 0, Fastest = 1, Default = 2, Max = 3
     }

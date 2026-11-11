@@ -3,9 +3,7 @@ using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
-
-using Aow.Game.Ai.Groups;
-
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
@@ -31,7 +29,7 @@ public partial class UnitList : EChangeNotifyNode
         {
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
-                ((EObject)FChildren.List[I]).Release();
+                ((EngineObject)FChildren.List[I]).Release();
             }
         }
     }
@@ -43,7 +41,7 @@ public partial class UnitList : EChangeNotifyNode
         {
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
-                ((EObject)FChildren.List[I]).Release();
+                ((EngineObject)FChildren.List[I]).Release();
             }
         }
     }
@@ -53,7 +51,7 @@ public partial class UnitList : EChangeNotifyNode
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EObject)FChildren.List[I]).SetOwner(null);
+            ((EngineObject)FChildren.List[I]).SetOwner(null);
         }
 
         FChildren.Clear();
@@ -66,7 +64,7 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2162
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         int Result = base.RemoveChild(Child);
         if (Result != -1)
@@ -78,11 +76,11 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2167
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         int Result;
         var unit = Child;
-        if (this.CanAddUnit((AbstractUnit)Child))
+        if (this.CanAddUnit((Troop)Child))
         {
             unit.AddRef();
             Result = base.AddChild(Child);
@@ -104,7 +102,7 @@ public partial class UnitList : EChangeNotifyNode
         int Result = 0;
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            Result += ((AbstractUnit)FChildren.List[I]).GetStrength(DamageType);
+            Result += ((Troop)FChildren.List[I]).GetStrength(DamageType);
         }
 
         return Result;
@@ -116,7 +114,7 @@ public partial class UnitList : EChangeNotifyNode
         int Result = 0;
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            Result += ((AbstractUnit)FChildren.List[I]).GetStrengthMax(DamageTypes);
+            Result += ((Troop)FChildren.List[I]).GetStrengthMax(DamageTypes);
         }
 
         return Result;
@@ -149,20 +147,20 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2188
-    public virtual bool CanAddUnit(AbstractUnit AUnit) => AUnit.CanAddToList(this);
+    public virtual bool CanAddUnit(Troop AUnit) => AUnit.CanAddToList(this);
 
     // Unit.PAS:2192
-    public virtual bool CanDeleteUnit(AbstractUnit AUnit) => true;
+    public virtual bool CanDeleteUnit(Troop AUnit) => true;
 
     // Unit.PAS:2196
-    public virtual bool AddUnit(AbstractUnit AUnit)
+    public virtual bool AddUnit(Troop AUnit)
     {
         AUnit.SetOwner(this);
         return AUnit.Owner == this;
     }
 
     // Unit.PAS:2208
-    public virtual bool DeleteUnit(AbstractUnit AUnit)
+    public virtual bool DeleteUnit(Troop AUnit)
     {
         bool Result;
         if (CanDeleteUnit(AUnit))
@@ -190,7 +188,7 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2217
-    public int IndexOf(AbstractUnit AUnit) => FChildren.IndexOf(AUnit);
+    public int IndexOf(Troop AUnit) => FChildren.IndexOf(AUnit);
 
     // Unit.PAS:2221
     public int IndexOfID(int ID)
@@ -199,7 +197,7 @@ public partial class UnitList : EChangeNotifyNode
         while (Result != 0)
         {
             Result -= 1;
-            if (((AbstractUnit)FChildren.List[Result]).FUnitID == ID)
+            if (((Troop)FChildren.List[Result]).FUnitID == ID)
             {
                 return Result;
             }
@@ -216,7 +214,7 @@ public partial class UnitList : EChangeNotifyNode
         while (Result != 0)
         {
             Result -= 1;
-            Group = ((AbstractUnit)FChildren.List[Result]).FGroup;
+            Group = ((Troop)FChildren.List[Result]).FGroup;
             if (Group != null && Group.GroupClass.Behavior == Behavior)
             {
                 return Result;
@@ -233,7 +231,7 @@ public partial class UnitList : EChangeNotifyNode
         while (Result != 0)
         {
             Result -= 1;
-            if (((AbstractUnit)FChildren.List[Result]).FGroup == Group)
+            if (((Troop)FChildren.List[Result]).FGroup == Group)
             {
                 return Result;
             }
@@ -250,7 +248,7 @@ public partial class UnitList : EChangeNotifyNode
         while (Result != 0)
         {
             Result -= 1;
-            Group = ((AbstractUnit)FChildren.List[Result]).FGroup;
+            Group = ((Troop)FChildren.List[Result]).FGroup;
             if (Group != null && Group.FGroupID == ID)
             {
                 return Result;
@@ -261,15 +259,15 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2265
-    public AbstractUnit FindID(int ID)
+    public Troop FindID(int ID)
     {
-        AbstractUnit Result;
+        Troop Result;
         int I;
         I = Count;
         while (I != 0)
         {
             I -= 1;
-            Result = (AbstractUnit)FChildren.List[I];
+            Result = (Troop)FChildren.List[I];
             if (Result.FUnitID == ID)
             {
                 return Result;
@@ -280,19 +278,19 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2277
-    public AbstractUnit GetUnit(int Index)
+    public Troop GetUnit(int Index)
     {
         // { Original accepts negative indexes and reads the backing array directly. }
         if (Index < Count)
         {
-            return (AbstractUnit)FChildren.List[Index];
+            return (Troop)FChildren.List[Index];
         }
 
         return null;
     }
 
     // Unit.PAS:2287
-    public void SetUnit(int Index, AbstractUnit AUnit)
+    public void SetUnit(int Index, Troop AUnit)
     {
         while (Index >= Count)
         {
@@ -301,7 +299,7 @@ public partial class UnitList : EChangeNotifyNode
 
         if (FChildren.List[Index] != null)
         {
-            ((EObject)FChildren.List[Index]).Release();
+            ((EngineObject)FChildren.List[Index]).Release();
         }
 
         FChildren.List[Index] = AUnit;
@@ -315,33 +313,33 @@ public partial class UnitList : EChangeNotifyNode
     {
         int S1;
         int S2;
-        var unit = (AbstractUnit)Item1;
+        var unit = (Troop)Item1;
         S1 = unit.GetUnitLevel();
         if (unit.GetTransporter())
         {
             S1 += 500;
         }
 
-        if ((AbstractUnit)Item1 is Hero)
+        if ((Troop)Item1 is Hero)
         {
             S1 += 50;
-            if ((AbstractUnit)Item1 is Leader)
+            if ((Troop)Item1 is Leader)
             {
                 S1 += 100;
             }
         }
 
-        var unit2 = (AbstractUnit)Item2;
+        var unit2 = (Troop)Item2;
         S2 = unit2.GetUnitLevel();
         if (unit2.GetTransporter())
         {
             S2 += 500;
         }
 
-        if ((AbstractUnit)Item2 is Hero)
+        if ((Troop)Item2 is Hero)
         {
             S2 += 50;
-            if ((AbstractUnit)Item2 is Leader)
+            if ((Troop)Item2 is Leader)
             {
                 S2 += 100;
             }
@@ -350,7 +348,7 @@ public partial class UnitList : EChangeNotifyNode
         int Result = S2 - S1;
         if (Result == 0)
         {
-            if (((AbstractUnit)Item1).FUnitStatus.Contains(UnitStatusElement.Enchanted))
+            if (((Troop)Item1).FUnitStatus.Contains(UnitStatusElement.Enchanted))
             {
                 S1 = 1;
             }
@@ -359,7 +357,7 @@ public partial class UnitList : EChangeNotifyNode
                 S1 = 0;
             }
 
-            if (((AbstractUnit)Item2).FUnitStatus.Contains(UnitStatusElement.Enchanted))
+            if (((Troop)Item2).FUnitStatus.Contains(UnitStatusElement.Enchanted))
             {
                 S2 = 1;
             }
@@ -373,17 +371,17 @@ public partial class UnitList : EChangeNotifyNode
 
         if (Result == 0)
         {
-            Result = ((AbstractUnit)Item2).GetUnitGFXResourceIndex() - ((AbstractUnit)Item1).GetUnitGFXResourceIndex();
+            Result = ((Troop)Item2).GetUnitGFXResourceIndex() - ((Troop)Item1).GetUnitGFXResourceIndex();
             if (Result == 0)
             {
-                Result = ((AbstractUnit)Item2).FUnitID - ((AbstractUnit)Item1).FUnitID;
+                Result = ((Troop)Item2).FUnitID - ((Troop)Item1).FUnitID;
             }
         }
 
         return Result;
     }
 
-    private static int P2CompareUnitMoves(object Item1, object Item2) => ((AbstractUnit)Item2).GetMoves() - ((AbstractUnit)Item1).GetMoves();
+    private static int P2CompareUnitMoves(object Item1, object Item2) => ((Troop)Item2).GetMoves() - ((Troop)Item1).GetMoves();
 
     internal static sbyte UnitsToIndependentRelation(UnitList Units, sbyte DefaultRelation)
     {
@@ -394,7 +392,7 @@ public partial class UnitList : EChangeNotifyNode
         bool Neutral;
         int I;
         int Race;
-        AbstractUnit Unit_;
+        Troop Unit_;
         Alignment Alignment;
         sbyte Relation;
         Relation = -1;
@@ -403,7 +401,7 @@ public partial class UnitList : EChangeNotifyNode
         while (SameRace && I != 0)
         {
             I -= 1;
-            Race = ((AbstractUnit)Units.FChildren.List[I]).GetRace();
+            Race = ((Troop)Units.FChildren.List[I]).GetRace();
             if (Race != -1 && Race != Relation)
             {
                 if (Relation == -1)
@@ -431,10 +429,10 @@ public partial class UnitList : EChangeNotifyNode
         while (SameRace && I != 0)
         {
             I -= 1;
-            bool condition = Relation == ((AbstractUnit)Units.FChildren.List[I]).GetRace();
+            bool condition = Relation == ((Troop)Units.FChildren.List[I]).GetRace();
             if (!condition)
             {
-                var alignment = ((AbstractUnit)Units.FChildren.List[I]).GetAlignment();
+                var alignment = ((Troop)Units.FChildren.List[I]).GetAlignment();
                 condition = AoWHSSet.Current.FRaceResources.GetRaceResource(Relation).FAlignments.Contains(alignment);
             }
 
@@ -450,7 +448,7 @@ public partial class UnitList : EChangeNotifyNode
             int last = Units.FChildren.Count - 1;
             for (; I <= last; I += 1)
             {
-                Unit_ = (AbstractUnit)Units.FChildren.List[I];
+                Unit_ = (Troop)Units.FChildren.List[I];
                 Alignment = Unit_.GetAlignment();
                 Evil = Evil && AlignmentTables.alsEvil.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(Alignment));
                 Good = Good && AlignmentTables.alsGood.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(Alignment));

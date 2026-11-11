@@ -107,7 +107,7 @@ public partial class HeroUpgradeEventLog : EventLog
     // Hero.PAS:102
     public override void ViewLocation()
     {
-        AbstractUnit U;
+        Troop U;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;

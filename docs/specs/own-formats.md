@@ -40,7 +40,7 @@ and document kind. An extension alone does not establish a profile.
 Six original profiles exist (`FileProfile.All` in `src/Formats/Original/FileProfile.cs`), six instances of four
 virtual profile classes, so a new profile joins without a switch. The kinds are the eight of the
 table. A `.hsm` file names its profile through the root class id of its HSM header
-(`GameFiles.ProfileFor`): a `AoWHSMap` (Delphi `TAoWHSMap`) root is `world-hsm`, a `AoWCombatMap` (Delphi `TAoWCombatMap`) root is
+(`GameFiles.ProfileFor`): a `AoWHSMap` (Delphi `TAoWHSMap`) root is `world-hsm`, a `CombatMap` (Delphi `TAoWCombatMap`) root is
 `tactical-hsm`.
 
 Each kind owns two extensions (`DocumentKind` in `src/Formats/DocumentKind.cs`): the original
@@ -52,10 +52,10 @@ order of `DocumentKind.All`, and `GameFiles.KindForExtension` asks the kinds for
 | --- | --- | --- | --- | --- | --- |
 | World saves | `.asg`, `save` | `.oasg` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert. The game writes JSON |
 | Custom maps | `.hsm`, `map` | `.ohsm` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert. The game has no map writer, since the editor is out of scope |
-| Tactical maps | `.hsm` in `TCMaps`, `map` | `.ohsm` | `tactical-hsm` | tactical, `AoWCombatMap`, HSM header, CFS or raw | Convert with tactical registration context |
+| Tactical maps | `.hsm` in `TCMaps`, `map` | `.ohsm` | `tactical-hsm` | tactical, `CombatMap`, HSM header, CFS or raw | Convert with tactical registration context |
 | Campaign maps | `.csm`, `campaign-map` | `.ocsm` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert |
-| Campaign definitions | `.cam`, `campaign` | `.ocam` | `campaign` | campaign, `AoWCampaign` (Delphi `TAoWCampaign`), stored object with class identity | Convert |
-| Campaign saves | `.acg`, `campaign-save` | `.oacg` | `campaign` | campaign, `AoWCampaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
+| Campaign definitions | `.cam`, `campaign` | `.ocam` | `campaign` | campaign, `Campaign` (Delphi `TAoWCampaign`), stored object with class identity | Convert |
+| Campaign saves | `.acg`, `campaign-save` | `.oacg` | `campaign` | campaign, `Campaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
 | Scenario sets | `.hss`, `scenario-set` | `.ohss` | `scenario-set` | game, `AoWHSSet` (Delphi `TAoWHSSet`), 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHSS` takes the profile and has no caller in the product |
 | Hero lists | `.ahl`, `hero-list` | `.oahl` | `hero-list` | game, `HeroLibrary` (Delphi `THeroLibrary`), written object without class id | Convert. The game writes JSON |
 | Item lists | `.ail`, `item-list` | `.oail` | `item-list` | game, `ItemLibrary` (Delphi `TItemLibrary`), written object without class id | Convert. The game writes JSON |
@@ -253,7 +253,7 @@ retain numbers where lossless conversion requires them.
 | `rwChildren` | `Children` in semantic traversal order. Every identity-bearing child slot has explicit `$slot` |
 | Map property 6 | `Fields[y][x]`, fixed field class from the level profile |
 | Dynamic sprites | `Sprites` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity |
-| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `AoWCampaign` ids 5 (size) and 6 (bytes) form the one member |
+| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `Campaign` ids 5 (size) and 6 (bytes) form the one member |
 | Production item and diplomatic action | `$case`, the case name of the registered kind, then that case's fields. Values the case does not keep go to `$residue`. An unregistered key reads as the case `Unknown`, which keeps the discriminator as `Kind` and every value |
 | Absent property | Absent member, with documented reader default at game load. A present default value stays present through conversion |
 
@@ -781,7 +781,7 @@ a network host names) opens the own sibling first and falls back to the original
 derived name with an own extension whose file is missing opens its original sibling
 (`FileBoundary.ReadName`). A name the user picks in a dialog opens as picked. The load and save
 dialogs list each family under both extensions and show the full name with its extension, so the
-two forms of a name stand side by side (`FileDlgWindow.ListsFile` (Delphi `TFileDlgWindow`)). The user hero and item lists
+two forms of a name stand side by side (`FileDialogWindow.ListsFile` (Delphi `TFileDlgWindow`)). The user hero and item lists
 load each name once, its own document when both forms exist (`FileBoundary.FindDocuments`), and
 deleting a list deletes both forms.
 

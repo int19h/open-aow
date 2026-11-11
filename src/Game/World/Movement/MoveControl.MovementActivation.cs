@@ -46,7 +46,7 @@ public partial class MoveControl
         // Tactical movement retains its sprite in TCombatMoveControl.FUnitHS.
         // The base army cache is read only by world movement callbacks.
         // A tactical sprite on a world control is absent.
-        FArmyHS = this is CombatMoveControl ? null : FSettings.FArmyHS is ArmyHS army ? army : null;
+        FArmyHS = this is CombatMoveControl ? null : FSettings.FArmyHS is ArmyHexSprite army ? army : null;
         FSelection = FSettings.FSelection;
         FTransporterArmy = FSettings.FTransporterArmy;
         FProcessedMapFields = FSettings.FProcessedMapFields;

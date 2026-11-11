@@ -24,22 +24,22 @@ Surveyed on main with `git grep` and a field-offset scan of every explicit-layou
 
 | category | count on main |
 |---|---|
-| Delphi variant records (`data/records/records.md`) | 8: `XYL` (Delphi `TXYL`), `PaletteEntry` (Delphi `TPaletteEntry`), `DefenseRequirements` (Delphi `TDefenseRequirements`), `EMsg` (Delphi `TEMsg`), `ShowInfo` (Delphi `TShowInfo`) and three anonymous combat-info buffers (four C# structs) |
-| explicit-layout structs | 106, of which 7 have overlapping fields: `XYL` (`HSEngine.cs:4815`), `PaletteEntry` (`GFXE.cs:1273`), `DefenseRequirements` (`AoWE.cs:99830`), the buffers (`AoWTC.cs:66, 75, 84, 93`) |
-| `IntOrRef` slots | `EMsg.Payload` and `Param[3]` (`Engine.cs:6077`), `MapFieldMsg.Param[4]` and `Result` (`HSEngine.cs:5292`), `ShowInfo.Payload` (`ImageLib.cs:2474`), `HashItem.Key` (Delphi `THashItem`) (`Engine.cs:8682`, `HashTabU.cs:15`) |
-| byte views | `Unsafe.As` on 291 lines (211 views over `XYL`), `MemoryMarshal` on 102 lines |
+| Delphi variant records (`data/records/records.md`) | 8: `MapCoordinate` (Delphi `TXYL`), `Entry` (Delphi `TPaletteEntry`), `DefenseRequirements` (Delphi `TDefenseRequirements`), `EngineMessage` (Delphi `TEMsg`), `ShowInfo` (Delphi `TShowInfo`) and three anonymous combat-info buffers (four C# structs) |
+| explicit-layout structs | 106, of which 7 have overlapping fields: `MapCoordinate` (`HSEngine.cs:4815`), `Entry` (`GFXE.cs:1273`), `DefenseRequirements` (`AoWE.cs:99830`), the buffers (`AoWTC.cs:66, 75, 84, 93`) |
+| `IntOrRef` slots | `EngineMessage.Payload` and `Param[3]` (`Engine.cs:6077`), `MapFieldMessage.Param[4]` and `Result` (`HSEngine.cs:5292`), `ShowInfo.Payload` (`ImageLib.cs:2474`), `HashItem.Key` (Delphi `THashItem`) (`Engine.cs:8682`, `HashTabU.cs:15`) |
+| byte views | `Unsafe.As` on 291 lines (211 views over `MapCoordinate`), `MemoryMarshal` on 102 lines |
 | `TVarRec` | `src/Rtl/Values.cs`, 335 `Format` lines in 49 Units files, one Units signature (`AoWE.cs:103537`) |
 | engine messages | 81 `MsgProc` overrides, 216 `MsgID ==` tests over 73 literal ids, 306 `Param` uses (80 `As<T>()`, 94 `.Value`), 59 Units files. The 10 typed payload objects of 9.2 ride in `Param` slots |
 | rules families (descendants) | `Spell` (Delphi `TSpell`) 117, `Ability` (Delphi `TAbility`) 83, `TokenEvent` (Delphi `TTokenEvent`) 63, `EventLog` (Delphi `TEventLog`) 43, `Structure` (Delphi `TStructure`) 41, `CombatAction` (Delphi `TCombatAction`) 36, `AIGroup` (Delphi `TAIGroup`) 18, `AIPlayerAction` (Delphi `TAIPlayerAction`) 14, `MoveOnEvent` (Delphi `TMoveOnEvent`) 3, `FlagEvent` (Delphi `TFlagEvent`) 2 |
-| type cascades | event logs: 28 arms in `TheMapExecuteEventLog` (`aowMapEvents.cs:348`) and 2 in the AI's `ProcessEventlogAIPA` (Delphi `TProcessEventlogAIPA`) (`AoWE.cs:69037`). Structures: 15 arms in `ShowStructureInfo` (`AoWInfoWin.cs:510`), 8 in `MainBtnClick` (`AoWInfoWin.cs:379`), 4 in `TheMapStructureDblClick` (`aowMapEvents.cs:1071`) |
-| class id dispatch | 1 `switch` on `EClass.ClassID`, 17 structure ids to tactical map names (`AoWTC.cs:12332`). 32 id comparisons and 152 `FindOwnedChild(id)` lines are queries, not dispatch |
+| type cascades | event logs: 28 arms in `TheMapExecuteEventLog` (`aowMapEvents.cs:348`) and 2 in the AI's `ProcessEventLogAIPlayerAction` (Delphi `TProcessEventlogAIPA`) (`AoWE.cs:69037`). Structures: 15 arms in `ShowStructureInfo` (`AoWInfoWin.cs:510`), 8 in `MainBtnClick` (`AoWInfoWin.cs:379`), 4 in `TheMapStructureDblClick` (`aowMapEvents.cs:1071`) |
+| class id dispatch | 1 `switch` on `EngineClass.ClassID`, 17 structure ids to tactical map names (`AoWTC.cs:12332`). 32 id comparisons and 152 `FindOwnedChild(id)` lines are queries, not dispatch |
 | kind-tagged objects | `ProductionItem` (Delphi `TProductionItem`) (`AoWE.cs:1273`): `FProductionID` in {1, 2, 10 to 14} decides what `FParameter` means, 10 switches, 20 comparisons, 6 files. `DiplomaticAction` (Delphi `TDiplomaticAction`) (`AoWE.cs:95552`): `FActionType` (10 kinds) decides which fields matter, 14 switches in 3 files |
 
 Facts that decide the design:
 
 - Spells, abilities, tokens, combat actions and map events already dispatch through virtual
   methods. The other `switch` statements (585 in all) select code by an enum over the same fields.
-- `EMsg` and `MapFieldMsg` (Delphi `TMapFieldMsg`) never reach a stream or a packet. `ShowInfo` reaches the ILB files.
+- `EngineMessage` and `MapFieldMessage` (Delphi `TMapFieldMsg`) never reach a stream or a packet. `ShowInfo` reaches the ILB files.
   `ProductionItem` and `DiplomaticAction` are saved, sit in maps and travel in token events.
 - `design.md` section 1 says "539 variant records", section 2 says eight. Eight is right.
 
@@ -67,11 +67,11 @@ remains in screen code.
 
 | candidate | closed by nature? | decision |
 |---|---|---|
-| `XYL`, `PaletteEntry`, the byte views | yes, byte layouts | stay explicit-layout, game logic reads both views |
+| `MapCoordinate`, `Entry`, the byte views | yes, byte layouts | stay explicit-layout, game logic reads both views |
 | `DefenseRequirements` | yes | stays, `Strength` aliases element 7 of `DamageStrengths` |
 | the four combat-info buffers | | removed, the second arm is never read. They are plain `AbilityCombatInfo` (Delphi `TAbilityCombatInfo`) locals |
 | `TVarRec` | yes, the cases of `Format` | custom union `FormatArg` (3.1) |
-| `EMsg` and `MapFieldMsg` slots | yes, int or reference | custom union `MsgArg` (3.2) |
+| `EngineMessage` and `MapFieldMessage` slots | yes, int or reference | custom union `MsgArg` (3.2) |
 | `ShowInfo` blend slot | yes, percentage or table | custom union `BlendValue` (3.3) |
 | `HashItem.Key` | | became typed `Dictionary` keys in issue 150 |
 | message kinds | no | stay. 73 bare literal ids. A message hierarchy needs named ids first, a follow-up |
@@ -115,20 +115,20 @@ what each conversion character takes.
     public T? As<T>() where T : class;          // the reference as T, null otherwise
     // ==, != and Equals: the equality of the original 32-bit word
 }
-[InlineArray(Arity)] public struct EMsgParams { public const int Arity = 3; }          // Engine.cs
-[InlineArray(Arity)] public struct MapFieldMsgParams { public const int Arity = 4; }   // HSEngine.cs
+[InlineArray(Arity)] public struct EngineMessageParameters { public const int Arity = 3; }          // Engine.cs
+[InlineArray(Arity)] public struct MapFieldMessageParameters { public const int Arity = 4; }   // HSEngine.cs
 ```
 
-Brief 9.6-4 (PR #105). `EMsg.Param` is a `EMsgParams` (Delphi `TEMsgParams`) and `MapFieldMsg.Param` a
-`MapFieldMsgParams` (Delphi `TMapFieldMsgParams`), inline arrays of `MsgArg` named by their role with the arity of the message
+Brief 9.6-4 (PR #105). `EngineMessage.Param` is a `EngineMessageParameters` (Delphi `TEMsgParams`) and `MapFieldMessage.Param` a
+`MapFieldMessageParameters` (Delphi `TMapFieldMsgParams`), inline arrays of `MsgArg` named by their role with the arity of the message
 protocol as a named constant, never a generated `FixedArray_MsgArg_N` (roadmap X31). These are kept
-protocol layouts, not content counts. `EMsg.Payload` and `MapFieldMsg.Result` are `MsgArg`, and
+protocol layouts, not content counts. `EngineMessage.Payload` and `MapFieldMessage.Result` are `MsgArg`, and
 the `Engine`, `Obj` and `Value` accessors are gone. A nil reference is the union's null, as the
 original slot holds 0 for it.
 
 What changes against `IntOrRef`: a reference no longer offers its identity hash as an integer, and
 `Int` on a reference throws. A compile-time scan of all 511 slot uses found no reference read as an
-integer. The census's three mixed reads, `Value` of a reference in `MapFieldMsg.Result`, were the
+integer. The census's three mixed reads, `Value` of a reference in `MapFieldMessage.Result`, were the
 answered test of `MapField.SendMapFieldMsg` (Delphi `TMapField`), which compares the result before and after each
 handler. It compares with `MsgArg` equality, the equality of the original word: the same integer or
 the same object are equal, the empty slot, the integer 0 and the nil reference are all the word 0,
@@ -187,7 +187,7 @@ renderer of `Event.View()`. `None` has no renderer, so nothing runs and `Done` i
 for the 11 kinds the cascade skipped. `Acknowledge` calls `Done(Event)`, the old `UserEventLog` (Delphi `TUserEventLog`)
 arm. The overrides read the state the cascade consulted (the negotiation target and joining hero,
 the seated player at game over, the player magic mode, the army view's selection, the prisoner
-hero) with the same queries at the same moment. `ProcessEventlogAIPA` calls
+hero) with the same queries at the same moment. `ProcessEventLogAIPlayerAction` calls
 `Log.ExecuteAI(player)`, overridden by `HeroEmergeEventLog` (Delphi `THeroEmergeEventLog`) and `DiplomaticActionEventLog` (Delphi `TDiplomaticActionEventLog`).
 
 Arm order mattered only where an earlier arm caught a subclass. No arm tested a base before one of
@@ -203,8 +203,8 @@ resolves to. `EnterCaveEventLog` (Delphi `TEnterCaveEventLog`), `PlayerConnectio
 Brief 9.6-2 (PR #103). Four dispatch sites became virtuals on `Structure`, declared with every
 override in `Structure.Views.cs`, which names no screen. Keys are `StructureView` values, the open
 pattern of `EventView`: `None`, the two screens `CityScreen` and `ProductionScreen`, and 19 panels.
-The info window keeps two static catalogs, `IWindow.StructurePanels` (Delphi `TIWindow`) and
-`IWindow.StructureButtons` (`Action<IWindow, Structure>`), and the map screen one,
+The info window keeps two static catalogs, `InfoWindow.StructurePanels` (Delphi `TIWindow`) and
+`InfoWindow.StructureButtons` (`Action<InfoWindow, Structure>`), and the map screen one,
 `MapEvents.StructureScreens` (Delphi `TMapEvents`) (`Action<MapEvents, Structure>`). Renderers take their screen as an
 argument, `ClassRegistry.cs` adds the 23 original renderers with `Add`, and both view briefs build
 on CF-2's `Catalog`.
@@ -226,7 +226,7 @@ the call. The bridge, no structure, stays in the generator in the original looku
 The class id switch matched exact ids, while a virtual is inherited. Each override sits on the
 class whose id the switch named, and `NoStructureInheritsAnotherClassMapName` checks that no
 structure class inherits a map name from a class above it. `StructureViewTests` replay copies of
-the old cascades and the old switch over all 42 structure classes of the `EClass` table and every
+the old cascades and the old switch over all 42 structure classes of the `EngineClass` table and every
 state they consulted, including the random seed after the site map draw.
 
 ### 3.6 Production orders
@@ -285,15 +285,15 @@ public abstract record DiplomaticProposal                                // AoWE
 }
 public abstract record OfferProposal(int Gold, int Mana) : DiplomaticProposal;   // the five kinds with an offer
 // DeclareWar 0, OfferPeace 1, ProposeAlliance 2, SendMessage 3, ThreatenToAttack 4, MakeTribute 5,
-// BreakAlliance 6, SendMessageAsY 7, BreakAllianceWithY 8, DeclareWarToY 9, UnknownProposal(Kind, Gold, Mana)
+// BreakAlliance 6, ImpersonatedMessage 7, SuggestAllianceBreak 8, SuggestWarDeclaration 9, UnknownProposal(Kind, Gold, Mana)
 ```
 
 Brief 9.6-7 (PR #108). `DiplomaticAction` keeps its class id and the common part: reference
 count, day, source, target, other player, reaction, escrow gold and mana, and event log id. It
 holds a `DiplomaticProposal`, the pattern of 3.6 keyed by the one-byte kind with a
 `Catalog<byte, ...>` that rejects duplicates. `OfferProposal(Gold, Mana)` is the base of the five
-kinds that carry an offer (`OfferPeace`, `ProposeAlliance`, `MakeTribute`, `BreakAllianceWithY`,
-`DeclareWarToY`). Two fields that section 3 gave the kinds stay common, per roadmap X20 and the
+kinds that carry an offer (`OfferPeace`, `ProposeAlliance`, `MakeTribute`, `SuggestAllianceBreak`,
+`SuggestWarDeclaration`). Two fields that section 3 gave the kinds stay common, per roadmap X20 and the
 census. `FOtherPlayer` stays a field of `DiplomaticAction`, since the census finds it written for
 every kind, 255 for the kinds that name no other player. `Message` is a member of the
 `DiplomaticProposal` base, which every kind carries. No subclass of `DiplomaticAction` per kind
@@ -322,8 +322,8 @@ saves, maps and gate runs.
 | `FormatArg`, `MsgArg` | none | never streamed or sent. `MessageSlotTests.NoStorageMethodTakesAMessageRecord` checks that no `rw*` or `Read` method takes a message record |
 | `ShowInfo` | ILB image, 8 bytes | `ReadImage` and `WriteImage` stay in the struct: mode bytes at 0 and 1, padding at 2, the percentage at 4. Reading yields the percentage case. A table writes 0 where the original wrote a process address no reader uses. ILB files are game data, outside 9.7 |
 | event logs, structures | none | virtuals add no state, class ids unchanged |
-| `ProductionOrder` | `ProductionItem.ReadWrite` ids 20 to 22, in saves, maps and `ProductionTE` (Delphi `TProductionTE`) | below |
-| `DiplomaticProposal` | `DiplomaticAction.ReadWrite` ids 23 to 25 and 27 (gold, mana, kind, message), in saves and `DiplomaticActionTE` (Delphi `TDiplomaticActionTE`). Id 22, the other player, stays in the common part (3.7) | the same pattern, the kind as the one-byte `rwData` at id 25 and the message from the proposal's `Message` |
+| `ProductionOrder` | `ProductionItem.ReadWrite` ids 20 to 22, in saves, maps and `ProductionTokenEvent` (Delphi `TProductionTE`) | below |
+| `DiplomaticProposal` | `DiplomaticAction.ReadWrite` ids 23 to 25 and 27 (gold, mana, kind, message), in saves and `DiplomaticActionTokenEvent` (Delphi `TDiplomaticActionTE`). Id 22, the other player, stays in the common part (3.7) | the same pattern, the kind as the one-byte `rwData` at id 25 and the message from the proposal's `Message` |
 
 ```csharp
 public override void ReadWrite(EStorageStream Stream)
@@ -343,7 +343,7 @@ properties 20 to 31 the same way. Calls, ids, order and the zero rule (`persiste
 they were. `ProductionOrderTests` and `DiplomaticProposalTests` compare the written bytes with bytes
 recorded on main before the change, for every property set the census found per kind, for the kinds
 the census did not meet as the source builds them and for ids no kind registers, alone and inside
-`ProductionTE`, or inside `DiplomaticActionTE` and `DiplomaticActionEventLog`. Original kinds
+`ProductionTokenEvent`, or inside `DiplomaticActionTokenEvent` and `DiplomaticActionEventLog`. Original kinds
 register in `ClassRegistry`, not at unit initialization, and the same tests check that every
 original kind is registered and that a second registration throws. An unregistered id reads as
 `UnknownOrder` or `UnknownProposal` and writes back unchanged. The loader assigns mod order and
@@ -386,10 +386,10 @@ for the converter boundary.
 | invariant | proof |
 |---|---|
 | save and map bytes of production items and diplomatic actions | `persistence` (7,200 byte fixtures), `oracle` (177 saves, byte and model), `scenarios` (92 states, the shipped maps), per-kind byte tests against bytes recorded on main |
-| network packet layout | token events serialize through the same `ReadWrite` behind a stand-in transport: the per-kind tests on `ProductionTE` and `DiplomaticActionTE` |
-| class ids, sizes, parents | the 9.4 `EClass` baseline test, unchanged |
+| network packet layout | token events serialize through the same `ReadWrite` behind a stand-in transport: the per-kind tests on `ProductionTokenEvent` and `DiplomaticActionTokenEvent` |
+| class ids, sizes, parents | the 9.4 `EngineClass` baseline test, unchanged |
 | address reads | `MsgArg` allocates no id and `HashItem.Key` keeps `IntOrRef`. `oracle`, and `frames` through `address_animation_phase` and `water_variant_phase` |
-| which dialog, panel or action a kind gets | tests that the view virtuals return, for every concrete kind and every state the cascades test, the view of a table reviewed against today's cascades, and that `CombatMapName` equals the old switch, copied into the test, for every structure class in the `EClass` table |
+| which dialog, panel or action a kind gets | tests that the view virtuals return, for every concrete kind and every state the cascades test, the view of a table reviewed against today's cascades, and that `CombatMapName` equals the old switch, copied into the test, for every structure class in the `EngineClass` table |
 | message delivery, `Format` argument order | code paths unchanged. `oracle`, `scenarios`, probes `format` and `strings` |
 | frame pixels | `frames` 100 of 100, `language-frames` 7 of 7, `scenarios` 92 frames |
 | allocation profile | `pacing` (300 frames at 33 ms) |
@@ -402,8 +402,8 @@ The 13 layers of `tools/check.py` keep their counts. A count that moves is a fin
 |---|---|---|
 | 9.6-0 census and probe | private only. `cs15probe` gains the section 2 cases. `tools/rewrite/union-census` lists the property ids present per production and diplomacy kind in oracle saves, scenario states, shipped maps and campaigns. A throwaway instrumented build logs each message slot's case written and read through the oracle and scenario runs. Output `data/rewrite/9.6-census.json` and `.md` | the probe prints its line, the census covers every message slot and every kind |
 | 9.6-1 `FormatArg` | `src/Rtl` (six files and new `FormatArg.cs`, now `src/Rtl/Legacy/FormatArg.cs`), five `Rtl.Tests` files, `AoWE.cs:103537` | `git grep -n "TVarRec\|VarKind" -- src` is empty, `StringFormatTests` cover every case and conversion |
-| 9.6-2 structure views | new `Structure.Views.cs`, `AoWInfoWin.cs`, `aowMapEvents.cs` (double click), `AoWTC.cs` (the id switch), tests | no type test on a structure kind in the three screen methods, no switch on `EClass.ClassID`, the view and map name tests pass |
-| 9.6-3 event log views | new `EventLog.Views.cs`, `aowMapEvents.cs`, `AoWE.cs` (`ProcessEventlogAIPA`), tests | both cascades hold no type test, the view tests pass |
+| 9.6-2 structure views | new `Structure.Views.cs`, `AoWInfoWin.cs`, `aowMapEvents.cs` (double click), `AoWTC.cs` (the id switch), tests | no type test on a structure kind in the three screen methods, no switch on `EngineClass.ClassID`, the view and map name tests pass |
+| 9.6-3 event log views | new `EventLog.Views.cs`, `aowMapEvents.cs`, `AoWE.cs` (`ProcessEventLogAIPlayerAction`), tests | both cascades hold no type test, the view tests pass |
 | 9.6-4 `MsgArg`, buffers | `Engine.cs`, `HSEngine.cs`, `FixedArrays.cs`, new `src/Rtl/Legacy/MsgArg.cs`, `CoreTests.cs`, the 59 Units message files, `AoWTC.cs` | `IntOrRef` remains only in `HashItem`, `src/Rtl/Legacy/Pointers.cs` and their tests, the overlap scan finds 3 structs |
 | 9.6-5 `ShowInfo` | `ImageLib.cs`, 25 more Units files, `GraphicsConstructionTests.cs` | no `IntOrRef` in `ImageLib.cs`, the ILB round trip test passes |
 | 9.6-6 production orders | new `AoWE.ProductionOrders.cs`, `AoWE.cs`, `City.cs`, `PrdPlace.cs`, `AoWCityScreen.cs`, `AoWInfoWin.cs`, `AoWProdScreen.cs`, tests | `FProductionID` and `ProductionItem.FParameter` appear nowhere, no switch over a production id or its city action outside the order classes, apart from the city screen's button table (`SelectAction`, the two button handlers and `ActivityImage(CityAction)` in `AoWCityScreen.cs`, which select a button's panel and handler and include Raze, no order), kept for milestone 10 where a mod's new action needs a button (amended 2026-11-05 after 9.6-6), the byte tests pass |
@@ -431,7 +431,7 @@ arguments, which `FormatArg` takes over. Delphi `Char` remains `byte` until a la
    arguments from both `byte` and `char`, and the `format` probe.
 3. 9.6-2 and 9.6-3: an override on the wrong class changes what a kind shows, or a decision moved
    out of a screen reads different state. Evidence: the view tests of section 5, a reflection test
-   that prints each kind's resolved view for the report, the map name test over the `EClass` table,
+   that prints each kind's resolved view for the report, the map name test over the `EngineClass` table,
    and review that the new partial files name no dialog or screen type.
 4. 9.6-4: a reader used the integer view of a reference or read a slot of another kind. Evidence:
    no mixed slot in the census, `Int` throwing on a reference through the whole gate run, reviewed
@@ -459,7 +459,7 @@ of the private gate:
 | 9.6-1 `FormatArg` | #99 | `git grep -n "TVarRec\|VarKind" -- src` prints nothing. 180 new tests select every case by its conversion and meet every case with every conversion character |
 | 9.6-2 structure views | #103 | no type test on a structure kind in the three screen methods, no switch on a class id. `StructureViewTests` replay the old cascades and the old switch over all 42 structure classes |
 | 9.6-3 event log views | #104 | neither cascade holds a type test. `EventLogViewTests` replay the old cascade over all 44 event log classes |
-| 9.6-4 `MsgArg`, buffers | #105 | `IntOrRef` remains only in `HashItem`, `src/Rtl/Legacy/Pointers.cs` and their tests. The overlap scan finds 3 structs (`XYL`, `PaletteEntry`, `DefenseRequirements`) |
+| 9.6-4 `MsgArg`, buffers | #105 | `IntOrRef` remains only in `HashItem`, `src/Rtl/Legacy/Pointers.cs` and their tests. The overlap scan finds 3 structs (`MapCoordinate`, `Entry`, `DefenseRequirements`) |
 | 9.6-5 `ShowInfo` | #106 | no `IntOrRef` in `ImageLib.cs`. The ILB round trip compares 11,419 records in 538 libraries, all equal |
 | 9.6-6 production orders | #107 | `git grep FProductionID -- src` finds only a test comment that names the old layout. The byte tests and the replayed switches pass |
 | 9.6-7 diplomatic proposals | #108 | `git grep FActionType -- src` finds only a test comment that names the old layout. The byte tests and the replayed presentation switches pass |

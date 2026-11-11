@@ -1,9 +1,8 @@
+using System.Text;
 using Aow.Formats;
 
 using Aow.Game.Saves;
-
-using Aow.Game.Ui.Dialogs;
-
+using Aow.Game.UI.Dialogs;
 using Aow.Platform;
 
 namespace Aow.Game.Tests;
@@ -49,7 +48,7 @@ public sealed class OwnExtensionNameTests : IDisposable
 
     private string Root(string relative) => Path.Combine(directory, "root", relative);
 
-    private static byte[] HeroList(string name) => System.Text.Encoding.UTF8.GetBytes(
+    private static byte[] HeroList(string name) => Encoding.UTF8.GetBytes(
         "{\"$format\": \"OpenAoW\", \"$version\": 1, \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
         + name + "\"}}");
 
@@ -159,5 +158,5 @@ public sealed class OwnExtensionNameTests : IDisposable
     [InlineData(0, false, ".ohsm", false)]
     [InlineData(0, false, ".oahl", false)]
     public void TheDialogListsBothExtensions(int mode, bool campaign, string extension, bool listed) =>
-        Assert.Equal(listed, FileDlgWindow.ListsFile(mode, campaign, extension));
+        Assert.Equal(listed, FileDialogWindow.ListsFile(mode, campaign, extension));
 }

@@ -28,7 +28,7 @@ public partial class PrisonersJoinEventLog : JoinEventLog
     {
         bool Result;
         Dungeon Dungeon;
-        StructureTE TE;
+        StructureTokenEvent TE;
         Dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
         if (Dungeon != null && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
         {

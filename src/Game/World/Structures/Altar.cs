@@ -1,7 +1,7 @@
 // Translated from Altar.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-using Aow.Game.Ai;
+using Aow.Game.AI;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw.Animations;
@@ -57,7 +57,7 @@ public partial class Altar : PlayerStructure
     public override bool GetRazed() => FMode == Mode.Razed;
 
     // Altar.pas:78
-    public override ExecuteResult ExecuteTE(StructureTE TE, TokenExecuter Executer)
+    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
     {
         string Reason = "";
         ExecuteResult Result = base.ExecuteTE(TE, Executer);
@@ -128,7 +128,7 @@ public partial class Altar : PlayerStructure
     public override bool ExecuteAI(sbyte Player, int Phase)
     {
         Storm Storm;
-        XYL Target = default;
+        MapCoordinate Target = default;
         BattleFieldInfo Friendly = default;
         BattleFieldInfo Enemy = default;
         StormDamageInfo Damage = default;
@@ -164,7 +164,7 @@ public partial class Altar : PlayerStructure
                             {
                                 var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
                                 var targetMana2 = TargetMana();
-                                AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.BudgetExpenseMade(0, targetMana2, player.FAIBudget.FDefaultBudget, AIBudgetManager.BudgetExpenseMode.PoolThenBudget);
+                                AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.BudgetExpenseMade(0, targetMana2, player.FAIBudget.FDefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
                             }
                         }
                     }
@@ -201,7 +201,7 @@ public partial class Altar : PlayerStructure
     {
         bool Result;
         string Reason = "";
-        StructureTE Event;
+        StructureTokenEvent Event;
         if (CanTarget(ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             Event = CreateTE();

@@ -40,7 +40,7 @@ public partial class ConstructAbility : AdjustableAbility
     public override bool CanActivate(AbilityOwner Owner, ref string Reason)
     {
         bool Result;
-        if (Owner is AbstractUnit)
+        if (Owner is Troop)
         {
             Result = true;
         }

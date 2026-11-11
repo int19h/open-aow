@@ -6,9 +6,8 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 
@@ -39,7 +38,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Structures;
 
 // ID, update count, building player, days left, shadow, fogged
-public partial class Structure : FixedILTerrainMO
+public partial class Structure : FixedImageLibraryTerrainMapObject
 {
 
     public Structure(ECustomNode owner) : base(owner)
@@ -71,7 +70,7 @@ public partial class Structure : FixedILTerrainMO
         }
 
         base.Dispose();
-        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             AoWHSMap.Current.StructureDestroyed(this);
         }
@@ -89,7 +88,7 @@ public partial class Structure : FixedILTerrainMO
     // Structur.PAS:1010
 
     // Structur.PAS:1629
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001985)
@@ -147,10 +146,10 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1287
-    public override bool CanChangeTerrain(in HSSenderInfo Info) => ((StructureResource)FResource).FTerrainBound || base.CanChangeTerrain(Info);
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info) => ((StructureResource)FResource).FTerrainBound || base.CanChangeTerrain(Info);
 
     // Structur.PAS:1297
-    public override void TerrainChanged(in HSTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
     {
         if (FResource.TerrainList.Terrain[Info.HN] >= 0)
         {
@@ -167,7 +166,7 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1647
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -200,7 +199,7 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1599
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
@@ -223,19 +222,19 @@ public partial class Structure : FixedILTerrainMO
                 {
                     if (Msg.MsgID == 4388)
                     {
-                        ArmyChanged(Msg.Param[0].As<ArmyHS>());
+                        ArmyChanged(Msg.Param[0].As<ArmyHexSprite>());
                     }
                     else
                     {
                         if (Msg.MsgID == 4354)
                         {
-                            ArmyPlaced(Msg.Param[0].As<ArmyHS>());
+                            ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
                         }
                         else
                         {
                             if (Msg.MsgID == 4355)
                             {
-                                ArmyRemoved(Msg.Param[0].As<ArmyHS>());
+                                ArmyRemoved(Msg.Param[0].As<ArmyHexSprite>());
                             }
                             else
                             {
@@ -308,7 +307,7 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1886
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (FResource.TerrainList.Terrain[Info.HN] >= 0)
         {
@@ -348,7 +347,7 @@ public partial class Structure : FixedILTerrainMO
     public override void Select()
     {
         base.Select();
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             PlaySelectSample();
         }
@@ -380,7 +379,7 @@ public partial class Structure : FixedILTerrainMO
     public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         bool Result;
-        ILTerrainMO Pad;
+        ImageLibraryTerrainMapObject Pad;
         if (GetEditMode() || CanPlace(MapContainer, Xhx, Yhx, Lhx))
         {
             if (((StructureResource)FResource).FTerrainBound)
@@ -588,7 +587,7 @@ public partial class Structure : FixedILTerrainMO
     {
         bool Result;
         string Reason = "";
-        StructureTE Event;
+        StructureTokenEvent Event;
         if (CanRaze(Player, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
         {
             Event = CreateTE();
@@ -610,9 +609,9 @@ public partial class Structure : FixedILTerrainMO
     // Structur.PAS:1755
     public virtual void SetupRazeDefenderAG(UnitList Attackers, UnitList Defenders)
     {
-        HuntAG Group;
+        HuntAIGroup Group;
         var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(Defenders, 5);
-        Group = (HuntAG)AoWHSMap.Current.FAIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
+        Group = (HuntAIGroup)AoWHSMap.Current.FAIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
         Group.AddUnits(Defenders);
         for (int I = Attackers.Count - 1; I >= 0; I--)
         {
@@ -627,10 +626,10 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1130
-    public virtual StructureTE CreateTE() => new StructureTE(null);
+    public virtual StructureTokenEvent CreateTE() => new StructureTokenEvent(null);
 
     // Structur.PAS:1135
-    public virtual void SetupTE(StructureTE TE)
+    public virtual void SetupTE(StructureTokenEvent TE)
     {
         var lhx = GetLhx();
         var yhx = GetYhx();
@@ -639,10 +638,10 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1140
-    public virtual ExecuteResult ExecuteTE(StructureTE TE, TokenExecuter Executer)
+    public virtual ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
     {
         ExecuteResult Result;
-        AbstractUnit AUnit;
+        Troop AUnit;
         if (TE.FAction == -1)
         {
             if (ExecuteRaze((sbyte)TE.FParam))
@@ -713,17 +712,17 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1488
-    public virtual void ArmyPlaced(ArmyHS PlacedArmy)
+    public virtual void ArmyPlaced(ArmyHexSprite PlacedArmy)
     {
     }
 
     // Structur.PAS:1491
-    public virtual void ArmyRemoved(ArmyHS Army)
+    public virtual void ArmyRemoved(ArmyHexSprite Army)
     {
     }
 
     // Structur.PAS:1494
-    public virtual void ArmyChanged(ArmyHS Army)
+    public virtual void ArmyChanged(ArmyHexSprite Army)
     {
     }
 
@@ -765,7 +764,7 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1639
-    public virtual void ShowShadow(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public virtual void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -804,7 +803,7 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1383
-    public virtual bool ExecuteRebuild(AbstractUnit AUnit)
+    public virtual bool ExecuteRebuild(Troop AUnit)
     {
         bool Result;
         int Time = default;
@@ -830,7 +829,7 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1400
-    public virtual bool ExecuteBuild(AbstractUnit AUnit, int Days)
+    public virtual bool ExecuteBuild(Troop AUnit, int Days)
     {
         FBuildingDays = (byte)Days;
         FBuildingPlayer = AUnit.FPlayer;
@@ -857,7 +856,7 @@ public partial class Structure : FixedILTerrainMO
                 Indexes.Add(unitIndexListCollection.GetU(Collection, I));
             }
 
-            IntegerList.FillWithRandomUnits(Indexes, Units, 4, ((StructureResource)FResource).FRazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            Int32List.FillWithRandomUnits(Indexes, Units, 4, ((StructureResource)FResource).FRazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             while (Units.Count > 8)
             {
                 Units.DeleteUnit(Units.GetUnit(Units.Count - 1));
@@ -876,7 +875,7 @@ public partial class Structure : FixedILTerrainMO
         UnitList Defenders;
         UnitList Placed;
         UnitList Attackers;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Defenders = new UnitList(null);
         Placed = new UnitUserList(null);
         Attackers = new UnitUserList(null);
@@ -1018,11 +1017,11 @@ public partial class Structure : FixedILTerrainMO
     // Structur.PAS:1349
     public virtual bool VisibleForPlayer(sbyte Player)
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Result = false;
         if (Player >= 0)
         {
-            HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (true)
             {
                 var terrainCount = GetTerrainCount();
@@ -1034,7 +1033,7 @@ public partial class Structure : FixedILTerrainMO
                     Result = AoWHSMap.Current.VisibleForPlayer(Walk.X, Walk.Y, lhx, Player);
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -1047,14 +1046,14 @@ public partial class Structure : FixedILTerrainMO
     // Structur.PAS:1508
     public virtual int ListUnits(UnitList List)
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         int Count;
         MapLevel Level;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         int Result = 0;
         Count = GetTerrainCount();
         Level = (MapLevel)Owner.Owner;
-        HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count)
         {
             if (FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -1067,7 +1066,7 @@ public partial class Structure : FixedILTerrainMO
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;
@@ -1076,15 +1075,15 @@ public partial class Structure : FixedILTerrainMO
     // Structur.PAS:1535
     public virtual int ListArmies(ArmyHSList List)
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         int Count;
         MapLevel Level;
-        EObject Army;
+        EngineObject Army;
         List.BeginUpdate();
         int Result = 0;
         Count = GetTerrainCount();
         Level = (MapLevel)Owner.Owner;
-        HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count)
         {
             if (FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -1097,7 +1096,7 @@ public partial class Structure : FixedILTerrainMO
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         List.EndUpdate();
@@ -1112,7 +1111,7 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1439
-    public virtual bool CanRebuild(AbstractUnit AUnit, ref string Reason)
+    public virtual bool CanRebuild(Troop AUnit, ref string Reason)
     {
         bool Result;
         int Cost = default;
@@ -1146,11 +1145,11 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1458
-    public virtual bool Rebuild(AbstractUnit AUnit)
+    public virtual bool Rebuild(Troop AUnit)
     {
         bool Result;
         string Reason = "";
-        StructureTE Event;
+        StructureTokenEvent Event;
         if (CanRebuild(AUnit, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).GetBusy())
         {
             Event = CreateTE();
@@ -1270,7 +1269,7 @@ public partial class Structure : FixedILTerrainMO
     public void UpdateRoads(MapField MapField)
     {
         MapLevel Level;
-        WordList Table;
+        UInt16List Table;
         int X = default;
         int Y = default;
         AbstractRoad Road;
@@ -1299,7 +1298,7 @@ public partial class Structure : FixedILTerrainMO
     // Structur.PAS:1217
     public void FogChanged()
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         int Count;
         MapLevel Level;
         FFogged = AoWHSMap.Current.FFogEnabled;
@@ -1307,7 +1306,7 @@ public partial class Structure : FixedILTerrainMO
         {
             Count = GetTerrainCount();
             Level = (MapLevel)Owner.Owner;
-            HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count && FFogged)
             {
                 if (FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -1316,7 +1315,7 @@ public partial class Structure : FixedILTerrainMO
                     FFogged = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)fieldValue).FFieldFlags).Hi).Lo == 0;
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
     }
@@ -1324,11 +1323,11 @@ public partial class Structure : FixedILTerrainMO
     // Structur.PAS:1366
     public bool ValidateObservation(sbyte Player)
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapLevel Level;
         bool Result = false;
         Level = (MapLevel)Owner.Owner;
-        HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (true)
         {
             var terrainCount = GetTerrainCount();
@@ -1340,7 +1339,7 @@ public partial class Structure : FixedILTerrainMO
                 Result = AoWHSMap.Current.ValidateObservation(Player, (sbyte)Walk.X, (sbyte)Walk.Y, lhx, 0);
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;
@@ -1350,7 +1349,7 @@ public partial class Structure : FixedILTerrainMO
     public bool GetBuilding() => FBuildingPlayer != -1;
 
     // Structur.PAS:1655
-    public bool ShowBorderImage(SurfaceDesc SurfaceDesc, Rect R)
+    public bool ShowBorderImage(LockedSurface SurfaceDesc, Rect R)
     {
         LibraryImage TopImage;
         LibraryImage MiddleImage;
@@ -1401,17 +1400,17 @@ public partial class Structure : FixedILTerrainMO
     // Structur.PAS:1688
     public bool ShowBorderImageDC(int DC, Rect R)
     {
-        DIB16Surface Surface;
+        Dib16Surface Surface;
         int Width;
         int Height;
-        SurfaceDesc SurfaceDesc = default;
+        LockedSurface SurfaceDesc = default;
         Rect BorderRect;
         bool Result = false;
         if (GetBottomBorderImage() != null)
         {
             Width = R.Right - R.Left;
             Height = R.Bottom - R.Top;
-            Surface = new DIB16Surface(Width, Height, PixelFormats.pfRGB565);
+            Surface = new Dib16Surface(Width, Height, PixelFormats.pfRGB565);
             try
             {
                 BorderRect = new Rect(0, 0, Width, Height);
@@ -1431,7 +1430,7 @@ public partial class Structure : FixedILTerrainMO
     }
 
     // Structur.PAS:1795
-    public void ShowRazeAnimation(Animation Animation, int X, int Y, in SurfaceDesc SurfaceDesc)
+    public void ShowRazeAnimation(Animation Animation, int X, int Y, in LockedSurface SurfaceDesc)
     {
         if (((ImageSequenceAnimation)Animation).FImageSequence.GetUnloopedFrameIndex(Animation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != (byte)DetailLevel.Low)
         {

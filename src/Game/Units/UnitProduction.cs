@@ -5,7 +5,7 @@ using Aow.Engine.Storage;
 namespace Aow.Game.Units;
 
 // unit index, researched
-public partial class UnitProduction : EObject
+public partial class UnitProduction : EngineObject
 {
     public new const int ClassID = 131737;
 

@@ -25,7 +25,7 @@ namespace Aow.Game.Combat;
 
 // FCombatStatus. FCombatData. FNextCOID. FResult. FLogbook. FSides. FExecutedEvents.
 // FExecutedLock. FOnExecuted. FTerminated. FOnTerminated. FVisibilityMode
-public partial class Battle : EObject
+public partial class Battle : EngineObject
 {
 
     // Combat.pas:6067
@@ -50,7 +50,7 @@ public partial class Battle : EObject
     public int FNextCOID;
     public CombatResult FCombatResult;
     public CombatLogbook FLogbook;
-    public FixedArray_Aow_Units_AoWE_TCombatSide_2 FSides;
+    public CombatSideArray2 FSides;
 
     internal EventStore<Battle> FExecutedEventsStore;
 
@@ -65,7 +65,7 @@ public partial class Battle : EObject
     public bool FTerminated;
     public NotifyEvent<Battle> FOnTerminated;
     public byte FExplorationSite;
-    public EObject FItems;
+    public EngineObject FItems;
 
     // item list or prisoners army
     // Combat.pas:6082
@@ -188,7 +188,7 @@ public partial class Battle : EObject
     // Combat.pas:6163
     public virtual CombatUnit CreateCombatUnit()
     {
-        CombatUnit Result = new FastCombatUnit(null);
+        CombatUnit Result = new FastBattleUnit(null);
         Result.FID = CreateUniqueCOID();
         return Result;
     }
@@ -306,7 +306,7 @@ public partial class Battle : EObject
         FinalizeMode Mode;
         CombatData Data;
         CombatData FinalData;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Assert((FStatus & Set<CombatStatusElement>.Of(CombatStatusElement.Executing, CombatStatusElement.Activated)) == Set<CombatStatusElement>.Of(CombatStatusElement.Executing), "Combat Finalize Failure", "Combat.pas", 6523);
         for (int I = 0, last = FCombatData.FDefeatedLeaders.Count - 1; I <= last; I++)
         {
@@ -409,8 +409,8 @@ public partial class Battle : EObject
     // Combat.pas:6180
     public virtual void NewTurn(byte CombatPlayer)
     {
-        NewCombatTurnCA A;
-        A = new NewCombatTurnCA(null);
+        NewCombatTurnCombatAction A;
+        A = new NewCombatTurnCombatAction(null);
         A.F_NewCombatTurnCA_0C = CombatPlayer;
         ExecuteCombatAction(A);
         A.Release();
@@ -420,8 +420,8 @@ public partial class Battle : EObject
     // Combat.pas:6169
     public virtual void NewRound()
     {
-        NewCombatRoundCA A;
-        A = new NewCombatRoundCA(null);
+        NewCombatRoundCombatAction A;
+        A = new NewCombatRoundCombatAction(null);
         ExecuteCombatAction(A);
         A.Release();
     }
@@ -608,8 +608,8 @@ public partial class Battle : EObject
     // { }
     public void SetLogbookHeader(string Header)
     {
-        UpdateHeaderCA A;
-        A = new UpdateHeaderCA(null);
+        UpdateHeaderCombatAction A;
+        A = new UpdateHeaderCombatAction(null);
         A.F_UpdateHeaderCA_0C = Header;
         ExecuteCombatAction(A);
         A.Release();
@@ -621,17 +621,17 @@ public partial class Battle : EObject
     {
         CombatData Data;
         MapLevel Level;
-        HNWalkData Walk = default;
-        ArmyHS ArmyHS;
+        HexNumberWalkData Walk = default;
+        ArmyHexSprite ArmyHS;
         CombatSideIndex Side;
         Data = FCombatData;
         Level = AoWHSMap.Current.MapContainer.GetMapLevel(Data.FL);
-        HNWalkData.InitHNWalk(ref Walk, Data.FX, Data.FY, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, Data.FX, Data.FY, 0);
         while (Walk.Radius <= 1)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
             {
-                ArmyHS = (ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                ArmyHS = (ArmyHexSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     if (Walk.HN != 0)
@@ -661,7 +661,7 @@ public partial class Battle : EObject
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
     }
 
@@ -706,9 +706,9 @@ public partial class Battle : EObject
         byte Position;
         int Index;
         CombatUnit UnitObj;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         CombatData Data;
-        AbstractUnit Transporter;
+        Troop Transporter;
         Army.BeginUpdate();
         Player = (byte)FCombatData.FPlayers.IndexOf((byte)Army.FPlayer, (byte)Army.FIndependentRelation);
         if (Player == 255)
@@ -795,7 +795,7 @@ public partial class Battle : EObject
         byte Player;
         CombatSideIndex Side;
         CombatParty Party;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Data = FCombatData;
         Position = GetPartyPosition(X, Y, L);
         var players = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
@@ -825,13 +825,13 @@ public partial class Battle : EObject
     public void InitDefaultArmies(Army Army, int X, int Y, int L)
     {
         CombatData Data;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         Data = FCombatData;
         if (GetPartyPosition(X, Y, L) == 7)
         {
             FExplorationSite = 2;
             AddArmy(Army, CombatSideIndex.Attacker, X, Y, L);
-            ArmyHS = (ArmyHS)AoWHSMap.Current.MapContainer.GetField(Data.FX, Data.FY, Data.FL).FindOwnedChild(131607);
+            ArmyHS = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(Data.FX, Data.FY, Data.FL).FindOwnedChild(131607);
             if (ArmyHS != null)
             {
                 AddArmy(ArmyHS.FArmy, CombatSideIndex.Defender, Data.FX, Data.FY, Data.FL);
@@ -871,7 +871,7 @@ public partial class Battle : EObject
     {
         var query = new CombatResultQuery();
         ref var Result = ref query.Text;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Result = "";
         Msg.MsgID = 4361;
         Msg.Result = query;

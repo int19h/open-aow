@@ -13,11 +13,11 @@ public struct BattleFieldInfo
     public sbyte IndependentRelation;
     public Set<BattleFieldInfoRequestsElement> Requests;
     public Set<DamageType> DamageTypes;
-    public FixedArray_byte_3 Reserved05;
+    public ByteArray3 Reserved05;
     public UnitList Units;
     public Set<byte> FriendlyRelations;
     public Set<byte> EnemyRelations;
-    public FixedArray_byte_2 Reserved0E;
+    public ByteArray2 Reserved0E;
     public int FriendlyStrength;
     public int Strength;
     public int Reserved18;

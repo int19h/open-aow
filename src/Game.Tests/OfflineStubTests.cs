@@ -8,8 +8,8 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
-using Aow.Game.Ui.Dialogs;
-using Aow.Game.Ui.Windows;
+using Aow.Game.UI.Dialogs;
+using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -115,7 +115,7 @@ public sealed class OfflineStubTests
         var heroes = new HeroResourceList(null!);
         new HeroResource(heroes);
         AoWHSSet.Current.FHeroResources = heroes;
-        var window = Populate(new LeaderSetupWin(null!));
+        var window = Populate(new LeaderSetupWindow(null!));
         var control = new LeaderSetupControl(null!) { FOriginalLeader = new Leader(null!) };
         bool done = false;
         control.FOnDone = sender => done = ReferenceEquals(sender, control);
@@ -168,7 +168,7 @@ public sealed class OfflineStubTests
         using var saved = new SavedGlobals();
         var events = OfflineSetupEvents();
         var window = NewGameWindow();
-        var setup = Populate(new ScenSetup(null!));
+        var setup = Populate(new ScenarioSetup(null!));
         DialogHosts.ScenSetup = setup;
         setup.ScenSetupPnl.Visible = false;
         var messages = new List<string>();
@@ -197,7 +197,7 @@ public sealed class OfflineStubTests
         using var saved = new SavedGlobals();
         OfflineSetupEvents();
         var window = NewGameWindow();
-        var setup = Populate(new ScenSetup(null!));
+        var setup = Populate(new ScenarioSetup(null!));
         DialogHosts.ScenSetup = setup;
         setup.FSetupControl = new SetupControl(setup);
         setup.ScenSetupPnl.Visible = true;
@@ -249,7 +249,7 @@ public sealed class OfflineStubTests
         var help = Populate(new HelpWindow(null!));
         DialogHosts.HelpWindow = help;
         var popups = new PopupWindows(null!);
-        var menu = new AOWMenu(null!);
+        var menu = new Menu(null!);
 
         menu.FSelectedItem = 0;
         popups.HelpMenuSelect(menu);
@@ -289,7 +289,7 @@ public sealed class OfflineStubTests
         { Xhx = (sbyte)(i % 2), Yhx = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
         SetField(level, "fields", fields);
         var container = new MapContainer(null!);
-        var levels = new EObjectList();
+        var levels = new EngineObjectList();
         levels.Add(level);
         SetField(container, "FChildren", levels);
         var map = new AoWHSMap(null!);
@@ -331,7 +331,7 @@ public sealed class OfflineStubTests
     {
         public readonly List<(int, int)> Calls = [];
 
-        public override void Show(int x, int y, in SurfaceDesc surface) => Calls.Add((x, y));
+        public override void Show(int x, int y, in LockedSurface surface) => Calls.Add((x, y));
     }
 
     private sealed class FinishedAnimation() : Animation(null!)

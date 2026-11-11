@@ -27,7 +27,7 @@ public partial class Flood : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1370
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         sbyte X = default;
         sbyte Y = default;

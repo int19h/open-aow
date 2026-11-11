@@ -24,14 +24,14 @@ public sealed class RemainingConstructionTests
 
         internal readonly List<string> Observations = [];
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             base.AddChild(child);
             Observations.Add(Snapshot(child));
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
+        public override int RemoveChild(EngineObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
     }
 
     private sealed class Fixture : IDisposable
@@ -99,15 +99,15 @@ public sealed class RemainingConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Game.Ai.Groups.AIGroupRazeControl",
-        "Aow.Game.Ai.Groups.AIGroupDefendTargetSelector",
-        "Aow.Game.Ai.Groups.AIGroupWanderControl",
-        "Aow.Game.Ui.Controls.AOWAlignment",
-        "Aow.Game.Ui.Controls.TaowRect",
-        "Aow.Game.Draw.XYZ",
-        "Aow.Game.Draw.XYZList",
-        "Aow.Game.Ui.Windows.TaowHTMLMemo+ChangeInfo",
-        "Aow.Game.Ui.Controls.ColorChange",
+        "Aow.Game.AI.Groups.AIGroupRazeControl",
+        "Aow.Game.AI.Groups.AIGroupDefendTargetSelector",
+        "Aow.Game.AI.Groups.AIGroupWanderControl",
+        "Aow.Game.UI.Controls.Alignment",
+        "Aow.Game.UI.Controls.DirtyRectangle",
+        "Aow.Game.Draw.Point3D",
+        "Aow.Game.Draw.Point3DList",
+        "Aow.Game.UI.Windows.HtmlMemo+ChangeInfo",
+        "Aow.Game.UI.Controls.ColorChange",
         "Aow.Game.Session.SetupPackage",
         "Aow.Game.Session.RemotePlayer",
         "Aow.Game.Session.RemotePlayerList",
@@ -115,70 +115,70 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Session.SetupSettings",
         "Aow.Game.Session.CustomizeLeaderControl",
         "Aow.Game.Combat.CombatAbilityRef",
-        "Aow.Game.Combat.ROb",
-        "Aow.Game.Combat.TaiMove",
-        "Aow.Game.Combat.CAI",
+        "Aow.Game.Combat.RangedObstacle",
+        "Aow.Game.Combat.BattleAIMove",
+        "Aow.Game.Combat.BattleAI",
         "Aow.Game.Combat.UnitPositionControl",
         "Aow.Game.Combat.CombatMoveControlSettings",
-        "Aow.Game.Combat.TacticalCombatUnit",
-        "Aow.Game.Combat.TacticalCombatPlayer",
-        "Aow.Game.Combat.TacticalCombatPlayerList",
+        "Aow.Game.Combat.TacticalBattleUnit",
+        "Aow.Game.Combat.TacticalBattlePlayer",
+        "Aow.Game.Combat.TacticalBattlePlayerList",
         "Aow.Game.Combat.TacticalBattle",
-        "Aow.Game.Combat.RndTacHsm",
-        "Aow.Game.Ui.Dialogs.WMCampaignScenarioPage",
-        "Aow.Game.Ui.Dialogs.WMCampaignScenarioPageList",
-        "Aow.Game.Session.WMCampaignScenario",
-        "Aow.Game.Session.WMCampaign",
-        "Aow.Game.Ui.Controls.FileTime",
-        "Aow.Game.Ai.Groups.AbstractBehaviorAG",
-        "Aow.Game.Ai.Groups.AbstractBehaviorAGC",
-        "Aow.Game.Ai.Groups.SkirmishAG",
-        "Aow.Game.Ai.Groups.SkirmishAGC",
-        "Aow.Game.Ai.Groups.NormalAG",
-        "Aow.Game.Ai.Groups.NormalAGC",
-        "Aow.Game.Ai.Groups.DefenderAG",
-        "Aow.Game.Ai.Groups.DefenderAGC",
-        "Aow.Game.Ai.Groups.AggressorAG",
-        "Aow.Game.Ai.Groups.AggressorAGC",
-        "Aow.Game.Ai.Groups.ExpanderAG",
-        "Aow.Game.Ai.Groups.ExpanderAGC",
-        "Aow.Game.Ai.Groups.ScorcherAG",
-        "Aow.Game.Ai.Groups.ScorcherAGC",
+        "Aow.Game.Combat.RandomBattleMapGenerator",
+        "Aow.Game.UI.Dialogs.CampaignScenarioPage",
+        "Aow.Game.UI.Dialogs.WMCampaignScenarioPageList",
+        "Aow.Game.Session.WorldMapCampaignScenario",
+        "Aow.Game.Session.WorldMapCampaign",
+        "Aow.Game.UI.Controls.FileTime",
+        "Aow.Game.AI.Groups.BehaviorAIGroup",
+        "Aow.Game.AI.Groups.BehaviorAIGroupControl",
+        "Aow.Game.AI.Groups.SkirmishAIGroup",
+        "Aow.Game.AI.Groups.SkirmishAIGroupControl",
+        "Aow.Game.AI.Groups.NormalAIGroup",
+        "Aow.Game.AI.Groups.NormalAIGroupControl",
+        "Aow.Game.AI.Groups.DefenderAIGroup",
+        "Aow.Game.AI.Groups.DefenderAIGroupControl",
+        "Aow.Game.AI.Groups.AggressorAIGroup",
+        "Aow.Game.AI.Groups.AggressorAIGroupControl",
+        "Aow.Game.AI.Groups.ExpanderAIGroup",
+        "Aow.Game.AI.Groups.ExpanderAIGroupControl",
+        "Aow.Game.AI.Groups.ScorcherAIGroup",
+        "Aow.Game.AI.Groups.ScorcherAIGroupControl",
         "Aow.Game.World.Structures.CityProductionControl",
         "Aow.Game.Units.MigrationItem",
         "Aow.Game.World.Structures.MigrationList",
         "Aow.Game.World.Structures.CityEnchantment",
-        "Aow.Game.Ai.AICityUpgradeBudget",
-        "Aow.Game.Ai.AICityResearchBudget",
-        "Aow.Game.Ai.AICityFortifyBudget",
-        "Aow.Game.Ai.CityAIPA",
+        "Aow.Game.AI.AICityUpgradeBudget",
+        "Aow.Game.AI.AICityResearchBudget",
+        "Aow.Game.AI.AICityFortifyBudget",
+        "Aow.Game.AI.CityAIPlayerAction",
         "Aow.Game.Units.PrisonersArmy",
-        "Aow.Game.Events.ExecuteEventLogCallBackList",
+        "Aow.Game.Events.ExecuteEventLogCallbackList",
         "Aow.Game.Events.EventLogList",
         "Aow.Game.Events.EventLogbook",
         "Aow.Game.World.Structures.DefendersArmy",
-        "Aow.Game.Ai.Groups.GuardAG",
-        "Aow.Game.Ai.Groups.GuardAGC",
-        "Aow.Game.Ai.Groups.GuardAreaAG",
-        "Aow.Game.Ai.Groups.GuardAreaAGC",
-        "Aow.Game.Ai.Groups.PatrolAG",
-        "Aow.Game.Ai.Groups.PatrolAGC",
-        "Aow.Game.Ai.Groups.RefugeAG",
-        "Aow.Game.Ai.Groups.RefugeAGC",
-        "Aow.Game.Ai.Groups.RaidAG",
-        "Aow.Game.Ai.Groups.RaidAGC",
-        "Aow.Game.Ai.Groups.ScoutAG",
-        "Aow.Game.Ai.Groups.ScoutAGC",
+        "Aow.Game.AI.Groups.GuardAIGroup",
+        "Aow.Game.AI.Groups.GuardAIGroupControl",
+        "Aow.Game.AI.Groups.GuardAreaAIGroup",
+        "Aow.Game.AI.Groups.GuardAreaAIGroupControl",
+        "Aow.Game.AI.Groups.PatrolAIGroup",
+        "Aow.Game.AI.Groups.PatrolAIGroupControl",
+        "Aow.Game.AI.Groups.RefugeAIGroup",
+        "Aow.Game.AI.Groups.RefugeAIGroupControl",
+        "Aow.Game.AI.Groups.RaidAIGroup",
+        "Aow.Game.AI.Groups.RaidAIGroupControl",
+        "Aow.Game.AI.Groups.ScoutAIGroup",
+        "Aow.Game.AI.Groups.ScoutAIGroupControl",
         "Aow.Game.Units.ExplorationSiteItemList",
-        "Aow.Game.Ai.Groups.PassiveAG",
-        "Aow.Game.Ai.Groups.PassiveAGC",
-        "Aow.Game.Ai.Groups.FortifyAG",
-        "Aow.Game.Ai.Groups.FortifyAGC",
-        "Aow.Game.Ai.Groups.SuicidalAG",
-        "Aow.Game.Ai.Groups.SuicidalAGC",
-        "Aow.Game.Ai.Groups.TransportAG",
-        "Aow.Game.Ai.Groups.TransportAGC",
-        "Aow.Game.Ui.Grids.PageTurnControl",
+        "Aow.Game.AI.Groups.PassiveAIGroup",
+        "Aow.Game.AI.Groups.PassiveAIGroupControl",
+        "Aow.Game.AI.Groups.FortifyAIGroup",
+        "Aow.Game.AI.Groups.FortifyAIGroupControl",
+        "Aow.Game.AI.Groups.SuicidalAIGroup",
+        "Aow.Game.AI.Groups.SuicidalAIGroupControl",
+        "Aow.Game.AI.Groups.TransportAIGroup",
+        "Aow.Game.AI.Groups.TransportAIGroupControl",
+        "Aow.Game.UI.Grids.PageTurnControl",
         "Aow.Game.World.Structures.ProductionPlaceControl",
         "Aow.Game.World.Structures.ShipyardConstructionControl",
         "Aow.Game.Magic.Spells.SmokeCloudEnchantment",
@@ -207,25 +207,25 @@ public sealed class RemainingConstructionTests
 
     private static object Create(Type type, ECustomNode owner, int route)
     {
-        if (route == 1) return EClass.Of(type).Create(owner);
+        if (route == 1) return EngineClass.Of(type).Create(owner);
         if (route == 2)
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
             using GameEngine engine = new GameEngine(null!);
-            var meta = EClass.Of(type);
+            var meta = EngineClass.Of(type);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
-            engine.RegisterEClasses([EClass.Of(type)]);
+            engine.RegisterEClasses([EngineClass.Of(type)]);
             return engine.CreateEObject(meta.ClassID, owner);
         }
         if (route == 3)
         {
-            var meta = EClass.Of(type);
+            var meta = EngineClass.Of(type);
             return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
-        Type[] signature = typeof(EObject).IsAssignableFrom(type) ? [typeof(global::Aow.Engine.Nodes.ECustomNode)] : [];
+        Type[] signature = typeof(EngineObject).IsAssignableFrom(type) ? [typeof(global::Aow.Engine.Nodes.ECustomNode)] : [];
         var constructor = type.GetConstructor(signature);
         if (factory is not null) return (object)Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
         if (constructor is not null) return (object)Invoke(() => constructor.Invoke(signature.Length == 0 ? [] : [owner]))!;
@@ -242,7 +242,7 @@ public sealed class RemainingConstructionTests
     public void ConstructorStateAndCreationRoutesMatchTheBaseCommit(string name)
     {
         Type type = typeof(Spell).Assembly.GetType(name)!;
-        bool engineObject = typeof(EObject).IsAssignableFrom(type);
+        bool engineObject = typeof(EngineObject).IsAssignableFrom(type);
         for (int ownerMode = 0; ownerMode < (engineObject ? 2 : 1); ownerMode++)
             for (int route = 0; route < (engineObject ? 4 : 1); route++)
             {
@@ -255,7 +255,7 @@ public sealed class RemainingConstructionTests
                 {
                     value = Create(type, owner!, route);
                     Assert.IsType(type, value);
-                    if (engineObject) Assert.Same(owner, ((EObject)value).Owner);
+                    if (engineObject) Assert.Same(owner, ((EngineObject)value).Owner);
                     state = "success:" + Snapshot(value);
                 }
                 catch (Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }

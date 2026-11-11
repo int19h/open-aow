@@ -14,7 +14,7 @@ public partial class RebuildConstructionControl : ConstructionControl
     { }
 
     // AoWAb.PAS:5404
-    public Structure GetStructure(AbstractUnit AUnit)
+    public Structure GetStructure(Troop AUnit)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -33,7 +33,7 @@ public partial class RebuildConstructionControl : ConstructionControl
     }
 
     // AoWAb.PAS:5413
-    public override void GetInfo(AbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
+    public override void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
     {
         Structure Structure;
         Structure = GetStructure(AUnit);
@@ -53,7 +53,7 @@ public partial class RebuildConstructionControl : ConstructionControl
     }
 
     // AoWAb.PAS:5430
-    public override bool CanConstruct(AbstractUnit AUnit, ref string Reason)
+    public override bool CanConstruct(Troop AUnit, ref string Reason)
     {
         bool Result;
         if (GetStructure(AUnit) != null)
@@ -70,7 +70,7 @@ public partial class RebuildConstructionControl : ConstructionControl
     }
 
     // AoWAb.PAS:5439
-    public override bool Construct(AbstractUnit AUnit)
+    public override bool Construct(Troop AUnit)
     {
         bool Result;
         string Reason = "";

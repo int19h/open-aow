@@ -55,7 +55,7 @@ public sealed class HashTableReplacementTests
         var engine = new GameEngine(null!);
         try
         {
-            EClass style = EClass.Of<EControlStyleObject>();
+            EngineClass style = EngineClass.Of<ControlStyleObject>();
             Assert.Same(style, engine.GetEClass(style.ClassID));
             var missing = Assert.Throws<KeyNotFoundException>(() => engine.GetEClass(-999999));
             Assert.Equal("Unregistered E-ClassID found (-999999)", missing.Message);
@@ -74,9 +74,9 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void ImageLibraryNamesHitMissAndRejectASecondFile()
     {
-        var list = new ILManagerList(new ImageLibraryManager(null!));
-        ILManagerObject added = list.AddILFile("Town.ilb");
-        Assert.True(list.FHashTable.TryGetValue("TOWN.ILB", out ILManagerObject? found));
+        var list = new ImageLibraryManagerList(new ImageLibraryManager(null!));
+        ImageLibraryManagerObject added = list.AddILFile("Town.ilb");
+        Assert.True(list.FHashTable.TryGetValue("TOWN.ILB", out ImageLibraryManagerObject? found));
         Assert.Same(added, found);
         Assert.False(list.FHashTable.ContainsKey("missing.ilb"));
         Assert.Null(list.LinkToIL("missing.ilb"));

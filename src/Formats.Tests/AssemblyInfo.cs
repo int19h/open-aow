@@ -16,32 +16,32 @@ internal static class UnitMappings
     internal static void Load()
     {
         System.Runtime.CompilerServices.RuntimeHelpers.RunModuleConstructor(typeof(Game.Saves.FormatMapping).Module.ModuleHandle);
-        EnumCatalog.Register(new DictionaryEnumCatalog(typeof(TSampleRank), typeof(TOtherRank)));
-        RecordCatalog.Register(new DictionaryRecordCatalog(typeof(TSampleBehavior), typeof(TSamplePacked), typeof(TEveryWidth)));
+        EnumCatalog.Register(new DictionaryEnumCatalog(typeof(SampleRank), typeof(OtherRank)));
+        RecordCatalog.Register(new DictionaryRecordCatalog(typeof(SampleBehavior), typeof(SamplePacked), typeof(EveryWidth)));
     }
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 8)]
-internal struct TSampleBehavior
+internal struct SampleBehavior
 {
     [FieldOffset(0)] public byte PlayerType;
     [FieldOffset(4)] public int Flags;
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 1)]
-internal struct TSamplePacked
+internal struct SamplePacked
 {
     [FieldOffset(0)] public byte Value__image;
 
-    public Set<TSampleRank> Value
+    public Set<SampleRank> Value
     {
-        get => Set<TSampleRank>.FromMask(Value__image);
+        get => Set<SampleRank>.FromMask(Value__image);
         set => Value__image = (byte)value.Image;
     }
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 14)]
-internal struct TEveryWidth
+internal struct EveryWidth
 {
     [FieldOffset(0)] public byte U8;
     [FieldOffset(1)] public sbyte I8;
@@ -51,13 +51,13 @@ internal struct TEveryWidth
     [FieldOffset(10)] public int I32;
 }
 
-enum TSampleRank : byte
+enum SampleRank : byte
 {
     None = 0,
     Gold = 1,
 }
 
-enum TOtherRank : byte
+enum OtherRank : byte
 {
     Low = 0,
 }

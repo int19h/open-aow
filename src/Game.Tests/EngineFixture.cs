@@ -57,16 +57,16 @@ public sealed partial class EngineFixture : IDisposable
     // Observers override insertion around this one membership and removal implementation.
     internal class Owner() : ECustomNode(null!)
     {
-        internal readonly List<EObject> Members = [];
+        internal readonly List<EngineObject> Members = [];
         internal int Removals;
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Members.Add(child);
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EObject child)
+        public override int RemoveChild(EngineObject child)
         {
             Removals++;
             int index = Members.IndexOf(child);

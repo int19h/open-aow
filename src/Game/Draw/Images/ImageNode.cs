@@ -284,7 +284,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1486
-    public override void Show(int X, int Y, in SurfaceDesc SD)
+    public override void Show(int X, int Y, in LockedSurface SD)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -293,7 +293,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1493
-    public override void ShowOpaque(int X, int Y, in SurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in LockedSurface SD)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -302,7 +302,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1500
-    public override void ShowTransparent(int X, int Y, in SurfaceDesc SD)
+    public override void ShowTransparent(int X, int Y, in LockedSurface SD)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -311,7 +311,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1507
-    public override void ShowBlended(int X, int Y, in SurfaceDesc SD, BlendTable Table)
+    public override void ShowBlended(int X, int Y, in LockedSurface SD, BlendTable Table)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -327,7 +327,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1550
-    public override void ShowEx(int X, int Y, in SurfaceDesc SD, in ShowInfo ShowInfo)
+    public override void ShowEx(int X, int Y, in LockedSurface SD, in ShowInfo ShowInfo)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {

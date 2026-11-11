@@ -16,7 +16,7 @@ internal static class PacingVerification
         var savedClock = RtlUnit.Clock;
         RtlUnit.Clock = clock;
         var display = new TimedDisplay();
-        var controller = new SdlDC(host);
+        var controller = new SdlDisplayController(host);
         var times = new List<double>(306);
         const int warmupFrames = 150;
         long previous = 0;
@@ -92,7 +92,7 @@ internal static class PacingVerification
         public bool Fullscreen { get; set; }
         public bool HasFocus => false;
 
-        public void Present(in SurfaceDesc surface) { }
+        public void Present(in LockedSurface surface) { }
 
         public (int X, int Y, bool Inside) PointerPosition() => (-1, -1, false);
 

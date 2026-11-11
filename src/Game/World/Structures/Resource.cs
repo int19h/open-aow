@@ -27,7 +27,7 @@ public partial class Resource : PlayerCropStructureResource
     // City.pas:2622
 
     // City.pas:2669
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
@@ -40,7 +40,7 @@ public partial class Resource : PlayerCropStructureResource
     public override int ResourceUserClassID() => 131336;
 
     // City.pas:2643
-    public void ShowCity(int X, int Y, in SurfaceDesc SurfaceDesc, City City)
+    public void ShowCity(int X, int Y, in LockedSurface SurfaceDesc, City City)
     {
         int dX;
         int dY;

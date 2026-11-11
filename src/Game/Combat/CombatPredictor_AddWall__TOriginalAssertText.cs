@@ -13,5 +13,5 @@ public struct CombatPredictor_AddWall__TOriginalAssertText
     [FieldOffset(4)]
     public int Len;
     [FieldOffset(8)]
-    public FixedArray_byte_128 Text;
+    public ByteArray128 Text;
 }

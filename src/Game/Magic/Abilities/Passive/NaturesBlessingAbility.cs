@@ -31,9 +31,9 @@ public partial class NaturesBlessingAbility : DurationAbility
     public override bool Expand(AbilityOwner Owner)
     {
         bool Result = base.Expand(Owner);
-        if (Owner is AbstractUnit)
+        if (Owner is Troop)
         {
-            var unit = (AbstractUnit)Owner;
+            var unit = (Troop)Owner;
             unit.SetHitPoints(unit.GetHits());
         }
 

@@ -124,7 +124,7 @@ public static partial class Fixtures
         yield return new("presence", "explicit false normalizes to absence", () =>
         {
             var d = MapDocument();
-            Set(Root(d), "FogEnabled", new JsonBool(false));
+            Set(Root(d), "FogEnabled", new JsonBoolean(false));
             var n = Import(GameFiles.Export(d).Bytes, "world-hsm", "map");
             return Root(n).Find("FogEnabled") is null ? Pass("absent after normalization") : Fail("false survived");
         });
@@ -299,7 +299,7 @@ public static partial class Fixtures
             return Expect(Codes.Layout, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
         yield return new("layout", "Tutorial property 57, a zero-size alias", () => RoundTrip(Game(Tutorial), "world-hsm", "map",
-            d => Root(d)["LegacyProperty57"] is JsonBool { Value: true } ? null : "property 57 is missing"));
+            d => Root(d)["LegacyProperty57"] is JsonBoolean { Value: true } ? null : "property 57 is missing"));
 
         // Limits and gzip.
         yield return new("limits", "depth limit", () => Expect(Codes.Limit,

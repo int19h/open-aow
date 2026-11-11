@@ -6,9 +6,8 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
-
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
@@ -42,11 +41,11 @@ namespace Aow.Game;
 public partial class GameEngine : ENode
 {
     internal int FMsgCount;
-    internal List<EClass> FEClasses;
-    internal Dictionary<int, EClass> FClassTable;
-    internal EObjectEditorList FEditors;
+    internal List<EngineClass> FEClasses;
+    internal Dictionary<int, EngineClass> FClassTable;
+    internal EngineObjectEditorList FEditors;
     internal EControlStyleNode FControlNode;
-    public EComponent FComponent;
+    public EngineComponent FComponent;
     internal StringList FDebugIDs;
 
     internal EventStore<EngineDebugNotification> FDebugEventsStore;
@@ -90,14 +89,14 @@ public partial class GameEngine : ENode
         UpdateStartupDirectory();
         FOptions = Set<EngineModeElement>.Of(eoVerifyClasses);
         FDebugEventsStore = new();
-        FEClasses = new List<EClass>();
-        FClassTable = new Dictionary<int, EClass>();
-        FEditors = new EObjectEditorList();
+        FEClasses = new List<EngineClass>();
+        FClassTable = new Dictionary<int, EngineClass>();
+        FEditors = new EngineObjectEditorList();
         FControlNode = new EControlStyleNode(this);
-        FControlNode.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
+        FControlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csShared));
         FDebugIDs = new StringList();
         FDebugIDs.AddObject(UserStr, IntToObject(-1));
-        RegisterEClasses([EClass.Of<EControlStyleObject>(), EClass.Of<EControlStyleNode>(), EClass.Of<ECustomOwner>(), EClass.Of<EResourceEditSettings>()]);
+        RegisterEClasses([EngineClass.Of<ControlStyleObject>(), EngineClass.Of<EControlStyleNode>(), EngineClass.Of<ECustomOwner>(), EngineClass.Of<ResourceEditSettings>()]);
         EngineHost.Engines.Add(this);
         if (!fullConstruction) return;
 
@@ -105,29 +104,29 @@ public partial class GameEngine : ENode
         FOnHSMCloseStore = new();
         FOnHSSLoadedStore = new();
         FOnHSSCloseStore = new();
-        RegisterEClasses([EClass.Of<MapContainer>(), EClass.Of<MapLevel>(), EClass.Of<HSMap>(), EClass.Of<HSSet>()]);
-        RegisterEClasses([EClass.Of<MapObjectResource>(), EClass.Of<MultiHexMOR>()]);
-        RegisterEClasses([EClass.Of<AbstractHexagon>(), EClass.Of<AbstractBorderHexagon>(), EClass.Of<AbstractRoad>()]);
+        RegisterEClasses([EngineClass.Of<MapContainer>(), EngineClass.Of<MapLevel>(), EngineClass.Of<HSMap>(), EngineClass.Of<HSSet>()]);
+        RegisterEClasses([EngineClass.Of<MapObjectResource>(), EngineClass.Of<MultiHexMapObjectResource>()]);
+        RegisterEClasses([EngineClass.Of<AbstractHexagon>(), EngineClass.Of<AbstractBorderHexagon>(), EngineClass.Of<AbstractRoad>()]);
         HSEngineDID = RegisterDebugID("HS-Engine");
         FHSSFileName = "noname.hss";
         CreateHSSet();
 
         Options = Options - Set<EngineModeElement>.Of(EngineModeElement.VerifyEObjects);
-        RegisterEClasses([EClass.Of<AoWHSSet>(), EClass.Of<AoWHSMap>(), EClass.Of<AoWMapLevel>(), EClass.Of<AoWCampaign>(), EClass.Of<AoWCampaignScenario>()]);
-        RegisterEClasses([EClass.Of<Player>(), EClass.Of<Race>(), EClass.Of<Unit>(), EClass.Of<RaceResource>(), EClass.Of<UnitGFXResource>(), EClass.Of<UnitResource>(), EClass.Of<UnitHS>()]);
-        RegisterEClasses([EClass.Of<Hero>(), EClass.Of<HeroResource>(), EClass.Of<HeroUpgradeTE>(), EClass.Of<HeroJoinEventLog>(), EClass.Of<HeroEmergeEventLog>(), EClass.Of<Leader>(), EClass.Of<ItemGFX>(), EClass.Of<Item>(), EClass.Of<ItemTE>(), EClass.Of<ItemHS>(), EClass.Of<FaceResource>()]);
-        RegisterEClasses([EClass.Of<Army>(), EClass.Of<ArmyHS>(), EClass.Of<ArmyView>(), EClass.Of<ArmyEventLog>(), EClass.Of<ArmyID>(), EClass.Of<TurnInfoItem>()]);
-        RegisterEClasses([EClass.Of<ArmyDefaultMoveTE>(), EClass.Of<ArmyCombatMoveTE>(), EClass.Of<ArmyCombineMoveTE>(), EClass.Of<ArmyNegotiateMoveTE>(), EClass.Of<NegotiateTE>(), EClass.Of<SaveGameTE>(), EClass.Of<ChangePlayerMagicTE>(), EClass.Of<ChangeGlobalMagicTE>()]);
-        RegisterEClasses([EClass.Of<CombatLogbook>(), EClass.Of<CombatParty>(), EClass.Of<CombatData>(), EClass.Of<DamageCA>(), EClass.Of<FleeCA>(), EClass.Of<CombatUnit>()]);
-        RegisterEClasses([EClass.Of<FastBattle>(), EClass.Of<CombatWall>(), EClass.Of<FastCombatUnit>(), EClass.Of<MoveWallCA>(), EClass.Of<ProductionEventLog>()]);
-        RegisterEClasses([EClass.Of<UpdateHeaderCA>(), EClass.Of<NewCombatTurnCA>(), EClass.Of<NewCombatRoundCA>(), EClass.Of<CombatObjectTurnDoneCA>()]);
-        RegisterEClasses([EClass.Of<CombatEventLog>(), EClass.Of<CombatPlayer>(), EClass.Of<DiplomaticAction>(), EClass.Of<EmailGame>(), EClass.Of<RestartGameEventLog>()]);
-        RegisterEClasses([EClass.Of<Structure>(), EClass.Of<StructureResource>(), EClass.Of<StructureTE>(), EClass.Of<ConstructStructureTE>(), EClass.Of<ProductionTE>(), EClass.Of<HeroUpdateTE>()]);
-        RegisterEClasses([EClass.Of<PlayerStructure>(), EClass.Of<PlayerStructureResource>(), EClass.Of<ProductionItem>(), EClass.Of<UnitProduction>()]);
-        RegisterEClasses([EClass.Of<Fire>(), EClass.Of<Fire.Resource>()]);
-        RegisterEClasses([EClass.Of<NewDayEventLog>(), EClass.Of<ArmyInfoEventLog>(), EClass.Of<TextControlItem>(), EClass.Of<HeroUpgradeEventLog>()]);
-        RegisterEClasses([EClass.Of<DiplomaticActionTE>(), EClass.Of<DiplomaticActionEventLog>(), EClass.Of<PlayerMagicEventLog>(), EClass.Of<DiplomaticRelationHistoryItem>(), EClass.Of<DiplomaticRelationHistoryList>()]);
-        RegisterEClasses([EClass.Of<HuntAG>(), EClass.Of<AIBudget>(), EClass.Of<AISavingsBudget>(), EClass.Of<AITransporterBudget>()]);
+        RegisterEClasses([EngineClass.Of<AoWHSSet>(), EngineClass.Of<AoWHSMap>(), EngineClass.Of<AoWMapLevel>(), EngineClass.Of<Campaign>(), EngineClass.Of<CampaignScenario>()]);
+        RegisterEClasses([EngineClass.Of<Player>(), EngineClass.Of<Race>(), EngineClass.Of<Unit>(), EngineClass.Of<RaceResource>(), EngineClass.Of<UnitGraphicsResource>(), EngineClass.Of<UnitResource>(), EngineClass.Of<UnitHexSprite>()]);
+        RegisterEClasses([EngineClass.Of<Hero>(), EngineClass.Of<HeroResource>(), EngineClass.Of<HeroUpgradeTokenEvent>(), EngineClass.Of<HeroJoinEventLog>(), EngineClass.Of<HeroEmergeEventLog>(), EngineClass.Of<Leader>(), EngineClass.Of<ItemGraphics>(), EngineClass.Of<Item>(), EngineClass.Of<ItemTokenEvent>(), EngineClass.Of<ItemHexSprite>(), EngineClass.Of<FaceResource>()]);
+        RegisterEClasses([EngineClass.Of<Army>(), EngineClass.Of<ArmyHexSprite>(), EngineClass.Of<ArmyView>(), EngineClass.Of<ArmyEventLog>(), EngineClass.Of<ArmyId>(), EngineClass.Of<TurnInfoItem>()]);
+        RegisterEClasses([EngineClass.Of<ArmyDefaultMoveTokenEvent>(), EngineClass.Of<ArmyCombatMoveTokenEvent>(), EngineClass.Of<ArmyCombineMoveTokenEvent>(), EngineClass.Of<ArmyNegotiateMoveTokenEvent>(), EngineClass.Of<NegotiateTokenEvent>(), EngineClass.Of<SaveGameTokenEvent>(), EngineClass.Of<ChangePlayerMagicTokenEvent>(), EngineClass.Of<ChangeGlobalMagicTokenEvent>()]);
+        RegisterEClasses([EngineClass.Of<CombatLogbook>(), EngineClass.Of<CombatParty>(), EngineClass.Of<CombatData>(), EngineClass.Of<DamageCombatAction>(), EngineClass.Of<FleeCombatAction>(), EngineClass.Of<CombatUnit>()]);
+        RegisterEClasses([EngineClass.Of<FastBattle>(), EngineClass.Of<CombatWall>(), EngineClass.Of<FastBattleUnit>(), EngineClass.Of<MoveWallCombatAction>(), EngineClass.Of<ProductionEventLog>()]);
+        RegisterEClasses([EngineClass.Of<UpdateHeaderCombatAction>(), EngineClass.Of<NewCombatTurnCombatAction>(), EngineClass.Of<NewCombatRoundCombatAction>(), EngineClass.Of<CombatObjectTurnDoneCombatAction>()]);
+        RegisterEClasses([EngineClass.Of<CombatEventLog>(), EngineClass.Of<CombatPlayer>(), EngineClass.Of<DiplomaticAction>(), EngineClass.Of<EmailGame>(), EngineClass.Of<RestartGameEventLog>()]);
+        RegisterEClasses([EngineClass.Of<Structure>(), EngineClass.Of<StructureResource>(), EngineClass.Of<StructureTokenEvent>(), EngineClass.Of<ConstructStructureTokenEvent>(), EngineClass.Of<ProductionTokenEvent>(), EngineClass.Of<HeroUpdateTokenEvent>()]);
+        RegisterEClasses([EngineClass.Of<PlayerStructure>(), EngineClass.Of<PlayerStructureResource>(), EngineClass.Of<ProductionItem>(), EngineClass.Of<UnitProduction>()]);
+        RegisterEClasses([EngineClass.Of<Fire>(), EngineClass.Of<Fire.Resource>()]);
+        RegisterEClasses([EngineClass.Of<NewDayEventLog>(), EngineClass.Of<ArmyInfoEventLog>(), EngineClass.Of<TextControlItem>(), EngineClass.Of<HeroUpgradeEventLog>()]);
+        RegisterEClasses([EngineClass.Of<DiplomaticActionTokenEvent>(), EngineClass.Of<DiplomaticActionEventLog>(), EngineClass.Of<PlayerMagicEventLog>(), EngineClass.Of<DiplomaticRelationHistoryItem>(), EngineClass.Of<DiplomaticRelationHistoryList>()]);
+        RegisterEClasses([EngineClass.Of<HuntAIGroup>(), EngineClass.Of<AIBudget>(), EngineClass.Of<AISavingsBudget>(), EngineClass.Of<AITransporterBudget>()]);
         P2RegisterGroupControls();
         RegisterSoundEngineClasses(this);
         RegisterNetworkEngine(this);
@@ -139,7 +138,7 @@ public partial class GameEngine : ENode
         AbilityRules.AIDID = RegisterDebugID("AI");
         AbilityRules.TMPDID = RegisterDebugID("TMP");
         MAGICDID = RegisterDebugID("MAGIC");
-        Editors.RegisterClass(EditorClass.Of<AoWMapObjectEditor>());
+        Editors.RegisterClass(EditorClass.Of<MapObjectEditor>());
         LoadExternalPlugIns(StartupDirectory + "PLUGINS");
         FEmailGames.Load();
         fullInstance = true;
@@ -213,17 +212,17 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8887
-    public virtual EObject CreateEObject(int AClassID, ECustomNode AOwner)
+    public virtual EngineObject CreateEObject(int AClassID, ECustomNode AOwner)
     {
-        EClass C;
+        EngineClass C;
         C = GetEClass(AClassID);
         return C.Create(AOwner);
     }
 
     // Engine.pas:8860
-    public virtual EClass GetEClass(int AClassID)
+    public virtual EngineClass GetEClass(int AClassID)
     {
-        if (!FClassTable.TryGetValue(AClassID, out EClass Result) || Result == null)
+        if (!FClassTable.TryGetValue(AClassID, out EngineClass Result) || Result == null)
         {
             throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
         }
@@ -254,7 +253,7 @@ public partial class GameEngine : ENode
     public void OutputDebugStr(string S)
     {
         var notification = new EngineDebugNotification();
-        ref EngineDebugNotification.EngineDebugInfo Info = ref notification.Info;
+        ref EngineDebugNotification.DebugInfo Info = ref notification.Info;
         Info.ID = -1;
         Info.Text = S;
         FDebugEventsStore.Raise(notification);
@@ -264,7 +263,7 @@ public partial class GameEngine : ENode
     public void OutputDebugMessage(int ID, string S)
     {
         var notification = new EngineDebugNotification();
-        ref EngineDebugNotification.EngineDebugInfo Info = ref notification.Info;
+        ref EngineDebugNotification.DebugInfo Info = ref notification.Info;
         Info.ID = ID;
         Info.Text = S;
         FDebugEventsStore.Raise(notification);
@@ -273,7 +272,7 @@ public partial class GameEngine : ENode
     // Engine.pas:8819
     public void ResetMsgCount()
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         InitMsgEx(ref Msg, 1, this, FMsgCount + 1);
         MsgProc(ref Msg, this);
         FMsgCount = 0;
@@ -292,7 +291,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8835
-    public void RegisterEClasses(ReadOnlySpan<EClass> AClasses)
+    public void RegisterEClasses(ReadOnlySpan<EngineClass> AClasses)
     {
         for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
         {
@@ -313,7 +312,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8849
-    public void UnregisterEClasses(ReadOnlySpan<EClass> AClasses)
+    public void UnregisterEClasses(ReadOnlySpan<EngineClass> AClasses)
     {
         for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
         {
@@ -324,10 +323,10 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8867
-    public EObjectClassList GetDescendantClasses(Type AClass)
+    public EngineObjectClassList GetDescendantClasses(Type AClass)
     {
-        EObjectClassList L;
-        L = new EObjectClassList();
+        EngineObjectClassList L;
+        L = new EngineObjectClassList();
         for (int I = 0, last = FEClasses.Count - 1; I <= last; I++)
         {
             if ((FEClasses[I]).InheritsFrom(AClass))
@@ -340,16 +339,16 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8878
-    public void ActivateEObject(EObject Obj)
+    public void ActivateEObject(EngineObject Obj)
     {
-        EMsg Msg = default;
-        EMsg.InitMsg(ref Msg, 536870920, this);
+        EngineMessage Msg = default;
+        EngineMessage.InitMsg(ref Msg, 536870920, this);
         Msg.Payload = this;
         Obj.MsgProc(ref Msg, this);
     }
 
     // Engine.pas:8895
-    public void WriteEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
+    public void WriteEObject(Stream Stream, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EWriteStorageStream(Stream, this, false);
@@ -365,7 +364,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8908
-    public void ReadEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
+    public void ReadEObject(Stream Stream, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EReadStorageStream(Stream, this, false);
@@ -381,7 +380,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8921
-    public void WritePreviewEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
+    public void WritePreviewEObject(Stream Stream, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EWriteStorageStream(Stream, this, true);
@@ -397,7 +396,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8934
-    public void ReadPreviewEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
+    public void ReadPreviewEObject(Stream Stream, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EReadStorageStream(Stream, this, true);
@@ -413,7 +412,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8947
-    public void StoreEObject(Stream Stream, EObject Obj, Engine.ProgressEvent AProgress)
+    public void StoreEObject(Stream Stream, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         EStorageStream S;
         S = new EWriteStorageStream(Stream, this, false);
@@ -429,9 +428,9 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8960
-    public EObject RetrieveEObject(Stream Stream, Engine.ProgressEvent AProgress)
+    public EngineObject RetrieveEObject(Stream Stream, Engine.ProgressEvent AProgress)
     {
-        EObject Result = default;
+        EngineObject Result = default;
         EStorageStream S;
         S = new EReadStorageStream(Stream, this, false);
         S.OnProgress = AProgress;
@@ -450,15 +449,15 @@ public partial class GameEngine : ENode
     // Engine.pas:8973
     // The file goes through the game's file boundary with the caller's profile. A refused
     // preflight raises EGameFileError before an object is created (own-formats.md 4.1).
-    public EObject RetrieveFromFile(string FileName, Engine.ProgressEvent AProgress, GameProfile Profile)
+    public EngineObject RetrieveFromFile(string FileName, Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         return RetrieveFromImage(FileBoundary.LoadOrRaise(FileName, Profile), AProgress);
     }
 
     // Retrieves the object of an engine image whose preflight has passed.
-    public EObject RetrieveFromImage(byte[] Image, Engine.ProgressEvent AProgress)
+    public EngineObject RetrieveFromImage(byte[] Image, Engine.ProgressEvent AProgress)
     {
-        EObject Result = default;
+        EngineObject Result = default;
         MemoryStream M;
         M = ImageStream(Image);
         try
@@ -476,7 +475,7 @@ public partial class GameEngine : ENode
     // Engine.pas:8985
     // The engine writes the image in memory. The boundary converts, validates and replaces the
     // file only after the whole document is serialized.
-    public void StoreInFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
+    public void StoreInFile(string FileName, EngineObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         MemoryStream M;
         M = new MemoryStream();
@@ -502,7 +501,7 @@ public partial class GameEngine : ENode
 
     // The in-scope form of WriteToFile for the hero and item lists (own-formats.md 4.1). The
     // three-argument form below stays the original byte path of the excluded PFS callers.
-    public void WriteToFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
+    public void WriteToFile(string FileName, EngineObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         MemoryStream M;
         M = new MemoryStream();
@@ -518,7 +517,7 @@ public partial class GameEngine : ENode
     }
 
     // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
-    public void ReadFromFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
+    public void ReadFromFile(string FileName, EngineObject Obj, Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         MemoryStream M;
         M = ImageStream(FileBoundary.LoadOrRaise(FileName, Profile));
@@ -533,7 +532,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:8997
-    public void WriteToFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress)
+    public void WriteToFile(string FileName, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         MemoryStream M;
         Stream F = default;
@@ -559,7 +558,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9017
-    public void ReadFromFile(string FileName, EObject Obj, Engine.ProgressEvent AProgress)
+    public void ReadFromFile(string FileName, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         MemoryStream M;
         Stream F;
@@ -586,7 +585,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9037
-    public void WriteToFileCRC(string FileName, EObject Obj, Engine.ProgressEvent AProgress)
+    public void WriteToFileCRC(string FileName, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         int CRC1 = default;
         int CRC2 = default;
@@ -620,7 +619,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9061
-    public bool ReadFromFileCRC(string FileName, EObject Obj, Engine.ProgressEvent AProgress)
+    public bool ReadFromFileCRC(string FileName, EngineObject Obj, Engine.ProgressEvent AProgress)
     {
         MemoryStream M;
         Stream F;
@@ -664,7 +663,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9091
-    public void ReadTextFromFile(string FileName, EObject Obj)
+    public void ReadTextFromFile(string FileName, EngineObject Obj)
     {
         EStorageStream S;
         Stream F;
@@ -688,7 +687,7 @@ public partial class GameEngine : ENode
     }
 
     // Engine.pas:9109
-    public void WriteTextToFile(string FileName, EObject Obj)
+    public void WriteTextToFile(string FileName, EngineObject Obj)
     {
         EStorageStream S;
         Stream F;
@@ -711,9 +710,9 @@ public partial class GameEngine : ENode
         }
     }
 
-    public List<EClass> EClasses { get => FEClasses; }
-    public Dictionary<int, EClass> ClassTable { get => FClassTable; }
-    public EObjectEditorList Editors { get => FEditors; }
+    public List<EngineClass> EClasses { get => FEClasses; }
+    public Dictionary<int, EngineClass> ClassTable { get => FClassTable; }
+    public EngineObjectEditorList Editors { get => FEditors; }
     public EControlStyleNode ControlNode { get => FControlNode; }
     public StringList DebugIDs { get => FDebugIDs; }
 
@@ -727,7 +726,7 @@ public partial class GameEngine : ENode
     public Set<EngineModeElement> Options { get => FOptions; set => FOptions = value; }
 
     // Engine.pas:1126
-    public bool VerifyEObjectClass(EClass type)
+    public bool VerifyEObjectClass(EngineClass type)
     {
         // The native allocator byte total has no corresponding managed heap measure.
         // Exercise the same constructor and destructor without comparing GC generations.
@@ -737,7 +736,7 @@ public partial class GameEngine : ENode
 
     internal const EngineModeElement eoVerifyClasses = 0;
 
-    private static void InitMsgEx(ref EMsg Msg, int MsgID, EObject Sender, int Seq)
+    private static void InitMsgEx(ref EngineMessage Msg, int MsgID, EngineObject Sender, int Seq)
     {
         Msg = default;
         Msg.MsgID = MsgID;
@@ -750,7 +749,7 @@ public partial class GameEngine : ENode
 
     internal static void UnregisterSoundEngineClasses(GameEngine AEngine)
     {
-        AEngine.UnregisterEClasses([EClass.Of<SFXSequence>(), EClass.Of<SFXLibrary>(), EClass.Of<SFX>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<SfxSequence>(), EngineClass.Of<SfxLibrary>(), EngineClass.Of<Sfx>()]);
     }
 
     internal static void UnRegisterStorms(GameEngine AEngine)
@@ -785,34 +784,34 @@ public partial class GameEngine : ENode
 
     internal static void UnRegisterMountain(GameEngine AEngine)
     {
-        AEngine.UnregisterEClasses([EClass.Of<MountainMO>(), EClass.Of<MountainMOR>(), EClass.Of<RaiseTerrainTE>(), EClass.Of<RaisedMountain>(), EClass.Of<RaisedMountain.Resource>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<MountainMapObject>(), EngineClass.Of<MountainMapObjectResource>(), EngineClass.Of<RaiseTerrainTokenEvent>(), EngineClass.Of<RaisedMountain>(), EngineClass.Of<RaisedMountain.Resource>()]);
         // { Original unregisters spell 12, although Raise Terrain registers as spell 19. }
         AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
     }
 
     internal static void RegisterBorderHexagon(GameEngine Engine)
     {
-        Engine.RegisterEClasses([EClass.Of<BorderHexagon>(), EClass.Of<BorderHexagon.Resource>()]);
+        Engine.RegisterEClasses([EngineClass.Of<BorderHexagon>(), EngineClass.Of<BorderHexagon.Resource>()]);
     }
 
     internal static void RegisterHexagon(GameEngine Engine)
     {
-        Engine.RegisterEClasses([EClass.Of<Hexagon>(), EClass.Of<HexagonResource>()]);
+        Engine.RegisterEClasses([EngineClass.Of<Hexagon>(), EngineClass.Of<HexagonResource>()]);
     }
 
     internal static void RegisterIsometricHexagon(GameEngine Engine)
     {
-        Engine.RegisterEClasses([EClass.Of<IsometricHexagon>(), EClass.Of<IsometricHexagonResource>(), EClass.Of<UpperIsometricHexagon>(), EClass.Of<UpperIsometricHexagon.Resource>(), EClass.Of<LowerIsometricHexagon>(), EClass.Of<LowerIsometricHexagon.Resource>()]);
+        Engine.RegisterEClasses([EngineClass.Of<IsometricHex>(), EngineClass.Of<IsometricHexResource>(), EngineClass.Of<UpperIsometricHex>(), EngineClass.Of<UpperIsometricHex.Resource>(), EngineClass.Of<LowerIsometricHex>(), EngineClass.Of<LowerIsometricHex.Resource>()]);
     }
 
     internal static void RegisterRoad(GameEngine Engine)
     {
-        Engine.RegisterEClasses([EClass.Of<Road>(), EClass.Of<Road.Resource>()]);
+        Engine.RegisterEClasses([EngineClass.Of<Road>(), EngineClass.Of<Road.Resource>()]);
     }
 
     internal static void RegisterTerrain(GameEngine Engine)
     {
-        Engine.RegisterEClasses([EClass.Of<TerrainMO>(), EClass.Of<TerrainMOR>()]);
+        Engine.RegisterEClasses([EngineClass.Of<TerrainMapObject>(), EngineClass.Of<TerrainMapObjectResource>()]);
     }
 
     internal static void RegisterHill(GameEngine AEngine)
@@ -821,7 +820,7 @@ public partial class GameEngine : ENode
 
     internal static void RegisterAltar(GameEngine AEngine)
     {
-        AEngine.RegisterEClasses([EClass.Of<Altar>(), EClass.Of<AltarResource>()]);
+        AEngine.RegisterEClasses([EngineClass.Of<Altar>(), EngineClass.Of<AltarResource>()]);
     }
 
     internal static void RegisterRandomNode(GameEngine AEngine)
@@ -830,13 +829,13 @@ public partial class GameEngine : ENode
 
     internal static void UnRegisterHolyGround(GameEngine Engine)
     {
-        Engine.UnregisterEClasses([EClass.Of<HolyGround>(), EClass.Of<HolyGround.Resource>(), EClass.Of<HolyGroundSpellTE>()]);
+        Engine.UnregisterEClasses([EngineClass.Of<HolyGround>(), EngineClass.Of<HolyGround.Resource>(), EngineClass.Of<HolyGroundSpellTokenEvent>()]);
         Engine.FGameSet.FSpellControl.UnregisterSpellID(13);
     }
 
     internal static void UnRegisterOverlayObject(GameEngine AEngine)
     {
-        AEngine.UnregisterEClasses([EClass.Of<OverlayObject>(), EClass.Of<OverlayObject.Resource>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<OverlayObject>(), EngineClass.Of<OverlayObject.Resource>()]);
     }
 
 }

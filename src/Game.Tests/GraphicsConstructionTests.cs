@@ -22,13 +22,13 @@ public sealed class GraphicsConstructionTests
         yield return new object[] { typeof(ImageNode), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<ImageNode>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new ImageNode(owner)) };
         yield return new object[] { typeof(Image08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Image08>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Image08(owner)) };
         yield return new object[] { typeof(Picture08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Picture08>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Picture08(owner)) };
-        yield return new object[] { typeof(RLESprite08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<RLESprite08>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new RLESprite08(owner)) };
+        yield return new object[] { typeof(RleSprite08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<RleSprite08>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new RleSprite08(owner)) };
         yield return new object[] { typeof(Image16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Image16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Image16(owner)) };
         yield return new object[] { typeof(Picture16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Picture16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Picture16(owner)) };
         yield return new object[] { typeof(TransparentPicture16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TransparentPicture16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new TransparentPicture16(owner)) };
         yield return new object[] { typeof(Sprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Sprite16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Sprite16(owner)) };
-        yield return new object[] { typeof(RLESprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<RLESprite16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new RLESprite16(owner)) };
-        yield return new object[] { typeof(TransparentRLESprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TransparentRLESprite16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new TransparentRLESprite16(owner)) };
+        yield return new object[] { typeof(RleSprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<RleSprite16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new RleSprite16(owner)) };
+        yield return new object[] { typeof(TransparentRleSprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TransparentRleSprite16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new TransparentRleSprite16(owner)) };
         yield return new object[] { typeof(BitMask), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<BitMask>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new BitMask(owner)) };
         yield return new object[] { typeof(Shadow), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Shadow>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Shadow(owner)) };
 
@@ -66,10 +66,10 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Components()
     {
-        yield return new object[] { typeof(SdlDC), (Func<Component, Component>)(owner => new SdlDC(new NullDisplayHost(), owner)) };
+        yield return new object[] { typeof(SdlDisplayController), (Func<Component, Component>)(owner => new SdlDisplayController(new NullDisplayHost(), owner)) };
         yield return new object[] { typeof(Display), (Func<Component, Component>)(owner => new Display(owner)) };
         yield return new object[] { typeof(CustomDisplay), (Func<Component, Component>)(owner => new CustomDisplay(owner)) };
-        yield return new object[] { typeof(DisplayCtrl), (Func<Component, Component>)(owner => new DisplayCtrl(owner)) };
+        yield return new object[] { typeof(DisplayController), (Func<Component, Component>)(owner => new DisplayController(owner)) };
         yield return new object[] { typeof(CustomImageLibrary), (Func<Component, Component>)(owner => new CustomImageLibrary(owner)) };
         yield return new object[] { typeof(ImageLibrary), (Func<Component, Component>)(owner => new ImageLibrary(owner)) };
         yield return new object[] { typeof(ImageLibraryFont), (Func<Component, Component>)(owner => new ImageLibraryFont(owner)) };
@@ -95,7 +95,7 @@ public sealed class GraphicsConstructionTests
             Assert.Equal(30, Field(display, "FFrameRate"));
             Assert.Equal(BufferingScheme.Double, Field(display, "FBufferingScheme"));
         }
-        if (value is DisplayCtrl dc)
+        if (value is DisplayController dc)
         {
             Assert.NotNull(dc.GetInvMatrix());
             Assert.Equal((byte)4, Field(dc.GetInvMatrix(), "FWidth"));
@@ -144,7 +144,7 @@ public sealed class GraphicsConstructionTests
         var manager = new PaletteManager();
         Assert.NotNull(Field(manager, "FPalettes"));
         var ilManager = new ImageLibraryManager(null!);
-        var list = new ILManagerList(ilManager);
+        var list = new ImageLibraryManagerList(ilManager);
         Assert.Same(ilManager, Field(list, "FOwner"));
         Assert.NotNull(Field(list, "FHashTable"));
         var sequences = new ImageSequenceList(ilManager, null!);
@@ -167,18 +167,18 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Surfaces()
     {
-        yield return new object[] { (Func<GFXEPalette, Surface>)(palette => new DataSurface(7, 4, PixelFormats.pfPAL8, palette)), PixelFormats.pfPAL8, 8 };
-        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB16Surface(7, 4, PixelFormats.pfRGB555)), PixelFormats.pfRGB555, 16 };
+        yield return new object[] { (Func<Palette, Surface>)(palette => new DataSurface(7, 4, PixelFormats.pfPAL8, palette)), PixelFormats.pfPAL8, 8 };
+        yield return new object[] { (Func<Palette, Surface>)(_ => new Dib16Surface(7, 4, PixelFormats.pfRGB555)), PixelFormats.pfRGB555, 16 };
     }
 
     [Theory]
     [MemberData(nameof(Surfaces))]
-    public void SurfacesKeepDimensionsFormatAndPaletteIsolation(Func<GFXEPalette, Surface> create, int format, int pitch)
+    public void SurfacesKeepDimensionsFormatAndPaletteIsolation(Func<Palette, Surface> create, int format, int pitch)
     {
-        var palette = new GFXEPalette();
+        var palette = new Palette();
         palette.Entries[0].R = 29;
         var surface = create(palette);
-        SurfaceDesc sd = default;
+        LockedSurface sd = default;
         Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref sd));
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
@@ -199,14 +199,14 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void PlainDataSurfaceCopiesPaletteAndAllocatesItsBuffer()
     {
-        var palette = new GFXEPalette();
+        var palette = new Palette();
         palette.Entries[0].R = 29;
         var surface = new DataSurface(7, 4, PixelFormats.pfPAL8, palette);
         Assert.NotSame(palette, surface.Palette);
         Assert.Equal((byte)29, surface.Palette.Entries[0].R);
         Assert.Equal(7, surface.Width);
         Assert.Equal(4, surface.Height);
-        SurfaceDesc descriptor = default;
+        LockedSurface descriptor = default;
         Assert.Equal(0, surface.Lock(ref descriptor));
         Assert.NotNull(descriptor.Data);
         surface.Unlock();
@@ -230,10 +230,10 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void InvalidDibDimensionsAndFormatDoNotTouchExternalPalette()
     {
-        var palette = new GFXEPalette();
+        var palette = new Palette();
         palette.Entries[0].R = 29;
-        Assert.Throws<ArgumentOutOfRangeException>(() => new DIB16Surface(-1, 4, PixelFormats.pfRGB555));
-        Assert.Throws<NotSupportedException>(() => new DIB16Surface(7, 4, PixelFormats.pfPAL8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormats.pfRGB555));
+        Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormats.pfPAL8));
         Assert.Equal((byte)29, palette.Entries[0].R);
     }
 
@@ -273,10 +273,10 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
-        using var source = new DIB16Surface(7, 4, PixelFormats.pfRGB555);
+        using var source = new Dib16Surface(7, 4, PixelFormats.pfRGB555);
         source.Cls(255);
         using var copy = new DataSurface(source, default);
-        SurfaceDesc sd = default;
+        LockedSurface sd = default;
         copy.Lock(ref sd);
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
@@ -317,7 +317,7 @@ public sealed class GraphicsConstructionTests
     public void SdlHostCapturePrecedesOwnerCallbacks()
     {
         using var owner = new DisplayObservingOwner();
-        var controller = new SdlDC(new NullDisplayHost(), owner);
+        var controller = new SdlDisplayController(new NullDisplayHost(), owner);
         Assert.Equal(7, owner.X);
         Assert.Equal(9, owner.Y);
         Assert.Equal(1, owner.ComponentCount);
@@ -331,7 +331,7 @@ public sealed class GraphicsConstructionTests
 
         public override void Notification(Component component, Aow.Rtl.Component.Operation operation)
         {
-            if (operation == Aow.Rtl.Component.Operation.Insert && component is SdlDC controller)
+            if (operation == Aow.Rtl.Component.Operation.Insert && component is SdlDisplayController controller)
                 controller.GetMousePos(ref X, ref Y);
             base.Notification(component, operation);
         }
@@ -343,7 +343,7 @@ public sealed class GraphicsConstructionTests
         public bool Fullscreen { get; set; }
         public bool HasFocus => true;
 
-        public void Present(in SurfaceDesc surface) { }
+        public void Present(in LockedSurface surface) { }
 
         public (int X, int Y, bool Inside) PointerPosition() => (7, 9, true);
 

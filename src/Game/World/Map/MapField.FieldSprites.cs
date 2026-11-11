@@ -30,7 +30,7 @@ public partial class MapField
         directions[index] = value;
     }
 
-    public int AddHS(HexagonSprite sprite, int hn)
+    public int AddHS(HexSprite sprite, int hn)
     {
         try
         {
@@ -55,7 +55,7 @@ public partial class MapField
         return index;
     }
 
-    public int RemoveHS(HexagonSprite sprite)
+    public int RemoveHS(HexSprite sprite)
     {
         int index = 0;
         while (index < FCount && sprite != FHSList[index]) index++;
@@ -121,7 +121,7 @@ public partial class MapField
 
     public virtual void UpdateMapField()
     {
-        HSMapFieldInfo info = new() { MapField = this };
+        HexSpriteMapFieldInfo info = new() { MapField = this };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -139,7 +139,7 @@ public partial class MapField
         }
         FOverlayType = Math.Max(overlay, (sbyte)-1);
         FTerrainType = Math.Max(terrain, (sbyte)-1);
-        HSTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
+        HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -148,29 +148,29 @@ public partial class MapField
         UpdateMapField();
     }
 
-    public int SetHNofHS(HexagonSprite sprite, byte hn)
+    public int SetHNofHS(HexSprite sprite, byte hn)
     {
         int index = FindChildIndex(sprite);
         if (index != -1) directions[index] = hn;
         return index;
     }
 
-    public int GetHNofHS(HexagonSprite sprite)
+    public int GetHNofHS(HexSprite sprite)
     {
         int index = FindChildIndex(sprite);
         return index == -1 ? -1 : directions[index];
     }
 
-    private HexagonSprite FindTop(Func<HexagonSprite, byte, bool> matches)
+    private HexSprite FindTop(Func<HexSprite, byte, bool> matches)
     {
         for (int i = FCount - 1; i >= 0; i--)
             if (matches(FHSList[i], directions[i])) return FHSList[i];
         return null;
     }
 
-    public HexagonSprite GetMaxLevelNoneTransparentHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0 || sprite.GetOverlay(hn) >= 0);
-    public HexagonSprite GetMaxLevelTerrainHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0);
-    public HexagonSprite GetMaxLevelOverlayHS() => FindTop((sprite, hn) => sprite.GetOverlay(hn) >= 0);
+    public HexSprite GetMaxLevelNoneTransparentHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0 || sprite.GetOverlay(hn) >= 0);
+    public HexSprite GetMaxLevelTerrainHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0);
+    public HexSprite GetMaxLevelOverlayHS() => FindTop((sprite, hn) => sprite.GetOverlay(hn) >= 0);
 
     private (sbyte Terrain, sbyte Overlay) ReadTerrain()
     {
@@ -220,7 +220,7 @@ public partial class MapField
         var locked = Set<MapFieldStatusElement>.Of(MapFieldStatusElement.TerrainLocked);
         if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) { FStatus += locked; return; }
         FStatus += locked;
-        HSTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
+        HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -242,15 +242,15 @@ public partial class MapField
         FStatus -= locked;
     }
 
-    public void NeighbourTerrainChanged(ref HSTerrainInfo info)
+    public void NeighbourTerrainChanged(ref HexSpriteTerrainInfo info)
     {
         for (int i = FCount - 1; i >= 0; i--) FHSList[i].NeighbourTerrainChanged(directions[i], info);
     }
 
-    public bool CanChangeTerrainEx(EObject sender)
+    public bool CanChangeTerrainEx(EngineObject sender)
     {
         if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return false;
-        HSSenderInfo info = new() { MapField = this, Sender = sender };
+        HexSpriteSenderInfo info = new() { MapField = this, Sender = sender };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -259,7 +259,7 @@ public partial class MapField
         return true;
     }
 
-    public bool CanChangeTerrain(EObject sender, sbyte terrain, sbyte overlay)
+    public bool CanChangeTerrain(EngineObject sender, sbyte terrain, sbyte overlay)
     {
         if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return false;
         sbyte oldTerrain = FTerrainType, oldOverlay = FOverlayType;
@@ -275,7 +275,7 @@ public partial class MapField
     // compares the slot as a MsgArg, whose equality is that of the original word: an int or a
     // reference answer stops the loop alike, and a handler that writes 0 into an empty slot has
     // not answered.
-    public void SendMapFieldMsg(ref MapFieldMsg message)
+    public void SendMapFieldMsg(ref MapFieldMessage message)
     {
         MsgArg oldResult = message.Result;
         int i = FCount;
@@ -291,8 +291,8 @@ public partial class MapField
 
     public int CanMoveOn(object sender, int defaultCode, int moveOverCode)
     {
-        HSMoveOnInfo info = new() { Sender = sender, MapField = this, MoveOverCode = moveOverCode };
-        HSMoveOnResult result = new() { Code = defaultCode, Done = false, Data = 0 };
+        HexSpriteMoveOnInfo info = new() { Sender = sender, MapField = this, MoveOverCode = moveOverCode };
+        HexSpriteMoveOnResult result = new() { Code = defaultCode, Done = false, Data = 0 };
         int i = FCount;
         while (!result.Done && i != 0)
         {
@@ -305,7 +305,7 @@ public partial class MapField
 
     public int CanMoveOver(object sender)
     {
-        HSSenderInfo info = new() { Sender = sender, MapField = this };
+        HexSpriteSenderInfo info = new() { Sender = sender, MapField = this };
         int result = 1, i = FCount;
         while (result == 1 && i != 0)
         {
@@ -318,7 +318,7 @@ public partial class MapField
 
     public void MoveExclusive(object sender)
     {
-        HSSenderInfo info = new() { Sender = sender, MapField = this };
+        HexSpriteSenderInfo info = new() { Sender = sender, MapField = this };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -326,14 +326,14 @@ public partial class MapField
         }
     }
 
-    public HexagonSprite FindNoneTransparentHS(Type type)
+    public HexSprite FindNoneTransparentHS(Type type)
     {
         for (int i = 0; i < FCount; i++)
             if (type.IsInstanceOfType(FHSList[i]) && FHSList[i].GetTerrain(directions[i]) >= 0) return FHSList[i];
         return null;
     }
 
-    public HexagonSprite FindNoneTransparentHSCID(int classId)
+    public HexSprite FindNoneTransparentHSCID(int classId)
     {
         for (int i = 0; i < FCount; i++)
             if (FHSList[i].EClass.ClassID == classId && FHSList[i].GetTerrain(directions[i]) >= 0) return FHSList[i];

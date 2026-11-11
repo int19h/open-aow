@@ -17,14 +17,14 @@ internal sealed class GameContentValidator : IDocumentValidator
     public IEnumerable<FormatDiagnostic> Validate(ValidationContext context)
     {
         var root = context.Root;
-        var scope = new ContentScope(context, root, DocPath.Root);
+        var scope = new ContentScope(context, root, DocumentNodePath.Root);
         var findings = new List<FormatDiagnostic>();
         var rootClass = root["$class"] is JsonString name ? GameFiles.Schema.Find(name.Value) : GameFiles.Schema.Find(context.Profile.RootFamily);
-        Visit(scope, root, rootClass, DocPath.Root, findings);
+        Visit(scope, root, rootClass, DocumentNodePath.Root, findings);
         return findings;
     }
 
-    private static void Visit(ContentScope scope, JsonValue value, SchemaClass? cls, DocPath path, List<FormatDiagnostic> findings)
+    private static void Visit(ContentScope scope, JsonValue value, SchemaClass? cls, DocumentNodePath path, List<FormatDiagnostic> findings)
     {
         switch (value)
         {

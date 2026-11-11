@@ -25,7 +25,7 @@ public partial class BirdsView : Spell
     }
 
     // GlobalSpells.pas:505
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -35,7 +35,7 @@ public partial class BirdsView : Spell
         Source.GetLocation(ref X, ref Y, ref Layer);
         if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
         {
-            var birdsViewHS = new BirdsViewHS(null);
+            var birdsViewHS = new BirdsViewHexSprite(null);
             birdsViewHS.StartAnimation(X, Y, Layer, 14);
         }
 
@@ -47,7 +47,7 @@ public partial class BirdsView : Spell
     public override bool GetEnabled() => AoWHSMap.Current.FExplorationEnabled;
 
     // GlobalSpells.pas:518
-    public override bool CanActivate(AbstractUnit Source, ref string MessageText)
+    public override bool CanActivate(Troop Source, ref string MessageText)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -67,15 +67,15 @@ public partial class BirdsView : Spell
     }
 
     // GlobalSpells.pas:534
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string Reason = "";
-        SpellTE Event;
+        SpellTokenEvent Event;
         base.Activate(Source);
         if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new SpellTE(null);
+            Event = new SpellTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();

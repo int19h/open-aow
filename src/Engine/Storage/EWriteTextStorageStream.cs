@@ -14,7 +14,7 @@ namespace Aow.Engine.Storage;
 public partial class EWriteTextStorageStream : EStorageStream
 {
     internal string FPath = "";
-    protected internal EBufferStream FBuffer;
+    protected internal BufferStream FBuffer;
 
     // Engine.pas:10355
     internal void WriteTextBuffer(Stream Stream)
@@ -37,7 +37,7 @@ public partial class EWriteTextStorageStream : EStorageStream
     public EWriteTextStorageStream(Stream AStream, GameEngine AEngine) : base(AStream, AEngine)
     {
         FPath = "";
-        FBuffer = new EBufferStream();
+        FBuffer = new BufferStream();
         FPropertyTable = new PropertyTable();
     }
 
@@ -53,9 +53,9 @@ public partial class EWriteTextStorageStream : EStorageStream
     public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Write, EngineServices.smText);
 
     // Engine.pas:10368
-    public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
+    public override void rwCreateEObject(ref EngineObject Obj, ECustomNode AOwner, int ID)
     {
-        EObject O;
+        EngineObject O;
         O = Obj;
         if (O != null)
         {
@@ -64,9 +64,9 @@ public partial class EWriteTextStorageStream : EStorageStream
     }
 
     // Engine.pas:10376
-    public override void rwEObject(EObject Obj, int ID)
+    public override void rwEObject(EngineObject Obj, int ID)
     {
-        EBufferStream SavedBuffer;
+        BufferStream SavedBuffer;
         string SavedPath;
         bool Continue;
         if (!FPropertyTable.PropertyExist(ID))
@@ -74,7 +74,7 @@ public partial class EWriteTextStorageStream : EStorageStream
             SavedBuffer = FBuffer;
             SavedPath = FPath;
             FPropertyTable.BackupSettings();
-            FBuffer = new EBufferStream();
+            FBuffer = new BufferStream();
             if (!IsEmpty(FPath))
             {
                 FPath = FPath + "\\" + IntToStr(ID);
@@ -115,12 +115,12 @@ public partial class EWriteTextStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found");
+            throw new DoublePriorityIdException("Double priorityID found");
         }
     }
 
     // Engine.pas:10412
-    public override void rwEObjectStream(EObject Obj, int ID)
+    public override void rwEObjectStream(EngineObject Obj, int ID)
     {
         rwEObject(Obj, ID);
     }
@@ -140,7 +140,7 @@ public partial class EWriteTextStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found");
+            throw new DoublePriorityIdException("Double priorityID found");
         }
     }
 
@@ -165,7 +165,7 @@ public partial class EWriteTextStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found");
+            throw new DoublePriorityIdException("Double priorityID found");
         }
     }
 
@@ -179,7 +179,7 @@ public partial class EWriteTextStorageStream : EStorageStream
     public override void rwChildren(ECustomNode Node, int ID)
     {
         string SavedPath;
-        EObject C;
+        EngineObject C;
         if (!FPropertyTable.PropertyExist(ID))
         {
             SavedPath = FPath;
@@ -206,7 +206,7 @@ public partial class EWriteTextStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found");
+            throw new DoublePriorityIdException("Double priorityID found");
         }
     }
 

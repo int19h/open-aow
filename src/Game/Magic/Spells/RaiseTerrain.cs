@@ -30,7 +30,7 @@ public partial class RaiseTerrain : GlobalTargetSpell
     // Mountain.pas:327
 
     // Mountain.pas:364
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         base.SetupTargetSelection(Source, TargetSelection);
         TargetSelection.FHNs.Clear();
@@ -41,10 +41,10 @@ public partial class RaiseTerrain : GlobalTargetSpell
     }
 
     // Mountain.pas:373
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
-        RaiseTerrainTE Event;
-        Event = new RaiseTerrainTE(null);
+        RaiseTerrainTokenEvent Event;
+        Event = new RaiseTerrainTokenEvent(null);
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
@@ -56,7 +56,7 @@ public partial class RaiseTerrain : GlobalTargetSpell
     public override bool ValidTargetSelectionMapF(MapField Field)
     {
         bool Valid;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         Valid = base.ValidTargetSelectionMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(Structure)) == null;
         if (Valid)
         {

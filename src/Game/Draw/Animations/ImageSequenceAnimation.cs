@@ -28,7 +28,7 @@ public partial class ImageSequenceAnimation : Animation
     // Animation.pas:424
 
     // Animation.pas:493
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         ImageSequence Sequence;
         int X = default;

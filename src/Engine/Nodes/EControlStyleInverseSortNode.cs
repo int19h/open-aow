@@ -14,13 +14,13 @@ public partial class EControlStyleInverseSortNode : EInverseSortNode
         FControlStyle = base.GetControlStyle();
     }
 
-    internal Set<EControlStyleElement> FControlStyle;
+    internal Set<ControlStyleElement> FControlStyle;
 
     // Engine.pas:1700
-    public override Set<EControlStyleElement> GetControlStyle() => FControlStyle;
+    public override Set<ControlStyleElement> GetControlStyle() => FControlStyle;
 
     // Engine.pas:1705
-    public void SetControlStyle(Set<EControlStyleElement> Value)
+    public void SetControlStyle(Set<ControlStyleElement> Value)
     {
         FControlStyle = Value;
     }

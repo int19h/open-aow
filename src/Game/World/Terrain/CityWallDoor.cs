@@ -21,10 +21,10 @@ public partial class CityWallDoor : CityWall
     public override sbyte GetOverlay(int Index) => -1;
 
     // CityWall.pas:431
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
-        TacticalCombatUnitHS CombatUnit;
-        if (AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting) || AoWCombatMap.Current.FCombat == null)
+        TacticalBattleUnitHexSprite CombatUnit;
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.FCombat == null)
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -32,7 +32,7 @@ public partial class CityWallDoor : CityWall
         {
             var yhx = GetYhx();
             var xhx = GetXhx();
-            CombatUnit = (TacticalCombatUnitHS)AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).FindOwnedChild(2228484);
+            CombatUnit = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).FindOwnedChild(2228484);
             if (CombatUnit != null)
             {
                 if (CombatUnit.FUnit.GetSide() != CombatSideIndex.Defender)
@@ -44,8 +44,8 @@ public partial class CityWallDoor : CityWall
             bool condition = FHitPoints == 0;
             if (!condition)
             {
-                var indexOfPlayer = AoWCombatMap.Current.FCombat.FCombatData.FPlayers.IndexOfPlayer((byte)AoWCombatMap.Current.FCurrentPlayer);
-                condition = AoWCombatMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)indexOfPlayer).FSideIndex != 1 && CombatUnit == null;
+                var indexOfPlayer = CombatMap.Current.FCombat.FCombatData.FPlayers.IndexOfPlayer((byte)CombatMap.Current.FCurrentPlayer);
+                condition = CombatMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)indexOfPlayer).FSideIndex != 1 && CombatUnit == null;
             }
 
             if (condition)
@@ -56,7 +56,7 @@ public partial class CityWallDoor : CityWall
     }
 
     // CityWall.pas:384
-    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
     {
         if (Info.HN == 0)
         {
@@ -103,7 +103,7 @@ public partial class CityWallDoor : CityWall
     }
 
     // CityWall.pas:409
-    public override int CanMoveOver(in HSSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo Info)
     {
         int Result;
         if (Info.HN == 0)

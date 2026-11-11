@@ -21,7 +21,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Terrain;
 
 // summoning status. caster player. remaining turns. original overlay
-public partial class PoisonPlant : ILTerrainMO
+public partial class PoisonPlant : ImageLibraryTerrainMapObject
 {
     public PoisonPlant(ECustomNode owner) : base(owner)
     {
@@ -51,7 +51,7 @@ public partial class PoisonPlant : ILTerrainMO
     // PoisonP.pas:78
 
     // PoisonP.pas:255
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
@@ -61,7 +61,7 @@ public partial class PoisonPlant : ILTerrainMO
     }
 
     // PoisonP.pas:261
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         if (!FPlantStatus.Contains(PoisonPlantStatusElement.Summoning))
         {
@@ -93,21 +93,21 @@ public partial class PoisonPlant : ILTerrainMO
     }
 
     // PoisonP.pas:218
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4418)
         {
             if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
             {
-                ArmyPlaced(Msg.Param[0].As<ArmyHS>());
+                ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
             }
         }
         else
         {
             if (Msg.MsgID == 4384)
             {
-                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && !Msg.Param[0].As<ArmyHS>().FArmy.ImmunityTypes(255).Contains(DamageType.Poison) && PoisonPlantActive())
+                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && !Msg.Param[0].As<ArmyHexSprite>().FArmy.ImmunityTypes(255).Contains(DamageType.Poison) && PoisonPlantActive())
                 {
                     Msg.Result = 1;
                 }
@@ -127,7 +127,7 @@ public partial class PoisonPlant : ILTerrainMO
     }
 
     // PoisonP.pas:209
-    public override int CanMoveOver(in HSSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo Info)
     {
         int Result;
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0 && PoisonPlantActive())
@@ -150,7 +150,7 @@ public partial class PoisonPlant : ILTerrainMO
     }
 
     // PoisonP.pas:203
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
         {
@@ -165,7 +165,7 @@ public partial class PoisonPlant : ILTerrainMO
     public bool CanDoDamage(UnitList Units)
     {
         int I;
-        AbstractUnit U;
+        Troop U;
         bool Result = false;
         I = Units.Count;
         while (!Result && I != 0)
@@ -179,12 +179,12 @@ public partial class PoisonPlant : ILTerrainMO
     }
 
     // PoisonP.pas:120
-    public void TriggerArmyDamage(ArmyHS ArmyHS)
+    public void TriggerArmyDamage(ArmyHexSprite ArmyHS)
     {
         int Count;
         UnitList Units;
         ArmyEventLog Log;
-        AbstractUnit U;
+        Troop U;
         int Damage;
         Count = 0;
         RandSeed = AoWHSMap.Current.Random(16777215);
@@ -245,9 +245,9 @@ public partial class PoisonPlant : ILTerrainMO
     }
 
     // PoisonP.pas:168
-    public void ArmyPlaced(ArmyHS ArmyHS)
+    public void ArmyPlaced(ArmyHexSprite ArmyHS)
     {
-        if (PoisonPlantActive() && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (PoisonPlantActive() && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             TriggerArmyDamage(ArmyHS);
         }
@@ -270,10 +270,10 @@ public partial class PoisonPlant : ILTerrainMO
     // PoisonP.pas:186
     public void NewTurn(sbyte Player)
     {
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         if (PoisonPlantActive())
         {
-            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             if (ArmyHS != null && Player == ArmyHS.FArmy.FPlayer)
             {
                 TriggerArmyDamage(ArmyHS);
@@ -291,7 +291,7 @@ public partial class PoisonPlant : ILTerrainMO
     }
 
     // PoisonP.pas:267
-    public void ShowSummonAnimation(Animation Animation, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowSummonAnimation(Animation Animation, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         MapField MapF;
         var lhx = Animation.GetLhx();
@@ -331,7 +331,7 @@ public partial class PoisonPlant : ILTerrainMO
 
     private static readonly string PoisonPlantDamageRStr = "Poison Plant Damage";
 
-    public new partial class Resource : ILTerrainMOR
+    public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

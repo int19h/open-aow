@@ -32,8 +32,8 @@ public partial class MindDecay : CombatSpell
     // CombatSpells.pas:1207
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        MindDecayCA Action;
-        Action = new MindDecayCA(null);
+        MindDecayCombatAction Action;
+        Action = new MindDecayCombatAction(null);
         Action.FSourceID = Source.FID;
         Action.FTargetID = Target.FID;
         Action.FSpellID = FSpellID;

@@ -8,8 +8,8 @@ using Aow.Game.Draw;
 using Aow.Game.Net;
 using Aow.Game.World;
 using Aow.Game.World.Map;
-using MovePath = Aow.Game.World.Movement.Movepath;
-using UnitSfxManager = Aow.Game.Audio.SFXManager;
+using MovePath = Aow.Game.World.Movement.MovePath;
+using UnitSfxManager = Aow.Game.Audio.SfxManager;
 
 namespace Aow.Game.Tests;
 
@@ -18,7 +18,7 @@ public sealed class MapNetSoundConstructionTests
     private sealed class MapOwner : EngineFixture.Owner
     {
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Assert.Same(this, child.Owner);
             base.AddChild(child);
@@ -29,13 +29,13 @@ public sealed class MapNetSoundConstructionTests
     public static IEnumerable<object[]> EngineCases()
     {
         Type[] types = [typeof(MapField), typeof(MapContainer), typeof(VisibilityList), typeof(HSMap),
-            typeof(HexagonSprite), typeof(MapObject), typeof(AbstractHexagon), typeof(AbstractBorderHexagon), typeof(AbstractRoad),
-            typeof(SFX), typeof(SFXSequence), typeof(MapObjectResource), typeof(MapObjectResourceList), typeof(MapLevel),
-            typeof(HexagonSpriteSelection), typeof(MORTerrainControl), typeof(HexagonControl),
-            typeof(RoadControl), typeof(HSSet), typeof(CustomFixedVisibleHS), typeof(MultiHexMOR), typeof(AbstractHexagonResource),
+            typeof(HexSprite), typeof(MapObject), typeof(AbstractHexagon), typeof(AbstractBorderHexagon), typeof(AbstractRoad),
+            typeof(Sfx), typeof(SfxSequence), typeof(MapObjectResource), typeof(MapObjectResourceList), typeof(MapLevel),
+            typeof(HexSpriteSelection), typeof(MapObjectResourceTerrainControl), typeof(HexControl),
+            typeof(RoadControl), typeof(HSSet), typeof(CustomFixedVisibleHexSprite), typeof(MultiHexMapObjectResource), typeof(AbstractHexagonResource),
             typeof(PlayerCommunicator), typeof(TokenEvent), typeof(TokenEventList), typeof(DataPackage),
             typeof(PlayerCommunicationSettings), typeof(PlayerCommunicationSettingsList),
-            typeof(TokenPackage), typeof(PassTokenTE), typeof(SyncTE), typeof(Songlist), typeof(SFXLibrary)];
+            typeof(TokenPackage), typeof(PassTokenTokenEvent), typeof(SyncTokenEvent), typeof(SongList), typeof(SfxLibrary)];
         foreach (Type type in types)
             foreach (bool owned in new[] { false, true }) yield return [type, owned];
     }
@@ -48,13 +48,13 @@ public sealed class MapNetSoundConstructionTests
         GameEngine engine = new GameEngine(null!);
         var owner = new MapOwner();
         ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : owner : null!;
-        var meta = EClass.Of(type);
-        if (engine.FClassTable.TryGetValue(meta.ClassID, out EClass? previous) && previous is not null)
+        var meta = EngineClass.Of(type);
+        if (engine.FClassTable.TryGetValue(meta.ClassID, out EngineClass? previous) && previous is not null)
             engine.UnregisterEClasses([previous]);
-        engine.RegisterEClasses([EClass.Of(type)]);
+        engine.RegisterEClasses([EngineClass.Of(type)]);
         var direct = type == typeof(MapLevel) ? new MapLevel(argument)
-            : (EObject)Activator.CreateInstance(type, [argument])!;
-        EObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
+            : (EngineObject)Activator.CreateInstance(type, [argument])!;
+        EngineObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
         try
         {
             foreach (var value in values)
@@ -75,7 +75,7 @@ public sealed class MapNetSoundConstructionTests
         Assert.Empty(owner.Members);
     }
 
-    private static void AssertState(EObject value)
+    private static void AssertState(EngineObject value)
     {
         switch (value)
         {
@@ -90,7 +90,7 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(0, container.Count);
                 break;
             case HSMap map:
-                Assert.IsType<HSMapMouse>(map.Mouse);
+                Assert.IsType<HexSpriteMapMouse>(map.Mouse);
                 Assert.Same(map, map.Mouse.FHSMap);
                 Assert.Same(map, map.Selection.Owner);
                 Assert.Same(map, map.Timer.Owner);
@@ -108,7 +108,7 @@ public sealed class MapNetSoundConstructionTests
                 Assert.NotNull(resource.FTerrainList);
                 Assert.NotNull(resource.FImageLibrary);
                 Assert.Equal(value is AbstractHexagonResource ? 0 : 26, resource.Level);
-                if (value is MultiHexMOR multi)
+                if (value is MultiHexMapObjectResource multi)
                 {
                     Assert.Equal(16, multi.dXmainP);
                     Assert.Equal(32, multi.dYmainP);
@@ -119,12 +119,12 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(0, level.Fields.Length);
                 Assert.Equal(124, level.EClass.InstanceSize);
                 break;
-            case HexagonSpriteSelection selection:
+            case HexSpriteSelection selection:
                 Assert.Empty(selection.LocationHS);
                 Assert.Equal(0, selection.FOnSelectStore.Count);
                 Assert.Equal(0, selection.FOnDeselectStore.Count);
                 break;
-            case MORTerrainControl control:
+            case MapObjectResourceTerrainControl control:
                 Assert.Equal(typeof(MapObject), control.MOClass);
                 Assert.Equal(5, control.Tries);
                 Assert.Empty(control.FResources);
@@ -145,7 +145,7 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Null(sprite.FResource);
                 Assert.Equal(default, sprite.FStatus);
                 break;
-            case SFX effect:
+            case Sfx effect:
                 Assert.Equal("", effect.FileName);
                 break;
             case PlayerCommunicator player:
@@ -170,7 +170,7 @@ public sealed class MapNetSoundConstructionTests
             case PlayerCommunicationSettings settings:
                 Assert.Equal(ConnectionMode.Local, settings.FConnectionMode);
                 break;
-            case Songlist songs:
+            case SongList songs:
                 Assert.Equal(0, songs.Songs.Count);
                 Assert.NotNull(songs.Songs.OnChange);
                 Assert.Equal(0, songs.SongNames.Count);
@@ -206,20 +206,20 @@ public sealed class MapNetSoundConstructionTests
     {
         object value = kind switch
         {
-            0 => new NewHSMapSettings(),
+            0 => new NewHexSpriteMapSettings(),
             1 => new TerrainList(),
-            2 => new HSMapMouse(),
-            3 => new XYLList(),
+            2 => new HexSpriteMapMouse(),
+            3 => new MapCoordinateList(),
             4 => new TokenControl(null!, 7),
-            5 => new TokenExecuter(null!),
+            5 => new TokenExecutor(null!),
             6 => new TokenManager(null!),
             7 => new PlayerCommunicationControl(),
             8 => new PackageDataList(),
-            9 => new RemotePCC(),
-            10 => new LocalPCC(),
-            11 => new TokenPackageDistributer(null!),
+            9 => new RemotePlayerCommunicationControl(),
+            10 => new LocalPlayerCommunicationControl(),
+            11 => new TokenPackageDistributor(null!),
             12 => new SoundSystem(),
-            13 => new SFXList(),
+            13 => new SfxList(),
             14 => new UnitSfxManager(null!),
             15 => new SongPlayer(),
             16 => new SampleList(),
@@ -231,13 +231,13 @@ public sealed class MapNetSoundConstructionTests
         {
             switch (value)
             {
-                case NewHSMapSettings map:
+                case NewHexSpriteMapSettings map:
                     Assert.Equal((64, 64, 1, 66048, 65795, 65794),
                         (map.Width, map.Height, map.Levels, map.HSMapClassID, map.MapContainerClassID, map.MapLevelClassID));
                     Assert.Equal("", map.HSSFileName);
                     break;
                 case TerrainList terrain: Assert.Equal(0, terrain.Count); break;
-                case HSMapMouse mouse:
+                case HexSpriteMapMouse mouse:
                     Assert.Equal(int.MinValue, mouse.FX);
                     Assert.Equal(int.MinValue, mouse.FY);
                     Assert.Equal(0, mouse.FOnUpStore.Count);
@@ -246,7 +246,7 @@ public sealed class MapNetSoundConstructionTests
                     Assert.Equal(0, mouse.FOnDblClickStore.Count);
                     Assert.Equal(0, mouse.FOnCaptureChangedStore.Count);
                     break;
-                case XYLList list:
+                case MapCoordinateList list:
                     Assert.Equal(-1, list.FDefault.X);
                     Assert.Equal(-1, list.FDefault.Y);
                     Assert.Equal(-1, list.FDefault.L);
@@ -258,7 +258,7 @@ public sealed class MapNetSoundConstructionTests
                     Assert.True(control.FActive);
                     Assert.Equal(0, control.Count);
                     break;
-                case TokenExecuter executer:
+                case TokenExecutor executer:
                     Assert.Equal(0, executer.FEvents.Count);
                     Assert.Equal(0, executer.FSystemEvents.Count);
                     Assert.Empty(executer.FTCList);
@@ -274,11 +274,11 @@ public sealed class MapNetSoundConstructionTests
                 case PlayerCommunicationControl communication:
                     Assert.Equal(1, communication.FRefCount);
                     Assert.Equal(0, communication.Count);
-                    if (value is RemotePCC remote) Assert.Equal(0, remote.FPackageDataList.Count);
-                    if (value is LocalPCC local) Assert.Equal(0, local.FPackageDataList.Count);
+                    if (value is RemotePlayerCommunicationControl remote) Assert.Equal(0, remote.FPackageDataList.Count);
+                    if (value is LocalPlayerCommunicationControl local) Assert.Equal(0, local.FPackageDataList.Count);
                     break;
                 case PackageDataList packages: Assert.Equal(0, packages.Count); break;
-                case TokenPackageDistributer distributer: Assert.Null(distributer.FTokenManager); break;
+                case TokenPackageDistributor distributer: Assert.Null(distributer.FTokenManager); break;
                 case SoundSystem sound: Assert.Equal(1, sound.FRefCount); break;
                 case UnitSfxManager sfx: Assert.Equal(0, sfx.SFX.Count); break;
                 case SongPlayer song:

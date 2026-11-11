@@ -30,7 +30,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
     // PoisonP.pas:371
 
     // PoisonP.pas:405
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         base.SetupTargetSelection(Source, TargetSelection);
         TargetSelection.FHNs.Clear();
@@ -41,10 +41,10 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
     }
 
     // PoisonP.pas:414
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
-        PoisonPlantSpellTE Event;
-        Event = new PoisonPlantSpellTE(null);
+        PoisonPlantSpellTokenEvent Event;
+        Event = new PoisonPlantSpellTokenEvent(null);
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
@@ -55,7 +55,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
     // PoisonP.pas:390
     public override bool ValidTargetSelectionMapF(MapField Field)
     {
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         bool Result = base.ValidTargetSelectionMapF(Field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
         // { Original precedence also accepts these overlays without the terrain test. }
         Result = (Result && Field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);

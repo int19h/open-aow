@@ -191,9 +191,9 @@ public static class HexGeometry
         }
     }
 
-    internal static XYL PackXYL(sbyte X, sbyte Y, sbyte L)
+    internal static MapCoordinate PackXYL(sbyte X, sbyte Y, sbyte L)
     {
-        XYL Result = default;
+        MapCoordinate Result = default;
         Result.X = X;
         Result.Y = Y;
         Result.L = L;
@@ -201,16 +201,16 @@ public static class HexGeometry
         return Result;
     }
 
-    internal static FixedArray_byte_37 InvHNTable = FixedArray_byte_37.From([0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
+    internal static ByteArray37 InvHNTable = ByteArray37.From([0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
 
-    internal static FixedArray_int_11 RadToHNTable = FixedArray_int_11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
+    internal static Int32Array11 RadToHNTable = Int32Array11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
 
     public static void OriginalAssert(string Message, string Filename, int LineNumber)
     {
         Assert(false, Message, Filename, LineNumber);
     }
 
-    internal static FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 HNWalkTable = FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2.From([FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]), FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
+    internal static XYTableEntryArray8By2 HNWalkTable = XYTableEntryArray8By2.From([XYTableEntryArray8.From([new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]), XYTableEntryArray8.From([new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
 
     internal static int HNtoRad(int HN)
     {
@@ -277,11 +277,11 @@ public static class HexGeometry
         Xhp -= 8;
     }
 
-    internal static FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2 HNtoXYTable = FixedArray_Aow_Units_FixedArray_Aow_Units_HSEngine_XYTableEntry_8_2.From([FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }]), FixedArray_Aow_Units_HSEngine_XYTableEntry_8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
+    internal static XYTableEntryArray8By2 HNtoXYTable = XYTableEntryArray8By2.From([XYTableEntryArray8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }]), XYTableEntryArray8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
 
-    internal static FixedArray_byte_37 HNtoRadTable = FixedArray_byte_37.From([0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
+    internal static ByteArray37 HNtoRadTable = ByteArray37.From([0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
 
-    internal static FixedArray_Aow_Units_FixedArray_int_2_37 HNtoHXTable = FixedArray_Aow_Units_FixedArray_int_2_37.From([FixedArray_int_2.From([0, 0]), FixedArray_int_2.From([0, -1]), FixedArray_int_2.From([1, -1]), FixedArray_int_2.From([1, 0]), FixedArray_int_2.From([0, 1]), FixedArray_int_2.From([-1, 0]), FixedArray_int_2.From([-1, -1]), FixedArray_int_2.From([0, -2]), FixedArray_int_2.From([1, -2]), FixedArray_int_2.From([2, -1]), FixedArray_int_2.From([2, 0]), FixedArray_int_2.From([2, 1]), FixedArray_int_2.From([1, 1]), FixedArray_int_2.From([0, 2]), FixedArray_int_2.From([-1, 1]), FixedArray_int_2.From([-2, 1]), FixedArray_int_2.From([-2, 0]), FixedArray_int_2.From([-2, -1]), FixedArray_int_2.From([-1, -2]), FixedArray_int_2.From([0, -3]), FixedArray_int_2.From([1, -3]), FixedArray_int_2.From([2, -2]), FixedArray_int_2.From([3, -2]), FixedArray_int_2.From([3, -1]), FixedArray_int_2.From([3, 0]), FixedArray_int_2.From([3, 1]), FixedArray_int_2.From([2, 2]), FixedArray_int_2.From([1, 2]), FixedArray_int_2.From([0, 3]), FixedArray_int_2.From([-1, 2]), FixedArray_int_2.From([-2, 2]), FixedArray_int_2.From([-3, 1]), FixedArray_int_2.From([-3, 0]), FixedArray_int_2.From([-3, -1]), FixedArray_int_2.From([-3, -2]), FixedArray_int_2.From([-2, -2]), FixedArray_int_2.From([-1, -3])]);
+    internal static Int32Array2By37 HNtoHXTable = Int32Array2By37.From([Int32Array2.From([0, 0]), Int32Array2.From([0, -1]), Int32Array2.From([1, -1]), Int32Array2.From([1, 0]), Int32Array2.From([0, 1]), Int32Array2.From([-1, 0]), Int32Array2.From([-1, -1]), Int32Array2.From([0, -2]), Int32Array2.From([1, -2]), Int32Array2.From([2, -1]), Int32Array2.From([2, 0]), Int32Array2.From([2, 1]), Int32Array2.From([1, 1]), Int32Array2.From([0, 2]), Int32Array2.From([-1, 1]), Int32Array2.From([-2, 1]), Int32Array2.From([-2, 0]), Int32Array2.From([-2, -1]), Int32Array2.From([-1, -2]), Int32Array2.From([0, -3]), Int32Array2.From([1, -3]), Int32Array2.From([2, -2]), Int32Array2.From([3, -2]), Int32Array2.From([3, -1]), Int32Array2.From([3, 0]), Int32Array2.From([3, 1]), Int32Array2.From([2, 2]), Int32Array2.From([1, 2]), Int32Array2.From([0, 3]), Int32Array2.From([-1, 2]), Int32Array2.From([-2, 2]), Int32Array2.From([-3, 1]), Int32Array2.From([-3, 0]), Int32Array2.From([-3, -1]), Int32Array2.From([-3, -2]), Int32Array2.From([-2, -2]), Int32Array2.From([-1, -3])]);
 
     internal static void HPtoHX(int horizontal, int vertical, ref int x, ref int y)
     {

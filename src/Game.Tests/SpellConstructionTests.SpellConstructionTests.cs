@@ -21,10 +21,10 @@ public sealed partial class SpellConstructionTests
     private sealed class SpellOwner : EngineFixture.Owner
     {
 
-        internal readonly List<EObject> Removed = [];
+        internal readonly List<EngineObject> Removed = [];
         internal readonly List<string> Observations = [];
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Assert.Same(this, child.Owner);
             Observations.Add(Snapshot(child));
@@ -32,7 +32,7 @@ public sealed partial class SpellConstructionTests
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EObject child)
+        public override int RemoveChild(EngineObject child)
         {
             Removed.Add(child);
             int index = Members.IndexOf(child);
@@ -85,12 +85,12 @@ public sealed partial class SpellConstructionTests
         return fields;
     }
 
-    private static string Snapshot(EObject value) => JsonSerializer.Serialize(State(value));
+    private static string Snapshot(EngineObject value) => JsonSerializer.Serialize(State(value));
 
-    private static string SuccessSnapshot(EObject value)
+    private static string SuccessSnapshot(EngineObject value)
     {
         var state = (SortedDictionary<string, object?>)State(value)!;
-        state["EObject.FOwner"] = "$owner";
+        state["EngineObject.FOwner"] = "$owner";
         return JsonSerializer.Serialize(state);
     }
 
@@ -98,21 +98,21 @@ public sealed partial class SpellConstructionTests
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
-        try { engine.RegisterEClasses([EClass.Of(type)]); }
+        try { engine.RegisterEClasses([EngineClass.Of(type)]); }
         catch { engine.Dispose(); throw; }
         return engine;
     }
 
-    private static EObject Create(Type type, ECustomNode owner, int route, GameEngine? registered = null)
+    private static EngineObject Create(Type type, ECustomNode owner, int route, GameEngine? registered = null)
     {
-        var meta = EClass.Of(type);
+        var meta = EngineClass.Of(type);
         if (route == 0)
         {
             try
             {
                 if (type.GetConstructor([typeof(ECustomNode)]) is { } constructor)
-                    return (EObject)constructor.Invoke([owner]);
-                return (EObject)type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
+                    return (EngineObject)constructor.Invoke([owner]);
+                return (EngineObject)type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
                     [typeof(ECustomNode)])!.Invoke(null, [owner])!;
             }
             catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -124,7 +124,7 @@ public sealed partial class SpellConstructionTests
         if (route == 1) return meta.Create(owner);
         if (route == 3)
         {
-            try { return (EObject)meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner])!; }
+            try { return (EngineObject)meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner])!; }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
                 ExceptionDispatchInfo.Capture(error.InnerException).Throw();
@@ -151,18 +151,18 @@ public sealed partial class SpellConstructionTests
         Type type = typeof(Spell).Assembly.GetType(name)!;
         using var fixture = new Fixture();
         var owner = new SpellOwner();
-        var allocated = new List<EObject>();
+        var allocated = new List<EngineObject>();
         try
         {
             foreach (bool owned in new[] { false, true })
                 for (int route = 0; route < 4; route++)
                 {
                     ECustomNode argument = owned ? owner : null!;
-                    EObject value = Create(type, argument, route);
+                    EngineObject value = Create(type, argument, route);
                     allocated.Add(value);
                     Assert.IsType(type, value);
                     Assert.Same(argument, value.Owner);
-                    Assert.Same(EClass.Of(type), value.EClass);
+                    Assert.Same(EngineClass.Of(type), value.EClass);
                     ConstructionSnapshot.Check("SpellConstruction", name, SuccessSnapshot(value), "State");
                     if (owned) ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
                     if (value is Spell spell)
@@ -210,11 +210,11 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void InheritOnlyExclusiveActionHasItsOwnExactCreationRoutes()
     {
-        Type type = typeof(ExclusiveCombatSpellCA);
+        Type type = typeof(ExclusiveCombatSpellCombatAction);
         var owner = new SpellOwner();
         for (int route = 0; route < 4; route++)
         {
-            EObject value = Create(type, owner, route);
+            EngineObject value = Create(type, owner, route);
             Assert.IsType(type, value);
             Assert.Equal(1, ((CombatAction)value).FRefCount);
             Assert.Same(owner, value.Owner);
@@ -228,8 +228,8 @@ public sealed partial class SpellConstructionTests
     {
         for (int route = 0; route < 4; route++)
         {
-            var value = (NewCombatRoundCA)Create(typeof(NewCombatRoundCA), null!, route);
-            Assert.IsType<NewCombatRoundCA>(value);
+            var value = (NewCombatRoundCombatAction)Create(typeof(NewCombatRoundCombatAction), null!, route);
+            Assert.IsType<NewCombatRoundCombatAction>(value);
             Assert.Equal(1, value.FRefCount);
             value.Dispose();
         }

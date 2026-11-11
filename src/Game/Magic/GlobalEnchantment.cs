@@ -19,7 +19,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic;
 
 // (ID, references, status, mode, dispel mana, type, player, name, upkeep)
-public partial class GlobalEnchantment : EObject
+public partial class GlobalEnchantment : EngineObject
 {
 
     // Spells.PAS:2471
@@ -91,9 +91,9 @@ public partial class GlobalEnchantment : EObject
     public virtual int GetUpkeep() => FEnchantmentManaUpkeep;
 
     // Spells.PAS:2490
-    public virtual XYL GetLocation()
+    public virtual MapCoordinate GetLocation()
     {
-        XYL Result = default;
+        MapCoordinate Result = default;
         Result.Packed = 16777215;
         return Result;
     }
@@ -208,7 +208,7 @@ public partial class GlobalEnchantment : EObject
     {
         bool Result;
         string Reason = "";
-        XYL Location;
+        MapCoordinate Location;
         GlobalEnchantmentEventLog Log;
         if (CanDispel((sbyte)Player, ref Reason))
         {
@@ -261,7 +261,7 @@ public partial class GlobalEnchantment : EObject
     {
         bool Result;
         string Reason = "";
-        XYL Location;
+        MapCoordinate Location;
         GlobalEnchantmentEventLog Log;
         if (CanRemove((sbyte)Player, ref Reason))
         {
@@ -297,7 +297,7 @@ public partial class GlobalEnchantment : EObject
     public virtual bool VisibleForPlayer(sbyte Player)
     {
         bool Result;
-        XYL Location;
+        MapCoordinate Location;
         if (!FEnchantmentMode.Contains(GlobalEnchantmentModeElement.TrueGlobal) && Player != FPlayerIndex)
         {
             Location = GetLocation();
@@ -321,7 +321,7 @@ public partial class GlobalEnchantment : EObject
     // Spells.PAS:2492
     public virtual void CenterToLocation()
     {
-        XYL Location;
+        MapCoordinate Location;
         Location = GetLocation();
         if (Location.X != -1)
         {

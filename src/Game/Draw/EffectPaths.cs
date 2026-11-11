@@ -11,9 +11,9 @@ namespace Aow.Game.Draw;
 internal static class EffectPaths
 {
 
-    internal static void MakeLinePath(int X1, int Y1, int X2, int Y2, int Steps, ref XYZList List)
+    internal static void MakeLinePath(int X1, int Y1, int X2, int Y2, int Steps, ref Point3DList List)
     {
-        XYZ XYZ;
+        Point3D XYZ;
         if (Steps < 2)
         {
             Steps = 2;
@@ -21,20 +21,20 @@ internal static class EffectPaths
 
         for (int I = 0; I <= Steps - 1; I++)
         {
-            XYZ = new XYZ();
+            XYZ = new Point3D();
             List.Add(XYZ);
             XYZ.X = X1 + (X2 - X1) * I / (Steps - 1);
             XYZ.Y = Y1 + (Y2 - Y1) * I / (Steps - 1);
         }
     }
 
-    internal static void MakeSwarmPath(int Step, int Radius, int Phase, int Angle, int X, int Y, SwarmDirection Direction, ref XYZList List)
+    internal static void MakeSwarmPath(int Step, int Radius, int Phase, int Angle, int X, int Y, SwarmDirection Direction, ref Point3DList List)
     {
         int Total;
         int B;
         float Rad;
         float R;
-        XYZ XYZ;
+        Point3D XYZ;
         Total = 0;
         do
         {
@@ -50,7 +50,7 @@ internal static class EffectPaths
                     break;
             }
 
-            XYZ = new XYZ();
+            XYZ = new Point3D();
             XYZ.X = Round((double)Math.Sin(Rad) * R) + X;
             XYZ.Y = Round((double)Math.Cos(Rad) * R) + Y;
             List.Add(XYZ);
@@ -80,7 +80,7 @@ internal static class EffectPaths
         while (!(Total >= 360));
     }
 
-    internal static void MakeLightningPath(int X1, int Y1, int X2, int Y2, ref XYZList List)
+    internal static void MakeLightningPath(int X1, int Y1, int X2, int Y2, ref Point3DList List)
     {
         int NX;
         int NY;
@@ -128,13 +128,13 @@ internal static class EffectPaths
         List[count - 1].Z = 1;
     }
 
-    internal static void MakeArcPath(int X, int Y, int Angle, ref float Z, ref float Speed, ref float VZ, ref float Gravity, ref XYZList List)
+    internal static void MakeArcPath(int X, int Y, int Angle, ref float Z, ref float Speed, ref float VZ, ref float Gravity, ref Point3DList List)
     {
         float FX;
         float FY;
         float DX;
         float DY;
-        XYZ XYZ;
+        Point3D XYZ;
         FX = X;
         FY = Y;
         DX = (float)((double)Math.Cos(Angle) * Speed);
@@ -143,7 +143,7 @@ internal static class EffectPaths
         {
             while ((double)Z >= 0)
             {
-                XYZ = new XYZ();
+                XYZ = new Point3D();
                 XYZ.X = Round(FX);
                 XYZ.Y = Round(FY);
                 XYZ.Z = Round(Z);
@@ -156,13 +156,13 @@ internal static class EffectPaths
         }
     }
 
-    internal static void MakeArcPathXY(short X1, short Y1, short X2, short Y2, short StepSize, short Height, ref XYZList List)
+    internal static void MakeArcPathXY(short X1, short Y1, short X2, short Y2, short StepSize, short Height, ref Point3DList List)
     {
         int I;
         int Steps;
         int DX;
         int DY;
-        XYZ XYZ;
+        Point3D XYZ;
         I = 0;
         DX = Math.Abs(X2 - X1);
         DY = Math.Abs(Y2 - Y1);
@@ -174,7 +174,7 @@ internal static class EffectPaths
 
         while (I <= Steps)
         {
-            XYZ = new XYZ();
+            XYZ = new Point3D();
             List.Add(XYZ);
             XYZ.X = X1 + (X2 - X1) * I / Steps;
             XYZ.Y = Y1 + (Y2 - Y1) * I / Steps;
@@ -215,22 +215,22 @@ internal static class EffectPaths
     {
         CombatFire Fire;
         bool CanBurn;
-        CombatILTerrain Terrain;
+        CombatImageLibraryTerrain Terrain;
         CityWall Wall;
-        if (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
+        if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
         {
-            if (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
+            if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
             {
                 if (AoWHSMap.Current.Random(100) < Chance)
                 {
                     CanBurn = false;
-                    if (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
+                    if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
                     {
                         CanBurn = true;
                     }
                     else
                     {
-                        Terrain = (CombatILTerrain)AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
+                        Terrain = (CombatImageLibraryTerrain)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
                         if (Terrain != null)
                         {
                             if (Terrain.GetBurnValue() > 0)
@@ -239,7 +239,7 @@ internal static class EffectPaths
                             }
                         }
 
-                        Wall = (CityWall)AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
+                        Wall = (CityWall)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
                         if (Wall != null)
                         {
                             if (Wall.FWallType == 1)
@@ -255,7 +255,7 @@ internal static class EffectPaths
                     if (CanBurn)
                     {
                         Fire = new CombatFire(null);
-                        if (!AoWCombatMap.Current.PlaceHX(Fire, Xhx, Yhx, 0))
+                        if (!CombatMap.Current.PlaceHX(Fire, Xhx, Yhx, 0))
                         {
                             Fire?.Dispose();
                         }

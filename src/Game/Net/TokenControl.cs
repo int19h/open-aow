@@ -47,7 +47,7 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1293
     // { A local player's events end with a TPassTokenTE (after a TSyncTE when the executer checks the
     //   sync); a remote player's events are prefetched only when they are complete }
-    public virtual bool PrefetchTokenEvents(TokenExecuter Executer)
+    public virtual bool PrefetchTokenEvents(TokenExecutor Executer)
     {
         bool Result;
         int N;
@@ -60,14 +60,14 @@ public partial class TokenControl : IDisposable
                 {
                     if (Executer.FOnSyncError != null)
                     {
-                        TE = new SyncTE(null);
+                        TE = new SyncTokenEvent(null);
                         var syncValue = Executer.GetSyncValue();
-                        ((SyncTE)TE).FSyncValue = syncValue;
+                        ((SyncTokenEvent)TE).FSyncValue = syncValue;
                         FEvents.Insert(0, TE);
                         TE.Release();
                     }
 
-                    TE = new PassTokenTE(null);
+                    TE = new PassTokenTokenEvent(null);
                     FEvents.Add(TE);
                     TE.Release();
                 }
@@ -120,7 +120,7 @@ public partial class TokenControl : IDisposable
 
     // NetworkE.pas:1342
     // { A local player's prefetched events go to every other player }
-    public virtual void TokenEventsPrefetched(TokenExecuter Executer, TokenEventList Events)
+    public virtual void TokenEventsPrefetched(TokenExecutor Executer, TokenEventList Events)
     {
         if (Local() && !Global() && Events.Count != 0)
         {
@@ -214,7 +214,7 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1266
     // { The number of events of a remote player that can be executed now: they must follow the
     //   executer's token counter without a gap, up to and including the first TPassTokenTE }
-    public int GetPrefetchableTokenEvents(TokenExecuter Executer)
+    public int GetPrefetchableTokenEvents(TokenExecutor Executer)
     {
         int Result;
         int I;

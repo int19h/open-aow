@@ -169,9 +169,9 @@ public sealed class AsmStubsProbeTests
                 int value = Values[j];
                 string tag = "_count" + Dec(count) + "_value" + Dec(j);
                 FillA5(ints);
-                IntegerList.FillInteger(ints.AsSpan(1), count, value);
+                Int32List.FillInteger(ints.AsSpan(1), count, value);
                 FillA5(words);
-                WordList.FillWord(words.AsSpan(1), count, (ushort)value);
+                UInt16List.FillWord(words.AsSpan(1), count, (ushort)value);
                 var large = new DoubleItemList.DoubleItem { A = value, B = ~value };
                 FillA5(doubles);
                 FillLarge(doubles, 1, count, large);
@@ -354,7 +354,7 @@ public sealed class AsmStubsProbeTests
     {
         var lines = new List<string>();
         var abilities = new CustomAbilityList(null!);
-        var unit = new AbstractUnit(null!);
+        var unit = new Troop(null!);
         abilities.SetAbCount(0);
         for (int i = 1; i < Indices.Length; i++)
         {
@@ -486,12 +486,12 @@ public sealed class AsmStubsProbeTests
         {
             for (int b = -1; b <= 1; b++)
             {
-                var walk = new HNWalkData();
+                var walk = new HexNumberWalkData();
                 walk.CenterX = a;
                 walk.CenterY = b;
                 for (int i = 0; i < 80; i++)
                 {
-                    HNWalkData.WalkToNextHN(ref walk);
+                    HexNumberWalkData.WalkToNextHN(ref walk);
                     string tag = Dec(a) + "_" + Dec(b) + "_" + Dec(i);
                     AddNum(lines, "HSEngine.WalkToNextHN_X_" + tag, walk.X);
                     AddNum(lines, "HSEngine.WalkToNextHN_Y_" + tag, walk.Y);

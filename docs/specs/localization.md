@@ -24,7 +24,7 @@ of the port is written from that format document, not transpiled.
    startup as the original does and translates through it; the result for English players is the
    source text everywhere plus that one substitution, which is what the shipped game shows.
 3. The four other languages are offered as a setting. The shipped code forces English twice
-   (`AoWEngine.Create` maps every language to 1, `AoWRegistry.GetLanguage` (Delphi `TAoWRegistry`) returns `alEnglish`
+   (`AoWEngine.Create` maps every language to 1, `GameSettings.GetLanguage` (Delphi `TAoWRegistry`) returns `alEnglish`
    after reading the setting), although the dictionaries carry complete German, French, Italian and
    Spanish columns and the map, campaign and ability loaders already pass the registry's language
    through. The port keeps the forced behavior as the default and adds a `Language` setting that,
@@ -110,9 +110,9 @@ running the same code over the same files.
 ## 5. The language setting
 
 `Language` under `General` (`platform.md` section 8) is 0 automatic, 1 English, 2 German, 3
-French, 4 Italian, 5 Spanish (`AoWLanguage` (Delphi `TAoWLanguage`)). With the default (English, or automatic) the
+French, 4 Italian, 5 Spanish (`Language` (Delphi `TAoWLanguage`)). With the default (English, or automatic) the
 transpiled forcing code runs as shipped. With another value two overrides apply:
-`AoWRegistry.GetLanguage` returns the setting, and the language table in `AoWEngine.Create`
+`GameSettings.GetLanguage` returns the setting, and the language table in `AoWEngine.Create`
 maps each language to its own column. `TranslateEObjectFromFile` and the translators then follow,
 because they already read the registry. Two consequences the port states in its settings
 description: the fonts of the English release have no glyphs for some accented characters of the
@@ -154,7 +154,7 @@ maps it to English unless the system language is one of the four others.
 ## 8. Open points
 
 1. Glyph coverage of the ILB fonts for the accented characters of the four other languages. A scan
-   of `FontModule`'s libraries against the characters used in the de, fr, it and es columns settles
+   of `UIFonts`'s libraries against the characters used in the de, fr, it and es columns settles
    it; characters without glyphs render as 5-pixel gaps (`graphics.md` 6.6).
 2. Closed on 2026-10-25 (`../correspondence/2026-10-25c-replies-from-recovery.md`): the recovered
    source spelled `P2FireDamageRStr` as "Fire damage" against "Fire Damage" in the binary and in

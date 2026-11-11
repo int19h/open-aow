@@ -15,7 +15,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units;
 
 // FOnChanged. FUpdateCount. FOnHeroChanged. FHeroes
-public partial class HeroControl : EObject
+public partial class HeroControl : EngineObject
 {
     // Hero.PAS:2413
     public HeroControl(ECustomNode owner) : base(owner)
@@ -75,7 +75,7 @@ public partial class HeroControl : EObject
     }
 
     // Hero.PAS:2567
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
@@ -93,9 +93,9 @@ public partial class HeroControl : EObject
             {
                 for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
                 {
-                    if (((EObject)FHeroes.FChildren.List[I]).Owner == null)
+                    if (((EngineObject)FHeroes.FChildren.List[I]).Owner == null)
                     {
-                        ((EObject)FHeroes.FChildren.List[I]).MsgProc(ref Msg, Sender);
+                        ((EngineObject)FHeroes.FChildren.List[I]).MsgProc(ref Msg, Sender);
                     }
                 }
             }
@@ -251,7 +251,7 @@ public partial class HeroControl : EObject
     // Hero.PAS:2528
     public void HeroChanged(Hero Hero)
     {
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             FOnHeroChangedStore.Raise(Hero);
         }

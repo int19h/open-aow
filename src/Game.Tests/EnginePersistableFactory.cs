@@ -11,13 +11,13 @@ namespace Aow.Game.Tests;
 public sealed class EnginePersistableFactory : IPersistableFactory
 {
     private readonly GameEngine engine;
-    private readonly Dictionary<string, EClass> byName;
+    private readonly Dictionary<string, EngineClass> byName;
 
     public EnginePersistableFactory(GameEngine engine)
     {
         this.engine = engine ?? throw new InvalidOperationException("The engine is not running.");
-        byName = new Dictionary<string, EClass>();
-        foreach (var eclass in EClass.All)
+        byName = new Dictionary<string, EngineClass>();
+        foreach (var eclass in EngineClass.All)
             if (!byName.TryAdd(eclass.ClassName, eclass))
                 throw new InvalidOperationException("Two engine classes are named " + eclass.ClassName + ".");
     }
@@ -34,7 +34,7 @@ public sealed class EnginePersistableFactory : IPersistableFactory
             if (resolved is null || !byName.TryGetValue(resolved, out eclass))
                 throw new InvalidOperationException("The engine has no class " + className + ".");
         }
-        if (!engine.ClassTable.TryGetValue(eclass.ClassID, out EClass? registered) || registered is null || registered.ClassName != eclass.ClassName)
+        if (!engine.ClassTable.TryGetValue(eclass.ClassID, out EngineClass? registered) || registered is null || registered.ClassName != eclass.ClassName)
             throw new KeyNotFoundException("Unregistered E-ClassID found (" + eclass.ClassID.ToString(CultureInfo.InvariantCulture) + ")");
         return registered.Create(null);
     }

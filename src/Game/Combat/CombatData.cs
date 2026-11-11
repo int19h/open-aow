@@ -10,7 +10,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Combat;
 
 // damage set. byte lists. objects. players. parties. round. header string. Boolean. combat wall
-public partial class CombatData : EObject
+public partial class CombatData : EngineObject
 {
     // Combat2.pas:184
     public new const int ClassID = 131747;
@@ -32,7 +32,7 @@ public partial class CombatData : EObject
     public int FAttackerX;
     public int FAttackerY;
     public int FAttackerL;
-    public FixedArray_byte_2 F_CombatData_20;
+    public ByteArray2 F_CombatData_20;
     public Set<DamageType> F_CombatData_22;
     public sbyte FAttackerPlayer;
     public sbyte FDefenderPlayer;

@@ -117,9 +117,9 @@ public sealed class DiplomaticProposalTests
         4 => new Player.ThreatenToAttack(),
         5 => new Player.MakeTribute(Gold, Mana),
         6 => new BreakAlliance(),
-        7 => new Player.SendMessageAsY(),
-        8 => new Player.BreakAllianceWithY(Gold, Mana),
-        9 => new Player.DeclareWarToY(Gold, Mana),
+        7 => new Player.ImpersonatedMessage(),
+        8 => new Player.SuggestAllianceBreak(Gold, Mana),
+        9 => new Player.SuggestWarDeclaration(Gold, Mana),
         _ => new UnknownProposal(Kind, Gold, Mana),
     };
 
@@ -139,11 +139,11 @@ public sealed class DiplomaticProposalTests
         if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-        engine.RegisterEClasses([EClass.Of<DiplomaticAction>(), EClass.Of<DiplomaticActionTE>(), EClass.Of<DiplomaticActionEventLog>()]);
+        engine.RegisterEClasses([EngineClass.Of<DiplomaticAction>(), EngineClass.Of<DiplomaticActionTokenEvent>(), EngineClass.Of<DiplomaticActionEventLog>()]);
         return engine;
     }
 
-    private static string Write(GameEngine engine, EObject value)
+    private static string Write(GameEngine engine, EngineObject value)
     {
         using var memory = new MemoryStream();
         var writer = new EWriteStorageStream(memory, engine, false);
@@ -152,10 +152,10 @@ public sealed class DiplomaticProposalTests
         return Hex(memory);
     }
 
-    private static T Read<T>(GameEngine engine, string hex) where T : EObject
+    private static T Read<T>(GameEngine engine, string hex) where T : EngineObject
     {
         using var memory = Memory(hex);
-        EObject result = null!;
+        EngineObject result = null!;
         using (var reader = new EReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, null!, 7); }
         return Assert.IsType<T>(result);
     }
@@ -196,7 +196,7 @@ public sealed class DiplomaticProposalTests
             Assert.Equal(c.Alone, Write(engine, action));
             action.Release();
 
-            var te = new DiplomaticActionTE(null!) { FOperation = 1 };
+            var te = new DiplomaticActionTokenEvent(null!) { FOperation = 1 };
             action = Action(c);
             te.SetDiplomaticAction(action);
             action.Release();
@@ -212,7 +212,7 @@ public sealed class DiplomaticProposalTests
             Assert.Equal(c.Alone, Write(engine, loaded));
             loaded.Release();
 
-            var loadedEvent = Read<DiplomaticActionTE>(engine, c.Token);
+            var loadedEvent = Read<DiplomaticActionTokenEvent>(engine, c.Token);
             AssertCase(c, loadedEvent.FAction);
             Assert.Equal(c.Token, Write(engine, loadedEvent));
             loadedEvent.Dispose();
@@ -370,8 +370,8 @@ public sealed class DiplomaticProposalTests
             1 => Answer(T(OfferPeace.P5PeaceOfferRStr), T(OfferPeace.P5PeaceOfferRStr),
                 SourceSeated ? F(DiplomaticProposal.P5XAcceptedRStr, T(OfferPeace.P5PeaceOfferRStr)) : T(GameTables.P5PeaceRStr), ""),
             5 => Answer(T(Player.MakeTribute.P5TributeRStr), T(Player.MakeTribute.P5TributeRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(Player.MakeTribute.P5TributeRStr)), ""),
-            9 => Answer(T(Player.DeclareWarToY.P5DeclareWarSuggestionRStr), T(GameText.P5DeclareWarRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(GameText.P5DeclareWarRStr)), ""),
-            8 => Answer(T(Player.BreakAllianceWithY.P5BreakAllianceSuggestionRStr), T(GameText.P5BreakAllianceRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(GameText.P5BreakAllianceRStr)), ""),
+            9 => Answer(T(Player.SuggestWarDeclaration.P5DeclareWarSuggestionRStr), T(GameText.P5DeclareWarRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(GameText.P5DeclareWarRStr)), ""),
+            8 => Answer(T(Player.SuggestAllianceBreak.P5BreakAllianceSuggestionRStr), T(GameText.P5BreakAllianceRStr), F(DiplomaticProposal.P5XAcceptedRStr, T(GameText.P5BreakAllianceRStr)), ""),
             6 => T(BreakAlliance.P5AllianceBrokenRStr),
             3 or 7 => T(GameText.P5MessageRStr),
             4 => T(Player.ThreatenToAttack.P5ThreatRStr),

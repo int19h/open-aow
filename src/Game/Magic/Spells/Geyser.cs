@@ -30,8 +30,8 @@ public partial class Geyser : CombatSpell
     // CombatSpells.pas:1522
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        CombatSpellCA Action;
-        Action = new CombatSpellCA(null);
+        CombatSpellCombatAction Action;
+        Action = new CombatSpellCombatAction(null);
         Action.FSpellID = FSpellID;
         if (Target.GetAbilityEnabled(1) || Target.GetAbilityEnabled(59))
         {

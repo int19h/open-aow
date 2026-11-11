@@ -125,13 +125,13 @@ public partial class Picture16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:2247
-    public override Form CreateGrabForm(Component AOwner, in SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:2253
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB24 || PixelFormatID == PixelFormats.pfPAL8;
 
     // ImageLib.pas:2259
-    public override bool GrabImage(in SurfaceDesc SD, in Rect R, GrabInfo GrabInfo)
+    public override bool GrabImage(in LockedSurface SD, in Rect R, GrabInfo GrabInfo)
     {
         bool Result;
         try
@@ -157,7 +157,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             var D = MemoryMarshal.Cast<byte, ushort>(FBuffer.AsSpan(FPitch * Y, FWidth * 2));
                             for (int X = 0, lastX = FWidth - 1; X <= lastX; X++)
                             {
-                                ref readonly GFXEPalette.PaletteEntry P = ref SD.Palette.Entries[S[X]];
+                                ref readonly Palette.Entry P = ref SD.Palette.Entries[S[X]];
                                 D[X] = (ushort)(((P.R & 248) << 8) + ((P.G & 252) << 3) + (int)(((uint)P.B) >> 3));
                             }
                         }
@@ -233,7 +233,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:2349
-    public override void ShowOpaque(int X, int Y, in SurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in LockedSurface SD)
     {
         int DX;
         int Right;
@@ -334,7 +334,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:2412
-    public override void ShowBlended(int X, int Y, in SurfaceDesc SD, BlendTable Table)
+    public override void ShowBlended(int X, int Y, in LockedSurface SD, BlendTable Table)
     {
         int DX;
         int Right;
@@ -495,7 +495,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:2511
-    public override void ShowTransparent(int X, int Y, in SurfaceDesc SD)
+    public override void ShowTransparent(int X, int Y, in LockedSurface SD)
     {
         int DX;
         int Right;

@@ -30,7 +30,7 @@ public partial class Anarchy : CityTargetSpell
     }
 
     // CitySpells.pas:875
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         bool Result = default;
         City TargetCity = default;
@@ -38,7 +38,7 @@ public partial class Anarchy : CityTargetSpell
         ImageSequenceAnimation A = default;
         if (ExecuteCount == 0)
         {
-            TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
+            TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
             Log = new LocationTextEventLog(null);
             Log.FPlayer = Source.FPlayer;
             Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XCastRStr), [FSpellName]);
@@ -70,7 +70,7 @@ public partial class Anarchy : CityTargetSpell
         {
             if (ExecuteCount == 50)
             {
-                TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
+                TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
                 TargetCity.ExecuteAnarchy();
                 CastingDone(Source, Event.FEventMana);
                 Result = false;
@@ -85,10 +85,10 @@ public partial class Anarchy : CityTargetSpell
     }
 
     // CitySpells.pas:858
-    public override bool ValidTargetCity(AbstractUnit Source, City TargetCity)
+    public override bool ValidTargetCity(Troop Source, City TargetCity)
     {
         bool Result = base.ValidTargetCity(Source, TargetCity);
-        if (!Result || TargetCity.FPlayer == 0 || TargetCity.FEnchantments.Contains(CityEnchantmentID.AntiMagicShell))
+        if (!Result || TargetCity.FPlayer == 0 || TargetCity.FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
             Result = false;
         }
@@ -101,7 +101,7 @@ public partial class Anarchy : CityTargetSpell
     }
 
     // CitySpells.pas:867
-    public void ShowAnimation(Animation Animation, int X, int Y, in SurfaceDesc SD)
+    public void ShowAnimation(Animation Animation, int X, int Y, in LockedSurface SD)
     {
         var imageSequenceAnimation = (ImageSequenceAnimation)Animation;
         if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != 0)

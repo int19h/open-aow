@@ -1,7 +1,7 @@
 #nullable disable
 using Aow.Game.Host;
 using Aow.Rtl;
-using static Aow.Game.Draw.CustomDisplay.DisplayOptionsElement;
+using static Aow.Game.Draw.CustomDisplay.OptionsElement;
 using static Aow.Game.Draw.DisplayStatusElement;
 
 namespace Aow.Game.Draw;
@@ -27,7 +27,7 @@ public partial class CustomDisplay
     public CustomDisplay(Component owner) : base(owner)
     {
         Width = Height = 100;
-        FOptions = Set<DisplayOptionsElement>.Of(AutoResizeBackSurface, AutoSwapDC,
+        FOptions = Set<OptionsElement>.Of(AutoResizeBackSurface, AutoSwapDC,
             AutoStartUpdateFrameLoop, AutoActivatePrimaryDC, RestoreSurfacesOnSwap, BltOnWMPAINT);
         FBufferingScheme = BufferingScheme.Double;
         FBackSurfaceControlMode = BackSurfaceControlMode.BltSurface;
@@ -104,7 +104,7 @@ public partial class CustomDisplay
         FramePresented?.Invoke(PresentedFrames);
     }
 
-    public int ActivateDC(AbstractDC dc)
+    public int ActivateDC(CustomDisplayController dc)
     {
         if (dc == FActiveDC) return 0;
         var previous = FActiveDC;

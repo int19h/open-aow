@@ -1,6 +1,5 @@
 
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Rtl;
 
 namespace Aow.Game.Session;

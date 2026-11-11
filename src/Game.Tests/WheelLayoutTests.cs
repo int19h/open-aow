@@ -1,9 +1,9 @@
 
 using Aow.Game.Layout;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Ui.Controls;
-using Aow.Game.Ui.Dialogs;
-using Aow.Game.Ui.Windows;
+using Aow.Game.UI.Controls;
+using Aow.Game.UI.Dialogs;
+using Aow.Game.UI.Windows;
 using Aow.Platform;
 
 namespace Aow.Game.Tests;
@@ -24,25 +24,25 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     public sealed class Host : IDisposable
     {
         private readonly Action<string> previousMessage = Runtime.MessageHandler;
-        private readonly IntGfxMod? previousGfx = DialogHosts.IntGfxMod;
-        private readonly FontModule? previousFont = DialogHosts.FontModule;
+        private readonly UIGraphics? previousGfx = DialogHosts.IntGfxMod;
+        private readonly UIFonts? previousFont = DialogHosts.FontModule;
         private readonly General? previousGeneral = DialogHosts.General;
         private readonly TitleWindow? previousTitle = DialogHosts.TitleWindow;
         private readonly SpellBook? previousSpell = DialogHosts.SpellBook;
         private readonly WorldMap? previousWorld = DialogHosts.WorldMap;
-        private readonly FileDlgWindow? previousFiles = DialogHosts.FileDlgWindow;
-        private readonly RealmWin? previousRealm = DialogHosts.RealmWin;
+        private readonly FileDialogWindow? previousFiles = DialogHosts.FileDlgWindow;
+        private readonly RealmWindow? previousRealm = DialogHosts.RealmWin;
         private readonly UnitBanner? previousBanner = DialogHosts.UnitBanner;
-        private readonly StringList? previousDirectories = FileDlgWindow.Directories;
-        private readonly StringList? previousFileList = FileDlgWindow.Files;
-        private readonly StringList? previousDrives = FileDlgWindow.Drives;
+        private readonly StringList? previousDirectories = FileDialogWindow.Directories;
+        private readonly StringList? previousFileList = FileDialogWindow.Files;
+        private readonly StringList? previousDrives = FileDialogWindow.Drives;
 
         internal SpellBook Spell = null!;
         internal WorldMap World = null!;
-        internal FileDlgWindow Files = null!;
-        internal RealmWin Realm = null!;
-        private IntGfxMod gfx = null!;
-        private FontModule font = null!;
+        internal FileDialogWindow Files = null!;
+        internal RealmWindow Realm = null!;
+        private UIGraphics gfx = null!;
+        private UIFonts font = null!;
         private General general = null!;
         private TitleWindow title = null!;
         private UnitBanner banner = null!;
@@ -53,15 +53,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             try
             {
                 var session = new LayoutSession();
-                gfx = Load(session, new IntGfxMod(null), module => DialogHosts.IntGfxMod = module);
-                font = Load(session, new FontModule(null), module => DialogHosts.FontModule = module);
+                gfx = Load(session, new UIGraphics(null), module => DialogHosts.IntGfxMod = module);
+                font = Load(session, new UIFonts(null), module => DialogHosts.FontModule = module);
                 general = Load(session, new General(null), module => DialogHosts.General = module);
                 title = Load(session, new TitleWindow(null), module => DialogHosts.TitleWindow = module);
                 banner = Load(session, new UnitBanner(null), module => DialogHosts.UnitBanner = module);
                 Spell = Load(session, new SpellBook(null), module => DialogHosts.SpellBook = module);
                 World = Load(session, new WorldMap(null), module => DialogHosts.WorldMap = module);
-                Files = Load(session, new FileDlgWindow(null), module => DialogHosts.FileDlgWindow = module);
-                Realm = Load(session, new RealmWin(null), module => DialogHosts.RealmWin = module);
+                Files = Load(session, new FileDialogWindow(null), module => DialogHosts.FileDlgWindow = module);
+                Realm = Load(session, new RealmWindow(null), module => DialogHosts.RealmWin = module);
             }
             catch
             {
@@ -106,15 +106,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
                 DialogHosts.FileDlgWindow = previousFiles;
                 DialogHosts.RealmWin = previousRealm;
                 DialogHosts.UnitBanner = previousBanner;
-                FileDlgWindow.Directories = previousDirectories;
-                FileDlgWindow.Files = previousFileList;
-                FileDlgWindow.Drives = previousDrives;
+                FileDialogWindow.Directories = previousDirectories;
+                FileDialogWindow.Files = previousFileList;
+                FileDialogWindow.Drives = previousDrives;
                 Runtime.MessageHandler = previousMessage;
             }
         }
     }
 
-    private void Show(AOWWindow window)
+    private void Show(Window window)
     {
         host.Spell.Dlg.FVisible = false;
         host.World.BookWin.FVisible = false;
@@ -272,7 +272,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDir);
-            GameTables.AoWEngine.FRegistry = new AoWRegistry();
+            GameTables.AoWEngine.FRegistry = new GameSettings();
             GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
             dialog.FMode = 2;
             dialog.FileName.Text = "valley.map";
@@ -288,7 +288,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         }
     }
 
-    private static string[] Names(AOWListBox list)
+    private static string[] Names(ListBox list)
     {
         var names = new string[list.Items.Count];
         for (int i = 0; i < names.Length; i++) names[i] = list.Items[i];

@@ -85,7 +85,7 @@ public static class SymbolicMigration
     {
         if (document["root"] is not JsonObject root) return;
         if (RootClass(document, root) is not SchemaClass cls) return;
-        Visit(root, cls, upgrade, DocPath.Root);
+        Visit(root, cls, upgrade, DocumentNodePath.Root);
     }
 
     private static SchemaClass? RootClass(JsonObject document, JsonObject root)
@@ -98,7 +98,7 @@ public static class SymbolicMigration
         return null;
     }
 
-    private static void Visit(JsonObject obj, SchemaClass cls, bool upgrade, DocPath path)
+    private static void Visit(JsonObject obj, SchemaClass cls, bool upgrade, DocumentNodePath path)
     {
         foreach (var prop in cls.Properties)
         {
@@ -115,7 +115,7 @@ public static class SymbolicMigration
         }
     }
 
-    private static void VisitDynamic(JsonValue item, SchemaProperty prop, bool upgrade, DocPath path)
+    private static void VisitDynamic(JsonValue item, SchemaProperty prop, bool upgrade, DocumentNodePath path)
     {
         if (item is not JsonObject obj) return;
         if (prop.Codec is FixedObjectCodec fixedObject)
@@ -124,7 +124,7 @@ public static class SymbolicMigration
             Visit(obj, cls, upgrade, path);
     }
 
-    private static void Convert(JsonMember member, SchemaProperty prop, SchemaClass owner, bool upgrade, DocPath path)
+    private static void Convert(JsonMember member, SchemaProperty prop, SchemaClass owner, bool upgrade, DocumentNodePath path)
     {
         var schema = Version2;
         switch (prop.Codec)
@@ -173,13 +173,13 @@ public static class SymbolicMigration
         }
     }
 
-    private static string HexOf(JsonValue value, string name, DocPath path)
+    private static string HexOf(JsonValue value, string name, DocumentNodePath path)
     {
         if (value is JsonString text) return text.Value;
         throw Fail(Codes.Type, name + " is hexadecimal in version 1.", path);
     }
 
-    private static byte[] DecodeHex(string hex, string name, DocPath path)
+    private static byte[] DecodeHex(string hex, string name, DocumentNodePath path)
     {
         try
         {
@@ -191,7 +191,7 @@ public static class SymbolicMigration
         }
     }
 
-    private static JsonValue UpgradeEnum(EnumCodec codec, string hex, DocPath path)
+    private static JsonValue UpgradeEnum(EnumCodec codec, string hex, DocumentNodePath path)
     {
         var bytes = DecodeHex(hex, codec.TypeName, path);
         if (bytes.Length != codec.Width)
@@ -199,13 +199,13 @@ public static class SymbolicMigration
         return codec.MemberText(codec.Read(bytes), null, path.ToString());
     }
 
-    private static JsonValue DowngradeScalar(EnumCodec codec, JsonValue value, DocPath path)
+    private static JsonValue DowngradeScalar(EnumCodec codec, JsonValue value, DocumentNodePath path)
     {
         long number = codec.Parse(Context(), value, path, codec.TypeName);
         return new JsonString(LayoutResidue.Hex(codec.Raw(number)));
     }
 
-    private static JsonArray UpgradeArray(FixedArrayCodec codec, string hex, DocPath path)
+    private static JsonArray UpgradeArray(FixedArrayCodec codec, string hex, DocumentNodePath path)
     {
         var bytes = DecodeHex(hex, "array", path);
         if (bytes.Length != codec.Count * codec.Width)
@@ -216,7 +216,7 @@ public static class SymbolicMigration
         return array;
     }
 
-    private static JsonString DowngradeArray(FixedArrayCodec codec, JsonArray array, DocPath path)
+    private static JsonString DowngradeArray(FixedArrayCodec codec, JsonArray array, DocumentNodePath path)
     {
         if (array.Items.Count > codec.Count)
             throw Fail(Codes.Range, "A fixed array of " + codec.Count + " holds " + array.Items.Count + " values.", path);
@@ -229,7 +229,7 @@ public static class SymbolicMigration
         return new JsonString(LayoutResidue.Hex(data.ToArray()));
     }
 
-    private static JsonArray UpgradeSet(SetCodec codec, string hex, DocPath path)
+    private static JsonArray UpgradeSet(SetCodec codec, string hex, DocumentNodePath path)
     {
         var bytes = DecodeHex(hex, codec.TypeName, path);
         if (bytes.Length != codec.Width)
@@ -244,7 +244,7 @@ public static class SymbolicMigration
         return new JsonString(LayoutResidue.Hex(data.ToArray()));
     }
 
-    private static ConversionException Fail(string code, string message, DocPath path) =>
+    private static ConversionException Fail(string code, string message, DocumentNodePath path) =>
         new(new FormatDiagnostic(code, message) { Path = path.ToString() });
 
     private static EncodeContext Context() =>

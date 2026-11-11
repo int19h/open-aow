@@ -12,7 +12,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Magic.Spells;
 
 // (registered-spell list)
-public partial class SpellControl : EObject
+public partial class SpellControl : EngineObject
 {
 
     // Spells.PAS:577
@@ -160,9 +160,9 @@ public partial class SpellControl : EObject
     public int GetRandomSpell(int MinLevel, int MaxLevel, Set<MagicSphere> Spheres)
     {
         int Result;
-        IntegerList Candidates;
+        Int32List Candidates;
         Spell Spell;
-        Candidates = new IntegerList();
+        Candidates = new Int32List();
         for (int I = this.FRegisteredSpells.Count - 1; I >= 0; I--)
         {
             Spell = this.FRegisteredSpells[I];

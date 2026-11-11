@@ -11,7 +11,7 @@ public partial class ArmyHSList : EChangeNotifyEventList
     { }
 
     // Army.PAS:3562
-    public ArmyHS GetArmyHS(int Index) => (ArmyHS)FChildren.List[Index];
+    public ArmyHexSprite GetArmyHS(int Index) => (ArmyHexSprite)FChildren.List[Index];
 
     // Engine.pas:708
 

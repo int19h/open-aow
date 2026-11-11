@@ -33,14 +33,14 @@ Units, 21 `FromPChar`, 20 `AsPtr`, 4 `ShortString` images (`ReadShortString`, `W
 structs (12 of them `[InlineArray]` element fields), 17 `ref byte Key` key-press handlers, 27
 retained `Ptr<byte>` lines of byte string character walks in `AoWMemo.cs`, `AoWHTMLMemo.cs` and
 `AoWRealm.cs` (`ptr.md`). The survey's 1,368 index reads counted list indexers too
-(`AOWMenu.cs:1052` `Value[I]` is a `StringList` (Delphi `TStringList`)). Comparison calls: 43 `CompareText`, 4
+(`Menu.cs:1052` `Value[I]` is a `StringList` (Delphi `TStringList`)). Comparison calls: 43 `CompareText`, 4
 `CompareStr`, 4 `AnsiCompareStr`, 31 `UpperCase`, 23 `LowerCase`. Four ordering sites (operators
 and `CompareTo`) sit in `src/Rtl`, none in Units, and one implicit comparer sorts the dictionary
 (`MldDictionary.cs:152`). `src/Units` holds 146 equality tests against `""` or `default` and 281
 `catch (System.Exception)` blocks. No explicit-layout record holds a string. The Units sources are
 pure ASCII: every byte above 127 enters through `FromBytes` literals, and the 35 `\x` escapes in the
 tree are all below 128. `src/Layout` holds one non-ASCII char, U+00B7
-(`SelFactionWin.Layout.cs:128`).
+(`FactionSelectionWindow.Layout.cs:128`).
 
 The dry run read 580 files, changes 301, and makes 8,005 rewrites: type 3,101, literal 3,337,
 from-bytes 458, default 807, index 88, byte-context 50, boundary 156, compare 4, pattern 4. Its
@@ -406,7 +406,7 @@ The post-check stays after the pass. From 9.5-1 on,
 
 The allowlist names members, not lines, by documentation comment id, each group with its reason. In
 `tools/rewrite/strings/allow.txt` of the private repository after the pass it holds 31 members:
-the host path code (`IFileSystem.ExtractRelativePath`, `SystemIoFileSystem.Resolve`), the
+the host path code (`IFileSystem.ExtractRelativePath`, `PhysicalFileSystem.Resolve`), the
 `FindFirst` order of `rtl-shim.md` 3.5, the settings keys and dictionary paths, host text that
 never becomes game text (the language tag, the census file name, reflected property names, layout
 module names), the table's own construction in `Cp1252`, the ASCII case arithmetic of `UpCase` and

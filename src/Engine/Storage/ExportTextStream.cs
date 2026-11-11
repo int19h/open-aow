@@ -25,7 +25,7 @@ public partial class ExportTextStream : EWriteTextStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found");
+            throw new DoublePriorityIdException("Double priorityID found");
         }
     }
 
@@ -64,7 +64,7 @@ public partial class ExportTextStream : EWriteTextStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found");
+            throw new DoublePriorityIdException("Double priorityID found");
         }
     }
 

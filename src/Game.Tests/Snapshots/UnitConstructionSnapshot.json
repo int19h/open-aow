@@ -1,23 +1,23 @@
 {
-  "AbstractUnit": {
+  "Troop": {
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.AbstractUnit",
+          "$type": "Aow.Game.Magic.Abilities.Troop",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -27,30 +27,30 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null
+          "EngineObject.FOwner": null
         }
       },
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.AbstractUnit",
+          "$type": "Aow.Game.Magic.Abilities.Troop",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -60,30 +60,30 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": "$owner"
+          "EngineObject.FOwner": "$owner"
         }
       },
       "insert:2:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.AbstractUnit",
+          "$type": "Aow.Game.Magic.Abilities.Troop",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -93,34 +93,34 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null
+          "EngineObject.FOwner": null
         }
       },
       "insert:2:0:0"
     ]
   },
-  "AdjustableUnit": {
+  "HypotheticalUnit": {
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.AdjustableUnit",
+          "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -130,13 +130,13 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
-          "AdjustableUnit.FAttack": 4,
-          "AdjustableUnit.FDamage": 3,
-          "AdjustableUnit.FDefense": 2,
-          "AdjustableUnit.FHitPoints": 5,
-          "AdjustableUnit.FHits": 5,
-          "AdjustableUnit.FImmunityTypes": {
+          "Troop.F_AbstractUnit_38": 0,
+          "HypotheticalUnit.FAttack": 4,
+          "HypotheticalUnit.FDamage": 3,
+          "HypotheticalUnit.FDefense": 2,
+          "HypotheticalUnit.FHitPoints": 5,
+          "HypotheticalUnit.FHits": 5,
+          "HypotheticalUnit.FImmunityTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 256,
             "Set\u00601.b": 0,
@@ -146,7 +146,7 @@
             "Set\u00601.high": 9,
             "Set\u00601.low": 0
           },
-          "AdjustableUnit.FProtectionTypes": {
+          "HypotheticalUnit.FProtectionTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -156,34 +156,34 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AdjustableUnit.FResistance": 3,
+          "HypotheticalUnit.FResistance": 3,
           "CustomAbilityList.FAbilityBits": [
             1,
             0,
             32
           ],
           "CustomAbilityList.FAbilityCount": 22,
-          "EObject.FOwner": null
+          "EngineObject.FOwner": null
         }
       },
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.AdjustableUnit",
+          "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -193,13 +193,13 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
-          "AdjustableUnit.FAttack": 4,
-          "AdjustableUnit.FDamage": 3,
-          "AdjustableUnit.FDefense": 2,
-          "AdjustableUnit.FHitPoints": 5,
-          "AdjustableUnit.FHits": 5,
-          "AdjustableUnit.FImmunityTypes": {
+          "Troop.F_AbstractUnit_38": 0,
+          "HypotheticalUnit.FAttack": 4,
+          "HypotheticalUnit.FDamage": 3,
+          "HypotheticalUnit.FDefense": 2,
+          "HypotheticalUnit.FHitPoints": 5,
+          "HypotheticalUnit.FHits": 5,
+          "HypotheticalUnit.FImmunityTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 256,
             "Set\u00601.b": 0,
@@ -209,7 +209,7 @@
             "Set\u00601.high": 9,
             "Set\u00601.low": 0
           },
-          "AdjustableUnit.FProtectionTypes": {
+          "HypotheticalUnit.FProtectionTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -219,34 +219,34 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AdjustableUnit.FResistance": 3,
+          "HypotheticalUnit.FResistance": 3,
           "CustomAbilityList.FAbilityBits": [
             1,
             0,
             32
           ],
           "CustomAbilityList.FAbilityCount": 22,
-          "EObject.FOwner": "$owner"
+          "EngineObject.FOwner": "$owner"
         }
       },
       "insert:2:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.AdjustableUnit",
+          "$type": "Aow.Game.Magic.Abilities.HypotheticalUnit",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -256,13 +256,13 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
-          "AdjustableUnit.FAttack": 4,
-          "AdjustableUnit.FDamage": 3,
-          "AdjustableUnit.FDefense": 2,
-          "AdjustableUnit.FHitPoints": 5,
-          "AdjustableUnit.FHits": 5,
-          "AdjustableUnit.FImmunityTypes": {
+          "Troop.F_AbstractUnit_38": 0,
+          "HypotheticalUnit.FAttack": 4,
+          "HypotheticalUnit.FDamage": 3,
+          "HypotheticalUnit.FDefense": 2,
+          "HypotheticalUnit.FHitPoints": 5,
+          "HypotheticalUnit.FHits": 5,
+          "HypotheticalUnit.FImmunityTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 256,
             "Set\u00601.b": 0,
@@ -272,7 +272,7 @@
             "Set\u00601.high": 9,
             "Set\u00601.low": 0
           },
-          "AdjustableUnit.FProtectionTypes": {
+          "HypotheticalUnit.FProtectionTypes": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -282,14 +282,14 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AdjustableUnit.FResistance": 3,
+          "HypotheticalUnit.FResistance": 3,
           "CustomAbilityList.FAbilityBits": [
             1,
             0,
             32
           ],
           "CustomAbilityList.FAbilityCount": 22,
-          "EObject.FOwner": null
+          "EngineObject.FOwner": null
         }
       },
       "insert:2:0:0"
@@ -301,19 +301,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -323,10 +323,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null,
+          "EngineObject.FOwner": null,
           "Hero.FCastSpellInstantly": false,
           "Hero.FCastingMana": 0,
           "Hero.FCastingPoints": 0,
@@ -340,12 +340,12 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroItems.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -366,12 +366,12 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroInventory.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -392,7 +392,7 @@
           "Hero.FNickname": "",
           "Hero.FPowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroPowerSource.FHero": "$ref:$"
           },
           "Hero.FRace": 0,
@@ -412,19 +412,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -434,10 +434,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": "$owner",
+          "EngineObject.FOwner": "$owner",
           "Hero.FCastSpellInstantly": false,
           "Hero.FCastingMana": 0,
           "Hero.FCastingPoints": 0,
@@ -451,12 +451,12 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroItems.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -477,12 +477,12 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroInventory.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -503,7 +503,7 @@
           "Hero.FNickname": "",
           "Hero.FPowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroPowerSource.FHero": "$ref:$"
           },
           "Hero.FRace": 0,
@@ -523,19 +523,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Hero",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -545,10 +545,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null,
+          "EngineObject.FOwner": null,
           "Hero.FCastSpellInstantly": false,
           "Hero.FCastingMana": 0,
           "Hero.FCastingPoints": 0,
@@ -562,12 +562,12 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroItems.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -588,12 +588,12 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroInventory.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -614,7 +614,7 @@
           "Hero.FNickname": "",
           "Hero.FPowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroPowerSource.FHero": "$ref:$"
           },
           "Hero.FRace": 0,
@@ -638,19 +638,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -660,10 +660,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": "$ref:$.Leader.FSpheres.ByteList.FList",
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null,
+          "EngineObject.FOwner": null,
           "Hero.FCastSpellInstantly": false,
           "Hero.FCastingMana": 0,
           "Hero.FCastingPoints": 0,
@@ -677,12 +677,12 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroItems.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -703,12 +703,12 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroInventory.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -729,7 +729,7 @@
           "Hero.FNickname": "",
           "Hero.FPowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroPowerSource.FHero": "$ref:$"
           },
           "Hero.FRace": 0,
@@ -757,19 +757,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -779,10 +779,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": "$ref:$.Leader.FSpheres.ByteList.FList",
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": "$owner",
+          "EngineObject.FOwner": "$owner",
           "Hero.FCastSpellInstantly": false,
           "Hero.FCastingMana": 0,
           "Hero.FCastingPoints": 0,
@@ -796,12 +796,12 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroItems.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -822,12 +822,12 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroInventory.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -848,7 +848,7 @@
           "Hero.FNickname": "",
           "Hero.FPowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroPowerSource.FHero": "$ref:$"
           },
           "Hero.FRace": 0,
@@ -876,19 +876,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Magic.Abilities.Leader",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -898,10 +898,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": "$ref:$.Leader.FSpheres.ByteList.FList",
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null,
+          "EngineObject.FOwner": null,
           "Hero.FCastSpellInstantly": false,
           "Hero.FCastingMana": 0,
           "Hero.FCastingPoints": 0,
@@ -915,12 +915,12 @@
           "Hero.FHeroItems": {
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": []
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroItems.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -941,12 +941,12 @@
           "Hero.FInventory": {
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode.FChildren": {
-              "$type": "Aow.Engine.Nodes.EObjectList",
+              "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
             },
             "EChangeNotifyNode.FUpdateCount": 0,
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroInventory.Hero": "$ref:$",
             "ItemList.FOnChanged": null
           },
@@ -967,7 +967,7 @@
           "Hero.FNickname": "",
           "Hero.FPowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
-            "EObject.FOwner": null,
+            "EngineObject.FOwner": null,
             "HeroPowerSource.FHero": "$ref:$"
           },
           "Hero.FRace": 0,
@@ -999,19 +999,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -1021,10 +1021,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null,
+          "EngineObject.FOwner": null,
           "Unit.FAbAttack": 0,
           "Unit.FAbDamage": 0,
           "Unit.FAbDefense": 0,
@@ -1040,19 +1040,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -1062,10 +1062,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": "$owner",
+          "EngineObject.FOwner": "$owner",
           "Unit.FAbAttack": 0,
           "Unit.FAbDamage": 0,
           "Unit.FAbDefense": 0,
@@ -1081,19 +1081,19 @@
         "$jsonText": {
           "$type": "Aow.Game.Units.Unit",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -1103,10 +1103,10 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null,
+          "EngineObject.FOwner": null,
           "Unit.FAbAttack": 0,
           "Unit.FAbDamage": 0,
           "Unit.FAbDefense": 0,
@@ -1120,25 +1120,25 @@
       "insert:2:0:0"
     ]
   },
-  "WallUnit": {
+  "WallCombatant": {
     "$lines": [
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.WallUnit",
+          "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -1148,33 +1148,33 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null,
-          "WallUnit.FHitPoints": 0,
-          "WallUnit.FHits": 0,
-          "WallUnit.FWallType": 0
+          "EngineObject.FOwner": null,
+          "WallCombatant.FHitPoints": 0,
+          "WallCombatant.FHits": 0,
+          "WallCombatant.FWallType": 0
         }
       },
       "",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.WallUnit",
+          "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -1184,33 +1184,33 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": "$owner",
-          "WallUnit.FHitPoints": 0,
-          "WallUnit.FHits": 0,
-          "WallUnit.FWallType": 0
+          "EngineObject.FOwner": "$owner",
+          "WallCombatant.FHitPoints": 0,
+          "WallCombatant.FHits": 0,
+          "WallCombatant.FWallType": 0
         }
       },
       "insert:2:0:0",
       {
         "$jsonText": {
-          "$type": "Aow.Game.Magic.Abilities.WallUnit",
+          "$type": "Aow.Game.Magic.Abilities.WallCombatant",
           "AbilityOwner.FAbilityData": null,
-          "AbstractUnit.FDefensiveStrength": 0,
-          "AbstractUnit.FGroup": null,
-          "AbstractUnit.FGroupID": 0,
-          "AbstractUnit.FMaxOffensiveStrength": 0,
-          "AbstractUnit.FMoraleValue": 0,
-          "AbstractUnit.FOffensiveStrength": {
-            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
-            "FixedArray_byte_10.element0": 0
+          "Troop.FDefensiveStrength": 0,
+          "Troop.FGroup": null,
+          "Troop.FGroupID": 0,
+          "Troop.FMaxOffensiveStrength": 0,
+          "Troop.FMoraleValue": 0,
+          "Troop.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.ByteArray10",
+            "ByteArray10.element0": 0
           },
-          "AbstractUnit.FPlayer": 0,
-          "AbstractUnit.FRefCount": 1,
-          "AbstractUnit.FUnitID": -1,
-          "AbstractUnit.FUnitStatus": {
+          "Troop.FPlayer": 0,
+          "Troop.FRefCount": 1,
+          "Troop.FUnitID": -1,
+          "Troop.FUnitStatus": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
@@ -1220,13 +1220,13 @@
             "Set\u00601.high": 0,
             "Set\u00601.low": 0
           },
-          "AbstractUnit.F_AbstractUnit_38": 0,
+          "Troop.F_AbstractUnit_38": 0,
           "CustomAbilityList.FAbilityBits": [],
           "CustomAbilityList.FAbilityCount": 0,
-          "EObject.FOwner": null,
-          "WallUnit.FHitPoints": 0,
-          "WallUnit.FHits": 0,
-          "WallUnit.FWallType": 0
+          "EngineObject.FOwner": null,
+          "WallCombatant.FHitPoints": 0,
+          "WallCombatant.FHits": 0,
+          "WallCombatant.FWallType": 0
         }
       },
       "insert:2:0:0"

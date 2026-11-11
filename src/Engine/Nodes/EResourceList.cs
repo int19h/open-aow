@@ -12,7 +12,7 @@ public partial class EResourceList : ECustomOwner
     { }
 
     // Engine.pas:8573
-    protected internal EResource GetResource(int Index) => (EResource)FChildren.List[Index];
+    protected internal EngineResource GetResource(int Index) => (EngineResource)FChildren.List[Index];
 
     // Engine.pas:8578
     public virtual void ResourceChanged()
@@ -20,22 +20,22 @@ public partial class EResourceList : ECustomOwner
     }
 
     // Engine.pas:8582
-    public EResource FindResource(int ID)
+    public EngineResource FindResource(int ID)
     {
-        EResource Result;
+        EngineResource Result;
         int I;
         bool Found;
         Found = false;
         I = 0;
         while (!Found && I != this.FChildren.Count)
         {
-            Found = this.FChildren.List[I] != null && ID == ((EResource)this.FChildren.List[I]).FResourceID;
+            Found = this.FChildren.List[I] != null && ID == ((EngineResource)this.FChildren.List[I]).FResourceID;
             I += 1;
         }
 
         if (Found)
         {
-            Result = (EResource)this.FChildren.List[I - 1];
+            Result = (EngineResource)this.FChildren.List[I - 1];
         }
         else
         {
@@ -88,7 +88,7 @@ public partial class EResourceList : ECustomOwner
 
     public sealed class ResourcesAccessor(EResourceList target)
     {
-        public EResource this[int Index] { get => target.GetResource(Index); }
+        public EngineResource this[int Index] { get => target.GetResource(Index); }
     }
 
     public ResourcesAccessor Resources => new ResourcesAccessor(this);

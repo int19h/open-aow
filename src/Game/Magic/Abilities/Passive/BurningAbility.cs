@@ -34,7 +34,7 @@ public partial class BurningAbility : DurationAbility
                     CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
                 }
 
-                if (CombatObject.GetAbilityOwner() is AbstractUnit unit)
+                if (CombatObject.GetAbilityOwner() is Troop unit)
                 {
                     if (HitChance.HitRole(4 - unit.GetResistance()))
                     {

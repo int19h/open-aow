@@ -29,8 +29,8 @@ public static class ImageLibraries
     {
         BaseImageLibraryPath = ExtractFilePath(RtlUnit.Application.ExeName);
         LibraryImageClasses = new List<LibraryImageClass>();
-        RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>()]);
-        RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(), LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(), LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
+        RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RleSprite08>()]);
+        RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(), LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(), LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
     }
 
     public static void Finalize()

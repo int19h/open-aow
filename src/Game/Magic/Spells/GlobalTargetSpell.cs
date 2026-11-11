@@ -32,7 +32,7 @@ public partial class GlobalTargetSpell : Spell
     }
 
     // GlobalTargetSpells.pas:569
-    public override bool CanActivate(AbstractUnit Source, ref string MessageText)
+    public override bool CanActivate(Troop Source, ref string MessageText)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -52,7 +52,7 @@ public partial class GlobalTargetSpell : Spell
     }
 
     // GlobalTargetSpells.pas:618
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string MessageText = "";
@@ -74,7 +74,7 @@ public partial class GlobalTargetSpell : Spell
     }
 
     // GlobalTargetSpells.pas:445
-    public virtual void ShowTargetSelection(TargetSelectionControl Target, int HN, int Xs, int Ys, in SurfaceDesc SurfaceDesc)
+    public virtual void ShowTargetSelection(TargetSelectionControl Target, int HN, int Xs, int Ys, in LockedSurface SurfaceDesc)
     {
         MapLevel Level;
         AoWMapField MapF;
@@ -92,7 +92,7 @@ public partial class GlobalTargetSpell : Spell
             {
                 Radius = HexGeometry.HNtoRad(HN);
                 Intensity = Math.Abs((AoWHSMap.Current.Frame + Radius) % 9 - 4) * 20 + 20;
-                Target.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, GfxState.IntensityBlendTable.LookupTables[Intensity]);
+                Target.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, GraphicsState.IntensityBlendTable.LookupTables[Intensity]);
             }
             else
             {
@@ -102,7 +102,7 @@ public partial class GlobalTargetSpell : Spell
     }
 
     // GlobalTargetSpells.pas:521
-    public virtual void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public virtual void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         sbyte UnitX = default;
         sbyte UnitY = default;
@@ -126,7 +126,7 @@ public partial class GlobalTargetSpell : Spell
     }
 
     // GlobalTargetSpells.pas:544
-    public virtual bool TargetSelected(AbstractUnit Source, int X, int Y, int L) => false;
+    public virtual bool TargetSelected(Troop Source, int X, int Y, int L) => false;
 
     // GlobalTargetSpells.pas:487
     public virtual bool ValidTargetSelection(TargetSelectionControl TargetSelection) => true;
@@ -163,7 +163,7 @@ public partial class GlobalTargetSpell : Spell
         }
     }
 
-    internal static bool GlobalTargetCanActivate(GlobalTargetSpell Spell, AbstractUnit Caster, ref string MessageText)
+    internal static bool GlobalTargetCanActivate(GlobalTargetSpell Spell, Troop Caster, ref string MessageText)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -182,7 +182,7 @@ public partial class GlobalTargetSpell : Spell
         return Result;
     }
 
-    internal static bool GlobalTargetActivate(GlobalTargetSpell Spell, AbstractUnit Caster, int Unused)
+    internal static bool GlobalTargetActivate(GlobalTargetSpell Spell, Troop Caster, int Unused)
     {
         bool Result;
         string MessageText = "";

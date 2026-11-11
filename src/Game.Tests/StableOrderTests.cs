@@ -53,9 +53,9 @@ public sealed class StableOrderTests
     public void ReflectingPoolsKeepInsertionOrder()
     {
         using var pools = new PlayerStructureList(null!);
-        var first = new EObject(pools);
-        var second = new EObject(pools);
-        var third = new EObject(pools);
+        var first = new EngineObject(pools);
+        var second = new EngineObject(pools);
+        var third = new EngineObject(pools);
         Assert.Equal(0, ReflectingPool.ComparePools(first, third));
         pools.SortStable(ReflectingPool.ComparePools);
         Assert.Same(first, pools.FChildren[0]);

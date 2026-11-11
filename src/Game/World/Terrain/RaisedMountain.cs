@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Terrain;
 
 // FMode, FPlayer, FDuration, FOriginalOverlay
-public partial class RaisedMountain : ILTerrainMO
+public partial class RaisedMountain : ImageLibraryTerrainMapObject
 {
     public RaisedMountain(ECustomNode owner) : base(owner)
     { }
@@ -23,7 +23,7 @@ public partial class RaisedMountain : ILTerrainMO
     // Mountain.pas:178
     public new const int ClassID = 131434;
 
-    public Set<AnonymousEnum_rmRaising> FMode;
+    public Set<RaisedMountainMode> FMode;
     public sbyte FPlayer;
     public sbyte FDuration;
     public sbyte FOriginalOverlay;
@@ -38,7 +38,7 @@ public partial class RaisedMountain : ILTerrainMO
     }
 
     // Mountain.pas:210
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
@@ -48,16 +48,16 @@ public partial class RaisedMountain : ILTerrainMO
     }
 
     // Mountain.pas:223
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
-        if (!FMode.Contains(AnonymousEnum_rmRaising.Raising))
+        if (!FMode.Contains(RaisedMountainMode.Raising))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
     }
 
     // Mountain.pas:216
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4402)
@@ -97,7 +97,7 @@ public partial class RaisedMountain : ILTerrainMO
     }
 
     // Mountain.pas:228
-    public void ShowRaiseTerrainAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowRaiseTerrainAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         MapField Field;
         var lhx = Anim.GetLhx();
@@ -132,11 +132,11 @@ public partial class RaisedMountain : ILTerrainMO
         var field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
         if (field.FindOwnedChild(131434) == this && FrameCounter == 9)
         {
-            FMode = FMode - Set<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.Raising);
+            FMode = FMode - Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
         }
     }
 
-    public new partial class Resource : ILTerrainMOR
+    public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

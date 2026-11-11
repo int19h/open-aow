@@ -5,9 +5,7 @@ using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
-using Aow.Game.Ai.Groups;
-
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
 using Aow.Game.Commands;
@@ -36,7 +34,7 @@ namespace Aow.Game.Magic.Abilities;
 // FDeathPlayer. FLevel. FHeroStatus. FHeroName. FNickname. FRace. FGender. unit statistics.
 // FCastSpellInstantly. FMovePoints. FHitPoints. FPowerSource. FCastingPoints. FCastingMana.
 // FCastingProgress. FLibraryID. FLibraryName. FRegistered
-public partial class Hero : AbstractUnit
+public partial class Hero : Troop
 {
     public new const int ClassID = 131632;
 
@@ -186,7 +184,7 @@ public partial class Hero : AbstractUnit
     }
 
     // Hero.PAS:1694
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001989)
@@ -222,7 +220,7 @@ public partial class Hero : AbstractUnit
     public override void Changed()
     {
         base.Changed();
-        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             AoWHSMap.Current.FHeroControl.HeroChanged(this);
         }
@@ -820,7 +818,7 @@ public partial class Hero : AbstractUnit
             }
         }
 
-        if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             FLevel = (byte)GetLevel();
         }
@@ -843,7 +841,7 @@ public partial class Hero : AbstractUnit
         base.Activate();
         if (AoWHSMap.Current != null)
         {
-            if (!FMode.Contains(HeroModeElement.SkipLibraryUpdate) && (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || AoWHSMap.Current.FDay == 0))
+            if (!FMode.Contains(HeroModeElement.SkipLibraryUpdate) && (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.FDay == 0))
             {
                 UpdateFromLibrary();
             }
@@ -961,7 +959,7 @@ public partial class Hero : AbstractUnit
     }
 
     // Hero.PAS:706
-    public override int ShowEx(int X, int Y, in SurfaceDesc SD, in P2UnitShowInfo Info)
+    public override int ShowEx(int X, int Y, in LockedSurface SD, in UnitShowInfo Info)
     {
         int Result = base.ShowEx(X, Y, SD, Info);
         if (Info.Overlays.Contains(UnitOverlayModesElement.Rank))
@@ -1038,7 +1036,7 @@ public partial class Hero : AbstractUnit
     }
 
     // Hero.PAS:1674
-    public virtual void EditDropMsg(ref EMsg Msg)
+    public virtual void EditDropMsg(ref EngineMessage Msg)
     {
         MapLevel Level;
         int L;
@@ -1051,7 +1049,7 @@ public partial class Hero : AbstractUnit
         HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
         {
-            if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
                 Player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetPlayer();
                 if (Player == -1)
@@ -1206,7 +1204,7 @@ public partial class Hero : AbstractUnit
     public int GetSkillPoints()
     {
         int Result;
-        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             var usedSkillPoints = UsedSkillPoints();
             Result = FLevel * 10 + 15 - usedSkillPoints - FUsedSkillPoints;
@@ -1797,7 +1795,7 @@ public partial class Hero : AbstractUnit
         FUnitResistance = 0;
         FExperience = 0;
         FRace = FHeroResource.FRace;
-        if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             FFaceIndex = FHeroResource.FFaceIndex;
         }
@@ -1846,9 +1844,9 @@ public partial class Hero : AbstractUnit
     }
 
     // Hero.PAS:1708
-    public HeroUpdateTE CreateHeroUpdateTE()
+    public HeroUpdateTokenEvent CreateHeroUpdateTE()
     {
-        HeroUpdateTE Result = new HeroUpdateTE(null);
+        HeroUpdateTokenEvent Result = new HeroUpdateTokenEvent(null);
         Result.FUnitID = FUnitID;
         return Result;
     }
@@ -1857,7 +1855,7 @@ public partial class Hero : AbstractUnit
     public ItemList GetItemsOnGround()
     {
         ItemList Result;
-        AbstractAoWCombatMap Map;
+        CustomCombatMap Map;
         Map = AoWHSMap.Current.FCombatMap;
         if (Map != null)
         {
@@ -1974,11 +1972,11 @@ public partial class Hero : AbstractUnit
     public bool SwapItem(int ItemID1, int ItemID2)
     {
         bool Result;
-        HeroUpdateTE TE;
+        HeroUpdateTokenEvent TE;
         if (CanSwapItem(ItemID1, ItemID2) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             TE = CreateHeroUpdateTE();
-            TE.FMode = HeroUpdateTE.HeroUpdateMode.SwapItem;
+            TE.FMode = HeroUpdateTokenEvent.Mode.SwapItem;
             TE.FItemID = ItemID1;
             TE.FParameter = ItemID2;
             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
@@ -1997,11 +1995,11 @@ public partial class Hero : AbstractUnit
     public bool PlaceItem(int ItemID, HeroItemPosition Position)
     {
         bool Result;
-        HeroUpdateTE TE;
+        HeroUpdateTokenEvent TE;
         if (CanPlaceItem(ItemID, Position) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             TE = CreateHeroUpdateTE();
-            TE.FMode = HeroUpdateTE.HeroUpdateMode.PlaceItem;
+            TE.FMode = HeroUpdateTokenEvent.Mode.PlaceItem;
             TE.FItemID = ItemID;
             TE.FParameter = (int)Position;
             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
@@ -2038,7 +2036,7 @@ public partial class Hero : AbstractUnit
             Index2 = Item2.Owner.FindChildIndex(Item2);
             Item1.SetOwner(null);
             Item2.SetOwner(null);
-            if (Owner1.GetControlStyle().Contains(EControlStyleElement.ArrayMode))
+            if (Owner1.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
             {
                 Item2.SetArrayOwner(Owner1, Index1);
             }
@@ -2047,7 +2045,7 @@ public partial class Hero : AbstractUnit
                 Item2.SetOwner(Owner1);
             }
 
-            if (Owner2.GetControlStyle().Contains(EControlStyleElement.ArrayMode))
+            if (Owner2.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
             {
                 Item1.SetArrayOwner(Owner2, Index2);
             }
@@ -2099,7 +2097,7 @@ public partial class Hero : AbstractUnit
     {
         bool Result;
         Item Item;
-        AbstractAoWCombatMap Map;
+        CustomCombatMap Map;
         if (CanPlaceItem(ItemID, Position))
         {
             Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
@@ -2387,7 +2385,7 @@ public partial class Hero : AbstractUnit
     {
         bool Result;
         Spell Spell;
-        HeroUpdateTE TE;
+        HeroUpdateTokenEvent TE;
         if (CanCastSpell(SpellID, ref Reason))
         {
             if (FCastingSpellID == 0)
@@ -2406,7 +2404,7 @@ public partial class Hero : AbstractUnit
                         if (players.FMagicControl.FMana >= castingMana)
                         {
                             TE = CreateHeroUpdateTE();
-                            TE.FMode = HeroUpdateTE.HeroUpdateMode.StartCasting;
+                            TE.FMode = HeroUpdateTokenEvent.Mode.StartCasting;
                             TE.FItemID = SpellID;
                             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
                             TE.Release();
@@ -2504,12 +2502,12 @@ public partial class Hero : AbstractUnit
     public bool CancelCasting()
     {
         bool Result;
-        HeroUpdateTE TE;
+        HeroUpdateTokenEvent TE;
         // { Original tests -1 although zero is the idle spell ID. }
         if (FCastingSpellID != -1 && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             TE = CreateHeroUpdateTE();
-            TE.FMode = HeroUpdateTE.HeroUpdateMode.CancelCasting;
+            TE.FMode = HeroUpdateTokenEvent.Mode.CancelCasting;
             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
             TE.Release();
             Result = true;
@@ -2525,8 +2523,8 @@ public partial class Hero : AbstractUnit
     private static readonly string CastingXInProgressRStr = "Casting %s...";
     private static readonly string CannotCastSpellInCombatRStr = "Cannot cast spell in combat";
     private static readonly string NotEnoughChannelingPointsRStr = "Not enough channeling points";
-    private static FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 HeroExperienceTable = FixedArray_Aow_Units_AoWE_TP2HeroLevel_6.From([new P2HeroLevel { DailyExperience = 1, Experience = 15 }, new P2HeroLevel { DailyExperience = 1, Experience = 15 }, new P2HeroLevel { DailyExperience = 1, Experience = 20 }, new P2HeroLevel { DailyExperience = 1, Experience = 20 }, new P2HeroLevel { DailyExperience = 1, Experience = 25 }, new P2HeroLevel { DailyExperience = 1, Experience = 25 }]);
-    internal static FixedArray_sbyte_5 P2MoraleResistance = FixedArray_sbyte_5.From([-2, -1, 0, 0, 0]);
-    internal static FixedArray_sbyte_5 P2MoraleDefense = FixedArray_sbyte_5.From([-2, -1, 0, 0, 0]);
+    private static HeroLevelArray6 HeroExperienceTable = HeroLevelArray6.From([new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 25 }, new HeroLevel { DailyExperience = 1, Experience = 25 }]);
+    internal static SByteArray5 P2MoraleResistance = SByteArray5.From([-2, -1, 0, 0, 0]);
+    internal static SByteArray5 P2MoraleDefense = SByteArray5.From([-2, -1, 0, 0, 0]);
 
 }

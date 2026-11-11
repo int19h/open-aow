@@ -73,7 +73,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     {
         string Result;
         UnitEnchantmentAbilityData Data;
-        AbstractUnit Source;
+        Troop Source;
         if (AoWHSMap.Current != null)
         {
             Data = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
@@ -133,7 +133,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     {
         UnitEnchantmentAbilityData Data;
         UnitEnchantment Enchantment;
-        if (Owner is not AbstractUnit unit)
+        if (Owner is not Troop unit)
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46175);
@@ -262,7 +262,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     public virtual UnitEnchantment CreateEnchantment() => new UnitEnchantment(null);
 
     // AoWAb.PAS:658
-    public override EClass AbilityDataClass() => EClass.Of<UnitEnchantmentAbilityData>();
+    public override EngineClass AbilityDataClass() => EngineClass.Of<UnitEnchantmentAbilityData>();
 
     private static readonly string P4ManaRStr = "Mana";
 

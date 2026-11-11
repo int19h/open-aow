@@ -28,7 +28,7 @@ public partial class HeroItems : ItemList
     }
 
     // Hero.PAS:400
-    public override Set<EControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<EControlStyleElement>.Of(EControlStyleElement.ArrayMode);
+    public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(ControlStyleElement.ArrayMode);
 
     // Hero.PAS:410
     public sbyte GetAttack()
@@ -284,7 +284,7 @@ public partial class HeroItems : ItemList
         return Result;
     }
 
-    private static FixedArray_Aow_Units_AoWE_TItemType_6 THeroItems_GetPositionItemType__Types = FixedArray_Aow_Units_AoWE_TItemType_6.From((ReadOnlySpan<ItemType>)new ItemType[6]
+    private static ItemTypeArray6 THeroItems_GetPositionItemType__Types = ItemTypeArray6.From((ReadOnlySpan<ItemType>)new ItemType[6]
     {
         ItemType.Attack,
         ItemType.Head,
@@ -294,7 +294,7 @@ public partial class HeroItems : ItemList
         ItemType.Ring
     });
 
-    private static FixedArray_Aow_Units_AoWE_THeroItemPosition_7 THeroItems_GetItemTypePosition__Positions = FixedArray_Aow_Units_AoWE_THeroItemPosition_7.From((ReadOnlySpan<HeroItemPosition>)new HeroItemPosition[7]
+    private static HeroItemPositionArray7 THeroItems_GetItemTypePosition__Positions = HeroItemPositionArray7.From((ReadOnlySpan<HeroItemPosition>)new HeroItemPosition[7]
     {
         HeroItemPosition.HeadSlot,
         HeroItemPosition.TorsoSlot,

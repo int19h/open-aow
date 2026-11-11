@@ -182,7 +182,7 @@ public static class AudioPlayback
         string Result = "";
         Stream Stream;
         string Ext;
-        FixedArray_byte_28 Title;
+        ByteArray28 Title;
         int P;
         Stream = OpenFile(AudioHost.BaseSoundEnginePath + FileName, 0 | 32);
         try

@@ -7,7 +7,7 @@ namespace Aow.Game.Net;
 // { Interface declaration run owned by P5. }
 // name. unique local ID. unique ID. security ID. email address. last day (not serialized by the
 // original)
-public partial class EmailGame : EObject
+public partial class EmailGame : EngineObject
 {
     // Diplomacy.pas:2462
     public new const int ClassID = 136960;

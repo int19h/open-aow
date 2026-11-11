@@ -58,9 +58,9 @@ internal static class HitChance
         return Result;
     }
 
-    internal static void ShowHitPcnt(int X, int Y, in SurfaceDesc Surface, int Percent)
+    internal static void ShowHitPcnt(int X, int Y, in LockedSurface Surface, int Percent)
     {
-        SurfaceDesc SD;
+        LockedSurface SD;
         SD = Surface;
         AoWHSSet.Current.FCombatImages[0].Show(X + 20, Y + 54, SD);
         SD.ClipRect.Right = X + 20 + (Percent + 3) / 4;

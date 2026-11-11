@@ -8,10 +8,8 @@ using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
-
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
-
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
 using Aow.Game.Commands;
@@ -74,7 +72,7 @@ public partial class Army : UnitList
     // Army.PAS:336
     public override void Dispose()
     {
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             AoWHSMap.Current.ArmyDestroyed(this);
         }
@@ -134,7 +132,7 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:2259
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         if (Msg.MsgID == 537001987)
         {
@@ -201,7 +199,7 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1844
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         BeginUpdate();
         var unit = Child;
@@ -216,20 +214,20 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1853
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         int Result;
-        if (!FStatus.Contains(ArmyStatusElement.Activated) || ((AbstractUnit)Child).CanActivate())
+        if (!FStatus.Contains(ArmyStatusElement.Activated) || ((Troop)Child).CanActivate())
         {
             Result = base.AddChild(Child);
             if (Result != -1)
             {
-                if (FStatus.Contains(ArmyStatusElement.Activated) && !((AbstractUnit)Child).FUnitStatus.Contains(UnitStatusElement.Activated))
+                if (FStatus.Contains(ArmyStatusElement.Activated) && !((Troop)Child).FUnitStatus.Contains(UnitStatusElement.Activated))
                 {
-                    ((AbstractUnit)Child).Activate();
+                    ((Troop)Child).Activate();
                 }
 
-                ((AbstractUnit)Child).SetPlayer(FPlayer);
+                ((Troop)Child).SetPlayer(FPlayer);
             }
         }
         else
@@ -267,7 +265,7 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1719
-    public override bool CanAddUnit(AbstractUnit AUnit)
+    public override bool CanAddUnit(Troop AUnit)
     {
         bool Result;
         bool HasTransporter;
@@ -297,7 +295,7 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1836
-    public override bool CanDeleteUnit(AbstractUnit AUnit)
+    public override bool CanDeleteUnit(Troop AUnit)
     {
         bool Result;
         if (IndexOfTransporter(255) != -1)
@@ -320,7 +318,7 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1868
-    public override bool AddUnit(AbstractUnit AUnit)
+    public override bool AddUnit(Troop AUnit)
     {
         AUnit.SetOwner(this);
         return this == AUnit.Owner;
@@ -350,8 +348,8 @@ public partial class Army : UnitList
         bool Result;
         MapLevel Level;
         AoWMapField Field;
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         if (Player != -1)
         {
             Result = true;
@@ -359,7 +357,7 @@ public partial class Army : UnitList
             Msg.MsgID = 4363;
             Msg.Result = 0;
             Msg.Param[1] = Player;
-            HNWalkData.InitHNWalk(ref Walk, FX, FY, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, FX, FY, 0);
             while (Result && Walk.Radius < 8)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -373,7 +371,7 @@ public partial class Army : UnitList
                     }
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
         else
@@ -392,7 +390,7 @@ public partial class Army : UnitList
         {
             if ((((int)(((uint)Selection) >> I)) & 1) != 0)
             {
-                ((AbstractUnit)FChildren.List[I]).Killed();
+                ((Troop)FChildren.List[I]).Killed();
             }
         }
 
@@ -407,7 +405,7 @@ public partial class Army : UnitList
         {
             if (((1 << I) & Selection) != 0)
             {
-                Result += ((AbstractUnit)FChildren.List[I]).GetStrength(DamageType);
+                Result += ((Troop)FChildren.List[I]).GetStrength(DamageType);
             }
         }
 
@@ -422,7 +420,7 @@ public partial class Army : UnitList
         {
             if (((1 << I) & Selection) != 0)
             {
-                Result += ((AbstractUnit)FChildren.List[I]).GetStrengthMax(DamageTypes);
+                Result += ((Troop)FChildren.List[I]).GetStrengthMax(DamageTypes);
             }
         }
 
@@ -433,14 +431,14 @@ public partial class Army : UnitList
     public void ReturnBattleFieldInfo(ref BattleFieldInfo Info)
     {
         int Strength;
-        AbstractUnit AUnit;
+        Troop AUnit;
         DiplomaticRelation Relation;
         GroupBehavior Behavior;
         bool IncludeUnit;
         Relation = AbilityRules.DiplomaticRelation(Info.Player, Info.IndependentRelation, FPlayer, FIndependentRelation);
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            AUnit = (AbstractUnit)FChildren.List[I];
+            AUnit = (Troop)FChildren.List[I];
             if (AUnit.FGroup != null)
             {
                 Behavior = AUnit.FGroup.GroupClass.Behavior;
@@ -480,13 +478,13 @@ public partial class Army : UnitList
     // Army.PAS:394
     public bool HealUnits(byte Selection)
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         bool Result = false;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
             if ((Selection & 1) != 0)
             {
-                AUnit = (AbstractUnit)FChildren.List[I];
+                AUnit = (Troop)FChildren.List[I];
                 if (AUnit.GetHitPoints() != AUnit.GetHits())
                 {
                     Result = true;
@@ -514,7 +512,7 @@ public partial class Army : UnitList
 
         if (I != FChildren.Count)
         {
-            Result = ((AbstractUnit)FChildren.List[I]).FUnitID;
+            Result = ((Troop)FChildren.List[I]).FUnitID;
         }
         else
         {
@@ -540,12 +538,12 @@ public partial class Army : UnitList
             {
                 if (!Found)
                 {
-                    Result = ((AbstractUnit)FChildren.List[I]).FGroup;
+                    Result = ((Troop)FChildren.List[I]).FGroup;
                     Found = true;
                 }
                 else
                 {
-                    Different = Result != ((AbstractUnit)FChildren.List[I]).FGroup;
+                    Different = Result != ((Troop)FChildren.List[I]).FGroup;
                 }
             }
 
@@ -568,7 +566,7 @@ public partial class Army : UnitList
         {
             if ((Selection & 1) != 0)
             {
-                Group.AddUnit((AbstractUnit)FChildren.List[I]);
+                Group.AddUnit((Troop)FChildren.List[I]);
             }
 
             Selection = (byte)(int)(((uint)Selection) >> 1);
@@ -582,7 +580,7 @@ public partial class Army : UnitList
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
             Result = (byte)(Result << 1);
-            if (GroupID == ((AbstractUnit)FChildren.List[I]).FGroupID)
+            if (GroupID == ((Troop)FChildren.List[I]).FGroupID)
             {
                 Result = (byte)(Result | 1);
             }
@@ -620,7 +618,7 @@ public partial class Army : UnitList
             {
                 if ((Selection & 1) != 0)
                 {
-                    Group.AddUnit((AbstractUnit)FChildren.List[I]);
+                    Group.AddUnit((Troop)FChildren.List[I]);
                 }
 
                 Selection = (byte)(int)(((uint)Selection) >> 1);
@@ -716,7 +714,7 @@ public partial class Army : UnitList
             if (Index != -1)
             {
                 Selection = (byte)(Selection & ~(1 << Index));
-                if (((AbstractUnit)FChildren.List[Index]).FGroupID == 0)
+                if (((Troop)FChildren.List[Index]).FGroupID == 0)
                 {
                     SetBehavior((byte)(1 << Index), GroupBehavior.Transport);
                 }
@@ -754,17 +752,17 @@ public partial class Army : UnitList
                 }
                 else
                 {
-                    SetGroup(Selection, ((AbstractUnit)FChildren.List[Index]).FGroup);
+                    SetGroup(Selection, ((Troop)FChildren.List[Index]).FGroup);
                 }
             }
         }
     }
 
     // Army.PAS:560
-    public ArmyID CreateID(byte Selection)
+    public ArmyId CreateID(byte Selection)
     {
-        ArmyID ID;
-        ID = new ArmyID(null);
+        ArmyId ID;
+        ID = new ArmyId(null);
         ID.FX = FX;
         ID.FY = FY;
         ID.FL = FL;
@@ -773,7 +771,7 @@ public partial class Army : UnitList
         {
             if ((Selection & 1) != 0)
             {
-                ID.FUnitIDs.Add(((AbstractUnit)FChildren.List[I]).FUnitID);
+                ID.FUnitIDs.Add(((Troop)FChildren.List[I]).FUnitID);
             }
 
             Selection = (byte)(int)(((uint)Selection) >> 1);
@@ -783,16 +781,16 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:579
-    public ArmyHS GetArmyHS()
+    public ArmyHexSprite GetArmyHS()
     {
-        ArmyHS Result;
+        ArmyHexSprite Result;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            Result = (ArmyHS)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
+            Result = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
         }
         else
         {
@@ -844,7 +842,7 @@ public partial class Army : UnitList
         bool ShowCrown;
         if (FStatus.Contains(ArmyStatusElement.Activated))
         {
-            if (FConcealedUnits != 0 && AoWHSMap.Current.FSeatedPlayer != FPlayer && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (FConcealedUnits != 0 && AoWHSMap.Current.FSeatedPlayer != FPlayer && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
                 Concealed = GetConcealedForPlayer(AoWHSMap.Current.FSeatedPlayer);
             }
@@ -925,7 +923,7 @@ public partial class Army : UnitList
         {
             if ((Selection & 1) != 0)
             {
-                Race = ((AbstractUnit)FChildren.List[I]).GetRace();
+                Race = ((Troop)FChildren.List[I]).GetRace();
                 if (Race != -1)
                 {
                     if (Result != -1)
@@ -1002,7 +1000,7 @@ public partial class Army : UnitList
             {
                 I -= 1;
                 FConcealedUnits = (byte)(FConcealedUnits << 1);
-                if (((AbstractUnit)FChildren.List[I]).ConcealedOnMapF(Field))
+                if (((Troop)FChildren.List[I]).ConcealedOnMapF(Field))
                 {
                     FConcealedUnits = (byte)(FConcealedUnits | 1);
                 }
@@ -1019,7 +1017,7 @@ public partial class Army : UnitList
         Upkeep = 0;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            Upkeep = (byte)(Upkeep + ((AbstractUnit)FChildren.List[I]).GetUpkeep());
+            Upkeep = (byte)(Upkeep + ((Troop)FChildren.List[I]).GetUpkeep());
         }
 
         Previous = FUpkeep;
@@ -1036,10 +1034,10 @@ public partial class Army : UnitList
     // Army.PAS:719
     public void ValidateTerrainEx(sbyte TerrainType, sbyte OverlayType, sbyte Player)
     {
-        AbstractUnit Transport;
+        Troop Transport;
         byte Selection;
         ArmyEventLog Log;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Transport = Transporter(255);
         if (Transport == null || !Transport.ValidTerrain(TerrainType, OverlayType))
         {
@@ -1047,7 +1045,7 @@ public partial class Army : UnitList
             for (int I = GetCount() - 1; I >= 0; I--)
             {
                 Selection = (byte)(Selection << 1);
-                if (!((AbstractUnit)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType))
+                if (!((Troop)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType))
                 {
                     Selection = (byte)(Selection | 1);
                 }
@@ -1060,7 +1058,7 @@ public partial class Army : UnitList
 
         if (Selection != 0)
         {
-            if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && AoWHSMap.Current.FDay != 0)
+            if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.FDay != 0)
             {
                 BeginUpdate();
                 Log = new ArmyEventLog(null);
@@ -1128,13 +1126,13 @@ public partial class Army : UnitList
     // Army.PAS:790
     public void Validate()
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         Unit NewUnit;
         AoWHSMap.Current.LockGameOverEvent();
         BeginUpdate();
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            AUnit = (AbstractUnit)FChildren.List[I];
+            AUnit = (Troop)FChildren.List[I];
             if (AUnit.GetHitPoints() == 0)
             {
                 if (AUnit.GetAbilityEnabled(107))
@@ -1160,12 +1158,12 @@ public partial class Army : UnitList
     {
         int Level;
         int UnitLevel;
-        AbstractUnit AUnit;
+        Troop AUnit;
         string SourceName = "";
         Level = 0;
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            AUnit = (AbstractUnit)FChildren.List[I];
+            AUnit = (Troop)FChildren.List[I];
             AUnit.UpdateMoraleValue();
             if (AUnit.GetAbilityEnabled(46) || AUnit.GetAbilityLevel(46) > 0)
             {
@@ -1187,7 +1185,7 @@ public partial class Army : UnitList
         {
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                AUnit = (AbstractUnit)FChildren.List[I];
+                AUnit = (Troop)FChildren.List[I];
                 if (AUnit.GetAbilityLevel(46) < Level)
                 {
                     ((LeadershipAbility)AoWHSSet.Current.FAbilityControl.GetAbility(46)).SetExternalSource(AUnit, (byte)Level, SourceName);
@@ -1210,7 +1208,7 @@ public partial class Army : UnitList
             UpdateConcealment();
             UpdateFormation();
             UpdateIndependentRelation();
-            if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && FX != -1)
+            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && FX != -1)
             {
                 AoWHSMap.Current.ScannerIconsChangedRad(FX, FY, FL, 0);
             }
@@ -1236,7 +1234,7 @@ public partial class Army : UnitList
     // Army.PAS:870
     public void Activate()
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         Assert(!FStatus.Contains(ArmyStatusElement.Activated), "Army already activated", "Army.PAS", 1171);
         if (FOldAIBehavior == GroupBehavior.None)
         {
@@ -1245,7 +1243,7 @@ public partial class Army : UnitList
 
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            AUnit = (AbstractUnit)FChildren.List[I];
+            AUnit = (Troop)FChildren.List[I];
             if (!AUnit.FUnitStatus.Contains(UnitStatusElement.Activated))
             {
                 AUnit.Activate();
@@ -1273,7 +1271,7 @@ public partial class Army : UnitList
     // Army.PAS:1186
     public void Deactivate()
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         if (FStatus.Contains(ArmyStatusElement.Activated))
         {
             if (FUnfogRange != 0)
@@ -1284,7 +1282,7 @@ public partial class Army : UnitList
 
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                AUnit = (AbstractUnit)FChildren.List[I];
+                AUnit = (Troop)FChildren.List[I];
                 if (AUnit.FUnitStatus.Contains(UnitStatusElement.Activated))
                 {
                     AUnit.Deactivate();
@@ -1353,7 +1351,7 @@ public partial class Army : UnitList
     {
         AoWMapField Field;
         Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
-        return ((AbstractUnit)FChildren.List[Index]).ConcealedOnMapF(Field);
+        return ((Troop)FChildren.List[Index]).ConcealedOnMapF(Field);
     }
 
     // Army.PAS:1262
@@ -1403,7 +1401,7 @@ public partial class Army : UnitList
 
                 for (int I = FChildren.Count - 1; I >= 0; I--)
                 {
-                    ((AbstractUnit)FChildren.List[I]).SetPlayer(FPlayer);
+                    ((Troop)FChildren.List[I]).SetPlayer(FPlayer);
                 }
 
                 if (FX != -1)
@@ -1441,7 +1439,7 @@ public partial class Army : UnitList
         {
             if ((Selection & 1) != 0)
             {
-                Result = Result & ((AbstractUnit)FChildren.List[I]).GetImmunityTypes();
+                Result = Result & ((Troop)FChildren.List[I]).GetImmunityTypes();
             }
 
             Selection = (byte)(int)(((uint)Selection) >> 1);
@@ -1459,7 +1457,7 @@ public partial class Army : UnitList
         {
             if ((Selection & 1) != 0)
             {
-                Result += ((AbstractUnit)FChildren.List[I]).GetObtainValue();
+                Result += ((Troop)FChildren.List[I]).GetObtainValue();
             }
 
             Selection = (byte)(int)(((uint)Selection) >> 1);
@@ -1472,8 +1470,8 @@ public partial class Army : UnitList
     public sbyte MovePoints(byte Selection)
     {
         sbyte Result;
-        AbstractUnit Transport;
-        AbstractUnit AUnit;
+        Troop Transport;
+        Troop AUnit;
         Transport = Transporter(Selection);
         if (Transport != null)
         {
@@ -1488,7 +1486,7 @@ public partial class Army : UnitList
                 {
                     if ((Selection & 1) != 0)
                     {
-                        AUnit = (AbstractUnit)FChildren.List[I];
+                        AUnit = (Troop)FChildren.List[I];
                         if (AUnit.GetMovePoints() < Result)
                         {
                             Result = AUnit.GetMovePoints();
@@ -1511,8 +1509,8 @@ public partial class Army : UnitList
     public sbyte Moves(byte Selection)
     {
         sbyte Result;
-        AbstractUnit Transport;
-        AbstractUnit AUnit;
+        Troop Transport;
+        Troop AUnit;
         Transport = Transporter(Selection);
         if (Transport != null)
         {
@@ -1527,7 +1525,7 @@ public partial class Army : UnitList
                 {
                     if ((Selection & 1) != 0)
                     {
-                        AUnit = (AbstractUnit)FChildren.List[I];
+                        AUnit = (Troop)FChildren.List[I];
                         if (AUnit.GetMoves() < Result)
                         {
                             Result = AUnit.GetMoves();
@@ -1550,7 +1548,7 @@ public partial class Army : UnitList
     public Set<MoveType> MoveTypes(byte Selection)
     {
         Set<MoveType> Result;
-        AbstractUnit Transport;
+        Troop Transport;
         Transport = Transporter(Selection);
         if (Transport != null)
         {
@@ -1563,7 +1561,7 @@ public partial class Army : UnitList
             {
                 if ((Selection & 1) != 0)
                 {
-                    Result = Result + ((AbstractUnit)FChildren.List[I]).GetMoveTypes();
+                    Result = Result + ((Troop)FChildren.List[I]).GetMoveTypes();
                 }
 
                 Selection = (byte)(int)(((uint)Selection) >> 1);
@@ -1577,7 +1575,7 @@ public partial class Army : UnitList
     public Set<MoveType> GetPartyMoves(byte Selection)
     {
         Set<MoveType> Result = default;
-        AbstractUnit Transport;
+        Troop Transport;
         Set<MoveType> Common;
         Set<MoveType> Moves;
         int MoveType;
@@ -1590,7 +1588,7 @@ public partial class Army : UnitList
             {
                 if (((1 << I) & Selection) != 0)
                 {
-                    Moves = ((AbstractUnit)FChildren.List[I]).GetMoveTypes();
+                    Moves = ((Troop)FChildren.List[I]).GetMoveTypes();
                     Common = Common & Moves;
                     if (MoveType != -1)
                     {
@@ -1651,9 +1649,9 @@ public partial class Army : UnitList
     // Army.PAS:1450
     public int MoveOnMovePoints(byte Selection, sbyte TerrainType, sbyte OverlayType)
     {
-        FixedArray_Aow_Units_FixedArray_sbyte_16_16 Table = default;
-        FixedArray_Aow_Units_FixedArray_sbyte_16_16 UnitTable = default;
-        AbstractUnit Transport;
+        SByteArray16By16 Table = default;
+        SByteArray16By16 UnitTable = default;
+        Troop Transport;
         FillBytes(Bytes.Of(ref Table, 256), 1);
         Transport = Transporter(Selection);
         if (Transport != null)
@@ -1666,7 +1664,7 @@ public partial class Army : UnitList
             {
                 if ((Selection & 1) != 0)
                 {
-                    ((AbstractUnit)FChildren.List[I]).CreateMovePointTable(ref UnitTable);
+                    ((Troop)FChildren.List[I]).CreateMovePointTable(ref UnitTable);
                     AbilityRules.MaximizeMovePointTable(Bytes.Of(ref Table), Bytes.Of(ref UnitTable));
                 }
 
@@ -1681,14 +1679,14 @@ public partial class Army : UnitList
     public void CreateMovePointTable(byte Selection, Span<byte> Table)
     {
         int Count;
-        FixedArray_Aow_Units_FixedArray_sbyte_16_16 UnitTable = default;
-        AbstractUnit Transport;
+        SByteArray16By16 UnitTable = default;
+        Troop Transport;
         Count = 0;
         FillBytes(Table.Slice(0, 256), 1);
         Transport = Transporter(Selection);
         if (Transport != null)
         {
-            Transport.CreateMovePointTable(ref MemoryMarshal.Cast<byte, FixedArray_Aow_Units_FixedArray_sbyte_16_16>(Table)[0]);
+            Transport.CreateMovePointTable(ref MemoryMarshal.Cast<byte, SByteArray16By16>(Table)[0]);
             Count += 1;
         }
         else
@@ -1697,7 +1695,7 @@ public partial class Army : UnitList
             {
                 if ((Selection & 1) != 0)
                 {
-                    ((AbstractUnit)FChildren.List[I]).CreateMovePointTable(ref UnitTable);
+                    ((Troop)FChildren.List[I]).CreateMovePointTable(ref UnitTable);
                     AbilityRules.MaximizeMovePointTable(Table, Bytes.Of(ref UnitTable));
                     Count += 1;
                 }
@@ -1717,7 +1715,7 @@ public partial class Army : UnitList
     {
         bool Result;
         int I;
-        AbstractUnit Transport;
+        Troop Transport;
         Transport = Transporter(Selection);
         if (Transport == null)
         {
@@ -1727,7 +1725,7 @@ public partial class Army : UnitList
             {
                 if (((1 << I) & Selection) != 0)
                 {
-                    Result = ((AbstractUnit)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType);
+                    Result = ((Troop)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType);
                 }
 
                 I += 1;
@@ -1746,7 +1744,7 @@ public partial class Army : UnitList
     {
         bool Result;
         int I;
-        AbstractUnit Transport;
+        Troop Transport;
         Transport = Transporter(255);
         if (Transport == null)
         {
@@ -1754,7 +1752,7 @@ public partial class Army : UnitList
             Result = true;
             while (I != GetCount() && Result)
             {
-                Result = ((AbstractUnit)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType);
+                Result = ((Troop)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType);
                 I += 1;
             }
         }
@@ -1778,7 +1776,7 @@ public partial class Army : UnitList
         {
             while (Result && I != FChildren.Count)
             {
-                Result = ((AbstractUnit)FChildren.List[I]).CanActivate();
+                Result = ((Troop)FChildren.List[I]).CanActivate();
                 I += 1;
             }
         }
@@ -1789,7 +1787,7 @@ public partial class Army : UnitList
     // Army.PAS:1543
     public void MovedTo(MapField OldField, MapField NewField, int MaxCost)
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         BeginUpdate();
         FUserMode = FUserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
         AUnit = Transporter(255);
@@ -1797,7 +1795,7 @@ public partial class Army : UnitList
         {
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                ((AbstractUnit)FChildren.List[I]).MovedTo(OldField, NewField, MaxCost);
+                ((Troop)FChildren.List[I]).MovedTo(OldField, NewField, MaxCost);
             }
         }
         else
@@ -1805,7 +1803,7 @@ public partial class Army : UnitList
             AUnit.MovedTo(OldField, NewField, MaxCost);
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                AUnit = (AbstractUnit)FChildren.List[I];
+                AUnit = (Troop)FChildren.List[I];
                 if (!AUnit.GetTransporter())
                 {
                     AUnit.MovedTo(OldField, NewField, 0);
@@ -1824,7 +1822,7 @@ public partial class Army : UnitList
         int Result = 8;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            Capacity = ((AbstractUnit)FChildren.List[I]).GetTransportCapacity();
+            Capacity = ((Troop)FChildren.List[I]).GetTransportCapacity();
             if (Capacity != 0 && Result > Capacity + 1)
             {
                 Result = Capacity + 1;
@@ -1838,14 +1836,14 @@ public partial class Army : UnitList
     public Hero Hero(byte Selection, Set<HeroType> Types)
     {
         int I;
-        AbstractUnit AUnit;
+        Troop AUnit;
         I = 0;
         Hero Result = null;
         while (I != GetCount() && Result == null)
         {
             if ((Selection & 1) != 0)
             {
-                AUnit = (AbstractUnit)FChildren.List[I];
+                AUnit = (Troop)FChildren.List[I];
                 if (AUnit is Hero && Types.Contains(((Hero)AUnit).GetHeroType()))
                 {
                     Result = (Hero)AUnit;
@@ -1869,7 +1867,7 @@ public partial class Army : UnitList
         {
             if ((Selection & 1) != 0)
             {
-                if (((EObject)FChildren.List[I]).EClass.ClassID == 131634)
+                if (((EngineObject)FChildren.List[I]).EClass.ClassID == 131634)
                 {
                     Result = (Leader)FChildren.List[I];
                 }
@@ -1883,18 +1881,18 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1608
-    public AbstractUnit Transporter(byte Selection)
+    public Troop Transporter(byte Selection)
     {
         int I;
         I = 0;
-        AbstractUnit Result = null;
+        Troop Result = null;
         while (I != GetCount() && Result == null)
         {
             if ((Selection & 1) != 0)
             {
-                if (((AbstractUnit)FChildren.List[I]).GetTransporter())
+                if (((Troop)FChildren.List[I]).GetTransporter())
                 {
-                    Result = (AbstractUnit)FChildren.List[I];
+                    Result = (Troop)FChildren.List[I];
                 }
             }
 
@@ -1912,7 +1910,7 @@ public partial class Army : UnitList
         while (Result != 0)
         {
             Result -= 1;
-            if (((1 << Result) & Selection) != 0 && ((AbstractUnit)FChildren.List[Result]).GetTransporter())
+            if (((1 << Result) & Selection) != 0 && ((Troop)FChildren.List[Result]).GetTransporter())
             {
                 return Result;
             }
@@ -1934,7 +1932,7 @@ public partial class Army : UnitList
             Result = 0;
             while (I != GetCount())
             {
-                if (!((AbstractUnit)FChildren.List[I]).ValidTerrain(Field.TerrainType, Field.OverlayType))
+                if (!((Troop)FChildren.List[I]).ValidTerrain(Field.TerrainType, Field.OverlayType))
                 {
                     Result = (byte)(Result + (1 << I));
                 }
@@ -1960,13 +1958,13 @@ public partial class Army : UnitList
         TrueVision = 0;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            Range = (byte)((AbstractUnit)FChildren.List[I]).VisibilityRange();
+            Range = (byte)((Troop)FChildren.List[I]).VisibilityRange();
             if (Range > Vision)
             {
                 Vision = Range;
             }
 
-            Range = (byte)((AbstractUnit)FChildren.List[I]).TrueVisionRange();
+            Range = (byte)((Troop)FChildren.List[I]).TrueVisionRange();
             if (Range > TrueVision)
             {
                 TrueVision = Range;
@@ -2057,7 +2055,7 @@ public partial class Army : UnitList
         AddUnitsResult Result;
         int I;
         int TransportCount;
-        AbstractUnit Transport;
+        Troop Transport;
         TransportCount = 0;
         I = 0;
         int last = Units.GetCount() - 1;
@@ -2145,7 +2143,7 @@ public partial class Army : UnitList
         DelphiList List;
         int I;
         int TransportCount;
-        AbstractUnit Transport;
+        Troop Transport;
         List = new DelphiList();
         I = 0;
         int last = Units.GetCount() - 1;
@@ -2164,7 +2162,7 @@ public partial class Army : UnitList
         int limit = List.Count - 1;
         for (; I <= limit; I += 1)
         {
-            if (((AbstractUnit)List[I]).GetTransporter())
+            if (((Troop)List[I]).GetTransporter())
             {
                 TransportCount += 1;
             }
@@ -2186,9 +2184,9 @@ public partial class Army : UnitList
                     int last2 = List.Count - 1;
                     for (; I <= last2; I += 1)
                     {
-                        if (((AbstractUnit)List[I]).GetTransporter())
+                        if (((Troop)List[I]).GetTransporter())
                         {
-                            Transport = (AbstractUnit)List[I];
+                            Transport = (Troop)List[I];
                         }
                     }
                 }
@@ -2210,7 +2208,7 @@ public partial class Army : UnitList
                 if (List.Count + count <= 8)
                 {
                     I = 0;
-                    while (I != List.Count && CanAddUnit((AbstractUnit)List[I]))
+                    while (I != List.Count && CanAddUnit((Troop)List[I]))
                     {
                         I += 1;
                     }
@@ -2276,10 +2274,10 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1881
-    public AbstractUnit SelectionUnit(byte Selection, int Index)
+    public Troop SelectionUnit(byte Selection, int Index)
     {
         int I;
-        AbstractUnit Result = null;
+        Troop Result = null;
         I = 0;
         while (I != FChildren.Count && Result == null)
         {
@@ -2287,7 +2285,7 @@ public partial class Army : UnitList
             {
                 if (Index == 0)
                 {
-                    Result = (AbstractUnit)FChildren.List[I];
+                    Result = (Troop)FChildren.List[I];
                 }
 
                 Index -= 1;
@@ -2311,17 +2309,17 @@ public partial class Army : UnitList
         DelphiList Races;
         DelphiList Units;
         int Race;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Alignment Alignment;
-        ArmyHS ArmyHS;
-        ArmyHS PlaceIndependentArmy(sbyte AX, sbyte AY, sbyte AL, Army Army)
+        ArmyHexSprite ArmyHS;
+        ArmyHexSprite PlaceIndependentArmy(sbyte AX, sbyte AY, sbyte AL, Army Army)
         {
-            ArmyHS Result;
+            ArmyHexSprite Result;
             try
             {
                 if (Army.GetCount() != 0)
                 {
-                    Result = new ArmyHS(null);
+                    Result = new ArmyHexSprite(null);
                     Result.FArmy.BeginUpdate();
                     Result.FArmy.AddUnits(Army);
                     if (Result.PlaceEx(X, Y, L, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
@@ -2367,7 +2365,7 @@ public partial class Army : UnitList
 
         for (int I = Units.Count - 1; I >= 0; I--)
         {
-            AUnit = (AbstractUnit)Units.List[I];
+            AUnit = (Troop)Units.List[I];
             if (AUnit.GetRace() != -1 && !AUnit.GetAbilityEnabled(107))
             {
                 if (AUnit.GetRace() >= Races.Count)
@@ -2391,7 +2389,7 @@ public partial class Army : UnitList
 
         for (int I = Units.Count - 1; I >= 0; I--)
         {
-            AUnit = (AbstractUnit)Units.List[I];
+            AUnit = (Troop)Units.List[I];
             Alignment = AUnit.GetAlignment();
             Race = -1;
             for (int J = Races.Count - 1; J >= 0; J--)
@@ -2491,7 +2489,7 @@ public partial class Army : UnitList
         bool Neutral;
         int I;
         int UnitRace;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Alignment Alignment;
         if (FPlayer == 0)
         {
@@ -2501,9 +2499,9 @@ public partial class Army : UnitList
             while (Valid && I != 0)
             {
                 I -= 1;
-                if (!((AbstractUnit)FChildren.List[I]).GetAbilityEnabled(107))
+                if (!((Troop)FChildren.List[I]).GetAbilityEnabled(107))
                 {
-                    UnitRace = ((AbstractUnit)FChildren.List[I]).GetRace();
+                    UnitRace = ((Troop)FChildren.List[I]).GetRace();
                 }
                 else
                 {
@@ -2558,10 +2556,10 @@ public partial class Army : UnitList
             while (Valid && I != 0)
             {
                 I -= 1;
-                bool condition = Race == ((AbstractUnit)FChildren.List[I]).GetRace();
+                bool condition = Race == ((Troop)FChildren.List[I]).GetRace();
                 if (!condition)
                 {
-                    var alignment = ((AbstractUnit)FChildren.List[I]).GetAlignment();
+                    var alignment = ((Troop)FChildren.List[I]).GetAlignment();
                     condition = AoWHSSet.Current.FRaceResources.GetRaceResource(Race).FAlignments.Contains(alignment);
                 }
 
@@ -2577,7 +2575,7 @@ public partial class Army : UnitList
                 int last = FChildren.Count - 1;
                 for (; I <= last; I += 1)
                 {
-                    AUnit = (AbstractUnit)FChildren.List[I];
+                    AUnit = (Troop)FChildren.List[I];
                     Alignment = AUnit.GetAlignment();
                     Evil = Evil && AlignmentTables.alsEvil.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.Evil, Units.Alignment.PureEvil).Contains(Alignment));
                     Good = Good && AlignmentTables.alsGood.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.PureGood, Units.Alignment.Good).Contains(Alignment));
@@ -2620,7 +2618,7 @@ public partial class Army : UnitList
         int Count;
         int Bit;
         ArmyInfoEventLog Log;
-        AbstractUnit AUnit;
+        Troop AUnit;
         AoWHSMap.Current.LockGameOverEvent();
         Units = new DelphiList();
         Count = SelectionCount(Selection);
@@ -2714,7 +2712,7 @@ public partial class Army : UnitList
         MakeIndependent(Selection, ref Armies);
         while (Units.Count != 0)
         {
-            AUnit = (AbstractUnit)Units[0];
+            AUnit = (Troop)Units[0];
             AUnit.AddRef();
             AUnit.Killed();
             AUnit.SetOwner(null);
@@ -2747,7 +2745,7 @@ public partial class Army : UnitList
         int Count;
         CombatPredictor Predictor;
         int UnitMorale;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Morale = 100;
         Count = 0;
         Predictor = new CombatPredictor();
@@ -2755,7 +2753,7 @@ public partial class Army : UnitList
         {
             if ((Selection & 1) != 0)
             {
-                AUnit = (AbstractUnit)FChildren.List[I];
+                AUnit = (Troop)FChildren.List[I];
                 UnitMorale = AUnit.FMoraleValue;
                 if (AUnit.GetUnitType() != UnitType.Machine)
                 {
@@ -2840,7 +2838,7 @@ public partial class Army : UnitList
                     for (int I = FChildren.Count - 1; I >= 0; I--)
                     {
                         Selection = (byte)(Selection << 1);
-                        if (((AbstractUnit)FChildren.List[I]).FMoraleValue <= 40)
+                        if (((Troop)FChildren.List[I]).FMoraleValue <= 40)
                         {
                             Selection = (byte)(Selection | 1);
                         }
@@ -2864,7 +2862,7 @@ public partial class Army : UnitList
         while (I != 0 && !Result)
         {
             I -= 1;
-            if (((AbstractUnit)FChildren.List[I]).GetAbilityEnabled(101))
+            if (((Troop)FChildren.List[I]).GetAbilityEnabled(101))
             {
                 Result = true;
             }
@@ -2876,9 +2874,9 @@ public partial class Army : UnitList
             I = GetCount() - 1;
             for (; I >= 0; I -= 1)
             {
-                if (((AbstractUnit)FChildren.List[I]).GetAbilityEnabled(101))
+                if (((Troop)FChildren.List[I]).GetAbilityEnabled(101))
                 {
-                    ((AbstractUnit)FChildren.List[I]).ValidateCrusader();
+                    ((Troop)FChildren.List[I]).ValidateCrusader();
                 }
             }
 
@@ -2984,14 +2982,14 @@ public partial class Army : UnitList
     public byte GetCanJoinSelection(sbyte Player)
     {
         byte Result;
-        AbstractUnit AUnit;
+        Troop AUnit;
         if (Player > 0)
         {
             Result = 0;
             for (int I = Count - 1; I >= 0; I--)
             {
                 Result = (byte)(Result << 1);
-                AUnit = (AbstractUnit)FChildren.List[I];
+                AUnit = (Troop)FChildren.List[I];
                 if (AUnit.CanJoin(Player))
                 {
                     Result = (byte)(Result | 1);
@@ -3027,7 +3025,7 @@ public partial class Army : UnitList
             while (!WantsJoin && I != 0)
             {
                 I -= 1;
-                WantsJoin = ((AbstractUnit)FChildren.List[I]).OfferToJoin(Player);
+                WantsJoin = ((Troop)FChildren.List[I]).OfferToJoin(Player);
             }
 
             if (WantsJoin)
@@ -3047,7 +3045,7 @@ public partial class Army : UnitList
         {
             if ((Selection & 1) != 0)
             {
-                Result += ((AbstractUnit)FChildren.List[I]).JoinAmount(Player);
+                Result += ((Troop)FChildren.List[I]).JoinAmount(Player);
             }
 
             Selection = (byte)(int)(((uint)Selection) >> 1);
@@ -3072,13 +3070,13 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:2365
-    public bool IncommingNegotiateOffer(NegotiateTE Offer)
+    public bool IncommingNegotiateOffer(NegotiateTokenEvent Offer)
     {
         bool Result;
         ArmyInfoEventLog Log;
         byte Selection;
         Hero AHero;
-        XYLList Locations;
+        MapCoordinateList Locations;
         int I;
         int J;
         int Direction;
@@ -3089,7 +3087,7 @@ public partial class Army : UnitList
         bool Placed;
         if (Offer.FObject == NegotiateObject.Army)
         {
-            if (Offer.FResult == NegotiateTE.NegotiateResult.Accept)
+            if (Offer.FResult == NegotiateTokenEvent.NegotiateResult.Accept)
             {
                 Selection = GetJoinSelection(Offer.FPlayer);
                 JoinCount = SelectionCount(Selection);
@@ -3134,7 +3132,7 @@ public partial class Army : UnitList
                     Log.Release();
                     if (ValidateSelection(255) != Selection)
                     {
-                        Locations = new XYLList();
+                        Locations = new MapCoordinateList();
                         if (Offer.FArmyHS != null)
                         {
                             var yhx = Offer.FArmyHS.GetYhx();
@@ -3208,7 +3206,7 @@ public partial class Army : UnitList
             }
             else
             {
-                if (Offer.FResult == NegotiateTE.NegotiateResult.Reject && !Offer.FMode.Contains(NegotiateModeElement.PrisonerJoin))
+                if (Offer.FResult == NegotiateTokenEvent.NegotiateResult.Reject && !Offer.FMode.Contains(NegotiateModeElement.PrisonerJoin))
                 {
                     Offer.Reject();
                 }
@@ -3228,7 +3226,7 @@ public partial class Army : UnitList
     public void TriggerFireDamage()
     {
         ArmyEventLog Log;
-        AbstractUnit AUnit;
+        Troop AUnit;
         int Damage;
         bool Damaged;
         RandSeed = AoWHSMap.Current.Random(16777215);
@@ -3288,7 +3286,7 @@ public partial class Army : UnitList
         byte Relation;
         int Value = default;
         int Amount = default;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Relation = (byte)(int)AbilityRules.DiplomaticRelation(Info.Player, Info.IndependentRelation, FPlayer, FIndependentRelation);
         if (Info.FriendlyRelations.Contains(Relation) || Info.EnemyRelations.Contains(Relation))
         {
@@ -3366,7 +3364,7 @@ public partial class Army : UnitList
         Damaged = false;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Damage = ((AbstractUnit)FChildren.List[I]).ExecuteStormDamage(Storm, Distance);
+            Damage = ((Troop)FChildren.List[I]).ExecuteStormDamage(Storm, Distance);
             if (Damage != 0)
             {
                 Damaged = true;
@@ -3491,10 +3489,10 @@ public partial class Army : UnitList
     // Army.PAS:2613
     public void ResetMoveDone()
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            AUnit = (AbstractUnit)FChildren.List[I];
+            AUnit = (Troop)FChildren.List[I];
             AUnit.FUnitStatus = AUnit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.MoveDone);
         }
     }
@@ -3506,8 +3504,8 @@ public partial class Army : UnitList
         int I;
         int MaxCount;
         byte Temp;
-        AbstractUnit OwnTransporter;
-        AbstractUnit OtherTransporter;
+        Troop OwnTransporter;
+        Troop OtherTransporter;
         Selection = Army.ValidateSelection(Selection);
         I = 0;
         Temp = Selection;
@@ -3560,7 +3558,7 @@ public partial class Army : UnitList
         return GetUnit(index).ConcealedOnMapF(field) && GetConcealedForPlayer(player);
     }
 
-    internal static FixedArray_Aow_Units_AoWE_TDamageType_7 StormDamageType = FixedArray_Aow_Units_AoWE_TDamageType_7.From((ReadOnlySpan<DamageType>)new DamageType[7]
+    internal static DamageTypeArray7 StormDamageType = DamageTypeArray7.From((ReadOnlySpan<DamageType>)new DamageType[7]
     {
         DamageType.None,
         DamageType.Fire,

@@ -19,7 +19,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-public partial class Unit : AbstractUnit
+public partial class Unit : Troop
 {
     public new const int ClassID = 131603;
 
@@ -406,7 +406,7 @@ public partial class Unit : AbstractUnit
     }
 
     // Unit.PAS:1919
-    public override int ShowEx(int X, int Y, in SurfaceDesc SD, in P2UnitShowInfo Info)
+    public override int ShowEx(int X, int Y, in LockedSurface SD, in UnitShowInfo Info)
     {
         int Result = base.ShowEx(X, Y, SD, Info);
         if (Info.Overlays.Contains(UnitOverlayModesElement.Rank))

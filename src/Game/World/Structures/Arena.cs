@@ -26,21 +26,21 @@ public partial class Arena : Structure
     public new const int ClassID = 133276;
 
     // Arena.pas:212
-    public override StructureTE CreateTE() => new ArenaTE(null);
+    public override StructureTokenEvent CreateTE() => new ArenaTokenEvent(null);
 
     // Arena.pas:135
-    public override ExecuteResult ExecuteTE(StructureTE TE, TokenExecuter Executer)
+    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         string ErrorText = "";
         ExecuteResult Result = base.ExecuteTE(TE, Executer);
         if (TE.FAction == 1)
         {
-            if (CanTrainUnits((sbyte)TE.FParam, ((ArenaTE)TE).FUnitIDs, ref ErrorText))
+            if (CanTrainUnits((sbyte)TE.FParam, ((ArenaTokenEvent)TE).FUnitIDs, ref ErrorText))
             {
-                for (int I = 0, last = ((ArenaTE)TE).FUnitIDs.Count - 1; I <= last; I++)
+                for (int I = 0, last = ((ArenaTokenEvent)TE).FUnitIDs.Count - 1; I <= last; I++)
                 {
-                    var unitID = ((ArenaTE)TE).FUnitIDs[I];
+                    var unitID = ((ArenaTokenEvent)TE).FUnitIDs[I];
                     AUnit = AoWHSMap.Current.FUnitControl.FindUnit(unitID);
                     if (AUnit != null)
                     {
@@ -53,7 +53,7 @@ public partial class Arena : Structure
 
                 if (AoWHSMap.Current.FSeatedPlayer == TE.FParam)
                 {
-                    var arenaTE = (ArenaTE)TE;
+                    var arenaTE = (ArenaTokenEvent)TE;
                     if (arenaTE.FUnitIDs.Count == 1)
                     {
                         var oneUnitTrained = AbilityRules.TranslateRStr(OneUnitTrainedRStr);
@@ -75,7 +75,7 @@ public partial class Arena : Structure
     public override bool CanDblClick() => CanEnter(AoWHSMap.Current.FSeatedPlayer);
 
     // Arena.pas:101
-    public int UnitTrainCost(AbstractUnit AUnit)
+    public int UnitTrainCost(Troop AUnit)
     {
         int Result;
         if (AUnit is Hero)
@@ -105,7 +105,7 @@ public partial class Arena : Structure
     }
 
     // Arena.pas:116
-    public void ExecuteTrainUnit(AbstractUnit AUnit)
+    public void ExecuteTrainUnit(Troop AUnit)
     {
         if (AUnit is Hero)
         {
@@ -125,13 +125,13 @@ public partial class Arena : Structure
     }
 
     // Arena.pas:159
-    public bool CanTrainUnits(sbyte Player, IntegerList Units, ref string ErrorText)
+    public bool CanTrainUnits(sbyte Player, Int32List Units, ref string ErrorText)
     {
         bool Result;
         int Total;
         int I;
         int Cost;
-        AbstractUnit AUnit;
+        Troop AUnit;
         if (Units.Count != 0)
         {
             Total = 0;
@@ -183,14 +183,14 @@ public partial class Arena : Structure
     }
 
     // Arena.pas:194
-    public bool TrainUnits(sbyte Player, IntegerList Units, ref string ErrorText)
+    public bool TrainUnits(sbyte Player, Int32List Units, ref string ErrorText)
     {
         bool Result;
-        ArenaTE TE;
+        ArenaTokenEvent TE;
         ErrorText = "";
         if (CanTrainUnits(Player, Units, ref ErrorText) && !AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
         {
-            TE = (ArenaTE)CreateTE();
+            TE = (ArenaTokenEvent)CreateTE();
             SetupTE(TE);
             TE.FUnitIDs.Assign(Units);
             TE.FParam = Player;
@@ -211,8 +211,8 @@ public partial class Arena : Structure
     public bool CanEnter(sbyte Player)
     {
         bool Result;
-        ArmyHS Army;
-        Army = (ArmyHS)FOwner.FindOwnedChild(131607);
+        ArmyHexSprite Army;
+        Army = (ArmyHexSprite)FOwner.FindOwnedChild(131607);
         if (Army == null || Army.FArmy.FPlayer != Player)
         {
             Result = false;
@@ -230,12 +230,12 @@ public partial class Arena : Structure
     {
         bool Result = default;
         EnterArenaEventLog Log;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         if (CanEnter(AoWHSMap.Current.FSeatedPlayer))
         {
             Log = new EnterArenaEventLog(null);
             Log.FArena = this;
-            Army = (ArmyHS)FOwner.FindOwnedChild(131607);
+            Army = (ArmyHexSprite)FOwner.FindOwnedChild(131607);
             for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
             {
                 var unit = Army.FArmy.GetUnit(I);

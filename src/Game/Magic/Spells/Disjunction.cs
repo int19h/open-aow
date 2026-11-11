@@ -22,7 +22,7 @@ public partial class Disjunction : Spell
     }
 
     // GlobalSpells.pas:942
-    public override bool CanActivate(AbstractUnit Source, ref string MessageText)
+    public override bool CanActivate(Troop Source, ref string MessageText)
     {
         bool Result;
         int Count;
@@ -50,7 +50,7 @@ public partial class Disjunction : Spell
     }
 
     // GlobalSpells.pas:962
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string Reason = "";

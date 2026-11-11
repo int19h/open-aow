@@ -9,7 +9,7 @@ internal sealed class ValueSite
 {
     public required SchemaProperty Property { get; init; }
     public required int Id { get; init; }
-    public required DocPath Path { get; init; }
+    public required DocumentNodePath Path { get; init; }
     public required JsonObject Owner { get; init; }
     public LayoutBuilder? Builder { get; init; }
     public LayoutReader? Reader { get; init; }
@@ -63,7 +63,7 @@ internal static class ObjectImage
         public int End { get; set; }
     }
 
-    public static void Decode(DecodeContext ctx, int start, int end, SchemaClass cls, DocPath path, JsonObject target)
+    public static void Decode(DecodeContext ctx, int start, int end, SchemaClass cls, DocumentNodePath path, JsonObject target)
     {
         ctx.Enter(start, path);
         var table = PropertyTable.Read(ctx, start, end, path);
@@ -203,7 +203,7 @@ internal static class ObjectImage
     }
 
     /// <summary>Checks the members of an object against its class and the allowed reserved names.</summary>
-    public static void CheckMembers(EncodeContext ctx, JsonObject obj, SchemaClass cls, DocPath path, params string[] reserved)
+    public static void CheckMembers(EncodeContext ctx, JsonObject obj, SchemaClass cls, DocumentNodePath path, params string[] reserved)
     {
         foreach (var m in obj.Members)
         {
@@ -230,7 +230,7 @@ internal static class ObjectImage
         }
     }
 
-    public static void Encode(EncodeContext ctx, JsonObject obj, SchemaClass cls, ByteBuffer output, DocPath path, params string[] reserved)
+    public static void Encode(EncodeContext ctx, JsonObject obj, SchemaClass cls, ByteBuffer output, DocumentNodePath path, params string[] reserved)
     {
         if (cls.Mapping is { } mapping) obj = CaseCodec.FromDocument(ctx, cls, mapping, obj, path);
         ctx.Enter(obj, path);
@@ -276,7 +276,7 @@ internal static class ObjectImage
     /// once by a value or a gap part, so the result decodes to the same values.
     /// </summary>
     public static void Place(EncodeContext ctx, ObjectWriter writer, LayoutReader? layout, int? property, Func<int, SchemaProperty?>? resolve,
-        JsonValue at, DocPath path, ByteBuffer output)
+        JsonValue at, DocumentNodePath path, ByteBuffer output)
     {
         var table = layout?.Table(property);
         if (table is null)

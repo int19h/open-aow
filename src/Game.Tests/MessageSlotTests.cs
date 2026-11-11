@@ -15,21 +15,21 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class MessageSlotTests
 {
-    private delegate void Proc(ref MapFieldMsg message);
+    private delegate void Proc(ref MapFieldMessage message);
 
     // A sprite that runs one message handler and counts its calls.
-    private sealed class Handler(Proc proc) : HexagonSprite(null!)
+    private sealed class Handler(Proc proc) : HexSprite(null!)
     {
         internal int Calls;
 
-        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMessage Msg)
         {
             Calls++;
             proc(ref Msg);
         }
     }
 
-    private static void None(ref MapFieldMsg message) { }
+    private static void None(ref MapFieldMessage message) { }
 
     // The dispatcher calls the sprites from the last index down, and AddHS puts a sprite of equal
     // priority in front, so the handlers run in the order given.
@@ -46,14 +46,14 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheMessageRecordsKeepTheProtocolArity()
     {
-        Assert.Equal(3, EMsgParams.Arity);
-        Assert.Equal(4, MapFieldMsgParams.Arity);
-        EMsg engineMessage = default;
-        MapFieldMsg fieldMessage = default;
-        Assert.Equal(EMsgParams.Arity, ((Span<MsgArg>)engineMessage.Param).Length);
-        Assert.Equal(MapFieldMsgParams.Arity, ((Span<MsgArg>)fieldMessage.Param).Length);
-        Assert.Equal(typeof(MsgArg), typeof(EMsg).GetField(nameof(EMsg.Payload))!.FieldType);
-        Assert.Equal(typeof(MsgArg), typeof(MapFieldMsg).GetField(nameof(MapFieldMsg.Result))!.FieldType);
+        Assert.Equal(3, EngineMessageParameters.Arity);
+        Assert.Equal(4, MapFieldMessageParameters.Arity);
+        EngineMessage engineMessage = default;
+        MapFieldMessage fieldMessage = default;
+        Assert.Equal(EngineMessageParameters.Arity, ((Span<MsgArg>)engineMessage.Param).Length);
+        Assert.Equal(MapFieldMessageParameters.Arity, ((Span<MsgArg>)fieldMessage.Param).Length);
+        Assert.Equal(typeof(MsgArg), typeof(EngineMessage).GetField(nameof(EngineMessage.Payload))!.FieldType);
+        Assert.Equal(typeof(MsgArg), typeof(MapFieldMessage).GetField(nameof(MapFieldMessage.Result))!.FieldType);
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public sealed class MessageSlotTests
         var control = new object();
         // No answer: every handler runs.
         var (field, handlers) = Field(None, None, None);
-        MapFieldMsg message = default;
+        MapFieldMessage message = default;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
         Assert.Same(field, message.MapField);
@@ -108,13 +108,13 @@ public sealed class MessageSlotTests
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
         using GameEngine engine = new GameEngine(null!);
-        EMsg message = default;
-        EMsg.InitMsg(ref message, 0x20000008, engine);
+        EngineMessage message = default;
+        EngineMessage.InitMsg(ref message, 0x20000008, engine);
         message.Payload = engine;
         Assert.Same(engine, message.Payload.As<GameEngine>());
         Assert.Throws<InvalidCastException>(() => message.Payload.Int);
         Assert.Equal(-1, message.Result);
-        EMsg.InitMsg(ref message, 0x20020002, engine);
+        EngineMessage.InitMsg(ref message, 0x20020002, engine);
         Assert.False(message.Payload.HasValue);
         message.Payload = 5;
         Assert.Equal(5, (sbyte)message.Payload.Int);
@@ -125,15 +125,15 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheFirstParameterCarriesAnArmyOrADistance()
     {
-        var army = new ArmyHS(null!);
-        ArmyHS? placed = null;
+        var army = new ArmyHexSprite(null!);
+        ArmyHexSprite? placed = null;
         int distance = -1;
         var (field, _) = Field((ref m) =>
         {
-            if (m.MsgID == 0x1102) placed = m.Param[0].As<ArmyHS>();
+            if (m.MsgID == 0x1102) placed = m.Param[0].As<ArmyHexSprite>();
             else if (m.MsgID == 0x110a) distance = m.Param[0].Int;
         });
-        MapFieldMsg message = default;
+        MapFieldMessage message = default;
         message.MsgID = 0x1102;
         message.Param[0] = army;
         field.SendMapFieldMsg(ref message);
@@ -144,7 +144,7 @@ public sealed class MessageSlotTests
         message.Param[0] = 4;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(4, distance);
-        Assert.Null(message.Param[0].As<ArmyHS>());
+        Assert.Null(message.Param[0].As<ArmyHexSprite>());
     }
 
     // TMapFieldMsg.Param[1]: 0x1127 carries the defense requirements query, 0x1101 the move action.
@@ -157,7 +157,7 @@ public sealed class MessageSlotTests
             if (m.MsgID == 0x1127) m.Param[1].As<DefenseRequirementsQuery>()!.Requirements.Strength = 9;
             else if (m.MsgID == 0x1101) m.Param[1] = m.Param[1].Int + 2;
         });
-        MapFieldMsg message = default;
+        MapFieldMessage message = default;
         message.MsgID = 0x1127;
         message.Param[0] = 1;
         message.Param[1] = query;
@@ -182,7 +182,7 @@ public sealed class MessageSlotTests
             if (m.MsgID == 0x1151) m.Param[2].As<StormDamageQuery>()!.Info.Player = 7;
             else if (m.MsgID == 0x1150) player = (sbyte)m.Param[2].Int;
         });
-        MapFieldMsg message = default;
+        MapFieldMessage message = default;
         message.MsgID = 0x1151;
         message.Param[2] = query;
         field.SendMapFieldMsg(ref message);
@@ -206,7 +206,7 @@ public sealed class MessageSlotTests
             if (m.MsgID == 0x1201) m.Result = control;
             else if (m.MsgID == 0x1100) m.Result = 2;
         }, None);
-        MapFieldMsg message = default;
+        MapFieldMessage message = default;
         message.MsgID = 0x1201;
         message.Result = 0;
         field.SendMapFieldMsg(ref message);
@@ -227,9 +227,9 @@ public sealed class MessageSlotTests
     [Fact]
     public void NoStorageMethodTakesAMessageRecord()
     {
-        Type[] message = [typeof(EMsg), typeof(MapFieldMsg), typeof(EMsgParams), typeof(MapFieldMsgParams), typeof(MsgArg)];
+        Type[] message = [typeof(EngineMessage), typeof(MapFieldMessage), typeof(EngineMessageParameters), typeof(MapFieldMessageParameters), typeof(MsgArg)];
         var found = new List<string>();
-        foreach (var type in typeof(EMsg).Assembly.GetTypes().Concat(typeof(MsgArg).Assembly.GetTypes()))
+        foreach (var type in typeof(EngineMessage).Assembly.GetTypes().Concat(typeof(MsgArg).Assembly.GetTypes()))
             foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
             {
                 if (!method.Name.StartsWith("rw", StringComparison.Ordinal) && !method.Name.StartsWith("Read", StringComparison.Ordinal)

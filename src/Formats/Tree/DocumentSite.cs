@@ -8,7 +8,7 @@ namespace Aow.Formats.Tree;
 internal sealed class DocumentSite
 {
     public SchemaProperty? Property { get; init; }
-    public required DocPath Path { get; init; }
+    public required DocumentNodePath Path { get; init; }
     public required FormatSchema Schema { get; init; }
     public required string Engine { get; init; }
     public required EncodeContext Context { get; init; }
@@ -27,7 +27,7 @@ internal sealed class DocumentSite
         Owner = Owner,
     };
 
-    public DocumentSite At(DocPath path, bool element) => new()
+    public DocumentSite At(DocumentNodePath path, bool element) => new()
     {
         Property = Property,
         Path = path,

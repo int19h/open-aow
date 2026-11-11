@@ -2,7 +2,7 @@ using Aow.Engine.Storage;
 using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Ui.Controls;
+using Aow.Game.UI.Controls;
 using Aow.Platform;
 
 namespace Aow.Game.Tests;
@@ -17,7 +17,7 @@ public sealed class TypedNameRoundTripTests
     public void TypedLeaderNameKeepsItsBytesThroughSaveAndLoad()
     {
         var font = new ImageLibraryFont(null!);
-        var edit = new AOWEdit(null!) { FAOWFont = font, FValid = true, FRedraw = true, FVisible = true, FWinWidth = 10000, FFirstChar = 1 };
+        var edit = new Edit(null!) { FAOWFont = font, FValid = true, FRedraw = true, FVisible = true, FWinWidth = 10000, FFirstChar = 1 };
         Leader source = null!, loaded = null!;
         try
         {
@@ -60,7 +60,7 @@ public sealed class TypedNameRoundTripTests
         return memory.ToArray();
     }
 
-    private sealed class Keyboard(AOWEdit edit) : IDisplayEvents
+    private sealed class Keyboard(Edit edit) : IDisplayEvents
     {
         public void KeyPress(byte value) => edit.CheckKeyPress(ref value);
 

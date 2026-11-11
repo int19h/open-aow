@@ -7,14 +7,14 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ConstructionControl : EObject
+public partial class ConstructionControl : EngineObject
 {
 
     public ConstructionControl(ECustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:5494
-    public virtual void GetInfo(AbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
+    public virtual void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
     {
         Text = "";
         Gold = 0;
@@ -22,7 +22,7 @@ public partial class ConstructionControl : EObject
     }
 
     // AoWAb.PAS:5500
-    public virtual bool CanConstruct(AbstractUnit AUnit, ref string Reason)
+    public virtual bool CanConstruct(Troop AUnit, ref string Reason)
     {
         bool Result;
         int Gold = default;
@@ -43,7 +43,7 @@ public partial class ConstructionControl : EObject
     }
 
     // AoWAb.PAS:5513
-    public virtual bool Construct(AbstractUnit AUnit) => false;
+    public virtual bool Construct(Troop AUnit) => false;
 
     // AoWAb.PAS:5517
     public virtual int ID() => 0;

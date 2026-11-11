@@ -12,7 +12,7 @@ public class LayoutVideoPlayer : VideoPlayer
 
     public VideoPlayerLoopMode Loopmode { get; set; }
     public StreamSoundEvent OnStreamSound { get; set; }
-    public Set<VideoPlayerOptions_Element> Options { get; set; }
+    public Set<VideoPlayerOptionsElement> Options { get; set; }
 
     public enum VideoPlayerLoopMode
     {

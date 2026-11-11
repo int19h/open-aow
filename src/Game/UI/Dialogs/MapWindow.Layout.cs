@@ -1,0 +1,106 @@
+// Layout translated from recovered Delphi forms.
+#nullable disable
+using Aow.Game.Layout;
+using Aow.Game.UI.Controls;
+using Aow.Game.UI.Windows;
+using Aow.Game.World.Map;
+
+namespace Aow.Game.UI.Dialogs;
+
+public partial class MapWindow : ILayoutModule
+{
+    public void InitializeComponent()
+    {
+        InitializeComponent(LayoutSession.Default);
+    }
+
+    public void InitializeComponent(LayoutSession session)
+    {
+        session.Begin(this);
+        Name = "MWindow";
+        LayoutOnCreate = _ => Layout_MWindowCreate_0();
+        MainWindow = new Window(this);
+        session.BeginRead(MainWindow);
+        MainWindow.Name = "MapWindow";
+        MainWindow.OnMouseDown = (_, button, shift, x, y) => MapWindowMouseDown(button, shift, x, y);
+        MainWindow.OnMouseUp = (_, button, shift, x, y) => MapWindowMouseUp(button, shift, x, y);
+        MainWindow.OnMouseMove = (_, shift, x, y) => MapWindowMouseMove(shift, x, y);
+        MainWindow.OnKeyDown = MapWindowKeyDown;
+        MainWindow.OnUpdate = _ => Layout_MapWindowUpdate_5();
+        MainWindow.Visible = false;
+        MainWindow.Priority = 0;
+        MainWindow.WinLeft = 0;
+        MainWindow.WinTop = 0;
+        MainWindow.WinWidth = 440;
+        MainWindow.OnExit = _ => MapWindowExit();
+        MainWindow.Masked = false;
+        MainWindow.Alignment.AlignWidth = AlignWidth.Left;
+        MainWindow.Alignment.AlignHeight = AlignHeight.Top;
+        MainWindow.Alignment.HeightPercent = 0;
+        MainWindow.Alignment.WidthPercent = 0;
+        MainWindow.Alignment.LeftOffPercent = 0;
+        MainWindow.Alignment.RightOffPercent = 0;
+        MainWindow.Alignment.TopOffPercent = 0;
+        MainWindow.Alignment.BottomOffPercent = 0;
+        MainWindow.Alignment.LeftOffset = 0;
+        MainWindow.Alignment.RightOffset = 0;
+        MainWindow.Alignment.TopOffset = 0;
+        MainWindow.Alignment.BottomOffset = 0;
+        MainWindow.UseVMem = true;
+        MainWindow.BorderWidth = 11;
+        MainWindow.BorderHeight = 11;
+        MainWindow.OverlapTopCorners = false;
+        MainWindow.Cursor = 0;
+        MainWindow.DoubleBuffered = false;
+        MainWindow.MaskColor = 0;
+        MainWindow.OnPreDrawSurface = (_, Surface, Left, Top) => MapWindowPreDrawSurface(Surface, Left, Top);
+        MainWindow.FreeSurfaceOnHide = false;
+        MainWindow.ILIndexFrame = 8;
+        MainWindow.ILIndexTexture = 0;
+        MainWindow.DragHeight = 0;
+        MainWindow.Draggable = false;
+        MainWindow.Resizable = true;
+        MainWindow.OnResize = _ => Layout_MapWindowResize_6();
+        MainWindow.MinWidth = 200;
+        MainWindow.MinHeight = 200;
+        MainWindow.MaxWidth = 0;
+        MainWindow.MaxHeight = 0;
+        MainWindow.UseManagerBorders = true;
+        MainWindow.Modal = false;
+        MainWindow.WinHeight = 432;
+        MainWindow.Dockable = false;
+        session.EndRead(MainWindow);
+        MapViewer = new HexSpriteMapViewer(this);
+        session.BeginRead(MapViewer);
+        MapViewer.Name = "MapViewer";
+        MapViewer.OnSceneChanged = _ => Layout_MapViewerSceneChanged_7();
+        session.EndRead(MapViewer);
+        session.EndRead(this);
+        Loaded();
+        MainWindow.Loaded();
+        MapViewer.Loaded();
+        session.Resolve(this);
+        if (session.FireCreateEvents)
+            LayoutOnCreate?.Invoke(this);
+    }
+
+    private void Layout_MWindowCreate_0()
+    {
+        MWindowCreate();
+    }
+
+    private void Layout_MapWindowUpdate_5()
+    {
+        MapWindowUpdate();
+    }
+
+    private void Layout_MapWindowResize_6()
+    {
+        MapWindowResize();
+    }
+
+    private void Layout_MapViewerSceneChanged_7()
+    {
+        MapViewerSceneChanged();
+    }
+}

@@ -9,7 +9,7 @@ public partial class AbstractRoadResource : MapObjectResource
     { }
 
     // MAPOBJ.PAS:874
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 65556)

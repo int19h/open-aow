@@ -15,7 +15,7 @@ internal static class PilotImage
         var cls = schema.Get(className);
         var ctx = new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts());
         var obj = new JsonObject();
-        ObjectImage.Decode(ctx, 0, image.Length, cls, DocPath.Root, obj);
+        ObjectImage.Decode(ctx, 0, image.Length, cls, DocumentNodePath.Root, obj);
         return obj;
     }
 
@@ -25,7 +25,7 @@ internal static class PilotImage
         var cls = schema.Get(className);
         var ctx = new EncodeContext(schema, engine, engine, null, FormatLimits.Default, ExportOptions.Default);
         var output = new ByteBuffer();
-        ObjectImage.Encode(ctx, obj, cls, output, DocPath.Root, "$class", "$slot");
+        ObjectImage.Encode(ctx, obj, cls, output, DocumentNodePath.Root, "$class", "$slot");
         return output.ToArray();
     }
 }

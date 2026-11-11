@@ -10,7 +10,7 @@ public partial class RaceResourceList : EResourceList
     // PlayerC.PAS:1890
     public RaceResourceList(ECustomNode owner) : base(owner)
     {
-        SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, EControlStyleElement.ArrayMode));
+        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }
 
     // PlayerC.PAS:1896

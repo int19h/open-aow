@@ -29,7 +29,7 @@ public partial class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:377
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string Reason = "";
@@ -51,7 +51,7 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:288
     public virtual void OnTargetSelectionChange(TargetSelectionControl TargetSelection)
     {
-        AbstractUnit Source = default;
+        Troop Source = default;
         bool Valid = default;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FSourceID);
         if (Source != null)
@@ -84,18 +84,18 @@ public partial class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:215
-    public virtual void PlayDefaultCityEffects(AbstractUnit Source, City TargetCity)
+    public virtual void PlayDefaultCityEffects(Troop Source, City TargetCity)
     {
         MapLevel Level;
         ImageSequenceAnimation A;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool PlaySound;
         PlaySound = false;
         var lhx = TargetCity.GetLhx();
         Level = AoWHSMap.Current.MapContainer.GetMapLevel(lhx);
         var yhx = TargetCity.GetYhx();
         var xhx = TargetCity.GetXhx();
-        HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
         while (Walk.HN < TargetCity.Resource.TerrainList.Count)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height && TargetCity.Resource.TerrainList.Used[Walk.HN])
@@ -130,7 +130,7 @@ public partial class CityTargetSpell : Spell
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         if (PlaySound)
@@ -140,7 +140,7 @@ public partial class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:323
-    public virtual void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public virtual void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -170,10 +170,10 @@ public partial class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:359
-    public virtual bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public virtual bool TargetSelected(Troop Source, int X, int Y, int L)
     {
         bool Result;
-        CityTargetSpellTE Event;
+        CityTargetSpellTokenEvent Event;
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
             Event = CreateTE();
@@ -198,7 +198,7 @@ public partial class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:248
-    public virtual bool ValidTargetCity(AbstractUnit Source, City TargetCity)
+    public virtual bool ValidTargetCity(Troop Source, City TargetCity)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -217,10 +217,10 @@ public partial class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:346
-    public virtual CityTargetSpellTE CreateTE() => new CityTargetSpellTE(null);
+    public virtual CityTargetSpellTokenEvent CreateTE() => new CityTargetSpellTokenEvent(null);
 
     // CitySpells.pas:351
-    public virtual bool SetupTE(CityTargetSpellTE Event, AbstractUnit Source, int X, int Y, int L)
+    public virtual bool SetupTE(CityTargetSpellTokenEvent Event, Troop Source, int X, int Y, int L)
     {
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
@@ -231,7 +231,7 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:262
     public void ValidateTarget(TargetSelectionControl TargetSelection, sbyte X, sbyte Y, sbyte L, ref bool Valid)
     {
-        AbstractUnit Source;
+        Troop Source;
         MapLevel Level;
         AoWMapField Field;
         City TargetCity;

@@ -25,7 +25,7 @@ public partial class FireStorm : Storm
     public new const int ClassID = 135742;
 
     // Storms.pas:527
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;

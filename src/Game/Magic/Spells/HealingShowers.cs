@@ -23,7 +23,7 @@ public partial class HealingShowers : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:2295
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         TargetSelectionControl Target;
         Target = TargetSelection;
@@ -36,10 +36,10 @@ public partial class HealingShowers : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:2308
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
-        HealingShowersTE Event;
-        Event = new HealingShowersTE(null);
+        HealingShowersTokenEvent Event;
+        Event = new HealingShowersTokenEvent(null);
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);

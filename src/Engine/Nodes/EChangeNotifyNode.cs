@@ -18,11 +18,11 @@ public partial class EChangeNotifyNode : ECustomNode
 
     public EChangeNotifyNode(ECustomNode owner) : base(owner)
     {
-        FChildren = new EObjectList();
+        FChildren = new EngineObjectList();
         FUpdateCount = 0;
     }
 
-    public EObjectList FChildren;
+    public EngineObjectList FChildren;
     internal int FUpdateCount;
 
     // Engine.pas:7212
@@ -38,11 +38,11 @@ public partial class EChangeNotifyNode : ECustomNode
     public override void Clear()
     {
         int I;
-        EObject C;
+        EngineObject C;
         I = Count - 1;
         for (; I >= 0; I -= 1)
         {
-            C = (EObject)FChildren.List[I];
+            C = (EngineObject)FChildren.List[I];
             if (C != null && C.Owner == this)
             {
                 if (!C.GetControlStyle().Contains(EngineServices.csShared))
@@ -59,7 +59,7 @@ public partial class EChangeNotifyNode : ECustomNode
         I = Count - 1;
         for (; I >= 0; I -= 1)
         {
-            C = (EObject)FChildren.List[I];
+            C = (EngineObject)FChildren.List[I];
             if (C != null)
             {
                 if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.csShared)))
@@ -83,10 +83,10 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:7251
-    public override EObject GetChild(int Index) => (EObject)FChildren.List[Index];
+    public override EngineObject GetChild(int Index) => (EngineObject)FChildren.List[Index];
 
     // Engine.pas:7256
-    public override void SetChild(int Index, EObject Child)
+    public override void SetChild(int Index, EngineObject Child)
     {
         while (Index >= Count)
         {
@@ -101,7 +101,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:7263
-    public override void Assign(EObject Source, GameEngine AEngine)
+    public override void Assign(EngineObject Source, GameEngine AEngine)
     {
         BeginUpdate();
         base.Assign(Source, AEngine);
@@ -859,7 +859,7 @@ public partial class EChangeNotifyNode : ECustomNode
     public override int GetCount() => FChildren.Count;
 
     // Engine.pas:7983
-    public override void SendMsg(ref EMsg Msg, EObject Sender)
+    public override void SendMsg(ref EngineMessage Msg, EngineObject Sender)
     {
         var children = FChildren;
         if (GetControlStyle().Contains(EngineServices.csKeepIndex))
@@ -872,7 +872,7 @@ public partial class EChangeNotifyNode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EObject)children.List[I];
+                            var node = (EngineObject)children.List[I];
                             if (node.GetLastMsg() != Msg.Seq)
                             {
                                 node.SetLastMsg(Msg.Seq);
@@ -887,7 +887,7 @@ public partial class EChangeNotifyNode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EObject)children[I];
+                            var node = (EngineObject)children[I];
                             if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
                             {
                                 node.SetLastMsg(Msg.Seq);
@@ -905,7 +905,7 @@ public partial class EChangeNotifyNode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EObject)children.List[I];
+                            var node = (EngineObject)children.List[I];
                             node.MsgProc(ref Msg, this);
                         }
                     }
@@ -916,7 +916,7 @@ public partial class EChangeNotifyNode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EObject)children[I];
+                            var node = (EngineObject)children[I];
                             if (node.Owner == this)
                             {
                                 node.MsgProc(ref Msg, this);
@@ -934,7 +934,7 @@ public partial class EChangeNotifyNode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EObject)children.List[I];
+                        var node = (EngineObject)children.List[I];
                         if (node.GetLastMsg() != Msg.Seq)
                         {
                             node.SetLastMsg(Msg.Seq);
@@ -946,7 +946,7 @@ public partial class EChangeNotifyNode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EObject)children[I];
+                        var node = (EngineObject)children[I];
                         if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
                         {
                             node.SetLastMsg(Msg.Seq);
@@ -961,7 +961,7 @@ public partial class EChangeNotifyNode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EObject)children.List[I];
+                        var node = (EngineObject)children.List[I];
                         node.MsgProc(ref Msg, this);
                     }
                 }
@@ -969,7 +969,7 @@ public partial class EChangeNotifyNode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EObject)children[I];
+                        var node = (EngineObject)children[I];
                         if (node.Owner == this)
                         {
                             node.MsgProc(ref Msg, this);
@@ -981,7 +981,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:8080
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         int Result;
         if (GetControlStyle().Contains(EngineServices.csKeepIndex))
@@ -1006,7 +1006,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:8092
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         FChildren.Add(Child);
         if (FUpdateCount == 0)
@@ -1018,18 +1018,18 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:8099
-    public override EObject FindChild(int AClassID)
+    public override EngineObject FindChild(int AClassID)
     {
-        EObject Result;
+        EngineObject Result;
         int I;
         bool Found;
-        EObject C;
+        EngineObject C;
         I = 0;
         Found = false;
         C = null;
         while (!Found && I < FChildren.Count)
         {
-            C = (EObject)FChildren.List[I];
+            C = (EngineObject)FChildren.List[I];
             Found = C != null && AClassID == C.EClass.ClassID;
             I += 1;
         }
@@ -1047,7 +1047,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:8117
-    public override int FindChildIndex(EObject Child)
+    public override int FindChildIndex(EngineObject Child)
     {
         int Result = Count - 1;
         while (Result >= 0 && Child != FChildren.List[Result])

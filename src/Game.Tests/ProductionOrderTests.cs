@@ -67,11 +67,11 @@ public sealed class ProductionOrderTests
         if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-        engine.RegisterEClasses([EClass.Of<ProductionItem>(), EClass.Of<ProductionTE>()]);
+        engine.RegisterEClasses([EngineClass.Of<ProductionItem>(), EngineClass.Of<ProductionTokenEvent>()]);
         return engine;
     }
 
-    private static string Write(GameEngine engine, EObject value)
+    private static string Write(GameEngine engine, EngineObject value)
     {
         using var memory = new MemoryStream();
         var writer = new EWriteStorageStream(memory, engine, false);
@@ -80,10 +80,10 @@ public sealed class ProductionOrderTests
         return Hex(memory);
     }
 
-    private static T Read<T>(GameEngine engine, string hex) where T : EObject
+    private static T Read<T>(GameEngine engine, string hex) where T : EngineObject
     {
         using var memory = Memory(hex);
-        EObject result = null!;
+        EngineObject result = null!;
         using (var reader = new EReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, null!, 7); }
         return Assert.IsType<T>(result);
     }
@@ -103,7 +103,7 @@ public sealed class ProductionOrderTests
             Assert.Equal(ItemBytes, Write(engine, item));
             item.Dispose();
 
-            var te = new ProductionTE(null!) { FX = 3, FY = 4, FL = 1, FPlayer = 2, FQueue = true, FIndex = 1 };
+            var te = new ProductionTokenEvent(null!) { FX = 3, FY = 4, FL = 1, FPlayer = 2, FQueue = true, FIndex = 1 };
             te.FItem = new ProductionItem(null!) { Order = Expected(Id, Parameter, GroupId) };
             Assert.Equal(EventBytes, Write(engine, te));
             te.Dispose();
@@ -113,7 +113,7 @@ public sealed class ProductionOrderTests
             Assert.Equal(ItemBytes, Write(engine, loaded));
             loaded.Dispose();
 
-            var loadedEvent = Read<ProductionTE>(engine, EventBytes);
+            var loadedEvent = Read<ProductionTokenEvent>(engine, EventBytes);
             Assert.Equal(Expected(Id, Parameter, GroupId), loadedEvent.FItem.Order);
             Assert.Equal(EventBytes, Write(engine, loadedEvent));
             loadedEvent.Dispose();
@@ -271,9 +271,9 @@ public sealed class ProductionOrderTests
         var map = new AoWHSMap(null!);
         AoWHSMap.Current = map;
         var owner = new EngineFixture.Owner();
-        var city = (City)EClass.Of<City>().Create(owner);
-        var guild = (BuildersGuild)EClass.Of<BuildersGuild>().Create(owner);
-        var node = (LifeNode)EClass.Of<LifeNode>().Create(owner);
+        var city = (City)EngineClass.Of<City>().Create(owner);
+        var guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().Create(owner);
+        var node = (LifeNode)EngineClass.Of<LifeNode>().Create(owner);
         try
         {
             ProductionControl[] controls = [city.FProduction, guild.FProductionControl, node.FProductionControl];

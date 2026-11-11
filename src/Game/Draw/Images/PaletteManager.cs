@@ -82,7 +82,7 @@ public partial class PaletteManager : IDisposable
     }
 
     // ImageLib.pas:7039
-    public LibraryImagePalette RegisterPalette(GFXEPalette Palette)
+    public LibraryImagePalette RegisterPalette(Palette Palette)
     {
         LibraryImagePalette Result;
         int I;

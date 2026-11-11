@@ -5,7 +5,7 @@ using Aow.Engine.Storage;
 namespace Aow.Game.Session;
 
 // turn info, units killed, units lost
-public partial class PlayerStatistics : EObject
+public partial class PlayerStatistics : EngineObject
 {
     // Player.PAS:182
     public PlayerStatistics(ECustomNode owner) : base(owner)

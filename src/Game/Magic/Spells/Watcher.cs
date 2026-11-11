@@ -23,7 +23,7 @@ public partial class Watcher : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1523
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         base.SetupTargetSelection(Source, TargetSelection);
         TargetSelection.FTargetMode = Set<TargetSelectionModeElement>.FromMask(TargetSelection.FTargetMode.Mask) - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
@@ -31,13 +31,13 @@ public partial class Watcher : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1506
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
         bool Result;
-        WatcherTE Event;
+        WatcherTokenEvent Event;
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new WatcherTE(null);
+            Event = new WatcherTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);

@@ -30,8 +30,8 @@ public partial class Entangle : CombatSpell
     // CombatSpells.pas:1368
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        EntangleSpellCA Action;
-        Action = new EntangleSpellCA(null);
+        EntangleSpellCombatAction Action;
+        Action = new EntangleSpellCombatAction(null);
         Action.FSourceID = Source.FID;
         Action.FTargetID = Target.FID;
         Action.FSpellID = FSpellID;

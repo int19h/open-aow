@@ -19,7 +19,7 @@ public partial class GoldRush : CityEnchantmentSpell
         FBaseManaCost = 1;
         FSpellLevel = 4;
         FMagicSphere = MagicSphere.Water;
-        FEnchantmentID = CityEnchantmentID.GoldRush;
+        FEnchantmentID = CityEnchantmentId.GoldRush;
         FCastDuration = 20;
         FAIPriority = 500;
         FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City);

@@ -110,11 +110,11 @@ public sealed class BlitterTests
 
     #endregion
 
-    private static readonly GFXEPalette Palette = MakePalette();
+    private static readonly Palette Palette = MakePalette();
 
-    private static GFXEPalette MakePalette()
+    private static Palette MakePalette()
     {
-        var palette = new GFXEPalette();
+        var palette = new Palette();
         var random = new Random(9);
         for (int i = 0; i < 256; i++)
         {

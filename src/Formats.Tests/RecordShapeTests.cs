@@ -48,8 +48,8 @@ public sealed class RecordShapeTests : FormatsTest
         var cls = schema.Get("THolder");
         var source = new Holder
         {
-            Behavior = new TSampleBehavior { PlayerType = 2, Flags = 9 },
-            Marks = new TSamplePacked { Value = Set<TSampleRank>.FromMask(0x81) },
+            Behavior = new SampleBehavior { PlayerType = 2, Flags = 9 },
+            Marks = new SamplePacked { Value = Set<SampleRank>.FromMask(0x81) },
             AbCount = 4,
             Bits = [0x81],
             Raw = 0,
@@ -74,7 +74,7 @@ public sealed class RecordShapeTests : FormatsTest
         Assert.Equal(0, ((JsonInteger)document["Raw"]!).Value);
         Assert.Equal(-1, ((JsonInteger)document["Signed"]!).Value);
         Assert.Equal(0, ((JsonInteger)document["Wide"]!).Value);
-        Assert.False(((JsonBool)document["Flag"]!).Value);
+        Assert.False(((JsonBoolean)document["Flag"]!).Value);
 
         var image = OriginalBackend.Write(node, cls, schema, "game");
         var back = DocumentBackend.Write(OriginalBackend.Read(image, cls, schema, "game"), cls, schema, "game");
@@ -100,7 +100,7 @@ public sealed class RecordShapeTests : FormatsTest
     {
         var schema = Sample;
         var cls = schema.Get("THolder");
-        var source = new Holder { AbCount = 8, Bits = new byte[1], Marks = new TSamplePacked { Value = Set<TSampleRank>.FromMask(0) } };
+        var source = new Holder { AbCount = 8, Bits = new byte[1], Marks = new SamplePacked { Value = Set<SampleRank>.FromMask(0) } };
         var document = DocumentBackend.Write(TreeWriter.Write(source, Factory), cls, schema, "game");
         Assert.Empty(((JsonObject)document["Behavior"]!).Members);
         Assert.Empty(((JsonArray)document["Marks"]!).Items);
@@ -122,7 +122,7 @@ public sealed class RecordShapeTests : FormatsTest
     {
         var schema = Sample;
         var document = new JsonObject().Add("Behavior", new JsonObject().Add("PlayerType", new JsonInteger(2)));
-        var loaded = new Holder { Behavior = new TSampleBehavior { PlayerType = 9, Flags = 9 } };
+        var loaded = new Holder { Behavior = new SampleBehavior { PlayerType = 9, Flags = 9 } };
         Poke(ref loaded.Behavior, 1, 7);
         TreeReader.Read(DocumentBackend.Read(document, schema.Get("THolder"), schema, "game"), loaded, Factory);
         Assert.Equal(2, loaded.Behavior.PlayerType);
@@ -216,13 +216,13 @@ public sealed class RecordShapeTests : FormatsTest
         var cls = schema.Get("THolder");
         var behavior = cls.PropertyByName("Behavior")!;
         var shortRecord = new DecodeContext(new byte[7], schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
-        var recordSite = new ValueSite { Property = behavior, Id = behavior.Id ?? 0, Path = DocPath.Root.Member("Behavior"), Owner = new JsonObject() };
+        var recordSite = new ValueSite { Property = behavior, Id = behavior.Id ?? 0, Path = DocumentNodePath.Root.Member("Behavior"), Owner = new JsonObject() };
         var size = Assert.Throws<ConversionException>(() => behavior.Codec.Decode(shortRecord, 0, 7, recordSite));
         Assert.Equal(Codes.Corrupt, size.Diagnostic.Code);
         var bits = cls.PropertyByName("Bits")!;
         var owner = new JsonObject().Add("AbCount", new JsonInteger(8));
         var shortBits = new DecodeContext(new byte[2], schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
-        var bitSite = new ValueSite { Property = bits, Id = bits.Id ?? 0, Path = DocPath.Root.Member("Bits"), Owner = owner };
+        var bitSite = new ValueSite { Property = bits, Id = bits.Id ?? 0, Path = DocumentNodePath.Root.Member("Bits"), Owner = owner };
         var length = Assert.Throws<ConversionException>(() => bits.Codec.Decode(shortBits, 0, 2, bitSite));
         Assert.Equal(Codes.Range, length.Diagnostic.Code);
     }
@@ -302,7 +302,7 @@ public sealed class RecordShapeTests : FormatsTest
         {
             var bytes = new byte[4];
             BinaryPrimitives.WriteUInt32LittleEndian(bytes, number);
-            var site = new ValueSite { Property = property, Id = property.Id ?? 0, Path = DocPath.Root.Member("Value").Member("U32"), Owner = new JsonObject() };
+            var site = new ValueSite { Property = property, Id = property.Id ?? 0, Path = DocumentNodePath.Root.Member("Value").Member("U32"), Owner = new JsonObject() };
             var decoded = codec.Decode(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts()), 0, 4, site);
             Assert.Equal((long)number, ((JsonInteger)decoded).Value);
             var encode = new EncodeContext(schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
@@ -337,7 +337,7 @@ public sealed class RecordShapeTests : FormatsTest
     {
         var source = new WidthHolder
         {
-            Value = new TEveryWidth { U8 = 255, I8 = sbyte.MinValue, U16 = ushort.MaxValue, I16 = short.MinValue, U32 = uint.MaxValue, I32 = int.MinValue },
+            Value = new EveryWidth { U8 = 255, I8 = sbyte.MinValue, U16 = ushort.MaxValue, I16 = short.MinValue, U32 = uint.MaxValue, I32 = int.MinValue },
         };
         var node = TreeWriter.Write(source, Factory);
         var record = (RecordNode)node.Find("Value")!;
@@ -429,7 +429,7 @@ public sealed class RecordShapeTests : FormatsTest
     {
         var schema = Sample;
         var ctx = new EncodeContext(schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
-        return Assert.Throws<ConversionException>(() => ObjectImage.Encode(ctx, document, schema.Get("THolder"), new ByteBuffer(), DocPath.Root));
+        return Assert.Throws<ConversionException>(() => ObjectImage.Encode(ctx, document, schema.Get("THolder"), new ByteBuffer(), DocumentNodePath.Root));
     }
 
     private static ConversionException Refuse(JsonObject document)
@@ -446,10 +446,10 @@ public sealed class RecordShapeTests : FormatsTest
         return new JsonObject().Add("AbCount", new JsonInteger(count)).Add("Bits", array);
     }
 
-    private static void Poke(ref TSampleBehavior value, int offset, byte stored) =>
+    private static void Poke(ref SampleBehavior value, int offset, byte stored) =>
         MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[offset] = stored;
 
-    private static byte At(TSampleBehavior value, int offset) =>
+    private static byte At(SampleBehavior value, int offset) =>
         MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[offset];
 
     private static List<object> Items(JsonValue value)
@@ -475,8 +475,8 @@ public sealed class RecordShapeTests : FormatsTest
 
     private sealed class Holder : IPersistable
     {
-        public TSampleBehavior Behavior;
-        public TSamplePacked Marks;
+        public SampleBehavior Behavior;
+        public SamplePacked Marks;
         public int AbCount;
         public byte[] Bits = [];
         public byte Raw;
@@ -501,7 +501,7 @@ public sealed class RecordShapeTests : FormatsTest
 
     private sealed class WidthHolder : IPersistable
     {
-        public TEveryWidth Value;
+        public EveryWidth Value;
 
         public void Persist(IPersister persister) => RecordValues.Transfer(persister, "Value", ref Value);
     }

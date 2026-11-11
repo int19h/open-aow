@@ -33,7 +33,7 @@ public partial class CombatUnit : CombatObject
         FUnitGFXResourceIndex = -1;
     }
 
-    public AbstractUnit FUnit;
+    public Troop FUnit;
     public CombatParty FParty;
     public bool FDisabled;
     public Set<WallCombatFeaturesElement> FWallCombatFeatures;
@@ -49,7 +49,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1382
     public override void ReadWrite(EStorageStream Stream)
     {
-        AbstractUnit U = default;
+        Troop U = default;
         base.ReadWrite(Stream);
         if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
@@ -71,7 +71,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1408
     public override void GetTargetCVDV(CombatObject Target, ref int CV, ref int DV)
     {
-        AbstractUnit U;
+        Troop U;
         AbilityTypeList Abilities;
         AbilityDamageValues Values = default;
         int V;
@@ -285,7 +285,7 @@ public partial class CombatUnit : CombatObject
     {
         int Result;
         int Level;
-        AbstractUnit U;
+        Troop U;
         U = FUnit;
         if (U != null)
         {
@@ -377,7 +377,7 @@ public partial class CombatUnit : CombatObject
     public override void ObjectDestroyed(CombatObject Obj)
     {
         CombatUnit C;
-        AbstractUnit U;
+        Troop U;
         base.ObjectDestroyed(Obj);
         if (FDisabled && Obj is CombatUnit)
         {
@@ -404,7 +404,7 @@ public partial class CombatUnit : CombatObject
     public override void Finalize(FinalizeMode Mode)
     {
         CombatParty Party;
-        ArmyHS Placed;
+        ArmyHexSprite Placed;
         if (!FStatus.Contains(CombatObjectStatusElement.Destroyed) && !FUnit.GetAbilityEnabled(130) && !FUnit.GetAbilityEnabled(131))
         {
             if (Mode != FinalizeMode.All)
@@ -478,7 +478,7 @@ public partial class CombatUnit : CombatObject
     public override bool SupportCombatMode(Set<CombatMode> Modes)
     {
         bool Result;
-        AbstractUnit U;
+        Troop U;
         int I;
         U = FUnit;
         if (U != null && U.GetHitPoints() > 0)
@@ -533,7 +533,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1115
     public override void NewTurn(byte CombatPlayer)
     {
-        AbstractUnit U;
+        Troop U;
         base.NewTurn(CombatPlayer);
         U = FUnit;
         if (U != null)
@@ -551,7 +551,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1127
     public override void CombatDone()
     {
-        AbstractUnit U;
+        Troop U;
         base.CombatDone();
         U = FUnit;
         if (U != null)
@@ -561,10 +561,10 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1604
-    public override void Show(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public override void Show(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
-        AbstractUnit U;
-        P2UnitShowInfo Info = default;
+        Troop U;
+        UnitShowInfo Info = default;
         U = FUnit;
         if (U != null)
         {
@@ -591,10 +591,10 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1628
-    public override int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public override int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         int Result;
-        P2UnitShowInfo Info = default;
+        UnitShowInfo Info = default;
         // { Direct field receiver. }
         if (FUnit != null)
         {
@@ -614,10 +614,10 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1644
-    public override int ShowHitAnimation(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public override int ShowHitAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         int Result;
-        P2UnitShowInfo Info = default;
+        UnitShowInfo Info = default;
         // { Direct field receiver. }
         if (FUnit != null)
         {
@@ -664,7 +664,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1525
     public override void DestroyObject()
     {
-        AbstractUnit U;
+        Troop U;
         if (GetHitPoints() != 0)
         {
             SetHitPoints(0);
@@ -729,9 +729,9 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1358
-    public virtual void SetUnit(AbstractUnit AUnit)
+    public virtual void SetUnit(Troop AUnit)
     {
-        AbstractUnit U;
+        Troop U;
         CombatParty Party;
         U = FUnit;
         if (U != AUnit)
@@ -773,7 +773,7 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1087
-    public void Setup(byte ID, byte Side, AbstractUnit AUnit, byte Position, byte CombatPlayer)
+    public void Setup(byte ID, byte Side, Troop AUnit, byte Position, byte CombatPlayer)
     {
         FID = ID;
         FPosition = Position;
@@ -784,7 +784,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1164
     public void UpdateWallCombatFeatures()
     {
-        AbstractUnit U;
+        Troop U;
         U = FUnit;
         if (U != null && !FStatus.Contains(CombatObjectStatusElement.Destroyed))
         {
@@ -845,7 +845,7 @@ public partial class CombatUnit : CombatObject
     public void UpdateUnitGFXResource()
     {
         int Index;
-        AbstractUnit U;
+        Troop U;
         U = FUnit;
         if (U != null)
         {

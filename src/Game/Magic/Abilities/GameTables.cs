@@ -21,9 +21,9 @@ public static class GameTables
         return AoWEngine != null;
     }
 
-    internal static FixedArray_string_9 TMagicSphereRStr = FixedArray_string_9.From([]);
+    internal static StringArray9 TMagicSphereRStr = StringArray9.From([]);
 
-    internal static FixedArray_string_3 TSpellTypeRStr = FixedArray_string_3.From([]);
+    internal static StringArray3 TSpellTypeRStr = StringArray3.From([]);
 
     internal static readonly string UnknownRStr = "Unknown";
 
@@ -151,19 +151,19 @@ public static class GameTables
 
     public static GameEngine AoWEngine;
 
-    internal static FixedArray_string_5 TAbilityTypeRStr = FixedArray_string_5.From([]);
+    internal static StringArray5 TAbilityTypeRStr = StringArray5.From([]);
 
-    internal static FixedArray_string_8 TPlayerTypeRStr = FixedArray_string_8.From([]);
+    internal static StringArray8 TPlayerTypeRStr = StringArray8.From([]);
 
-    internal static FixedArray_string_6 TPlayerBehaviorRStr = FixedArray_string_6.From([]);
+    internal static StringArray6 TPlayerBehaviorRStr = StringArray6.From([]);
 
-    internal static FixedArray_string_4 TDiplomaticRelationRStr = FixedArray_string_4.From([]);
+    internal static StringArray4 TDiplomaticRelationRStr = StringArray4.From([]);
 
     internal static string[] TStatusRStr = Strings(5);
 
     internal static string[] RaceNamesPluralRStr = Strings(13);
 
-    internal static FixedArray_string_13 RaceNamesRStr = FixedArray_string_13.From([]);
+    internal static StringArray13 RaceNamesRStr = StringArray13.From([]);
 
     internal static readonly string UndeadRStr = "Undead";
 
@@ -175,9 +175,9 @@ public static class GameTables
 
     internal static readonly string EarthRStr = "Earth";
 
-    internal static FixedArray_string_7 TStormTypeRStr = FixedArray_string_7.From([NoneRStr, FireStormRStr, DeathStormRStr, DivineStormRStr, IceStormRStr, LightningStormRStr, PestilenceStormRStr]);
+    internal static StringArray7 TStormTypeRStr = StringArray7.From([NoneRStr, FireStormRStr, DeathStormRStr, DivineStormRStr, IceStormRStr, LightningStormRStr, PestilenceStormRStr]);
 
-    internal static FixedArray_float_20 P3HitProbabilities;
+    internal static SingleArray20 P3HitProbabilities;
 
     internal static readonly string P5WarRStr = "War";
 
@@ -191,7 +191,7 @@ public static class GameTables
         }
     }
 
-    internal static AbilityPlugIn AoWAbilityPlugIn;
+    internal static AbilityPlugin AoWAbilityPlugIn;
 
     internal static void Initialize()
     {
@@ -238,7 +238,7 @@ public static class GameTables
         // Original AoWE initialization
         P3InitializeHitProbabilities();
         ValidateAoWEngine();
-        AoWAbilityPlugIn = new AbilityPlugIn();
+        AoWAbilityPlugIn = new AbilityPlugin();
     }
 
     internal static void Finalize()

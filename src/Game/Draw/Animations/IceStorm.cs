@@ -21,7 +21,7 @@ public partial class IceStorm : BlastStorm
     // Storms.pas:390
     public override void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
     {
-        FrozenWaterHS Ice;
+        FrozenWaterHexSprite Ice;
         // { Original sends terrain 13 to the default branch before the ice refresh test. }
         if (TerrainType == 0)
         {
@@ -37,7 +37,7 @@ public partial class IceStorm : BlastStorm
             {
                 if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)TerrainType))
                 {
-                    Ice = (FrozenWaterHS)MapF.FindOwnedHS(typeof(FrozenWaterHS));
+                    Ice = (FrozenWaterHexSprite)MapF.FindOwnedHS(typeof(FrozenWaterHexSprite));
                     if (Ice != null)
                     {
                         Ice.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
@@ -51,13 +51,13 @@ public partial class IceStorm : BlastStorm
     // Storms.pas:373
     public override void StormTerrainChanged(MapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
     {
-        FrozenWaterHS Ice;
+        FrozenWaterHexSprite Ice;
         if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)MapF.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)OriginalTerrainType))
         {
-            Ice = (FrozenWaterHS)MapF.FindOwnedHS(typeof(FrozenWaterHS));
+            Ice = (FrozenWaterHexSprite)MapF.FindOwnedHS(typeof(FrozenWaterHexSprite));
             if (Ice == null)
             {
-                Ice = new FrozenWaterHS(null);
+                Ice = new FrozenWaterHexSprite(null);
                 AoWHSMap.Current.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
             }
 

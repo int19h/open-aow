@@ -50,8 +50,8 @@ public partial class CommandedAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:5019
-    public override EClass AbilityDataClass() => P4CommandedDataClass;
+    public override EngineClass AbilityDataClass() => P4CommandedDataClass;
 
-    private static EClass P4CommandedDataClass = EClass.Of<CommandedAbilityData>();
+    private static EngineClass P4CommandedDataClass = EngineClass.Of<CommandedAbilityData>();
 
 }

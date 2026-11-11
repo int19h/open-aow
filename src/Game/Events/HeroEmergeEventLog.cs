@@ -80,7 +80,7 @@ public partial class HeroEmergeEventLog : EventLog
     // Hero.PAS:203
     public override void ViewLocation()
     {
-        AbstractUnit U;
+        Troop U;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;

@@ -43,7 +43,7 @@ public partial class BorderHexagon : AbstractBorderHexagon
     }
 
     // BorderHx.pas:64
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -68,7 +68,7 @@ public partial class BorderHexagon : AbstractBorderHexagon
     }
 
     // BorderHx.pas:95
-    public override bool CanChangeTerrain(in HSSenderInfo Info) => Info.HN != 0;
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info) => Info.HN != 0;
 
     public new partial class Resource : AbstractBorderHexagon.Resource
     {

@@ -1,8 +1,8 @@
 using Aow.Engine.Storage;
 
 using Aow.Game.Draw.Images;
-using Aow.Game.Ui.Controls;
-using Aow.Game.Ui.Windows;
+using Aow.Game.UI.Controls;
+using Aow.Game.UI.Windows;
 
 namespace Aow.Game.Tests;
 
@@ -130,7 +130,7 @@ public sealed class StringBufferTests
     public void MemoWalkKeepsWrappingColorsAndNulTermination()
     {
         var font = new ImageLibraryFont(null!);
-        var memo = new AOWMemo(null!)
+        var memo = new Memo(null!)
         {
             FNoFrame = true,
             FWinWidth = 28,
@@ -153,23 +153,23 @@ public sealed class StringBufferTests
     [Fact]
     public void HtmlWalkKeepsTagOffsetsAndNulTermination()
     {
-        var memo = new TaowHTMLMemo(null!) { FWinWidth = 100, FWinHeight = 30 };
+        var memo = new HtmlMemo(null!) { FWinWidth = 100, FWinHeight = 30 };
         memo.FItems.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
         memo.SetSize();
         Assert.Equal(4, memo.FChanges.Count);
-        var color = Assert.IsType<TaowHTMLMemo.ChangeInfo>(memo.FChanges[1]);
-        var spacing = Assert.IsType<TaowHTMLMemo.ChangeInfo>(memo.FChanges[2]);
-        var alignment = Assert.IsType<TaowHTMLMemo.ChangeInfo>(memo.FChanges[3]);
+        var color = Assert.IsType<HtmlMemo.ChangeInfo>(memo.FChanges[1]);
+        var spacing = Assert.IsType<HtmlMemo.ChangeInfo>(memo.FChanges[2]);
+        var alignment = Assert.IsType<HtmlMemo.ChangeInfo>(memo.FChanges[3]);
         Assert.Equal(0x80FF00, color.FColor);
         Assert.Equal(3, spacing.FSpacing);
-        Assert.Equal(TaowTextAlign.Right, alignment.FAlign);
+        Assert.Equal(TextAlignment.Right, alignment.FAlign);
         Assert.Equal(0x80FF00, alignment.FColor);
     }
 
     [Fact]
     public void HtmlWordWrappingKeepsItsExistingRangeError()
     {
-        var memo = new TaowHTMLMemo(null!)
+        var memo = new HtmlMemo(null!)
         {
             FWinWidth = 100,
             FWinHeight = 30,

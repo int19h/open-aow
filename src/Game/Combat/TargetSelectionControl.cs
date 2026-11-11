@@ -28,12 +28,12 @@ public partial class TargetSelectionControl : IDisposable
     public TargetSelectionControl()
     {
         FOnChangeStore = new();
-        FHNs = new ShortIntList();
+        FHNs = new SByteList();
         FText = new StringList();
     }
 
     public CustomImageLibrary FImageLibrary;
-    public ShortIntList FHNs;
+    public SByteList FHNs;
     public Set<TargetSelectionStatusElement> FStatus;
     public Set<TargetSelectionModeElement> FTargetMode;
     public ShowTargetSelectionEvent FOnShow;
@@ -74,7 +74,7 @@ public partial class TargetSelectionControl : IDisposable
         if (FImageLibrary != null)
         {
             // { Original links the image library again when destroying the control. }
-            AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TARGHEX.ILB");
+            AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
             FImageLibrary = null;
         }
     }
@@ -99,7 +99,7 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3821
     public void MouseDownEvent(object Sender)
     {
-        HSMapMouse Mouse;
+        HexSpriteMapMouse Mouse;
         if (FStatus.Contains(TargetSelectionStatusElement.Activated))
         {
             if (AoWHSMap.Current.Mouse.Capture != this || AoWHSMap.Current.Mouse.Button == MouseButton.Right)
@@ -206,7 +206,7 @@ public partial class TargetSelectionControl : IDisposable
     }
 
     // Structur.PAS:3891
-    public void ShowSelection(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowSelection(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int DX = default;
         int DY = default;
@@ -248,7 +248,7 @@ public partial class TargetSelectionControl : IDisposable
     {
         if (FImageLibrary == null)
         {
-            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "TARGHEX.ILB");
+            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
         }
 
         if (!FStatus.Contains(TargetSelectionStatusElement.Activated))
@@ -288,7 +288,7 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3946
     public void Deactivate()
     {
-        ArmyHS ArmyHS = default;
+        ArmyHexSprite ArmyHS = default;
         if (FStatus.Contains(TargetSelectionStatusElement.Activated))
         {
             FStatus = FStatus - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
@@ -322,7 +322,7 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3974
     public void UnitChanged(object AUnit)
     {
-        if (FStatus.Contains(TargetSelectionStatusElement.Activated) && FSource != null && AUnit == FSource && ((AbstractUnit)AUnit).FUnitStatus.Contains(UnitStatusElement.Killed))
+        if (FStatus.Contains(TargetSelectionStatusElement.Activated) && FSource != null && AUnit == FSource && ((Troop)AUnit).FUnitStatus.Contains(UnitStatusElement.Killed))
         {
             Deactivate();
         }

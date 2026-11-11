@@ -17,14 +17,14 @@ public partial class UnitUserList : UnitList
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EObject)FChildren.List[I]).Release();
+            ((EngineObject)FChildren.List[I]).Release();
         }
 
         FChildren.Clear();
     }
 
     // Unit.PAS:2386
-    public override bool AddUnit(AbstractUnit AUnit)
+    public override bool AddUnit(Troop AUnit)
     {
         if (CanAddUnit(AUnit))
         {
@@ -36,7 +36,7 @@ public partial class UnitUserList : UnitList
     }
 
     // Unit.PAS:2396
-    public override bool DeleteUnit(AbstractUnit AUnit)
+    public override bool DeleteUnit(Troop AUnit)
     {
         if (CanDeleteUnit(AUnit))
         {

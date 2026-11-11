@@ -4,9 +4,7 @@ using System.Runtime.CompilerServices;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Combat;
 
 using Aow.Game.Draw;
@@ -59,7 +57,7 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:1970
 
     // Structur.PAS:2328
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001989)
@@ -82,7 +80,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2188
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -106,7 +104,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2370
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         if (Msg.MsgID == 4364 && Msg.HN == 0 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
         {
@@ -228,13 +226,13 @@ public partial class PlayerStructure : Structure
         {
             if (Msg.MsgID == 4368 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
             {
-                FinalizeCombat(Msg.Param[0].As<Combat.Battle>());
+                FinalizeCombat(Msg.Param[0].As<Battle>());
             }
             else
             {
                 if (Msg.MsgID == 4361 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
-                    var combatEventText = GetCombatEventText(Msg.Param[0].As<Combat.Battle>());
+                    var combatEventText = GetCombatEventText(Msg.Param[0].As<Battle>());
                     Msg.Result.As<CombatResultQuery>().Text = combatEventText;
                 }
             }
@@ -242,7 +240,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2302
-    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
     {
         if (FResource.TerrainList.Terrain[Info.HN] >= 0)
         {
@@ -255,7 +253,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2313
-    public override int CanMoveOver(in HSSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo Info)
     {
         int Result;
         if (FResource.TerrainList.Terrain[Info.HN] >= 0 && (!GetRazed() || GetBuilding()))
@@ -318,7 +316,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2343
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (FResource.TerrainList.Terrain[Info.HN] >= 0)
         {
@@ -355,13 +353,13 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2168
-    public override void ArmyPlaced(ArmyHS PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
     {
         UpdatePlayer();
     }
 
     // Structur.PAS:2171
-    public override void ArmyChanged(ArmyHS Army)
+    public override void ArmyChanged(ArmyHexSprite Army)
     {
         UpdatePlayer();
     }
@@ -376,7 +374,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2035
-    public override bool ExecuteRebuild(AbstractUnit AUnit)
+    public override bool ExecuteRebuild(Troop AUnit)
     {
         bool Result = base.ExecuteRebuild(AUnit);
         if (Result)
@@ -388,7 +386,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2041
-    public override bool ExecuteBuild(AbstractUnit AUnit, int Days)
+    public override bool ExecuteBuild(Troop AUnit, int Days)
     {
         bool Result = base.ExecuteBuild(AUnit, Days);
         if (Result)
@@ -424,7 +422,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2030
-    public override bool CanRebuild(AbstractUnit AUnit, ref string Reason) => base.CanRebuild(AUnit, ref Reason);
+    public override bool CanRebuild(Troop AUnit, ref string Reason) => base.CanRebuild(AUnit, ref Reason);
 
     // Structur.PAS:2130
     public virtual void SetPlayer(sbyte Player)
@@ -614,7 +612,7 @@ public partial class PlayerStructure : Structure
 
     // Structur.PAS:2124
     // { Original leaves the result unchanged for a razed structure. }
-    public virtual void FinalizeCombat(Combat.Battle Combat)
+    public virtual void FinalizeCombat(Battle Combat)
     {
         if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
         {
@@ -623,7 +621,7 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:2115
-    public virtual string GetCombatEventText(Combat.Battle Combat)
+    public virtual string GetCombatEventText(Battle Combat)
     {
         string Result = "";
         if (!GetRazed())
@@ -646,7 +644,7 @@ public partial class PlayerStructure : Structure
     public virtual void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
     {
         LocationTextEventLog Log;
-        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && FStatus.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)FResource).FClaimed)
+        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && FStatus.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)FResource).FClaimed)
         {
             Log = new LocationTextEventLog(null);
             Log.FPlayer = NewPlayer;
@@ -689,18 +687,18 @@ public partial class PlayerStructure : Structure
         bool Different;
         int Count;
         MapLevel Level;
-        HNWalkData Walk = default;
-        ArmyHS Army;
+        HexNumberWalkData Walk = default;
+        ArmyHexSprite Army;
         Player = -1;
         Different = false;
         Count = GetTerrainCount();
         Level = (MapLevel)Owner.Owner;
-        HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count && !Different)
         {
             if (FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
             {
-                Army = (ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                Army = (ArmyHexSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                 if (Army != null)
                 {
                     if (Player != -1)
@@ -714,7 +712,7 @@ public partial class PlayerStructure : Structure
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         if (Player != -1)

@@ -90,8 +90,8 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static WeakReference ShowParticle()
     {
-        var particle = new WorldFXHS(null!) { FEffectType = TworldFXType.EMParticle, FFrame = 0 };
-        particle.FPath.Add(new XYZ { X = 1, Y = 2, Z = 3 });
+        var particle = new WorldEffectHexSprite(null!) { FEffectType = WorldEffectType.EMParticle, FFrame = 0 };
+        particle.FPath.Add(new Point3D { X = 1, Y = 2, Z = 3 });
         Runtime.Dialogs = null;
         particle.Show(0, 0, default);
         return new WeakReference(particle);

@@ -12,7 +12,7 @@ namespace Aow.Game.Saves;
 /// </summary>
 public abstract class KindCases : ContentRule, ICaseUnit
 {
-    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocPath path) => [];
+    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path) => [];
 
     public override void Attach(string persistedName) => CaseMappings.Register(persistedName, this);
 

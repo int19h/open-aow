@@ -34,8 +34,8 @@ public partial class DispelMagic : UnitSpell
     // UnitSpells.pas:1023
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        DispelMagicSpellCA Action;
-        Action = new DispelMagicSpellCA(null);
+        DispelMagicSpellCombatAction Action;
+        Action = new DispelMagicSpellCombatAction(null);
         Action.FSpellID = FSpellID;
         Action.FSourceID = Source.FID;
         Action.FTargetID = Target.FID;
@@ -49,24 +49,24 @@ public partial class DispelMagic : UnitSpell
     }
 
     // UnitSpells.pas:1074
-    public override void GetCombatInfo(AbstractUnit Source, ref SpellCombatInfo Info)
+    public override void GetCombatInfo(Troop Source, ref SpellCombatInfo Info)
     {
         base.GetCombatInfo(Source, ref Info);
         Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend, CombatTargetTypeElement.Enemy);
     }
 
     // UnitSpells.pas:1068
-    public override bool ValidTargetUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool ValidTargetUnit(Troop Source, Troop Target)
     {
         bool Result = base.ValidTargetUnit(Source, Target);
         return Result && Target.CanDispelEnchantment(Source.FPlayer);
     }
 
     // UnitSpells.pas:1018
-    public override bool ValidTargetParty(AbstractUnit Source, ArmyHS Party) => Party.FArmy.FPlayer == Source.FPlayer;
+    public override bool ValidTargetParty(Troop Source, ArmyHexSprite Party) => Party.FArmy.FPlayer == Source.FPlayer;
 
     // UnitSpells.pas:1036
-    public override bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
+    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
     {
         bool Result;
         int Count;
@@ -114,5 +114,5 @@ public partial class DispelMagic : UnitSpell
     }
 
     // UnitSpells.pas:1013
-    public int GetDispelMana(AbstractUnit Source) => Source.GetAbLevel(52) * 15 + 25;
+    public int GetDispelMana(Troop Source) => Source.GetAbLevel(52) * 15 + 25;
 }

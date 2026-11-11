@@ -5,8 +5,7 @@ using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using Aow.Engine;
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai;
+using Aow.Game.AI;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.Magic.Abilities;
@@ -25,14 +24,14 @@ public sealed class LeftoverConstructionTests
 
         internal readonly List<string> Observations = [];
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             base.AddChild(child);
             Observations.Add(Snapshot(child));
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
+        public override int RemoveChild(EngineObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
     }
 
     private sealed class Fixture : IDisposable
@@ -110,70 +109,70 @@ public sealed class LeftoverConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Game.Ai.Groups.AIGroup",
-        "Aow.Game.Ai.Groups.AIGroupControl",
-        "Aow.Game.Ai.Groups.AIGroupControlPlugin",
+        "Aow.Game.AI.Groups.AIGroup",
+        "Aow.Game.AI.Groups.AIGroupControl",
+        "Aow.Game.AI.Groups.AIGroupTask",
         "Aow.Game.Magic.Abilities.Ability",
         "Aow.Game.Magic.Abilities.AbilityOwner",
-        "Aow.Game.Session.AoWCampaign",
-        "Aow.Game.Session.AoWCampaignScenario",
+        "Aow.Game.Session.Campaign",
+        "Aow.Game.Session.CampaignScenario",
         "Aow.Game.World.Map.AoWHSMap",
         "Aow.Game.Units.Army",
-        "Aow.Game.Commands.ArmyCombatMoveTE",
-        "Aow.Game.Commands.ArmyCombineMoveTE",
-        "Aow.Game.Commands.ArmyDefaultMoveTE",
-        "Aow.Game.Commands.ArmyNegotiateMoveTE",
-        "Aow.Game.Commands.ChangeGlobalMagicTE",
-        "Aow.Game.Commands.ChangePlayerMagicTE",
-        "Aow.Game.Commands.ChangePlayerSettingsTE",
-        "Aow.Game.Commands.CheatTE",
+        "Aow.Game.Commands.ArmyCombatMoveTokenEvent",
+        "Aow.Game.Commands.ArmyCombineMoveTokenEvent",
+        "Aow.Game.Commands.ArmyDefaultMoveTokenEvent",
+        "Aow.Game.Commands.ArmyNegotiateMoveTokenEvent",
+        "Aow.Game.Commands.ChangeGlobalMagicTokenEvent",
+        "Aow.Game.Commands.ChangePlayerMagicTokenEvent",
+        "Aow.Game.Commands.ChangePlayerSettingsTokenEvent",
+        "Aow.Game.Commands.CheatTokenEvent",
         "Aow.Game.Combat.Battle",
         "Aow.Game.Combat.Actions.CombatAction",
-        "Aow.Game.Commands.CombatFlowControlTE",
+        "Aow.Game.Commands.CombatFlowControlTokenEvent",
         "Aow.Game.Combat.CombatObject",
         "Aow.Game.Combat.CombatUnit",
-        "Aow.Game.Commands.ConstructStructureTE",
-        "Aow.Game.Commands.DiplomaticActionTE",
-        "Aow.Game.Commands.DisbandUnitTE",
-        "Aow.Game.Commands.DispelMagicAbilityTE",
-        "Aow.Game.Combat.Actions.DispelMagicCA",
+        "Aow.Game.Commands.ConstructStructureTokenEvent",
+        "Aow.Game.Commands.DiplomaticActionTokenEvent",
+        "Aow.Game.Commands.DisbandUnitTokenEvent",
+        "Aow.Game.Commands.DispelMagicAbilityTokenEvent",
+        "Aow.Game.Combat.Actions.DispelMagicCombatAction",
         "Aow.Game.Magic.Abilities.DurationAbility",
-        "Aow.Game.Commands.EndTurnTE",
+        "Aow.Game.Commands.EndTurnTokenEvent",
         "Aow.Game.Magic.Abilities.EnhancementAbility",
         "Aow.Game.World.Terrain.Fire",
         "Aow.Game.World.Terrain.Fire+Resource",
-        "Aow.Game.Draw.FrozenWaterHS",
-        "Aow.Game.Commands.GameOverTE",
+        "Aow.Game.Draw.FrozenWaterHexSprite",
+        "Aow.Game.Commands.GameOverTokenEvent",
         "Aow.Game.Magic.GlobalEnchantment",
-        "Aow.Game.Commands.HealingTE",
-        "Aow.Game.Commands.HeroUpdateTE",
-        "Aow.Game.Commands.HeroUpgradeTE",
+        "Aow.Game.Commands.HealingTokenEvent",
+        "Aow.Game.Commands.HeroUpdateTokenEvent",
+        "Aow.Game.Commands.HeroUpgradeTokenEvent",
         "Aow.Game.Units.ItemList",
-        "Aow.Game.Commands.ItemTE",
+        "Aow.Game.Commands.ItemTokenEvent",
         "Aow.Game.Units.LeaderSetupControl",
-        "Aow.Game.Commands.MoveArmyTE",
+        "Aow.Game.Commands.MoveArmyTokenEvent",
         "Aow.Game.World.Movement.MoveControlSettings",
-        "Aow.Game.Commands.MoveTE",
+        "Aow.Game.Commands.MoveTokenEvent",
         "Aow.Game.Magic.Abilities.MultiLevelAbility",
-        "Aow.Game.Commands.MultiMoveTE",
-        "Aow.Game.Commands.NegotiateTE",
+        "Aow.Game.Commands.MultiMoveTokenEvent",
+        "Aow.Game.Commands.NegotiateTokenEvent",
         "Aow.Game.Session.PlayerMagicControl",
         "Aow.Game.World.Structures.ProductionControl",
-        "Aow.Game.Commands.ProductionTE",
-        "Aow.Game.Commands.SaveGameTE",
+        "Aow.Game.Commands.ProductionTokenEvent",
+        "Aow.Game.Commands.SaveGameTokenEvent",
         "Aow.Game.Magic.Spells.Spell",
         "Aow.Game.Magic.Spells.SpellCaster",
         "Aow.Game.Audio.StartupSongList",
         "Aow.Game.Draw.StructureShadow",
-        "Aow.Game.Commands.TerminatePlayerTE",
+        "Aow.Game.Commands.TerminatePlayerTokenEvent",
         "Aow.Game.Magic.Abilities.UnitEnchantmentAbility",
-        "Aow.Game.Draw.UnitShadowHS",
+        "Aow.Game.Draw.UnitShadowHexSprite",
         "Aow.Game.Magic.Spells.UnitSpell",
-        "Aow.Game.Commands.UnitSpellTE",
-        "Aow.Game.Draw.WorldFXHS",
-        "Aow.Game.Commands.CityEnchantmentSpellTE",
-        "Aow.Game.Commands.CityTargetSpellTE",
-        "Aow.Game.Commands.TownGateTE",
+        "Aow.Game.Commands.UnitSpellTokenEvent",
+        "Aow.Game.Draw.WorldEffectHexSprite",
+        "Aow.Game.Commands.CityEnchantmentSpellTokenEvent",
+        "Aow.Game.Commands.CityTargetSpellTokenEvent",
+        "Aow.Game.Commands.TownGateTokenEvent",
         "Aow.Engine.Nodes.EChangeNotifyEventList",
         "Aow.Engine.Nodes.EChangeNotifyNode",
         "Aow.Engine.Nodes.EControlStyleInverseSortNode",
@@ -182,36 +181,36 @@ public sealed class LeftoverConstructionTests
         "Aow.Engine.Nodes.ECustomOwner",
         "Aow.Engine.Nodes.EInverseSortNode",
         "Aow.Engine.Nodes.ENode",
-        "Aow.Engine.Nodes.EObjectEditor",
+        "Aow.Engine.Nodes.EngineObjectEditor",
         "Aow.Engine.Nodes.EReferenceNode",
-        "Aow.Engine.Nodes.EResource",
+        "Aow.Engine.Nodes.EngineResource",
         "Aow.Engine.Nodes.EResourceList",
         "Aow.Engine.Nodes.ESortNode",
-        "Aow.Game.Commands.GlobalEnchantmentSpellTE",
-        "Aow.Game.Draw.BirdsViewHS",
-        "Aow.Game.Draw.ConcealAreaHS",
-        "Aow.Game.Commands.DisjunctionTE",
-        "Aow.Game.Commands.WarpPartyTE",
-        "Aow.Game.Commands.FireBarrierTE",
-        "Aow.Game.Commands.FreezeWaterTE",
+        "Aow.Game.Commands.GlobalEnchantmentSpellTokenEvent",
+        "Aow.Game.Draw.BirdsViewHexSprite",
+        "Aow.Game.Draw.ConcealAreaHexSprite",
+        "Aow.Game.Commands.DisjunctionTokenEvent",
+        "Aow.Game.Commands.WarpPartyTokenEvent",
+        "Aow.Game.Commands.FireBarrierTokenEvent",
+        "Aow.Game.Commands.FreezeWaterTokenEvent",
         "Aow.Game.Magic.Spells.GlobalTargetSpell",
-        "Aow.Game.Commands.HealingShowersTE",
-        "Aow.Game.Commands.LevelTerrainTE",
-        "Aow.Game.Commands.RejuvenateTE",
-        "Aow.Game.Commands.TornadoTE",
-        "Aow.Game.Commands.VortexTE",
-        "Aow.Game.Draw.WatcherHS",
-        "Aow.Game.Commands.WatcherTE",
-        "Aow.Game.Draw.FixedVisibleHS",
+        "Aow.Game.Commands.HealingShowersTokenEvent",
+        "Aow.Game.Commands.LevelTerrainTokenEvent",
+        "Aow.Game.Commands.RejuvenateTokenEvent",
+        "Aow.Game.Commands.TornadoTokenEvent",
+        "Aow.Game.Commands.VortexTokenEvent",
+        "Aow.Game.Draw.WatcherHexSprite",
+        "Aow.Game.Commands.WatcherTokenEvent",
+        "Aow.Game.Draw.FixedVisibleHexSprite",
         "Aow.Game.World.Map.HSSet",
         "Aow.Game.World.Map.MapField",
         "Aow.Game.World.Map.MapLevel",
         "Aow.Game.World.MapObjectResource",
-        "Aow.Game.World.MultiHexMOR",
-        "Aow.Game.World.Terrain.ILTerrainMO",
+        "Aow.Game.World.MultiHexMapObjectResource",
+        "Aow.Game.World.Terrain.ImageLibraryTerrainMapObject",
         "Aow.Game.Commands.TokenEvent",
-        "Aow.Game.Audio.Songlist",
-        "Aow.Game.Commands.SummonSpellTE",
+        "Aow.Game.Audio.SongList",
+        "Aow.Game.Commands.SummonSpellTokenEvent",
     ];
 
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
@@ -226,13 +225,13 @@ public sealed class LeftoverConstructionTests
         }
     }
 
-    private static EObject Direct(Type type, ECustomNode owner)
+    private static EngineObject Direct(Type type, ECustomNode owner)
     {
         var constructor = type.GetConstructor([typeof(ECustomNode)]);
-        if (constructor is not null) return (EObject)Invoke(() => constructor.Invoke([owner]))!;
+        if (constructor is not null) return (EngineObject)Invoke(() => constructor.Invoke([owner]))!;
         var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(ECustomNode)]);
-        if (factory is not null) return (EObject)Invoke(() => factory.Invoke(null, [owner]))!;
-        return EClass.Of(type).Create(owner);
+        if (factory is not null) return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
+        return EngineClass.Of(type).Create(owner);
     }
 
     [Theory]
@@ -246,13 +245,13 @@ public sealed class LeftoverConstructionTests
             {
                 using var fixture = new Fixture();
                 var owner = owned == 0 ? null : new LeftoverOwner();
-                EObject? value = null;
+                EngineObject? value = null;
                 var states = new List<string>();
                 try
                 {
-                    value = route == 1 ? EClass.Of(type).Create(owner!)
+                    value = route == 1 ? EngineClass.Of(type).Create(owner!)
                         : route == 0 ? Direct(type, owner!)
-                        : route == 2 ? EClass.Of(type).Create(owner!)
+                        : route == 2 ? EngineClass.Of(type).Create(owner!)
                         : Saved(type, owner!);
                     Assert.IsType(type, value);
                     Assert.Same(owner, value.Owner);
@@ -272,11 +271,11 @@ public sealed class LeftoverConstructionTests
             }
     }
 
-    private static EObject Saved(Type type, ECustomNode owner)
+    private static EngineObject Saved(Type type, ECustomNode owner)
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
         using GameEngine engine = new GameEngine(null!);
-        var descriptor = EClass.Of(type);
+        var descriptor = EngineClass.Of(type);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
         try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
         catch (Exception error) when (PortedExceptions.Is(error)) { }
@@ -290,7 +289,7 @@ public sealed class LeftoverConstructionTests
 
         internal AoWHSMap? Captured;
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Captured = Assert.IsType<AoWHSMap>(child);
             Assert.Equal(0, Captured.FMapChangedLockCount);
@@ -309,8 +308,8 @@ public sealed class LeftoverConstructionTests
         var value = Assert.IsType<AoWHSMap>(route switch
         {
             0 => new AoWHSMap(null!),
-            1 => EClass.Of<AoWHSMap>().Create(null!),
-            2 => EClass.Of(typeof(AoWHSMap)).Create(null!),
+            1 => EngineClass.Of<AoWHSMap>().Create(null!),
+            2 => EngineClass.Of(typeof(AoWHSMap)).Create(null!),
             _ => Saved(typeof(AoWHSMap), null!)
         });
         Assert.Equal(0, value.FMapChangedLockCount);
@@ -322,7 +321,7 @@ public sealed class LeftoverConstructionTests
     [Fact]
     public void MapMouseKeepsItsInheritedInitialization()
     {
-        using var mouse = new AoWHSMapMouse();
+        using var mouse = new AowHexSpriteMapMouse();
         Assert.Equal((-1, -1, -1, -1), (mouse.FSelectionRectangle.Left, mouse.FSelectionRectangle.Top,
             mouse.FSelectionRectangle.Right, mouse.FSelectionRectangle.Bottom));
         Assert.Equal(0, mouse.FRectangleSelectEventsStore.Count);

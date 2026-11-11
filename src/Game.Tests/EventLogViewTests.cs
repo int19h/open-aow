@@ -7,7 +7,7 @@ using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.Ui.Dialogs;
+using Aow.Game.UI.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Xunit.Abstractions;
@@ -28,7 +28,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     private const sbyte OtherPlayer = 2;
     private const int PrisonerID = 77;
 
-    private static Type[] EventLogTypes() => EClass.All
+    private static Type[] EventLogTypes() => EngineClass.All
         .Where(c => typeof(EventLog).IsAssignableFrom(c.Type))
         .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal).ToArray();
 
@@ -40,7 +40,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         typeof(ShowBookEventLog), typeof(PlayerMagicEventLog), typeof(HeroUpgradeEventLog), typeof(HeroJoinEventLog),
         typeof(ArmyInfoEventLog), typeof(PrisonersJoinEventLog), typeof(EnterWizardsTowerEventLog), typeof(EnterArenaEventLog),
         typeof(MessageEventLog), typeof(TutorialMessageEventLog), typeof(FlagMessageEventLog), typeof(HelpMessageEventLog),
-        typeof(SaveGameEventLog), typeof(SendEmailGameEventLog), typeof(SMTPEventLog), typeof(PasswordEventLog),
+        typeof(SaveGameEventLog), typeof(SendEmailGameEventLog), typeof(SmtpEventLog), typeof(PasswordEventLog),
         typeof(ItemExplorationSiteEventLog), typeof(CityProductionEventLog), typeof(ProductionPlaceEventLog), typeof(UserEventLog),
     ];
 
@@ -57,7 +57,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (negotiateRequestEventLog.FObject == NegotiateObject.City) return "CityNegotiation";
             if (negotiateRequestEventLog.FObject == NegotiateObject.Army)
             {
-                var ArmyHS = (ArmyHS)AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
+                var ArmyHS = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
@@ -74,9 +74,9 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         {
             switch (((PlayerMagicEventLog)Event).FMode)
             {
-                case PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched: return "SpellResearched";
-                case PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana: return "OutOfMana";
-                case PlayerMagicEventLog.PlayerMagicEventMode.StartResearch: return "StartResearch";
+                case PlayerMagicEventLog.EventMode.SpellResearched: return "SpellResearched";
+                case PlayerMagicEventLog.EventMode.OutOfMana: return "OutOfMana";
+                case PlayerMagicEventLog.EventMode.StartResearch: return "StartResearch";
             }
             return "None";
         }
@@ -100,7 +100,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         if (Event is HelpMessageEventLog) return "Help";
         if (Event is SaveGameEventLog) return "SaveGame";
         if (Event is SendEmailGameEventLog) return "SendEmailGame";
-        if (Event is SMTPEventLog) return "SMTP";
+        if (Event is SmtpEventLog) return "SMTP";
         if (Event is PasswordEventLog) return "Password";
         if (Event is ItemExplorationSiteEventLog) return "ItemsFound";
         if (Event is CityProductionEventLog) return "CityProduction";
@@ -155,7 +155,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         ["ProductionPlaceEventLog"] = "-=ProductionPlace",
         ["RazeStructureEventLog"] = "-=Message",
         ["RestartGameEventLog"] = "-=Message",
-        ["SMTPEventLog"] = "-=SMTP",
+        ["SmtpEventLog"] = "-=SMTP",
         ["SaveGameEventLog"] = "-=SaveGame",
         ["SendEmailGameEventLog"] = "-=SendEmailGame",
         ["ShowBookEventLog"] = "-=InformationBook",
@@ -190,7 +190,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     }
 
     // Counts the unit lookups. An empty dictionary returns a miss without hashing, so the table holds one seed.
-    private sealed class CountingIntComparer : IEqualityComparer<int>
+    private sealed class CountingInt32Comparer : IEqualityComparer<int>
     {
         internal int Finds;
 
@@ -226,7 +226,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         else if (typeof(PlayerMagicEventLog).IsAssignableFrom(type))
         {
-            foreach (var mode in new[] { PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched, PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana, PlayerMagicEventLog.PlayerMagicEventMode.StartResearch, (PlayerMagicEventLog.PlayerMagicEventMode)3 })
+            foreach (var mode in new[] { PlayerMagicEventLog.EventMode.SpellResearched, PlayerMagicEventLog.EventMode.OutOfMana, PlayerMagicEventLog.EventMode.StartResearch, (PlayerMagicEventLog.EventMode)3 })
                 yield return new State(mode.ToString(), (e, _) => ((PlayerMagicEventLog)e).FMode = mode);
         }
         else if (typeof(ArmyInfoEventLog).IsAssignableFrom(type))
@@ -251,18 +251,18 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     private sealed class Scene : IDisposable
     {
         private readonly AoWHSMap previousMap = AoWHSMap.Current;
-        private readonly List<EObject> created = [];
+        private readonly List<EngineObject> created = [];
         internal readonly AoWHSMap Map;
         internal readonly MapField Field;
-        internal readonly CountingIntComparer UnitFinds = new();
-        internal readonly Dictionary<int, AbstractUnit> Units;
+        internal readonly CountingInt32Comparer UnitFinds = new();
+        internal readonly Dictionary<int, Troop> Units;
 
         internal Scene()
         {
             Map = new AoWHSMap(null!);
             Map.FSeatedPlayer = Seated;
             Map.FUnitControl = new UnitControl(null!);
-            Units = new Dictionary<int, AbstractUnit>(UnitFinds);
+            Units = new Dictionary<int, Troop>(UnitFinds);
             Units.Add(key: -1, value: new Unit(null!));
             Map.FUnitControl.FUnitTable = Units;
             var container = new MapContainer(null!);
@@ -275,7 +275,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal EventLog Create(Type type)
         {
-            var log = (EventLog)EClass.Of(type).Create(null!);
+            var log = (EventLog)EngineClass.Of(type).Create(null!);
             Assert.IsType(type, log);
             created.Add(log);
             return log;
@@ -290,15 +290,15 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             request.FX = 0;
             request.FY = 0;
             request.FL = 0;
-            while (Field.FindOwnedChild(ArmyHS.ClassID) is HexagonSprite standing)
+            while (Field.FindOwnedChild(ArmyHexSprite.ClassID) is HexSprite standing)
             {
                 Field.RemoveHS(standing);
             }
             if (Joins is bool joins)
             {
-                var army = new ArmyHS(Field);
+                var army = new ArmyHexSprite(Field);
                 army.FArmy.FChildren.Add(new JoiningHero(joins));
-                Assert.Same(army, Field.FindOwnedChild(ArmyHS.ClassID));
+                Assert.Same(army, Field.FindOwnedChild(ArmyHexSprite.ClassID));
             }
         }
 
@@ -313,7 +313,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             info.FSelection = selection;
         }
 
-        internal void Prisoner(EventLog log, AbstractUnit? unit)
+        internal void Prisoner(EventLog log, Troop? unit)
         {
             Units.Remove(PrisonerID);
             if (unit != null) Units.Add(key: PrisonerID, value: unit);

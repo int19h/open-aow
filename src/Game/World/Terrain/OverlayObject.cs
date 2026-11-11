@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class OverlayObject : FixedILTerrainMO
+public partial class OverlayObject : FixedImageLibraryTerrainMapObject
 {
     public OverlayObject(ECustomNode owner) : base(owner)
     { }
@@ -15,7 +15,7 @@ public partial class OverlayObject : FixedILTerrainMO
     public new const int ClassID = 131228;
 
     // FOverlayType
-    public new partial class Resource : FixedILTerrainMOR
+    public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

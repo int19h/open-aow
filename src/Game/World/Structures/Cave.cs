@@ -88,7 +88,7 @@ public partial class Cave : Structure
     }
 
     // Cave.pas:257
-    public override void MoveExclusive(in HSSenderInfo Info)
+    public override void MoveExclusive(in HexSpriteSenderInfo Info)
     {
         MapField Field;
         if (Info.HN == 0)
@@ -107,7 +107,7 @@ public partial class Cave : Structure
             }
 
             // { Original dereferences the destination even for an idle entrance. }
-            ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)Field, MemoryMarshal.Cast<FixedArray_sbyte_16, sbyte>(((MoveControl)(object)Info.Sender).FMovePointTable)[1 + 16 * Field.TerrainType + Field.OverlayType]);
+            ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)Field, MemoryMarshal.Cast<SByteArray16, sbyte>(((MoveControl)(object)Info.Sender).FMovePointTable)[1 + 16 * Field.TerrainType + Field.OverlayType]);
         }
     }
 
@@ -127,7 +127,7 @@ public partial class Cave : Structure
     }
 
     // Cave.pas:250
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (Info.HN == 0)
         {
@@ -291,10 +291,10 @@ public partial class Cave : Structure
     }
 
     // Cave.pas:412
-    public override void ArmyPlaced(ArmyHS PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
     {
         int L;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         base.ArmyPlaced(PlacedArmy);
         ArmyHS = PlacedArmy;
         if (ArmyHS != null)
@@ -340,7 +340,7 @@ public partial class Cave : Structure
     {
         int L;
         MapField Field;
-        AbstractUnit AUnit;
+        Troop AUnit;
         if (FEntrance == Entrance.Down)
         {
             L = GetLhx() + 1;
@@ -369,8 +369,8 @@ public partial class Cave : Structure
     // Cave.pas:317
     public bool CanEnter(sbyte Player)
     {
-        ArmyHS ArmyHS;
-        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHexSprite ArmyHS;
+        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         return ArmyHS != null && Player == ArmyHS.FArmy.FPlayer && CanEnterSelection(ArmyHS.FArmy) != 0;
     }
 
@@ -379,18 +379,18 @@ public partial class Cave : Structure
     {
         bool Result;
         byte Selection;
-        Movepath Path;
+        MovePath Path;
         sbyte L;
         string MessageText;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         AoWMapField Field;
         TokenEvent Event;
-        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (ArmyHS != null && CanEnter(ArmyHS.FArmy.FPlayer))
         {
             Selection = CanEnterSelection(ArmyHS.FArmy);
             L = 0;
-            Path = new Movepath();
+            Path = new MovePath();
             switch (FEntrance)
             {
                 case Entrance.Down:
@@ -426,7 +426,7 @@ public partial class Cave : Structure
                     if (!AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
                     {
                         // { Original passes action before mode. }
-                        Event = Draw.ArmyHS.CreateArmyMoveTE(ArmyHS, Selection, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                        Event = Draw.ArmyHexSprite.CreateArmyMoveTE(ArmyHS, Selection, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                         if (Event != null)
                         {
                             AoWHSMap.Current.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer).AddEvent(Event);
@@ -445,7 +445,7 @@ public partial class Cave : Structure
                 }
                 else
                 {
-                    Result = Draw.ArmyHS.MoveArmyEx(ArmyHS, Selection, Path, Set<ArmyMoveModeElement>.Of(), false);
+                    Result = Draw.ArmyHexSprite.MoveArmyEx(ArmyHS, Selection, Path, Set<ArmyMoveModeElement>.Of(), false);
                 }
 
                 if (Result && (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)
@@ -484,11 +484,11 @@ public partial class Cave : Structure
     public bool Enter(sbyte Player)
     {
         bool Result = default;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         EnterCaveEventLog Log;
         if (CanEnter(Player))
         {
-            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             if (CanEnterSelection(ArmyHS.FArmy) != ArmyHS.FArmy.ValidateSelection(255))
             {
                 Log = new EnterCaveEventLog(null);

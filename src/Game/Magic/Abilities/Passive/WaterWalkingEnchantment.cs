@@ -23,7 +23,7 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner is AbstractUnit unit && owner.Owner is Army army)
+        if (Result && owner is Troop unit && owner.Owner is Army army)
         {
             unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)

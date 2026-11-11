@@ -13,17 +13,17 @@ public partial class DispelMagicAbilityUnitSelector : UnitSelector
     { }
 
     // AoWAb.PAS:4403
-    public override bool CanSelectUnit(AbstractUnit AUnit) => AUnit.CanDispelEnchantment(FPlayer);
+    public override bool CanSelectUnit(Troop AUnit) => AUnit.CanDispelEnchantment(FPlayer);
 
     // AoWAb.PAS:4407
     public override bool Select()
     {
         bool Result;
-        AbstractUnit Source;
-        AbstractUnit Target;
+        Troop Source;
+        Troop Target;
         string Error = "";
         int I;
-        DispelMagicAbilityTE Event;
+        DispelMagicAbilityTokenEvent Event;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FSourceUnitID);
         if (CanSelect(ref Error) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
@@ -41,7 +41,7 @@ public partial class DispelMagicAbilityUnitSelector : UnitSelector
 
             if (Target != null)
             {
-                Event = new DispelMagicAbilityTE(null);
+                Event = new DispelMagicAbilityTokenEvent(null);
                 Event.FSourceID = Source.FUnitID;
                 Event.FSourcePlayer = (byte)Source.FPlayer;
                 Event.FTargetID = Target.FUnitID;

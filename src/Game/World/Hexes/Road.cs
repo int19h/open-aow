@@ -24,7 +24,7 @@ public partial class Road : AbstractRoad
     // Road.pas:42
 
     // Road.pas:52
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -36,7 +36,7 @@ public partial class Road : AbstractRoad
     public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         MapField MapField;
-        HexagonSprite OldRoad;
+        HexSprite OldRoad;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
         OldRoad = MapField.FindOwnedHS(typeof(AbstractRoad));
         if (OldRoad != null)
@@ -124,7 +124,7 @@ public partial class Road : AbstractRoad
         public override int ResourceUserClassID() => 131428;
 
         // Road.pas:141
-        public void Show(int Xhp, int Yhp, in SurfaceDesc SurfaceDesc, Road Road)
+        public void Show(int Xhp, int Yhp, in LockedSurface SurfaceDesc, Road Road)
         {
             byte Transitions;
             byte Base;

@@ -1,6 +1,5 @@
 using Aow.Engine;
-using Aow.Game.Ai.Groups;
-
+using Aow.Game.AI.Groups;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 
@@ -12,21 +11,21 @@ public sealed class SmallClassTargetTests
     public void MapLoadedHandlersRemoveByStaticMethodIdentity()
     {
         var events = new EventStore<HSMap>();
-        events.Add(BehaviorRegistrator.MapLoaded);
-        events.Add(CityRegistrator.MapLoaded);
-        events.Add(IndependentRegistrator.MapLoaded);
-        events.Add(MainRegistrator.MapLoaded);
+        events.Add(BehaviorRegistrar.MapLoaded);
+        events.Add(CityRegistrar.MapLoaded);
+        events.Add(IndependentRegistrar.MapLoaded);
+        events.Add(MainRegistrar.MapLoaded);
         Assert.Equal(4, events.Count);
-        events.Remove(BehaviorRegistrator.MapLoaded);
-        events.Remove(CityRegistrator.MapLoaded);
-        events.Remove(IndependentRegistrator.MapLoaded);
-        events.Remove(MainRegistrator.MapLoaded);
+        events.Remove(BehaviorRegistrar.MapLoaded);
+        events.Remove(CityRegistrar.MapLoaded);
+        events.Remove(IndependentRegistrar.MapLoaded);
+        events.Remove(MainRegistrar.MapLoaded);
         Assert.Equal(0, events.Count);
     }
 
-    private sealed class TrackedControl(List<string> log) : AIMoveExecuterControl(null!)
+    private sealed class TrackedControl(List<string> log) : AIMoveExecutorControl(null!)
     {
-        public override void Activate(AIMoveExecuter executer)
+        public override void Activate(AIMoveExecutor executer)
         {
             log.Add("activate");
             base.Activate(executer);
@@ -41,7 +40,7 @@ public sealed class SmallClassTargetTests
     public void MoveControlReplacementCleansUpBeforeConstruction()
     {
         var log = new List<string>();
-        using var executer = new AIMoveExecuter(null!);
+        using var executer = new AIMoveExecutor(null!);
         executer.ActivateMEC(() => new TrackedControl(log));
         log.Clear();
         executer.ActivateMEC(() =>

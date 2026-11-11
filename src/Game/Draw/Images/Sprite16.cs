@@ -197,7 +197,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(ShowMode);
 
     // ImageLib.pas:4392
-    public override void ShowOpaque(int X, int Y, in SurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in LockedSurface SD)
     {
         int DX;
         int Right;
@@ -300,7 +300,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:4457
-    public override void ShowBlended(int X, int Y, in SurfaceDesc SD, BlendTable Table)
+    public override void ShowBlended(int X, int Y, in LockedSurface SD, BlendTable Table)
     {
         int DX;
         int Right;
@@ -436,23 +436,23 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
     // ImageLib.pas:4543
     // { ShowTransparent shows the sprite blended 50% }
-    public override void ShowTransparent(int X, int Y, in SurfaceDesc SD)
+    public override void ShowTransparent(int X, int Y, in LockedSurface SD)
     {
-        ShowBlended(X, Y, SD, GfxState.AlphaBlendTable.LookupTables[50]);
+        ShowBlended(X, Y, SD, GraphicsState.AlphaBlendTable.LookupTables[50]);
     }
 
     // ImageLib.pas:4548
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB24 || PixelFormatID == PixelFormats.pfPAL8;
 
     // ImageLib.pas:4554
-    public override Form CreateGrabForm(Component AOwner, in SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:4561
     // { GrabImage locks the conversion surface and never unlocks it (an original bug) }
-    public override bool GrabImage(in SurfaceDesc SD, in Rect R, GrabInfo GrabInfo)
+    public override bool GrabImage(in LockedSurface SD, in Rect R, GrabInfo GrabInfo)
     {
         DataSurface Surface;
-        SurfaceDesc LSD = default;
+        LockedSurface LSD = default;
         Rect GR = default;
         Rect MR = default;
         int Left;
@@ -477,7 +477,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                     Surface.Lock(ref LSD);
                     var surfaceWidth = Surface.GetWidth();
                     var surfaceHeight = Surface.GetHeight();
-                    if (SurfaceDesc.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
+                    if (LockedSurface.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
@@ -502,7 +502,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                 FStoredPixelFormatID = LSD.PixelFormatID;
                 FPixelFormatID = FStoredPixelFormatID;
                 FColorKey = FTransparentColor;
-                SurfaceDesc.MinimizeTransparentRect(LSD, GR, FTransparentColor, ref MR);
+                LockedSurface.MinimizeTransparentRect(LSD, GR, FTransparentColor, ref MR);
                 Left = MR.Left;
                 FSpriteX = Left - GR.Left;
                 Top = MR.Top;

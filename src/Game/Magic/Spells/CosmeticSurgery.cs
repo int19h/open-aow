@@ -29,7 +29,7 @@ public partial class CosmeticSurgery : UnitSpell
     }
 
     // UnitSpells.pas:968
-    public override void GetCombatInfo(AbstractUnit Source, ref SpellCombatInfo Info)
+    public override void GetCombatInfo(Troop Source, ref SpellCombatInfo Info)
     {
         // { The original saves Self and Source as well as Info; this compiler saves only Info. }
         base.GetCombatInfo(Source, ref Info);
@@ -37,14 +37,14 @@ public partial class CosmeticSurgery : UnitSpell
     }
 
     // UnitSpells.pas:940
-    public override bool ValidTargetUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool ValidTargetUnit(Troop Source, Troop Target)
     {
         bool Result = base.ValidTargetUnit(Source, Target);
         return Result && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(Target.GetUnitType());
     }
 
     // UnitSpells.pas:946
-    public override bool CastSpell(AbstractUnit Source, UnitList Targets)
+    public override bool CastSpell(Troop Source, UnitList Targets)
     {
         bool Result;
         CosmeticSurgerySpellCaster Caster;
@@ -76,7 +76,7 @@ public partial class CosmeticSurgery : UnitSpell
     }
 
     // UnitSpells.pas:915
-    public override bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
+    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
     {
         bool Result;
         CosmeticSurgeryEnchantment Enchantment;

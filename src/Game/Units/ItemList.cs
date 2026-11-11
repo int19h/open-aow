@@ -33,7 +33,7 @@ public partial class ItemList : EChangeNotifyNode
             {
                 if (FChildren.List[I] != null)
                 {
-                    ((EObject)FChildren.List[I]).Release();
+                    ((EngineObject)FChildren.List[I]).Release();
                 }
             }
         }
@@ -42,12 +42,12 @@ public partial class ItemList : EChangeNotifyNode
     // Army.PAS:4546
     public override void Clear()
     {
-        EObject Child;
+        EngineObject Child;
         for (int I = Count - 1; I >= 0; I--)
         {
             if (FChildren.List[I] != null)
             {
-                Child = (EObject)FChildren.List[I];
+                Child = (EngineObject)FChildren.List[I];
                 if (Child != null)
                 {
                     if (Child.Owner != this)
@@ -74,7 +74,7 @@ public partial class ItemList : EChangeNotifyNode
     }
 
     // Army.PAS:4519
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         int Result = base.RemoveChild(Child);
         if (Result != -1)
@@ -86,7 +86,7 @@ public partial class ItemList : EChangeNotifyNode
     }
 
     // Army.PAS:4525
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         int Result = base.AddChild(Child);
         if (Result != -1)

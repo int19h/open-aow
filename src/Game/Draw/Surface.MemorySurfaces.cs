@@ -10,7 +10,7 @@ public partial class Surface
 
     public virtual int Cls(int Color)
     {
-        SurfaceDesc sd = default;
+        LockedSurface sd = default;
         int result = Lock(ref sd);
         if (result < 0) return result;
         try

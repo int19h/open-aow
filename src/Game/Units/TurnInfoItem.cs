@@ -5,7 +5,7 @@ using Aow.Engine.Storage;
 namespace Aow.Game.Units;
 
 // gold, mana, structures, army strength, heroes
-public partial class TurnInfoItem : EObject
+public partial class TurnInfoItem : EngineObject
 {
     public new const int ClassID = 131739;
 

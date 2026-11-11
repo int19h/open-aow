@@ -11,11 +11,11 @@ namespace Aow.Formats.Tree;
 /// </summary>
 public static class DocumentBackend
 {
-    public static JsonObject Write(ObjectNode node, SchemaClass cls, FormatSchema schema, string engine, DocPath? path = null) =>
-        WriteObject(node, cls, Site(schema, engine, path ?? DocPath.Root), created: false, slotted: false);
+    public static JsonObject Write(ObjectNode node, SchemaClass cls, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
+        WriteObject(node, cls, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
 
-    public static ObjectNode Read(JsonObject document, SchemaClass cls, FormatSchema schema, string engine, DocPath? path = null) =>
-        ReadObject(document, cls, Site(schema, engine, path ?? DocPath.Root), created: false, slotted: false);
+    public static ObjectNode Read(JsonObject document, SchemaClass cls, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
+        ReadObject(document, cls, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
 
     internal static JsonObject WriteObject(ObjectNode node, SchemaClass cls, DocumentSite site, bool created, bool slotted)
     {
@@ -129,7 +129,7 @@ public static class DocumentBackend
         return name.Value;
     }
 
-    private static DocumentSite Site(FormatSchema schema, string engine, DocPath path) => new()
+    private static DocumentSite Site(FormatSchema schema, string engine, DocumentNodePath path) => new()
     {
         Path = path,
         Schema = schema,

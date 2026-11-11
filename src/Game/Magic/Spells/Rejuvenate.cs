@@ -26,7 +26,7 @@ public partial class Rejuvenate : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1095
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         TargetSelectionControl Target;
         Target = TargetSelection;
@@ -39,10 +39,10 @@ public partial class Rejuvenate : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1107
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
-        RejuvenateTE Event;
-        Event = new RejuvenateTE(null);
+        RejuvenateTokenEvent Event;
+        Event = new RejuvenateTokenEvent(null);
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);

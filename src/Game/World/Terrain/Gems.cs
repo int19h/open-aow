@@ -1,7 +1,7 @@
 // Translated from Gems.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-using Aow.Game.Ai;
+using Aow.Game.AI;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
 
@@ -17,7 +17,7 @@ namespace Aow.Game.World.Terrain;
 
 // { ot=1 }
 // FAmount, FGenerateMode
-public partial class Gems : ILTerrainMO
+public partial class Gems : ImageLibraryTerrainMapObject
 {
     public Gems(ECustomNode owner) : base(owner)
     {
@@ -42,7 +42,7 @@ public partial class Gems : ILTerrainMO
     // Gems.pas:46
 
     // Gems.pas:93
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
@@ -52,12 +52,12 @@ public partial class Gems : ILTerrainMO
     }
 
     // Gems.pas:119
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4354)
         {
-            ArmyEntered(Msg.Param[0].As<ArmyHS>());
+            ArmyEntered(Msg.Param[0].As<ArmyHexSprite>());
             return;
         }
 
@@ -72,7 +72,7 @@ public partial class Gems : ILTerrainMO
     }
 
     // Gems.pas:87
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (Info.HN == 0)
         {
@@ -123,7 +123,7 @@ public partial class Gems : ILTerrainMO
     }
 
     // Gems.pas:99
-    public void ArmyEntered(ArmyHS ArmyHS)
+    public void ArmyEntered(ArmyHexSprite ArmyHS)
     {
         LocationTextEventLog Event;
         if (ArmyHS.FArmy.FPlayer != 0)
@@ -159,7 +159,7 @@ public partial class Gems : ILTerrainMO
 
     private static readonly string GoldFoundRStr = "%s gold pieces found";
 
-    public new partial class Resource : ILTerrainMOR
+    public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

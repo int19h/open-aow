@@ -26,7 +26,7 @@ public partial class DecayAbility : DurationAbility
         Data = (DurationAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
         if (Data != null && Data.FPlayerIndex == Player)
         {
-            if (CombatObject.GetAbilityOwner() is AbstractUnit)
+            if (CombatObject.GetAbilityOwner() is Troop)
             {
                 CombatObject.ExecuteDamage(1);
             }

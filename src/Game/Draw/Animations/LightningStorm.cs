@@ -26,7 +26,7 @@ public partial class LightningStorm : Storm
     public CustomImageLibrary FStormImages;
 
     // Storms.pas:429
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;
@@ -66,7 +66,7 @@ public partial class LightningStorm : Storm
     {
         Rect R = default;
         base.InitializeStorm(Player, X, Y, L);
-        FStormImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
+        FStormImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         if (GetVisible())
         {
             FStormImages.LoadDiscardableImageData();
@@ -110,7 +110,7 @@ public partial class LightningStorm : Storm
     public override void FinalizeStorm()
     {
         FStormImages.ReleaseDiscardableImageData();
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
+        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         base.FinalizeStorm();
     }
 

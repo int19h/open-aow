@@ -17,7 +17,7 @@ public partial class BuildRoadsControl : ConstructionControl
     }
 
     // AoWAb.PAS:5458
-    public override void GetInfo(AbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
+    public override void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
     {
         Text = AbilityRules.TranslateRStr(P4BuildRoadRStr);
         Gold = 0;
@@ -25,7 +25,7 @@ public partial class BuildRoadsControl : ConstructionControl
     }
 
     // AoWAb.PAS:5464
-    public override bool CanConstruct(AbstractUnit AUnit, ref string Reason)
+    public override bool CanConstruct(Troop AUnit, ref string Reason)
     {
         bool Result;
         sbyte X = default;
@@ -47,7 +47,7 @@ public partial class BuildRoadsControl : ConstructionControl
     }
 
     // AoWAb.PAS:5476
-    public override bool Construct(AbstractUnit AUnit)
+    public override bool Construct(Troop AUnit)
     {
         bool Result;
         string Reason = "";

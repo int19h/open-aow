@@ -10,7 +10,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units;
 
 // inherited List, Count, Default
-public partial class UnitIndexList : IntegerList
+public partial class UnitIndexList : Int32List
 {
     // UnitRes.PAS:219
     public UnitIndexList()

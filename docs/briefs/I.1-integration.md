@@ -11,7 +11,7 @@ rules, no NuGet configuration files).
 ## What to do
 
 1. **The layout's manifest bypass.** `src/Layout/Layout.targets` removes the generated
-   `AoWImage.cs` from compilation to replace `AOWImage` (Delphi `TAOWImage`). Replace that with the regular mechanism:
+   `AoWImage.cs` from compilation to replace `Image` (Delphi `TAOWImage`). Replace that with the regular mechanism:
    skip entries in `src/Overrides/overrides.toml` for exactly the members the layout override
    replaces, the override code under `src/Overrides`, regeneration, and no `Compile Remove` of a
    generated file anywhere.

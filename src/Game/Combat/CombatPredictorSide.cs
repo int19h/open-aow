@@ -8,8 +8,8 @@ namespace Aow.Game.Combat;
 // dirty flag. FStrength (ten Integers indexed by TDamageType)
 public partial class CombatPredictorSide : CombatPredictorUnitList
 {
-    public FixedArray_byte_4 F_CombatPredictorSide_10;
-    public FixedArray_int_10 FStrength;
+    public ByteArray4 F_CombatPredictorSide_10;
+    public Int32Array10 FStrength;
 
     // CombatPredictor.pas:278
     public void Reset()

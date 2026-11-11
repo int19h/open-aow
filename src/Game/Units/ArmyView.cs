@@ -22,9 +22,9 @@ public partial class ArmyView : Army
     public ArmyView(ECustomNode owner) : base(owner)
     { }
 
-    public FixedArray_ushort_8 FUnitConcealment;
+    public UInt16Array8 FUnitConcealment;
     public ushort FConcealedForPlayers;
-    public FixedArray_int_8 FMoraleValues;
+    public Int32Array8 FMoraleValues;
 
     // Army.PAS:122
     public override void ReadWrite(EStorageStream Stream)
@@ -81,7 +81,7 @@ public partial class ArmyView : Army
     // Army.PAS:100
     public virtual void Setup(Army Army, byte Selection)
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         AssignSettings(Army);
         FX = Army.FX;
         FY = Army.FY;
@@ -90,7 +90,7 @@ public partial class ArmyView : Army
         {
             if ((Selection & 1) != 0)
             {
-                AUnit = (AbstractUnit)Army.GetUnit(I).Copy(GameTables.AoWEngine);
+                AUnit = (Troop)Army.GetUnit(I).Copy(GameTables.AoWEngine);
                 AUnit.SetOwner(this);
                 AUnit.Release();
                 var unit = Army.GetUnit(I);

@@ -21,11 +21,11 @@ public partial class WebAbility : TouchAbility
     }
 
     // AoWAb.PAS:2901
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
-        WebCA Action;
-        StrikeCA Strike;
+        WebCombatAction Action;
+        StrikeCombatAction Strike;
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
         Action = CreateWebCA(Source, Target);
@@ -45,7 +45,7 @@ public partial class WebAbility : TouchAbility
     }
 
     // AoWAb.PAS:2842
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         float Probability;
@@ -63,7 +63,7 @@ public partial class WebAbility : TouchAbility
     }
 
     // AoWAb.PAS:2855
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         float Probability;
         if (WallSituation == WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && !Defender.GetImmunityTypes().Contains(DamageType.None))
@@ -73,7 +73,7 @@ public partial class WebAbility : TouchAbility
             DamageValues.SourceDamage = Round((double)((double)hitPoints * Probability) * 100);
             var defenderHitPoints = Defender.GetHitPoints();
             DamageValues.SourceCost = defenderHitPoints;
-            var p4UnitStrikeDV = AbstractUnit.P4UnitStrikeDV(Defender, Attacker);
+            var p4UnitStrikeDV = Troop.P4UnitStrikeDV(Defender, Attacker);
             DamageValues.TargetDamage = Round((double)p4UnitStrikeDV * ((double)1 - Probability));
             var damage = Defender.GetDamage();
             DamageValues.TargetCost = damage;
@@ -92,7 +92,7 @@ public partial class WebAbility : TouchAbility
     // AoWAb.PAS:2833
     public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
     {
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Strength = Round((double)(unit.GetAttack() * 4 * 4) * 0.1);
             Types = Set<DamageType>.Of(DamageType.None);
@@ -136,9 +136,9 @@ public partial class WebAbility : TouchAbility
     public override bool CanTouch(CombatObject Source, CombatObject Target) => base.CanTouch(Source, Target) && (Source is CombatUnit && Target is CombatUnit && !Target.GetAbilityEnabled(97));
 
     // AoWAb.PAS:2819
-    public WebCA CreateWebCA(CombatObject Source, CombatObject Target)
+    public WebCombatAction CreateWebCA(CombatObject Source, CombatObject Target)
     {
-        WebCA Result = new WebCA(null);
+        WebCombatAction Result = new WebCombatAction(null);
         var combatTouchRole = CombatTouchRole((CombatUnit)Source, Target);
         Result.Initialize(Source.FID, Target.FID, combatTouchRole);
         return Result;

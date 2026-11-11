@@ -17,7 +17,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
 
     internal bool FOwnPalette;
     internal LibraryImagePalette FImagePalette;
-    internal GFXEPalette FRemapPalette;
+    internal Palette FRemapPalette;
 
     // ImageLib.pas:7152
     public override void Clear()
@@ -93,7 +93,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:7218
-    public void CreateLibraryImagePalette(GFXEPalette Palette)
+    public void CreateLibraryImagePalette(Palette Palette)
     {
         UnregisterPalette();
         if (FImagePalette == null)
@@ -121,7 +121,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     public override int RemapToPixelFormat(int PixelFormatID)
     {
         int Result;
-        GFXEPalette P;
+        Palette P;
         P = FImagePalette.RemapPalette(PixelFormatID);
         if (P != null)
         {

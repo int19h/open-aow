@@ -16,19 +16,19 @@ public sealed class GlyphIndexTests
         var previousClasses = ImageLibraries.LibraryImageClasses;
         var previousBase = ImageLibraries.BaseImageLibraryPath;
         // Shadowed fonts draw through the blend tables that GFXE.Initialize builds at game start.
-        var previousTables = (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable);
-        (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) =
+        var previousTables = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
+        (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
-        GfxState.InitBlendTables(5, 31);
+        GraphicsState.InitBlendTables(5, 31);
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
-        // The game keeps library names relative to the install, as FontModule does with Int\Fonts.
+        // The game keeps library names relative to the install, as UIFonts does with Int\Fonts.
         ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
         try
         {
             ImageLibraries.RegisterLibraryImageClasses([
-                LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>(),
+                LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RleSprite08>(),
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
-                LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
+                LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(),
                 LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
             int glyphs = 0;
             foreach (string file in files) glyphs += CheckFont(file);
@@ -39,12 +39,12 @@ public sealed class GlyphIndexTests
             ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
             ImageLibraries.BaseImageLibraryPath = previousBase;
-            GfxState.AlphaBlendTable?.Dispose();
-            GfxState.IntensityBlendTable?.Dispose();
-            GfxState.BrightenBlendTable?.Dispose();
-            GfxState.ShadowBlendTable?.Dispose();
-            GfxState.LinearAlphaBlendTable?.Dispose();
-            (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) = previousTables;
+            GraphicsState.AlphaBlendTable?.Dispose();
+            GraphicsState.IntensityBlendTable?.Dispose();
+            GraphicsState.BrightenBlendTable?.Dispose();
+            GraphicsState.ShadowBlendTable?.Dispose();
+            GraphicsState.LinearAlphaBlendTable?.Dispose();
+            (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) = previousTables;
         }
     }
 
@@ -85,11 +85,11 @@ public sealed class GlyphIndexTests
         return drawn;
     }
 
-    private static byte[] Draw(int width, int height, Action<SurfaceDesc> draw)
+    private static byte[] Draw(int width, int height, Action<LockedSurface> draw)
     {
-        using var surface = new DIB16Surface(width, height, PixelFormats.pfRGB555);
+        using var surface = new Dib16Surface(width, height, PixelFormats.pfRGB555);
         surface.Cls(0);
-        SurfaceDesc sd = default;
+        LockedSurface sd = default;
         surface.Lock(ref sd);
         try
         {

@@ -749,9 +749,9 @@ internal static class GameText
 
     internal static readonly string spRStr = "sp";
 
-    internal static FixedArray_string_10 TAbilitySelectionTypeRStr = FixedArray_string_10.From([]);
+    internal static StringArray10 TAbilitySelectionTypeRStr = StringArray10.From([]);
 
-    internal static FixedArray_string_3 TPlayModeRStr = FixedArray_string_3.From(["None", "Classic", "Simultaneous"]);
+    internal static StringArray3 TPlayModeRStr = StringArray3.From(["None", "Classic", "Simultaneous"]);
 
     internal static string[] TAlignmentRStr = ["Pure Good", "Good", "Pure Neutral", "Neutral", "Evil", "Pure Evil", "None"];
 

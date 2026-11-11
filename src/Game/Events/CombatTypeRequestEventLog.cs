@@ -21,9 +21,9 @@ public partial class CombatTypeRequestEventLog : EventLog
     public sbyte FX;
     public sbyte FY;
     public sbyte FL;
-    public EObject FTokenEvent;
+    public EngineObject FTokenEvent;
     public bool FCreateNewMove;
-    public ArmyID FArmyID;
+    public ArmyId FArmyID;
 
     // Combat2.pas:1
     public override void Dispose()

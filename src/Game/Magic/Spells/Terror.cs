@@ -30,8 +30,8 @@ public partial class Terror : CombatSpell
     // CombatSpells.pas:1775
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        TacticalCombatTerrorCA Action;
-        Action = new TacticalCombatTerrorCA(null);
+        TacticalBattleTerrorCombatAction Action;
+        Action = new TacticalBattleTerrorCombatAction(null);
         Action.Generate(Source, Target);
         if (ChargeMana)
         {
@@ -73,12 +73,12 @@ public partial class Terror : CombatSpell
     }
 
     // CombatSpells.pas:1786
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
         CombatSide Side;
         CombatObject Target;
         int Value;
-        SpellCC Command;
+        FastBattleSpellCommand Command;
         Value = 0;
         var opponentSide = Commands.FSource.GetOpponentSide();
         Side = Commands.FCombat.FSides[(int)opponentSide];
@@ -93,7 +93,7 @@ public partial class Terror : CombatSpell
 
         if (Value != 0)
         {
-            Command = new SpellCC(52);
+            Command = new FastBattleSpellCommand(52);
             Command.FTarget = null;
             Command.FMoveCost = 1;
             Command.FSpellID = FSpellID;
@@ -103,10 +103,10 @@ public partial class Terror : CombatSpell
     }
 
     // CombatSpells.pas:1815
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
-        FastCombatTerrorCA Action;
-        Action = new FastCombatTerrorCA(null);
+        FastBattleTerrorCombatAction Action;
+        Action = new FastBattleTerrorCombatAction(null);
         Action.Generate(Source);
         Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
         Source.FCombat.ExecuteCombatAction(Action);

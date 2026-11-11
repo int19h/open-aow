@@ -2,9 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Movement;
@@ -25,7 +23,7 @@ public partial class MoveTargetList : EReferenceNode
         while (Result != 0)
         {
             Result -= 1;
-            if (Unsafe.As<XYL, int>(ref ((MoveTarget)FChildren.List[Result]).FLocation) == Location)
+            if (Unsafe.As<MapCoordinate, int>(ref ((MoveTarget)FChildren.List[Result]).FLocation) == Location)
             {
                 return Result;
             }
@@ -39,7 +37,7 @@ public partial class MoveTargetList : EReferenceNode
     {
         MoveTarget Target;
         Target = new MoveTarget(null);
-        Unsafe.As<XYL, int>(ref Target.FLocation) = Location;
+        Unsafe.As<MapCoordinate, int>(ref Target.FLocation) = Location;
         Target.FMovePoints = MovePoints;
         Target.FTransporterID = TransporterID;
         Target.FData = Data;

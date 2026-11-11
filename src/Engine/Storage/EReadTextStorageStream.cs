@@ -187,9 +187,9 @@ public partial class EReadTextStorageStream : EStorageStream
     public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText);
 
     // Engine.pas:10741
-    public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
+    public override void rwCreateEObject(ref EngineObject Obj, ECustomNode AOwner, int ID)
     {
-        EObject O;
+        EngineObject O;
         O = Obj;
         if (O != null)
         {
@@ -198,7 +198,7 @@ public partial class EReadTextStorageStream : EStorageStream
     }
 
     // Engine.pas:10749
-    public override void rwEObject(EObject Obj, int ID)
+    public override void rwEObject(EngineObject Obj, int ID)
     {
         StringList SavedValues;
         string SavedPath;
@@ -246,7 +246,7 @@ public partial class EReadTextStorageStream : EStorageStream
     }
 
     // Engine.pas:10779
-    public override void rwEObjectStream(EObject Obj, int ID)
+    public override void rwEObjectStream(EngineObject Obj, int ID)
     {
         rwEObject(Obj, ID);
     }
@@ -290,7 +290,7 @@ public partial class EReadTextStorageStream : EStorageStream
     // Engine.pas:10805
     public override void rwChildren(ECustomNode Node, int ID)
     {
-        EObject C;
+        EngineObject C;
         // { the original saves the path and never restores it }
         if (!IsEmpty(FPath))
         {

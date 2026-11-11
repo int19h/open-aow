@@ -25,7 +25,7 @@ public partial class House : CombatStructure
     {
         PlayerStructure Structure;
         base.Activate();
-        if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
             if (Structure != null)
@@ -56,7 +56,7 @@ public partial class House : CombatStructure
         }
     }
 
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         ImageSequence Sequence;
         int ImageIndex;
@@ -71,7 +71,7 @@ public partial class House : CombatStructure
             Sequence = AoWHSSet.Current.FImageSequences.GetImageSequence(50);
             var yhx = GetYhx();
             var xhx = GetXhx();
-            switch (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+            switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
             {
                 case 3:
                     TerrainOffset = 1;
@@ -105,7 +105,7 @@ public partial class House : CombatStructure
         {
             var yhx = GetYhx();
             var xhx = GetXhx();
-            switch (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+            switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
             {
                 case 3:
                     TerrainOffset = 20;
@@ -128,10 +128,10 @@ public partial class House : CombatStructure
                     switch (Sequence.Layer)
                     {
                         case 7:
-                            ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                            ImageIndex = Sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                             if (ImageIndex != -1)
                             {
-                                if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                                if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                                 {
                                     var xhx2 = GetXhx();
                                     var yhx2 = GetYhx();
@@ -142,7 +142,7 @@ public partial class House : CombatStructure
                             break;
                         default:
                             {
-                                ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                                ImageIndex = Sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                                 if (ImageIndex != -1)
                                 {
                                     Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
@@ -159,7 +159,7 @@ public partial class House : CombatStructure
         }
     }
 
-    public override void ShowShadow(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         ImageSequence Sequence;
         int ImageIndex;
@@ -175,7 +175,7 @@ public partial class House : CombatStructure
             {
                 do
                 {
-                    ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    ImageIndex = Sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                     if (ImageIndex != -1)
                     {
                         Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);

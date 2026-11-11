@@ -31,7 +31,7 @@ public partial class CallHero : Spell
     }
 
     // GlobalSpells.pas:1250
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         bool ShowSource;
         bool ShowTarget;
@@ -39,7 +39,7 @@ public partial class CallHero : Spell
         sbyte Y = default;
         sbyte Layer = default;
         Hero Hero;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         ImageSequenceAnimation Animation;
         base.ExecuteTE(Event, Source, ExecuteCount);
         Source.GetLocation(ref X, ref Y, ref Layer);
@@ -131,14 +131,14 @@ public partial class CallHero : Spell
     }
 
     // GlobalSpells.pas:1195
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string Reason = "";
-        SpellTE Event;
+        SpellTokenEvent Event;
         if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new SpellTE(null);
+            Event = new SpellTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
@@ -153,7 +153,7 @@ public partial class CallHero : Spell
     }
 
     // GlobalSpells.pas:1212
-    public Hero FindCallHero(AbstractUnit Source)
+    public Hero FindCallHero(Troop Source)
     {
         Hero Result;
         Hero Hero;

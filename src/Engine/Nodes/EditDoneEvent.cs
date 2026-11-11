@@ -2,4 +2,4 @@
 
 namespace Aow.Engine.Nodes;
 
-public delegate void EditDoneEvent(EditResult EditResult, EObject EObject);
+public delegate void EditDoneEvent(EditResult EditResult, EngineObject EObject);

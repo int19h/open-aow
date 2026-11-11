@@ -6,7 +6,7 @@ namespace Aow.Game.Net;
 
 // FSender, FReceiver (player indices, stored with ids 1 and 2), FRefCount. The base of the
 // packages that TPlayerCommunicator sends
-public partial class DataPackage : EObject
+public partial class DataPackage : EngineObject
 {
     internal int FSender;
     internal int FReceiver;

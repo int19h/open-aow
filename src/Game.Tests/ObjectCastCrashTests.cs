@@ -6,9 +6,9 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
-using Aow.Game.Ui.Controls;
-using Aow.Game.Ui.Dialogs;
-using Aow.Game.Ui.Windows;
+using Aow.Game.UI.Controls;
+using Aow.Game.UI.Dialogs;
+using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
@@ -47,7 +47,7 @@ public sealed class ObjectCastCrashTests
         public void Dispose() => AoWHSMap.Current = previous;
     }
 
-    private sealed class MasteryUnit : AbstractUnit
+    private sealed class MasteryUnit : Troop
     {
         public MasteryUnit() : base(null!)
         {
@@ -65,9 +65,9 @@ public sealed class ObjectCastCrashTests
         }
     }
 
-    private sealed class RecordingRelWindow : RelWindow
+    private sealed class RecordingRelationWindow : RelationWindow
     {
-        public RecordingRelWindow() : base(null!)
+        public RecordingRelationWindow() : base(null!)
         {
         }
 
@@ -82,7 +82,7 @@ public sealed class ObjectCastCrashTests
         }
     }
 
-    private sealed class ListedTerrain : TerrainMO
+    private sealed class ListedTerrain : TerrainMapObject
     {
         public ListedTerrain(MapObjectResourceList list) : base(null!)
         {
@@ -127,7 +127,7 @@ public sealed class ObjectCastCrashTests
         holy.NewFrameSummonAnimation(animation, 9);
         Assert.False(holy.FMode.Contains(HolySummoning.Summoning));
 
-        var unholy = new UnHolyGround(null!);
+        var unholy = new UnholyGround(null!);
         Own(unholy, scope.Field);
         unholy.FMode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
         unholy.NewFrameSummonAnimation(animation, 8);
@@ -145,11 +145,11 @@ public sealed class ObjectCastCrashTests
 
         var mountain = new RaisedMountain(null!);
         Own(mountain, scope.Field);
-        mountain.FMode = Set<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.Raising);
+        mountain.FMode = Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
         mountain.NewFrameRaiseTerrainAnimation(animation, 8);
-        Assert.True(mountain.FMode.Contains(AnonymousEnum_rmRaising.Raising));
+        Assert.True(mountain.FMode.Contains(RaisedMountainMode.Raising));
         mountain.NewFrameRaiseTerrainAnimation(animation, 9);
-        Assert.False(mountain.FMode.Contains(AnonymousEnum_rmRaising.Raising));
+        Assert.False(mountain.FMode.Contains(RaisedMountainMode.Raising));
     }
 
     [Fact]
@@ -200,12 +200,12 @@ public sealed class ObjectCastCrashTests
         {
             var list = new MapObjectResourceList(null!);
             list.FChildren.Add(new MapObjectResource(null!));
-            var match = new TerrainMOR(null!);
+            var match = new TerrainMapObjectResource(null!);
             match.FTerrainType = 4;
             match.FDecorationType = 2;
             list.FChildren.Add(match);
 
-            var resource = new TerrainMOR(null!);
+            var resource = new TerrainMapObjectResource(null!);
             resource.FTerrainType = 4;
             resource.FDecorationType = 9;
             var finder = new ListedTerrain(list);
@@ -214,7 +214,7 @@ public sealed class ObjectCastCrashTests
 
             var clearing = new MapObjectResourceList(null!);
             clearing.FChildren.Add(new MapObjectResource(null!));
-            var wide = new TerrainMOR(null!);
+            var wide = new TerrainMapObjectResource(null!);
             wide.TerrainList.SetTerrain(0, 1);
             wide.TerrainList.SetTerrain(1, 1);
             var terrain = new ListedTerrain(clearing);
@@ -236,71 +236,71 @@ public sealed class ObjectCastCrashTests
         var previousSound = AudioHost.SoundSystem;
         AudioHost.SoundSystem = null;
         DialogHosts.General = new General(null!);
-        DialogHosts.General.Manager = new AOWWinManager(null!);
+        DialogHosts.General.Manager = new WindowManager(null!);
         try
         {
-            var window = new RecordingRelWindow();
-            window.P1I = new AOWImage(null!);
-            window.P2I = new AOWImage(null!);
-            window.P3I = new AOWImage(null!);
-            window.P4I = new AOWImage(null!);
-            window.P5I = new AOWImage(null!);
-            window.P6I = new AOWImage(null!);
-            window.P7I = new AOWImage(null!);
-            window.P8I = new AOWImage(null!);
-            window.P9I = new AOWImage(null!);
-            window.P10I = new AOWImage(null!);
-            window.P11I = new AOWImage(null!);
-            window.P12I = new AOWImage(null!);
-            window.R1I = new AOWImage(null!);
-            window.R2I = new AOWImage(null!);
-            window.R3I = new AOWImage(null!);
-            window.R4I = new AOWImage(null!);
-            window.R5I = new AOWImage(null!);
-            window.R6I = new AOWImage(null!);
-            window.R7I = new AOWImage(null!);
-            window.R8I = new AOWImage(null!);
-            window.R9I = new AOWImage(null!);
-            window.R10I = new AOWImage(null!);
-            window.R11I = new AOWImage(null!);
-            window.R12I = new AOWImage(null!);
-            window.P1CB = new AOWCheckBox(null!);
-            window.P2CB = new AOWCheckBox(null!);
-            window.P3CB = new AOWCheckBox(null!);
-            window.P4CB = new AOWCheckBox(null!);
-            window.P5CB = new AOWCheckBox(null!);
-            window.P6CB = new AOWCheckBox(null!);
-            window.P7CB = new AOWCheckBox(null!);
-            window.P8CB = new AOWCheckBox(null!);
-            window.P9CB = new AOWCheckBox(null!);
-            window.P10CB = new AOWCheckBox(null!);
-            window.P11CB = new AOWCheckBox(null!);
-            window.P12CB = new AOWCheckBox(null!);
-            window.R1CB = new AOWCheckBox(null!);
-            window.R2CB = new AOWCheckBox(null!);
-            window.R3CB = new AOWCheckBox(null!);
-            window.R4CB = new AOWCheckBox(null!);
-            window.R5CB = new AOWCheckBox(null!);
-            window.R6CB = new AOWCheckBox(null!);
-            window.R7CB = new AOWCheckBox(null!);
-            window.R8CB = new AOWCheckBox(null!);
-            window.R9CB = new AOWCheckBox(null!);
-            window.R10CB = new AOWCheckBox(null!);
-            window.R11CB = new AOWCheckBox(null!);
-            window.R12CB = new AOWCheckBox(null!);
-            window.RelWin = new AOWWindow(null!);
-            window.RelPnl = new AOWPanel(null!);
-            window.PlyrGlow = new AOWImage(null!);
-            window.RNewActionPnl = new AOWPanel(null!);
-            window.RIncomingPnl = new AOWPanel(null!);
-            window.RMsgEditPnl = new AOWPanel(null!);
-            window.RSBribePnl = new AOWPanel(null!);
-            window.RMsgRecPnl = new AOWPanel(null!);
-            window.IncommingInfoPnl = new AOWPanel(null!);
-            window.ActionsLB = new AOWListBox(null!);
-            window.SMemo = new AOWMemo(null!);
-            window.MMemo = new AOWMemo(null!);
-            window.ASelect = new AOWButton(null!);
+            var window = new RecordingRelationWindow();
+            window.P1I = new Image(null!);
+            window.P2I = new Image(null!);
+            window.P3I = new Image(null!);
+            window.P4I = new Image(null!);
+            window.P5I = new Image(null!);
+            window.P6I = new Image(null!);
+            window.P7I = new Image(null!);
+            window.P8I = new Image(null!);
+            window.P9I = new Image(null!);
+            window.P10I = new Image(null!);
+            window.P11I = new Image(null!);
+            window.P12I = new Image(null!);
+            window.R1I = new Image(null!);
+            window.R2I = new Image(null!);
+            window.R3I = new Image(null!);
+            window.R4I = new Image(null!);
+            window.R5I = new Image(null!);
+            window.R6I = new Image(null!);
+            window.R7I = new Image(null!);
+            window.R8I = new Image(null!);
+            window.R9I = new Image(null!);
+            window.R10I = new Image(null!);
+            window.R11I = new Image(null!);
+            window.R12I = new Image(null!);
+            window.P1CB = new CheckBox(null!);
+            window.P2CB = new CheckBox(null!);
+            window.P3CB = new CheckBox(null!);
+            window.P4CB = new CheckBox(null!);
+            window.P5CB = new CheckBox(null!);
+            window.P6CB = new CheckBox(null!);
+            window.P7CB = new CheckBox(null!);
+            window.P8CB = new CheckBox(null!);
+            window.P9CB = new CheckBox(null!);
+            window.P10CB = new CheckBox(null!);
+            window.P11CB = new CheckBox(null!);
+            window.P12CB = new CheckBox(null!);
+            window.R1CB = new CheckBox(null!);
+            window.R2CB = new CheckBox(null!);
+            window.R3CB = new CheckBox(null!);
+            window.R4CB = new CheckBox(null!);
+            window.R5CB = new CheckBox(null!);
+            window.R6CB = new CheckBox(null!);
+            window.R7CB = new CheckBox(null!);
+            window.R8CB = new CheckBox(null!);
+            window.R9CB = new CheckBox(null!);
+            window.R10CB = new CheckBox(null!);
+            window.R11CB = new CheckBox(null!);
+            window.R12CB = new CheckBox(null!);
+            window.RelWin = new Window(null!);
+            window.RelPnl = new Panel(null!);
+            window.PlyrGlow = new Image(null!);
+            window.RNewActionPnl = new Panel(null!);
+            window.RIncomingPnl = new Panel(null!);
+            window.RMsgEditPnl = new Panel(null!);
+            window.RSBribePnl = new Panel(null!);
+            window.RMsgRecPnl = new Panel(null!);
+            window.IncommingInfoPnl = new Panel(null!);
+            window.ActionsLB = new ListBox(null!);
+            window.SMemo = new Memo(null!);
+            window.MMemo = new Memo(null!);
+            window.ASelect = new Button(null!);
             window.RelWindowCreate();
 
             window.ShowRelations(0);
@@ -344,7 +344,7 @@ public sealed class ObjectCastCrashTests
             marker.OverlayType = 4;
             var holder = new EngineFixture.Owner();
             holder.FOwner = marker;
-            var bridge = new HexagonBridge(holder);
+            var bridge = new HexBridge(holder);
             bridge.FResource = new MapObjectResource(null!);
             Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
@@ -360,7 +360,7 @@ public sealed class ObjectCastCrashTests
             marker.OverlayType = 4;
             var holder = new EngineFixture.Owner();
             holder.FOwner = level;
-            var bridge = new HexagonBridge(holder);
+            var bridge = new HexBridge(holder);
             bridge.FResource = new MapObjectResource(null!);
             Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);

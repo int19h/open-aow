@@ -1,8 +1,8 @@
 using Aow.Game.Audio;
 using Aow.Game.Draw.Images;
 using Aow.Game.Layout;
-using Aow.Game.Ui.Controls;
-using Aow.Game.Ui.Dialogs;
+using Aow.Game.UI.Controls;
+using Aow.Game.UI.Dialogs;
 
 namespace Aow.Game.Tests;
 
@@ -38,8 +38,8 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void OneHandlerRunsFromAButtonAndAList()
     {
         var owner = new Component(null!);
-        var button = new AOWButton(owner);
-        var list = new AOWListBox(owner);
+        var button = new Button(owner);
+        var list = new ListBox(owner);
         int runs = 0;
         void Open() => runs++;
         button.OnClick = _ => Open();
@@ -56,7 +56,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void BaseHandlerBindsToTheButtonEvent()
     {
         var owner = new Component(null!);
-        var button = new AOWButton(owner);
+        var button = new Button(owner);
         object? seen = null;
         void Ignore(object sender) => seen = sender;
         button.OnClick = Ignore;
@@ -71,25 +71,25 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void DerivedMouseEventRoundTripsThroughTheBaseSlot()
     {
         var owner = new Component(null!);
-        var button = new AOWButton(owner);
-        AOWButton? seen = null;
-        NotifyEvent<AOWButton> click = sender => seen = sender;
+        var button = new Button(owner);
+        Button? seen = null;
+        NotifyEvent<Button> click = sender => seen = sender;
         button.OnClick = click;
         Assert.Same(click, button.OnClick);
         button.OnClick(button);
         Assert.Same(button, seen);
 
         int runs = 0;
-        AoWComponent? mouseSender = null;
-        void Down(AoWComponent sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y)
+        UIComponent? mouseSender = null;
+        void Down(UIComponent sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y)
         {
             runs++;
             mouseSender = sender;
         }
 
-        AoWComponent component = button;
+        UIComponent component = button;
         component.OnMouseDown = Down;
-        MouseEvent<AOWButton> saved = button.OnMouseDown;
+        MouseEvent<Button> saved = button.OnMouseDown;
         saved(button, MouseButton.Left, default, 1, 2);
         Assert.Equal(1, runs);
         Assert.Same(button, mouseSender);
@@ -109,9 +109,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void DirectCallPassesNoSender()
     {
         using var owner = new Component(null!);
-        var window = new RelWindow(owner);
-        window.SBGoldSlid = new AOWHScrollBar(owner);
-        window.SBGoldV = new AOWLabel(owner);
+        var window = new RelationWindow(owner);
+        window.SBGoldSlid = new HorizontalScrollBar(owner);
+        window.SBGoldV = new Label(owner);
         window.SBGoldSlid.FPosition = 17;
 
         window.SBGoldSlidChange();
@@ -132,22 +132,22 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             muted = true;
         }
 
-        FileDlgWindow dialog = null!;
-        var previousDirectories = FileDlgWindow.Directories;
+        FileDialogWindow dialog = null!;
+        var previousDirectories = FileDialogWindow.Directories;
         try
         {
-            dialog = Load(new LayoutSession(), new FileDlgWindow(null!), static module => { _ = module; });
+            dialog = Load(new LayoutSession(), new FileDialogWindow(null!), static module => { _ = module; });
             Assert.NotNull(dialog.Openbut.OnClick);
             Assert.NotNull(dialog.FileLB.OnDoubleClick);
-            FileDlgWindow.Directories = null!;
+            FileDialogWindow.Directories = null!;
             var click = Assert.Throws<NullReferenceException>(() => dialog.Openbut.OnClick(dialog.Openbut));
             var doubleClick = Assert.Throws<NullReferenceException>(() => dialog.FileLB.OnDoubleClick(dialog.FileLB));
-            Assert.Contains(nameof(FileDlgWindow.OpenbutClick), click.ToString(), StringComparison.Ordinal);
-            Assert.Contains(nameof(FileDlgWindow.OpenbutClick), doubleClick.ToString(), StringComparison.Ordinal);
+            Assert.Contains(nameof(FileDialogWindow.OpenbutClick), click.ToString(), StringComparison.Ordinal);
+            Assert.Contains(nameof(FileDialogWindow.OpenbutClick), doubleClick.ToString(), StringComparison.Ordinal);
         }
         finally
         {
-            FileDlgWindow.Directories = previousDirectories;
+            FileDialogWindow.Directories = previousDirectories;
             dialog?.Dispose();
             if (muted) system!.SetSFXEnabled(true);
             ImageLibraries.BaseImageLibraryPath = previousImagePath;
@@ -158,12 +158,12 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void TwoLevelMouseDownFiresTheDerivedOwner()
     {
         using var owner = new Component(null!);
-        var button = new AOWButton(owner);
-        var other = new AOWButton(owner);
-        AOWButton? seen = null;
+        var button = new Button(owner);
+        var other = new Button(owner);
+        Button? seen = null;
         button.OnMouseDown = (sender, mouseButton, shift, x, y) => seen = sender;
-        AOWBaseButton middle = button;
-        MouseEvent<AOWBaseButton> read = middle.OnMouseDown;
+        BaseButton middle = button;
+        MouseEvent<BaseButton> read = middle.OnMouseDown;
         Assert.NotSame(button.OnMouseDown, read);
 
         button.FOnMouseDown(other, MouseButton.Left, default, 4, 5);
@@ -177,12 +177,12 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void BaseReassignmentReplacesTheDerivedHandler()
     {
         using var owner = new Component(null!);
-        var button = new AOWButton(owner);
-        AOWButton? seen = null;
+        var button = new Button(owner);
+        Button? seen = null;
         button.OnMouseDown = (sender, mouseButton, shift, x, y) => seen = sender;
-        AoWComponent component = button;
-        AoWComponent? replaced = null;
-        MouseEvent<AoWComponent> replacement = (sender, mouseButton, shift, x, y) => replaced = sender;
+        UIComponent component = button;
+        UIComponent? replaced = null;
+        MouseEvent<UIComponent> replacement = (sender, mouseButton, shift, x, y) => replaced = sender;
         component.OnMouseDown = replacement;
 
         Assert.Same(replacement, button.OnMouseDown);
@@ -196,18 +196,18 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void SavedBaseFieldRestoresTheTypedHandler()
     {
         using var owner = new Component(null!);
-        var button = new AOWButton(owner);
-        var other = new AOWButton(owner);
-        AOWButton? seen = null;
+        var button = new Button(owner);
+        var other = new Button(owner);
+        Button? seen = null;
         byte key = 65;
-        KeyPressEvent<AOWButton> handler = (sender, ref pressed) =>
+        KeyPressEvent<Button> handler = (sender, ref pressed) =>
         {
             seen = sender;
             pressed = 66;
         };
         button.OnKeyPress = handler;
-        AoWComponent component = button;
-        KeyPressEvent<AoWComponent> saved = component.OnKeyPress;
+        UIComponent component = button;
+        KeyPressEvent<UIComponent> saved = component.OnKeyPress;
         button.OnKeyPress = null;
         Assert.Null(button.OnKeyPress);
         component.OnKeyPress = saved;
@@ -223,10 +223,10 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void CopiedWrapperKeepsTheOriginalOwner()
     {
         using var owner = new Component(null!);
-        var button = new AOWButton(owner);
-        var other = new AOWButton(owner);
-        AOWButton? seen = null;
-        MouseEvent<AOWButton> handler = (sender, mouseButton, shift, x, y) => seen = sender;
+        var button = new Button(owner);
+        var other = new Button(owner);
+        Button? seen = null;
+        MouseEvent<Button> handler = (sender, mouseButton, shift, x, y) => seen = sender;
         button.OnMouseDown = handler;
         other.FOnMouseDown = button.FOnMouseDown;
 
@@ -248,13 +248,13 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public sealed class Host : IDisposable
     {
         private readonly Action<string> previousMessage = Runtime.MessageHandler;
-        private readonly IntGfxMod? previousGfx = DialogHosts.IntGfxMod;
-        private readonly FontModule? previousFont = DialogHosts.FontModule;
+        private readonly UIGraphics? previousGfx = DialogHosts.IntGfxMod;
+        private readonly UIFonts? previousFont = DialogHosts.FontModule;
         private readonly General? previousGeneral = DialogHosts.General;
-        private IntGfxMod gfx = null!;
-        private FontModule font = null!;
+        private UIGraphics gfx = null!;
+        private UIFonts font = null!;
         private General general = null!;
-        internal EmailGameSettingsDlg Dialog = null!;
+        internal EmailGameSettingsDialog Dialog = null!;
 
         public Host()
         {
@@ -264,10 +264,10 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             try
             {
                 var session = new LayoutSession();
-                gfx = Load(session, new IntGfxMod(null!), module => DialogHosts.IntGfxMod = module);
-                font = Load(session, new FontModule(null!), module => DialogHosts.FontModule = module);
+                gfx = Load(session, new UIGraphics(null!), module => DialogHosts.IntGfxMod = module);
+                font = Load(session, new UIFonts(null!), module => DialogHosts.FontModule = module);
                 general = Load(session, new General(null!), module => DialogHosts.General = module);
-                Dialog = Load(session, new EmailGameSettingsDlg(null!), static module => { _ = module; });
+                Dialog = Load(session, new EmailGameSettingsDialog(null!), static module => { _ = module; });
             }
             catch
             {

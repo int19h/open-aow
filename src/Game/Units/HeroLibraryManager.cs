@@ -14,7 +14,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units;
 
 // FSystemLibrary. FLibraries
-public partial class HeroLibraryManager : EObject
+public partial class HeroLibraryManager : EngineObject
 {
     // Hero.PAS:2646
     public HeroLibraryManager(ECustomNode owner) : base(owner)

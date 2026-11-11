@@ -1,9 +1,7 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
@@ -24,14 +22,14 @@ namespace Aow.Game.Magic.Spells;
 
 // (name, control types, spell ID, base mana cost, sphere, level, type, text, sounds, images.
 // remain unresolved Integers)
-public partial class Spell : EObject
+public partial class Spell : EngineObject
 {
 
     // Spells.PAS:10
     public Spell(ECustomNode owner) : base(owner)
     {
         FSpellText = new StringList();
-        FCastSounds = new SFXLibrary(null);
+        FCastSounds = new SfxLibrary(null);
         FCastImages = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
         FResearchCost = 1;
         FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
@@ -48,7 +46,7 @@ public partial class Spell : EObject
     public SpellType FSpellType;
     // stGlobal guard
     public StringList FSpellText;
-    public SFXLibrary FCastSounds;
+    public SfxLibrary FCastSounds;
     public ImageSequenceList FCastImages;
     public int FCastDuration;
 
@@ -97,21 +95,21 @@ public partial class Spell : EObject
     }
 
     // Spells.PAS:312
-    public virtual bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount) => false;
+    public virtual bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount) => false;
 
     // Spells.PAS:413
-    public virtual void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
+    public virtual void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
     {
     }
 
     // Spells.PAS:415
-    public virtual bool AIExecuteCastSpellAction(AbstractUnit Source) => false;
+    public virtual bool AIExecuteCastSpellAction(Troop Source) => false;
 
     // Spells.PAS:27
     public virtual bool GetEnabled() => true;
 
     // Spells.PAS:43
-    public virtual bool CanActivate(AbstractUnit Source, ref string MessageText)
+    public virtual bool CanActivate(Troop Source, ref string MessageText)
     {
         bool Result;
         if (FSpellType == SpellType.Global)
@@ -134,7 +132,7 @@ public partial class Spell : EObject
         return Result;
     }
 
-    public bool CanActivate__static(AbstractUnit Source, ref string MessageText)
+    public bool CanActivate__static(Troop Source, ref string MessageText)
     {
         bool Result;
         if (FSpellType == SpellType.Global)
@@ -158,7 +156,7 @@ public partial class Spell : EObject
     }
 
     // Spells.PAS:54
-    public virtual bool Activate(AbstractUnit Source)
+    public virtual bool Activate(Troop Source)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -176,7 +174,7 @@ public partial class Spell : EObject
         return false;
     }
 
-    public bool Activate__static(AbstractUnit Source)
+    public bool Activate__static(Troop Source)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -195,7 +193,7 @@ public partial class Spell : EObject
     }
 
     // Spells.PAS:90
-    public virtual bool ActivateCombat(AbstractUnit Source)
+    public virtual bool ActivateCombat(Troop Source)
     {
         bool Result;
         CombatSpellCaster Caster;
@@ -240,12 +238,12 @@ public partial class Spell : EObject
     public virtual int tcGetDamageValue(CombatObject Source, CombatObject Target) => this.GetCombatDamageValue(Source, Target);
 
     // Spells.PAS:320
-    public virtual void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public virtual void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
     }
 
     // Spells.PAS:322
-    public virtual bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command) => false;
+    public virtual bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command) => false;
 
     // Spells.PAS:316
     public virtual void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
@@ -254,7 +252,7 @@ public partial class Spell : EObject
     }
 
     // Spells.PAS:193
-    public void CastingDone(AbstractUnit Source, int Mana)
+    public void CastingDone(Troop Source, int Mana)
     {
         if (Source is Hero)
         {
@@ -272,13 +270,13 @@ public partial class Spell : EObject
             combatUnit.UpdateWallCombatFeatures();
             if (Source.FCombat is FastBattle)
             {
-                ((FastCombatUnit)Source).UpdateWallSiegeObjectRegistration();
+                ((FastBattleUnit)Source).UpdateWallSiegeObjectRegistration();
             }
         }
     }
 
     // Spells.PAS:371
-    public bool AIRequestCastSpellExpense(AbstractUnit Source, int Budget, int Mana, int Upkeep)
+    public bool AIRequestCastSpellExpense(Troop Source, int Budget, int Mana, int Upkeep)
     {
         bool Result;
         AIBudgetManager Manager;
@@ -305,7 +303,7 @@ public partial class Spell : EObject
     }
 
     // Spells.PAS:396
-    public bool AICastSpellExpenseMade(AbstractUnit Source, int Budget, int Mana, int Upkeep)
+    public bool AICastSpellExpenseMade(Troop Source, int Budget, int Mana, int Upkeep)
     {
         bool Result;
         AIBudgetManager Manager;
@@ -314,7 +312,7 @@ public partial class Spell : EObject
             Manager = AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FAIBudget;
             if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
             {
-                Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, Manager.FDefaultBudget, (AIBudgetManager.BudgetExpenseMode)2);
+                Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, Manager.FDefaultBudget, (AIBudgetManager.ExpenseMode)2);
             }
             else
             {
@@ -329,9 +327,9 @@ public partial class Spell : EObject
         return Result;
     }
 
-    public virtual bool CanActivateCombat(AbstractUnit source, ref string reason) => AoWHSMap.Current.FCombat != null;
+    public virtual bool CanActivateCombat(Troop source, ref string reason) => AoWHSMap.Current.FCombat != null;
 
-    public virtual void GetCombatInfo(AbstractUnit source, ref SpellCombatInfo info)
+    public virtual void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
         info.Attack = 0; info.Damage = 0; info.DamageTypes = default;
         info.RepeatCount = 1; info.Range = 0; info.Radius = 0; info.TargetTypes = default;
@@ -345,7 +343,7 @@ public partial class Spell : EObject
         return action;
     }
 
-    public virtual void SetupCastSpellAction(AbstractUnit source, AICastSpellAction action)
+    public virtual void SetupCastSpellAction(Troop source, AICastSpellAction action)
     { action.FSpellID = FSpellID; action.FSourceUnitID = source.FUnitID; }
 
     // Spells.PAS:215. The casting view aliases the combat unit's hero.

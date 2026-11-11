@@ -22,7 +22,7 @@ public partial class FuryAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1180
     public override int GetAIUpkeepPriority(AbilityOwner Owner)
     {
-        if (Owner is not AbstractUnit unit)
+        if (Owner is not Troop unit)
         {
             return 0;
         }

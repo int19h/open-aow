@@ -30,21 +30,21 @@ public partial class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:486
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         bool ShowSource;
         bool ShowTarget;
         byte Selection = default;
-        ArmyHS Army = default;
+        ArmyHexSprite Army = default;
         AoWMapField Field;
-        ArmyHS NewArmy;
+        ArmyHexSprite NewArmy;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         ImageSequenceAnimation A;
         Source.GetLocation(ref X, ref Y, ref L);
-        ((TownGateTE)Event).FArmyID.RetrieveArmy(ref Army, ref Selection);
-        Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(((TownGateTE)Event).FTeleportLocation.Packed);
+        ((TownGateTokenEvent)Event).FArmyID.RetrieveArmy(ref Army, ref Selection);
+        Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(((TownGateTokenEvent)Event).FTeleportLocation.Packed);
         Army.FArmy.ResetDestinationPos();
         if (AoWHSMap.Current.FSelectedArmy.GetArmyHS() == Army)
         {
@@ -53,10 +53,10 @@ public partial class TownGate : CityTargetSpell
 
         if (Army.FArmy.ValidateSelection(Selection) != Army.FArmy.ValidateSelection(255))
         {
-            NewArmy = new ArmyHS(null);
+            NewArmy = new ArmyHexSprite(null);
             NewArmy.FArmy.SetPlayer(Army.FArmy.FPlayer);
             NewArmy.FArmy.AddUnitSelection(Army.FArmy, Selection);
-            AoWHSMap.Current.PlaceHX(NewArmy, ((TownGateTE)Event).FTeleportLocation.X, ((TownGateTE)Event).FTeleportLocation.Y, ((TownGateTE)Event).FTeleportLocation.L);
+            AoWHSMap.Current.PlaceHX(NewArmy, ((TownGateTokenEvent)Event).FTeleportLocation.X, ((TownGateTokenEvent)Event).FTeleportLocation.Y, ((TownGateTokenEvent)Event).FTeleportLocation.L);
         }
         else
         {
@@ -114,26 +114,26 @@ public partial class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:540
-    public override bool CanActivate(AbstractUnit Source, ref string MessageText) => base.CanActivate(Source, ref MessageText);
+    public override bool CanActivate(Troop Source, ref string MessageText) => base.CanActivate(Source, ref MessageText);
 
     // CitySpells.pas:545
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         base.SetupTargetSelection(Source, TargetSelection);
         TargetSelection.FTargetMode = TargetSelection.FTargetMode - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
     }
 
     // CitySpells.pas:445
-    public override CityTargetSpellTE CreateTE() => new TownGateTE(null);
+    public override CityTargetSpellTokenEvent CreateTE() => new TownGateTokenEvent(null);
 
     // CitySpells.pas:450
-    public override bool SetupTE(CityTargetSpellTE Event, AbstractUnit Source, int X, int Y, int L)
+    public override bool SetupTE(CityTargetSpellTokenEvent Event, Troop Source, int X, int Y, int L)
     {
         byte Selection;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         bool Found;
         MapLevel Level;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Result = base.SetupTE(Event, Source, X, Y, L);
         if (Result)
         {
@@ -152,7 +152,7 @@ public partial class TownGate : CityTargetSpell
                 Selection = 255;
             }
 
-            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
             Found = false;
             Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
             while (Walk.Radius < 4 && !Found)
@@ -164,16 +164,16 @@ public partial class TownGate : CityTargetSpell
 
                 if (!Found)
                 {
-                    HNWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHN(ref Walk);
                 }
             }
 
             if (Found)
             {
                 var id = Army.FArmy.CreateID(Selection);
-                ((TownGateTE)Event).FArmyID = id;
+                ((TownGateTokenEvent)Event).FArmyID = id;
                 var packXYL = HexGeometry.PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
-                ((TownGateTE)Event).FTeleportLocation = packXYL;
+                ((TownGateTokenEvent)Event).FTeleportLocation = packXYL;
                 Result = true;
             }
             else
@@ -186,7 +186,7 @@ public partial class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:432
-    public bool ValidTeleportLocation(ArmyHS Army, byte Selection, sbyte X, sbyte Y, sbyte L)
+    public bool ValidTeleportLocation(ArmyHexSprite Army, byte Selection, sbyte X, sbyte Y, sbyte L)
     {
         bool Result;
         AoWMapField Field;

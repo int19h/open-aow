@@ -16,7 +16,7 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.World;
 
 // FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated
-public partial class PoisonCloud : MultiHexMO
+public partial class PoisonCloud : MultiHexMapObject
 {
     public PoisonCloud(ECustomNode owner) : base(owner)
     {
@@ -45,7 +45,7 @@ public partial class PoisonCloud : MultiHexMO
     // PoisonC.pas:58
 
     // PoisonC.pas:275
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer && !FUpdated)
@@ -87,9 +87,9 @@ public partial class PoisonCloud : MultiHexMO
     }
 
     // PoisonC.pas:182
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
-        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.MapFieldMsgProc(ref Msg);
         }
@@ -98,13 +98,13 @@ public partial class PoisonCloud : MultiHexMO
         {
             if (Msg.MsgID == 4418)
             {
-                ArmyPlaced(Msg.Param[0].As<ArmyHS>());
+                ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
             }
             else
             {
                 if (Msg.MsgID == 4384)
                 {
-                    if (!Msg.Param[0].As<ArmyHS>().FArmy.ImmunityTypes(255).Contains(DamageType.Poison))
+                    if (!Msg.Param[0].As<ArmyHexSprite>().FArmy.ImmunityTypes(255).Contains(DamageType.Poison))
                     {
                         Msg.Result = 1;
                     }
@@ -124,7 +124,7 @@ public partial class PoisonCloud : MultiHexMO
     }
 
     // PoisonC.pas:119
-    public override int CanMoveOver(in HSSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo Info)
     {
         int Result;
         if (FResource.TerrainList.Terrain[Info.HN] >= -1)
@@ -157,7 +157,7 @@ public partial class PoisonCloud : MultiHexMO
     }
 
     // PoisonC.pas:83
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (FResource.TerrainList.Terrain[Info.HN] >= -1)
         {
@@ -172,7 +172,7 @@ public partial class PoisonCloud : MultiHexMO
         int Xhx = default;
         int Yhx = default;
         int HN;
-        if (FResource.Engine.HSMap.Status.Contains(HSMapStatusElement.Editting))
+        if (FResource.Engine.HSMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             HN = HexGeometry.dHXtoHN(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx);
@@ -189,10 +189,10 @@ public partial class PoisonCloud : MultiHexMO
     // PoisonC.pas:95
     public new void UpdateMapFields(MapLevel Level, int Xhx, int Yhx)
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         int Count;
         Count = FResource.TerrainList.Count;
-        HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.HN != Count)
         {
             if (GetTerrain(Walk.HN) >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -200,7 +200,7 @@ public partial class PoisonCloud : MultiHexMO
                 Level.GetField(Walk.X, Walk.Y).UpdateMapField();
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
     }
 
@@ -208,7 +208,7 @@ public partial class PoisonCloud : MultiHexMO
     public bool CanDoDamage(UnitList Units)
     {
         int I;
-        AbstractUnit AUnit;
+        Troop AUnit;
         bool Result = false;
         I = Units.GetCount();
         while (!Result && I != 0)
@@ -222,9 +222,9 @@ public partial class PoisonCloud : MultiHexMO
     }
 
     // PoisonC.pas:142
-    public void ArmyPlaced(ArmyHS ArmyHS)
+    public void ArmyPlaced(ArmyHexSprite ArmyHS)
     {
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && !((AoWMapField)ArmyHS.Owner).GetMagicShieldActive())
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !((AoWMapField)ArmyHS.Owner).GetMagicShieldActive())
         {
             ArmyHS.FArmy.IncommingStorm(StormType.Pestilence, 0, ArmyHS.FArmy.FPlayer);
         }
@@ -233,13 +233,13 @@ public partial class PoisonCloud : MultiHexMO
     // PoisonC.pas:158
     public void TriggerDamage()
     {
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         MapLevel Level;
         Level = (MapLevel)Owner.Owner;
         var yhx = GetYhx();
         var xhx = GetXhx();
-        HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
         Msg.MsgID = 4432;
         Msg.Param[0] = (int)StormType.Pestilence;
         Msg.Param[2] = FPlayer;
@@ -252,7 +252,7 @@ public partial class PoisonCloud : MultiHexMO
                 Level.GetField(walk.X, walk.Y).SendMapFieldMsg(ref Msg);
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
     }
 
@@ -362,7 +362,7 @@ public partial class PoisonCloud : MultiHexMO
         }
     }
 
-    public new partial class Resource : MultiHexMOR
+    public new partial class Resource : MultiHexMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

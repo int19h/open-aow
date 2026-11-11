@@ -14,7 +14,7 @@ public sealed class HeadlessServicesTests
     public void DirectoryChangesStayInsideTheFileService()
     {
         using var directory = new ProbeDirectory();
-        var files = new SystemIoFileSystem();
+        var files = new PhysicalFileSystem();
         string processDirectory = Directory.GetCurrentDirectory();
         Directory.CreateDirectory("child");
         Assert.True(files.SetCurrentDirectory("child"));

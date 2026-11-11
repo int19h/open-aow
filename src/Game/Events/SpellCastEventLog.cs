@@ -59,7 +59,7 @@ public partial class SpellCastEventLog : EventLog
     // Spells.PAS:843
     public override void ViewLocation()
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;

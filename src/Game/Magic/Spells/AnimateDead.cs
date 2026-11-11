@@ -29,8 +29,8 @@ public partial class AnimateDead : CombatSpell
     // CombatSpells.pas:2079
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        AnimateDeadCA Action;
-        Action = new AnimateDeadCA(null);
+        AnimateDeadCombatAction Action;
+        Action = new AnimateDeadCombatAction(null);
         Action.FSourceID = Source.FID;
         Action.FTargetID = Target.FID;
         Action.FSucceeded = Target.FStatus.Contains(CombatObjectStatusElement.Destroyed);

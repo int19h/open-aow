@@ -12,7 +12,7 @@ namespace Aow.Game.World;
 
 // a hexagon sprite drawn from a resource. FResource (the resource. until the object is linked
 // it holds the resource id, persisted as id 1), FStatus
-public partial class MapObject : HexagonSprite
+public partial class MapObject : HexSprite
 {
     public MapObject(ECustomNode owner) : base(owner)
     { }
@@ -159,7 +159,7 @@ public partial class MapObject : HexagonSprite
     }
 
     // MAPOBJ.PAS:222
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -208,7 +208,7 @@ public partial class MapObject : HexagonSprite
             {
                 MapField = (MapField)Owner;
                 Disconnect();
-                if (!((MapLevel)MapField.Owner).FMap.FStatus.Contains(HSMapStatusElement.Destroying))
+                if (!((MapLevel)MapField.Owner).FMap.FStatus.Contains(HexSpriteMapStatusElement.Destroying))
                 {
                     if (GetTerrain(0) >= 0 || GetOverlay(0) >= 0)
                     {
@@ -322,7 +322,7 @@ public partial class MapObject : HexagonSprite
     }
 
     // MAPOBJ.PAS:373
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 16)
@@ -358,7 +358,7 @@ public partial class MapObject : HexagonSprite
     }
 
     // MAPOBJ.PAS:126
-    public override bool CanSelect(int Xhp, int Yhp) => FResource.FEngine.FHSMap.FStatus.Contains(HSMapStatusElement.Editting) && FResource.FTerrainList.FCount != 0 && (FResource.FTerrainList.GetTerrain(0) >= 0 || FResource.FTerrainList.GetOverlay(0) >= 0);
+    public override bool CanSelect(int Xhp, int Yhp) => FResource.FEngine.FHSMap.FStatus.Contains(HexSpriteMapStatusElement.Editting) && FResource.FTerrainList.FCount != 0 && (FResource.FTerrainList.GetTerrain(0) >= 0 || FResource.FTerrainList.GetOverlay(0) >= 0);
 
     // MAPOBJ.PAS:172
     public override void Select()
@@ -402,7 +402,7 @@ public partial class MapObject : HexagonSprite
     public virtual bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         bool Result;
-        HexagonSprite HS;
+        HexSprite HS;
         MapField MapField;
         if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount)
         {

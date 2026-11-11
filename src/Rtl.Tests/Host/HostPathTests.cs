@@ -19,7 +19,7 @@ public sealed class HostPathTests
         var saved = Files;
         try
         {
-            Files = new SystemIoFileSystem();
+            Files = new PhysicalFileSystem();
             for (int i = 0; i < Names.Length; i++) File.WriteAllBytes(Path.Combine(directory.Root, Names[i]), [(byte)i]);
 
             var found = new List<string>();

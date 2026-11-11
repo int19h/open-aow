@@ -106,8 +106,8 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         internal BlendRecorder(CustomImageLibrary owner) : base(owner) { }
 
         public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => true;
-        public override void ShowBlended(int X, int Y, in SurfaceDesc SD, BlendTable Table) => Drawn.Add(Table);
-        public override void ShowBlendedStretched(in Rect R, in SurfaceDesc SD, BlendTable Table) => Drawn.Add(Table);
+        public override void ShowBlended(int X, int Y, in LockedSurface SD, BlendTable Table) => Drawn.Add(Table);
+        public override void ShowBlendedStretched(in Rect R, in LockedSurface SD, BlendTable Table) => Drawn.Add(Table);
     }
 
     // Writes the image header with the given show info and reads it into a fresh image, the path
@@ -135,7 +135,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         {
             Assert.Equal(BlendMode.User, image.ShowInfo.BlendMode);
             Assert.True(image.ShowInfo.Blend is int value && value == 1234);
-            SurfaceDesc sd = default;
+            LockedSurface sd = default;
             image.Show(0, 0, sd);
             image.ShowStretched(Square, sd);
             image.ShowEx(0, 0, sd, new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = 50 });
@@ -167,11 +167,11 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         {
             var collections = new (BlendMode Mode, LookupBlendTableCollection100 Tables)[]
             {
-                (BlendMode.Alpha, GfxState.AlphaBlendTable), (BlendMode.Brighten, GfxState.BrightenBlendTable),
-                (BlendMode.Intensity, GfxState.IntensityBlendTable), (BlendMode.Shadow, GfxState.ShadowBlendTable),
-                (BlendMode.LinearAlpha, GfxState.LinearAlphaBlendTable),
+                (BlendMode.Alpha, GraphicsState.AlphaBlendTable), (BlendMode.Brighten, GraphicsState.BrightenBlendTable),
+                (BlendMode.Intensity, GraphicsState.IntensityBlendTable), (BlendMode.Shadow, GraphicsState.ShadowBlendTable),
+                (BlendMode.LinearAlpha, GraphicsState.LinearAlphaBlendTable),
             };
-            SurfaceDesc sd = default;
+            LockedSurface sd = default;
             foreach (var (mode, tables) in collections)
             {
                 var image = FromFile(new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = mode, Blend = 30 });
@@ -204,7 +204,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         using var image = new LibraryImage(null!);
         image.FShowInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Shadow, Blend = 40 };
         var caller = new ShowInfo { ShowMode = ShowMode.Blended, Blend = 60 };
-        SurfaceDesc sd = default;
+        LockedSurface sd = default;
         image.Show(0, 0, sd);
         image.ShowEx(0, 0, sd, caller);
         long before = GC.GetAllocatedBytesForCurrentThread();
@@ -220,22 +220,22 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     // Shown images draw through the blend tables that GFXE.Initialize builds at game start.
     private static void WithBlendTables(Action body)
     {
-        var previous = (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable);
-        (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) =
+        var previous = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
+        (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         try
         {
-            GfxState.InitBlendTables(5, 31);
+            GraphicsState.InitBlendTables(5, 31);
             body();
         }
         finally
         {
-            GfxState.AlphaBlendTable?.Dispose();
-            GfxState.IntensityBlendTable?.Dispose();
-            GfxState.BrightenBlendTable?.Dispose();
-            GfxState.ShadowBlendTable?.Dispose();
-            GfxState.LinearAlphaBlendTable?.Dispose();
-            (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) = previous;
+            GraphicsState.AlphaBlendTable?.Dispose();
+            GraphicsState.IntensityBlendTable?.Dispose();
+            GraphicsState.BrightenBlendTable?.Dispose();
+            GraphicsState.ShadowBlendTable?.Dispose();
+            GraphicsState.LinearAlphaBlendTable?.Dispose();
+            (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) = previous;
         }
     }
 
@@ -259,10 +259,10 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         var tally = new Tally();
         try
         {
-            ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>()]);
+            ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RleSprite08>()]);
             ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
-                LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
+                LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(),
                 LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
             foreach (string file in files) CheckLibrary(file, tally);
         }

@@ -15,15 +15,15 @@ public sealed class EngineLeafConstructionTests
     private sealed class LeafOwner : EngineFixture.Owner
     {
 
-        internal readonly List<EObject> ObservedBeforeLeafBody = [];
+        internal readonly List<EngineObject> ObservedBeforeLeafBody = [];
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Assert.Same(this, child.Owner);
-            if (child is PlugInControl plugIn) Assert.Null(plugIn.UsedPlugIns);
+            if (child is PluginControl plugIn) Assert.Null(plugIn.UsedPlugIns);
             if (child is ETimerNode timer)
             {
-                var lists = Field<FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
+                var lists = Field<ListArray10>(timer, "FTimerLists");
                 for (int i = 0; i < 10; i++) Assert.Null(lists[i]);
             }
             ObservedBeforeLeafBody.Add(child);
@@ -52,17 +52,17 @@ public sealed class EngineLeafConstructionTests
         Type type = kind switch
         {
             0 => typeof(ETimerNode),
-            _ => typeof(PlugInControl)
+            _ => typeof(PluginControl)
         };
-        var meta = EClass.Of(type);
-        engine.RegisterEClasses([EClass.Of(type)]);
-        EObject direct = kind switch
+        var meta = EngineClass.Of(type);
+        engine.RegisterEClasses([EngineClass.Of(type)]);
+        EngineObject direct = kind switch
         {
             0 => new ETimerNode(argument),
-            _ => new PlugInControl(argument)
+            _ => new PluginControl(argument)
         };
-        EObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
-        EObject? copy = null;
+        EngineObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
+        EngineObject? copy = null;
         try
         {
             Assert.Equal(kind == 0 ? 264 : 80, meta.ClassID);
@@ -79,12 +79,12 @@ public sealed class EngineLeafConstructionTests
             Assert.Null(copy.Owner);
             // Sort style is constructor state and has no ReadWrite override.
             AssertLeafState(copy);
-            if (copy is PlugInControl copiedPlugIn)
-                Assert.NotSame(((PlugInControl)direct).UsedPlugIns, copiedPlugIn.UsedPlugIns);
+            if (copy is PluginControl copiedPlugIn)
+                Assert.NotSame(((PluginControl)direct).UsedPlugIns, copiedPlugIn.UsedPlugIns);
             if (copy is ETimerNode copiedTimer)
             {
-                var original = Field<FixedArray_Aow_Rtl_TList_10>(direct, "FTimerLists");
-                var copied = Field<FixedArray_Aow_Rtl_TList_10>(copiedTimer, "FTimerLists");
+                var original = Field<ListArray10>(direct, "FTimerLists");
+                var copied = Field<ListArray10>(copiedTimer, "FTimerLists");
                 for (int i = 0; i < 10; i++) Assert.NotSame(original[i], copied[i]);
             }
             Assert.Equal(owned ? 3 : 0, owner.Members.Count);
@@ -99,17 +99,17 @@ public sealed class EngineLeafConstructionTests
         Assert.Empty(owner.Members);
     }
 
-    private static void AssertLeafState(EObject value)
+    private static void AssertLeafState(EngineObject value)
     {
         switch (value)
         {
             case ETimerNode timer:
                 Assert.Equal(0, timer.Count); Assert.Equal(0, timer.Tick);
-                var lists = Field<FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
+                var lists = Field<ListArray10>(timer, "FTimerLists");
                 for (int i = 0; i < 10; i++) { Assert.NotNull(lists[i]); Assert.Equal(0, lists[i].Count); Assert.Equal(0, lists[i].Capacity); }
                 Assert.Equal(10, Enumerable.Range(0, 10).Select(i => lists[i]).Distinct().Count());
                 break;
-            case PlugInControl plugIn:
+            case PluginControl plugIn:
                 Assert.Null(plugIn.Engine);
                 var strings = Assert.IsType<StringList>(plugIn.UsedPlugIns);
                 Assert.Equal(0, strings.Count); Assert.True(strings.Sorted);
@@ -161,14 +161,14 @@ public sealed class EngineLeafConstructionTests
         {
             0 => new BitList(),
             1 => new DoubleItemList(),
-            2 => new EBufferStream(),
-            3 => new EObjectList(),
+            2 => new BufferStream(),
+            3 => new EngineObjectList(),
             4 => new PropertyTable(),
             5 => new QuadItemList(),
-            6 => new ShortIntList(),
-            7 => new WordList(),
-            8 => new EObjectClassList(),
-            _ => new EObjectEditorList()
+            6 => new SByteList(),
+            7 => new UInt16List(),
+            8 => new EngineObjectClassList(),
+            _ => new EngineObjectEditorList()
         };
         try
         {
@@ -180,7 +180,7 @@ public sealed class EngineLeafConstructionTests
                 case DoubleItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
-                case EBufferStream stream:
+                case BufferStream stream:
                     Assert.Equal(0L, stream.Length); Assert.Equal(0L, stream.Position);
                     Assert.Equal(0, stream.Capacity); Assert.Empty(stream.Memory);
                     break;
@@ -194,13 +194,13 @@ public sealed class EngineLeafConstructionTests
                 case QuadItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
-                case ShortIntList list:
+                case SByteList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
-                case WordList list:
+                case UInt16List list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
-                case EObjectEditorList editors:
+                case EngineObjectEditorList editors:
                     Assert.Equal(0, editors.Count);
                     break;
                 case DelphiList list:

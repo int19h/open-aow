@@ -6,9 +6,9 @@ namespace Aow.Game.Draw;
 
 internal static class MemorySurfaces
 {
-    public static SurfaceDesc Describe(int w, int h, int pitch, int format, byte[] bits, GFXEPalette palette = null)
+    public static LockedSurface Describe(int w, int h, int pitch, int format, byte[] bits, Palette palette = null)
     {
-        var sd = new SurfaceDesc
+        var sd = new LockedSurface
         {
             Width = w,
             Height = h,
@@ -43,8 +43,8 @@ internal static class MemorySurfaces
 
     private static int PFIDtoMASK(int PixelFormatID, ref int RMask, ref int GMask, ref int BMask, ref int AMask)
     {
-        var order = default(FixedArray_byte_4);
-        var masks = default(FixedArray_int_4);
+        var order = default(ByteArray4);
+        var masks = default(Int32Array4);
         int bitCount = PixelFormatID & 255;
         int pos = 0;
         order[(int)((uint)PixelFormatID >> 8) & 3] = 0;

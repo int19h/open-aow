@@ -13,14 +13,14 @@ public partial class MagicSanctuary : Structure
 {
     public MagicSanctuary(ECustomNode owner) : base(owner)
     {
-        FOverlayHS = new MagicSanctuaryOverlayHS(null);
+        FOverlayHS = new MagicSanctuaryOverlayHexSprite(null);
         FOverlayHS.FStructure = this;
     }
 
     // MagicSanctuary.pas:124
     public new const int ClassID = 133274;
 
-    public MagicSanctuaryOverlayHS FOverlayHS;
+    public MagicSanctuaryOverlayHexSprite FOverlayHS;
 
     // MagicSanctuary.pas:117
     public override void Dispose()
@@ -33,7 +33,7 @@ public partial class MagicSanctuary : Structure
     // MagicSanctuary.pas:110
 
     // MagicSanctuary.pas:136
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
@@ -56,7 +56,7 @@ public partial class MagicSanctuary : Structure
     }
 
     // MagicSanctuary.pas:143
-    public override void ArmyPlaced(ArmyHS PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
     {
         base.ArmyPlaced(PlacedArmy);
         FOverlayHS.FadeUp();

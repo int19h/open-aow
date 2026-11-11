@@ -130,7 +130,7 @@ public static class JsonWriter
             case JsonInteger n:
                 builder.Append(n.Value.ToString(CultureInfo.InvariantCulture));
                 break;
-            case JsonBool b:
+            case JsonBoolean b:
                 builder.Append(b.Value ? "true" : "false");
                 break;
             case JsonNull:

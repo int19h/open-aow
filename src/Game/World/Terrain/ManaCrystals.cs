@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-using Aow.Game.Ai;
+using Aow.Game.AI;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
 
@@ -18,7 +18,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Terrain;
 
 // FAmount, FSize
-public partial class ManaCrystals : ILTerrainMO
+public partial class ManaCrystals : ImageLibraryTerrainMapObject
 {
     public ManaCrystals(ECustomNode owner) : base(owner)
     {
@@ -43,7 +43,7 @@ public partial class ManaCrystals : ILTerrainMO
     // ManaCrystals.pas:73
 
     // ManaCrystals.pas:118
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
@@ -53,12 +53,12 @@ public partial class ManaCrystals : ILTerrainMO
     }
 
     // ManaCrystals.pas:148
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4354)
         {
-            ArmyEntered(Msg.Param[0].As<ArmyHS>());
+            ArmyEntered(Msg.Param[0].As<ArmyHexSprite>());
             return;
         }
 
@@ -82,7 +82,7 @@ public partial class ManaCrystals : ILTerrainMO
     }
 
     // ManaCrystals.pas:111
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (Info.HN == 0)
         {
@@ -133,7 +133,7 @@ public partial class ManaCrystals : ILTerrainMO
     }
 
     // ManaCrystals.pas:125
-    public void ArmyEntered(ArmyHS ArmyHS)
+    public void ArmyEntered(ArmyHexSprite ArmyHS)
     {
         LocationTextEventLog Log;
         if ((byte)ArmyHS.FArmy.FPlayer == 0)
@@ -184,7 +184,7 @@ public partial class ManaCrystals : ILTerrainMO
         public byte Kind;
     }
 
-    public new partial class Resource : ILTerrainMOR
+    public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

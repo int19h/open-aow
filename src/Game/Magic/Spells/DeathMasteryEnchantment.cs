@@ -26,7 +26,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1568
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
@@ -47,13 +47,13 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1509
     public override bool Deactivate(byte Player)
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         base.Deactivate(Player);
         // { Original doubles Life. }
         AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(MagicSphere.Life);
         var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
         AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
-        EMsg.InitMsg(ref Msg, 537002241, this);
+        EngineMessage.InitMsg(ref Msg, 537002241, this);
         AoWHSMap.Current.SendMsg(ref Msg, this);
         return true;
     }
@@ -94,7 +94,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         byte[] Flags;
         int Mask;
         MapLevel MapLevel;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Border;
         Flags = [];
         Mask = 1 << (Player - 1);
@@ -111,7 +111,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
                     if ((((AoWMapField)MapLevel.GetField(X, Y)).FFieldFlags & Mask) != 0)
                     {
                         Border = false;
-                        HNWalkData.InitHNWalk(ref Walk, X, Y, 1);
+                        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 1);
                         while (Walk.Radius == 1 && !Border)
                         {
                             if (Walk.X >= 0 && Walk.X < MapLevel.Width && Walk.Y >= 0 && Walk.Y < MapLevel.Height)
@@ -119,7 +119,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
                                 Border = (((AoWMapField)MapLevel.GetField(Walk.X, Walk.Y)).FFieldFlags & Mask) == 0;
                             }
 
-                            HNWalkData.WalkToNextHN(ref Walk);
+                            HexNumberWalkData.WalkToNextHN(ref Walk);
                         }
 
                         if (Border)

@@ -8,7 +8,7 @@ namespace Aow.Game.Host;
 public interface IGameHost
 {
     Display Display { get; }
-    SdlDC DXDC { get; }
+    SdlDisplayController DXDC { get; }
     short FCursor { get; set; }
     Draw.Images.LibraryImage FCursorImage { get; set; }
     Rect FLastCursorRect { get; }

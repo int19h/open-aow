@@ -26,7 +26,7 @@ public partial class Tornado : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1885
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         TargetSelectionControl Target;
         Target = TargetSelection;
@@ -35,14 +35,14 @@ public partial class Tornado : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1865
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
         bool Result;
-        TornadoTE Event;
-        ArmyHS Army;
+        TornadoTokenEvent Event;
+        ArmyHexSprite Army;
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new TornadoTE(null);
+            Event = new TornadoTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             Army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHS();
@@ -65,10 +65,10 @@ public partial class Tornado : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1806
-    public bool ValidWarpLocation(ArmyHS Army, sbyte X, sbyte Y, sbyte Layer)
+    public bool ValidWarpLocation(ArmyHexSprite Army, sbyte X, sbyte Y, sbyte Layer)
     {
         AoWMapField MapF;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, Layer);
         bool Result = MapF.GetArmyHS() == null && MapF.GetPlayer() == -1;
         if (Result)
@@ -84,10 +84,10 @@ public partial class Tornado : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1823
-    public int CalculateWarpLocation(ArmyHS Army, byte Selection)
+    public int CalculateWarpLocation(ArmyHexSprite Army, byte Selection)
     {
         SpellMoveTable Table = default;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapLevel MapLevel;
         MapField MapF;
         DelphiList Locations;
@@ -98,7 +98,7 @@ public partial class Tornado : GlobalTargetSpell
         Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref Table));
         var yhx = Army.Yhx;
         var xhx = Army.Xhx;
-        HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 10);
+        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 10);
         MapLevel = AoWHSMap.Current.MapContainer.MapLevels[Army.Lhx];
         while (Walk.Radius < 15)
         {
@@ -112,7 +112,7 @@ public partial class Tornado : GlobalTargetSpell
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         Found = false;

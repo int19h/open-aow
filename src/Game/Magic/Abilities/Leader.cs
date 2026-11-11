@@ -52,7 +52,7 @@ public partial class Leader : Hero
     }
 
     // Hero.PAS:2845
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001989)
@@ -79,7 +79,7 @@ public partial class Leader : Hero
     public override void Changed()
     {
         base.Changed();
-        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             AoWHSMap.Current.FOnLeaderChangedStore.Raise(this);
         }
@@ -240,14 +240,14 @@ public partial class Leader : Hero
     public override void SetHeroResourceIndex(int Value)
     {
         base.SetHeroResourceIndex(Value);
-        if (FHeroResource != null && AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (FHeroResource != null && AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             FHeroName = FHeroResource.FName;
         }
     }
 
     // Hero.PAS:2960
-    public override void EditDropMsg(ref EMsg Msg)
+    public override void EditDropMsg(ref EngineMessage Msg)
     {
         MapLevel Level;
         int L;

@@ -18,7 +18,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
-// X/Y/L, MovePoints, ArmyID, Object, Data1/Data2. inherited join fields
+// X/Y/L, MovePoints, ArmyId, Object, Data1/Data2. inherited join fields
 public partial class NegotiateRequestEventLog : JoinEventLog
 {
     // Diplomacy.pas:264
@@ -34,7 +34,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     public sbyte FY;
     public sbyte FL;
     public int FMovePoints;
-    public ArmyID FArmyID;
+    public ArmyId FArmyID;
     public NegotiateObject FObject;
     public int FData1;
     public int FData2;
@@ -42,7 +42,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     // Diplomacy.pas:270
     public override void Dispose()
     {
-        ArmyID ID;
+        ArmyId ID;
         ID = FArmyID;
         if (ID != null)
         {
@@ -68,7 +68,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     // Diplomacy.pas:320
     public override bool Accept(ref string ErrorText)
     {
-        NegotiateTE TE;
+        NegotiateTokenEvent TE;
         bool Result = base.Accept(ref ErrorText);
         if (Result)
         {
@@ -79,8 +79,8 @@ public partial class NegotiateRequestEventLog : JoinEventLog
 
             TE = CreateNegotiateTE();
             TE.FGold = FGold;
-            TE.FOffer = NegotiateTE.NegotiateOffer.OfferBribe;
-            TE.FResult = NegotiateTE.NegotiateResult.Accept;
+            TE.FOffer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
+            TE.FResult = NegotiateTokenEvent.NegotiateResult.Accept;
             AoWHSMap.Current.FTokenManager.TokenControls[FPlayer].AddEvent(TE);
             TE.Release();
             Result = true;
@@ -95,7 +95,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     // Diplomacy.pas:339
     public override bool Reject(ref string ErrorText)
     {
-        NegotiateTE TE;
+        NegotiateTokenEvent TE;
         bool Result = base.Reject(ref ErrorText);
         if (Result)
         {
@@ -106,8 +106,8 @@ public partial class NegotiateRequestEventLog : JoinEventLog
 
             TE = CreateNegotiateTE();
             TE.FGold = 0;
-            TE.FOffer = NegotiateTE.NegotiateOffer.ForceOffer;
-            TE.FResult = NegotiateTE.NegotiateResult.Reject;
+            TE.FOffer = NegotiateTokenEvent.NegotiateOffer.ForceOffer;
+            TE.FResult = NegotiateTokenEvent.NegotiateResult.Reject;
             AoWHSMap.Current.FTokenManager.TokenControls[FPlayer].AddEvent(TE);
             TE.Release();
             Result = true;
@@ -117,11 +117,11 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     }
 
     // Diplomacy.pas:296
-    public virtual NegotiateTE CreateNegotiateTE()
+    public virtual NegotiateTokenEvent CreateNegotiateTE()
     {
-        NegotiateTE Event;
-        ArmyID ID;
-        Event = new NegotiateTE(null);
+        NegotiateTokenEvent Event;
+        ArmyId ID;
+        Event = new NegotiateTokenEvent(null);
         Event.FPlayer = FPlayer;
         Event.FObject = FObject;
         Event.FX = (byte)FX;
@@ -132,7 +132,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         ID = FArmyID;
         if (ID != null)
         {
-            Event.FArmyID = (ArmyID)ID.Copy(GameTables.AoWEngine);
+            Event.FArmyID = (ArmyId)ID.Copy(GameTables.AoWEngine);
             Event.FMovePoints = FMovePoints;
         }
         else

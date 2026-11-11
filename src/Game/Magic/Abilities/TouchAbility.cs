@@ -24,10 +24,10 @@ public partial class TouchAbility : AdjustableAbility
     public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.CombatAction);
 
     // AoWAb.PAS:1962
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
         CombatObject Target;
-        FastCombatCommand Command;
+        FastBattleCommand Command;
         AbilityDamageValues Values = default;
         for (int I = 0, last = Commands.FTargetSide.GetCount() - 1; I <= last; I++)
         {
@@ -37,7 +37,7 @@ public partial class TouchAbility : AdjustableAbility
                 fcGetDamageValueEx(Commands.FSource, Target, WallSituation.None, ref Values);
                 if (Values.SourceDamage != 0)
                 {
-                    Command = new FastCombatCommand(FAbilityID);
+                    Command = new FastBattleCommand(FAbilityID);
                     Command.FTarget = Commands.FTargetSide.GetObjects(I);
                     Command.FSourceDV = Values.SourceDamage;
                     Command.FTargetDV = Values.TargetDamage;
@@ -116,7 +116,7 @@ public partial class TouchAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1880
-    public virtual float TouchRoleProbability(AbstractUnit Source, AbstractUnit Target)
+    public virtual float TouchRoleProbability(Troop Source, Troop Target)
     {
         int Attack;
         float Result = HitChance.HitRoleProbability(Source.GetAttack() - Target.GetDefense());
@@ -169,7 +169,7 @@ public partial class TouchAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1937
-    public virtual bool CanTouchUnit(AbstractUnit Source, AbstractUnit Target)
+    public virtual bool CanTouchUnit(Troop Source, Troop Target)
     {
         if (Target.GetAbilityEnabled(1) && !Source.GetAbilityEnabled(1))
         {
@@ -182,10 +182,10 @@ public partial class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1947
     public void fcValidateMoveOutsideWall(CombatObject Source, CombatObject Target)
     {
-        MoveWallCA Action;
+        MoveWallCombatAction Action;
         if (Source.fcBehindWall() && Source.fcWallInBetween(Target.FPosition) && !Target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
         {
-            Action = new MoveWallCA(null);
+            Action = new MoveWallCombatAction(null);
             Action.F_MoveWallCA_0C = Source.FID;
             Action.F_MoveWallCA_0D = 0;
             Source.FCombat.ExecuteCombatAction(Action);

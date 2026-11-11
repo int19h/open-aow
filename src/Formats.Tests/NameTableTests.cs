@@ -31,8 +31,8 @@ public sealed class NameTableTests : FormatsTest
         Assert.Contains(NameTable.Rows, row => row.Kind == "type" && row.Delphi == "TPersistent"
             && row.Current == NameTable.QualifiedName(typeof(Persistent)));
 
-        var counts = EClass.All.GroupBy(eclass => eclass.ClassName).ToDictionary(group => group.Key, group => group.Count());
-        foreach (var eclass in EClass.All)
+        var counts = EngineClass.All.GroupBy(eclass => eclass.ClassName).ToDictionary(group => group.Key, group => group.Count());
+        foreach (var eclass in EngineClass.All)
         {
             Assert.Equal(NameTable.Stored(eclass.Type), eclass.ClassName);
             Assert.Equal(eclass.ClassName, NameTable.ResolveStored(NameTable.Delphi(eclass.Type)));
@@ -57,7 +57,8 @@ public sealed class NameTableTests : FormatsTest
     {
         string table = "kind,delphi,current\n"
             + "type,OldBox," + NameTable.QualifiedName(typeof(OldNameBox)) + "\n"
-            + "member,TSampleRank.oldGold," + NameTable.QualifiedName(typeof(TSampleRank)) + ".Gold\n";
+            + "type,TSampleRank," + NameTable.QualifiedName(typeof(SampleRank)) + "\n"
+            + "member,TSampleRank.oldGold," + NameTable.QualifiedName(typeof(SampleRank)) + ".Gold\n";
         var schema = FormatSchema.Load(Encoding.UTF8.GetBytes(RenamedSchema), "renamed.json");
         var holder = schema.Get("Holder");
         using (NameTable.Install(table))
@@ -67,8 +68,8 @@ public sealed class NameTableTests : FormatsTest
             Assert.True(schema.Get("OldNameBox").InheritsFrom("OldNameBox"));
             Assert.Equal("OldBox", NameTable.Delphi(typeof(OldNameBox)));
             Assert.Equal(nameof(OldNameBox), NameTable.Stored(typeof(OldNameBox)));
-            Assert.Equal("oldGold", NameTable.DelphiMember(typeof(TSampleRank), "Gold"));
-            Assert.Equal("Gold", NameTable.StoredMember(typeof(TSampleRank), "oldGold"));
+            Assert.Equal("oldGold", NameTable.DelphiMember(typeof(SampleRank), "Gold"));
+            Assert.Equal("Gold", NameTable.StoredMember(typeof(SampleRank), "oldGold"));
 
             var old = new JsonObject()
                 .Add("Rank", new JsonString("oldGold"))
@@ -85,7 +86,7 @@ public sealed class NameTableTests : FormatsTest
             Assert.Equal(nameof(OldNameBox), ((ObjectNode)again.Find("Child")!).ClassName);
 
             var live = new ObjectNode(null, null);
-            live.Add("Rank", new EnumNode(NameTable.Stored(typeof(TSampleRank)), 1, false, 1));
+            live.Add("Rank", new EnumNode(NameTable.Stored(typeof(SampleRank)), 1, false, 1));
             live.Add("Child", new ObjectNode(NameTable.Stored(typeof(OldNameBox)), null));
             var written = DocumentBackend.Write(live, holder, schema, "game");
             Assert.Equal("Gold", ((JsonString)written["Rank"]!).Value);
@@ -180,11 +181,25 @@ public sealed class NameTableTests : FormatsTest
         Assert.Equal(((EnumNode)current.Find("Alignment")!).Value, ((EnumNode)old.Find("Alignment")!).Value);
     }
 
+    [Fact]
+    public void AnOwnDocumentFromBeforeThisRenameLoads()
+    {
+        var schema = FormatSchema.Current;
+        Assert.Equal("EngineObject", schema.Find("TEObject")!.Name);
+        Assert.Equal("EngineObject", schema.Find("EObject")!.Name);
+        Assert.Equal("Campaign", schema.Find("TAoWCampaign")!.Name);
+        Assert.Equal("Campaign", schema.Find("AoWCampaign")!.Name);
+        var engineObject = DocumentBackend.Read(new JsonObject(), schema.Find("TEObject")!, schema, "game");
+        Assert.Empty(engineObject.Members);
+        var campaign = DocumentBackend.Read(new JsonObject(), schema.Find("AoWCampaign")!, schema, "game");
+        Assert.Empty(campaign.Members);
+    }
+
     private const string RenamedSchema = """
         {"version": 2, "classes": [
           {"name": "OldNameBox", "id": 1, "engines": ["game"], "properties": []},
           {"name": "Holder", "id": 2, "engines": ["game"], "properties": [
-            {"name": "Rank", "id": 1, "codec": "enum", "enum": "TSampleRank", "width": 1, "signed": false},
+            {"name": "Rank", "id": 1, "codec": "enum", "enum": "SampleRank", "width": 1, "signed": false},
             {"name": "Child", "id": 2, "codec": "created", "family": "OldNameBox"}
           ]}
         ]}

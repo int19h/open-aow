@@ -42,10 +42,10 @@ public sealed class AudioMixer : IDisposable
     public long RenderedFrames { get; private set; }
     public bool MusicEnabled { get; set; } = true;
     public bool SfxEnabled { get; set; } = true;
-    public OpenMptModule? Song { get; set; }
+    public TrackerSong? Song { get; set; }
     public bool SongEnded { get; private set; }
 
-    public void ReplaceSong(OpenMptModule? song) { Song?.Dispose(); Song = song; SongEnded = false; }
+    public void ReplaceSong(TrackerSong? song) { Song?.Dispose(); Song = song; SongEnded = false; }
 
     public Voice? Play(WaveData data)
     {

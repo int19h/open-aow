@@ -25,7 +25,7 @@ public partial class HeroInventory : ItemList
     }
 
     // Hero.PAS:297
-    public override Set<EControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<EControlStyleElement>.Of(EControlStyleElement.ArrayMode);
+    public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(ControlStyleElement.ArrayMode);
 
     // Hero.PAS:286
     public int GetFreeSlot()

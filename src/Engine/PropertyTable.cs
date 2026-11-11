@@ -7,12 +7,12 @@ namespace Aow.Engine;
 
 public partial class PropertyTable : IDisposable
 {
-    internal PropertyItem[] FItems = [];
+    internal Item[] FItems = [];
     internal int FCapacity;
     internal int FCount;
     internal int FNextIndex;
     internal int FMaxID;
-    internal PropertySettings[] FStack = [];
+    internal Settings[] FStack = [];
     internal int FStackCount;
     internal int FStackCapacity;
     internal int FFirst;
@@ -130,7 +130,7 @@ public partial class PropertyTable : IDisposable
             Array.Resize(ref FStack, FStackCapacity);
         }
 
-        ref PropertySettings propertySettings = ref FStack[FStackCount];
+        ref Settings propertySettings = ref FStack[FStackCount];
         propertySettings.First = FFirst;
         propertySettings.NextIndex = FNextIndex;
         propertySettings.MaxID = FMaxID;
@@ -146,7 +146,7 @@ public partial class PropertyTable : IDisposable
     {
         FStackCount -= 1;
         FCount = FFirst;
-        ref PropertySettings propertySettings = ref FStack[FStackCount];
+        ref Settings propertySettings = ref FStack[FStackCount];
         FFirst = propertySettings.First;
         FNextIndex = propertySettings.NextIndex;
         FMaxID = propertySettings.MaxID;
@@ -248,12 +248,12 @@ public partial class PropertyTable : IDisposable
         }
     }
 
-    public PropertyItem[] Items { get => FItems; }
+    public Item[] Items { get => FItems; }
     public int Count { get => FCount; }
     public int First { get => FFirst; }
 
     [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct PropertyItem
+    public struct Item
     {
         [FieldOffset(0)]
         public int ID;
@@ -262,7 +262,7 @@ public partial class PropertyTable : IDisposable
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 12)]
-    public struct PropertySettings
+    public struct Settings
     {
         [FieldOffset(0)]
         public int First;

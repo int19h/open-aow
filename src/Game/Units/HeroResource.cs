@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // FRace. FHeroType. FName. FAlignment. FHidden. base statistics. FAbilities. FFaceIndex
-public partial class HeroResource : AbstractUnitResource
+public partial class HeroResource : TroopResource
 {
     public new const int ClassID = 131633;
 

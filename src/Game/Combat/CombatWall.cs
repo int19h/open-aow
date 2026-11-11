@@ -149,7 +149,7 @@ public partial class CombatWall : CombatObject
     public override int fcRoundDistance() => 0;
 
     // Combat.pas:1764
-    public override void Show(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public override void Show(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         switch (FWallType)
         {
@@ -167,14 +167,14 @@ public partial class CombatWall : CombatObject
     }
 
     // Combat.pas:1773
-    public override int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public override int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         Show(Frame, Direction, X, Y, Surface);
         return 0;
     }
 
     // Combat.pas:1776
-    public override int ShowHitAnimation(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public override int ShowHitAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         Show(Frame, Direction, X, Y, Surface);
         return 0;

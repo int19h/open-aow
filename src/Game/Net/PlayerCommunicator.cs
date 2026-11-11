@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.Net;
 
 // FEngine, FOnReceive, FReceivedPackage, FSendStream, FReceiveStream, FPCC, FOnProcess
-public partial class PlayerCommunicator : EObject
+public partial class PlayerCommunicator : EngineObject
 {
     internal GameEngine FEngine;
 
@@ -101,7 +101,7 @@ public partial class PlayerCommunicator : EObject
     public bool ReceiveDataPackage()
     {
         bool Result = default;
-        EObject Obj = default;
+        EngineObject Obj = default;
         FReceiveStream.Clear();
         FReceiveStream.Position = 0;
         if (FPCC.ReceivePackageData(FReceiveStream))

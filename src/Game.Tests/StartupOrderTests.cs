@@ -15,17 +15,17 @@ public sealed class StartupOrderTests
 
     private static readonly (string Name, string Type, string Init, string Fin)[] Delegates =
     [
-        ("GFXE", "Aow.Game.Draw.GfxState", "Initialize", "Finalize"),
+        ("GFXE", "Aow.Game.Draw.GraphicsState", "Initialize", "Finalize"),
         ("ImageLib", "Aow.Game.Draw.Images.ImageLibraries", "Initialize", "Finalize"),
         ("Engine", "Aow.Engine.Nodes.EngineHost", "Initialize", "Finalize"),
         ("Sound", "Aow.Game.Audio.AudioHost", "Initialize", "Finalize"),
         ("AoWE", "Aow.Game.Magic.Abilities.GameTables", "Initialize", "Finalize"),
-        ("City", "Aow.Game.World.Structures.CityRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
-        ("BehaviorAG", "Aow.Game.Ai.Groups.BehaviorRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
-        ("MainAG", "Aow.Game.Ai.Groups.MainRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
-        ("IndependentAG", "Aow.Game.Ai.Groups.IndependentRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
+        ("City", "Aow.Game.World.Structures.CityRegistrar", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
+        ("BehaviorAG", "Aow.Game.AI.Groups.BehaviorRegistrar", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
+        ("MainAG", "Aow.Game.AI.Groups.MainRegistrar", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
+        ("IndependentAG", "Aow.Game.AI.Groups.IndependentRegistrar", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
         ("AoWEReg", "Aow.Game.GameClasses", "Register", ""),
-        ("AoWTitleScene", "Aow.Game.Ui.Dialogs.TitleCaptions", "Initialize", ""),
+        ("AoWTitleScene", "Aow.Game.UI.Dialogs.TitleCaptions", "Initialize", ""),
     ];
 
     private static string[] Split(string text) => text.Split((char[])[' ', '\n'], StringSplitOptions.RemoveEmptyEntries);

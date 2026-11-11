@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Session;
 
 // player, relations, history
-public partial class PlayerDiplomaticRelations : EObject
+public partial class PlayerDiplomaticRelations : EngineObject
 {
     // Player.PAS:78
     public PlayerDiplomaticRelations(ECustomNode owner) : base(owner)
@@ -42,7 +42,7 @@ public partial class PlayerDiplomaticRelations : EObject
     }
 
     // Player.PAS:127
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
@@ -54,7 +54,7 @@ public partial class PlayerDiplomaticRelations : EObject
                 FPlayer.FLegacyNewRelations.Clear();
             }
 
-            if (AoWHSMap.Current.FDay == 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (AoWHSMap.Current.FDay == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
                 for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                 {
@@ -99,7 +99,7 @@ public partial class PlayerDiplomaticRelations : EObject
     public void SetDiplomaticRelation(sbyte Player, DiplomaticRelation Value)
     {
         FRelations[Player] = (byte)Value;
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && AoWHSMap.Current.FDay > 0)
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.FDay > 0)
         {
             GetHistory(Player).Add(Value, AoWHSMap.Current.FDay);
         }

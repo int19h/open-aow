@@ -20,7 +20,7 @@ finished frame on the screen. The UI toolkit that draws into these surfaces (aow
    mode, and those frames are the oracle for pixel comparison (section 9). The 565 code paths are
    kept, transpiled or rewritten like the 555 ones, and selectable by a setting, but nothing is
    verified against the oracle in 565.
-3. No DirectDraw, no GDI. `DDrawSurface` (Delphi `TDDrawSurface`), `DIB16Surface` (Delphi `TDIB16Surface`) and `DIBSurface` (Delphi `TDIBSurface`) become memory
+3. No DirectDraw, no GDI. `DirectDrawSurface` (Delphi `TDDrawSurface`), `Dib16Surface` (Delphi `TDIB16Surface`) and `DIBSurface` (Delphi `TDIBSurface`) become memory
    surfaces with the same class names and the same methods, so that the game code that creates
    them (the map viewer's scene cache, window back surfaces, the structure preview) transpiles
    unchanged and takes its system memory branches. A surface is never lost. Methods that need a
@@ -52,7 +52,7 @@ transpile set is an error, not a silent stub.
 
 ### 3.1 The surface description
 
-Every drawing routine of the game takes a `const SD: SurfaceDesc`, the description of a locked
+Every drawing routine of the game takes a `const SD: LockedSurface`, the description of a locked
 surface, and the counts of such parameters show where drawing lives: AoWEPACK 59, AoW 28, AoWTCPCK
 3; aowInt and AOWTools lock surfaces themselves (12 and 10 `Lock` calls) and pass descriptors down.
 The record (60 bytes, offsets from `GFXE.pas`):
@@ -64,7 +64,7 @@ The record (60 bytes, offsets from `GFXE.pas`):
 | 12 | `Pitch: Integer` | bytes per row, positive |
 | 16 | `ClipRect: Rect` | the writable rectangle in surface coordinates, `Left`/`Top` inclusive, `Right`/`Bottom` exclusive. `Lock` sets it to the whole surface |
 | 32 | `Data: Pointer` | the first byte of row 0 |
-| 36 | `Palette: GFXEPalette` | for 8-bit surfaces |
+| 36 | `Palette: Palette` | for 8-bit surfaces |
 | 40 | `PixelFormatID: Integer` | section 3.2 |
 | 44 | `RMask`, `GMask`, `BMask`, `AMask: Integer` | channel masks, filled by the 16-bit surfaces |
 
@@ -73,18 +73,18 @@ The record (60 bytes, offsets from `GFXE.pas`):
 everything else is copied. The UI toolkit draws every window through such sub-descriptors (`AoW`
 uses it 5 times, aowInt through its own equivalents). The assembler blitters read `ClipRect`,
 `Pitch` and `Data` at their byte offsets (`[edi+$10]`, `[edi+$0C]`, `[edi+$20]`), which is why the
-record's layout is part of the original's contract. The port's `SurfaceDesc` (Delphi `TSurfaceDesc`)
-(`GFXE.SurfaceDesc.cs`) is a plain struct with the same fields in the same order, except that the
+record's layout is part of the original's contract. The port's `LockedSurface` (Delphi `TSurfaceDesc`)
+(`src/Game/Draw/LockedSurface.cs`) is a plain struct with the same fields in the same order, except that the
 pointer `Data` is two fields: `Data`, the `byte[]` that holds the surface's rows, and `DataIndex`,
-the byte index of the first byte of row 0 in it. `Palette` is a `GFXEPalette` (Delphi `TGFXEPalette`). Arithmetic on the
+the byte index of the first byte of row 0 in it. `Palette` is a `Palette` (Delphi `TGFXEPalette`). Arithmetic on the
 original's pointer is arithmetic on `DataIndex`: `CreateSDfromSD` adds `R.Top * Pitch + (BitCount
 shr 3) * R.Left`, `Surface.LockEx` (Delphi `TSurface`) adds the offset of its rectangle, and the bottom-up
 `Windows08DIBSurface` (Delphi `TWindows08DIBSurface`) gives `DataIndex = (Height - 1) * abs(Pitch)`. A nil `Data` is a null
 array. No code of the port reads the descriptor as bytes: the original's `FillChar(SD, SizeOf(SD),
 0)` is `SD = default` and its `Move(SD, FSurfaceDesc, SizeOf(SD))` an assignment. There is one
-descriptor type. It lives in the units project because `GFXEPalette` does, and the rewritten
+descriptor type. It lives in the units project because `Palette` does, and the rewritten
 routines of `Aow.Graphics`, which sit below the units, take a `SurfaceView` that
-`SurfaceDesc.View(Offset)` builds from `Data`, `DataIndex + Offset`, `Pitch` and `ClipRect`
+`LockedSurface.View(Offset)` builds from `Data`, `DataIndex + Offset`, `Pitch` and `ClipRect`
 without other work (section 5.2). The display hosts copy the rows of a presented descriptor from
 `Data` at `DataIndex + y * Pitch`.
 
@@ -108,7 +108,7 @@ and `PFIDtoMASK` are transpiled). The constants:
 $F8) shl 2 + (B and $F8) shr 3`, and `pfPAL8` gives the palette's nearest entry by the sum of
 absolute channel differences, lowest index on a tie. `Surface.GetColor` reverses 555 as
 `(W and $7C00) shr 7 + (W and $03E0) shl 6 + (W and $1F) shl 19` (the low 3 bits of each channel
-are zero). The port's `SdlDC` (Delphi `TSdlDC`) back surfaces are `pfRGB555` (decision 2).
+are zero). The port's `SdlDisplayController` (Delphi `TSdlDC`) back surfaces are `pfRGB555` (decision 2).
 
 ### 3.3 Clipping and the simple blitters
 
@@ -134,7 +134,7 @@ because the frame oracle depends on them:
   rectangle parameters are the original's `PRect`, where nil means the whole surface: the port's
   `Rect?`, null for nil, with the virtual methods and their overrides as in the original
   (`BltDC`, `DataSurface.Create` (Delphi `TDataSurface`) and `CaptureSurface`, `LibraryImage.ShowDC` (Delphi `TLibraryImage`) take the same).
-  `AbstractDC.GetPrimarySurfaceRgn` (Delphi `TAbstractDC`) returns `Rect?` as well, and `DisplayCtrl` (Delphi `TDisplayCtrl`) returns its
+  `CustomDisplayController.GetPrimarySurfaceRgn` (Delphi `TAbstractDC`) returns `Rect?` as well, and `DisplayController` (Delphi `TDisplayCtrl`) returns its
   `FPrimarySurfaceRgn` where the original returns `@FPrimarySurfaceRgn`.
   `SurfaceRectangleTests` pins these methods with and without a rectangle.
 
@@ -145,10 +145,10 @@ because the frame oracle depends on them:
 | `Surface` | abstract base with the VMT `GetColor, GetPixelInfo, GetWidth, GetHeight, GetPixelFormatID, Blt, BltClipped, BltColorKey, BltColorKeyClipped, BltDC, BltStretch, Lock, Unlock, LockEx, UnlockEx, UpdatePalette, Resize, Cls` | transpiled. `BltDC` raises `ENotSupported` |
 | `DataSurface` | memory surface: `Create(W, H, pfid, Palette)`, `Resize` allocates `Pitch = (((BitCount + 7) shr 3) * W + 7) and not 7` bytes per row with the data 8-byte aligned, `Lock` fills the descriptor with `ClipRect` = whole surface, `CaptureSurface` copies a rectangle of another surface | transpiled. `FMem` is a `byte[]` of `Pitch * H + 7` bytes whose first byte is the first pixel, so `FData` has no field of its own and `Lock` gives `Data = FMem`, `DataIndex = 0`. The original allocates the same 7 bytes more and aligns `FData` to 8 for MMX, a performance choice with no effect on pixels, so the port has no alignment and keeps the 7 bytes after the last row, where the 24-bit readers of section 3.6 read one byte past the last pixel. The pitch formula is kept so that `Pitch` values match. `Resize` keeps the bytes the old and the new size share, as `ReallocMem` does |
 | `TDIB16Surface` | a 16-bit Windows DIB section, bottom-up, used by `TWindows16DC` for the back surfaces and by `Structur.PAS:1696` for a structure preview; `Lock` gives top-down `Data` with a negative pitch | a memory surface with the same constructor `Create(W, H, pfid)`, top-down positive pitch `(W * 2 + 3) and not 3`, `Cls`, `Resize`, `Blt`, `Lock`, `PixelFormatID` read-write before the first lock. `FBits` is a `byte[]` of `Pitch * H` bytes with the first pixel at its first byte. `Handle` and `BltDC` raise |
-| `DIBSurface`, `DIB08Surface` (Delphi `TDIB08Surface`), `DIB24Surface` (Delphi `TDIB24Surface`), `DIB32Surface` (Delphi `TDIB32Surface`) | DIB sections of other depths, used by `Windows08DC` (Delphi `TWindows08DC`), `Windows24DC` (Delphi `TWindows24DC`), the video player and the editor | the same memory stand-in, generic in bit count, with `FBits` as for `DIB16Surface`. Only the video player (rewritten) and editor code reach them |
+| `DIBSurface`, `DIB08Surface` (Delphi `TDIB08Surface`), `DIB24Surface` (Delphi `TDIB24Surface`), `DIB32Surface` (Delphi `TDIB32Surface`) | DIB sections of other depths, used by `Windows08DC` (Delphi `TWindows08DC`), `Windows24DC` (Delphi `TWindows24DC`), the video player and the editor | the same memory stand-in, generic in bit count, with `FBits` as for `Dib16Surface`. Only the video player (rewritten) and editor code reach them |
 | `Windows08DIBSurface` (`DisplayC`) | the 8-bit bottom-up DIB of `Windows08DC`, pitch `-((W + 7) and not 7)`, `FBits` 8-byte aligned, `Lock` gives the last row as `Data` | transpiled. `FMem` is a `byte[]` of `abs(Pitch) * H` bytes without the alignment, so `FBits` has no field of its own, and `Lock` gives `Data = FMem`, `DataIndex = (H - 1) * abs(Pitch)` |
 | `TDDrawSurface` | a DirectDraw surface: `CreateSurface(W, H, pfid, Flags)`, `Lost`, `Restore`, `Status` (`ssVideoMemory`, `ssSystemMemory`), `AsyncCls`, `OnSurfaceLost` | a memory surface. `CreateSurface` allocates, `Status` is `[ssSystemMemory]`, `Lost` is `False`, `Restore` returns `DD_OK`, `AsyncCls` is `Cls`. The game creates these only when the back surface it draws into `is TDDrawSurface` (`HSEngine.pas:4813`, `AoWWinControl.pas:189`, `AoWBookWindow.pas:139`), which is never true in the port, so the class exists for the type checks and the editor. The original's `FSurface`, the DirectDraw interface, is dropped with the interfaces |
-| `GFXEPalette` | 256 entries of 4 bytes with `PixelFormatID`, `LoadFromStream`, `Remap` to 555 or 565, `GetNearestColor` | transpiled |
+| `Palette` | 256 entries of 4 bytes with `PixelFormatID`, `LoadFromStream`, `Remap` to 555 or 565, `GetNearestColor` | transpiled |
 
 ### 3.5 Pointer idioms the transpiler meets here
 
@@ -170,7 +170,7 @@ AoWEPACK:
 | an untyped `Pointer` and a pitch passed to a blitter | a `SurfaceView` (section 5.2), tables and encoded images as byte spans |
 | a `PRect` parameter, nil for the whole surface or no rectangle | `Rect?`, null for nil (section 3.3) |
 | a block of records grown with `ReallocMem` and shifted with `Move` (`HashList.FItems` (Delphi `THashList`) in `HashTabU`, `CustomImageLibrary.FImages` (Delphi `TCustomImageLibrary`), `ImageNode.FImages` (Delphi `TImageNode`), `FrameTableList.FList` (Delphi `TFrameTableList`), `Matrix.FData` (Delphi `TMatrix`) in `DisplayC`) | a `T[]` with the original's count and capacity, so the growth steps stay: `RtlUnit.ReallocArray` (size 0 gives null, as `ReallocMem` gives nil), `MoveElements` and `ClearElements` for `Move` and `FillChar` of records. `GraphicsArrayTests` pins them |
-| a function result `PPaletteEntry` (`GFXEPalette.GetEntry`) | a `ref` return |
+| a function result `PPaletteEntry` (`Palette.GetEntry`) | a `ref` return |
 
 A probe `pointers` (section 10) exercises each row on the oracle compiler before the graphics units
 are transpiled.
@@ -190,7 +190,7 @@ surfaces allocate past the last row, so it never faults there. The port keeps th
 the 7 bytes past the last row of a `DataSurface`, so the read never faults there either. Only
 the grabbers reach a 24-bit surface: `BitMask.GrabImage` (Delphi `TBitMask`) and `Shadow.GrabImage` (Delphi `TShadow`) call
 `MinimizeTransparentRect` and `GetPixelInfo` on the grabbed surface, which the editor's grab tools
-and the probe build. The game draws no 24-bit surface, and `Sprite16` (Delphi `TSprite16`) and `RLESprite16` (Delphi `TRLESprite16`) convert a
+and the probe build. The game draws no 24-bit surface, and `Sprite16` (Delphi `TSprite16`) and `RleSprite16` (Delphi `TRLESprite16`) convert a
 24-bit grab to 565 before they minimize. `ImageDecodeTests.PixelReadersReadEveryFormatAsRecorded`
 pins every reader on widths 1 to 17 of each format.
 
@@ -241,18 +241,18 @@ few bit tests); `transpiler.md` section 8.2 covers them.
 ### 5.2 The blitters
 
 Every routine below becomes a static C# method on `Aow.Graphics.Blit` with the same name. A
-pointer and its pitch, and `const SD: SurfaceDesc`, become a `SurfaceView` (`src/Graphics/
+pointer and its pitch, and `const SD: LockedSurface`, become a `SurfaceView` (`src/Graphics/
 SurfaceView.cs`): a `ref struct` with the whole block of memory as a `Span<byte>`, the byte index
 of the first pixel of row 0 in it (`Start`), the signed pitch (negative for the bottom-up
 `Windows08DIBSurface`) and the clip rectangle for the routines that clip. A routine addresses the
 block by index (`Row(y, count)` slices a row, `Word` and `Dword` read and write at a byte offset,
 little-endian), so the view never moves and the rows of a bottom-up bitmap need nothing special.
-Callers build the view from a descriptor with `SurfaceDesc.View(Offset)`, the offset being the
+Callers build the view from a descriptor with `LockedSurface.View(Offset)`, the offset being the
 original's pointer arithmetic, and from an image buffer with the image's `View` (section 6.8). A
 blend table, a remap table and a palette are `ReadOnlySpan<byte>` (`BlendTable5Bit.Bytes`), the
 encoded RLE and mask data a byte span, the stretch tables `ReadOnlySpan<int>`. The `GFXEUnit`
 wrappers take the same views with the original's names, and the
-`ImageLibUnit` ones keep `in SurfaceDesc`. The alignment tests of the assembler (the "paired"
+`ImageLibUnit` ones keep `in LockedSurface`. The alignment tests of the assembler (the "paired"
 paths below, the head and tail bytes of the copies) read `Start`, which is the original pointer's
 offset in its block. A row that runs past the end of its block ends with the block, so a routine
 writes the pixels inside and raises at its first access beyond the end, as the pointer did. The
@@ -284,7 +284,7 @@ ImageLib:
 | routine | semantics |
 |---|---|
 | `BltRLE16(X, Y, SD, Data, Width, Height, ColorKey)` | draws an RLE sprite (section 6.3) at `(X, Y)` with clipping to `SD.ClipRect`. Rows above the clip top are skipped by their stored size, rows below are not drawn, a row that lies entirely inside horizontally takes the fast path (dword reads, two pixels per step), a row that crosses the left or right edge is walked pixel by pixel with a bounds test. A sprite whose rectangle misses the clip rectangle entirely draws nothing |
-| `BlendRLE555`, `BlendRLE565` | the same traversal, every opaque pixel written as the 50 percent blend of `BltTransparent555`/`565` (same masks, paired in the fast path). `RLESprite16.ShowTransparent` calls these, so a "transparent" RLE sprite is a half-blended one |
+| `BlendRLE555`, `BlendRLE565` | the same traversal, every opaque pixel written as the 50 percent blend of `BltTransparent555`/`565` (same masks, paired in the fast path). `RleSprite16.ShowTransparent` calls these, so a "transparent" RLE sprite is a half-blended one |
 | `RemapRLE555to565(Data, Height, ColorKey)`, `RemapRLE565to555` | convert every pixel word of every row in place, leaving the color key words and the skip counts that follow them untouched. `FColorKey` is not converted, so a converted pixel that happens to equal the key becomes transparent; this is the original's behavior |
 | `ShowBitMask16(X, Y, SD, Data, Width, Height)` | writes `$FFFF` (white) at every set bit of the mask (section 6.4), clipped |
 | `ShowShadow555`, `ShowShadow565` | at every set bit, darkens the destination to three quarters: `(d shr 1 and $3DEF) + (d shr 2 and $739C)` for 555 and `(d shr 1 and $7BEF) + (d shr 2 and $E79C)` for 565, paired with the doubled masks |
@@ -311,7 +311,7 @@ and that miss the sprite, skips of 0 to 3, RLE rows with runs at every position,
 widths across dword boundaries) and prints a 32-bit hash of the destination buffer after each
 call. The C# side runs the same cases through `Aow.Graphics.Blit` and prints the same hashes. The
 expected output is committed; a differing line names the routine and case. The RLE and bit mask
-inputs are built in the probe by the ImageLib encoders (`RLESprite16.GrabImage`,
+inputs are built in the probe by the ImageLib encoders (`RleSprite16.GrabImage`,
 `BitMask.GrabImage`), which are transpiled for the test even though the game never grabs.
 
 ## 6. Image libraries
@@ -323,7 +323,7 @@ vocabulary. The GOG install holds 538 `.ILB` files, 109 MB, under `Images\`, `In
 
 ### 6.1 File layout
 
-`ILBHeader` (Delphi `TILBHeader`) (24 bytes by the layout rules of `transpiler.md` 4.3): `ID: string[4]` (`'ILB'#0`,
+`ImageLibraryHeader` (Delphi `TILBHeader`) (24 bytes by the layout rules of `transpiler.md` 4.3): `ID: string[4]` (`'ILB'#0`,
 5 bytes, 3 bytes padding), `Version: Single` at offset 8, `HeaderSize` 12, `IndexEnd` 16, `Size`
 20. A scan of the GOG install on 2026-10-25 found 535 files of version 4 with a 24-byte header
 and 3 of version 3 with a 16-byte header and no `IndexEnd` or `Size` (`Images\Effects\ExplSmll.ILB`,
@@ -333,7 +333,7 @@ is header, palette manager, then the images with their pixels inline. The index 
 into memory in one piece; an entry is `Integer index`, the image record (`ReadImageFromStreamEx`:
 class id, then `ReadImageData`), `Integer reference`, terminated by index `-1`. A reference entry
 has no image of its own and points at another index (fonts use this for shared glyphs). The palette
-manager holds the 8-bit palettes (`LibraryImagePalette` (Delphi `TLibraryImagePalette`): `GFXEPalette` plus a remapped copy made
+manager holds the 8-bit palettes (`LibraryImagePalette` (Delphi `TLibraryImagePalette`): `Palette` plus a remapped copy made
 on demand for the surface's format).
 
 `LibraryImage.ReadImageData` (version byte first): `FileName` (an `Integer` length and the
@@ -344,10 +344,10 @@ up). `Image16` adds `StoredPixelFormatID`. The class-specific trailers:
 | class | id | trailer after the common fields | pixel data |
 |---|---|---|---|
 | `Picture08` (Delphi `TPicture08`) | 1 | palette link | rows of indices, pitch `(W + 3) and not 3` below 32 pixels, `(W + 7) and not 7` from 32 |
-| `RLESprite08` (Delphi `TRLESprite08`) | 2 | transparent index, reserved, `RLELeft`, `RLETop`, `RLEWidth`, `RLEHeight` | 8-bit RLE rows |
+| `RleSprite08` (Delphi `TRLESprite08`) | 2 | transparent index, reserved, `RLELeft`, `RLETop`, `RLEWidth`, `RLEHeight` | 8-bit RLE rows |
 | `Picture16` | `$10` | none | rows of 16-bit pixels, pitch `(W * 2 + 3) and not 3` below 32 pixels, `(W * 2 + 7) and not 7` from 32 |
-| `RLESprite16` | `$11` | `SpriteWidth`, `SpriteHeight`, `SpriteX`, `SpriteY`, `ColorKey`, reserved | section 6.3 |
-| `TransparentRLESprite16` (Delphi `TTransparentRLESprite16`) | `$12` | as `$11` | as `$11`, default `ShowMode` `smTransparent` |
+| `RleSprite16` | `$11` | `SpriteWidth`, `SpriteHeight`, `SpriteX`, `SpriteY`, `ColorKey`, reserved | section 6.3 |
+| `TransparentRleSprite16` (Delphi `TTransparentRLESprite16`) | `$12` | as `$11` | as `$11`, default `ShowMode` `smTransparent` |
 | `BitMask` | `$13` | `MaskWidth`, `MaskHeight`, `MaskLeft`, `MaskTop` | section 6.4 |
 | `Shadow` | `$14` | as `$13` | as `$13` |
 | `TransparentPicture16` (Delphi `TTransparentPicture16`) | `$15` | none | as `$10`, default `ShowMode` `smTransparent` |
@@ -375,7 +375,7 @@ and the map object resources query image dimensions and frame counts in rules co
 dword itself (written as a word length and a zero word), then a sequence of words: a pixel, or the
 color key followed by a word with a skip length in bytes (twice the number of transparent pixels).
 The row is padded to a dword boundary with one color key word when its length is not a multiple
-of 4. The encoder is `RLESprite16.GrabImage`: it first shrinks the grabbed rectangle to the
+of 4. The encoder is `RleSprite16.GrabImage`: it first shrinks the grabbed rectangle to the
 smallest one holding non-key pixels (`MinimizeTransparentRect`), records it as `SpriteX`,
 `SpriteY`, `SpriteWidth`, `SpriteHeight` relative to the data rectangle, and encodes the rows.
 `ColorKey` is in the stored pixel format and is remapped with the data when the surface format
@@ -402,11 +402,11 @@ is `Show`: every blitter clips. Per class:
 |---|---|---|---|
 | `Picture16` | `BltRect` of the clipped rectangle | `BltTransparent555/565` | `BlendSurface555/565`; stretched forms through `BltStretched16` and `BlendStretched` |
 | `Sprite16` | `BltColorKey16` | `BltTransparent` | `BlendColorKey` |
-| `RLESprite16` | `BltRLE16` | `BlendRLE555/565` | not supported |
+| `RleSprite16` | `BltRLE16` | `BlendRLE555/565` | not supported |
 | `BitMask` | `ShowBitMask16` | not supported | not supported |
 | `Shadow` | `ShowShadow555/565` | not supported | not supported |
 | `Picture08` | `RemapSurface08to555/565` through the remapped palette | | |
-| `RLESprite08` | `ShowRLE08to16` | | |
+| `RleSprite08` | `ShowRLE08to16` | | |
 | `ImageNode` | each child in order | | |
 
 A picture whose pixel format differs from the surface's is remapped in place on first use
@@ -447,8 +447,8 @@ one view of their rows:
 | `Picture08` | `FBuffer`, the rows from byte 0, `View` | `FPitch` as section 6.1, `FPitch * DataHeight + 7` bytes |
 | `Picture16`, `TransparentPicture16` | `FBuffer`, the rows from byte 0, `View` | `FPitch` as section 6.1, `FPitch * DataHeight + 7` bytes |
 | `Sprite16` | `FBuffer`, the rows of the sprite rectangle from byte 0, `View` | `FPitch` from `SpriteWidth` as for `$10`, `FPitch * SpriteHeight + 7` bytes |
-| `RLESprite08` | `FData`, the encoded rows | `DataSize` bytes |
-| `RLESprite16`, `TransparentRLESprite16` | `FData`, the encoded rows (section 6.3) | `DataSize` bytes |
+| `RleSprite08` | `FData`, the encoded rows | `DataSize` bytes |
+| `RleSprite16`, `TransparentRleSprite16` | `FData`, the encoded rows (section 6.3) | `DataSize` bytes |
 | `BitMask`, `Shadow` | `FMaskData` (section 6.4) | `FPitch * MaskHeight + 4` bytes |
 
 The original allocates `FBuffer` 7 bytes larger than the rows and points `FBits` (`Picture08`) or
@@ -460,11 +460,11 @@ their padding (`WriteDiscardableImageData` writes `DataWidth` bytes or `DataWidt
 row). `View` is a `SurfaceView` over the whole buffer with the pitch, so `Show`, `ShowBlended`,
 `ShowTransparent`, the stretched draws and `RemapToPixelFormat` pass `View.At(SX * 2 + SY * FPitch)`
 or `View` to the blitters. The decoders of section 5.2 take the encoded data and the masks as
-`ReadOnlySpan<byte>`, the RLE remappers as `Span<byte>`. The encoders (`GrabImage` of `RLESprite08`,
-`RLESprite16` and `BitMask`) grow the array as the original grows its block (`MemorySurfaces.Reallocate`
+`ReadOnlySpan<byte>`, the RLE remappers as `Span<byte>`. The encoders (`GrabImage` of `RleSprite08`,
+`RleSprite16` and `BitMask`) grow the array as the original grows its block (`MemorySurfaces.Reallocate`
 at every 4,096 bytes past `DataSize`) and write words and dwords little-endian at an index. A grab
-reads the grabbed surface through `SD.View()`, and the 8-bit grab of `RLESprite08` reads its
-bytes from `SD.Data` at `SD.DataIndex + Y * Pitch + X` (`TRLESprite08GrabTests`). A library keeps
+reads the grabbed surface through `SD.View()`, and the 8-bit grab of `RleSprite08` reads its
+bytes from `SD.Data` at `SD.DataIndex + Y * Pitch + X` (`RleSprite08GrabTests`). A library keeps
 its images in `FImages`, an array of `ImageItem` (Delphi `TImageItem`) of the original's capacity, rounded up to 8
 less one, and an image node keeps its sub-images in an array of `LibraryImage` (section 3.5).
 
@@ -486,7 +486,7 @@ doBltOnWMPAINT]`, `UpdateFrameMode = umSynchrone`, `FrameRate = 30`, and the con
 `BufferingScheme = bsDouble`, `BackSurfaceControlMode = bmBltSurface`, back surface 640 by 480.
 `SetFrameRate` stores `FFrameTime = Round(1000 / FrameRate)`, 33 ms. `PrimaryDC` is `WinDC` in
 windowed mode; `FormCreate` makes it `DXDC` and `SecondaryDC` `WinDC` when the registry says full
-screen. In the port both are the one `SdlDC`, and `SwapDC` toggles its fullscreen flag.
+screen. In the port both are the one `SdlDisplayController`, and `SwapDC` toggles its fullscreen flag.
 
 ### 7.2 One frame
 
@@ -517,23 +517,23 @@ delivers mouse and key events to the display control's handlers (`DisplayMouseDo
 window manager (`ui-layout.md`). Pausing (`PauseFrameUpdateLoop`, a counter) is used around
 controller swaps and modal VCL dialogs.
 
-### 7.3 `SdlDC`, the one controller
+### 7.3 `SdlDisplayController`, the one controller
 
-`SdlDC` implements `AbstractDC` for the port. Of the 35 virtual methods the game reaches these:
+`SdlDisplayController` implements `CustomDisplayController` for the port. Of the 35 virtual methods the game reaches these:
 
 | method | behavior |
 |---|---|
 | `GetSurface(0)` | the screen stand-in: a `Surface` whose `Width` and `Height` are the window's client size in back-surface pixels (section 7.4), with no pixel storage. `ScrollMap` reads its size to find the screen edges, `CustomDisplay.Resize` reads it to size the back surfaces when `doAutoResizeBackSurface` is on |
-| `GetSurface(1)`, `GetSurface(2)` | the back surfaces, `DIB16Surface` stand-ins of `BackSurfaceWidth` by `BackSurfaceHeight` in `pfRGB555`, cleared to the display's color on creation, as `Windows16DC.Activate` does |
+| `GetSurface(1)`, `GetSurface(2)` | the back surfaces, `Dib16Surface` stand-ins of `BackSurfaceWidth` by `BackSurfaceHeight` in `pfRGB555`, cleared to the display's color on creation, as `Windows16DC.Activate` does |
 | `GetSurfaceCount` | `Ord(BufferingScheme)` |
 | `Activate(Display)`, `Deactivate` | create and free the back surfaces, set `dsActivated` and `dsWindowed` (the latter so that windowed-only branches of the game run), call `Display.ResizeBackSurfaces` with the client size when `doAutoResizeBackSurface` is on, as `WindowsDC.Activate` (Delphi `TWindowsDC`) does |
 | `BltSurface(Index)`, `FlipSurface(Index)` | present `GetSurface(Index)` (section 7.4). `FlipSurface` returns `DCERR_NOFLIP` after presenting, as `WindowsDC` does, so that the display falls back to blitting |
 | `ResizeBackSurfaces(W, H)` | resize both back surfaces |
 | `GetMousePos(X, Y)` | the pointer position in back-surface pixels, or `(-1, -1)` when the pointer is outside the client area, when another window has captured the mouse, or when the window is not focused. The original also reports `-1` when the cursor leaves the parent's client rectangle |
-| `NewFrame`, `WaitForVerticalBlank`, `GetCurrentFrameRate`, `ShowFrameRate` | transpiled from `DisplayCtrl`, on `IClock` |
-| `SetPrimarySurfaceRgn`, `GetPrimarySurfaceRgn`, `GetStatus`, `GetDisplay`, `Handle`, `OutputWnd`, `Hide`, `Show`, `SupportDisplayMode` | transpiled from `DisplayCtrl`, with `Handle` and `OutputWnd` returning the shim's window stub |
+| `NewFrame`, `WaitForVerticalBlank`, `GetCurrentFrameRate`, `ShowFrameRate` | transpiled from `DisplayController`, on `IClock` |
+| `SetPrimarySurfaceRgn`, `GetPrimarySurfaceRgn`, `GetStatus`, `GetDisplay`, `Handle`, `OutputWnd`, `Hide`, `Show`, `SupportDisplayMode` | transpiled from `DisplayController`, with `Handle` and `OutputWnd` returning the shim's window stub |
 | `GetPalette`, `GetHPalette`, `SetPalet`, `RealizePaletNow`, `UpdatePalette` | no palette: `nil`, `0`, `DD_OK` |
-| `Invalidate`, `InvalidateAll`, `InitInvMatrix`, `GetInvBlockSize`, `GetPixPosofBlock`, `GetBlockPosofPix`, `BltInvalidatedSurface` | transpiled from `DisplayCtrl` and `AbstractDC`; unused in `bmBltSurface` mode |
+| `Invalidate`, `InvalidateAll`, `InitInvMatrix`, `GetInvBlockSize`, `GetPixPosofBlock`, `GetBlockPosofPix`, `BltInvalidatedSurface` | transpiled from `DisplayController` and `CustomDisplayController`; unused in `bmBltSurface` mode |
 | `WndProc`, `WindowRecreated`, `ShowError` | `False`, nothing, `IDialogService.ShowMessage` |
 
 ### 7.4 Presenting, scaling and modes
@@ -576,7 +576,7 @@ and the width, height and pixel format arguments filter the list as the original
 `EnumDisplayModes` description did. `UpdateModes` keeps its 640 by 480 floor.
 
 Scenes larger than the map (port extension). At large back surface sizes the map viewer's scene
-can be wider or taller than the map, which the original never reached. `HSMapViewer` (Delphi `THSMapViewer`) keeps the
+can be wider or taller than the map, which the original never reached. `HexSpriteMapViewer` (Delphi `THSMapViewer`) keeps the
 original scroll clamp, so `SceneX`, `SceneY`, the view port and the saved view stay the original's.
 `ShowScene` then draws the scene as the original does into a scene-sized surface, fills the scene
 outside the map's extent black and copies the map's extent centered into the scene on each axis
@@ -588,7 +588,7 @@ inside the map nothing changes.
 
 The game draws its own cursor into the back surface at the end of the frame (`DrawCursor`): the
 map cursor image at `(X - 25, Y - 25)`, blended with a pulsing alpha when the seated player is
-busy, a secondary cursor image at `(X - 15, Y - 20)`, and the interface cursor from `IntGfxMod.Cursors`
+busy, a secondary cursor image at `(X - 15, Y - 20)`, and the interface cursor from `UIGraphics.Cursors`
 outside a game. The host hides the system cursor while the pointer is over the window
 (`SDL_HideCursor`) and shows it over the letterbox. `GetCursorRect` and `FLastCursorRect` only drive
 `FCursorChanged`, a hint the toolkit uses to redraw the cursor's old place; they are transcribed.
@@ -597,7 +597,7 @@ outside a game. The host hides the system cursor while the pointer is over the w
 
 With no controller (`DC = nil`), `DisplayUpdateFrame` skips the mouse, scroll, draw and cursor
 block and runs only the game logic, which is the path `testing.md` 3.2 drives. The headless host
-therefore has no `SdlDC` and no back surfaces at all, and `CustomDisplay` is not created. Image
+therefore has no `SdlDisplayController` and no back surfaces at all, and `CustomDisplay` is not created. Image
 libraries still load (section 6.2).
 
 ## 8. What the graphics layer needs from the host
@@ -608,7 +608,7 @@ libraries still load (section 6.2).
 interface IDisplayHost {
     (int Width, int Height) ClientSize { get; }        // in back-surface pixels after scaling
     bool Fullscreen { get; set; }
-    void Present(in SurfaceDesc backSurface);          // 555 rows, pitch in bytes
+    void Present(in LockedSurface backSurface);          // 555 rows, pitch in bytes
     (int X, int Y, bool Inside) PointerPosition();      // back-surface pixels, Inside false outside the image
     bool HasFocus { get; }
     void PumpEvents(IDisplayEvents sink);               // mouse, key, resize, close, focus
@@ -642,7 +642,7 @@ The oracle of this layer is the rebuilt game in windowed mode, which draws in `p
    scene at frame 60; `small` (Mountain Clash) day 1 at frames 1, 30 and 90 after load; the same
    with the map scrolled by a scripted mouse position; one city window, one unit info window, one
    spellbook page opened by scripted clicks; `heroes` at the first tactical combat frame.
-3. The port renders the same fixture with the same script through `SdlDC` in headless-presenter
+3. The port renders the same fixture with the same script through `SdlDisplayController` in headless-presenter
    mode (a `Present` that writes the frame to a file instead of a window) and
    `tools/oracle/compare_frames.py` compares the two 555 images pixel for pixel, writes the count of
    differing pixels, the first differing pixel, and a PNG with the differences highlighted, and

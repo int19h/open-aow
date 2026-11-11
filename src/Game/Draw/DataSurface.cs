@@ -20,10 +20,10 @@ public partial class DataSurface : Surface
     internal int FPixelFormatID;
     internal int FX;
     internal int FY;
-    internal GFXEPalette FPalette;
+    internal Palette FPalette;
 
     // GFXE.pas:12387
-    public DataSurface(int AWidth, int AHeight, int APixelFormatID, GFXEPalette APalette)
+    public DataSurface(int AWidth, int AHeight, int APixelFormatID, Palette APalette)
     {
         FBitCount = (byte)(APixelFormatID & 255);
         FPixelFormatID = APixelFormatID;
@@ -60,7 +60,7 @@ public partial class DataSurface : Surface
     // GFXE.pas:12446
     public int CaptureSurface(Surface Surface, Rect? R)
     {
-        SurfaceDesc SD = default;
+        LockedSurface SD = default;
         Rect RR = default;
         int W;
         int H;
@@ -104,13 +104,13 @@ public partial class DataSurface : Surface
     }
 
     // GFXE.pas:12485
-    public void SetPalette(GFXEPalette Palette)
+    public void SetPalette(Palette Palette)
     {
         if (Palette != null)
         {
             if (FPalette == null)
             {
-                FPalette = new GFXEPalette();
+                FPalette = new Palette();
             }
 
             FPalette.Assign(Palette);
@@ -149,6 +149,6 @@ public partial class DataSurface : Surface
 
     public byte[] Data { get => FMem; }
     public int Pitch { get => FPitch; }
-    public GFXEPalette Palette { get => FPalette; set => SetPalette(value); }
+    public Palette Palette { get => FPalette; set => SetPalette(value); }
 
 }

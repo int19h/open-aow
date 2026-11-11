@@ -9,11 +9,11 @@ namespace Aow.Game.World.Structures;
 public struct DefenseRequirements
 {
     [FieldOffset(0)]
-    public FixedArray_byte_28 Reserved00;
+    public ByteArray28 Reserved00;
     [FieldOffset(28)]
     public int Strength;
     [FieldOffset(32)]
-    public FixedArray_byte_8 Reserved20;
+    public ByteArray8 Reserved20;
     [FieldOffset(0)]
-    public FixedArray_int_10 DamageStrengths;
+    public Int32Array10 DamageStrengths;
 }

@@ -30,7 +30,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1618
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -55,7 +55,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     public override GlobalEnchantment CreateEnchantment() => new DeathMasteryEnchantment(null);
 
     // GlobalEnchantmentSpells.pas:1593
-    public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Count;
         int X;

@@ -19,7 +19,7 @@ namespace Aow.Game.Session;
 // { Interface declaration run owned by P1. }
 // face library, city library, library name, name, race name, description, alignments,
 // references, units, hero unit, special units, hero names
-public partial class RaceResource : EResource
+public partial class RaceResource : EngineResource
 {
     public new const int ClassID = 131585;
 
@@ -101,7 +101,7 @@ public partial class RaceResource : EResource
     }
 
     // PlayerC.PAS:1855
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
@@ -165,10 +165,10 @@ public partial class RaceResource : EResource
         {
             if (!IsEmpty(FImageLibraryName))
             {
-                FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
+                FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
             }
 
-            FFaceLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
+            FFaceLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
         }
     }
 
@@ -180,10 +180,10 @@ public partial class RaceResource : EResource
         {
             if (!IsEmpty(FImageLibraryName))
             {
-                AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
+                AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
             }
 
-            AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
+            AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
             FFaceLibrary = null;
             FImageLibrary = null;
         }

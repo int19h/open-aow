@@ -14,7 +14,7 @@ namespace Aow.Game.World;
 // the resource of map objects. FEngine (set by the engine activation message),
 // FShowPriorityOffset (id 4), FImageLibrary (id 8), FImageSequenceList (nil without complex
 // images. ids 9, 10), FTerrainList (id 7), FLevel (id 5), FName (id 6)
-public partial class MapObjectResource : EResource
+public partial class MapObjectResource : EngineResource
 {
     public new const int ClassID = 65876;
 
@@ -97,7 +97,7 @@ public partial class MapObjectResource : EResource
     // MAPOBJ.PAS:383
 
     // MAPOBJ.PAS:620
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
@@ -152,7 +152,7 @@ public partial class MapObjectResource : EResource
     }
 
     // MAPOBJ.PAS:525
-    public override EObject CreateResourceUser()
+    public override EngineObject CreateResourceUser()
     {
         int ID;
         MapObject MO;
@@ -175,7 +175,7 @@ public partial class MapObjectResource : EResource
     }
 
     // MAPOBJ.PAS:420
-    public override void Draw(Canvas Canvas, Rect Rect, Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+    public override void Draw(Canvas Canvas, Rect Rect, Draw.Images.BlitMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
     {
         int I;
         LibraryImage Image;
@@ -242,7 +242,7 @@ public partial class MapObjectResource : EResource
     }
 
     // MAPOBJ.PAS:507
-    public void ShowComplexImage(int X, int Y, in SurfaceDesc SurfaceDesc, int Index, uint Offset)
+    public void ShowComplexImage(int X, int Y, in LockedSurface SurfaceDesc, int Index, uint Offset)
     {
         ImageSequence Sequence;
         int Frame;
@@ -285,7 +285,7 @@ public partial class MapObjectResource : EResource
     // MAPOBJ.PAS:586
     // { The resource was dropped on the map (message $10005): fill the hexagons in Param[1] rings around
     //   the drop point with its users, clearing the terrain first when Param[2] = 1 }
-    public void EditDropMsg(ref EMsg Msg)
+    public void EditDropMsg(ref EngineMessage Msg)
     {
         MapLevel MapLevel;
         int Xhx = default;
@@ -294,14 +294,14 @@ public partial class MapObjectResource : EResource
         int Rad;
         bool Clear;
         bool Placed;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         Placed = true;
         MapLevel = Msg.Param[0].As<MapLevel>();
         Lhx = Msg.Data[1];
         Rad = Msg.Param[1].Int;
         HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
         Clear = Msg.Param[2].Int == 1;
-        HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (Walk.Radius <= Rad)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -314,7 +314,7 @@ public partial class MapObjectResource : EResource
                 Placed = Placed && PlaceResourceUser(FEngine.FHSMap, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)Lhx) != null;
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         if (Placed)
@@ -338,7 +338,7 @@ public partial class MapObjectResource : EResource
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";
 
-    internal static void BltImageSequenceEx(Canvas Canvas, ImageSequence Sequence, int Frame, Rect Rect, Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref Rect DrawRect)
+    internal static void BltImageSequenceEx(Canvas Canvas, ImageSequence Sequence, int Frame, Rect Rect, Draw.Images.BlitMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref Rect DrawRect)
     {
         throw new NotImplementedException();
     }

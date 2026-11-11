@@ -11,7 +11,7 @@ public sealed class PreInheritedTests
     private sealed class HookOwner : EngineFixture.Owner
     {
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Assert.Equal(17, ((Leaf)child).State);
             Events.Add("owner");
@@ -19,7 +19,7 @@ public sealed class PreInheritedTests
         }
     }
 
-    private class First : EObject
+    private class First : EngineObject
     {
 
         private protected First(ConstructionContext? context, ECustomNode? owner) : base(context!, owner!) => Events.Add("first body");

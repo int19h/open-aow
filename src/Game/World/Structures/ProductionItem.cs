@@ -7,7 +7,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.World.Structures;
 
 // the order (AoWE.ProductionOrders.cs), stored as production ID, parameter and group ID
-public partial class ProductionItem : EObject
+public partial class ProductionItem : EngineObject
 {
     public new const int ClassID = 131735;
 

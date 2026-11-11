@@ -1,8 +1,7 @@
 // Translated from Tower.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
@@ -30,7 +29,7 @@ public partial class Tower : PlayerStructure
     }
 
     // Tower.pas:102
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && Msg.MsgID == 4387 && Msg.Param[0].As<MapField>().FindNoneTransparentHS(typeof(Tower)) == this && !GetBuilding() && !GetRazed())

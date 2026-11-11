@@ -11,7 +11,7 @@ public sealed class FilesAndStreamsTests
     [Fact]
     public void AnEmptyBaseKeepsTheDestination()
     {
-        IFileSystem files = new SystemIoFileSystem();
+        IFileSystem files = new PhysicalFileSystem();
         string current = Directory.GetCurrentDirectory();
         string sameDrive = Path.Combine(Path.GetPathRoot(current)!, "Games", "x.ilb");
         Assert.Equal(sameDrive, files.ExtractRelativePath("", sameDrive));
@@ -26,7 +26,7 @@ public sealed class FilesAndStreamsTests
         var saved = Files;
         try
         {
-            Files = new SystemIoFileSystem();
+            Files = new PhysicalFileSystem();
             Assert.Equal(directory.Root, GetCurrentDir());
             Assert.False(FileExists("a")); Assert.False(DirectoryExists("a")); Assert.False(DeleteFile("a")); Assert.False(RenameFile("a", "b")); Assert.Equal(-1, FileAge("a"));
             Assert.False(CreateDir("absent/child")); Assert.True(CreateDir("a")); Assert.False(CreateDir("a")); Assert.True(DirectoryExists("a")); Assert.False(FileExists("a"));

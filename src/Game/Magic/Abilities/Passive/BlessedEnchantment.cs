@@ -40,7 +40,7 @@ public partial class BlessedEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1242
     public override int GetAIUpkeepPriority(AbilityOwner Owner)
     {
-        if (Owner is not AbstractUnit unit)
+        if (Owner is not Troop unit)
         {
             return 0;
         }

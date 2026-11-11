@@ -58,7 +58,7 @@ public sealed class DecodeContext
     /// <summary>Offsets are in the inflated payload, not in the file.</summary>
     public bool Inflated { get; init; }
 
-    public ConversionException Fail(string code, string message, long offset, DocPath? path = null, string? value = null, string? constraint = null) =>
+    public ConversionException Fail(string code, string message, long offset, DocumentNodePath? path = null, string? value = null, string? constraint = null) =>
         new(new FormatDiagnostic(code, Nested is null ? message : message + " In the nested image of " + Nested + ".")
         {
             File = File,
@@ -70,7 +70,7 @@ public sealed class DecodeContext
             Decompressed = Inflated,
         });
 
-    public void Need(int start, int count, int end, DocPath path, string what)
+    public void Need(int start, int count, int end, DocumentNodePath path, string what)
     {
         if (count < 0 || start < 0 || (long)start + count > end)
             throw Fail(Codes.Truncated, $"The {what} runs past the end of its value.", start, path);
@@ -78,7 +78,7 @@ public sealed class DecodeContext
 
     public int Int32(int at) => BinaryPrimitives.ReadInt32LittleEndian(Data.AsSpan(at, 4));
 
-    public void Enter(int offset, DocPath path)
+    public void Enter(int offset, DocumentNodePath path)
     {
         if (++nodes > Limits.Nodes) throw Fail(Codes.Limit, "The image decodes to too many objects.", offset, path, null, $"at most {Limits.Nodes} decoded objects");
         if (++depth > Limits.Depth) throw Fail(Codes.Limit, "The image nests objects too deeply.", offset, path, null, $"depth at most {Limits.Depth}");
@@ -86,7 +86,7 @@ public sealed class DecodeContext
 
     public void Leave() => depth--;
 
-    public void CheckItems(int count, int offset, DocPath path)
+    public void CheckItems(int count, int offset, DocumentNodePath path)
     {
         if (count > Limits.CollectionItems)
             throw Fail(Codes.Limit, "A collection has too many items.", offset, path, count.ToString(System.Globalization.CultureInfo.InvariantCulture), $"at most {Limits.CollectionItems} items");
@@ -118,7 +118,7 @@ public sealed class EncodeContext
     /// <summary>Encoding identity that a stale fingerprint or an edit discarded.</summary>
     public List<FormatDiagnostic> Invalidated { get; } = [];
 
-    public ConversionException Fail(string code, string message, JsonValue? at, DocPath path, string? value = null, string? constraint = null) =>
+    public ConversionException Fail(string code, string message, JsonValue? at, DocumentNodePath path, string? value = null, string? constraint = null) =>
         new(new FormatDiagnostic(code, message)
         {
             File = File,
@@ -129,7 +129,7 @@ public sealed class EncodeContext
             Migration = at?.Origin,
         });
 
-    public void Enter(JsonValue at, DocPath path)
+    public void Enter(JsonValue at, DocumentNodePath path)
     {
         if (++depth > Limits.Depth) throw Fail(Codes.Limit, "The document nests objects too deeply.", at, path, null, $"depth at most {Limits.Depth}");
     }
@@ -157,7 +157,7 @@ public sealed class PropertyTable
     /// <summary>The count byte has bit 7 set although no long entry follows.</summary>
     public bool EmptyLongMarker { get; init; }
 
-    public static PropertyTable Read(DecodeContext ctx, int start, int end, DocPath path)
+    public static PropertyTable Read(DecodeContext ctx, int start, int end, DocumentNodePath path)
     {
         var data = ctx.Data;
         ctx.Need(start, 1, end, path, "property table");
@@ -192,7 +192,7 @@ public sealed class PropertyTable
     public static bool IsShort(int id, int offset) => id is >= 0 and <= 127 && offset is >= 0 and <= 255;
 
     /// <summary>Writes a table in the original writer's form: short entries first, then long ones.</summary>
-    public static void WriteCanonical(ByteBuffer output, IReadOnlyList<(int Id, int Offset)> entries, DocPath path, EncodeContext ctx)
+    public static void WriteCanonical(ByteBuffer output, IReadOnlyList<(int Id, int Offset)> entries, DocumentNodePath path, EncodeContext ctx)
     {
         int shortCount = 0, longCount = 0;
         foreach (var (id, offset) in entries)

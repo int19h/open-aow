@@ -81,7 +81,7 @@ public sealed class JsonTests : FormatsTest
             .Add("e", new JsonObject())
             .Add("l", new JsonArray())
             .Add("s", new JsonString("q\"\\\b\t\n\f\r\u0001\u007f\u0081\u009f\u00a0\u00e9\u20ac"))
-            .Add("n", new JsonArray().Add(new JsonBool(true)).Add(new JsonNull()));
+            .Add("n", new JsonArray().Add(new JsonBoolean(true)).Add(new JsonNull()));
         Assert.Equal(
             "{\n  \"a\": -5,\n  \"e\": {},\n  \"l\": [],\n  \"s\": \"q\\\"\\\\\\b\\t\\n\\f\\r\\u0001\\u007f\\u0081\\u009f\u00a0\u00e9\u20ac\",\n  \"n\": [\n    true,\n    null\n  ]\n}\n",
             JsonWriter.ToText(value));

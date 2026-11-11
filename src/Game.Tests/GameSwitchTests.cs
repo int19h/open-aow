@@ -2,9 +2,7 @@ using System.Text;
 using Aow.Engine.Storage;
 using Aow.Formats;
 using Aow.Formats.Json;
-
-using Aow.Game.Ai.Groups;
-
+using Aow.Game.AI.Groups;
 using Aow.Game.Saves;
 using Aow.Game.World.Map;
 
@@ -225,17 +223,17 @@ public sealed class GameSwitchTests
     {
         var document = ShippedSave();
         var groups = Groups(document);
-        int passive = groups.Items.FindIndex(g => ((JsonObject)g)["$class"] is JsonString { Value: "PassiveAG" });
+        int passive = groups.Items.FindIndex(g => ((JsonObject)g)["$class"] is JsonString { Value: "PassiveAIGroup" });
         string before = Encoding.UTF8.GetString(JsonWriter.ToUtf8(groups.Items[passive]));
-        Replace((JsonObject)groups.Items[passive], "$class", new JsonString("FortifyAG"));
+        Replace((JsonObject)groups.Items[passive], "$class", new JsonString("FortifyAIGroup"));
         var result = Prepare(document);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
         var reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
-        Assert.Equal(before.Replace("\"PassiveAG\"", "\"FortifyAG\""), Encoding.UTF8.GetString(JsonWriter.ToUtf8(reread.Items[passive])));
+        Assert.Equal(before.Replace("\"PassiveAIGroup\"", "\"FortifyAIGroup\""), Encoding.UTF8.GetString(JsonWriter.ToUtf8(reread.Items[passive])));
 
         document = ShippedSave();
-        var area = Groups(document).Items.Cast<JsonObject>().First(g => g["$class"] is JsonString { Value: "GuardAreaAG" } && g["GuardLocation"] is not null);
-        Replace(area, "$class", new JsonString("PassiveAG"));
+        var area = Groups(document).Items.Cast<JsonObject>().First(g => g["$class"] is JsonString { Value: "GuardAreaAIGroup" } && g["GuardLocation"] is not null);
+        Replace(area, "$class", new JsonString("PassiveAIGroup"));
         var refused = Prepare(document);
         Assert.Equal(Codes.UnknownMember, refused.Report.Error!.Code);
         Assert.EndsWith(".GuardLocation", refused.Report.Error.Path);
@@ -257,7 +255,7 @@ public sealed class GameSwitchTests
         Assert.Null(((JsonObject)reread.Items[index])["IndependentRelation"]);
 
         // The id table is weak since C12, so the unlinked group needs no teardown.
-        var group = new PassiveAG(null!);
+        var group = new PassiveAIGroup(null!);
         Assert.Equal(-1, group.FIndependentRelation);
         sbyte relation = group.FIndependentRelation;
         using var memory = new MemoryStream();
