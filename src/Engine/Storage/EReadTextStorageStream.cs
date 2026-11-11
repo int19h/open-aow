@@ -36,7 +36,7 @@ public partial class EReadTextStorageStream : EStorageStream
         {
             if (FSize < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
             byte[] buffer = new byte[FSize];
-            FStream.ReadBytes(buffer);
+            FStream.ReadExactly(buffer);
             Text.Clear();
             ReadOnlySpan<byte> text = buffer;
             if (!text.IsEmpty)

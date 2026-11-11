@@ -209,14 +209,14 @@ public sealed class StorageStreamConstructionTests
         Assert.Equal(2L, memory.Length);
     }
 
+    // A property table that ends inside a pair raises EndOfStreamException.
     [Fact]
-    public void OrdinaryMemoryStreamKeepsShortReadBehavior()
+    public void OrdinaryMemoryStreamShortReadThrows()
     {
         using var memory = Memory([1, 7]);
-        using var reader = new EReadStorageStream(memory, null!, false);
-        Assert.Equal(2, reader.DataBase);
-        Assert.Equal(1, reader.PropertyTable.Count);
-        Assert.Equal(0, reader.PropertyTable.FindOffset(7));
+        var error = Assert.Throws<EndOfStreamException>(() => new EReadStorageStream(memory, null!, false));
+        Assert.Equal("Unable to read beyond the end of the stream.", error.Message);
+        Assert.Equal(memory.Length, memory.Position);
     }
 
     [Fact]

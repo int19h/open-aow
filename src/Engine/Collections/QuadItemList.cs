@@ -434,15 +434,15 @@ public partial class QuadItemList : Persistent
         int Count = default;
         QuadInteger Item = default;
         Clear();
-        Stream.ReadBytes(Bytes.Of(ref FDefault, 16));
-        Stream.ReadBytes(Bytes.Of(ref Count, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDefault, 16));
+        Stream.ReadExactly(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.ReadBytes(Bytes.Of(ref Item, 16));
+            Stream.ReadExactly(Bytes.Of(ref Item, 16));
             if (Item.A == FDefault.A && Item.B == FDefault.B && Item.C == FDefault.C && Item.D == FDefault.D)
             {
-                Stream.ReadBytes(Bytes.Of(ref Run, 4));
+                Stream.ReadExactly(Bytes.Of(ref Run, 4));
                 SetCount(FCount + Run);
             }
             else

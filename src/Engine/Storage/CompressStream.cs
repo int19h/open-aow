@@ -20,8 +20,8 @@ public partial class CompressStream : MemoryStream
         ZLibStream D;
         byte[] Buffer;
         int Count;
-        Stream.ReadBytes(((Span<byte>)Magic).Slice(0, 4));
-        Stream.ReadBytes(Bytes.Of(ref Compressed, 1));
+        Stream.ReadExactly(((Span<byte>)Magic).Slice(0, 4));
+        Stream.ReadExactly(Bytes.Of(ref Compressed, 1));
         if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, CompressMagic))
         {
             Compressed = false;

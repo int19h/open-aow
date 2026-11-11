@@ -109,9 +109,11 @@ public partial class ItemControl : EObject
                     ID = 10;
                     for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                     {
-                        if (((EObject)FItems.List[I]).Owner == null)
+                        EObject stored = (EObject)FItems.List[I];
+                        if (stored.Owner == null)
                         {
-                            Stream.rwCreateEObject(ref FItems.List[I], null, ID);
+                            Stream.rwCreateEObject(ref stored, null, ID);
+                            FItems.List[I] = stored;
                             ID += 1;
                         }
                     }

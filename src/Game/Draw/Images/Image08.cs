@@ -33,7 +33,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     {
         int Index = default;
         base.ReadImageData(Stream);
-        Stream.ReadBytes(Bytes.Of(ref FOwnPalette, 1));
+        Stream.ReadExactly(Bytes.Of(ref FOwnPalette, 1));
         if (FOwnPalette)
         {
             FImagePalette = new LibraryImagePalette();
@@ -41,7 +41,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
         }
         else
         {
-            Stream.ReadBytes(Bytes.Of(ref Index, 4));
+            Stream.ReadExactly(Bytes.Of(ref Index, 4));
             FImagePalette = FOwner.FPaletteManager.LinkToPalette(Index);
         }
 

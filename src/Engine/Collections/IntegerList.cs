@@ -375,15 +375,15 @@ public partial class IntegerList : Persistent
         int Item = default;
         int Run = default;
         Clear();
-        Stream.ReadBytes(Bytes.Of(ref FDefault, 4));
-        Stream.ReadBytes(Bytes.Of(ref Count, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDefault, 4));
+        Stream.ReadExactly(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (Count != FCount)
         {
-            Stream.ReadBytes(Bytes.Of(ref Item, 4));
+            Stream.ReadExactly(Bytes.Of(ref Item, 4));
             if (Item == FDefault)
             {
-                Stream.ReadBytes(Bytes.Of(ref Run, 4));
+                Stream.ReadExactly(Bytes.Of(ref Run, 4));
                 SetCount(FCount + Run);
             }
             else

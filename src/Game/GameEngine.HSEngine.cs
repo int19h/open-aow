@@ -85,7 +85,7 @@ public partial class GameEngine : ENode
             try
             {
                 Stream.LoadImage(Image);
-                Stream.ReadBytes(Bytes.Of(ref Header, 16));
+                Stream.ReadExactly(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
                 {
@@ -146,7 +146,7 @@ public partial class GameEngine : ENode
             try
             {
                 Stream.LoadImage(Image);
-                Stream.ReadBytes(Bytes.Of(ref Header, 16));
+                Stream.ReadExactly(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
                 {
@@ -372,7 +372,7 @@ public partial class GameEngine : ENode
             try
             {
                 Stream.LoadImage(Image);
-                Stream.ReadBytes(Bytes.Of(ref Header, 16));
+                Stream.ReadExactly(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
                 {
@@ -425,7 +425,7 @@ public partial class GameEngine : ENode
             try
             {
                 Stream.LoadImage(Image);
-                Stream.ReadBytes(Bytes.Of(ref Header, 16));
+                Stream.ReadExactly(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
                 {
@@ -483,7 +483,7 @@ public partial class GameEngine : ENode
             try
             {
                 CStream.LoadFromStream(Stream);
-                CStream.ReadBytes(Bytes.Of(ref Header, 16));
+                CStream.ReadExactly(Bytes.Of(ref Header, 16));
                 CStream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
                 {

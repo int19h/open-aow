@@ -107,12 +107,12 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
     {
         int Reserved = default;
         base.ReadImageData(Stream);
-        Stream.ReadBytes(Bytes.Of(ref FSpriteWidth, 4));
-        Stream.ReadBytes(Bytes.Of(ref FSpriteHeight, 4));
-        Stream.ReadBytes(Bytes.Of(ref FSpriteX, 4));
-        Stream.ReadBytes(Bytes.Of(ref FSpriteY, 4));
-        Stream.ReadBytes(Bytes.Of(ref FColorKey, 4));
-        Stream.ReadBytes(Bytes.Of(ref Reserved, 4));
+        Stream.ReadExactly(Bytes.Of(ref FSpriteWidth, 4));
+        Stream.ReadExactly(Bytes.Of(ref FSpriteHeight, 4));
+        Stream.ReadExactly(Bytes.Of(ref FSpriteX, 4));
+        Stream.ReadExactly(Bytes.Of(ref FSpriteY, 4));
+        Stream.ReadExactly(Bytes.Of(ref FColorKey, 4));
+        Stream.ReadExactly(Bytes.Of(ref Reserved, 4));
     }
 
     // ImageLib.pas:2960
@@ -133,7 +133,7 @@ public partial class RLESprite16 : Image16, ILibraryImageClass
     {
         base.ReadDiscardableImageData(Stream);
         FData = MemorySurfaces.Reallocate(FData, FDataSize);
-        Stream.ReadBytes(FData.AsSpan(0, FDataSize));
+        Stream.ReadExactly(FData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:2980

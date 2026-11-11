@@ -171,7 +171,7 @@ public partial class ILManagerList : StringList
         int N = default;
         string Name = "";
         CustomImageLibrary IL;
-        Stream.ReadBytes(Bytes.Of(ref N, 4));
+        Stream.ReadExactly(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
             LibraryDrawing.ReadStringFromStream(ref Name, Stream);

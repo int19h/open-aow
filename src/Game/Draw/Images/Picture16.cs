@@ -110,7 +110,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
         AllocateDiscardableImageData(FDataWidth, FDataHeight);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
         {
-            Stream.ReadBytes(FBuffer.AsSpan(Y * FPitch, FDataWidth * 2));
+            Stream.ReadExactly(FBuffer.AsSpan(Y * FPitch, FDataWidth * 2));
         }
     }
 
