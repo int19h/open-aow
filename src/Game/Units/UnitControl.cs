@@ -17,20 +17,19 @@ public partial class UnitControl : EObject
     // Unit.PAS:1
     public UnitControl(ECustomNode owner) : base(owner)
     {
-        FUnitTable = new IntegerHashTable256();
+        FUnitTable = new Dictionary<int, AbstractUnit>();
         FUnits = new List<AbstractUnit>();
         FNextUnitID = 1;
     }
 
     public int FNextUnitID;
-    public IntegerHashTable256 FUnitTable;
+    public Dictionary<int, AbstractUnit> FUnitTable;
     public List<AbstractUnit> FUnits;
 
     // Unit.PAS:8
     public override void Dispose()
     {
         FUnits?.Clear();
-        FUnitTable?.Dispose();
         base.Dispose();
     }
 
@@ -61,15 +60,16 @@ public partial class UnitControl : EObject
     public AbstractUnit GetUnit(int Index) => FUnits[Index];
 
     // Unit.PAS:35
-    public AbstractUnit FindUnit(int ID) => (AbstractUnit)FUnitTable.Find(ID);
+    public AbstractUnit FindUnit(int ID) => FUnitTable.TryGetValue(ID, out AbstractUnit found) ? found : null;
 
     // Null when the id is missing or the stored unit is not a T.
-    public T FindUnit<T>(int id) where T : AbstractUnit => FUnitTable.Find(id) is T found ? found : null;
+    public T FindUnit<T>(int id) where T : AbstractUnit =>
+        FUnitTable.TryGetValue(id, out AbstractUnit found) && found is T typed ? typed : null;
 
     // Unit.PAS:39
     public int GetFreeID()
     {
-        while (FUnitTable.Find(FNextUnitID) != null)
+        while (FUnitTable.ContainsKey(FNextUnitID))
         {
             FNextUnitID += 1;
             if (FNextUnitID > 268435455)
@@ -91,26 +91,26 @@ public partial class UnitControl : EObject
             {
                 AUnit.FUnitID = GetFreeID();
                 AUnit.FUnitStatus = AUnit.FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
-                FUnitTable.Add(AUnit, AUnit.FUnitID);
+                HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
                 FUnits.Add(AUnit);
             }
             else
             {
-                ExistingUnit = (AbstractUnit)FUnitTable.Find(AUnit.FUnitID);
+                ExistingUnit = FUnitTable.TryGetValue(AUnit.FUnitID, out AbstractUnit found) ? found : null;
                 if (ExistingUnit != AUnit)
                 {
                     FUnits.Add(AUnit);
                     AUnit.FUnitStatus = AUnit.FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
                     if (ExistingUnit == null)
                     {
-                        FUnitTable.Add(AUnit, AUnit.FUnitID);
+                        HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
                     }
                     else
                     {
                         if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                         {
                             AUnit.FUnitID = GetFreeID();
-                            FUnitTable.Add(AUnit, AUnit.FUnitID);
+                            HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
                         }
                         else
                         {
@@ -121,7 +121,7 @@ public partial class UnitControl : EObject
                             catch
                             {
                                 AUnit.FUnitID = GetFreeID();
-                                FUnitTable.Add(AUnit, AUnit.FUnitID);
+                                HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
                             }
                         }
                     }
@@ -136,7 +136,11 @@ public partial class UnitControl : EObject
         if (AUnit.FUnitStatus.Contains(UnitStatusElement.Registered))
         {
             AUnit.FUnitStatus = AUnit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
-            FUnitTable.DeleteSafe(AUnit, AUnit.FUnitID);
+            if (FUnitTable.TryGetValue(AUnit.FUnitID, out AbstractUnit stored) && stored == AUnit)
+            {
+                FUnitTable.Remove(AUnit.FUnitID);
+            }
+
             FUnits.Remove(AUnit);
         }
     }

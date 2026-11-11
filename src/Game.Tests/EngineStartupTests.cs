@@ -4,7 +4,6 @@ using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
@@ -68,6 +67,23 @@ public sealed class EngineStartupTests
 
     private static bool ConvertedListField(FieldInfo field) =>
         ConvertedListFields.Contains((field.DeclaringType?.FullName ?? "") + "." + field.Name);
+
+    // These fields were hash tables. The walk records the dictionary type and does not enter its entries.
+    private static readonly HashSet<string> ConvertedDictionaryFields = new(StringComparer.Ordinal)
+    {
+        "Aow.Game.Draw.Images.ILManagerList.FHashTable",
+        "Aow.Game.GameEngine.FClassTable",
+        "Aow.Game.Units.UnitControl.FUnitTable",
+    };
+
+    private static bool IsDictionary(object value)
+    {
+        Type type = value.GetType();
+        return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>);
+    }
+
+    private static bool ConvertedDictionaryField(FieldInfo field) =>
+        ConvertedDictionaryFields.Contains((field.DeclaringType?.FullName ?? "") + "." + field.Name);
 
     [Fact]
     public async Task RealStartupSideEffectsStateAndFourFailuresMatchBaseCommit()
@@ -185,23 +201,6 @@ public sealed class EngineStartupTests
         {
             if (!seen.Add(value)) return;
             result[path] = new JsonObject { ["Type"] = value.GetType().FullName };
-            if (value.GetType().Name is "IntegerHashTable256" or "StringHashTable256")
-            {
-                object buckets = value.GetType().GetField("FLists", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
-                object Bucket(int i) => buckets switch
-                {
-                    FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
-                    FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
-                    _ => throw new InvalidOperationException("Unknown hash bucket layout")
-                };
-                var lists = new HashSet<object>(ReferenceEqualityComparer.Instance);
-                for (int i = 0; i < 256; i++)
-                {
-                    object bucket = Bucket(i);
-                    Assert.NotNull(bucket);
-                    Assert.True(lists.Add(bucket), path + " bucket " + i + " repeats an earlier list");
-                }
-            }
             if (value is DelphiList list)
             {
                 for (int index = 0; index < list.Count; index++)
@@ -216,7 +215,9 @@ public sealed class EngineStartupTests
                 foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
                     if (field.Name == "FOwner" || field.GetValue(value) is not object child) continue;
-                    if (LegacyRoots.Contains(child.GetType()) || (IsGenericList(child) && ConvertedListField(field)))
+                    if (LegacyRoots.Contains(child.GetType())
+                        || (IsGenericList(child) && ConvertedListField(field))
+                        || (IsDictionary(child) && ConvertedDictionaryField(field)))
                         Visit(child, path + "." + field.Name);
                 }
         }

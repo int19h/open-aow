@@ -34,7 +34,7 @@ public sealed class EnginePersistableFactory : IPersistableFactory
             if (resolved is null || !byName.TryGetValue(resolved, out eclass))
                 throw new InvalidOperationException("The engine has no class " + className + ".");
         }
-        if (engine.ClassTable.Find(eclass.ClassID) is not EClass registered || registered.ClassName != eclass.ClassName)
+        if (!engine.ClassTable.TryGetValue(eclass.ClassID, out EClass? registered) || registered is null || registered.ClassName != eclass.ClassName)
             throw new KeyNotFoundException("Unregistered E-ClassID found (" + eclass.ClassID.ToString(CultureInfo.InvariantCulture) + ")");
         return registered.Create(null);
     }

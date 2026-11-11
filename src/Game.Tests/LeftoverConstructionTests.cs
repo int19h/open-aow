@@ -4,7 +4,6 @@ using System.Runtime.ExceptionServices;
 
 using System.Text.Json;
 using Aow.Engine;
-using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Ai;
@@ -327,17 +326,5 @@ public sealed class LeftoverConstructionTests
         Assert.Equal((-1, -1, -1, -1), (mouse.FSelectionRectangle.Left, mouse.FSelectionRectangle.Top,
             mouse.FSelectionRectangle.Right, mouse.FSelectionRectangle.Bottom));
         Assert.Equal(0, mouse.FRectangleSelectEventsStore.Count);
-    }
-
-    [Fact]
-    public void IntegerHashTableAllocatesADistinctListPerBucket()
-    {
-        var value = new IntegerHashTable256();
-        var buckets = new List<object>();
-        for (int i = 0; i < 256; i++) buckets.Add(value.FLists[i]);
-        Assert.Equal(256, buckets.Count);
-        Assert.Equal(256, new HashSet<object>(buckets, ReferenceEqualityComparer.Instance).Count);
-        Assert.DoesNotContain(value, buckets);
-        value.Dispose();
     }
 }

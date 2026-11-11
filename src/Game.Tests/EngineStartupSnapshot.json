@@ -56,13 +56,13 @@
         "Type": "Aow.Game.Draw.Images.ILManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FDiskList.FHashTable": {
-        "Type": "Aow.Engine.Hash.StringHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList": {
         "Type": "Aow.Game.Draw.Images.ILManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList.FHashTable": {
-        "Type": "Aow.Engine.Hash.StringHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FSFXLibrary": {
         "Type": "Aow.Game.Audio.SFXLibrary"
@@ -1118,7 +1118,7 @@
         "Type": "Aow.Game.AoWRegistry"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Engine.Collections.IntegerHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
@@ -75961,13 +75961,13 @@
         "Type": "Aow.Game.Draw.Images.ILManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FDiskList.FHashTable": {
-        "Type": "Aow.Engine.Hash.StringHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList": {
         "Type": "Aow.Game.Draw.Images.ILManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList.FHashTable": {
-        "Type": "Aow.Engine.Hash.StringHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FSFXLibrary": {
         "Type": "Aow.Game.Audio.SFXLibrary"
@@ -77023,7 +77023,7 @@
         "Type": "Aow.Game.AoWRegistry"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Engine.Collections.IntegerHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
@@ -77386,7 +77386,7 @@
         "Type": "Aow.Game.GameEngine"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Engine.Collections.IntegerHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
@@ -77683,7 +77683,7 @@
         "Type": "Aow.Game.AoWRegistry"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Engine.Collections.IntegerHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
@@ -77740,13 +77740,13 @@
         "Type": "Aow.Game.Draw.Images.ILManagerList"
       },
       "Engine.FChildren[1].FImageLibraryManager.FDiskList.FHashTable": {
-        "Type": "Aow.Engine.Hash.StringHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FImageLibraryManager.FOwnedList": {
         "Type": "Aow.Game.Draw.Images.ILManagerList"
       },
       "Engine.FChildren[1].FImageLibraryManager.FOwnedList.FHashTable": {
-        "Type": "Aow.Engine.Hash.StringHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FMapObjectResourceList": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -78035,13 +78035,13 @@
         "Type": "Aow.Game.Draw.Images.ILManagerList"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FDiskList.FHashTable": {
-        "Type": "Aow.Engine.Hash.StringHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FOwnedList": {
         "Type": "Aow.Game.Draw.Images.ILManagerList"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FOwnedList.FHashTable": {
-        "Type": "Aow.Engine.Hash.StringHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FItemGFXResources": {
         "Type": "Aow.Game.Units.ItemGFXList"
@@ -78125,7 +78125,7 @@
         "Type": "Aow.Game.AoWRegistry"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Engine.Collections.IntegerHashTable256"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"

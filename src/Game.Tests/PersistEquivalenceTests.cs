@@ -678,7 +678,7 @@ public sealed class PersistEquivalenceTests
     public void AChildWhosePersistThrowsIsDroppedUnlessTheHandlerStops()
     {
         var descriptor = EClass.Of<HatredEnchantment>();
-        bool added = EngineFixture.Engine.ClassTable.Find(descriptor.ClassID) == null;
+        bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassID);
         if (added) EngineFixture.Engine.RegisterEClasses([descriptor]);
         var control = new GlobalMagicControl(null!);
         Func<ECustomNode, EObject>? previous = null;

@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Text;
 using Aow.Engine;
-using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
@@ -190,15 +189,17 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         public override void ExecuteAI(sbyte Player) => Players.Add(Player);
     }
 
-    // Counts the unit lookups, the first query of the hero emerge AI.
-    private sealed class CountingUnitTable : IntegerHashTable256
+    // Counts the unit lookups. An empty dictionary returns a miss without hashing, so the table holds one seed.
+    private sealed class CountingIntComparer : IEqualityComparer<int>
     {
         internal int Finds;
 
-        public override object Find(int Key)
+        public bool Equals(int left, int right) => left == right;
+
+        public int GetHashCode(int value)
         {
             Finds++;
-            return base.Find(Key);
+            return value;
         }
     }
 
@@ -253,13 +254,16 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         private readonly List<EObject> created = [];
         internal readonly AoWHSMap Map;
         internal readonly MapField Field;
-        internal readonly CountingUnitTable Units = new();
+        internal readonly CountingIntComparer UnitFinds = new();
+        internal readonly Dictionary<int, AbstractUnit> Units;
 
         internal Scene()
         {
             Map = new AoWHSMap(null!);
             Map.FSeatedPlayer = Seated;
             Map.FUnitControl = new UnitControl(null!);
+            Units = new Dictionary<int, AbstractUnit>(UnitFinds);
+            Units.Add(key: -1, value: new Unit(null!));
             Map.FUnitControl.FUnitTable = Units;
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
@@ -311,8 +315,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal void Prisoner(EventLog log, AbstractUnit? unit)
         {
-            Units.Delete(PrisonerID);
-            if (unit != null) Units.Add(unit, PrisonerID);
+            Units.Remove(PrisonerID);
+            if (unit != null) Units.Add(key: PrisonerID, value: unit);
             ((PrisonersJoinEventLog)log).FFirstUnitID = PrisonerID;
         }
 
@@ -406,16 +410,16 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         // The hero emerge AI looks up its hero first. No unit holds the id, so it stops there.
         var emerge = (HeroEmergeEventLog)scene.Create(typeof(HeroEmergeEventLog));
         emerge.FUnitID = 4321;
-        int finds = scene.Units.Finds;
+        int finds = scene.UnitFinds.Finds;
         emerge.ExecuteAI(3);
-        Assert.Equal(finds + 1, scene.Units.Finds);
+        Assert.Equal(finds + 1, scene.UnitFinds.Finds);
 
         // Every other class leaves the unit table alone.
         foreach (var type in EventLogTypes().Where(t => t != typeof(HeroEmergeEventLog) && t != typeof(DiplomaticActionEventLog)))
         {
-            finds = scene.Units.Finds;
+            finds = scene.UnitFinds.Finds;
             scene.Create(type).ExecuteAI(3);
-            Assert.Equal(finds, scene.Units.Finds);
+            Assert.Equal(finds, scene.UnitFinds.Finds);
         }
     }
 

@@ -43,7 +43,7 @@ public partial class GameEngine : ENode
 {
     internal int FMsgCount;
     internal List<EClass> FEClasses;
-    internal IntegerHashTable256 FClassTable;
+    internal Dictionary<int, EClass> FClassTable;
     internal EObjectEditorList FEditors;
     internal EControlStyleNode FControlNode;
     public EComponent FComponent;
@@ -91,7 +91,7 @@ public partial class GameEngine : ENode
         FOptions = Set<EngineModeElement>.Of(eoVerifyClasses);
         FDebugEventsStore = new();
         FEClasses = new List<EClass>();
-        FClassTable = new IntegerHashTable256();
+        FClassTable = new Dictionary<int, EClass>();
         FEditors = new EObjectEditorList();
         FControlNode = new EControlStyleNode(this);
         FControlNode.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
@@ -164,7 +164,6 @@ public partial class GameEngine : ENode
         FDebugEventsStore.Clear();
         FDebugIDs?.Dispose();
         base.Dispose();
-        FClassTable?.Dispose();
         FEClasses?.Clear();
         if (fullInstance || fullConstruction)
         {
@@ -224,10 +223,7 @@ public partial class GameEngine : ENode
     // Engine.pas:8860
     public virtual EClass GetEClass(int AClassID)
     {
-        object P;
-        P = FClassTable.Find(AClassID);
-        EClass Result = (EClass)P;
-        if (Result == null)
+        if (!FClassTable.TryGetValue(AClassID, out EClass Result) || Result == null)
         {
             throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
         }
@@ -306,14 +302,13 @@ public partial class GameEngine : ENode
             }
 
             var classID = AClasses[I].ClassID;
-            if (FClassTable.Find(classID) != null)
+            if (FClassTable.ContainsKey(classID))
             {
                 throw new InvalidOperationException("EObject Class ID double defined!");
             }
 
             FEClasses.Add(AClasses[I]);
-            var classID2 = AClasses[I].ClassID;
-            FClassTable.Add(AClasses[I], classID2);
+            HashTables.Add(FClassTable, key: AClasses[I].ClassID, value: AClasses[I]);
         }
     }
 
@@ -324,7 +319,7 @@ public partial class GameEngine : ENode
         {
             FEClasses.Remove(AClasses[I]);
             var classID = AClasses[I].ClassID;
-            FClassTable.Delete(classID);
+            FClassTable.Remove(classID);
         }
     }
 
@@ -717,7 +712,7 @@ public partial class GameEngine : ENode
     }
 
     public List<EClass> EClasses { get => FEClasses; }
-    public IntegerHashTable256 ClassTable { get => FClassTable; }
+    public Dictionary<int, EClass> ClassTable { get => FClassTable; }
     public EObjectEditorList Editors { get => FEditors; }
     public EControlStyleNode ControlNode { get => FControlNode; }
     public StringList DebugIDs { get => FDebugIDs; }

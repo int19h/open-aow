@@ -460,7 +460,8 @@ path, and C# assemblies stay desktop only.
    comparison, case and character class calls on game text and the casts between `char` and
    `byte` out of the tree (`specs/testing.md` section 6).
 2. Hash table iteration order. Resolved on 2026-10-25. In the first stage the `HashList` (Delphi `THashList`) classes
-   are transpiled, so the order is the original's. In the second stage the comparator compares
+   are transpiled, so the order is the original's. Issue 150 replaced them with `Dictionary`, and
+   no path enumerates those tables. In the second stage the comparator compares
    hash-ordered children as sets (section 5), and the oracle tells which orders game logic depends
    on.
 3. Multilizer dictionaries. Decided on 2026-10-25 (`specs/localization.md`): the format is
@@ -544,9 +545,8 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
     production id or a diplomatic kind remains outside the kind classes, apart from the city
     screen's button table, which selects a button's panel and handler and stays until milestone 10
     gives a mod's new city action its button.
-  - `IntOrRef` remains only in `HashItem.Key` (Delphi `THashItem`) (`src/Engine/Hash/HashList.cs`, `src/Engine/Collections/HashList.cs`), where a hash list
-    keeps an integer key and the string hash list a string in the same slot, and in
-    `Ptr<T>.Unbox(IntOrRef)`, until the collections pass gives each hash list a typed key.
+  - `IntOrRef` remains only in `Ptr<T>.Unbox(IntOrRef)`. The hash lists (Delphi `THashList`
+    and `TStringHashList`) became `Dictionary<TKey, TValue>` with typed keys in issue 150.
 - Formats are free. Once the readers for the original formats exist as converting adapters, the
   port's own save and map formats can change, and the comparator (section 5) reads both. Nothing
   requires that the original loads a file the port wrote. Milestone 9.7 did this

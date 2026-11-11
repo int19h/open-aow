@@ -152,7 +152,6 @@ type,FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12,Aow.Game.World.Map.FixedArray_A
 type,FixedArray_Aow_Units_AoWE_TStatus_12,Aow.Game.Session.FixedArray_Aow_Units_AoWE_TStatus_12
 type,FixedArray_Aow_Units_AoWTC_TfxType_131,Aow.Game.Combat.FixedArray_Aow_Units_AoWTC_TfxType_131
 type,FixedArray_Aow_Units_AoWTC_TfxType_170,Aow.Game.Combat.FixedArray_Aow_Units_AoWTC_TfxType_170
-type,FixedArray_Aow_Units_Engine_TIntegerHashList_256,Aow.Engine.Buffers.FixedArray_Aow_Units_Engine_TIntegerHashList_256
 type,FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4,Aow.Game.Ai.Groups.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4
 type,FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5,Aow.Game.Ai.Groups.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5
 type,FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12,Aow.Game.Session.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12
@@ -168,7 +167,6 @@ type,FixedArray_Aow_Units_FixedArray_sbyte_7_7,Aow.Engine.Buffers.FixedArray_Aow
 type,FixedArray_Aow_Units_GFXE_TBlendTable_101,Aow.Game.Draw.FixedArray_Aow_Units_GFXE_TBlendTable_101
 type,FixedArray_Aow_Units_HSEngine_THexagonSprite_256,Aow.Game.Draw.FixedArray_Aow_Units_HSEngine_THexagonSprite_256
 type,FixedArray_Aow_Units_HSEngine_XYTableEntry_8,Aow.Game.World.Map.FixedArray_Aow_Units_HSEngine_XYTableEntry_8
-type,FixedArray_Aow_Units_HashTabU_TStringHashList_256,Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256
 type,FixedArray_Aow_Units_Sound_TSFXLibrary_5,Aow.Game.Audio.FixedArray_Aow_Units_Sound_TSFXLibrary_5
 type,FixedArray_bool_8,Aow.Engine.Buffers.FixedArray_bool_8
 type,FixedArray_byte_10,Aow.Engine.Buffers.FixedArray_byte_10
@@ -1317,10 +1315,6 @@ type,THSSetStatusElement,Aow.Game.World.Map.HSSetStatusElement
 type,THSTerrainInfo,Aow.Game.World.Map.HSTerrainInfo
 type,THarmony,Aow.Game.Magic.Spells.Harmony
 type,THarmonyEnchantment,Aow.Game.Magic.Spells.HarmonyEnchantment
-type,THashItem,Aow.Engine.Collections.HashList.HashItem
-type,THashItem,Aow.Engine.Hash.HashList.HashItem
-type,THashList,Aow.Engine.Collections.HashList
-type,THashList,Aow.Engine.Hash.HashList
 type,THaste,Aow.Game.Magic.Spells.Haste
 type,THasteAbility,Aow.Game.Magic.Abilities.Passive.HasteAbility
 type,THatred,Aow.Game.Magic.Spells.Hatred
@@ -1419,9 +1413,6 @@ type,TIniFile,Aow.Rtl.IniFile
 type,TInitializeAIPA,Aow.Game.Ai.InitializeAIPA
 type,TIntGfxMod,Aow.Game.Ui.Dialogs.IntGfxMod
 type,TIntParseMode,Aow.Game.Ui.Controls.IntParseMode
-type,TIntegerHashList,Aow.Engine.Collections.IntegerHashList
-type,TIntegerHashTable,Aow.Engine.Collections.IntegerHashTable
-type,TIntegerHashTable256,Aow.Engine.Collections.IntegerHashTable256
 type,TIntegerList,Aow.Engine.Collections.IntegerList
 type,TIntegerSortCompare,Aow.Engine.Collections.IntegerList.IntegerSortCompare
 type,TInterfaceIL,Aow.Game.Draw.Images.InterfaceIL
@@ -1929,9 +1920,6 @@ type,TStrikeAbility,Aow.Game.Magic.Abilities.StrikeAbility
 type,TStrikeCA,Aow.Game.Combat.Actions.StrikeCA
 type,TStrikeEnhancementAbility,Aow.Game.Magic.Abilities.StrikeEnhancementAbility
 type,TStrikeModeElement,Aow.Game.Combat.StrikeModeElement
-type,TStringHashList,Aow.Engine.Hash.StringHashList
-type,TStringHashTable,Aow.Engine.Hash.StringHashTable
-type,TStringHashTable256,Aow.Engine.Hash.StringHashTable256
 type,TStringList,Aow.Rtl.StringList
 type,TStrings,Aow.Rtl.StringCollection
 type,TStringsSortCompare,Aow.Engine.Collections.StringsSortCompare
