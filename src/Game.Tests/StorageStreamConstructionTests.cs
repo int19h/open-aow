@@ -53,8 +53,6 @@ public sealed class StorageStreamConstructionTests
     [InlineData(5)]
     [InlineData(6)]
     [InlineData(7)]
-    [InlineData(8)]
-    [InlineData(9)]
     public void ConstructionKeepsTypeBorrowedStreamAndPrivateState(int kind)
     {
         using var memory = Memory([0x55, 0]);
@@ -65,17 +63,14 @@ public sealed class StorageStreamConstructionTests
         {
             0 => new EStorageStream(memory, engine),
             1 => new EReadStorageStream(memory, engine, true),
-            2 => new SetupCompareStorageStream(memory, engine, true),
-            3 => new CompareStorageStream(memory, engine),
-            4 => new EReadTextStorageStream(memory, engine, 1),
-            5 => new EWriteStorageStream(memory, engine, true),
-            6 => new EWriteTextStorageStream(memory, engine),
-            7 => new ExportTextStream(memory, engine),
-            8 => new TranslateStorageStream(engine),
+            2 => new EReadTextStorageStream(memory, engine, 1),
+            3 => new EWriteStorageStream(memory, engine, true),
+            4 => new EWriteTextStorageStream(memory, engine),
+            5 => new ExportTextStream(memory, engine),
+            6 => new TranslateStorageStream(engine),
             _ => new TranslateTextStream(engine)
         };
         Type[] types = [typeof(EStorageStream), typeof(EReadStorageStream),
-            typeof(SetupCompareStorageStream), typeof(CompareStorageStream),
             typeof(EReadTextStorageStream), typeof(EWriteStorageStream),
             typeof(EWriteTextStorageStream), typeof(ExportTextStream),
             typeof(TranslateStorageStream), typeof(TranslateTextStream)];
@@ -83,18 +78,18 @@ public sealed class StorageStreamConstructionTests
         {
             Assert.IsType(types[kind], stream);
             Assert.Same(engine, stream.Engine);
-            if (kind >= 8) Assert.Null(stream.Stream);
+            if (kind >= 6) Assert.Null(stream.Stream);
             else Assert.Same(memory, stream.Stream);
             Assert.False(Field<bool>(stream, "FErrorHandled"));
             Assert.Null(stream.OnError);
             Assert.Null(stream.OnProgress);
-            Assert.Equal(kind is >= 1 and <= 4 ? 2L : 1L, memory.Position);
+            Assert.Equal(kind is >= 1 and <= 2 ? 2L : 1L, memory.Position);
             if (kind == 0) Assert.Null(stream.PropertyTable);
             else Assert.Equal(0, stream.PropertyTable.Count);
             if (stream is EReadStorageStream reader)
             {
                 Assert.Equal(2, reader.DataBase);
-                Assert.Equal(kind != 3, Field<bool>(reader, "FPartial"));
+                Assert.True(Field<bool>(reader, "FPartial"));
             }
             if (stream is EWriteStorageStream)
             {
@@ -199,20 +194,15 @@ public sealed class StorageStreamConstructionTests
         source.Dispose();
     }
 
-    [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(2)]
-    public void TruncatedBinaryConstructionKeepsFailure(int kind)
+    [Fact]
+    public void TruncatedBinaryConstructionKeepsFailure()
     {
         using var memory = new ExactReadStream();
         memory.Write([1, 7]);
         memory.Position = 0;
         var error = Assert.Throws<EndOfStreamException>(() =>
         {
-            if (kind == 0) _ = new EReadStorageStream(memory, null!, false);
-            else if (kind == 1) _ = new CompareStorageStream(memory, null!);
-            else _ = new SetupCompareStorageStream(memory, null!, true);
+            _ = new EReadStorageStream(memory, null!, false);
         });
         Assert.Equal("Stream read error", ((Exception)error).Message);
         Assert.Equal(2L, memory.Position);
@@ -239,27 +229,6 @@ public sealed class StorageStreamConstructionTests
         long end = memory.Position;
         memory.Write([0x33]);
         Assert.Equal(end + 1, memory.Position);
-    }
-
-    [Fact]
-    public void DebugWriterKeepsBorrowedBufferAndLegacyRoute()
-    {
-        using var buffer = new EBufferStream();
-        var debug = new DebugWriteStream(buffer, null!);
-        Assert.Same(buffer, debug.Stream);
-        Assert.Same(buffer, Field<EBufferStream>(debug, "FBuffer"));
-        Assert.False(Field<bool>(debug, "FPartial"));
-        Assert.Equal(0, debug.PropertyTable.Count);
-        int value = 42;
-        debug.rwInteger(ref value, 7);
-        debug.Dispose();
-        var bytes = new byte[(int)buffer.Length];
-        buffer.Position = 0;
-        Assert.Equal(bytes.Length, buffer.Read(bytes));
-        Assert.Equal("2A000000010700", Convert.ToHexString(bytes));
-        long end = buffer.Position;
-        buffer.Write([0x33]);
-        Assert.Equal(end + 1, buffer.Position);
     }
 
     [Theory]

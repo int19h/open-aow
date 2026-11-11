@@ -21,7 +21,6 @@ public sealed class EngineLeafConstructionTests
         {
             Assert.Same(this, child.Owner);
             if (child is PlugInControl plugIn) Assert.Null(plugIn.UsedPlugIns);
-            if (child is EControlStyleSortNode style) Assert.Equal(default, style.GetControlStyle());
             if (child is ETimerNode timer)
             {
                 var lists = Field<FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
@@ -45,10 +44,6 @@ public sealed class EngineLeafConstructionTests
     [InlineData(0, true)]
     [InlineData(1, false)]
     [InlineData(1, true)]
-    [InlineData(2, false)]
-    [InlineData(2, true)]
-    [InlineData(3, false)]
-    [InlineData(3, true)]
     public void LeafCreationRoutesKeepTypeOwnerAndState(int kind, bool owned)
     {
         GameEngine engine = CreateEngine();
@@ -56,26 +51,22 @@ public sealed class EngineLeafConstructionTests
         ECustomNode argument = owned ? owner : null!;
         Type type = kind switch
         {
-            0 => typeof(EControlStyleSortNode),
-            1 => typeof(ETimerNode),
-            2 => typeof(EUser),
+            0 => typeof(ETimerNode),
             _ => typeof(PlugInControl)
         };
         var meta = EClass.Of(type);
         engine.RegisterEClasses([EClass.Of(type)]);
         EObject direct = kind switch
         {
-            0 => new EControlStyleSortNode(argument),
-            1 => new ETimerNode(argument),
-            2 => new EUser(argument),
+            0 => new ETimerNode(argument),
             _ => new PlugInControl(argument)
         };
         EObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
         EObject? copy = null;
         try
         {
-            Assert.Equal(kind == 0 ? 261 : kind == 1 ? 264 : 80, meta.ClassID);
-            Assert.Equal(kind switch { 0 => 28, 1 => 56, 2 => 12, _ => 16 }, meta.InstanceSize);
+            Assert.Equal(kind == 0 ? 264 : 80, meta.ClassID);
+            Assert.Equal(kind == 0 ? 56 : 16, meta.InstanceSize);
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);
@@ -83,9 +74,6 @@ public sealed class EngineLeafConstructionTests
                 Assert.Same(meta, value.EClass);
                 AssertLeafState(value);
             }
-            if (direct is EControlStyleSortNode style)
-                style.SetControlStyle(Set<EControlStyleElement>.Of(
-                    EngineServices.csStored, EngineServices.csShared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
             Assert.Null(copy.Owner);
@@ -115,18 +103,12 @@ public sealed class EngineLeafConstructionTests
     {
         switch (value)
         {
-            case EControlStyleSortNode sort:
-                Assert.Equal(0, sort.Count); Assert.Equal(0, Field<int>(sort, "FCapacity")); Assert.Empty(Field<ESortNode.SortItem[]>(sort, "FItems"));
-                Assert.False(Field<bool>(sort, "FSorted"));
-                Assert.Equal(Set<EControlStyleElement>.Of(EngineServices.csStored), sort.GetControlStyle());
-                break;
             case ETimerNode timer:
                 Assert.Equal(0, timer.Count); Assert.Equal(0, timer.Tick);
                 var lists = Field<FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
                 for (int i = 0; i < 10; i++) { Assert.NotNull(lists[i]); Assert.Equal(0, lists[i].Count); Assert.Equal(0, lists[i].Capacity); }
                 Assert.Equal(10, Enumerable.Range(0, 10).Select(i => lists[i]).Distinct().Count());
                 break;
-            case EUser user: Assert.Null(user.Node); break;
             case PlugInControl plugIn:
                 Assert.Null(plugIn.Engine);
                 var strings = Assert.IsType<StringList>(plugIn.UsedPlugIns);
@@ -162,15 +144,6 @@ public sealed class EngineLeafConstructionTests
         }
     }
 
-    [Fact]
-    public void SortStyleUsesTheNonvirtualInheritedStyleAndBothMetaclassFacades()
-    {
-        var value = (EControlStyleSortNode)EClass.Of<EControlStyleSortNode>().Create(null!);
-        var other = (EControlStyleSortNode)EClass.Of<EControlStyleSortNode>().Create(null!);
-        try { AssertLeafState(value); AssertLeafState(other); }
-        finally { value.Dispose(); other.Dispose(); }
-    }
-
     [Theory]
     [InlineData(0)]
     [InlineData(1)]
@@ -182,23 +155,19 @@ public sealed class EngineLeafConstructionTests
     [InlineData(7)]
     [InlineData(8)]
     [InlineData(9)]
-    [InlineData(10)]
-    [InlineData(11)]
     public void HelperConstructionKeepsTheFactoryState(int kind)
     {
         object value = kind switch
         {
             0 => new BitList(),
-            1 => new CallBackEventList(),
-            2 => new DoubleItemList(),
-            3 => new EBufferStream(),
-            4 => new EObjectList(),
-            5 => new EventList(),
-            6 => new PropertyTable(),
-            7 => new QuadItemList(),
-            8 => new ShortIntList(),
-            9 => new WordList(),
-            10 => new EObjectClassList(),
+            1 => new DoubleItemList(),
+            2 => new EBufferStream(),
+            3 => new EObjectList(),
+            4 => new PropertyTable(),
+            5 => new QuadItemList(),
+            6 => new ShortIntList(),
+            7 => new WordList(),
+            8 => new EObjectClassList(),
             _ => new EObjectEditorList()
         };
         try
@@ -208,19 +177,12 @@ public sealed class EngineLeafConstructionTests
                 case BitList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, "FList").IsEmpty);
                     break;
-                case CallBackEventList list:
-                    Assert.Equal(0, list.Count); Assert.Empty(Field<List<CallBackEventList.CallBackEvent>>(list, "FList"));
-                    break;
                 case DoubleItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
                 case EBufferStream stream:
                     Assert.Equal(0L, stream.Length); Assert.Equal(0L, stream.Position);
                     Assert.Equal(0, stream.Capacity); Assert.Empty(stream.Memory);
-                    break;
-                case EventList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity);
-                    Assert.Empty(list.List); Assert.Null(list.Default);
                     break;
                 case PropertyTable table:
                     Assert.Empty(Field<Array>(table, "FItems")); Assert.Empty(Field<Array>(table, "FStack"));

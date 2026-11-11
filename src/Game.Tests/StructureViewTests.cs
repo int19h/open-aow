@@ -250,7 +250,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     public void EveryStructureClassIsCovered()
     {
         var types = StructureTypes();
-        Assert.Equal(42, types.Length);
+        Assert.Equal(40, types.Length);
         Assert.Contains(typeof(Structure), types);
         Assert.DoesNotContain(types, t => t.Assembly != typeof(Structure).Assembly);
     }

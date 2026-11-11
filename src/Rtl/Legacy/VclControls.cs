@@ -44,11 +44,6 @@ public class Control : Component
     protected internal virtual void WndProc(ref Message message) => throw new NotImplementedException("VCL.WndProc");
 }
 
-public class CustomPanel : WinControl
-{
-    public CustomPanel(Component? owner = null) : base(owner) { }
-}
-
 public class WinControl : Control
 {
     public WinControl(Component? owner = null) : base(owner) { }
@@ -70,25 +65,6 @@ public class WinControl : Control
 
 public class Form : WinControl { }
 
-public class Button : WinControl { }
-
-public class Panel : CustomPanel { }
-
-public class Memo : WinControl { }
-
-public class Image : Control { }
-
-public class Label : Control { }
-
-public class Bevel : Control { }
-
-public class TabControl : WinControl
-{
-    public TabControl(Component? owner = null) : base(owner) { }
-
-    protected internal virtual void Change() { }
-}
-
 public class DataModule : Component
 {
     public DataModule(Component? owner) : base(owner) { }
@@ -97,51 +73,4 @@ public class DataModule : Component
 public class VideoPlayer : Component
 {
     public VideoPlayer(Component? owner = null) : base(owner) { }
-}
-
-public class CustomGrid : WinControl
-{
-    public CustomGrid(Component? owner = null) : base(owner) { }
-
-    public int ColCount, RowCount;
-    public int Col, Row, DefaultColWidth, DefaultRowHeight;
-    public ScrollStyle ScrollBars;
-
-    protected internal void SetColCount(int value) => ColCount = value;
-    protected internal void SetRowCount(int value) => RowCount = value;
-    protected internal virtual void DrawCell(int col, int row, Rect rect, Set<GridDrawState> state) => throw new NotImplementedException("VCL.DrawCell");
-    protected internal virtual bool SelectCell(int col, int row) => true;
-
-    public enum ScrollStyle : byte { None, Horizontal, Vertical, Both }
-}
-
-public class ComboBox : WinControl
-{
-    public ComboBox(Component? owner = null) : base(owner) { }
-
-    protected internal virtual void Change() { }
-
-    protected internal virtual void DropDown() { }
-}
-
-public class ListBox : WinControl
-{
-    public ListBox(Component? owner = null) : base(owner) { }
-
-}
-
-public class OpenDialog : Component
-{
-    public OpenDialog(Component owner) : base(owner) { }
-
-    public string Filter = "", FileName = "", DefaultExt = "";
-
-    public virtual bool Execute() => throw new NotImplementedException("VCL.OpenDialog");
-}
-
-public class StringProperty
-{
-    public virtual void Edit() => throw new NotImplementedException("VCL.PropertyEditor");
-    public virtual Set<PropertyAttribute> GetAttributes() => default;
-    public virtual string GetValue() => throw new NotImplementedException("VCL.PropertyEditor");
 }

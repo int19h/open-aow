@@ -3,12 +3,6 @@ using System.Runtime.InteropServices;
 namespace Aow.Rtl;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct RGBQuad
-{
-    public byte rgbBlue, rgbGreen, rgbRed, rgbReserved;
-}
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct BitmapInfoHeader
 {
     public int biSize, biWidth, biHeight;
@@ -48,9 +42,6 @@ public struct Message { public int Msg, WParam, LParam, Result; }
 public struct WMKey { public int Msg; public ushort CharCode, Unused; public int KeyData, Result; }
 
 public struct CreateParams { public int Style, ExStyle, X, Y, Width, Height, WndParent, Param; }
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct PaletteEntry { public byte peRed, peGreen, peBlue, peFlags; }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct WaveFormatEx

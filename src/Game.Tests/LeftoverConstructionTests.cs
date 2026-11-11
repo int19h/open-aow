@@ -164,7 +164,6 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Commands.SaveGameTE",
         "Aow.Game.Magic.Spells.Spell",
         "Aow.Game.Magic.Spells.SpellCaster",
-        "Aow.Game.Commands.SpellTECallViewP4",
         "Aow.Game.Audio.StartupSongList",
         "Aow.Game.Draw.StructureShadow",
         "Aow.Game.Commands.TerminatePlayerTE",
@@ -197,7 +196,6 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Commands.FireBarrierTE",
         "Aow.Game.Commands.FreezeWaterTE",
         "Aow.Game.Magic.Spells.GlobalTargetSpell",
-        "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls",
         "Aow.Game.Commands.HealingShowersTE",
         "Aow.Game.Commands.LevelTerrainTE",
         "Aow.Game.Commands.RejuvenateTE",
@@ -206,17 +204,13 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Draw.WatcherHS",
         "Aow.Game.Commands.WatcherTE",
         "Aow.Game.Draw.FixedVisibleHS",
-        "Aow.Game.Draw.HPBasedHS",
         "Aow.Game.World.Map.HSSet",
         "Aow.Game.World.Map.MapField",
-        "Aow.Game.World.Map.MapFieldTandO",
         "Aow.Game.World.Map.MapLevel",
         "Aow.Game.World.MapObjectResource",
         "Aow.Game.World.MultiHexMOR",
         "Aow.Game.World.Terrain.ILTerrainMO",
-        "Aow.Game.Net.ENodeView",
         "Aow.Game.Commands.TokenEvent",
-        "Aow.Game.Audio.ENodeAccess",
         "Aow.Game.Audio.Songlist",
         "Aow.Game.Commands.SummonSpellTE",
     ];
@@ -327,41 +321,23 @@ public sealed class LeftoverConstructionTests
     }
 
     [Fact]
-    public void MapSettingsAndMouseKeepTheirInheritedInitialization()
+    public void MapMouseKeepsItsInheritedInitialization()
     {
-        var settings = new AoWNewHSMapSettings();
-        Assert.Equal((64, 64, 1), (settings.Width, settings.Height, settings.Levels));
-        Assert.Equal(AoWHSMap.ClassID, settings.HSMapClassID);
-        Assert.Equal(MapContainer.ClassID, settings.MapContainerClassID);
-        Assert.Equal(AoWMapLevel.ClassID, settings.MapLevelClassID);
         using var mouse = new AoWHSMapMouse();
         Assert.Equal((-1, -1, -1, -1), (mouse.FSelectionRectangle.Left, mouse.FSelectionRectangle.Top,
             mouse.FSelectionRectangle.Right, mouse.FSelectionRectangle.Bottom));
         Assert.Equal(0, mouse.FRectangleSelectEventsStore.Count);
     }
 
-    [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public void HashTablesAllocateADistinctListPerBucket(bool strings)
+    [Fact]
+    public void IntegerHashTableAllocatesADistinctListPerBucket()
     {
-        object table;
+        var value = new IntegerHashTable256();
         var buckets = new List<object>();
-        if (strings)
-        {
-            var value = new StringHashTable256();
-            table = value;
-            for (int i = 0; i < 256; i++) buckets.Add(value.FLists[i]);
-        }
-        else
-        {
-            var value = new IntegerHashTable256();
-            table = value;
-            for (int i = 0; i < 256; i++) buckets.Add(value.FLists[i]);
-        }
+        for (int i = 0; i < 256; i++) buckets.Add(value.FLists[i]);
         Assert.Equal(256, buckets.Count);
         Assert.Equal(256, new HashSet<object>(buckets, ReferenceEqualityComparer.Instance).Count);
-        Assert.DoesNotContain(table, buckets);
-        ((table ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+        Assert.DoesNotContain(value, buckets);
+        value.Dispose();
     }
 }

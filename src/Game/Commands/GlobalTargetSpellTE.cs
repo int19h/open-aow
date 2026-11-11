@@ -1,12 +1,8 @@
 // Translated from GlobalTargetSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
 using Aow.Game.Draw.Animations;
-
-using Aow.Game.Magic.Spells.GlobalTarget;
 
 using Aow.Game.World.Map;
 
@@ -34,9 +30,9 @@ public partial class GlobalTargetSpellTE : SpellTE
     // GlobalTargetSpells.pas:412
     public void SetLocation(sbyte X, sbyte Y, sbyte Layer)
     {
-        Unsafe.As<XYL, SpellLocation>(ref FLocation).X = X;
-        Unsafe.As<XYL, SpellLocation>(ref FLocation).Y = Y;
-        Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer = Layer;
+        FLocation.X = X;
+        FLocation.Y = Y;
+        FLocation.L = Layer;
     }
 
     // GlobalTargetSpells.pas:419

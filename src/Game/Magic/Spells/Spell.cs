@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
@@ -228,12 +226,11 @@ public partial class Spell : EObject
     // Spells.PAS:182
     public virtual void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
     {
-        ref var p4DamageValue = ref Unsafe.As<AbilityDamageValues, P4DamageValue>(ref Values);
-        p4DamageValue.V0 = 0;
-        p4DamageValue.V1 = 0;
-        p4DamageValue.V2 = 0;
-        p4DamageValue.V3 = 0;
-        p4DamageValue.DamageTypes = Set<DamageType>.Of();
+        Values.SourceDamage = 0;
+        Values.SourceCost = 0;
+        Values.TargetDamage = 0;
+        Values.TargetCost = 0;
+        Values.DamageTypes = Set<DamageType>.Of();
     }
 
     // Spells.PAS:326

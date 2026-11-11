@@ -131,7 +131,6 @@ public sealed class UiConstructionTests
         "Aow.Game.Ui.Controls.AOWControl",
         "Aow.Game.Ui.Dialogs.DeformFaceDlg",
         "Aow.Game.Ui.Dialogs.DisjunctionDlg",
-        "Aow.Game.Engine.AgeOfWondersEngine",
         "Aow.Game.Ui.Controls.AOWEdit",
         "Aow.Game.Ui.Dialogs.EmailGameSettingsDlg",
         "Aow.Game.Ui.Dialogs.EmailSettingsDlg",
@@ -201,14 +200,11 @@ public sealed class UiConstructionTests
         "Aow.Game.Ui.Dialogs.WorldMap",
         "Aow.Game.Ui.Windows.AoWUserWindow",
         "Aow.Game.Ui.Grids.AoWCombatMapControl",
-        "Aow.Game.Engine.Nodes.EComponent",
+        "Aow.Engine.Nodes.EComponent",
         "Aow.Game.Ui.Dialogs.FastCombatWindow",
         "Aow.Game.Ui.Dialogs.FontModule",
         "Aow.Game.World.Map.HSMapViewer",
-        "Aow.Game.World.Map.HexagonSpriteEngine",
-        "Aow.Game.Draw.HSLibrary",
         "Aow.Game.Ui.Grids.AoWMapControl",
-        "Aow.Engine.PlugInManager",
         "Aow.Game.Ui.Grids.Scanner",
         "Aow.Game.Ui.Windows.StartMenu",
         "Aow.Game.Ui.Dialogs.CombatChoice",
@@ -222,23 +218,6 @@ public sealed class UiConstructionTests
     ];
 
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
-
-    [Fact]
-    public void InheritOnlyLineHasItsOwnCompletedOwnerConstructor()
-    {
-        using var owner = new Component(null!);
-        var line = new AoWLenLine(owner);
-        Assert.Same(owner, line.Owner);
-        Assert.Same(line, owner.Components[0]);
-        Assert.True(line.FVisible);
-        Assert.True(line.FFirstDraw);
-        Assert.True(line.FCaptureInput);
-        Assert.NotNull(line.FAlignment);
-        Assert.NotNull(line.FChildren);
-        Assert.NotNull(line.FToolTipText);
-        line.Dispose();
-        Assert.Equal(0, owner.ComponentCount);
-    }
 
     private static Component Direct(Type type, Component? owner)
     {

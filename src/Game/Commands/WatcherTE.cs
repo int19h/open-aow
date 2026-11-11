@@ -1,13 +1,9 @@
 // Translated from GlobalTargetSpells.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.Magic.Spells.GlobalTarget;
 
 using Aow.Game.World.Map;
 
@@ -26,15 +22,15 @@ public partial class WatcherTE : GlobalTargetSpellTE
     {
         WatcherHS Watcher;
         base.Process(source, value);
-        PlayDefaultEffects(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
+        PlayDefaultEffects(FLocation.X, FLocation.Y, FLocation.L);
         Watcher = new WatcherHS(null);
         Watcher.FEnchantment.FPlayerIndex = source.FPlayer;
         var spell = AoWHSSet.Current.FSpellControl.GetSpell(57);
         Watcher.FEnchantment.FEnchantmentManaUpkeep = spell.FManaUpkeep;
-        AoWHSMap.Current.PlaceHX(Watcher, Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
+        AoWHSMap.Current.PlaceHX(Watcher, FLocation.X, FLocation.Y, FLocation.L);
         if ((byte)AoWHSMap.Current.FSeatedPlayer == FEventPlayerIndex)
         {
-            Watcher.StartAnimation(Unsafe.As<XYL, SpellLocation>(ref FLocation).X, Unsafe.As<XYL, SpellLocation>(ref FLocation).Y, Unsafe.As<XYL, SpellLocation>(ref FLocation).Layer);
+            Watcher.StartAnimation(FLocation.X, FLocation.Y, FLocation.L);
         }
 
         var fSpellControlSpell = AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);

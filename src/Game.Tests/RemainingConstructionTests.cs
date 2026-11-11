@@ -4,7 +4,6 @@ using System.Runtime.ExceptionServices;
 
 using System.Text.Json;
 using Aow.Engine;
-using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Images;
@@ -100,7 +99,6 @@ public sealed class RemainingConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Engine.Collections.ListObject",
         "Aow.Game.Ai.Groups.AIGroupRazeControl",
         "Aow.Game.Ai.Groups.AIGroupDefendTargetSelector",
         "Aow.Game.Ai.Groups.AIGroupWanderControl",
@@ -159,8 +157,6 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Events.EventLogList",
         "Aow.Game.Events.EventLogbook",
         "Aow.Game.World.Structures.DefendersArmy",
-        "Aow.Engine.Hash.IntegerHashList",
-        "Aow.Engine.Hash.IntegerHashTable256",
         "Aow.Engine.Hash.StringHashList",
         "Aow.Engine.Hash.StringHashTable256",
         "Aow.Game.Ai.Groups.GuardAG",
@@ -176,7 +172,6 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Ai.Groups.ScoutAG",
         "Aow.Game.Ai.Groups.ScoutAGC",
         "Aow.Game.Units.ExplorationSiteItemList",
-        "Aow.Game.Ui.Grids.ItemListView",
         "Aow.Game.Ai.Groups.PassiveAG",
         "Aow.Game.Ai.Groups.PassiveAGC",
         "Aow.Game.Ai.Groups.FortifyAG",
@@ -185,7 +180,6 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Ai.Groups.SuicidalAGC",
         "Aow.Game.Ai.Groups.TransportAG",
         "Aow.Game.Ai.Groups.TransportAGC",
-        "Aow.Game.World.Terrain.CrystalMagic",
         "Aow.Game.Ui.Grids.PageTurnControl",
         "Aow.Game.World.Structures.ProductionPlaceControl",
         "Aow.Game.World.Structures.ShipyardConstructionControl",
@@ -198,7 +192,6 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Magic.Spells.LightningStormSpell",
         "Aow.Game.Magic.Spells.PestilenceStormSpell",
         "Aow.Game.World.Structures.TowerConstructionControl",
-        "Aow.Game.Magic.Abilities.UnitView",
     ];
 
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
@@ -279,15 +272,6 @@ public sealed class RemainingConstructionTests
                 Check(name, "owner" + ownerMode + "route" + route, string.Join("\n", states));
                 Assert.StartsWith("success:", state);
             }
-    }
-
-    [Fact]
-    public void ListObjectMetaclassCreatesTheExactType()
-    {
-        var value = new ListObject();
-        Assert.IsType<ListObject>(value);
-        Assert.Equal(Snapshot(new ListObject()), Snapshot(value));
-        value.Dispose();
     }
 
     [Theory]

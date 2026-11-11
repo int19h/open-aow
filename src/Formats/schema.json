@@ -402,12 +402,6 @@
       "properties": []
     },
     {
-      "name": "AbilityList",
-      "parent": "CustomAbilityList",
-      "id": 80,
-      "properties": []
-    },
-    {
       "name": "AbilityOwner",
       "parent": "CustomAbilityList",
       "id": 80,
@@ -799,12 +793,6 @@
       "parent": "AbstractAoWCombatMap",
       "id": 2228480,
       "engines": ["tactical"],
-      "properties": []
-    },
-    {
-      "name": "AoWCombatMapField",
-      "parent": "AoWMapField",
-      "id": 2228481,
       "properties": []
     },
     {
@@ -1353,12 +1341,6 @@
       "properties": []
     },
     {
-      "name": "CastingPointsReturnViewP4",
-      "parent": "DurationReturnView",
-      "id": 80,
-      "properties": []
-    },
-    {
       "name": "Cave",
       "parent": "Structure",
       "id": 131966,
@@ -1427,22 +1409,6 @@
         {"name": "Player", "id": 30, "codec": "u8"},
         {"name": "Settings", "id": 31, "codec": "string"}
       ]
-    },
-    {
-      "name": "ChangeSongMoveOnEvent",
-      "parent": "MoveOnEvent",
-      "id": 132427,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": [
-        {"name": "SongFileName", "id": 40, "codec": "string"}
-      ]
-    },
-    {
-      "name": "ChangeSongMoveOnEvent.Resource",
-      "parent": "MoveOnEventResource",
-      "id": 132428,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": []
     },
     {
       "name": "CharmAbility",
@@ -1669,13 +1635,6 @@
       "properties": []
     },
     {
-      "name": "CombatFire.Resource",
-      "parent": "ILTerrainMOR",
-      "id": 2229579,
-      "engines": ["tactical"],
-      "properties": []
-    },
-    {
       "name": "CombatFixedILTerrain",
       "parent": "CombatILTerrain",
       "id": 2228536,
@@ -1842,12 +1801,6 @@
       "name": "CombatPlayerList",
       "parent": "ENode",
       "id": 256,
-      "properties": []
-    },
-    {
-      "name": "CombatRestoreHotseatEventLog",
-      "parent": "EventLog",
-      "id": 80,
       "properties": []
     },
     {
@@ -2126,12 +2079,6 @@
       "properties": []
     },
     {
-      "name": "CrystalMagic",
-      "parent": "PlayerMagicControl",
-      "id": 80,
-      "properties": []
-    },
-    {
       "name": "CursedAbility",
       "parent": "DurationAbility",
       "id": 80,
@@ -2168,15 +2115,6 @@
         {"name": "Damage", "id": 15, "codec": "u8"},
         {"name": "Effects", "id": 16, "codec": "record", "record": "P3PackedDamageTypes", "size": 2},
         {"name": "DamageTypes", "id": 17, "codec": "record", "record": "P3PackedDamageTypes", "size": 2}
-      ]
-    },
-    {
-      "name": "DamageEffectCA",
-      "parent": "SingleTargetCA",
-      "id": 131762,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": [
-        {"name": "DamageType", "id": 15, "codec": "enum", "enum": "DamageType", "width": 1, "signed": false}
       ]
     },
     {
@@ -2523,12 +2461,6 @@
       ]
     },
     {
-      "name": "DurationReturnView",
-      "parent": "Ability",
-      "id": 80,
-      "properties": []
-    },
-    {
       "name": "DynamicIsometricHexagon",
       "parent": "HexagonSprite",
       "id": 131439,
@@ -2572,12 +2504,6 @@
       ]
     },
     {
-      "name": "EControlStyleSortNode",
-      "parent": "ESortNode",
-      "id": 261,
-      "properties": []
-    },
-    {
       "name": "ECustomNode",
       "parent": "EObject",
       "id": 80,
@@ -2604,18 +2530,6 @@
       "name": "ENode",
       "parent": "ECustomNode",
       "id": 256,
-      "properties": []
-    },
-    {
-      "name": "ENodeAccess",
-      "parent": "ECustomNode",
-      "id": 80,
-      "properties": []
-    },
-    {
-      "name": "ENodeView",
-      "parent": "ECustomNode",
-      "id": 80,
       "properties": []
     },
     {
@@ -2671,12 +2585,6 @@
       "name": "ETimerNode",
       "parent": "ECustomNode",
       "id": 264,
-      "properties": []
-    },
-    {
-      "name": "EUser",
-      "parent": "EObject",
-      "id": 80,
       "properties": []
     },
     {
@@ -2981,12 +2889,6 @@
       "parent": "MultiTargetCombatSpellCA",
       "id": 131783,
       "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
-      "name": "FastCombatParty",
-      "parent": "CombatParty",
-      "id": 131746,
       "properties": []
     },
     {
@@ -3417,12 +3319,6 @@
       "properties": []
     },
     {
-      "name": "GlobalTargetSpellCalls",
-      "parent": "Spell",
-      "id": 80,
-      "properties": []
-    },
-    {
       "name": "GlobalTargetSpellTE",
       "parent": "SpellTE",
       "id": 135976,
@@ -3488,30 +3384,6 @@
       "parent": "AIGroupControl",
       "id": 80,
       "properties": []
-    },
-    {
-      "name": "GuardAreaGC",
-      "parent": "GroupControl",
-      "id": 136192,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
-      "name": "GuardGC",
-      "parent": "GroupControl",
-      "id": 136194,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
-      "name": "HPBasedHS",
-      "parent": "HexagonSprite",
-      "id": 65874,
-      "properties": [
-        {"name": "Xhp", "id": 4, "codec": "i32"},
-        {"name": "Yhp", "id": 5, "codec": "i32"},
-        {"name": "Lhx", "id": 6, "codec": "u8"}
-      ]
     },
     {
       "name": "HSMap",
@@ -3678,12 +3550,6 @@
         {"name": "UsedSkillPoints", "id": 39, "codec": "i32"}
       ],
       "order": ["HeroResourceIndex", "AbCount", "AbilityCount", "IDs", "AbilityData", "GroupID", "UnitID", "MoraleValue", "Player", "Legacy", "FaceIndex", "OldExperience", "HeroName", "Nickname", "Race", "CastingPoints", "CastingSpellID", "Gender", "UnitAttack", "UnitDefense", "UnitDamage", "UnitHits", "UnitMoves", "UnitResistance", "Level", "UpgradePending", "Experience", "HeroStatus", "DeathDay", "DeathPlayer", "MovePoints", "HitPoints", "CastingMana", "CastSpellInstantly", "CastingProgress", "LibraryID", "Inventory", "HeroItems", "LibraryName", "UsedSkillPoints"]
-    },
-    {
-      "name": "HeroCastingViewP4",
-      "parent": "Hero",
-      "id": 131632,
-      "properties": []
     },
     {
       "name": "HeroControl",
@@ -3882,18 +3748,6 @@
       "name": "HighPrayerBlessingAbility",
       "parent": "DurationAbility",
       "id": 80,
-      "properties": []
-    },
-    {
-      "name": "HillMO",
-      "parent": "TerrainMO",
-      "id": 131432,
-      "properties": []
-    },
-    {
-      "name": "HillMOR",
-      "parent": "TerrainMOR",
-      "id": 131433,
       "properties": []
     },
     {
@@ -4201,12 +4055,6 @@
       "properties": []
     },
     {
-      "name": "ItemListView",
-      "parent": "EChangeNotifyNode",
-      "id": 265,
-      "properties": []
-    },
-    {
       "name": "ItemTE",
       "parent": "TokenEvent",
       "id": 131698,
@@ -4278,24 +4126,6 @@
       "id": 135945,
       "engines": ["game", "tactical", "campaign"],
       "properties": []
-    },
-    {
-      "name": "LibraryHS",
-      "parent": "HPBasedHS",
-      "id": 65874,
-      "properties": []
-    },
-    {
-      "name": "LibraryImageHS",
-      "parent": "HexagonSprite",
-      "id": 65875,
-      "properties": [
-        {"name": "Status", "id": 1, "codec": "set", "set": "LibraryImageHS.StatusElement", "width": 1},
-        {"name": "ShowPriority", "id": 2, "codec": "i32"},
-        {"name": "Xhp", "id": 3, "codec": "i32"},
-        {"name": "Yhp", "id": 4, "codec": "i32"},
-        {"name": "Lhx", "id": 5, "codec": "u8"}
-      ]
     },
     {
       "name": "LifeMastery",
@@ -4451,12 +4281,6 @@
       "children": false
     },
     {
-      "name": "MapFieldTandO",
-      "parent": "ECustomNode",
-      "id": 80,
-      "properties": []
-    },
-    {
       "name": "MapLevel",
       "parent": "ECustomNode",
       "id": 65794,
@@ -4502,20 +4326,6 @@
       "name": "MarksmanshipAbility",
       "parent": "MultiLevelAbility",
       "id": 80,
-      "properties": []
-    },
-    {
-      "name": "Merchant",
-      "parent": "Structure",
-      "id": 131338,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
-      "name": "Merchant.Resource",
-      "parent": "StructureResource",
-      "id": 131339,
-      "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
@@ -4619,21 +4429,6 @@
       "name": "MoveControlSettings",
       "parent": "EObject",
       "id": 80,
-      "properties": []
-    },
-    {
-      "name": "MoveOnEvent",
-      "parent": "MapObject",
-      "id": 65878,
-      "properties": [
-        {"name": "TriggerPlayers", "id": 30, "codec": "i32"},
-        {"name": "Radius", "id": 31, "codec": "u8"}
-      ]
-    },
-    {
-      "name": "MoveOnEventResource",
-      "parent": "MapObjectResource",
-      "id": 65876,
       "properties": []
     },
     {
@@ -4864,36 +4659,6 @@
       "properties": []
     },
     {
-      "name": "P1AbilityNameView",
-      "parent": "EObject",
-      "id": 80,
-      "properties": []
-    },
-    {
-      "name": "P1AbilityView",
-      "parent": "EObject",
-      "id": 80,
-      "properties": []
-    },
-    {
-      "name": "P1OwnerView",
-      "parent": "EObject",
-      "id": 80,
-      "properties": []
-    },
-    {
-      "name": "P3NodeAccess",
-      "parent": "ENode",
-      "id": 256,
-      "properties": []
-    },
-    {
-      "name": "P5EventLogABI",
-      "parent": "EObject",
-      "id": 80,
-      "properties": []
-    },
-    {
       "name": "PBEMPlayerControl",
       "parent": "TurnPlayerControl",
       "id": 131667,
@@ -4961,13 +4726,6 @@
       "properties": []
     },
     {
-      "name": "PassiveGC",
-      "parent": "GroupControl",
-      "id": 136199,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
       "name": "PasswordEventLog",
       "parent": "EventLog",
       "id": 80,
@@ -4992,13 +4750,6 @@
       "properties": []
     },
     {
-      "name": "PatrolGC",
-      "parent": "GroupControl",
-      "id": 136193,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
       "name": "PestilenceStorm",
       "parent": "Storm",
       "id": 135745,
@@ -5009,22 +4760,6 @@
       "name": "PestilenceStormSpell",
       "parent": "StormSpell",
       "id": 80,
-      "properties": []
-    },
-    {
-      "name": "PlaySampleMoveOnEvent",
-      "parent": "MoveOnEvent",
-      "id": 132445,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": [
-        {"name": "SampleFileName", "id": 40, "codec": "string"}
-      ]
-    },
-    {
-      "name": "PlaySampleMoveOnEvent.Resource",
-      "parent": "MoveOnEventResource",
-      "id": 132446,
-      "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
@@ -5609,18 +5344,6 @@
       "properties": []
     },
     {
-      "name": "RandomNode",
-      "parent": "ProductionPlace",
-      "id": 133154,
-      "properties": []
-    },
-    {
-      "name": "RandomNode.Resource",
-      "parent": "ProductionPlaceResource",
-      "id": 133155,
-      "properties": []
-    },
-    {
       "name": "RangedAttackAbility",
       "parent": "AdjustableAbility",
       "id": 80,
@@ -5694,13 +5417,6 @@
       "properties": []
     },
     {
-      "name": "RefugeGC",
-      "parent": "GroupControl",
-      "id": 136208,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
       "name": "Rejuvenate",
       "parent": "GlobalTargetSpell",
       "id": 80,
@@ -5761,13 +5477,6 @@
       "name": "ResurrectedAbility",
       "parent": "AdjustableAbility",
       "id": 80,
-      "properties": []
-    },
-    {
-      "name": "RndHexagonResource",
-      "parent": "HexagonResource",
-      "id": 131412,
-      "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
@@ -5894,13 +5603,6 @@
       "properties": []
     },
     {
-      "name": "ScoutGC",
-      "parent": "GroupControl",
-      "id": 136196,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
       "name": "SeduceAbility",
       "parent": "CommandAbility",
       "id": 80,
@@ -6001,31 +5703,6 @@
       "name": "ShowBookEventLog",
       "parent": "EventLog",
       "id": 131818,
-      "properties": []
-    },
-    {
-      "name": "ShowMessageEventLog",
-      "parent": "EventLog",
-      "id": 131830,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": [
-        {"name": "Message", "id": 20, "codec": "strings"}
-      ]
-    },
-    {
-      "name": "ShowMessageMoveOnEvent",
-      "parent": "MoveOnEvent",
-      "id": 132429,
-      "engines": ["game", "tactical", "campaign"],
-      "properties": [
-        {"name": "Message", "id": 40, "codec": "strings"}
-      ]
-    },
-    {
-      "name": "ShowMessageMoveOnEvent.Resource",
-      "parent": "MoveOnEventResource",
-      "id": 132430,
-      "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
@@ -6216,12 +5893,6 @@
         {"name": "EventPlayerIndex", "id": 17, "codec": "u8"},
         {"name": "EventMana", "id": 18, "codec": "i32"}
       ]
-    },
-    {
-      "name": "SpellTECallViewP4",
-      "parent": "TokenEvent",
-      "id": 1361,
-      "properties": []
     },
     {
       "name": "SpellWard",
@@ -6433,13 +6104,6 @@
       "name": "SuicidalAGC",
       "parent": "AIGroupControl",
       "id": 80,
-      "properties": []
-    },
-    {
-      "name": "SuicidalGC",
-      "parent": "GroupControl",
-      "id": 136195,
-      "engines": ["game", "tactical", "campaign"],
       "properties": []
     },
     {
@@ -6773,20 +6437,6 @@
       "properties": []
     },
     {
-      "name": "Townhall",
-      "parent": "CombatStructure",
-      "id": 2229520,
-      "engines": ["tactical"],
-      "properties": []
-    },
-    {
-      "name": "Townhall.Resource",
-      "parent": "CombatStructureResource",
-      "id": 2229521,
-      "engines": ["tactical"],
-      "properties": []
-    },
-    {
       "name": "TransportAG",
       "parent": "AIGroup",
       "id": 136295,
@@ -6978,12 +6628,6 @@
       "properties": [
         {"name": "NextUnitID", "id": 10, "codec": "i32"}
       ]
-    },
-    {
-      "name": "UnitControlCallViewP4",
-      "parent": "UnitControl",
-      "id": 80,
-      "properties": []
     },
     {
       "name": "UnitEnchantment",
@@ -7179,12 +6823,6 @@
       "name": "UnitUserList",
       "parent": "UnitList",
       "id": 265,
-      "properties": []
-    },
-    {
-      "name": "UnitView",
-      "parent": "AbilityOwner",
-      "id": 80,
       "properties": []
     },
     {
@@ -7489,20 +7127,6 @@
       "parent": "StructureResource",
       "id": 133279,
       "engines": ["game", "tactical", "campaign"],
-      "properties": []
-    },
-    {
-      "name": "Workshop",
-      "parent": "CombatStructure",
-      "id": 2229512,
-      "engines": ["tactical"],
-      "properties": []
-    },
-    {
-      "name": "Workshop.Resource",
-      "parent": "CombatStructureResource",
-      "id": 2229513,
-      "engines": ["tactical"],
       "properties": []
     },
     {

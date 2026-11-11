@@ -359,11 +359,6 @@
     "size": 12,
     "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Game.Magic.Abilities.AbilityList": {
-    "id": 80,
-    "size": 16,
-    "parent": "Aow.Game.Magic.Abilities.CustomAbilityList"
-  },
   "Aow.Game.Magic.Abilities.AbilityOwner": {
     "id": 80,
     "size": 20,
@@ -569,11 +564,6 @@
     "size": 40,
     "parent": "Aow.Game.Ai.AIPlayerAction"
   },
-  "Aow.Game.Magic.Abilities.CastingPointsReturnViewP4": {
-    "id": 80,
-    "size": 36,
-    "parent": "Aow.Game.Magic.Abilities.DurationReturnView"
-  },
   "Aow.Game.Commands.ChangeGlobalMagicTE": {
     "id": 135446,
     "size": 28,
@@ -669,11 +659,6 @@
     "size": 12,
     "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.Events.CombatRestoreHotseatEventLog": {
-    "id": 80,
-    "size": 28,
-    "parent": "Aow.Game.Events.EventLog"
-  },
   "Aow.Game.Combat.CombatSide": {
     "id": 256,
     "size": 28,
@@ -762,11 +747,6 @@
   "Aow.Game.Combat.Actions.DamageCA": {
     "id": 131761,
     "size": 24,
-    "parent": "Aow.Game.Combat.Actions.SingleTargetCA"
-  },
-  "Aow.Game.Combat.Actions.DamageEffectCA": {
-    "id": 131762,
-    "size": 20,
     "parent": "Aow.Game.Combat.Actions.SingleTargetCA"
   },
   "Aow.Game.Ai.Groups.DefaultMEC": {
@@ -859,11 +839,6 @@
     "size": 20,
     "parent": "Aow.Game.Magic.Abilities.AbilityData"
   },
-  "Aow.Game.Magic.Abilities.DurationReturnView": {
-    "id": 80,
-    "size": 36,
-    "parent": "Aow.Game.Magic.Abilities.Ability"
-  },
   "Aow.Game.Net.EmailGame": {
     "id": 136960,
     "size": 32,
@@ -933,11 +908,6 @@
     "id": 131760,
     "size": 80,
     "parent": "Aow.Game.Combat.Battle"
-  },
-  "Aow.Game.Combat.FastCombatParty": {
-    "id": 131746,
-    "size": 28,
-    "parent": "Aow.Game.Combat.CombatParty"
   },
   "Aow.Game.Combat.FastCombatUnit": {
     "id": 131791,
@@ -1014,16 +984,6 @@
     "size": 28,
     "parent": "Aow.Game.Ai.AIPlayerAction"
   },
-  "Aow.Game.Ai.Groups.GuardAreaGC": {
-    "id": 136192,
-    "size": 8,
-    "parent": "Aow.Game.Ai.Groups.GroupControl"
-  },
-  "Aow.Game.Ai.Groups.GuardGC": {
-    "id": 136194,
-    "size": 8,
-    "parent": "Aow.Game.Ai.Groups.GroupControl"
-  },
   "Aow.Game.Magic.Abilities.HealingAbility": {
     "id": 80,
     "size": 40,
@@ -1048,11 +1008,6 @@
     "id": 131632,
     "size": 156,
     "parent": "Aow.Game.Magic.Abilities.AbstractUnit"
-  },
-  "Aow.Game.Magic.Abilities.HeroCastingViewP4": {
-    "id": 131632,
-    "size": 156,
-    "parent": "Aow.Game.Magic.Abilities.Hero"
   },
   "Aow.Game.Units.HeroControl": {
     "id": 80,
@@ -1319,31 +1274,6 @@
     "size": 36,
     "parent": "Aow.Game.Events.EventLog"
   },
-  "Aow.Game.Magic.Abilities.P1AbilityNameView": {
-    "id": 80,
-    "size": 8,
-    "parent": "Aow.Engine.Nodes.EObject"
-  },
-  "Aow.Game.Magic.Abilities.P1AbilityView": {
-    "id": 80,
-    "size": 8,
-    "parent": "Aow.Engine.Nodes.EObject"
-  },
-  "Aow.Game.Engine.P1OwnerView": {
-    "id": 80,
-    "size": 8,
-    "parent": "Aow.Engine.Nodes.EObject"
-  },
-  "Aow.Game.World.P3NodeAccess": {
-    "id": 256,
-    "size": 12,
-    "parent": "Aow.Engine.Nodes.ENode"
-  },
-  "Aow.Game.Events.P5EventLogABI": {
-    "id": 80,
-    "size": 24,
-    "parent": "Aow.Engine.Nodes.EObject"
-  },
   "Aow.Game.Session.PBEMPlayerControl": {
     "id": 131667,
     "size": 36,
@@ -1358,16 +1288,6 @@
     "id": 81,
     "size": 20,
     "parent": "Aow.Engine.Nodes.EControlStyleObject"
-  },
-  "Aow.Game.Ai.Groups.PassiveGC": {
-    "id": 136199,
-    "size": 8,
-    "parent": "Aow.Game.Ai.Groups.GroupControl"
-  },
-  "Aow.Game.Ai.Groups.PatrolGC": {
-    "id": 136193,
-    "size": 8,
-    "parent": "Aow.Game.Ai.Groups.GroupControl"
   },
   "Aow.Game.Session.Player": {
     "id": 131104,
@@ -1539,11 +1459,6 @@
     "size": 8,
     "parent": "Aow.Game.World.Structures.ConstructionControl"
   },
-  "Aow.Game.Ai.Groups.RefugeGC": {
-    "id": 136208,
-    "size": 8,
-    "parent": "Aow.Game.Ai.Groups.GroupControl"
-  },
   "Aow.Game.Ai.ResearchSpellAIPA": {
     "id": 80,
     "size": 20,
@@ -1568,11 +1483,6 @@
     "id": 135444,
     "size": 20,
     "parent": "Aow.Game.Commands.TokenEvent"
-  },
-  "Aow.Game.Ai.Groups.ScoutGC": {
-    "id": 136196,
-    "size": 8,
-    "parent": "Aow.Game.Ai.Groups.GroupControl"
   },
   "Aow.Game.Magic.Abilities.SeduceAbility": {
     "id": 80,
@@ -1637,11 +1547,6 @@
   "Aow.Game.Commands.SpellTE": {
     "id": 135936,
     "size": 32,
-    "parent": "Aow.Game.Commands.TokenEvent"
-  },
-  "Aow.Game.Commands.SpellTECallViewP4": {
-    "id": 1361,
-    "size": 16,
     "parent": "Aow.Game.Commands.TokenEvent"
   },
   "Aow.Game.Audio.StartupSongList": {
@@ -1719,11 +1624,6 @@
     "size": 12,
     "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.Ai.Groups.SuicidalGC": {
-    "id": 136195,
-    "size": 8,
-    "parent": "Aow.Game.Ai.Groups.GroupControl"
-  },
   "Aow.Game.Commands.TerminatePlayerTE": {
     "id": 131836,
     "size": 32,
@@ -1793,11 +1693,6 @@
     "id": 80,
     "size": 20,
     "parent": "Aow.Engine.Nodes.EObject"
-  },
-  "Aow.Game.Units.UnitControlCallViewP4": {
-    "id": 80,
-    "size": 20,
-    "parent": "Aow.Game.Units.UnitControl"
   },
   "Aow.Game.Units.UnitEnchantment": {
     "id": 135951,
@@ -1988,11 +1883,6 @@
     "id": 2228480,
     "size": 312,
     "parent": "Aow.Game.Combat.AbstractAoWCombatMap"
-  },
-  "Aow.Game.Combat.AoWCombatMapField": {
-    "id": 2228481,
-    "size": 28,
-    "parent": "Aow.Game.World.Map.AoWMapField"
   },
   "Aow.Game.Combat.AoWCombatMapLevel": {
     "id": 2228482,
@@ -2249,11 +2139,6 @@
     "size": 16,
     "parent": "Aow.Game.World.MapObject"
   },
-  "Aow.Game.World.CenterViewLocation+Resource": {
-    "id": 2233641,
-    "size": 52,
-    "parent": "Aow.Game.World.MapObjectResource"
-  },
   "Aow.Game.Ai.AICityFortifyBudget": {
     "id": 131351,
     "size": 56,
@@ -2394,11 +2279,6 @@
     "size": 48,
     "parent": "Aow.Game.World.Terrain.CityWall"
   },
-  "Aow.Game.World.Terrain.CityWallDoor+Resource": {
-    "id": 2229511,
-    "size": 76,
-    "parent": "Aow.Game.World.Terrain.CityWall+Resource"
-  },
   "Aow.Game.World.Terrain.CityWall+Resource": {
     "id": 2229509,
     "size": 76,
@@ -2408,11 +2288,6 @@
     "id": 2229578,
     "size": 28,
     "parent": "Aow.Game.Draw.SingleHS"
-  },
-  "Aow.Game.Draw.CombatFire+Resource": {
-    "id": 2229579,
-    "size": 68,
-    "parent": "Aow.Game.World.Terrain.ILTerrainMOR"
   },
   "Aow.Game.World.Hexes.CombatHexagon": {
     "id": 2229504,
@@ -2429,20 +2304,10 @@
     "size": 32,
     "parent": "Aow.Game.World.Hexes.AoWWaterHexagon"
   },
-  "Aow.Game.World.Hexes.WaterCombatHexagon+Resource": {
-    "id": 2229656,
-    "size": 56,
-    "parent": "Aow.Game.World.Hexes.AoWWaterHexagon+Resource"
-  },
   "Aow.Game.World.Terrain.CombatFixedILTerrain": {
     "id": 2228536,
     "size": 32,
     "parent": "Aow.Game.World.Terrain.CombatILTerrain"
-  },
-  "Aow.Game.World.Terrain.CombatFixedILTerrain+Resource": {
-    "id": 2228537,
-    "size": 72,
-    "parent": "Aow.Game.World.Terrain.CombatILTerrainResource"
   },
   "Aow.Game.World.Terrain.CombatILTerrain": {
     "id": 2228534,
@@ -2469,11 +2334,6 @@
     "size": 12,
     "parent": "Aow.Game.Draw.HexagonSprite"
   },
-  "Aow.Game.World.CombatObstacle+Resource": {
-    "id": 2229547,
-    "size": 68,
-    "parent": "Aow.Game.World.MultiHexMOR"
-  },
   "Aow.Game.Draw.CombatObstacleShadow": {
     "id": 65872,
     "size": 12,
@@ -2483,11 +2343,6 @@
     "id": 2229506,
     "size": 24,
     "parent": "Aow.Game.World.Map.AbstractRoad"
-  },
-  "Aow.Game.World.Hexes.CombatRoad+Resource": {
-    "id": 2229507,
-    "size": 52,
-    "parent": "Aow.Game.World.Map.AbstractRoadResource"
   },
   "Aow.Game.Magic.Spells.AnimateDead": {
     "id": 80,
@@ -2714,11 +2569,6 @@
     "size": 40,
     "parent": "Aow.Game.World.Terrain.CombatFixedILTerrain"
   },
-  "Aow.Game.World.Terrain.CombatStructureResource": {
-    "id": 2229511,
-    "size": 72,
-    "parent": "Aow.Game.World.Terrain.CombatFixedILTerrain+Resource"
-  },
   "Aow.Game.Commands.CAbRangedTE": {
     "id": 2236419,
     "size": 60,
@@ -2864,11 +2714,6 @@
     "size": 12,
     "parent": "Aow.Engine.Nodes.EObject"
   },
-  "Aow.Engine.Nodes.EControlStyleSortNode": {
-    "id": 261,
-    "size": 28,
-    "parent": "Aow.Engine.Nodes.ESortNode"
-  },
   "Aow.Engine.Nodes.ECustomNode": {
     "id": 80,
     "size": 8,
@@ -2928,11 +2773,6 @@
     "id": 264,
     "size": 56,
     "parent": "Aow.Engine.Nodes.ECustomNode"
-  },
-  "Aow.Engine.Nodes.EUser": {
-    "id": 80,
-    "size": 12,
-    "parent": "Aow.Engine.Nodes.EObject"
   },
   "Aow.Engine.PlugInControl": {
     "id": 80,
@@ -2997,11 +2837,6 @@
   "Aow.Game.Events.ShowBookEventLog": {
     "id": 131818,
     "size": 24,
-    "parent": "Aow.Game.Events.EventLog"
-  },
-  "Aow.Game.Events.ShowMessageEventLog": {
-    "id": 131830,
-    "size": 28,
     "parent": "Aow.Game.Events.EventLog"
   },
   "Aow.Game.Events.TextEventLog": {
@@ -3093,11 +2928,6 @@
     "id": 2229544,
     "size": 28,
     "parent": "Aow.Game.World.MapObject"
-  },
-  "Aow.Game.World.FleeLocation+Resource": {
-    "id": 2229545,
-    "size": 52,
-    "parent": "Aow.Game.World.MapObjectResource"
   },
   "Aow.Game.Draw.MovementHS": {
     "id": 2228490,
@@ -3339,11 +3169,6 @@
     "size": 60,
     "parent": "Aow.Game.Magic.Spells.Spell"
   },
-  "Aow.Game.Magic.Spells.GlobalTarget.GlobalTargetSpellCalls": {
-    "id": 80,
-    "size": 52,
-    "parent": "Aow.Game.Magic.Spells.Spell"
-  },
   "Aow.Game.Commands.GlobalTargetSpellTE": {
     "id": 135976,
     "size": 36,
@@ -3464,11 +3289,6 @@
     "size": 12,
     "parent": "Aow.Game.Draw.HexagonSprite"
   },
-  "Aow.Game.Draw.HPBasedHS": {
-    "id": 65874,
-    "size": 24,
-    "parent": "Aow.Game.Draw.HexagonSprite"
-  },
   "Aow.Game.World.Map.HSMap": {
     "id": 66048,
     "size": 164,
@@ -3494,11 +3314,6 @@
     "size": 32,
     "parent": "Aow.Engine.Nodes.EControlStyleNode"
   },
-  "Aow.Game.Draw.LibraryImageHS": {
-    "id": 65875,
-    "size": 32,
-    "parent": "Aow.Game.Draw.HexagonSprite"
-  },
   "Aow.Game.World.Map.MORTerrainControl": {
     "id": 80,
     "size": 24,
@@ -3511,11 +3326,6 @@
   },
   "Aow.Game.World.Map.MapField": {
     "id": 65793,
-    "size": 24,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
-  },
-  "Aow.Game.World.Map.MapFieldTandO": {
-    "id": 80,
     "size": 24,
     "parent": "Aow.Engine.Nodes.ECustomNode"
   },
@@ -3564,11 +3374,6 @@
     "size": 28,
     "parent": "Aow.Engine.Nodes.EControlStyleInverseSortNode"
   },
-  "Aow.Game.Draw.LibraryHS": {
-    "id": 65874,
-    "size": 44,
-    "parent": "Aow.Game.Draw.HPBasedHS"
-  },
   "Aow.Game.World.Hexes.Hexagon": {
     "id": 131410,
     "size": 20,
@@ -3578,16 +3383,6 @@
     "id": 131411,
     "size": 56,
     "parent": "Aow.Game.World.Map.AbstractHexagonResource"
-  },
-  "Aow.Game.World.HillMO": {
-    "id": 131432,
-    "size": 20,
-    "parent": "Aow.Game.World.Hexes.TerrainMO"
-  },
-  "Aow.Game.World.HillMOR": {
-    "id": 131433,
-    "size": 72,
-    "parent": "Aow.Game.World.Hexes.TerrainMOR"
   },
   "Aow.Game.World.Terrain.HolyGround": {
     "id": 131987,
@@ -3613,11 +3408,6 @@
     "id": 2229522,
     "size": 48,
     "parent": "Aow.Game.World.Terrain.CombatStructure"
-  },
-  "Aow.Game.World.Terrain.House+Resource": {
-    "id": 2229523,
-    "size": 72,
-    "parent": "Aow.Game.World.Terrain.CombatStructureResource"
   },
   "Aow.Game.World.Hexes.HexagonBridge": {
     "id": 133242,
@@ -3714,11 +3504,6 @@
     "size": 24,
     "parent": "Aow.Game.World.Hexes.UpperIsometricHexagon"
   },
-  "Aow.Game.World.Hexes.IsometricCombatHexagon+Resource": {
-    "id": 2229515,
-    "size": 56,
-    "parent": "Aow.Game.World.Hexes.UpperIsometricHexagon+Resource"
-  },
   "Aow.Game.Draw.DynamicIsometricHexagon": {
     "id": 131439,
     "size": 8,
@@ -3773,11 +3558,6 @@
     "id": 132084,
     "size": 104,
     "parent": "Aow.Game.World.Structures.ExplorationSiteResource"
-  },
-  "Aow.Game.Ui.Grids.ItemListView": {
-    "id": 265,
-    "size": 16,
-    "parent": "Aow.Engine.Nodes.EChangeNotifyNode"
   },
   "Aow.Game.World.Structures.LifeNode": {
     "id": 131953,
@@ -3849,16 +3629,6 @@
     "size": 40,
     "parent": "Aow.Game.World.Terrain.CombatStructure"
   },
-  "Aow.Game.World.Terrain.MainStructure+Resource": {
-    "id": 2229533,
-    "size": 72,
-    "parent": "Aow.Game.World.Terrain.CombatStructureResource"
-  },
-  "Aow.Game.World.Terrain.CrystalMagic": {
-    "id": 80,
-    "size": 76,
-    "parent": "Aow.Game.Session.PlayerMagicControl"
-  },
   "Aow.Game.World.Terrain.ManaCrystals": {
     "id": 132030,
     "size": 36,
@@ -3868,16 +3638,6 @@
     "id": 132031,
     "size": 68,
     "parent": "Aow.Game.World.Terrain.ILTerrainMOR"
-  },
-  "Aow.Game.World.Structures.Merchant": {
-    "id": 131338,
-    "size": 48,
-    "parent": "Aow.Game.World.Structures.Structure"
-  },
-  "Aow.Game.World.Structures.Merchant+Resource": {
-    "id": 131339,
-    "size": 100,
-    "parent": "Aow.Game.World.Structures.StructureResource"
   },
   "Aow.Game.World.Structures.Mine": {
     "id": 131962,
@@ -3929,55 +3689,10 @@
     "size": 68,
     "parent": "Aow.Game.World.Terrain.ILTerrainMOR"
   },
-  "Aow.Game.World.Movement.ChangeSongMoveOnEvent": {
-    "id": 132427,
-    "size": 28,
-    "parent": "Aow.Game.World.Movement.MoveOnEvent"
-  },
-  "Aow.Game.World.Movement.ChangeSongMoveOnEvent+Resource": {
-    "id": 132428,
-    "size": 52,
-    "parent": "Aow.Game.World.Movement.MoveOnEventResource"
-  },
-  "Aow.Game.World.Movement.MoveOnEvent": {
-    "id": 65878,
-    "size": 24,
-    "parent": "Aow.Game.World.MapObject"
-  },
-  "Aow.Game.World.Movement.MoveOnEventResource": {
-    "id": 65876,
-    "size": 52,
-    "parent": "Aow.Game.World.MapObjectResource"
-  },
-  "Aow.Game.World.Movement.PlaySampleMoveOnEvent": {
-    "id": 132445,
-    "size": 28,
-    "parent": "Aow.Game.World.Movement.MoveOnEvent"
-  },
-  "Aow.Game.World.Movement.PlaySampleMoveOnEvent+Resource": {
-    "id": 132446,
-    "size": 52,
-    "parent": "Aow.Game.World.Movement.MoveOnEventResource"
-  },
-  "Aow.Game.World.Movement.ShowMessageMoveOnEvent": {
-    "id": 132429,
-    "size": 28,
-    "parent": "Aow.Game.World.Movement.MoveOnEvent"
-  },
-  "Aow.Game.World.Movement.ShowMessageMoveOnEvent+Resource": {
-    "id": 132430,
-    "size": 52,
-    "parent": "Aow.Game.World.Movement.MoveOnEventResource"
-  },
   "Aow.Game.Net.DataPackage": {
     "id": 80,
     "size": 20,
     "parent": "Aow.Engine.Nodes.EObject"
-  },
-  "Aow.Game.Net.ENodeView": {
-    "id": 80,
-    "size": 12,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.Commands.PassTokenTE": {
     "id": 1364,
@@ -4339,16 +4054,6 @@
     "size": 104,
     "parent": "Aow.Game.World.Structures.ItemExplorationSiteResource"
   },
-  "Aow.Game.World.Structures.RandomNode": {
-    "id": 133154,
-    "size": 76,
-    "parent": "Aow.Game.World.Structures.ProductionPlace"
-  },
-  "Aow.Game.World.Structures.RandomNode+Resource": {
-    "id": 133155,
-    "size": 120,
-    "parent": "Aow.Game.World.Structures.ProductionPlaceResource"
-  },
   "Aow.Game.World.Structures.ReflectingPool": {
     "id": 132670,
     "size": 64,
@@ -4358,11 +4063,6 @@
     "id": 132671,
     "size": 116,
     "parent": "Aow.Game.World.Structures.PlayerStructureResource"
-  },
-  "Aow.Game.World.Hexes.RndHexagonResource": {
-    "id": 131412,
-    "size": 56,
-    "parent": "Aow.Game.World.Hexes.HexagonResource"
   },
   "Aow.Game.World.Hexes.Road": {
     "id": 131428,
@@ -4419,11 +4119,6 @@
     "size": 16,
     "parent": "Aow.Game.World.Map.AbstractHexagon"
   },
-  "Aow.Game.World.Hexes.SingleCombatHexagon+Resource": {
-    "id": 2229535,
-    "size": 52,
-    "parent": "Aow.Game.World.Map.AbstractHexagonResource"
-  },
   "Aow.Game.World.SmokeCloud": {
     "id": 135746,
     "size": 36,
@@ -4438,11 +4133,6 @@
     "id": 135747,
     "size": 68,
     "parent": "Aow.Game.World.MultiHexMOR"
-  },
-  "Aow.Game.Audio.ENodeAccess": {
-    "id": 80,
-    "size": 12,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.Audio.SFX": {
     "id": 2162689,
@@ -4669,16 +4359,6 @@
     "size": 116,
     "parent": "Aow.Game.World.Structures.PlayerStructureResource"
   },
-  "Aow.Game.World.Terrain.Townhall": {
-    "id": 2229520,
-    "size": 40,
-    "parent": "Aow.Game.World.Terrain.CombatStructure"
-  },
-  "Aow.Game.World.Terrain.Townhall+Resource": {
-    "id": 2229521,
-    "size": 72,
-    "parent": "Aow.Game.World.Terrain.CombatStructureResource"
-  },
   "Aow.Game.World.Terrain.UnHolyGround": {
     "id": 131985,
     "size": 32,
@@ -4698,11 +4378,6 @@
     "id": 135943,
     "size": 36,
     "parent": "Aow.Game.Commands.GlobalTargetSpellTE"
-  },
-  "Aow.Game.Magic.Abilities.UnitView": {
-    "id": 80,
-    "size": 20,
-    "parent": "Aow.Game.Magic.Abilities.AbilityOwner"
   },
   "Aow.Game.Magic.Spells.Bless": {
     "id": 80,
@@ -4829,14 +4504,64 @@
     "size": 100,
     "parent": "Aow.Game.World.Structures.StructureResource"
   },
-  "Aow.Game.World.Terrain.Workshop": {
-    "id": 2229512,
-    "size": 40,
-    "parent": "Aow.Game.World.Terrain.CombatStructure"
+  "Aow.Game.World.CenterViewLocation+Resource": {
+    "id": 2233641,
+    "size": 52,
+    "parent": "Aow.Game.World.MapObjectResource"
   },
-  "Aow.Game.World.Terrain.Workshop+Resource": {
-    "id": 2229513,
+  "Aow.Game.World.Terrain.CityWallDoor+Resource": {
+    "id": 2229511,
+    "size": 76,
+    "parent": "Aow.Game.World.Terrain.CityWall+Resource"
+  },
+  "Aow.Game.World.Hexes.WaterCombatHexagon+Resource": {
+    "id": 2229656,
+    "size": 56,
+    "parent": "Aow.Game.World.Hexes.AoWWaterHexagon+Resource"
+  },
+  "Aow.Game.World.Terrain.CombatFixedILTerrain+Resource": {
+    "id": 2228537,
+    "size": 72,
+    "parent": "Aow.Game.World.Terrain.CombatILTerrainResource"
+  },
+  "Aow.Game.World.CombatObstacle+Resource": {
+    "id": 2229547,
+    "size": 68,
+    "parent": "Aow.Game.World.MultiHexMOR"
+  },
+  "Aow.Game.World.Hexes.CombatRoad+Resource": {
+    "id": 2229507,
+    "size": 52,
+    "parent": "Aow.Game.World.Map.AbstractRoadResource"
+  },
+  "Aow.Game.World.Terrain.CombatStructureResource": {
+    "id": 2229511,
+    "size": 72,
+    "parent": "Aow.Game.World.Terrain.CombatFixedILTerrain+Resource"
+  },
+  "Aow.Game.World.FleeLocation+Resource": {
+    "id": 2229545,
+    "size": 52,
+    "parent": "Aow.Game.World.MapObjectResource"
+  },
+  "Aow.Game.World.Terrain.House+Resource": {
+    "id": 2229523,
     "size": 72,
     "parent": "Aow.Game.World.Terrain.CombatStructureResource"
+  },
+  "Aow.Game.World.Hexes.IsometricCombatHexagon+Resource": {
+    "id": 2229515,
+    "size": 56,
+    "parent": "Aow.Game.World.Hexes.UpperIsometricHexagon+Resource"
+  },
+  "Aow.Game.World.Terrain.MainStructure+Resource": {
+    "id": 2229533,
+    "size": 72,
+    "parent": "Aow.Game.World.Terrain.CombatStructureResource"
+  },
+  "Aow.Game.World.Hexes.SingleCombatHexagon+Resource": {
+    "id": 2229535,
+    "size": 52,
+    "parent": "Aow.Game.World.Map.AbstractHexagonResource"
   }
 }

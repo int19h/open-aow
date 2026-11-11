@@ -237,7 +237,7 @@ public sealed class CoreTests
         Assert.Equal(129, image[0]);
         Assert.Throws<ArgumentOutOfRangeException>(() => shifted.CopyImageTo([]));
         var large = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
-        Assert.Equal(large, Set<byte>.WithBounds(0, 255).Range((byte)0, (byte)255));
+        Assert.Equal(large, Set<byte>.WithBounds(0, 255).WithRange((byte)0, (byte)255));
         Assert.Equal(256, large.Count);
         image = new byte[32];
         large.CopyImageTo(image);

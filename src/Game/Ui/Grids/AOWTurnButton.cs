@@ -271,9 +271,4 @@ public partial class AOWTurnButton : AOWControl
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
-
-    public new enum ButtonType : byte
-    {
-        Text = 0, Icon = 1
-    }
 }

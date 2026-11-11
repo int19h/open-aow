@@ -1,6 +1,4 @@
 // Translated from Mountain.pas.
-using System.Runtime.CompilerServices;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Animations;
@@ -31,7 +29,7 @@ public partial class RaiseTerrainTE : GlobalTargetSpellTE
     {
         base.Process(source, value);
         RaiseTerrain(source);
-        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, Unsafe.As<XYL, Location>(ref FLocation).Layer, 1);
+        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
         AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
         return false;
     }
@@ -49,8 +47,8 @@ public partial class RaiseTerrainTE : GlobalTargetSpellTE
         bool Found = default;
         ImageSequenceAnimation Anim = default;
         Resources = AoWHSSet.Current.MapObjectResourceList.FChildren;
-        Level = AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, Location>(ref FLocation).Layer];
-        HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, 0);
+        Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
+        HNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
         while (Walk.Radius <= 1)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -75,8 +73,8 @@ public partial class RaiseTerrainTE : GlobalTargetSpellTE
                         Mountain.FDuration = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
                         Mountain.FPlayer = Caster.FPlayer;
                         Mountain.FOriginalOverlay = Field.OverlayType;
-                        AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer, 0, -1);
-                        if (AoWHSMap.Current.PlaceHX(Mountain, Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer))
+                        AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, FLocation.L, 0, -1);
+                        if (AoWHSMap.Current.PlaceHX(Mountain, Walk.X, Walk.Y, FLocation.L))
                         {
                             Mountain.FMode = Mountain.FMode + Set<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.Raising);
                             Anim = new ImageSequenceAnimation(null);
@@ -84,7 +82,7 @@ public partial class RaiseTerrainTE : GlobalTargetSpellTE
                             Anim.FOnShow = Mountain.ShowRaiseTerrainAnimation;
                             Anim.FOnNewFrame = Mountain.NewFrameRaiseTerrainAnimation;
                             Anim.FFrameCounter = -AoWHSMap.Current.Random(15);
-                            AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer);
+                            AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, FLocation.L);
                         }
                     }
                 }

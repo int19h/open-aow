@@ -68,13 +68,8 @@ public sealed class GraphicsConstructionTests
     {
         yield return new object[] { typeof(SdlDC), (Func<Component, Component>)(owner => new SdlDC(new NullDisplayHost(), owner)) };
         yield return new object[] { typeof(Display), (Func<Component, Component>)(owner => new Display(owner)) };
-        yield return new object[] { typeof(Windows24DC), (Func<Component, Component>)(owner => new Windows24DC(owner)) };
-        yield return new object[] { typeof(Windows32DC), (Func<Component, Component>)(owner => new Windows32DC(owner)) };
         yield return new object[] { typeof(CustomDisplay), (Func<Component, Component>)(owner => new CustomDisplay(owner)) };
         yield return new object[] { typeof(DisplayCtrl), (Func<Component, Component>)(owner => new DisplayCtrl(owner)) };
-        yield return new object[] { typeof(WindowsDC), (Func<Component, Component>)(owner => new WindowsDC(owner)) };
-        yield return new object[] { typeof(Windows08DC), (Func<Component, Component>)(owner => new Windows08DC(owner)) };
-        yield return new object[] { typeof(Windows16DC), (Func<Component, Component>)(owner => new Windows16DC(owner)) };
         yield return new object[] { typeof(CustomImageLibrary), (Func<Component, Component>)(owner => new CustomImageLibrary(owner)) };
         yield return new object[] { typeof(ImageLibrary), (Func<Component, Component>)(owner => new ImageLibrary(owner)) };
         yield return new object[] { typeof(ImageLibraryFont), (Func<Component, Component>)(owner => new ImageLibraryFont(owner)) };
@@ -167,18 +162,13 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(Field(blends, "FList"));
         var lookup = new LookupBlendTableCollection100();
         Assert.NotNull(Field(lookup, "FTables"));
-        var gdi = new GDISurface(123);
-        Assert.Equal(123, Field(gdi, "FHandle"));
-        foreach (var value in new object[] { palette, manager, list, sequence, sequences, ilManager, matrix, modes, blend, blends, lookup, gdi }) ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+        foreach (var value in new object[] { palette, manager, list, sequence, sequences, ilManager, matrix, modes, blend, blends, lookup }) ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
     }
 
     public static IEnumerable<object[]> Surfaces()
     {
         yield return new object[] { (Func<GFXEPalette, Surface>)(palette => new DataSurface(7, 4, PixelFormats.pfPAL8, palette)), PixelFormats.pfPAL8, 8 };
-        yield return new object[] { (Func<GFXEPalette, Surface>)(palette => new DIB08Surface(7, 4, palette)), PixelFormats.pfPAL8, 8 };
         yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB16Surface(7, 4, PixelFormats.pfRGB555)), PixelFormats.pfRGB555, 16 };
-        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB24Surface(7, 4)), PixelFormats.pfRGB24, 24 };
-        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB32Surface(7, 4)), PixelFormats.pfRGB32, 28 };
     }
 
     [Theory]
@@ -242,14 +232,13 @@ public sealed class GraphicsConstructionTests
     {
         var palette = new GFXEPalette();
         palette.Entries[0].R = 29;
-        Assert.Throws<ArgumentOutOfRangeException>(() => new DIB08Surface(-1, 4, palette));
         Assert.Throws<ArgumentOutOfRangeException>(() => new DIB16Surface(-1, 4, PixelFormats.pfRGB555));
         Assert.Throws<NotSupportedException>(() => new DIB16Surface(7, 4, PixelFormats.pfPAL8));
         Assert.Equal((byte)29, palette.Entries[0].R);
     }
 
     [Fact]
-    public void LibraryLegacyBridgeAndLayoutFlagsRunOnce()
+    public void ImageLibraryLayoutFlagsRunOnce()
     {
         using var owner = new Component(null!);
         var session = new LayoutSession();
@@ -264,26 +253,6 @@ public sealed class GraphicsConstructionTests
         Assert.False(library.ComponentState.Contains(ComponentState.Reading));
         Assert.True(library.ComponentState.Contains(ComponentState.Loading));
         Assert.Equal(2, Field(font, "FCharacterDistance"));
-        var legacy = new HSLibrary(owner);
-        Assert.NotNull(Field(legacy, "FList"));
-        Assert.NotNull(Field(legacy, "FPaletteManager"));
-        Assert.Equal(3, owner.ComponentCount);
-    }
-
-    [Fact]
-    public void WindowsPaletteSurfaceKeepsOwnerBitmapAndDimensions()
-    {
-        using var owner = new Windows08DC(null!);
-        using var surface = new Windows08DIBSurface(7, 4, owner);
-        SurfaceDesc sd = default;
-        Assert.Equal(0, surface.Lock(ref sd));
-        Assert.Equal(7, sd.Width);
-        Assert.Equal(4, sd.Height);
-        Assert.Equal(-8, sd.Pitch);
-        Assert.Equal(PixelFormats.pfPAL8, sd.PixelFormatID);
-        Assert.Same(Field(owner, "FPalette"), sd.Palette);
-        Assert.Same(owner, Field(surface, "FOwner"));
-        surface.Unlock();
     }
 
     [Fact]

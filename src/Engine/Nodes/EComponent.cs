@@ -1,11 +1,11 @@
 // Translated from Engine.pas.
+using Aow.Game;
 using Aow.Rtl;
 
-namespace Aow.Game.Engine.Nodes;
+namespace Aow.Engine.Nodes;
 
 // FOnRegisterClasses (called from Loaded), FOnUnRegisterClasses (called from Destroy), FEngine,
-// the engine the component owns and frees. Descendants such as HSEngine's THexagonSpriteEngine
-// publish the two events
+// the engine the component owns and frees.
 public partial class EComponent : Component
 {
     internal NotifyEvent<object> FOnRegisterClasses;

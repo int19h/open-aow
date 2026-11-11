@@ -61,7 +61,7 @@ public sealed class StaticStringTableTests
                     for (int i = 0; i < items.Length; i++) if (items[i] is null) nulls.Add($"{name}[{i}]");
                 }
             }
-        Assert.True(tables >= 30, $"{tables} static string tables");
+        Assert.True(tables >= 29, $"{tables} static string tables");
         Assert.Empty(nulls);
     }
 

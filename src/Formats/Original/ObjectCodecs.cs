@@ -15,6 +15,10 @@ internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
         return obj;
     }
 
+    // A dynamic slot stores the same image as a fixed object, with no class id.
+    internal override JsonValue DecodeElement(DecodeContext ctx, int start, int end, ValueSite site) =>
+        Decode(ctx, start, end, site);
+
     internal override void Encode(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site)
     {
         if (value is not JsonObject obj) throw ctx.Fail(Codes.Type, $"{site.Property.Name} is an object.", value, site.Path, value.KindName);
