@@ -15,7 +15,7 @@ namespace Aow.Game.Events;
 
 // { ot=1 }
 // day, unique ID, player, reference count
-public partial class EventLog : EObject
+public partial class EventLog : EngineObject
 {
 
     public EventLog(ECustomNode owner) : base(owner)

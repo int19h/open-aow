@@ -9,7 +9,7 @@ public sealed class CountedChildren(string family, string countMember) : Content
 {
     public override IEnumerable<string> Members => ["Children", countMember];
 
-    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocPath path)
+    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path)
     {
         long expected = value[countMember] is JsonInteger count ? count.Value : 0;
         int actual = ContentChildren.Count(scope, value, family);

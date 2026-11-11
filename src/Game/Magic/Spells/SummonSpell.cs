@@ -1,8 +1,6 @@
 // Translated from SummonSpells.pas.
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
@@ -38,7 +36,7 @@ public partial class SummonSpell : Spell
     }
 
     // SummonSpells.pas:288
-    public override void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
     {
         bool CanCast;
         AICastSpellAction Action;
@@ -59,7 +57,7 @@ public partial class SummonSpell : Spell
     }
 
     // SummonSpells.pas:308
-    public override bool AIExecuteCastSpellAction(AbstractUnit Source)
+    public override bool AIExecuteCastSpellAction(Troop Source)
     {
         bool Result;
         string Reason = "";
@@ -94,14 +92,14 @@ public partial class SummonSpell : Spell
     }
 
     // SummonSpells.pas:266
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
-        SummonSpellTE Event;
+        SummonSpellTokenEvent Event;
         string Reason = "";
         if (CanActivate(Source, ref Reason))
         {
-            Event = new SummonSpellTE(null);
+            Event = new SummonSpellTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             SetupSummonSpellTE(Event);
             AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
@@ -117,7 +115,7 @@ public partial class SummonSpell : Spell
     }
 
     // SummonSpells.pas:261
-    public virtual void SetupSummonSpellTE(SummonSpellTE Event)
+    public virtual void SetupSummonSpellTE(SummonSpellTokenEvent Event)
     {
         var random = Random(FUnitIndices.Count);
         var unitIndice = FUnitIndices[random];
@@ -132,5 +130,5 @@ public partial class SummonSpell : Spell
     }
 
     // SummonSpells.pas:255
-    public int GetDispelResistance(AbstractUnit unit) => SummonedAbility.GetDefaultDispelResistance(unit);
+    public int GetDispelResistance(Troop unit) => SummonedAbility.GetDefaultDispelResistance(unit);
 }

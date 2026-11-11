@@ -22,9 +22,9 @@ public sealed class StructureBorderTests
 
     private static LibraryImage Grab(ImageLibrary library, int height, int color)
     {
-        var surface = new DIB16Surface(Width, height, PixelFormats.pfRGB565);
+        var surface = new Dib16Surface(Width, height, PixelFormats.pfRGB565);
         var grab = new GrabInfo { FileName = "border.bmp", FindRectangles = false };
-        SurfaceDesc sd = default;
+        LockedSurface sd = default;
         try
         {
             Assert.Equal(PixelFormats.GFXE_OK, surface.Cls(color));
@@ -41,8 +41,8 @@ public sealed class StructureBorderTests
 
     private static int Pixel(int color)
     {
-        var surface = new DIB16Surface(1, 1, PixelFormats.pfRGB565);
-        SurfaceDesc sd = default;
+        var surface = new Dib16Surface(1, 1, PixelFormats.pfRGB565);
+        LockedSurface sd = default;
         surface.Cls(color);
         surface.Lock(ref sd);
         int pixel = sd.View().Word(0);
@@ -59,7 +59,7 @@ public sealed class StructureBorderTests
         // fourth tile paints rows 1 and 2, so three iterations leave them blank.
         const int height = 20;
         var library = new ImageLibrary(null!);
-        var target = new DIB16Surface(Width, height, PixelFormats.pfRGB565);
+        var target = new Dib16Surface(Width, height, PixelFormats.pfRGB565);
         var previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
@@ -69,7 +69,7 @@ public sealed class StructureBorderTests
             var middle = Grab(library, 4, MiddleColor);
             var bottom = Grab(library, 5, BottomColor);
             var structure = new BorderStructure(top, middle, bottom);
-            SurfaceDesc sd = default;
+            LockedSurface sd = default;
             Assert.Equal(PixelFormats.GFXE_OK, target.Cls(0));
             Assert.Equal(PixelFormats.GFXE_OK, target.Lock(ref sd));
             Assert.True(structure.ShowBorderImage(sd, new Rect(0, 0, Width, height)));

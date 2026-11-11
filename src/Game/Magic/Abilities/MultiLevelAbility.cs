@@ -17,12 +17,12 @@ public partial class MultiLevelAbility : AdjustableAbility
     // AoWAb.PAS:248
     public MultiLevelAbility(ECustomNode owner) : base(owner)
     {
-        FLevelCosts = new IntegerList();
+        FLevelCosts = new Int32List();
         FMaxLevel = 4;
     }
 
     public int FMaxLevel;
-    public IntegerList FLevelCosts;
+    public Int32List FLevelCosts;
 
     // AoWAb.PAS:255
     public override void Dispose()
@@ -36,7 +36,7 @@ public partial class MultiLevelAbility : AdjustableAbility
 
     // AoWAb.PAS:317
     // { branch past the missing-data exit and nil-owner zero result }
-    public override EClass AbilityDataClass() => AbilityRules.P4MultiLevelDataClass;
+    public override EngineClass AbilityDataClass() => AbilityRules.P4MultiLevelDataClass;
 
     public override int GetLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
     public override int GetInherentLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;

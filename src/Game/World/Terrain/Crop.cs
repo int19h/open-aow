@@ -12,7 +12,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.World.Terrain;
 
 // FCropOwner
-public partial class Crop : ILTerrainMO
+public partial class Crop : ImageLibraryTerrainMapObject
 {
     public Crop(ECustomNode owner) : base(owner)
     {
@@ -26,7 +26,7 @@ public partial class Crop : ILTerrainMO
     // Crops.pas:109
 
     // Crops.pas:151
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001991)
@@ -36,9 +36,9 @@ public partial class Crop : ILTerrainMO
     }
 
     // Crops.pas:203
-    public override void TerrainChanged(in HSTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
     {
-        HexagonSprite HS;
+        HexSprite HS;
         if (Info.HN != 0)
         {
             return;
@@ -68,7 +68,7 @@ public partial class Crop : ILTerrainMO
     }
 
     // Crops.pas:157
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         if (Msg.MsgID != 16)
         {
@@ -91,7 +91,7 @@ public partial class Crop : ILTerrainMO
     // Crops.pas:189
     public override void Deactivate()
     {
-        if (FCropOwner != null && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+        if (FCropOwner != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             var playerCropStructure = FCropOwner;
             this.FCropOwner = null;
@@ -108,7 +108,7 @@ public partial class Crop : ILTerrainMO
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         MapField Field;
-        HexagonSprite HS;
+        HexSprite HS;
         Field = MapContainer.GetField(Xhx, Yhx, Lhx);
         HS = Field.GetMaxLevelNoneTransparentHS();
         return Field.FindOwnedHS(typeof(Fire)) == null && (HS == null || HS.GetLevel() < 10 || HS is AbstractRoad);
@@ -149,7 +149,7 @@ public partial class Crop : ILTerrainMO
     public void EndTurn(sbyte Player)
     {
         sbyte PlayerIndex;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         Army = ((AoWMapField)Owner).GetArmyHS();
         PlayerIndex = Player;
         if (Army != null && Army.FArmy.FPlayer == PlayerIndex && FCropOwner.FPlayer > 0 && PlayerIndex != FCropOwner.FPlayer)
@@ -167,10 +167,10 @@ public partial class Crop : ILTerrainMO
     {
         PlayerCropStructure Found;
         MapLevel MapLevel;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         Found = null;
         MapLevel = (MapLevel)Owner.Owner;
-        HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 1);
+        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 1);
         while (Walk.Radius <= 1 && Found == null)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -178,13 +178,13 @@ public partial class Crop : ILTerrainMO
                 Found = (PlayerCropStructure)MapLevel.GetField(Walk.X, Walk.Y).FindNoneTransparentHS(typeof(PlayerCropStructure));
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         SetCropOwner(Found);
     }
 
-    public new partial class Resource : ILTerrainMOR
+    public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

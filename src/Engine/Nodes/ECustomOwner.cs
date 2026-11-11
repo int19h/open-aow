@@ -26,7 +26,7 @@ public partial class ECustomOwner : ENode
     }
 
     internal GameEngine FEngine;
-    internal Set<EControlStyleElement> FControlStyle;
+    internal Set<ControlStyleElement> FControlStyle;
 
     // Engine.pas:8262
     public override GameEngine GetEngine() => FEngine;
@@ -38,10 +38,10 @@ public partial class ECustomOwner : ENode
     }
 
     // Engine.pas:8272
-    public override Set<EControlStyleElement> GetControlStyle() => FControlStyle;
+    public override Set<ControlStyleElement> GetControlStyle() => FControlStyle;
 
     // Engine.pas:8277
-    public void SetControlStyle(Set<EControlStyleElement> Value)
+    public void SetControlStyle(Set<ControlStyleElement> Value)
     {
         FControlStyle = Value;
     }
@@ -54,7 +54,7 @@ public partial class ECustomOwner : ENode
     }
 
     // Engine.pas:8288
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         if (Msg.MsgID == 536870920)
         {

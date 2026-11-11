@@ -23,10 +23,10 @@ public partial class SelfDestructAbility : TouchAbility
     public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner Owner) => Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
 
     // AoWAb.PAS:2222
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
-        SelfDestructCA Action;
+        SelfDestructCombatAction Action;
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
         Action = CreateSelfDestructCA(Source, Target);
@@ -36,7 +36,7 @@ public partial class SelfDestructAbility : TouchAbility
     }
 
     // AoWAb.PAS:2145
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         if (CanTouchUnit(Attacker, Defender))
@@ -57,7 +57,7 @@ public partial class SelfDestructAbility : TouchAbility
     }
 
     // AoWAb.PAS:2154
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         if (WallSituation == WallSituation.None && CanTouchUnit(Attacker, Defender))
         {
@@ -168,12 +168,12 @@ public partial class SelfDestructAbility : TouchAbility
     }
 
     // AoWAb.PAS:2257
-    public override bool CanTouchUnit(AbstractUnit Source, AbstractUnit Target) => true;
+    public override bool CanTouchUnit(Troop Source, Troop Target) => true;
 
     // AoWAb.PAS:2216
-    public SelfDestructCA CreateSelfDestructCA(CombatObject Source, CombatObject Target)
+    public SelfDestructCombatAction CreateSelfDestructCA(CombatObject Source, CombatObject Target)
     {
-        SelfDestructCA Result = new SelfDestructCA(null);
+        SelfDestructCombatAction Result = new SelfDestructCombatAction(null);
         Result.Generate(Source, Target, 8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
         return Result;
     }

@@ -9,7 +9,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Magic.Abilities;
 
 // (FAbilities, FAbilitiesByType,)
-public partial class AbilityControl : EObject
+public partial class AbilityControl : EngineObject
 {
     // Ability.PAS:2035
     public AbilityControl(ECustomNode owner) : base(owner)
@@ -26,7 +26,7 @@ public partial class AbilityControl : EObject
     }
 
     public List<Ability> FAbilities;
-    public FixedArray_Aow_Units_AoWE_TAbilityTypeList_5 FAbilitiesByType;
+    public AbilityTypeListArray5 FAbilitiesByType;
 
     // Ability.PAS:2044
     public override void Dispose()

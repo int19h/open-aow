@@ -10,7 +10,7 @@ public abstract class ContentRule
     /// <summary>The members the rule reads, for the registry's completeness test.</summary>
     public abstract IEnumerable<string> Members { get; }
 
-    public abstract IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocPath path);
+    public abstract IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path);
 
     /// <summary>Called once when the rule is registered for its persisted class.</summary>
     public virtual void Attach(string persistedName)

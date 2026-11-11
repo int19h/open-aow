@@ -9,12 +9,12 @@ public partial class AoWCampaignScenarioList : ENode
     { }
 
     // Diplomacy.pas:2214
-    public AoWCampaignScenario GetScenario(int Index)
+    public CampaignScenario GetScenario(int Index)
     {
-        AoWCampaignScenario Result;
+        CampaignScenario Result;
         if (Index >= 0 && Index < FChildren.Count)
         {
-            Result = (AoWCampaignScenario)FChildren.List[Index];
+            Result = (CampaignScenario)FChildren.List[Index];
         }
         else
         {
@@ -43,7 +43,7 @@ public partial class AoWCampaignScenarioList : ENode
         while (Result != 0)
         {
             Result -= 1;
-            if (((AoWCampaignScenario)FChildren.List[Result]).FID == ID)
+            if (((CampaignScenario)FChildren.List[Result]).FID == ID)
             {
                 return Result;
             }
@@ -53,14 +53,14 @@ public partial class AoWCampaignScenarioList : ENode
     }
 
     // Diplomacy.pas:2238
-    public AoWCampaignScenario FindID(int ID)
+    public CampaignScenario FindID(int ID)
     {
-        AoWCampaignScenario Result;
+        CampaignScenario Result;
         int Index;
         Index = IndexOfID(ID);
         if (Index != -1)
         {
-            Result = (AoWCampaignScenario)FChildren.List[Index];
+            Result = (CampaignScenario)FChildren.List[Index];
         }
         else
         {

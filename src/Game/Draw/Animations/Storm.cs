@@ -50,28 +50,28 @@ public partial class Storm : Animation
     }
 
     // Storms.pas:226
-    public void ShowTargetSelection(TargetSelectionControl Selection, int HN, int Xs, int Ys, in SurfaceDesc SurfaceDesc)
+    public void ShowTargetSelection(TargetSelectionControl Selection, int HN, int Xs, int Ys, in LockedSurface SurfaceDesc)
     {
         int Intensity;
         HN = HexGeometry.HNtoRad(HN);
         Intensity = Math.Abs((AoWHSMap.Current.Frame + HN) % 9 - 4) * 20 + 20;
-        var lookupTable = GfxState.IntensityBlendTable.GetLookupTables(Intensity);
+        var lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(Intensity);
         Selection.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, lookupTable);
     }
 
     // Storms.pas:242
-    public bool GetBestTarget(sbyte Player, int X, int Y, int L, int Range, ref XYL Target, ref StormDamageInfo Info)
+    public bool GetBestTarget(sbyte Player, int X, int Y, int L, int Range, ref MapCoordinate Target, ref StormDamageInfo Info)
     {
         StormDamageInfo Candidate;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapLevel Level;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         Level = AoWHSMap.Current.MapContainer.MapLevels[L];
         Target.Packed = 16777215;
         bool Result = false;
         Info = default;
         Candidate = default;
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Range)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -89,7 +89,7 @@ public partial class Storm : Animation
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;

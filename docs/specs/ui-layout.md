@@ -64,50 +64,50 @@ output into the product tree. Section 8 says what the gate checks of it.
 `AoW.exe` has 79 form resources, one per `DataModule` (Delphi `TDataModule`) descendant (77) plus `MainForm` and
 `TRegistrationDlg`. `tools/dfm2txt.py` of the recovery wrote them as Delphi text form files, and
 the recovery confirmed on 2026-10-25 that they round trip byte for byte through Delphi's own
-converter. Sizes run from 22 lines (`TCMapEvents`) to 6,285 (`ScenSetup`), 89,294 lines in all.
+converter. Sizes run from 22 lines (`TCMapEvents`) to 6,285 (`ScenarioSetup`), 89,294 lines in all.
 Counts over the 79 files:
 
 | what | count |
 |---|---|
 | `object` lines (components, roots included) | 2,947 |
 | event handler assignments (`OnX = Name`) | 1,588, to 716 distinct methods |
-| references to a component of another module (`Module.Name`) | 4,545: IntGfxMod 2,690, FontModule 1,184, General 638, InfoBanner 14, UnitBanner 9, TitleWindow 8, TBWindow 2 |
-| references to a component of the same module | 2,642 `AOWWindow`, 96 `VScrollBar`, 76 `WinManager` (all `General.Manager`, cross-module), 17 `TabPanel`, 10 `OwnerMenu`, 2 `OwnerMenuBar`, 563 `ToolTip` (`General.ToolTip`) |
+| references to a component of another module (`Module.Name`) | 4,545: UIGraphics 2,690, UIFonts 1,184, General 638, InfoBanner 14, UnitBanner 9, TitleWindow 8, TBWindow 2 |
+| references to a component of the same module | 2,642 `Window`, 96 `VScrollBar`, 76 `WinManager` (all `General.Manager`, cross-module), 17 `TabPanel`, 10 `OwnerMenu`, 2 `OwnerMenuBar`, 563 `ToolTip` (`General.ToolTip`) |
 | string lists | 539: `ToolTipText.Strings` 437, `TargetsData` 62 (translators), `Items.Strings` 40 |
 | sets | 4 (`Options` of the display and the video player, two empty `Font.Style`) |
-| binary blocks | 3 (`Data` of three `InterfaceIL` (Delphi `TInterfaceIL`) components in `IntGfxMod`: an empty version 4 library stored inline) |
+| binary blocks | 3 (`Data` of three `InterfaceImageLibrary` (Delphi `TInterfaceIL`) components in `UIGraphics`: an empty version 4 library stored inline) |
 | characters written as `#nnn` | 111 (`ColorChangeChar = #0`, `PassWordChar = #0`) |
 | floats, string concatenations with `+`, `inherited` or `inline` objects, collections | none |
 
 The property that appears most is the dotted sub-object `Alignment.*` (12 properties of
-`AOWAlignment` (Delphi `TAOWAlignment`), written on almost every control). The component classes used, with the unit that
+`Alignment` (Delphi `TAOWAlignment`), written on almost every control). The component classes used, with the unit that
 defines them:
 
 | count | class | unit | treatment |
 |---:|---|---|---|
-| 679 | `AOWLabel` (Delphi `TAOWLabel`) | aowInt | transpiled toolkit |
-| 445 | `AOWPanel` (Delphi `TAOWPanel`) | aowInt | |
-| 402 | `AOWImage` (Delphi `TAOWImage`) | aowInt | |
-| 388 | `AOWButton` (Delphi `TAOWButton`) | aowInt | |
-| 194 | `AOWCheckBox` (Delphi `TAOWCheckBox`) | aowInt | |
-| 170 | `AoWFrame` (Delphi `TAoWFrame`) | aowInt | |
-| 97, 12 | `AOWVScrollBar` (Delphi `TAOWVScrollBar`), `AOWHScrollBar` (Delphi `TAOWHScrollBar`) | aowInt | |
-| 75, 75 | `AOWMemo` (Delphi `TAOWMemo`), `AOWListBox` (Delphi `TAOWListBox`) | aowInt | |
-| 56 | `AOWWindow` (Delphi `TAOWWindow`) | aowInt | |
-| 46 | `InterfaceIL` | aowInt (`ImageLibrary` (Delphi `TImageLibrary`) descendant) | |
-| 33, 28, 24 | `AOWComboBox` (Delphi `TAOWComboBox`), `AOWEdit` (Delphi `TAOWEdit`), `AoWGauge` (Delphi `TAoWGauge`) | aowInt | |
-| 13, 13, 6, 2 | `TaowUserDrawBox`, `AOWMenu` (Delphi `TAOWMenu`), `AOWTabPanel` (Delphi `TAOWTabPanel`), `AOWMenuBar` (Delphi `TAOWMenuBar`) | aowInt | |
-| 1, 1 | `AOWWinManager` (Delphi `TAOWWinManager`), `AOWToolTip` (Delphi `TAOWToolTip`) | aowInt | in `General` |
+| 679 | `Label` (Delphi `TAOWLabel`) | aowInt | transpiled toolkit |
+| 445 | `Panel` (Delphi `TAOWPanel`) | aowInt | |
+| 402 | `Image` (Delphi `TAOWImage`) | aowInt | |
+| 388 | `Button` (Delphi `TAOWButton`) | aowInt | |
+| 194 | `CheckBox` (Delphi `TAOWCheckBox`) | aowInt | |
+| 170 | `Frame` (Delphi `TAoWFrame`) | aowInt | |
+| 97, 12 | `VerticalScrollBar` (Delphi `TAOWVScrollBar`), `HorizontalScrollBar` (Delphi `TAOWHScrollBar`) | aowInt | |
+| 75, 75 | `Memo` (Delphi `TAOWMemo`), `ListBox` (Delphi `TAOWListBox`) | aowInt | |
+| 56 | `Window` (Delphi `TAOWWindow`) | aowInt | |
+| 46 | `InterfaceImageLibrary` | aowInt (`ImageLibrary` (Delphi `TImageLibrary`) descendant) | |
+| 33, 28, 24 | `ComboBox` (Delphi `TAOWComboBox`), `Edit` (Delphi `TAOWEdit`), `Gauge` (Delphi `TAoWGauge`) | aowInt | |
+| 13, 13, 6, 2 | `UserDrawBox`, `Menu` (Delphi `TAOWMenu`), `TabPanel` (Delphi `TAOWTabPanel`), `MenuBar` (Delphi `TAOWMenuBar`) | aowInt | |
+| 1, 1 | `WindowManager` (Delphi `TAOWWinManager`), `ToolTip` (Delphi `TAOWToolTip`) | aowInt | in `General` |
 | 62 | `IvTranslator` (Delphi `TIvTranslator`) | Localize (Multilizer) | the port's translator component, `localization.md` |
-| 12, 3 | `ImageLibraryFont` (Delphi `TImageLibraryFont`), `ImageLibrary` | ImageLib | transpiled (`FontModule`, `IntGfxMod`) |
-| 3, 3, 2, 2, 2, 2 | `AoWBookWindow` (Delphi `TAoWBookWindow`), `AoWArnoLine` (Delphi `TAoWArnoLine`), `StartMenu` (Delphi `TStartMenu`), `Scanner` (Delphi `TScanner`), `AoWUserWindow` (Delphi `TAoWUserWindow`), `AOWTurnButton` (Delphi `TAOWTurnButton`) | AOWTools | transpiled |
-| 1, 1 | `AoWMapControl` (Delphi `TAoWMapControl`), `SetupControl` (Delphi `TSetupControl`) | AoWEPACK | transpiled rules components |
-| 1 | `AoWCombatMapControl` (Delphi `TAoWCombatMapControl`) | AoWTCPCK | transpiled |
-| 1 | `HSMapViewer` (Delphi `THSMapViewer`) | HSEPack | transpiled (in `MWindow`) |
+| 12, 3 | `ImageLibraryFont` (Delphi `TImageLibraryFont`), `ImageLibrary` | ImageLib | transpiled (`UIFonts`, `UIGraphics`) |
+| 3, 3, 2, 2, 2, 2 | `BookWindow` (Delphi `TAoWBookWindow`), `ArnoLine` (Delphi `TAoWArnoLine`), `StartMenu` (Delphi `TStartMenu`), `Scanner` (Delphi `TScanner`), `UserWindow` (Delphi `TAoWUserWindow`), `TurnButton` (Delphi `TAOWTurnButton`) | AOWTools | transpiled |
+| 1, 1 | `MapControl` (Delphi `TAoWMapControl`), `SetupControl` (Delphi `TSetupControl`) | AoWEPACK | transpiled rules components |
+| 1 | `CombatMapControl` (Delphi `TAoWCombatMapControl`) | AoWTCPCK | transpiled |
+| 1 | `HexSpriteMapViewer` (Delphi `THSMapViewer`) | HSEPack | transpiled (in `MapWindow`) |
 | 1, 1, 1 | `Display` (Delphi `TDisplay`), `Windows16DC` (Delphi `TWindows16DC`), `TDDrawFullScr16DC` | DisplayC | `MainForm` only, the host |
 | 1 | `VideoPlayer` (Delphi `TVideoPlayer`) | VideoP | `IntroScene`, `platform.md` |
 | 1 | `GDPlay` (Delphi `TGDPlay`) | aowDPlay | `SetupEvents`, networking stub until `networking.md` |
-| 1, 1 | `SmtpSender` (Delphi `TmsSMTP`), `MailMessage` (Delphi `TmsMessage`) | internet suite | `SMTPDlg`, play-by-email stub |
+| 1, 1 | `SmtpSender` (Delphi `TmsSMTP`), `MailMessage` (Delphi `TmsMessage`) | internet suite | `SmtpDialog`, play-by-email stub |
 | 2, 2, 2 | `Label`, `TEdit`, `Button` | VCL | `RegistrationDlg` only, dropped |
 
 Every other `object` is a root: the 77 data module classes of `AoW/*.pas`, `TMainForm` and
@@ -150,21 +150,21 @@ module window and are ignored too; the positions that matter are `WinLeft`, `Win
 ### 4.1 Order of modules
 
 `AoW.dpr` creates the modules in this order, each with `Application.CreateForm` and each assigned
-to its global variable: `IntGfxMod`, `FontModule`, `General`, `TargetSelectionDlg`, `SetupEvents`,
-`MapEvents`, `TCMapEvents`, `TitleWindow`, `PopupWindows`, `TBWindow`, `SWindow`, `MWindow`,
-`IWindow`, `DialogWin`, `ControlWin`, `UnitBanner`, `UnitWindow`, `ChatWindow`, `MultiWindow`,
-`FileDlgWindow`, `PInfoW`, `ProgressDialog`, `SoundDlg`, `VideoDialog`, `FastCombatWindow`,
-`PyreScreen`, `NewTurnDlg`, `ArmyEventDlg`, `CityJoinDlg`, `ItemBanner`, `CityRebelDlg`,
-`SelFactionWin`, `MsgReceiveDlg`, `HeroInfoDlg`, `PartyJoinDlg`, `ArmyInfoDlg`, `WorldMap`,
-`TCUnit`, `TCScanner`, `ScenSetup`, `TCFCDialog`, `RelWindow`, `UnitSelectionDlg`, `ArenaDlg`,
-`ConstructDlg`, `MagicWin`, `WizardsTowerDlg`, `PowerDlg`, `SpellBook`, `LeaderSetupWin`,
-`DeformFaceDlg`, `HeroUpgradeDlg`, `EmailGameSettingsDlg`, `CastUnitSpellDlg`, `DisjunctionDlg`,
-`HeroJoinDlg`, `ResultsWin`, `SynchronizeDlg`, `CityScreen`, `ProductionScreen`, `RealmWin`,
-`CampaignTransferDlg`, `TitleScene`, `IntroScene`, `SendEmailGameDlg`, `EmailSettingsDlg`,
-`POP3Dlg`, `SMTPDlg`, `HelpWindow`, `CampaignJoinDlg`, `ItemsFoundDlg`, `GamePlayDialog`,
-`PasswordDlg`, `InfoBanner`, `MessageDlg`, `TutorialWindow`, `CampaignSettingsDlg`, and last
+to its global variable: `UIGraphics`, `UIFonts`, `General`, `TargetSelectionDialog`, `SetupEvents`,
+`MapEvents`, `TCMapEvents`, `TitleWindow`, `PopupWindows`, `TBWindow`, `ScannerWindow`, `MapWindow`,
+`InfoWindow`, `DialogWin`, `ControlWindow`, `UnitBanner`, `UnitWindow`, `ChatWindow`, `MultiWindow`,
+`FileDialogWindow`, `PlayerInfoWindow`, `ProgressDialog`, `SoundDialog`, `VideoDialog`, `FastBattleWindow`,
+`PyreScreen`, `NewTurnDialog`, `ArmyEventDialog`, `CityJoinDialog`, `ItemBanner`, `CityRebelDialog`,
+`FactionSelectionWindow`, `MessageReceiveDialog`, `HeroInfoDialog`, `PartyJoinDialog`, `ArmyInfoDialog`, `WorldMap`,
+`TCUnit`, `TCScanner`, `ScenarioSetup`, `TCFCDialog`, `RelationWindow`, `UnitSelectionDialog`, `ArenaDialog`,
+`ConstructDialog`, `MagicWindow`, `WizardsTowerDialog`, `PowerDialog`, `SpellBook`, `LeaderSetupWindow`,
+`DeformFaceDialog`, `HeroUpgradeDialog`, `EmailGameSettingsDialog`, `CastUnitSpellDialog`, `DisjunctionDialog`,
+`HeroJoinDialog`, `ResultsWindow`, `SynchronizeDialog`, `CityScreen`, `ProductionScreen`, `RealmWindow`,
+`CampaignTransferDialog`, `TitleScene`, `IntroScene`, `SendEmailGameDialog`, `EmailSettingsDialog`,
+`Pop3Dialog`, `SmtpDialog`, `HelpWindow`, `CampaignJoinDialog`, `ItemsFoundDialog`, `GamePlayDialog`,
+`PasswordDialog`, `InfoBanner`, `MessageDialog`, `TutorialWindow`, `CampaignSettingsDialog`, and last
 `MainForm`, then `Application.Run`. Some globals are aliased after creation (`E3Globals.ItemBanner`,
-`E3Globals.DisjunctionDlg`, `E2Globals.IntroScene`). The port's startup (`platform.md`) runs the same
+`E3Globals.DisjunctionDialog`, `E2Globals.IntroScene`). The port's startup (`platform.md`) runs the same
 list; the transpiled `AoW.dpr` body is its source. The three shared resource modules come first
 because every other module references them, and `General` holds the window manager every window
 registers with.
@@ -183,7 +183,7 @@ port's `FormLoader.Load(moduleClass)` reproduces:
    inserts it into the owner's component list, which is what `FindComponent` searches), set its
    `Name`, assign it to the root's field of that name (the published fields of the data module
    class, section 5.2), read its properties, then its own child objects (none occur in these files:
-   the aowInt tree is built by the `AOWWindow` and `WinManager` properties, not by nesting).
+   the aowInt tree is built by the `Window` and `WinManager` properties, not by nesting).
 3. A property value is applied at once when it is a scalar, string, set, enumeration, method or
    list. A value that names a component is not applied: it becomes a fixup record (instance,
    property, root name, component name), queued in the module's local list when it has no module
@@ -199,8 +199,8 @@ port's `FormLoader.Load(moduleClass)` reproduces:
    again here, so a reference to a later module resolves when that module loads.
 7. Fire the module's `OnCreate` handler.
 
-In the game every cross-module reference points at a module created earlier (`IntGfxMod`,
-`FontModule`, `General` are the first three; `InfoBanner`, `UnitBanner`, `TitleWindow` and `TBWindow`
+In the game every cross-module reference points at a module created earlier (`UIGraphics`,
+`UIFonts`, `General` are the first three; `InfoBanner`, `UnitBanner`, `TitleWindow` and `TBWindow`
 are referenced by modules created after them), so step 6 resolves everything at the end of the
 referencing module's load, and nothing is pending when `MainForm` is created. The loader reports a
 record still pending after the last module as an error.
@@ -226,12 +226,12 @@ on `Visible` (`default True`) is the reason `Visible` appears only when it is `F
 
 ### 4.4 Why the order matters
 
-`AoWComponent.SetOwner` (Delphi `TAoWComponent`), reached through `AOWWindow`, `WinManager`, `TabPanel`, `OwnerMenu`
+`UIComponent.SetOwner` (Delphi `TAoWComponent`), reached through `Window`, `WinManager`, `TabPanel`, `OwnerMenu`
 and `OwnerMenuBar`, removes the component from its old owner's `FChildren` and inserts it before
 the first child whose `Priority` is greater than its own; equal priorities keep insertion order.
 `Priority` is a scalar applied in step 3, before any fixup, so the priority is known when the
 fixup inserts. The children of a window are therefore ordered by priority and, within a priority,
-by the order of the `AOWWindow` lines in the file; the windows of the manager are ordered by
+by the order of the `Window` lines in the file; the windows of the manager are ordered by
 priority and, within a priority, by module creation order and then file order, because their
 `WinManager = General.Manager` fixups run at the end of each module's load. The window manager
 draws and dispatches input in children order, so this ordering is visible on screen. The loader
@@ -254,9 +254,9 @@ dictionary from property name to an entry `{ Kind, Type, Getter, Setter }`, wher
 accessors are delegates onto the transpiled property. `SubObject` entries (`Alignment`, `Font`)
 return the sub-object whose own table takes the rest of a dotted path. A class inherits its
 ancestors' entries. aowInt's published properties by type: `Integer` 106, inherited republished 77,
-`InterfaceIL` 31, `NotifyEvent` (Delphi `TNotifyEvent`) 22, `Boolean` 16, `ImageLibraryFont` 10, `StringList` (Delphi `TStringList`) 9,
+`InterfaceImageLibrary` 31, `NotifyEvent` (Delphi `TNotifyEvent`) 22, `Boolean` 16, `ImageLibraryFont` 10, `StringList` (Delphi `TStringList`) 9,
 `string` 4, component references of six classes 15, `Char` 4, `Byte` 4, enumerations
-(`TaowTextAlign`, `AOWAlignWidth` (Delphi `TAOWAlignWidth`), `AOWAlignHeight` (Delphi `TAOWAlignHeight`), `FrameType` (Delphi `TFrameType`)) 5, `TCursor` 2, `TColor` 2,
+(`TextAlignment`, `AlignWidth` (Delphi `TAOWAlignWidth`), `AlignHeight` (Delphi `TAOWAlignHeight`), `FrameType` (Delphi `TFrameType`)) 5, `TCursor` 2, `TColor` 2,
 `LongBool` 2, and the draw and mouse event types.
 
 ### 5.2 Component class registry and module fields
@@ -264,7 +264,7 @@ ancestors' entries. aowInt's published properties by type: `Integer` 106, inheri
 A registry from class name to a constructor delegate `Component Create(Component owner)` for
 every component class that appears in a form file (section 2), filled by each unit's `Initialize`
 the way the original's `RegisterClasses` calls did. For every data module class, a table from
-component name to a field setter, generated from the published fields (`UnitPnl: AOWPanel`, and
+component name to a field setter, generated from the published fields (`UnitPnl: Panel`, and
 so on), so that step 2 of the load fills the fields the handlers use.
 
 ### 5.3 Handler binding
@@ -296,7 +296,7 @@ matches is a load error (the VCL raised `PropValueError`).
 
 Each of 62 modules has a `IvTranslator` component with `DictionaryName` (`'AoW'` for the game's
 own forms) and a `TargetsData` list that names the properties to translate per class (`Items`,
-`Text`, `ToolTipText` in `ScenSetup`). In the original the Multilizer component walks the module's
+`Text`, `ToolTipText` in `ScenarioSetup`). In the original the Multilizer component walks the module's
 components after loading and replaces those string properties from the dictionary for the active
 language, and `GetLanguage` always answers English in the shipped game (`../design.md` open question
 3). The port's `IvTranslator` is a component of the shim with the two properties, a `TargetsData`
@@ -305,8 +305,8 @@ nothing, which is the shipped behavior for English.
 
 ## 7. From loaded objects to the frame
 
-`General.Manager` (`AOWWinManager`, 640 by 480 in the file, `BackgroundTexture` and
-`ForegroundTexture` `IntGfxMod.GenericT` indices 0 and 1, `BorderBottom` 48 for the bottom bar,
+`General.Manager` (`WindowManager`, 640 by 480 in the file, `BackgroundTexture` and
+`ForegroundTexture` `UIGraphics.GenericT` indices 0 and 1, `BorderBottom` 48 for the bottom bar,
 `OverlayPriority` 0) owns every window; `DisplayResizeBackSurface` sets its size to the back
 surface's, never below 640 by 480, and `General.ResetLayout` re-aligns the windows by their
 `Alignment` rules. Each frame `MainForm.DisplayUpdateFrame` calls `General.Manager.DrawSurface`
@@ -366,7 +366,7 @@ the 92 `AoW/` units predate the matching and are stale.
   by the transpiler as JSON next to the C#), every handler name against the module's methods, and
   every reference against the file or the named module. It runs in the build.
 - `tools/forms/dump.py`: produces, from a form file alone, the expected tree after load: per
-  component its class, name, owner link (from `AOWWindow`, `WinManager`, `TabPanel`, `OwnerMenu`),
+  component its class, name, owner link (from `Window`, `WinManager`, `TabPanel`, `OwnerMenu`),
   `Priority`, `WinLeft`, `WinTop`, `WinWidth`, `WinHeight`, `Visible`, and the children order by the
   rule of section 4.4. `tests/forms/` compares the port's loaded tree with it for all 77 modules.
 - A unit test of the loader on a synthetic module with equal priorities, a cross-module reference
@@ -397,5 +397,5 @@ the 92 `AoW/` units predate the matching and are stale.
    they come from the recovered source tree. The default is embedded.
 2. The `AoWEd` form files (84) are out of scope until the editor is.
 3. `GDPlay`, `SmtpSender` and `MailMessage` need stand-in classes that load their properties and do
-   nothing, so that `SetupEvents` and `SMTPDlg` load; their behavior is `networking.md` and the
+   nothing, so that `SetupEvents` and `SmtpDialog` load; their behavior is `networking.md` and the
    play-by-email decision.

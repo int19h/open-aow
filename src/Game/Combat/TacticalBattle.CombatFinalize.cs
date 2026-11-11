@@ -22,10 +22,10 @@ public partial class TacticalBattle
             if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)player).FPlayerType != PlayerType.Human)
                 RestorePlayerConnection(World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC, player);
         }
-        if (AoWCombatMap.Current != null)
+        if (CombatMap.Current != null)
         {
-            AoWCombatMap.Current.FUnitSelection.Clear();
-            AoWCombatMap.Current.FSelectEventsStore.Raise(this);
+            CombatMap.Current.FUnitSelection.Clear();
+            CombatMap.Current.FSelectEventsStore.Raise(this);
             World.Map.AoWHSMap.Current.ReleaseCombatMap();
         }
         base.Finalize();

@@ -1,14 +1,12 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Movement;
 
 // references, target data, location, move points, transporter ID, path
-public partial class MoveTarget : EObject
+public partial class MoveTarget : EngineObject
 {
     // AIGroup.pas:4215
     public MoveTarget(ECustomNode owner) : base(owner)
@@ -18,10 +16,10 @@ public partial class MoveTarget : EObject
 
     public int FRefCount;
     public AITargetData FData;
-    public XYL FLocation;
+    public MapCoordinate FLocation;
     public int FMovePoints;
     public int FTransporterID;
-    public Movepath FMovepath;
+    public MovePath FMovepath;
 
     // AIGroup.pas:4221
     public override void Dispose()

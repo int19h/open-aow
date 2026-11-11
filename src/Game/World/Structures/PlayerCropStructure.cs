@@ -40,9 +40,9 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:270
 
     // Crops.pas:528
-    public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
     {
-        if (Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting, HSMapStatusElement.Activated).IsSubsetOf(AoWHSMap.Current.Status) && !FChangingCrops)
+        if (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting, HexSpriteMapStatusElement.Activated).IsSubsetOf(AoWHSMap.Current.Status) && !FChangingCrops)
         {
             UpdateCrops();
         }
@@ -179,11 +179,11 @@ public partial class PlayerCropStructure : PlayerStructure
     public virtual bool CanPlaceCrop(MapField Field)
     {
         bool Result;
-        ArmyHS Army;
-        HexagonSprite HS;
+        ArmyHexSprite Army;
+        HexSprite HS;
         if (!GetRazed())
         {
-            Army = (ArmyHS)Field.FindOwnedChild(131607);
+            Army = (ArmyHexSprite)Field.FindOwnedChild(131607);
             Result = Army == null || AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Army.FArmy.FPlayer, FPlayer) != DiplomaticRelation.War;
             if (Result)
             {
@@ -234,7 +234,7 @@ public partial class PlayerCropStructure : PlayerStructure
     {
         if (!GetEditMode() && FStatus.Contains(MapObjectStatusElement.Activated))
         {
-            if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
                 if (CropsEnabled())
                 {
@@ -357,13 +357,13 @@ public partial class PlayerCropStructure : PlayerStructure
         int Y = default;
         DelphiList Crops;
         Crop Crop;
-        WordList Locations;
+        UInt16List Locations;
         if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap) && !FChangingCrops)
         {
             FChangingCrops = true;
             MapLevel = (MapLevel)Owner.Owner;
             Crops = new DelphiList();
-            Locations = new WordList();
+            Locations = new UInt16List();
             Locations.Assign(((PlayerCropStructureResource)FResource).FCropLocations);
             I = Locations.Count - 1;
             for (; I >= 0; I -= 1)

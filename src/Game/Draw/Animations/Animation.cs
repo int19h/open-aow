@@ -14,7 +14,7 @@ namespace Aow.Game.Draw.Animations;
 
 // { ot=1 }
 // hex position, display level, state, frame, dimensions, callbacks, tag, map
-public partial class Animation : HexagonSprite
+public partial class Animation : HexSprite
 {
     public Animation(ECustomNode owner) : base(owner)
     {
@@ -37,16 +37,16 @@ public partial class Animation : HexagonSprite
     public HSMap FAnimationMap;
 
     // Animation.pas:153
-    public override Set<EControlStyleElement> GetControlStyle()
+    public override Set<ControlStyleElement> GetControlStyle()
     {
-        Set<EControlStyleElement> Result;
+        Set<ControlStyleElement> Result;
         if (AnimationControlMode().Contains(AnimationControlModeElement.Saveable))
         {
-            Result = Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad);
+            Result = Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad);
         }
         else
         {
-            Result = Set<EControlStyleElement>.Of();
+            Result = Set<ControlStyleElement>.Of();
         }
 
         return Result;
@@ -174,7 +174,7 @@ public partial class Animation : HexagonSprite
     }
 
     // Animation.pas:383
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         if (FOnShow != null)
         {
@@ -281,17 +281,17 @@ public partial class Animation : HexagonSprite
     }
 
     // Animation.pas:286
-    public virtual bool PlaceTE(AnimationTE Event, TokenExecuter Executer) => PlaceHX(FAnimationMap.MapContainer, FXhx, FYhx, FLhx);
+    public virtual bool PlaceTE(AnimationTokenEvent Event, TokenExecutor Executer) => PlaceHX(FAnimationMap.MapContainer, FXhx, FYhx, FLhx);
 
     // Animation.pas:291
-    public virtual bool RemoveTE(AnimationTE Event, TokenExecuter Executer)
+    public virtual bool RemoveTE(AnimationTokenEvent Event, TokenExecutor Executer)
     {
         MainRemove();
         return true;
     }
 
     // Animation.pas:297
-    public virtual bool ExecuteTE(AnimationTE Event, TokenExecuter Executer) => false;
+    public virtual bool ExecuteTE(AnimationTokenEvent Event, TokenExecutor Executer) => false;
 
     // Animation.pas:308
     public virtual bool CanPlace(MapContainer Map, sbyte X, sbyte Y, sbyte L)

@@ -41,7 +41,7 @@ public static class EngineHost
 
     public static List<GameEngine> Engines;
 
-    public static List<PlugIn> PlugIns;
+    public static List<Plugin> PlugIns;
 
     public static StringList Packages;
 
@@ -52,7 +52,7 @@ public static class EngineHost
         CRC32Table = [];
         VerifyEObjectEnabled = true;
         Engines = new List<GameEngine>();
-        PlugIns = new List<PlugIn>();
+        PlugIns = new List<Plugin>();
         Packages = new StringList();
     }
 

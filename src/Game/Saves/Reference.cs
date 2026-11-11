@@ -9,14 +9,14 @@ public sealed class Reference(string member, ReferenceDomain domain) : ContentRu
 {
     public override IEnumerable<string> Members => [member];
 
-    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocPath path)
+    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path)
     {
         if (value[member] is not JsonInteger target) yield break;
         if (!scope.Identities(domain).Contains(target.Value))
             yield return Dangling(scope, target, path.Member(member), domain);
     }
 
-    internal static FormatDiagnostic Dangling(ContentScope scope, JsonInteger target, DocPath at, ReferenceDomain domain) =>
+    internal static FormatDiagnostic Dangling(ContentScope scope, JsonInteger target, DocumentNodePath at, ReferenceDomain domain) =>
         scope.Context.At(Codes.Reference, $"The {domain.Name} {target.Value} is absent from {scope.RootPath}.{domain.Owner}. Use an existing one.", target, at,
             target.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), $"{domain.Name} in {scope.RootPath}.{domain.Owner}");
 }

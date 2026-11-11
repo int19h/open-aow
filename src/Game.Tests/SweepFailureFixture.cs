@@ -15,15 +15,15 @@ internal static class SweepFailureFixture
         "Aow.Game.Magic.Spells.RaiseTerrain",
         "Aow.Game.Magic.Spells.PoisonPlantSpell",
         "Aow.Game.World.Map.AoWMapLevel",
-        "Aow.Game.Combat.AoWCombatMapLevel",
+        "Aow.Game.Combat.CombatMapLevel",
     ];
 
     private sealed class FailureOwner(bool reject) : EngineFixture.Owner
     {
         internal readonly List<string> Events = [];
-        internal EObject? Last;
+        internal EngineObject? Last;
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Last = child;
             Events.Add("insert:" + ReferenceEquals(this, child.Owner));
@@ -32,7 +32,7 @@ internal static class SweepFailureFixture
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EObject child)
+        public override int RemoveChild(EngineObject child)
         {
             Events.Add("remove:" + ReferenceEquals(Last, child));
             int index = Members.IndexOf(child);

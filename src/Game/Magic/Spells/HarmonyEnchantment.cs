@@ -39,7 +39,7 @@ public partial class HarmonyEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:943
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)

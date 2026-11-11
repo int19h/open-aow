@@ -27,35 +27,35 @@ public partial class HSSet : ECustomOwner
 
     private protected HSSet(ConstructionContext context, ECustomNode owner) : base(context, owner)
     {
-        SetControlStyle(GetControlStyle() + Set<EControlStyleElement>.Of(EngineServices.csReserved2));
-        FPlugInControl = new PlugInControl(null);
+        SetControlStyle(GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.csReserved2));
+        FPlugInControl = new PluginControl(null);
         FTerrainTypes = new StringList();
         FOverlayTypes = new StringList();
         FDecorationTypes = new StringList();
-        FHexagonControl = new HexagonControl(this);
+        FHexagonControl = new HexControl(this);
         FHexagonControl.MOClass = typeof(AbstractHexagon);
         FRoadControl = new RoadControl(this);
         FRoadControl.MOClass = typeof(AbstractRoad);
         FMapObjectResourceList = new MapObjectResourceList(this);
-        FMapObjectResourceList.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared));
-        FResourceEditSettings = new EResourceEditSettings(this);
-        FResourceEditSettings.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared));
+        FMapObjectResourceList.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared));
+        FResourceEditSettings = new ResourceEditSettings(this);
+        FResourceEditSettings.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared));
         FImageLibraryManager = new ImageLibraryManager(null);
-        FSFXManager = new SFXManager(null);
+        FSFXManager = new SfxManager(null);
     }
 
-    internal Set<HSSetStatusElement> FStatus;
-    internal HexagonControl FHexagonControl;
+    internal Set<HexSpriteSetStatusElement> FStatus;
+    internal HexControl FHexagonControl;
     internal RoadControl FRoadControl;
     internal GameEngine FActivatedEngine;
 
     public GameEngine ActivatedEngine { get => FActivatedEngine; }
 
     internal MapObjectResourceList FMapObjectResourceList;
-    internal EResourceEditSettings FResourceEditSettings;
+    internal ResourceEditSettings FResourceEditSettings;
     internal ImageLibraryManager FImageLibraryManager;
-    internal SFXManager FSFXManager;
-    internal PlugInControl FPlugInControl;
+    internal SfxManager FSFXManager;
+    internal PluginControl FPlugInControl;
     internal string FName = "";
     internal StringList FTerrainTypes;
     internal StringList FOverlayTypes;
@@ -64,9 +64,9 @@ public partial class HSSet : ECustomOwner
     // HSEngine.pas:3368
     public override void Dispose()
     {
-        EMsg Msg = default;
-        FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Destroying);
-        EMsg.InitMsg(ref Msg, 66564, this);
+        EngineMessage Msg = default;
+        FStatus = FStatus + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
+        EngineMessage.InitMsg(ref Msg, 66564, this);
         if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
         {
             FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
@@ -84,13 +84,13 @@ public partial class HSSet : ECustomOwner
         FImageLibraryManager = null;
         FSFXManager?.Dispose();
         FSFXManager = null;
-        EMsg.InitMsg(ref Msg, 66565, this);
+        EngineMessage.InitMsg(ref Msg, 66565, this);
         if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
         {
             FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
         }
 
-        FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Destroying);
+        FStatus = FStatus - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
     }
 
     // HSEngine.pas:3410
@@ -112,7 +112,7 @@ public partial class HSSet : ECustomOwner
     }
 
     // HSEngine.pas:3399
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
@@ -124,32 +124,32 @@ public partial class HSSet : ECustomOwner
     // HSEngine.pas:3421
     public void Activate(bool Edit)
     {
-        EMsg Msg = default;
-        EMsg.InitMsg(ref Msg, 66560, this);
+        EngineMessage Msg = default;
+        EngineMessage.InitMsg(ref Msg, 66560, this);
         GetEngine().ControlNode.MsgProc(ref Msg, this);
-        FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Activated);
+        FStatus = FStatus + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
         if (Edit)
         {
-            EMsg.InitMsg(ref Msg, 66562, this);
+            EngineMessage.InitMsg(ref Msg, 66562, this);
             GetEngine().ControlNode.MsgProc(ref Msg, this);
-            FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
+            FStatus = FStatus + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
         }
     }
 
     // HSEngine.pas:3436
     public void DeActivate()
     {
-        EMsg Msg = default;
-        if (FStatus.Contains(HSSetStatusElement.Activated))
+        EngineMessage Msg = default;
+        if (FStatus.Contains(HexSpriteSetStatusElement.Activated))
         {
-            EMsg.InitMsg(ref Msg, 66561, this);
+            EngineMessage.InitMsg(ref Msg, 66561, this);
             GetEngine().ControlNode.MsgProc(ref Msg, this);
-            FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Activated);
-            if (FStatus.Contains(HSSetStatusElement.Editting))
+            FStatus = FStatus - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
+            if (FStatus.Contains(HexSpriteSetStatusElement.Editting))
             {
-                EMsg.InitMsg(ref Msg, 66563, this);
+                EngineMessage.InitMsg(ref Msg, 66563, this);
                 GetEngine().ControlNode.MsgProc(ref Msg, this);
-                FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
+                FStatus = FStatus - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
             }
         }
     }
@@ -157,38 +157,38 @@ public partial class HSSet : ECustomOwner
     // HSEngine.pas:3454
     public void SetModified()
     {
-        if (FStatus.Contains(HSSetStatusElement.Editting))
+        if (FStatus.Contains(HexSpriteSetStatusElement.Editting))
         {
-            FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Modified);
+            FStatus = FStatus + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
         }
     }
 
     // HSEngine.pas:3459
     public void ResetModified()
     {
-        FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Modified);
+        FStatus = FStatus - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
     }
 
     // HSEngine.pas:3464
     public void SetEditting()
     {
-        FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
+        FStatus = FStatus + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
     }
 
     // HSEngine.pas:3468
     public void ResetEditting()
     {
-        FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
+        FStatus = FStatus - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
     }
 
-    public Set<HSSetStatusElement> Status { get => FStatus; }
-    public HexagonControl HexagonControl { get => FHexagonControl; }
+    public Set<HexSpriteSetStatusElement> Status { get => FStatus; }
+    public HexControl HexagonControl { get => FHexagonControl; }
     public RoadControl RoadControl { get => FRoadControl; }
     public MapObjectResourceList MapObjectResourceList { get => FMapObjectResourceList; }
-    public EResourceEditSettings ResourceEditSettings { get => FResourceEditSettings; }
+    public ResourceEditSettings ResourceEditSettings { get => FResourceEditSettings; }
     public ImageLibraryManager ImageLibraryManager { get => FImageLibraryManager; }
-    public SFXManager SFXManager { get => FSFXManager; }
-    public PlugInControl PlugInControl { get => FPlugInControl; }
+    public SfxManager SFXManager { get => FSFXManager; }
+    public PluginControl PlugInControl { get => FPlugInControl; }
     public string Name { get => FName; set => FName = value; }
     public StringList TerrainTypes { get => FTerrainTypes; }
     public StringList OverlayTypes { get => FOverlayTypes; }

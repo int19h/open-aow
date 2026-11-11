@@ -16,7 +16,7 @@ public partial class HeroResourceList : EResourceList
     // Hero.PAS:2360
     public HeroResourceList(ECustomNode owner) : base(owner)
     {
-        SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, EControlStyleElement.ArrayMode));
+        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }
 
     // Hero.PAS:2363

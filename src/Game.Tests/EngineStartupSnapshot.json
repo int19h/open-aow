@@ -29,7 +29,7 @@
         "Type": "Aow.Game.Net.EmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet": {
         "Type": "Aow.Game.World.Map.AoWHSSet"
@@ -53,22 +53,22 @@
         "Type": "Aow.Game.Draw.Images.ImageLibraryManager"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FDiskList": {
-        "Type": "Aow.Game.Draw.Images.ILManagerList"
+        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FDiskList.FHashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList": {
-        "Type": "Aow.Game.Draw.Images.ILManagerList"
+        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList.FHashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -80,10 +80,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -95,10 +95,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -110,10 +110,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -125,10 +125,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -140,10 +140,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -155,10 +155,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeAbility"
@@ -173,10 +173,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -188,10 +188,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -203,10 +203,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -218,10 +218,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27]": {
         "Type": "Aow.Game.Magic.Abilities.WebAbility"
@@ -233,10 +233,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28]": {
         "Type": "Aow.Game.Magic.Abilities.DominateAbility"
@@ -248,10 +248,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29]": {
         "Type": "Aow.Game.Magic.Abilities.SeduceAbility"
@@ -263,10 +263,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30]": {
         "Type": "Aow.Game.Magic.Abilities.FlameThrowingAbility"
@@ -278,10 +278,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -293,10 +293,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35]": {
         "Type": "Aow.Game.Magic.Abilities.InvokeDeathAbility"
@@ -308,10 +308,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38]": {
         "Type": "Aow.Game.Magic.Abilities.TurnUndeadAbility"
@@ -323,10 +323,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40]": {
         "Type": "Aow.Game.Magic.Abilities.EntangleAbility"
@@ -338,10 +338,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -353,10 +353,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -368,16 +368,16 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46]": {
         "Type": "Aow.Game.Magic.Abilities.LeadershipAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FLevelCosts": {
-        "Type": "Aow.Engine.Collections.IntegerList"
+        "Type": "Aow.Engine.Collections.Int32List"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FDescription": {
         "Type": "Aow.Rtl.StringList"
@@ -386,10 +386,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47]": {
         "Type": "Aow.Game.Magic.Abilities.HealingAbility"
@@ -401,10 +401,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48]": {
         "Type": "Aow.Game.Magic.Abilities.SeducedAbility"
@@ -416,16 +416,16 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50]": {
         "Type": "Aow.Game.Magic.Abilities.TransportAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FLevelCosts": {
-        "Type": "Aow.Engine.Collections.IntegerList"
+        "Type": "Aow.Engine.Collections.Int32List"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FDescription": {
         "Type": "Aow.Rtl.StringList"
@@ -434,16 +434,16 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52]": {
         "Type": "Aow.Game.Magic.Abilities.SpellCastingAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FLevelCosts": {
-        "Type": "Aow.Engine.Collections.IntegerList"
+        "Type": "Aow.Engine.Collections.Int32List"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FDescription": {
         "Type": "Aow.Rtl.StringList"
@@ -452,10 +452,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -467,10 +467,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -482,10 +482,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -497,10 +497,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60]": {
         "Type": "Aow.Game.Magic.Abilities.DispelMagicAbility"
@@ -512,10 +512,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -527,10 +527,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -542,10 +542,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65]": {
         "Type": "Aow.Game.Magic.Abilities.SelfDestructAbility"
@@ -557,10 +557,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -572,10 +572,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -587,10 +587,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -602,10 +602,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -617,10 +617,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -632,10 +632,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106]": {
         "Type": "Aow.Game.Magic.Abilities.PossessAbility"
@@ -647,10 +647,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107]": {
         "Type": "Aow.Game.Magic.Abilities.PossessedAbility"
@@ -662,10 +662,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -677,10 +677,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -692,10 +692,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -707,10 +707,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114]": {
         "Type": "Aow.Game.Magic.Abilities.RoundAttackAbility"
@@ -722,10 +722,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -737,10 +737,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -752,10 +752,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117]": {
         "Type": "Aow.Game.Magic.Abilities.WallCrushingAbility"
@@ -767,10 +767,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -782,10 +782,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -797,10 +797,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -812,10 +812,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -827,10 +827,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -842,10 +842,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -857,10 +857,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -872,10 +872,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125]": {
         "Type": "Aow.Game.Magic.Abilities.ConstructAbility"
@@ -884,7 +884,7 @@
         "Type": "Aow.Game.World.Structures.ConstructionControlList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FConstructionControls.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FConstructionControls.FChildren[0]": {
         "Type": "Aow.Game.World.Structures.RebuildConstructionControl"
@@ -899,10 +899,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148]": {
         "Type": "Aow.Game.Magic.Abilities.CharmAbility"
@@ -914,10 +914,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149]": {
         "Type": "Aow.Game.Magic.Abilities.CharmedAbility"
@@ -929,10 +929,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150]": {
         "Type": "Aow.Game.Magic.Abilities.DominatedAbility"
@@ -944,13 +944,13 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FCombatHexagons": {
-        "Type": "Aow.Game.World.Map.HexagonControl"
+        "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.FGameSet.FCombatHexagons.FResources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
@@ -959,7 +959,7 @@
         "Type": "Aow.Game.World.MapObjectResourceList"
       },
       "Engine.FGameSet.FCombatResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FCombatRoads": {
         "Type": "Aow.Game.World.Map.RoadControl"
@@ -971,7 +971,7 @@
         "Type": "Aow.Game.Units.FaceResourceList"
       },
       "Engine.FGameSet.FFaceResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FFireControl": {
         "Type": "Aow.Game.World.Terrain.FireControl"
@@ -986,7 +986,7 @@
         "Type": "Aow.Game.Session.RaceResourceList"
       },
       "Engine.FGameSet.FFlagControl.FRaceResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroLibraries": {
         "Type": "Aow.Game.Units.HeroLibraryManager"
@@ -995,19 +995,19 @@
         "Type": "Aow.Engine.Nodes.ENode"
       },
       "Engine.FGameSet.FHeroLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary": {
         "Type": "Aow.Game.Units.HeroLibrary"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroResources": {
         "Type": "Aow.Game.Units.HeroResourceList"
       },
       "Engine.FGameSet.FHeroResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -1016,7 +1016,7 @@
         "Type": "Aow.Game.Units.ItemGFXList"
       },
       "Engine.FGameSet.FItemGFXResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FItemLibraries": {
         "Type": "Aow.Game.Units.ItemLibraryManager"
@@ -1025,13 +1025,13 @@
         "Type": "Aow.Engine.Nodes.ENode"
       },
       "Engine.FGameSet.FItemLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FItemLibraries.FSystemLibrary": {
         "Type": "Aow.Game.Units.ItemLibrary"
       },
       "Engine.FGameSet.FItemLibraries.FSystemLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FPadControl": {
         "Type": "Aow.Game.World.PadControl"
@@ -1052,25 +1052,25 @@
         "Type": "Aow.Game.World.Map.TextControl"
       },
       "Engine.FGameSet.FTextControl.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FUnitGFXResources": {
         "Type": "Aow.Game.Units.UnitGFXResourceList"
       },
       "Engine.FGameSet.FUnitGFXResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FUnitResources": {
         "Type": "Aow.Game.Units.UnitResourceList"
       },
       "Engine.FGameSet.FUnitResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FDecorationTypes": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FHexagonControl": {
-        "Type": "Aow.Game.World.Map.HexagonControl"
+        "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.FGameSet.FHexagonControl.FResources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
@@ -1079,19 +1079,19 @@
         "Type": "Aow.Game.World.MapObjectResourceList"
       },
       "Engine.FGameSet.FMapObjectResourceList.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FOverlayTypes": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FPlugInControl": {
-        "Type": "Aow.Engine.PlugInControl"
+        "Type": "Aow.Engine.PluginControl"
       },
       "Engine.FGameSet.FPlugInControl.FUsedPlugIns": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FResourceEditSettings": {
-        "Type": "Aow.Engine.Nodes.EResourceEditSettings"
+        "Type": "Aow.Engine.Nodes.ResourceEditSettings"
       },
       "Engine.FGameSet.FResourceEditSettings.FEditors": {
         "Type": "Aow.Rtl.StringList"
@@ -1103,40 +1103,40 @@
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FSFXManager": {
-        "Type": "Aow.Game.Audio.SFXManager"
+        "Type": "Aow.Game.Audio.SfxManager"
       },
       "Engine.FGameSet.FSFXManager.FSFX": {
-        "Type": "Aow.Game.Audio.SFXList"
+        "Type": "Aow.Game.Audio.SfxList"
       },
       "Engine.FGameSet.FTerrainTypes": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Game.AoWRegistry"
+        "Type": "Aow.Game.GameSettings"
       },
       "Engine.FClassTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FDebugIDs": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Engine.Nodes.EObjectEditorList"
+        "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       }
     },
     "DestroyExceptionFrames": null,
@@ -75934,7 +75934,7 @@
         "Type": "Aow.Game.Net.EmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet": {
         "Type": "Aow.Game.World.Map.AoWHSSet"
@@ -75958,22 +75958,22 @@
         "Type": "Aow.Game.Draw.Images.ImageLibraryManager"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FDiskList": {
-        "Type": "Aow.Game.Draw.Images.ILManagerList"
+        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FDiskList.FHashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList": {
-        "Type": "Aow.Game.Draw.Images.ILManagerList"
+        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList.FHashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -75985,10 +75985,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76000,10 +76000,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76015,10 +76015,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76030,10 +76030,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76045,10 +76045,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76060,10 +76060,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeAbility"
@@ -76078,10 +76078,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76093,10 +76093,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76108,10 +76108,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76123,10 +76123,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27]": {
         "Type": "Aow.Game.Magic.Abilities.WebAbility"
@@ -76138,10 +76138,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28]": {
         "Type": "Aow.Game.Magic.Abilities.DominateAbility"
@@ -76153,10 +76153,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29]": {
         "Type": "Aow.Game.Magic.Abilities.SeduceAbility"
@@ -76168,10 +76168,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30]": {
         "Type": "Aow.Game.Magic.Abilities.FlameThrowingAbility"
@@ -76183,10 +76183,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76198,10 +76198,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35]": {
         "Type": "Aow.Game.Magic.Abilities.InvokeDeathAbility"
@@ -76213,10 +76213,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38]": {
         "Type": "Aow.Game.Magic.Abilities.TurnUndeadAbility"
@@ -76228,10 +76228,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40]": {
         "Type": "Aow.Game.Magic.Abilities.EntangleAbility"
@@ -76243,10 +76243,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76258,10 +76258,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76273,16 +76273,16 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46]": {
         "Type": "Aow.Game.Magic.Abilities.LeadershipAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FLevelCosts": {
-        "Type": "Aow.Engine.Collections.IntegerList"
+        "Type": "Aow.Engine.Collections.Int32List"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FDescription": {
         "Type": "Aow.Rtl.StringList"
@@ -76291,10 +76291,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47]": {
         "Type": "Aow.Game.Magic.Abilities.HealingAbility"
@@ -76306,10 +76306,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48]": {
         "Type": "Aow.Game.Magic.Abilities.SeducedAbility"
@@ -76321,16 +76321,16 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50]": {
         "Type": "Aow.Game.Magic.Abilities.TransportAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FLevelCosts": {
-        "Type": "Aow.Engine.Collections.IntegerList"
+        "Type": "Aow.Engine.Collections.Int32List"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FDescription": {
         "Type": "Aow.Rtl.StringList"
@@ -76339,16 +76339,16 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52]": {
         "Type": "Aow.Game.Magic.Abilities.SpellCastingAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FLevelCosts": {
-        "Type": "Aow.Engine.Collections.IntegerList"
+        "Type": "Aow.Engine.Collections.Int32List"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FDescription": {
         "Type": "Aow.Rtl.StringList"
@@ -76357,10 +76357,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76372,10 +76372,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76387,10 +76387,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76402,10 +76402,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60]": {
         "Type": "Aow.Game.Magic.Abilities.DispelMagicAbility"
@@ -76417,10 +76417,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76432,10 +76432,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62]": {
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
@@ -76447,10 +76447,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65]": {
         "Type": "Aow.Game.Magic.Abilities.SelfDestructAbility"
@@ -76462,10 +76462,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -76477,10 +76477,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -76492,10 +76492,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -76507,10 +76507,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -76522,10 +76522,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90]": {
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
@@ -76537,10 +76537,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106]": {
         "Type": "Aow.Game.Magic.Abilities.PossessAbility"
@@ -76552,10 +76552,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107]": {
         "Type": "Aow.Game.Magic.Abilities.PossessedAbility"
@@ -76567,10 +76567,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76582,10 +76582,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76597,10 +76597,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76612,10 +76612,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114]": {
         "Type": "Aow.Game.Magic.Abilities.RoundAttackAbility"
@@ -76627,10 +76627,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76642,10 +76642,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76657,10 +76657,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117]": {
         "Type": "Aow.Game.Magic.Abilities.WallCrushingAbility"
@@ -76672,10 +76672,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76687,10 +76687,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119]": {
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
@@ -76702,10 +76702,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -76717,10 +76717,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -76732,10 +76732,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -76747,10 +76747,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -76762,10 +76762,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124]": {
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
@@ -76777,10 +76777,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125]": {
         "Type": "Aow.Game.Magic.Abilities.ConstructAbility"
@@ -76789,7 +76789,7 @@
         "Type": "Aow.Game.World.Structures.ConstructionControlList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FConstructionControls.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FConstructionControls.FChildren[0]": {
         "Type": "Aow.Game.World.Structures.RebuildConstructionControl"
@@ -76804,10 +76804,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148]": {
         "Type": "Aow.Game.Magic.Abilities.CharmAbility"
@@ -76819,10 +76819,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149]": {
         "Type": "Aow.Game.Magic.Abilities.CharmedAbility"
@@ -76834,10 +76834,10 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150]": {
         "Type": "Aow.Game.Magic.Abilities.DominatedAbility"
@@ -76849,13 +76849,13 @@
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150].FSFXLibrary": {
-        "Type": "Aow.Game.Audio.SFXLibrary"
+        "Type": "Aow.Game.Audio.SfxLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150].FSFXLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FCombatHexagons": {
-        "Type": "Aow.Game.World.Map.HexagonControl"
+        "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.FGameSet.FCombatHexagons.FResources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
@@ -76864,7 +76864,7 @@
         "Type": "Aow.Game.World.MapObjectResourceList"
       },
       "Engine.FGameSet.FCombatResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FCombatRoads": {
         "Type": "Aow.Game.World.Map.RoadControl"
@@ -76876,7 +76876,7 @@
         "Type": "Aow.Game.Units.FaceResourceList"
       },
       "Engine.FGameSet.FFaceResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FFireControl": {
         "Type": "Aow.Game.World.Terrain.FireControl"
@@ -76891,7 +76891,7 @@
         "Type": "Aow.Game.Session.RaceResourceList"
       },
       "Engine.FGameSet.FFlagControl.FRaceResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroLibraries": {
         "Type": "Aow.Game.Units.HeroLibraryManager"
@@ -76900,19 +76900,19 @@
         "Type": "Aow.Engine.Nodes.ENode"
       },
       "Engine.FGameSet.FHeroLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary": {
         "Type": "Aow.Game.Units.HeroLibrary"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroResources": {
         "Type": "Aow.Game.Units.HeroResourceList"
       },
       "Engine.FGameSet.FHeroResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76921,7 +76921,7 @@
         "Type": "Aow.Game.Units.ItemGFXList"
       },
       "Engine.FGameSet.FItemGFXResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FItemLibraries": {
         "Type": "Aow.Game.Units.ItemLibraryManager"
@@ -76930,13 +76930,13 @@
         "Type": "Aow.Engine.Nodes.ENode"
       },
       "Engine.FGameSet.FItemLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FItemLibraries.FSystemLibrary": {
         "Type": "Aow.Game.Units.ItemLibrary"
       },
       "Engine.FGameSet.FItemLibraries.FSystemLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FPadControl": {
         "Type": "Aow.Game.World.PadControl"
@@ -76957,25 +76957,25 @@
         "Type": "Aow.Game.World.Map.TextControl"
       },
       "Engine.FGameSet.FTextControl.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FUnitGFXResources": {
         "Type": "Aow.Game.Units.UnitGFXResourceList"
       },
       "Engine.FGameSet.FUnitGFXResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FUnitResources": {
         "Type": "Aow.Game.Units.UnitResourceList"
       },
       "Engine.FGameSet.FUnitResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FDecorationTypes": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FHexagonControl": {
-        "Type": "Aow.Game.World.Map.HexagonControl"
+        "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.FGameSet.FHexagonControl.FResources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
@@ -76984,19 +76984,19 @@
         "Type": "Aow.Game.World.MapObjectResourceList"
       },
       "Engine.FGameSet.FMapObjectResourceList.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FOverlayTypes": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FPlugInControl": {
-        "Type": "Aow.Engine.PlugInControl"
+        "Type": "Aow.Engine.PluginControl"
       },
       "Engine.FGameSet.FPlugInControl.FUsedPlugIns": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FResourceEditSettings": {
-        "Type": "Aow.Engine.Nodes.EResourceEditSettings"
+        "Type": "Aow.Engine.Nodes.ResourceEditSettings"
       },
       "Engine.FGameSet.FResourceEditSettings.FEditors": {
         "Type": "Aow.Rtl.StringList"
@@ -77008,40 +77008,40 @@
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FSFXManager": {
-        "Type": "Aow.Game.Audio.SFXManager"
+        "Type": "Aow.Game.Audio.SfxManager"
       },
       "Engine.FGameSet.FSFXManager.FSFX": {
-        "Type": "Aow.Game.Audio.SFXList"
+        "Type": "Aow.Game.Audio.SfxList"
       },
       "Engine.FGameSet.FTerrainTypes": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Game.AoWRegistry"
+        "Type": "Aow.Game.GameSettings"
       },
       "Engine.FClassTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FDebugIDs": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Engine.Nodes.EObjectEditorList"
+        "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       }
     },
     "DestroyExceptionFrames": null,
@@ -77386,25 +77386,25 @@
         "Type": "Aow.Game.GameEngine"
       },
       "Engine.FClassTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FDebugIDs": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Engine.Nodes.EObjectEditorList"
+        "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       }
     },
     "DestroyExceptionFrames": null,
@@ -77461,7 +77461,7 @@
         "Type": "Aow.Game.GameEngine"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Game.AoWRegistry"
+        "Type": "Aow.Game.GameSettings"
       }
     },
     "DestroyExceptionFrames": [
@@ -77538,13 +77538,13 @@
         "Type": "Aow.Game.Net.EmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Game.AoWRegistry"
+        "Type": "Aow.Game.GameSettings"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       }
     },
     "DestroyExceptionFrames": [
@@ -77677,37 +77677,37 @@
         "Type": "Aow.Game.Net.EmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Game.AoWRegistry"
+        "Type": "Aow.Game.GameSettings"
       },
       "Engine.FClassTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FDebugIDs": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Engine.Nodes.EObjectEditorList"
+        "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FChildren[1]": {
         "Type": "Aow.Game.World.Map.AoWHSSet"
       },
       "Engine.FChildren[1].FCombatHexagons": {
-        "Type": "Aow.Game.World.Map.HexagonControl"
+        "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.FChildren[1].FCombatHexagons.FResources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
@@ -77716,7 +77716,7 @@
         "Type": "Aow.Game.World.MapObjectResourceList"
       },
       "Engine.FChildren[1].FCombatResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FChildren[1].FCombatRoads": {
         "Type": "Aow.Game.World.Map.RoadControl"
@@ -77728,7 +77728,7 @@
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FChildren[1].FHexagonControl": {
-        "Type": "Aow.Game.World.Map.HexagonControl"
+        "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.FChildren[1].FHexagonControl.FResources": {
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
@@ -77737,34 +77737,34 @@
         "Type": "Aow.Game.Draw.Images.ImageLibraryManager"
       },
       "Engine.FChildren[1].FImageLibraryManager.FDiskList": {
-        "Type": "Aow.Game.Draw.Images.ILManagerList"
+        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
       "Engine.FChildren[1].FImageLibraryManager.FDiskList.FHashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FImageLibraryManager.FOwnedList": {
-        "Type": "Aow.Game.Draw.Images.ILManagerList"
+        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
       "Engine.FChildren[1].FImageLibraryManager.FOwnedList.FHashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FMapObjectResourceList": {
         "Type": "Aow.Game.World.MapObjectResourceList"
       },
       "Engine.FChildren[1].FMapObjectResourceList.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FChildren[1].FOverlayTypes": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FChildren[1].FPlugInControl": {
-        "Type": "Aow.Engine.PlugInControl"
+        "Type": "Aow.Engine.PluginControl"
       },
       "Engine.FChildren[1].FPlugInControl.FUsedPlugIns": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FChildren[1].FResourceEditSettings": {
-        "Type": "Aow.Engine.Nodes.EResourceEditSettings"
+        "Type": "Aow.Engine.Nodes.ResourceEditSettings"
       },
       "Engine.FChildren[1].FResourceEditSettings.FEditors": {
         "Type": "Aow.Rtl.StringList"
@@ -77776,16 +77776,16 @@
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FChildren[1].FSFXManager": {
-        "Type": "Aow.Game.Audio.SFXManager"
+        "Type": "Aow.Game.Audio.SfxManager"
       },
       "Engine.FChildren[1].FSFXManager.FSFX": {
-        "Type": "Aow.Game.Audio.SFXList"
+        "Type": "Aow.Game.Audio.SfxList"
       },
       "Engine.FChildren[1].FTerrainTypes": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FChildren[1].FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       }
     },
     "DestroyExceptionFrames": [
@@ -77960,7 +77960,7 @@
         "Type": "Aow.Game.Net.EmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet": {
         "Type": "Aow.Game.World.Map.AoWHSSet"
@@ -77972,13 +77972,13 @@
         "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Abilities.Ability, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FCombatHexagons": {
-        "Type": "Aow.Game.World.Map.HexagonControl"
+        "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.FGameSet.FCombatResources": {
         "Type": "Aow.Game.World.MapObjectResourceList"
       },
       "Engine.FGameSet.FCombatResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FCombatRoads": {
         "Type": "Aow.Game.World.Map.RoadControl"
@@ -77987,7 +77987,7 @@
         "Type": "Aow.Game.Units.FaceResourceList"
       },
       "Engine.FGameSet.FFaceResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FFireControl": {
         "Type": "Aow.Game.World.Terrain.FireControl"
@@ -78002,7 +78002,7 @@
         "Type": "Aow.Game.Session.RaceResourceList"
       },
       "Engine.FGameSet.FFlagControl.FRaceResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroLibraries": {
         "Type": "Aow.Game.Units.HeroLibraryManager"
@@ -78011,19 +78011,19 @@
         "Type": "Aow.Engine.Nodes.ENode"
       },
       "Engine.FGameSet.FHeroLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary": {
         "Type": "Aow.Game.Units.HeroLibrary"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHeroResources": {
         "Type": "Aow.Game.Units.HeroResourceList"
       },
       "Engine.FGameSet.FHeroResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -78032,22 +78032,22 @@
         "Type": "Aow.Game.Draw.Images.ImageLibraryManager"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FDiskList": {
-        "Type": "Aow.Game.Draw.Images.ILManagerList"
+        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FDiskList.FHashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FOwnedList": {
-        "Type": "Aow.Game.Draw.Images.ILManagerList"
+        "Type": "Aow.Game.Draw.Images.ImageLibraryManagerList"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FOwnedList.FHashTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FGameSet.FItemGFXResources": {
         "Type": "Aow.Game.Units.ItemGFXList"
       },
       "Engine.FGameSet.FItemGFXResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FItemLibraries": {
         "Type": "Aow.Game.Units.ItemLibraryManager"
@@ -78056,7 +78056,7 @@
         "Type": "Aow.Engine.Nodes.ENode"
       },
       "Engine.FGameSet.FItemLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FItemLibraries.FSystemLibrary": {
         "Type": "Aow.Game.Units.ItemLibrary"
@@ -78080,37 +78080,37 @@
         "Type": "Aow.Game.World.Map.TextControl"
       },
       "Engine.FGameSet.FTextControl.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FUnitGFXResources": {
         "Type": "Aow.Game.Units.UnitGFXResourceList"
       },
       "Engine.FGameSet.FUnitGFXResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FUnitResources": {
         "Type": "Aow.Game.Units.UnitResourceList"
       },
       "Engine.FGameSet.FUnitResources.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FHexagonControl": {
-        "Type": "Aow.Game.World.Map.HexagonControl"
+        "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.FGameSet.FMapObjectResourceList": {
         "Type": "Aow.Game.World.MapObjectResourceList"
       },
       "Engine.FGameSet.FMapObjectResourceList.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FGameSet.FPlugInControl": {
-        "Type": "Aow.Engine.PlugInControl"
+        "Type": "Aow.Engine.PluginControl"
       },
       "Engine.FGameSet.FPlugInControl.FUsedPlugIns": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FGameSet.FResourceEditSettings": {
-        "Type": "Aow.Engine.Nodes.EResourceEditSettings"
+        "Type": "Aow.Engine.Nodes.ResourceEditSettings"
       },
       "Engine.FGameSet.FResourceEditSettings.FEditors": {
         "Type": "Aow.Rtl.StringList"
@@ -78119,31 +78119,31 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.FGameSet.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Game.AoWRegistry"
+        "Type": "Aow.Game.GameSettings"
       },
       "Engine.FClassTable": {
-        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FControlNode": {
         "Type": "Aow.Engine.Nodes.EControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.FDebugIDs": {
         "Type": "Aow.Rtl.StringList"
       },
       "Engine.FEClasses": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Engine.EngineClass, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Engine.Nodes.EObjectEditorList"
+        "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Engine.Nodes.EObjectList"
+        "Type": "Aow.Engine.Nodes.EngineObjectList"
       }
     },
     "DestroyExceptionFrames": [],

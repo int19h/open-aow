@@ -9,8 +9,7 @@ using Aow.Game.Combat;
 
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
-
-using Aow.Game.Ui.Dialogs;
+using Aow.Game.UI.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -149,7 +148,7 @@ internal sealed class FrameFixture
                 DialogHosts.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
             {
-                if (AoWHSMap.Current?.FCombatMap is not AoWCombatMap combat) return;
+                if (AoWHSMap.Current?.FCombatMap is not CombatMap combat) return;
                 combat.FPlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
                 DialogHosts.ChatWindow.MinClick();
@@ -229,8 +228,8 @@ internal sealed class FrameFixture
                         {
                             var mapWindow = DialogHosts.MWindow;
                             HexGeometry.HXtoHP(hx, hy, ref inputX, ref inputY);
-                            inputX += 28 + mapWindow.MapWindow.WinLeft - mapWindow.MapViewer.SceneX;
-                            inputY += 28 + mapWindow.MapWindow.WinTop - mapWindow.MapViewer.SceneY;
+                            inputX += 28 + mapWindow.MainWindow.WinLeft - mapWindow.MapViewer.SceneX;
+                            inputY += 28 + mapWindow.MainWindow.WinTop - mapWindow.MapViewer.SceneY;
                             if (!mapWindow.InsideMap(inputX, inputY)) throw new InvalidOperationException($"Script hex {hx},{hy} is outside the map view at {inputX},{inputY}");
                         }
                         if (click.KeyDown is int keyDown)
@@ -329,13 +328,13 @@ internal sealed class FrameFixture
                     }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
                 }
             }
-            if (AoWHSMap.Current?.FCombatMap is AoWCombatMap combatMap)
+            if (AoWHSMap.Current?.FCombatMap is CombatMap combatMap)
             {
                 var viewer = DialogHosts.MWindow.MapViewer;
                 var units = new List<object>();
                 var data = combatMap.FCombat.FCombatData;
                 for (int i = 0; i < data.GetCount(); i++)
-                    if (data.GetObjects(i) is TacticalCombatUnit unit && unit.FUnitHS is { } sprite)
+                    if (data.GetObjects(i) is TacticalBattleUnit unit && unit.FUnitHS is { } sprite)
                     {
                         int x = 0, y = 0;
                         HexGeometry.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);

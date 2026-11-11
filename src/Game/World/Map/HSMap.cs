@@ -33,16 +33,16 @@ public partial class HSMap : ENode
     {
         FMouse = CreateMouse();
         FMouse.FHSMap = this;
-        FSelection = new HexagonSpriteSelection(this);
-        FSelection.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
+        FSelection = new HexSpriteSelection(this);
+        FSelection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csShared));
         FStaticVisibleHS = new VisibilityList(this);
-        FStaticVisibleHS.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
+        FStaticVisibleHS.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csShared));
         FDynamicVisibleHS = new VisibilityList(this);
-        FDynamicVisibleHS.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
+        FDynamicVisibleHS.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csShared));
         FStaticFixedVisibleHS = new VisibilityList(this);
-        FStaticFixedVisibleHS.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
+        FStaticFixedVisibleHS.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csShared));
         FDynamicFixedVisibleHS = new VisibilityList(this);
-        FDynamicFixedVisibleHS.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
+        FDynamicFixedVisibleHS.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csShared));
         FTimer = new ETimerNode(this);
         FHSChangedEventsStore = new();
         FTerrainChangedEventsStore = new();
@@ -51,10 +51,10 @@ public partial class HSMap : ENode
         FDestroyEventsStore = new();
     }
 
-    internal HSMapMouse FMouse;
+    internal HexSpriteMapMouse FMouse;
     internal MapContainer FMapContainer;
     internal GameEngine FEngine;
-    internal HexagonSpriteSelection FSelection;
+    internal HexSpriteSelection FSelection;
     internal VisibilityList FStaticVisibleHS;
     internal VisibilityList FDynamicVisibleHS;
     internal VisibilityList FStaticFixedVisibleHS;
@@ -64,7 +64,7 @@ public partial class HSMap : ENode
     internal bool FDynamicSceneInvalid;
     internal int FVersion;
     internal string FHSSFileName = "";
-    internal Set<HSMapStatusElement> FStatus;
+    internal Set<HexSpriteMapStatusElement> FStatus;
     internal int FFrame;
 
     internal EventStore<TerrainChangedNotification> FTerrainChangedEventsStore;
@@ -105,9 +105,9 @@ public partial class HSMap : ENode
         remove => FDestroyEventsStore.Remove(value);
     }
 
-    internal EventStore<HexagonSprite> FHSChangedEventsStore;
+    internal EventStore<HexSprite> FHSChangedEventsStore;
 
-    internal event NotifyEvent<HexagonSprite> FHSChangedEvents
+    internal event NotifyEvent<HexSprite> FHSChangedEvents
     {
         add => FHSChangedEventsStore.Add(value);
         remove => FHSChangedEventsStore.Remove(value);
@@ -127,12 +127,12 @@ public partial class HSMap : ENode
     // HSMAP.PAS:37
     public override void Dispose()
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         LockTerrainChangedEvent();
-        FStatus = FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
+        FStatus = FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         FSelection.FOnSelectStore.Clear();
         FSelection.FOnDeselectStore.Clear();
-        FSelection.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
+        FSelection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csShared));
         FSelection.UnselectAll();
         FDestroyEventsStore.Raise(this);
         FHSChangedEventsStore.Clear();
@@ -140,7 +140,7 @@ public partial class HSMap : ENode
         FDynamicVisibleHS.QuickClear();
         FStaticFixedVisibleHS.QuickClear();
         FDynamicFixedVisibleHS.QuickClear();
-        EMsg.InitMsg(ref Msg, 536936471, this);
+        EngineMessage.InitMsg(ref Msg, 536936471, this);
         SendMsg(ref Msg, this);
         FNewFrameEventsStore.Clear();
         base.Dispose();
@@ -154,7 +154,7 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:76
-    public override Set<EControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<EControlStyleElement>.Of(EngineServices.csReserved2);
+    public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.csReserved2);
 
     // HSMAP.PAS:240
     public override void ReadWrite(EStorageStream Stream)
@@ -163,7 +163,7 @@ public partial class HSMap : ENode
         base.ReadWrite(Stream);
         if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smPartial)) == Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smPartial))
         {
-            FStatus = FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.PreviewMode);
+            FStatus = FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
         }
 
         if (!Stream.StorageMode().Contains(EngineServices.smText))
@@ -188,7 +188,7 @@ public partial class HSMap : ENode
     public override void MainReadWrite(EStorageStream Stream)
     {
         base.MainReadWrite(Stream);
-        if (!FStatus.Contains(HSMapStatusElement.PreviewMode) && (Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.SetupCompare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        if (!FStatus.Contains(HexSpriteMapStatusElement.PreviewMode) && (Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.SetupCompare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             FMapContainer.Loaded();
         }
@@ -206,7 +206,7 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:189
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         if (Msg.MsgID == 536870920)
         {
@@ -221,7 +221,7 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:71
-    public virtual HSMapMouse CreateMouse() => new HSMapMouse();
+    public virtual HexSpriteMapMouse CreateMouse() => new HexSpriteMapMouse();
 
     // HSMAP.PAS:236
     public virtual void NotifyProgress(in MapProgress Progress)
@@ -246,7 +246,7 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:705
-    public virtual void DrawStaticHS(ref SurfaceDesc SD)
+    public virtual void DrawStaticHS(ref LockedSurface SD)
     {
         if (FStaticSceneInvalid)
         {
@@ -255,12 +255,12 @@ public partial class HSMap : ENode
 
         for (int I = FStaticVisibleHS.FCount - 1; I >= 0; I--)
         {
-            ((HexagonSprite)FStaticVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
+            ((HexSprite)FStaticVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
         }
     }
 
     // HSMAP.PAS:725
-    public virtual void DrawDynamicHS(ref SurfaceDesc SD)
+    public virtual void DrawDynamicHS(ref LockedSurface SD)
     {
         if (FDynamicSceneInvalid)
         {
@@ -269,17 +269,17 @@ public partial class HSMap : ENode
 
         for (int I = FDynamicVisibleHS.FCount - 1; I >= 0; I--)
         {
-            ((HexagonSprite)FDynamicVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
+            ((HexSprite)FDynamicVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
         }
     }
 
     // HSMAP.PAS:715
-    public virtual void DrawStaticHSEx(ref SurfaceDesc SD)
+    public virtual void DrawStaticHSEx(ref LockedSurface SD)
     {
     }
 
     // HSMAP.PAS:735
-    public virtual void DrawDynamicHSEx(ref SurfaceDesc SD)
+    public virtual void DrawDynamicHSEx(ref LockedSurface SD)
     {
     }
 
@@ -301,23 +301,23 @@ public partial class HSMap : ENode
     // HSMAP.PAS:101
     public virtual void Activate()
     {
-        if (FStatus.Contains(HSMapStatusElement.Activated))
+        if (FStatus.Contains(HexSpriteMapStatusElement.Activated))
         {
             throw new InvalidOperationException("HSMap already activated");
         }
 
-        FStatus = FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Activated);
+        FStatus = FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated);
     }
 
     // HSMAP.PAS:108
     public virtual void Deactivate()
     {
-        if (!FStatus.Contains(HSMapStatusElement.Activated))
+        if (!FStatus.Contains(HexSpriteMapStatusElement.Activated))
         {
             throw new InvalidOperationException("HSMap wasn't activated");
         }
 
-        FStatus = FStatus - Set<HSMapStatusElement>.Of(HSMapStatusElement.Activated);
+        FStatus = FStatus - Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated);
     }
 
     // HSMAP.PAS:128
@@ -365,7 +365,7 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:543
-    public virtual bool CreateNewMap(NewHSMapSettings Settings)
+    public virtual bool CreateNewMap(NewHexSpriteMapSettings Settings)
     {
         bool Result = default;
         Clear();
@@ -392,19 +392,19 @@ public partial class HSMap : ENode
     // HSMAP.PAS:284
     // { ChangeTerrain, ChangeTerrainEx and ClearTerrain clip the right edge of the changed rectangle
     //   into its Left (original slip). }
-    public virtual int ChangeTerrain(EObject MO, int X, int Y, int L, int Radius, int TerrainType)
+    public virtual int ChangeTerrain(EngineObject MO, int X, int Y, int L, int Radius, int TerrainType)
     {
-        ShortIntList List;
+        SByteList List;
         int Count;
         MapField MapF;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         Rect R = default;
         MapLevel MapLevel;
         LockTerrainChangedEvent();
-        List = new ShortIntList();
+        List = new SByteList();
         MapLevel = FMapContainer.GetMapLevel(L);
         Count = 0;
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -414,10 +414,10 @@ public partial class HSMap : ENode
                 MapF.FTerrainType = (sbyte)TerrainType;
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -430,10 +430,10 @@ public partial class HSMap : ENode
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius)
         {
             if (List[Walk.HN] != -127 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -443,7 +443,7 @@ public partial class HSMap : ENode
                 Count += 1;
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         UnlockTerrainChangedEvent();
@@ -481,28 +481,28 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:357
-    public virtual int ChangeTerrainEx(EObject MO, int X, int Y, int L, int Radius, ChangeTerrainProc ChangeTerrainProc, TerrainChangedProc TerrainChangedProc)
+    public virtual int ChangeTerrainEx(EngineObject MO, int X, int Y, int L, int Radius, ChangeTerrainProc ChangeTerrainProc, TerrainChangedProc TerrainChangedProc)
     {
         int Result;
-        ShortIntList OrgList;
-        ShortIntList NewList;
+        SByteList OrgList;
+        SByteList NewList;
         BitList Changed;
         int Count;
         sbyte TerrainType = default;
         sbyte OverlayType = default;
         MapField MapF;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         Rect R = default;
         MapLevel MapLevel;
         if (ChangeTerrainProc != null)
         {
             LockTerrainChangedEvent();
-            OrgList = new ShortIntList();
-            NewList = new ShortIntList();
+            OrgList = new SByteList();
+            NewList = new SByteList();
             Changed = new BitList();
             MapLevel = FMapContainer.GetMapLevel(L);
             Count = 0;
-            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -519,10 +519,10 @@ public partial class HSMap : ENode
                     NewList[Walk.HN * 2 + 1] = OverlayType;
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
 
-            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -540,10 +540,10 @@ public partial class HSMap : ENode
                     }
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
 
-            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -566,7 +566,7 @@ public partial class HSMap : ENode
                     }
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
 
             UnlockTerrainChangedEvent();
@@ -632,7 +632,7 @@ public partial class HSMap : ENode
 
         for (int X = 0, last = FStaticFixedVisibleHS.FCount - 1; X <= last; X++)
         {
-            ((HexagonSprite)FStaticFixedVisibleHS.Children[X]).MakeVisible(FStaticVisibleHS);
+            ((HexSprite)FStaticFixedVisibleHS.Children[X]).MakeVisible(FStaticVisibleHS);
         }
 
         FStaticVisibleHS.Sort();
@@ -659,7 +659,7 @@ public partial class HSMap : ENode
 
         for (int X = 0, last = FDynamicFixedVisibleHS.FCount - 1; X <= last; X++)
         {
-            ((HexagonSprite)FDynamicFixedVisibleHS.Children[X]).MakeVisible(FDynamicVisibleHS);
+            ((HexSprite)FDynamicFixedVisibleHS.Children[X]).MakeVisible(FDynamicVisibleHS);
         }
 
         FDynamicVisibleHS.Sort();
@@ -667,14 +667,14 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:719
-    public virtual void DrawStaticScene(ref SurfaceDesc SD)
+    public virtual void DrawStaticScene(ref LockedSurface SD)
     {
         DrawStaticHS(ref SD);
         DrawStaticHSEx(ref SD);
     }
 
     // HSMAP.PAS:739
-    public virtual void DrawDynamicScene(ref SurfaceDesc SD)
+    public virtual void DrawDynamicScene(ref LockedSurface SD)
     {
         DrawDynamicHS(ref SD);
         DrawDynamicHSEx(ref SD);
@@ -760,13 +760,13 @@ public partial class HSMap : ENode
     // HSMAP.PAS:198
     public void SetModified()
     {
-        FStatus = FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Modified);
+        FStatus = FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
     }
 
     // HSMAP.PAS:203
     public void ResetModified()
     {
-        FStatus = FStatus - Set<HSMapStatusElement>.Of(HSMapStatusElement.Modified);
+        FStatus = FStatus - Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
     }
 
     // HSMAP.PAS:208
@@ -808,13 +808,13 @@ public partial class HSMap : ENode
     // HSMAP.PAS:459
     public void ClearTerrain(int X, int Y, int L, int Radius, int TerrainType)
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapLevel MapLevel;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Rect R = default;
         LockTerrainChangedEvent();
         MapLevel = FMapContainer.GetMapLevel(L);
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         Msg.MsgID = 16;
         while (Walk.Radius <= Radius)
         {
@@ -823,7 +823,7 @@ public partial class HSMap : ENode
                 MapLevel.GetField(Walk.X, Walk.Y).SendMapFieldMsg(ref Msg);
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         if (TerrainType != -1)
@@ -860,7 +860,7 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:561
-    public bool PlaceHX(HexagonSprite HS, int Xhx, int Yhx, int L)
+    public bool PlaceHX(HexSprite HS, int Xhx, int Yhx, int L)
     {
         int Xhp = default;
         int Yhp = default;
@@ -869,10 +869,10 @@ public partial class HSMap : ENode
     }
 
     // HSMAP.PAS:569
-    public bool Place(HexagonSprite HS, int Xhp, int Yhp, int L) => HS.MainPlace(FMapContainer, Xhp, Yhp, L);
+    public bool Place(HexSprite HS, int Xhp, int Yhp, int L) => HS.MainPlace(FMapContainer, Xhp, Yhp, L);
 
     // HSMAP.PAS:574
-    public void Remove(HexagonSprite HS)
+    public void Remove(HexSprite HS)
     {
         HS.MainRemove();
     }
@@ -956,7 +956,7 @@ public partial class HSMap : ENode
         {
             for (int I = FStaticVisibleHS.FCount - 1; I >= 0; I--)
             {
-                ((HexagonSprite)FStaticVisibleHS.FItems[I].Child).SetVisible(false);
+                ((HexSprite)FStaticVisibleHS.FItems[I].Child).SetVisible(false);
             }
 
             FStaticVisibleHS.QuickClear();
@@ -975,7 +975,7 @@ public partial class HSMap : ENode
         {
             try
             {
-                ((HexagonSprite)FDynamicVisibleHS.FItems[I].Child).SetVisible(false);
+                ((HexSprite)FDynamicVisibleHS.FItems[I].Child).SetVisible(false);
             }
             catch
             {
@@ -993,10 +993,10 @@ public partial class HSMap : ENode
         FStaticSceneInvalid = FStaticSceneInvalid || (Xhx >= FViewXhx && Xhx < FViewXhx + FViewWidthHX && Yhx >= FViewYhx && Yhx < FViewYhx + FViewHeightHX && Lhx == FViewL);
     }
 
-    public HSMapMouse Mouse { get => FMouse; }
+    public HexSpriteMapMouse Mouse { get => FMouse; }
     public MapContainer MapContainer { get => FMapContainer; }
     public GameEngine Engine { get => FEngine; }
-    public HexagonSpriteSelection Selection { get => FSelection; }
+    public HexSpriteSelection Selection { get => FSelection; }
     public VisibilityList StaticVisibleHS { get => FStaticVisibleHS; }
     public VisibilityList DynamicVisibleHS { get => FDynamicVisibleHS; }
     public VisibilityList StaticFixedVisibleHS { get => FStaticFixedVisibleHS; }
@@ -1006,7 +1006,7 @@ public partial class HSMap : ENode
     public bool DynamicSceneInvalid { get => FDynamicSceneInvalid; set => FDynamicSceneInvalid = value; }
     public int Version { get => FVersion; set => FVersion = value; }
     public string HSSFileName { get => FHSSFileName; set => SetHSSFileName(value); }
-    public Set<HSMapStatusElement> Status { get => FStatus; set => FStatus = value; }
+    public Set<HexSpriteMapStatusElement> Status { get => FStatus; set => FStatus = value; }
     public int Frame { get => FFrame; }
 
     public event NotifyEvent<TerrainChangedNotification> TerrainChangedEvents
@@ -1038,7 +1038,7 @@ public partial class HSMap : ENode
         remove => FDestroyEventsStore.Remove(value);
     }
 
-    public event NotifyEvent<HexagonSprite> HSChangedEvents
+    public event NotifyEvent<HexSprite> HSChangedEvents
     {
         add => FHSChangedEventsStore.Add(value);
         remove => FHSChangedEventsStore.Remove(value);

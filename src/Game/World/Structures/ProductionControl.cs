@@ -2,9 +2,7 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
-using Aow.Game.Ai.Groups;
-
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
 using Aow.Game.Commands;
@@ -26,7 +24,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Structures;
 
 // change event, update count, queue, loop queue, unit productions, status, settings
-public partial class ProductionControl : EObject
+public partial class ProductionControl : EngineObject
 {
 
     // Structur.PAS:191
@@ -251,7 +249,7 @@ public partial class ProductionControl : EObject
     }
 
     // Structur.PAS:514
-    public virtual ExecuteResult ExecuteProductionTE(ProductionTE Event)
+    public virtual ExecuteResult ExecuteProductionTE(ProductionTokenEvent Event)
     {
         ExecuteResult Result;
         switch (Event.FCommand)
@@ -297,10 +295,10 @@ public partial class ProductionControl : EObject
     }
 
     // Structur.PAS:551
-    public virtual ProductionTE CreateProductionTE()
+    public virtual ProductionTokenEvent CreateProductionTE()
     {
-        ProductionTE Event;
-        Event = new ProductionTE(null);
+        ProductionTokenEvent Event;
+        Event = new ProductionTokenEvent(null);
         GetLocation(ref Event.FX, ref Event.FY, ref Event.FL);
         Event.FPlayer = GetPlayer();
         return Event;
@@ -458,7 +456,7 @@ public partial class ProductionControl : EObject
     public virtual bool DeleteProduction(int Index)
     {
         bool Result;
-        ProductionTE Event;
+        ProductionTokenEvent Event;
         bool condition = Index >= 0 && Index < FQueue.Count;
         if (condition)
         {
@@ -488,7 +486,7 @@ public partial class ProductionControl : EObject
     public virtual bool DeleteProductions()
     {
         bool Result;
-        ProductionTE Event;
+        ProductionTokenEvent Event;
         bool condition = FQueue.Count != 0;
         if (condition)
         {
@@ -555,7 +553,7 @@ public partial class ProductionControl : EObject
     public virtual bool ProduceUnitEx(int Index, int GroupID, bool Queue)
     {
         bool Result;
-        ProductionTE Event;
+        ProductionTokenEvent Event;
         string Reason = "";
         bool condition = CanProduceUnit(Index, Queue, ref Reason);
         if (condition)
@@ -629,7 +627,7 @@ public partial class ProductionControl : EObject
     public virtual bool ResearchUnit(int Index, bool Queue)
     {
         bool Result;
-        ProductionTE Event;
+        ProductionTokenEvent Event;
         string Reason = "";
         bool condition = CanResearchUnit(Index, Queue, ref Reason);
         if (condition)
@@ -708,7 +706,7 @@ public partial class ProductionControl : EObject
     }
 
     // Structur.PAS:339
-    public void GroupProductionProduced(AbstractUnit AUnit, int GroupID)
+    public void GroupProductionProduced(Troop AUnit, int GroupID)
     {
         AIGroup Group;
         var player = GetPlayer();
@@ -723,7 +721,7 @@ public partial class ProductionControl : EObject
     public bool Produce(ProductionItem Item, bool Queue)
     {
         bool Result;
-        ProductionTE Event;
+        ProductionTokenEvent Event;
         var player = GetPlayer();
         if (!AoWHSMap.Current.FPlayers.GetPlayers(player).GetBusy())
         {
@@ -749,7 +747,7 @@ public partial class ProductionControl : EObject
     public bool RetryProductionExecution(ref string Reason)
     {
         bool Result;
-        ProductionTE Event;
+        ProductionTokenEvent Event;
         bool condition = FQueue.Count != 0 && FStatus == Status.Waiting;
         if (condition)
         {
@@ -785,7 +783,7 @@ public partial class ProductionControl : EObject
     public bool SetLoopQueueTo(bool Value)
     {
         bool Result;
-        ProductionTE Event;
+        ProductionTokenEvent Event;
         bool condition = Value != FLoopQueue;
         if (condition)
         {

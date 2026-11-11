@@ -33,12 +33,12 @@ public sealed class CoreTests
     [Fact]
     public void ObjectsAndGeneratedUnit()
     {
-        Assert.Equal(nameof(TSampleChild), NameTable.Delphi(typeof(TSampleChild)));
-        Assert.Equal(nameof(TSampleChild), NameTable.Stored(typeof(TSampleChild)));
+        Assert.Equal(nameof(SampleChild), NameTable.Delphi(typeof(SampleChild)));
+        Assert.Equal(nameof(SampleChild), NameTable.Stored(typeof(SampleChild)));
         Assert.Equal("TPersistent", NameTable.Delphi(typeof(Persistent)));
         Assert.Equal(nameof(Persistent), NameTable.Stored(typeof(Persistent)));
-        var fresh = new TSampleChild(0);
-        var next = new TSampleChild(3);
+        var fresh = new SampleChild(0);
+        var next = new SampleChild(3);
         Assert.NotSame(fresh, next);
         Assert.Equal(13, next.Value);
         Assert.Equal(2, next.ClassID);
@@ -47,22 +47,22 @@ public sealed class CoreTests
         (nil as IDisposable)?.Dispose();
         next.Dispose();
         Assert.True(next.Destroyed);
-        Assert.Throws<InvalidOperationException>(() => TFailingSample.Create(1));
-        Assert.True(TFailingSample.LastInstance!.Destroyed);
+        Assert.Throws<InvalidOperationException>(() => FailingSample.Create(1));
+        Assert.True(FailingSample.LastInstance!.Destroyed);
         var result = GeneratedStyleSample.Run();
         Assert.Equal(20, result.Value);
         Assert.Equal("abcde", result.Name);
-        Assert.Equal(Set<TFlag>.Range(TFlag.First, TFlag.Third), result.Flags);
+        Assert.Equal(Set<Flag>.Range(Flag.First, Flag.Third), result.Flags);
         var copy = result;
         copy.Name = "x";
         copy.Flags = default;
         Assert.Equal("abcde", result.Name);
         Assert.Equal(3, result.Flags.Count);
-        Assert.Equal(12, Marshal.SizeOf<TSampleRecord>());
+        Assert.Equal(12, Marshal.SizeOf<SampleRecord>());
         var image = Bytes.Of(ref result);
         Assert.Equal(7, image[0]);
         Assert.Equal(new byte[] { 5, 97, 98, 99, 100, 101 }, image.Slice(1, 6).ToArray());
-        Assert.Equal(6, Marshal.SizeOf<FixedArray_byte_6>());
+        Assert.Equal(6, Marshal.SizeOf<ByteArray6>());
     }
 
     private sealed class Unregistered;
@@ -168,10 +168,10 @@ public sealed class CoreTests
         Assert.Equal(new[] { "a", "a", "b" }, words);
         Ptr<string>.Fill(managed + 1, 2, "z");
         Assert.Equal(new[] { "a", "z", "z" }, words);
-        var cell = new TSampleRecord[1];
-        var recordPointer = Ptr<TSampleRecord>.To(cell, 0);
-        IntOrRef payload = new(new PtrBox<TSampleRecord>(recordPointer));
-        Ptr<TSampleRecord>.Unbox(payload.Ref).Value.Value = 91;
+        var cell = new SampleRecord[1];
+        var recordPointer = Ptr<SampleRecord>.To(cell, 0);
+        IntOrRef payload = new(new PtrBox<SampleRecord>(recordPointer));
+        Ptr<SampleRecord>.Unbox(payload.Ref).Value.Value = 91;
         Assert.Equal(91, cell[0].Value);
     }
 

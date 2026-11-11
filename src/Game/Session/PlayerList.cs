@@ -17,7 +17,7 @@ public partial class PlayerList : EControlStyleNode
     // Player.PAS:1414
     public PlayerList(ECustomNode owner) : base(owner)
     {
-        SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, EControlStyleElement.ArrayMode));
+        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
         SetNumberOfPlayers(2);
         FLocalControlledPlayers = new ByteList();
         FLocalHumanPlayers = new ByteList();
@@ -31,13 +31,13 @@ public partial class PlayerList : EControlStyleNode
     public ByteList FLocalHumanPlayers;
 
     // Player.PAS:1543
-    public override void Assign(EObject Source, GameEngine AEngine)
+    public override void Assign(EngineObject Source, GameEngine AEngine)
     {
         SetNumberOfPlayers(((PlayerList)Source).GetNumberOfPlayers());
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
             var players = ((PlayerList)Source).GetPlayers(I);
-            ((EObject)FChildren.List[I]).Assign(players, GameTables.AoWEngine);
+            ((EngineObject)FChildren.List[I]).Assign(players, GameTables.AoWEngine);
         }
     }
 
@@ -308,13 +308,13 @@ public partial class PlayerList : EControlStyleNode
     // Player.PAS:1657
     public void ValidateRaces(RaceList Races)
     {
-        IntegerList Available;
-        IntegerList Invalid;
+        Int32List Available;
+        Int32List Invalid;
         int I;
         int Index;
         int DefaultRace;
-        Available = new IntegerList();
-        Invalid = new IntegerList();
+        Available = new Int32List();
+        Invalid = new Int32List();
         I = 0;
         int last = Races.Count - 1;
         for (; I <= last; I += 1)

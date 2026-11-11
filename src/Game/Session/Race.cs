@@ -15,14 +15,14 @@ namespace Aow.Game.Session;
 
 // { Interface declaration run owned by P1. }
 // race, defaults, player relations, enabled
-public partial class Race : EObject
+public partial class Race : EngineObject
 {
     public new const int ClassID = 131586;
 
     // Ability.PAS:212
     public Race(ECustomNode owner) : base(owner)
     {
-        FPlayerRelations = new IntegerList();
+        FPlayerRelations = new Int32List();
         FDefaultRelations = new ByteList();
         FRace = -1;
         FEnabled = false;
@@ -31,7 +31,7 @@ public partial class Race : EObject
     public sbyte FRace;
     public ByteList FDefaultRelations;
     // TStatus values
-    public IntegerList FPlayerRelations;
+    public Int32List FPlayerRelations;
     public bool FEnabled;
 
     // Ability.PAS:221
@@ -69,7 +69,7 @@ public partial class Race : EObject
     }
 
     // Ability.PAS:361
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001985)
@@ -269,7 +269,7 @@ public partial class Race : EObject
         }
     }
 
-    private static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12 DefaultRaceRelations = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12.From([FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Friendly, Status.Polite, Status.Polite, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Neutral, Status.Polite, Status.Friendly, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Polite, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Friendly, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Wary, Status.Wary, Status.Wary, Status.Friendly, Status.Polite, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Polite, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Friendly, Status.Friendly, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Wary, Status.Wary, Status.Wary, Status.Wary, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Polite, Status.Polite, Status.Friendly])]);
+    private static StatusArray12By12 DefaultRaceRelations = StatusArray12By12.From([StatusArray12.From([Status.Friendly, Status.Polite, Status.Polite, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Neutral, Status.Polite, Status.Friendly, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Polite, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Friendly, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Polite, Status.Wary, Status.Wary, Status.Wary, Status.Friendly, Status.Polite, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Polite, Status.Polite]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Friendly, Status.Friendly, Status.Polite]), StatusArray12.From([Status.Wary, Status.Wary, Status.Wary, Status.Wary, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Polite, Status.Polite, Status.Friendly])]);
 
     private static int StatusToStatusValue(Status Status)
     {

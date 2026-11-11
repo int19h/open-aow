@@ -31,11 +31,11 @@ public partial class WarpParty : Spell
     }
 
     // GlobalSpells.pas:719
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string Reason = "";
-        WarpPartyTE Event;
+        WarpPartyTokenEvent Event;
         base.Activate(Source);
         if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
@@ -44,7 +44,7 @@ public partial class WarpParty : Spell
                 return false;
             }
 
-            Event = new WarpPartyTE(null);
+            Event = new WarpPartyTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.FArmyID = Source.ArmyOwner.CreateID(255);
             var warpLocation = CalculateWarpLocation(Source.ArmyOwner.GetArmyHS());
@@ -71,10 +71,10 @@ public partial class WarpParty : Spell
     }
 
     // GlobalSpells.pas:643
-    public bool ValidTarget(ArmyHS Army, sbyte X, sbyte Y, sbyte Layer)
+    public bool ValidTarget(ArmyHexSprite Army, sbyte X, sbyte Y, sbyte Layer)
     {
         AoWMapField Field;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, Layer);
         bool Result = Field.GetArmyHS() == null && Field.GetPlayer() == -1;
         if (Result)
@@ -90,12 +90,12 @@ public partial class WarpParty : Spell
     }
 
     // GlobalSpells.pas:660
-    public int CalculateWarpLocation(ArmyHS Army)
+    public int CalculateWarpLocation(ArmyHexSprite Army)
     {
         DelphiList Candidates;
-        FixedArray_Aow_Units_FixedArray_sbyte_16_16 Table = default;
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        SByteArray16By16 Table = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         MapLevel Level;
         AoWMapField Field;
         int I;
@@ -104,7 +104,7 @@ public partial class WarpParty : Spell
         Army.FArmy.CreateMovePointTable(255, Bytes.Of(ref Table));
         var yhx = Army.Yhx;
         var xhx = Army.Xhx;
-        HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 10);
+        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 10);
         Level = AoWHSMap.Current.MapContainer.MapLevels[Army.Lhx];
         while (Walk.Radius < 20)
         {
@@ -117,7 +117,7 @@ public partial class WarpParty : Spell
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         for (int L = 0, last = AoWHSMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
@@ -127,7 +127,7 @@ public partial class WarpParty : Spell
                 Level = AoWHSMap.Current.MapContainer.MapLevels[L];
                 var armyYhx = Army.Yhx;
                 var armyXhx = Army.Xhx;
-                HNWalkData.InitHNWalk(ref Walk, armyXhx, armyYhx, 0);
+                HexNumberWalkData.InitHNWalk(ref Walk, armyXhx, armyYhx, 0);
                 while (Walk.Radius < 10)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -139,7 +139,7 @@ public partial class WarpParty : Spell
                         }
                     }
 
-                    HNWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHN(ref Walk);
                 }
             }
         }

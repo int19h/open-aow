@@ -16,17 +16,17 @@ public partial class TokenManager : IDisposable
         FTokenPackageDistributer = CreateTokenPackageDistributer();
     }
 
-    internal TokenExecuter FTokenExecuter;
-    internal TokenPackageDistributer FTokenPackageDistributer;
+    internal TokenExecutor FTokenExecuter;
+    internal TokenPackageDistributor FTokenPackageDistributer;
     internal object FOwner;
     internal List<TokenControl> FTokenControls;
     internal NetworkMessageEvent FOnMessage;
 
     // NetworkE.pas:1642
-    public virtual TokenExecuter CreateTokenExecuter() => new TokenExecuter(this);
+    public virtual TokenExecutor CreateTokenExecuter() => new TokenExecutor(this);
 
     // NetworkE.pas:1647
-    public virtual TokenPackageDistributer CreateTokenPackageDistributer() => new TokenPackageDistributer(this);
+    public virtual TokenPackageDistributor CreateTokenPackageDistributer() => new TokenPackageDistributor(this);
 
     // NetworkE.pas:1652
     public virtual TokenControl CreateTokenControl(int APlayer) => new TokenControl(this, APlayer);
@@ -68,7 +68,7 @@ public partial class TokenManager : IDisposable
             if (!condition)
             {
                 var item = FTokenControls[APlayer];
-                condition = FTokenExecuter.FPrefetchTC == item && FTokenExecuter.FState.Contains(TokenExecuterState.Executing);
+                condition = FTokenExecuter.FPrefetchTC == item && FTokenExecuter.FState.Contains(TokenExecutorState.Executing);
             }
 
             if (condition)
@@ -166,8 +166,8 @@ public partial class TokenManager : IDisposable
         }
     }
 
-    public TokenExecuter TokenExecuter { get => FTokenExecuter; }
-    public TokenPackageDistributer TokenPackageDistributer { get => FTokenPackageDistributer; }
+    public TokenExecutor TokenExecuter { get => FTokenExecuter; }
+    public TokenPackageDistributor TokenPackageDistributer { get => FTokenPackageDistributer; }
     public object Owner { get => FOwner; }
     public int Count { get => GetCount(); }
 

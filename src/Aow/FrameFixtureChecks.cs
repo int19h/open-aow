@@ -10,9 +10,9 @@ using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 using Aow.Game.Session;
-using Aow.Game.Ui.Controls;
-using Aow.Game.Ui.Dialogs;
-using Aow.Game.Ui.Windows;
+using Aow.Game.UI.Controls;
+using Aow.Game.UI.Dialogs;
+using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Platform;
 using Aow.Rtl;
@@ -37,7 +37,7 @@ internal static class FrameFixtureChecks
         var instance = new object();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
         Check(!new GDPlay().Connected && new GDPlay().ConnectionType == ConnectionType.None, "offline connection queries");
-        Check(ControlWin.UnitMoveText(32) == "   32", "native unit movement label spacing");
+        Check(ControlWindow.UnitMoveText(32) == "   32", "native unit movement label spacing");
         FrameFixtureInputs.AddressAnimationPhase = 0;
         Check(FrameFixtureInputs.AnimationOffset(instance) == 0, "capture phase");
         FrameFixtureInputs.AddressAnimationPhase = null;
@@ -58,11 +58,11 @@ internal static class FrameFixtureChecks
         var oldSettings = RtlUnit.Settings;
         try
         {
-            var mapWindow = new AOWWindow(null) { FVisible = true, FModal = true };
-            DialogHosts.MWindow = new(null) { MapWindow = mapWindow };
+            var mapWindow = new Window(null) { FVisible = true, FModal = true };
+            DialogHosts.MWindow = new(null) { MainWindow = mapWindow };
             var menu = new StartMenu(null) { FVisible = true, FModal = false };
-            var hidden = new AOWWindow(null) { FVisible = false, FModal = true };
-            var manager = new AOWWinManager(null) { FChildren = new DelphiList() };
+            var hidden = new Window(null) { FVisible = false, FModal = true };
+            var manager = new WindowManager(null) { FChildren = new DelphiList() };
             manager.FChildren.Add(mapWindow);
             manager.FChildren.Add(menu);
             manager.FChildren.Add(hidden);
@@ -73,7 +73,7 @@ internal static class FrameFixtureChecks
             controller.HideTransientWindows();
             Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
 
-            var players = new PlayerList(null!) { FChildren = new EObjectList() };
+            var players = new PlayerList(null!) { FChildren = new EngineObjectList() };
             players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Playing });
             players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Terminated });
             players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Playing });
@@ -96,9 +96,9 @@ internal static class FrameFixtureChecks
 
             RtlUnit.Settings = new MemorySettingsStore();
             GameTables.AoWEngine = oldEngine;
-            GameTables.AoWEngine.FRegistry.SetMovementSpeed(AoWRegistry.MovementSpeed.Normal);
+            GameTables.AoWEngine.FRegistry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
-            var world = new MWindow(null) { MapWindow = mapWindow };
+            var world = new MapWindow(null) { MainWindow = mapWindow };
             world.MapWindowUpdate();
             Check(AoWHSMap.Current.FFPS == 9, "captured FPS reaches the strategic movement input");
             var army = new MovementArmy { FMoveStep = -1, FUnitGFXResource = new(null) { F_UnitGFXResource_30 = 2 } };
@@ -161,7 +161,7 @@ internal static class FrameFixtureChecks
         }
     }
 
-    private sealed class MovementArmy : ArmyHS
+    private sealed class MovementArmy : ArmyHexSprite
     {
         public MovementArmy() : base(null!) { }
 

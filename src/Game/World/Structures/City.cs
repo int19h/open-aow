@@ -4,9 +4,8 @@ using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
@@ -41,7 +40,7 @@ public partial class City : PlayerCropStructure
         FRace = -1;
         FName = AbilityRules.TranslateRStr(NonameRStr);
         FUpgradeLevel = 1;
-        FOverlay = new CityOverlayHS(null);
+        FOverlay = new CityOverlayHexSprite(null);
         FOverlay.FCity = this;
         FEnchantmentList = new GlobalEnchantmentList(null);
         FEnchantmentsVisible = false;
@@ -58,8 +57,8 @@ public partial class City : PlayerCropStructure
     public CityProductionControl FProduction;
     public new byte FFlagID;
     public GlobalEnchantmentList FEnchantmentList;
-    public Set<CityEnchantmentID> FEnchantments;
-    public CityOverlayHS FOverlay;
+    public Set<CityEnchantmentId> FEnchantments;
+    public CityOverlayHexSprite FOverlay;
     public bool FEnchantmentsVisible;
     public LibraryImage FWallBackImage;
     public LibraryImage FWallFrontImage;
@@ -98,7 +97,7 @@ public partial class City : PlayerCropStructure
     // City.pas:824
 
     // City.pas:2191
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001989)
@@ -122,14 +121,14 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2065
-    public override void TerrainChanged(in HSTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
     {
         base.TerrainChanged(Info);
         UpdateImages();
     }
 
     // City.pas:2132
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;
@@ -138,7 +137,7 @@ public partial class City : PlayerCropStructure
         YhpSurf = Y - YhpSurf;
         if (!FMode.Contains(ModeElement.Razed) || GetBuilding())
         {
-            if ((AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || !FFogged || !AoWHSMap.Current.FFogEnabled) && FFlagID != 63 && (((PlayerStructureResource)FResource).FClaimed || (FFlagID & 32) == 0))
+            if ((AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !FFogged || !AoWHSMap.Current.FFogEnabled) && FFlagID != 63 && (((PlayerStructureResource)FResource).FClaimed || (FFlagID & 32) == 0))
             {
                 var cityResource = (PlayerStructureResource)FResource;
                 if (cityResource.FFlagType <= 1)
@@ -190,7 +189,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2378
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         if (!(Msg.MsgID == 4364 && FResource.TerrainList.Terrain[Msg.HN] >= 0))
         {
@@ -236,7 +235,7 @@ public partial class City : PlayerCropStructure
                     {
                         if (Msg.MsgID == 4359)
                         {
-                            InitCombat(Msg.Param[0].As<Combat.Battle>(), Msg.Param[1].As<ArmyHS>());
+                            InitCombat(Msg.Param[0].As<Battle>(), Msg.Param[1].As<ArmyHexSprite>());
                             Msg.Result = 1;
                         }
                         else
@@ -280,14 +279,14 @@ public partial class City : PlayerCropStructure
                                         {
                                             if (Msg.MsgID == 4367)
                                             {
-                                                if (IncommingNegotiateOffer(Msg.Param[0].As<NegotiateTE>()))
+                                                if (IncommingNegotiateOffer(Msg.Param[0].As<NegotiateTokenEvent>()))
                                                 {
                                                     Msg.Result = 1;
                                                 }
                                             }
                                             else
                                             {
-                                                if (Msg.MsgID == 4393 && FEnchantments.Contains(CityEnchantmentID.AntiMagicShell))
+                                                if (Msg.MsgID == 4393 && FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
                                                 {
                                                     Msg.Param[0] = 1;
                                                 }
@@ -317,7 +316,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2184
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         base.UpdateMapField(Info);
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
@@ -332,7 +331,7 @@ public partial class City : PlayerCropStructure
         if (!FStatus.Contains(MapObjectStatusElement.Visible))
         {
             base.MakeVisible(VisibilityList);
-            if ((Set<CityEnchantmentID>.Of(CityEnchantmentID.GoldRush, CityEnchantmentID.AntiMagicShell, CityEnchantmentID.Warmonger) & FEnchantments) != Set<CityEnchantmentID>.Of())
+            if ((Set<CityEnchantmentId>.Of(CityEnchantmentId.GoldRush, CityEnchantmentId.AntiMagicShell, CityEnchantmentId.Warmonger) & FEnchantments) != Set<CityEnchantmentId>.Of())
             {
                 FOverlay.MakeVisible(VisibilityList);
             }
@@ -548,7 +547,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:864
-    public override ExecuteResult ExecuteTE(StructureTE TE, TokenExecuter Executer) => base.ExecuteTE(TE, Executer);
+    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer) => base.ExecuteTE(TE, Executer);
 
     // City.pas:1134
     public override bool GetDefenseRequirements(sbyte Player, ref DefenseRequirements Requirements)
@@ -683,9 +682,9 @@ public partial class City : PlayerCropStructure
         }
 
         CheckRebellion();
-        if (FOverlay.FMode == CityOverlayHS.CityOverlayMode.ShowRazeAnimation)
+        if (FOverlay.FMode == CityOverlayHexSprite.OverlayMode.ShowRazeAnimation)
         {
-            FOverlay.SetMode(CityOverlayHS.CityOverlayMode.Idle);
+            FOverlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         }
     }
 
@@ -708,22 +707,22 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1335
-    public override void ArmyPlaced(ArmyHS PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
     {
         base.ArmyPlaced(PlacedArmy);
-        if (FEnchantments.Contains(CityEnchantmentID.FountainOfLife))
+        if (FEnchantments.Contains(CityEnchantmentId.FountainOfLife))
         {
             ExecuteFountainOfLife();
         }
 
-        if (FEnchantments.Contains(CityEnchantmentID.AntiMagicShell))
+        if (FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
             FOverlay.PlayFadeShellAnimation();
         }
     }
 
     // City.pas:1342
-    public override void ArmyRemoved(ArmyHS Army)
+    public override void ArmyRemoved(ArmyHexSprite Army)
     {
         base.ArmyRemoved(Army);
         UpdatePlayer();
@@ -869,7 +868,7 @@ public partial class City : PlayerCropStructure
                     {
                         var size = GetSize();
                         Data.Priority = 500 + size * 100 + FWallType * 45;
-                        if (FEnchantments.Contains(CityEnchantmentID.AntiMagicShell))
+                        if (FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
                         {
                             Data.Priority += 150;
                         }
@@ -974,7 +973,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2225
-    public override void FinalizeCombat(Combat.Battle Combat)
+    public override void FinalizeCombat(Battle Combat)
     {
         if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
         {
@@ -986,7 +985,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2214
-    public override string GetCombatEventText(Combat.Battle Combat)
+    public override string GetCombatEventText(Battle Combat)
     {
         string Result = "";
         if (!GetRazed())
@@ -1024,7 +1023,7 @@ public partial class City : PlayerCropStructure
     public override void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
     {
         CityProductionEventLog Log;
-        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && FStatus.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)FResource).FClaimed)
+        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && FStatus.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)FResource).FClaimed)
         {
             Log = new CityProductionEventLog(null);
             Log.FPlayer = NewPlayer;
@@ -1076,8 +1075,8 @@ public partial class City : PlayerCropStructure
         bool MultiplePlayers;
         MapLevel MapLevel;
         int Count;
-        HNWalkData Walk = default;
-        ArmyHS Army;
+        HexNumberWalkData Walk = default;
+        ArmyHexSprite Army;
         sbyte Player;
         if (!(FMode.Contains(ModeElement.Razed) && !GetBuilding()))
         {
@@ -1085,12 +1084,12 @@ public partial class City : PlayerCropStructure
             Player = -1;
             Count = GetTerrainCount();
             MapLevel = (MapLevel)Owner.Owner;
-            HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count && !MultiplePlayers)
             {
                 if (FResource.TerrainList.GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
-                    Army = (ArmyHS)MapLevel.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                    Army = (ArmyHexSprite)MapLevel.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                     if (Army != null)
                     {
                         if (Player == -1)
@@ -1104,7 +1103,7 @@ public partial class City : PlayerCropStructure
                     }
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
 
             if (MultiplePlayers)
@@ -1158,7 +1157,7 @@ public partial class City : PlayerCropStructure
                 SetIncome((byte)(FIncome + Round((double)FIncome * 0.25)));
             }
 
-            if (FEnchantments.Contains(CityEnchantmentID.GoldRush))
+            if (FEnchantments.Contains(CityEnchantmentId.GoldRush))
             {
                 SetIncome((byte)(FIncome * 2));
             }
@@ -1181,7 +1180,7 @@ public partial class City : PlayerCropStructure
             }
             else
             {
-                if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
                     Count = ((PlayerCropStructureResource)FResource).FCropLocations.Count;
                 }
@@ -1249,11 +1248,11 @@ public partial class City : PlayerCropStructure
     // City.pas:894
     public void UpdateActiveEnchantments()
     {
-        FEnchantments = Set<CityEnchantmentID>.Of();
+        FEnchantments = Set<CityEnchantmentId>.Of();
         for (int I = FEnchantmentList.Count - 1; I >= 0; I--)
         {
             var enchantment = FEnchantmentList.GetEnchantments(I);
-            FEnchantments = FEnchantments + Set<CityEnchantmentID>.Of(((CityEnchantment)enchantment).FEnchantmentID);
+            FEnchantments = FEnchantments + Set<CityEnchantmentId>.Of(((CityEnchantment)enchantment).FEnchantmentID);
         }
     }
 
@@ -1284,25 +1283,25 @@ public partial class City : PlayerCropStructure
     {
         UnregisterEnchantments();
         FEnchantmentList.Clear();
-        FEnchantments = Set<CityEnchantmentID>.Of();
+        FEnchantments = Set<CityEnchantmentId>.Of();
     }
 
     // City.pas:924
-    public int AICityEnchantmentUpkeepPriority(CityEnchantmentID ID)
+    public int AICityEnchantmentUpkeepPriority(CityEnchantmentId ID)
     {
         int Result;
         switch (ID)
         {
-            case CityEnchantmentID.FountainOfLife:
+            case CityEnchantmentId.FountainOfLife:
                 Result = GetSize() * 25 + 600;
                 break;
-            case CityEnchantmentID.GoldRush:
+            case CityEnchantmentId.GoldRush:
                 Result = GetSize() * 25 + 600;
                 break;
-            case CityEnchantmentID.AntiMagicShell:
+            case CityEnchantmentId.AntiMagicShell:
                 Result = GetSize() * 25 + 700;
                 break;
-            case CityEnchantmentID.Warmonger:
+            case CityEnchantmentId.Warmonger:
                 Result = GetSize() * 25 + 600;
                 break;
             default:
@@ -1318,18 +1317,18 @@ public partial class City : PlayerCropStructure
     {
         Enchantment.Owner = FEnchantmentList;
         Enchantment.Activate(Enchantment.FPlayerIndex);
-        FEnchantments = FEnchantments + Set<CityEnchantmentID>.Of(Enchantment.FEnchantmentID);
-        if (Enchantment.FEnchantmentID == CityEnchantmentID.FountainOfLife)
+        FEnchantments = FEnchantments + Set<CityEnchantmentId>.Of(Enchantment.FEnchantmentID);
+        if (Enchantment.FEnchantmentID == CityEnchantmentId.FountainOfLife)
         {
             ExecuteFountainOfLife();
         }
 
-        if (Enchantment.FEnchantmentID == CityEnchantmentID.GoldRush)
+        if (Enchantment.FEnchantmentID == CityEnchantmentId.GoldRush)
         {
             UpdateIncome();
         }
 
-        if (Enchantment.FEnchantmentID == CityEnchantmentID.AntiMagicShell)
+        if (Enchantment.FEnchantmentID == CityEnchantmentId.AntiMagicShell)
         {
             FOverlay.PlaySetupShellAnimation();
         }
@@ -1341,7 +1340,7 @@ public partial class City : PlayerCropStructure
         Enchantment.Owner = null;
         Enchantment.Deactivate((byte)Enchantment.FPlayerIndex);
         UpdateActiveEnchantments();
-        if (Enchantment.FEnchantmentID == CityEnchantmentID.GoldRush)
+        if (Enchantment.FEnchantmentID == CityEnchantmentId.GoldRush)
         {
             UpdateIncome();
         }
@@ -1364,22 +1363,22 @@ public partial class City : PlayerCropStructure
             List.Add(AbilityRules.TranslateRStr(CityStoneWallRStr));
         }
 
-        if (FEnchantments.Contains(CityEnchantmentID.FountainOfLife))
+        if (FEnchantments.Contains(CityEnchantmentId.FountainOfLife))
         {
             List.Add(AbilityRules.TranslateRStr(GameText.FountainOfLifeRStr) + ": " + AbilityRules.TranslateRStr(GameTables.EnchantmentRStr));
         }
 
-        if (FEnchantments.Contains(CityEnchantmentID.GoldRush))
+        if (FEnchantments.Contains(CityEnchantmentId.GoldRush))
         {
             List.Add(AbilityRules.TranslateRStr(GameText.GoldRushRStr) + ": " + AbilityRules.TranslateRStr(GameTables.EnchantmentRStr));
         }
 
-        if (FEnchantments.Contains(CityEnchantmentID.AntiMagicShell))
+        if (FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
             List.Add(AbilityRules.TranslateRStr(GameText.AntiMagicShellRStr) + ": " + AbilityRules.TranslateRStr(GameTables.EnchantmentRStr));
         }
 
-        if (FEnchantments.Contains(CityEnchantmentID.Warmonger))
+        if (FEnchantments.Contains(CityEnchantmentId.Warmonger))
         {
             List.Add(AbilityRules.TranslateRStr(GameText.WarmongerRStr) + ": " + AbilityRules.TranslateRStr(GameTables.EnchantmentRStr));
         }
@@ -1464,7 +1463,7 @@ public partial class City : PlayerCropStructure
         int BestIndex;
         int BestValue;
         ProductionItem Item;
-        if (AoWHSMap.Current.FDay != 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWHSMap.Current.FDay != 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             if (FPlayer > 0)
             {
@@ -1591,19 +1590,19 @@ public partial class City : PlayerCropStructure
     public bool MoveArmiesOutOfCity(Set<MoveOutOfCitySelectionElement> Selection)
     {
         MapLevel MapLevel;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         int Count;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Result = true;
         Count = GetTerrainCount();
         MapLevel = (MapLevel)Owner.Owner;
         // { This eliminated copy preserves the original saved registers. }
-        HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count && Result)
         {
             if (FResource.TerrainList.GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
             {
-                Army = (ArmyHS)MapLevel.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                Army = (ArmyHexSprite)MapLevel.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                 if (Army != null && (!Selection.Contains(MoveOutOfCitySelectionElement.SkipOwnPlayer) || Army.FArmy.FPlayer != FPlayer))
                 {
                     var lhx = GetLhx();
@@ -1611,7 +1610,7 @@ public partial class City : PlayerCropStructure
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;
@@ -1625,27 +1624,27 @@ public partial class City : PlayerCropStructure
     {
         int Count;
         MapLevel MapLevel;
-        HNWalkData Walk = default;
-        ArmyHS Army;
+        HexNumberWalkData Walk = default;
+        ArmyHexSprite Army;
         ref var walk = ref Walk;
         int Result = 0;
         Count = GetTerrainCount();
         MapLevel = (MapLevel)Owner.Owner;
         var yhx = GetYhx();
         var xhx = GetXhx();
-        HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
         while (walk.HN < Count)
         {
             if (FResource.TerrainList.GetTerrain(walk.HN) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < MapLevel.Width && walk.Y < MapLevel.Height)
             {
-                Army = (ArmyHS)MapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                Army = (ArmyHexSprite)MapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
                 if (Army != null)
                 {
                     Result += Army.FArmy.ObtainValue(255);
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;
@@ -1882,7 +1881,7 @@ public partial class City : PlayerCropStructure
     {
         int Result;
         string Reason = "";
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapLevel MapLevel;
         int Radius;
         City City;
@@ -1892,7 +1891,7 @@ public partial class City : PlayerCropStructure
             {
                 Radius = -1;
                 MapLevel = (MapLevel)Owner.Owner;
-                HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 1);
+                HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 1);
                 while (Walk.Radius <= 20 && Radius == -1)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -1904,7 +1903,7 @@ public partial class City : PlayerCropStructure
                         }
                     }
 
-                    HNWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHN(ref Walk);
                 }
 
                 if (Radius != -1)
@@ -2125,7 +2124,7 @@ public partial class City : PlayerCropStructure
             Income += Round((double)Income * 0.25);
         }
 
-        if (FEnchantments.Contains(CityEnchantmentID.GoldRush))
+        if (FEnchantments.Contains(CityEnchantmentId.GoldRush))
         {
             Names.Add(AbilityRules.TranslateRStr(GameText.GoldRushRStr));
             Values.Add(IntToStr(Income));
@@ -2148,7 +2147,7 @@ public partial class City : PlayerCropStructure
         CombatPredictor Predictor;
         ArmyHSList Armies;
         UnitList Units;
-        AbstractUnit U;
+        Troop U;
         if (FPlayer != 0 && FRace >= 0)
         {
             var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
@@ -2230,7 +2229,7 @@ public partial class City : PlayerCropStructure
         CombatPredictor Predictor;
         ArmyHSList Armies;
         UnitList Units;
-        AbstractUnit U;
+        Troop U;
         if (FPlayer != 0 && !FMode.Contains(ModeElement.Warmode))
         {
             if (FMode.Contains(ModeElement.Anarchy))
@@ -2477,7 +2476,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2206
-    public void InitCombat(Combat.Battle Combat, ArmyHS Army)
+    public void InitCombat(Battle Combat, ArmyHexSprite Army)
     {
         if (FPlayer == 0)
         {
@@ -2610,7 +2609,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2302
-    public bool IncommingNegotiateOffer(NegotiateTE Offer)
+    public bool IncommingNegotiateOffer(NegotiateTokenEvent Offer)
     {
         bool Result;
         int Amount;
@@ -2619,7 +2618,7 @@ public partial class City : PlayerCropStructure
         if (Offer.FObject == NegotiateObject.City)
         {
             Amount = JoinAmount(Offer.FPlayer);
-            if (Offer.FOffer == NegotiateTE.NegotiateOffer.OfferBribe && Amount <= Offer.FGold && Amount != -1)
+            if (Offer.FOffer == NegotiateTokenEvent.NegotiateOffer.OfferBribe && Amount <= Offer.FGold && Amount != -1)
             {
                 if (AoWHSMap.Current.FPlayers.GetPlayers(Offer.FPlayer).FGems >= Offer.FGold)
                 {
@@ -2737,7 +2736,7 @@ public partial class City : PlayerCropStructure
         if (FEnchantmentsVisible ^ Visible)
         {
             FEnchantmentsVisible = Visible;
-            if (FEnchantments != Set<CityEnchantmentID>.Of())
+            if (FEnchantments != Set<CityEnchantmentId>.Of())
             {
                 AoWHSMap.Current.FGlobalMagicControl.TriggerChangedEvent();
             }
@@ -2804,7 +2803,7 @@ public partial class City : PlayerCropStructure
     {
         int saved = RandSeed;
         RandSeed = GetXhx() * 10 + AoWHSMap.Current.FInitialRandomSeed + GetYhx();
-        IntegerList.FillWithRandomUnits(AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FUnitIndexes, units, 2, GetSize() * 25, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
+        Int32List.FillWithRandomUnits(AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FUnitIndexes, units, 2, GetSize() * 25, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
         // The source restores only after a successful fill.
         RandSeed = saved;
     }
@@ -2896,10 +2895,10 @@ public partial class City : PlayerCropStructure
         }
     };
 
-    private static FixedArray_int_5 TCity_JoinAmount__JoinPercent = FixedArray_int_5.From([200, 175, 150, 125, 100]);
-    private static FixedArray_byte_4 UpgradePrices = FixedArray_byte_4.From((ReadOnlySpan<byte>)new byte[4] { 250, 250, 250, 250 });
-    private static FixedArray_byte_4 WoodWallPrices = FixedArray_byte_4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
-    private static FixedArray_byte_4 StoneWallPrices = FixedArray_byte_4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
+    private static Int32Array5 TCity_JoinAmount__JoinPercent = Int32Array5.From([200, 175, 150, 125, 100]);
+    private static ByteArray4 UpgradePrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 250, 250, 250, 250 });
+    private static ByteArray4 WoodWallPrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
+    private static ByteArray4 StoneWallPrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
     private static readonly string CityWarningRStr = "Warning";
     private static readonly string CityWoodenWallRStr = "Wooden Wall";
     private static readonly string CityStoneWallRStr = "Stone Wall";

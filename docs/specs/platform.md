@@ -28,7 +28,7 @@ as read on 2026-10-25. Section 7 gained the replacement primitive and the file l
 4. The intro video is optional. `INTRO.AVI` is Indeo Video 3.2 (`IV32`), a codec no managed library
    decodes. The host plays it when an FFmpeg library with the `indeo3` decoder is available at run
    time and otherwise behaves as if `Skip Intro` were set. Nothing else in the game is video.
-5. Settings replace the registry one to one: the 40 values `AoWRegistry` (Delphi `TAoWRegistry`) reads and writes under
+5. Settings replace the registry one to one: the 40 values `GameSettings` (Delphi `TAoWRegistry`) reads and writes under
    `\Software\Triumph Studios\Age of Wonders\<Section>` become entries of a settings file in the
    user data directory, keyed `Section/Name`, read and written through the shim's `Registry` (Delphi `TRegistry`)
    (`rtl-shim.md`). File associations and the DirectPlay lobby registration are no-ops.
@@ -44,11 +44,11 @@ transcribed, with the Windows parts replaced:
 
 | handler | what it does | host replacement |
 |---|---|---|
-| `FormCreate` | `RegisterTacticalCombat`; client size 640 by 480; registers the lobby server; loads `RELEASE\RELEASE.HSS` (the scenario set); debug window when debug mode; `DXDC.UseVideoMemory` from detail level; window state and position from settings; sound settings from the registry (section 5.1); `DD.SetCooperativeLevel`; `InitializeSoundSystem('Galaxy', ...)` when sound quality is not 0, then music and SFX volume; video size and mode from settings, full screen when the mode says so; `General.Manager` size from the back surface; multiplayer names from settings; `RestoreWindowLayout`; `SetCurrentDir(StartupDirectory)`; combat font | the lobby registration, `DXDC`, `WinDC` and `DD` lines fall away or address `SdlDC` (Delphi `TSdlDC`) and the fullscreen flag; `InitializeSoundSystem('SDL', ...)`; the debug window becomes a log |
+| `FormCreate` | `RegisterTacticalCombat`; client size 640 by 480; registers the lobby server; loads `RELEASE\RELEASE.HSS` (the scenario set); debug window when debug mode; `DXDC.UseVideoMemory` from detail level; window state and position from settings; sound settings from the registry (section 5.1); `DD.SetCooperativeLevel`; `InitializeSoundSystem('Galaxy', ...)` when sound quality is not 0, then music and Sfx volume; video size and mode from settings, full screen when the mode says so; `General.Manager` size from the back surface; multiplayer names from settings; `RestoreWindowLayout`; `SetCurrentDir(StartupDirectory)`; combat font | the lobby registration, `DXDC`, `WinDC` and `DD` lines fall away or address `SdlDisplayController` (Delphi `TSdlDC`) and the fullscreen flag; `InitializeSoundSystem('SDL', ...)`; the debug window becomes a log |
 | `FormShow` | `ParamStr(1)`: `dplobby` starts the lobby, an existing `.asg` or `.acg` queues `DeferredSetupAction := 2` behind the title scene, else splash (demo), intro (`IntroScene.Execute`) unless debug or `Skip Intro`, else the title scene | the same, with the first argument of the port's command line as `ParamStr(1)` |
 | `DisplayUpdateFrame` | the frame procedure (`graphics.md` 7.2) | transcribed |
 | `DisplayMouseDown`, `DisplayMouseMove`, `DisplayMouseUp`, `DisplayDblClick`, `DisplayKeyDown`, `DisplayKeyPress` | forward to `General.Manager` (`CheckMouseDown` and the others) with modal checks | called by the event pump (section 3) |
-| `DisplayResizeBackSurface`, `DisplaySurfaceDataLost`, `DisplayActivateDC`, `DisplaySwapDC` | manager size and layout reset, video mode bookkeeping | transcribed against `SdlDC` |
+| `DisplayResizeBackSurface`, `DisplaySurfaceDataLost`, `DisplayActivateDC`, `DisplaySwapDC` | manager size and layout reset, video mode bookkeeping | transcribed against `SdlDisplayController` |
 | `FormCloseQuery` | asks the map to exit (`ExitGame(egmTerminate)`), refuses while in combat with a confirm dialog | the window close event asks the same question |
 | `FormDestroy` | releases sound, saves the layout and every setting | the same on exit |
 
@@ -103,8 +103,8 @@ the editor's profiling and the DirectPlay ping (`testing.md` 3.3). The headless 
 
 ### 5.1 The contract
 
-`Sound.pas` is transpiled: `TSampleData`, `TSample`, `TSoundSystem` (abstract), `TSongPlayer`,
-`Songlist` (Delphi `TSonglist`), the sample cache (`LockSampleData`, `CreateSampleData`, `PlaySample`, `PlaySampleEx`)
+`Sound.pas` is transpiled: `TSampleData`, `Sample`, `TSoundSystem` (abstract), `TSongPlayer`,
+`SongList` (Delphi `TSonglist`), the sample cache (`LockSampleData`, `CreateSampleData`, `PlaySample`, `PlaySampleEx`)
 and the unit routines (`InitializeSoundSystem(Name, Settings)`, `ProcessSound`, `SetMusicVolume`,
 `FadeMusicVolume`, `PlaySong`, `PlaySongEx`, `StopSong`, `BackupSongStatus`, `RestoreSongStatus`
 and the rest). `GalSndS.pas` and `Galaxy.pas` are dropped and `TSdlSoundSystem` registers itself
@@ -133,7 +133,7 @@ odd rates (39062, 28409), 2 mono 8-bit 16000, and one stereo 8-bit 44100 file in
 7). The reader accepts PCM 8 and 16 bit and mu-law, any rate, and the mixer resamples to the output
 rate with linear interpolation. `Songs\` holds 24 Impulse Tracker modules (22 MB; `TITLE.IT` for the
 title scene, `Combat\` for battles, `Special\Sunset.it`). The game refers to sounds by relative path
-(`'SFX\EVENTS\NEWEVENT.WAV'`, `'Sfx\Int\Pagef1.wav'`, `'Songs\Combat\Defend.IT'`) with inconsistent
+(`'Sfx\EVENTS\NEWEVENT.WAV'`, `'Sfx\Int\Pagef1.wav'`, `'Songs\Combat\Defend.IT'`) with inconsistent
 case, resolved by the file service of section 7.
 
 ### 5.3 Fidelity
@@ -173,7 +173,7 @@ when the codec was missing.
    `--single-directory <dir>` puts both layers on one directory, which is how the oracle runs
    reproduce the original's layout (`testing.md`). The Headless host layers the game root under
    the run directory.
-2. Case-insensitive names, both separators. The source spells `Int\`, `INT\`, `Sfx\`, `SFX\`,
+2. Case-insensitive names, both separators. The source spells `Int\`, `INT\`, `Sfx\`, `Sfx\`,
    `IMAGES\SCENES\INTRO.AVI` against an install that has `Images\Scenes\Intro.avi`. The service
    resolves each path component against the directory's entries with an ordinal case-insensitive
    compare and caches the directory listings. The game root's own tree is read once at startup.
@@ -205,7 +205,7 @@ Saves, maps, campaigns, the scenario set and the user lists pass through the gam
 - Replacement. `IFileSystem.ReplaceFile(source, target)` moves a finished, closed file over its
   target in one step. The default implementation returns false. `LayeredFileSystem` resolves both
   paths in the user layer, so the move stays on one volume and replaces only the user copy, and
-  `SystemIoFileSystem` moves with overwrite. A save converts, validates and serializes the
+  `PhysicalFileSystem` moves with overwrite. A save converts, validates and serializes the
   document first, then writes the sibling temporary `<name>.openaow-tmp` through the service,
   flushes it to the disk, closes it and replaces the target. A failure at any step keeps the old
   file and removes the temporary, and a service without the primitive refuses the save, so a
@@ -223,14 +223,14 @@ Saves, maps, campaigns, the scenario set and the user lists pass through the gam
 
 ## 8. Settings
 
-`AoWRegistry` (transpiled) reads and writes these values through `rwInteger`, `rwBool`,
+`GameSettings` (transpiled) reads and writes these values through `rwInteger`, `rwBool`,
 `rwString`, `rwRect` and `rwBinaryData` under `\Software\Triumph Studios\Age of Wonders\<Section>`:
 
 | section | values |
 |---|---|
 | `General` | `Debug Mode`, `Skip Intro`, `Auto Save`, `Auto Debug Save`, `Fast Movement Enabled`, `Log Token Events`, `Language`, `Root Directory`, `Startup Directory`, `Serial number`, `D`, and the binary blocks `Classic Window Popup Events`, `Simultaneous Window Popup Events`, `Combat Resolve Mode`, `Movement Speed`; plus the generic indexed stores `General\rectangles`, `booleans`, `strings`, `integers` used by the window layout and the multiplayer names |
 | `Video` | `Display Mode`, `Display Width`, `Display Height`, `Allow Resolution Switches`, `Shadows Enabled`, `Surface In VMem` |
-| `Sound` | `Sound Quality`, `Music Volume`, `SFX Volume`, `Music Enabled`, `Sound Effects Enabled`, `Use DirectSound` |
+| `Sound` | `Sound Quality`, `Music Volume`, `Sfx Volume`, `Music Enabled`, `Sound Effects Enabled`, `Use DirectSound` |
 | `Workspace` | `Detail Level`, `Main Window State`, `Main Window Position`, `Map Window Position` |
 | `Email` | `SMTP Server`, `POP3 Server`, `POP3 UserName`, `POP3 Password`, `Local Email Address`, `Attachment Directory`, `Check Email Frequency` |
 
@@ -244,7 +244,7 @@ is the port's own setting, absent from the original: missing or nonzero means vs
 ## 9. Message boxes, plug-ins, networking, e-mail
 
 Message boxes. `ShowMessage` has 173 call sites (AoWEPACK 105, AoW 43, AoWTCPCK 23), `MessageBox`
-82 (AoWTCPCK 37, aowInt 36, AOWTools 7, AoWEPACK 2), `MessageDlg` 4. Most report exceptions or
+82 (AoWTCPCK 37, aowInt 36, AOWTools 7, AoWEPACK 2), `MessageDialog` 4. Most report exceptions or
 engine errors, some are game messages (`GameSavedRStr`, `NoHeroAnswersYourCallRStr`). All go to
 `IDialogService` (`rtl-shim.md`), which the desktop host implements with `SDL_ShowMessageBox`: a
 modal call that blocks the game loop exactly as the VCL dialog did, returning the button for the 20
@@ -254,11 +254,11 @@ Plug-ins. `LoadExternalPlugIns(StartupDirectory + 'PLUGINS')` scans for `.DPL` p
 them with `LoadPackage`. The shipped game has no `PLUGINS` directory, and `AbilityP.dpl` in the game
 root is loaded by neither executable (`data/initialization-order.json` lists 21 statically loaded
 packages, AbilityP not among them). The port's `LoadExternalPlugIns` scans and finds nothing; the
-`PlugIn` (Delphi `TPlugIn`) registry stays as transpiled engine code with the one built-in plug-in
-(`AbilityPlugIn` (Delphi `TAbilityPlugIn`) created by `AoWEngine` (Delphi `TAoWEngine`)), and `AbilityP` and `Adcpack` are outside the transpile
+`Plugin` (Delphi `TPlugIn`) registry stays as transpiled engine code with the one built-in plug-in
+(`AbilityPlugin` (Delphi `TAbilityPlugIn`) created by `AoWEngine` (Delphi `TAoWEngine`)), and `AbilityP` and `Adcpack` are outside the transpile
 set. Code mods (`../design.md` section 6) get their own entry point later.
 
-Networking. The engine's transport hook is small: `RemotePCC.OnSendData(Data, Size, SystemID)` sends
+Networking. The engine's transport hook is small: `RemotePlayerCommunicationControl.OnSendData(Data, Size, SystemID)` sends
 a package and `ReceiveDataPackage` takes one in; `aowSetupEvents` wires both to `GDPlay` (Delphi `TGDPlay`)
 (`aowDPlayComp`, 68 call sites in `AoW`, none in the rules). The host supplies a `GDPlay` stand-in
 whose `GetConnections` lists the TCP/IP provider alone, as DirectPlay does on any current Windows.
@@ -280,7 +280,7 @@ from the form files and fail every operation, pending `../design.md` open questi
 ## 10. The headless host
 
 `src/Headless` (`testing.md` 3.2) implements `IRtlHost` with a fixed clock, a null display (no
-`SdlDC`, `CustomDisplay` not created, `DisplayUpdateFrame` runs with `DC = nil`), a null sound
+`SdlDisplayController`, `CustomDisplay` not created, `DisplayUpdateFrame` runs with `DC = nil`), a null sound
 system registered under `'Galaxy'` that accepts every call, the scripted dialog service, the same
 file service with both layers on the run directory, and settings from a JSON given on the command
 line. It shares every line of the game and the shim with the desktop host; only the service

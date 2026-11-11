@@ -63,11 +63,11 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3374
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
-        TurnUndeadCA Action;
-        StrikeCA Strike;
+        TurnUndeadCombatAction Action;
+        StrikeCombatAction Strike;
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
         Action = CreateTurnUndeadCA(Source, Target);
@@ -171,7 +171,7 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3293
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         float Probability;
@@ -189,7 +189,7 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3305
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         float Probability;
         int HitPoints;
@@ -199,7 +199,7 @@ public partial class TurnUndeadAbility : TouchAbility
             HitPoints = Defender.GetHitPoints();
             DamageValues.SourceCost = HitPoints;
             DamageValues.SourceDamage = Round((double)((double)HitPoints * Probability) * 100);
-            var p4UnitStrikeDV = AbstractUnit.P4UnitStrikeDV(Defender, Attacker);
+            var p4UnitStrikeDV = Troop.P4UnitStrikeDV(Defender, Attacker);
             DamageValues.TargetDamage = Round((double)p4UnitStrikeDV * ((double)1 - Probability));
             var protectionTypes = Attacker.GetProtectionTypes();
             var damageTypes = ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).GetDamageTypes(Defender);
@@ -222,7 +222,7 @@ public partial class TurnUndeadAbility : TouchAbility
     public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
     {
         int Damage;
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Damage = GetTurnUndeadDamage(GetLevel(unit));
             if (Damage > 5)
@@ -326,7 +326,7 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3130
-    public override bool CanTouchUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool CanTouchUnit(Troop Source, Troop Target)
     {
         bool Result = base.CanTouchUnit(Source, Target);
         if (Result)
@@ -391,12 +391,12 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3356
-    public TurnUndeadCA CreateTurnUndeadCA(CombatObject Source, CombatObject Target)
+    public TurnUndeadCombatAction CreateTurnUndeadCA(CombatObject Source, CombatObject Target)
     {
-        TurnUndeadCA Action;
+        TurnUndeadCombatAction Action;
         int Level;
         // { These eliminated copies preserve the original saved registers. }
-        Action = new TurnUndeadCA(null);
+        Action = new TurnUndeadCombatAction(null);
         if (HitChance.HitRole(Source.GetAttack() - Target.GetDefense()))
         {
             Level = Source.GetAbilityLevel(FAbilityID);
@@ -413,6 +413,6 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3164
-    public override EClass AbilityDataClass() => AbilityRules.P4MultiLevelDataClass;
+    public override EngineClass AbilityDataClass() => AbilityRules.P4MultiLevelDataClass;
 
 }

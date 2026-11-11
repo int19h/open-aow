@@ -19,9 +19,9 @@ public partial class VisibilityList : EControlStyleInverseSortNode
     }
 
     // HSEngine.pas:3876
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
-        var hexagonSprite = (HexagonSprite)Child;
+        var hexagonSprite = (HexSprite)Child;
         if (hexagonSprite.GetVisible())
         {
             hexagonSprite.SetVisible(false);

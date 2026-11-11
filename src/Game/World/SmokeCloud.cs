@@ -17,7 +17,7 @@ namespace Aow.Game.World;
 
 // FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated, FVisibleForSeatedPlayer,
 // FEnchantment
-public partial class SmokeCloud : MultiHexMO
+public partial class SmokeCloud : MultiHexMapObject
 {
     public SmokeCloud(ECustomNode owner) : base(owner)
     {
@@ -59,7 +59,7 @@ public partial class SmokeCloud : MultiHexMO
     // SmokeCloud.pas:172
 
     // SmokeCloud.pas:373
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer && !FUpdated)
@@ -85,9 +85,9 @@ public partial class SmokeCloud : MultiHexMO
     public override int GetShowPriority() => base.GetShowPriority() + 201326592;
 
     // SmokeCloud.pas:300
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
-        if (FVisibleForSeatedPlayer || AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (FVisibleForSeatedPlayer || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -115,9 +115,9 @@ public partial class SmokeCloud : MultiHexMO
     }
 
     // SmokeCloud.pas:245
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
-        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.MapFieldMsgProc(ref Msg);
         }
@@ -173,7 +173,7 @@ public partial class SmokeCloud : MultiHexMO
     }
 
     // SmokeCloud.pas:238
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (Info.HN > 18 && Info.HN < 37)
         {
@@ -188,7 +188,7 @@ public partial class SmokeCloud : MultiHexMO
         int Xhx = default;
         int Yhx = default;
         int HN;
-        if (FResource.Engine.HSMap.Status.Contains(HSMapStatusElement.Editting))
+        if (FResource.Engine.HSMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             HN = HexGeometry.dHXtoHN(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx);
@@ -205,12 +205,12 @@ public partial class SmokeCloud : MultiHexMO
     // SmokeCloud.pas:216
     public void UpdateConcealment(sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapLevel Level;
         AoWMapField MapField;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         Level = AoWHSMap.Current.MapContainer.MapLevels[Lhx];
-        HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (FResource.TerrainList.Count > Walk.HN)
         {
             if (FResource.TerrainList.Terrain[Walk.HN] >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
@@ -223,7 +223,7 @@ public partial class SmokeCloud : MultiHexMO
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
     }
 
@@ -342,7 +342,7 @@ public partial class SmokeCloud : MultiHexMO
         }
     }
 
-    public new partial class Resource : MultiHexMOR
+    public new partial class Resource : MultiHexMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

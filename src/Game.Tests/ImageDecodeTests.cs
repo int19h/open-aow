@@ -4,7 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Xunit.Abstractions;
 using LibraryImage = Aow.Game.Draw.Images.LibraryImage;
-using TPaletteEntry = Aow.Game.Draw.GFXEPalette.PaletteEntry;
+using TPaletteEntry = Aow.Game.Draw.Palette.Entry;
 
 namespace Aow.Game.Tests;
 
@@ -49,7 +49,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         output.WriteLine($"{entries.Count} libraries, {entries.Sum(e => e.Images)} images");
         // The image classes the shipped libraries hold. They hold no 8 bit picture, no transparent
         // 16 bit picture, no mask and no shadow: GrabbedImagesDecodeAndDrawAsRecorded covers those.
-        Assert.Equal(["Picture16", "RLESprite08", "RLESprite16", "Sprite16", "TransparentRLESprite16"], classes.Keys);
+        Assert.Equal(["Picture16", "RleSprite08", "RleSprite16", "Sprite16", "TransparentRleSprite16"], classes.Keys);
         Check("Installed", entries);
     }
 
@@ -80,7 +80,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // false before. With that grab reverted the recording of cff6832 matched in full, so the 59
     // sources whose hash changed changed only through it. The old grab raised at its first pixel,
     // so the one unchanged source (PoisnCld.ILB 1200) is one whose 8 bit grabs read no pixel.
-    // TRLESprite08GrabTests checks the bytes of the encoding.
+    // RleSprite08GrabTests checks the bytes of the encoding.
     [InstalledLibrariesFact]
     public void GrabbedImagesDecodeAndDrawAsRecorded()
     {
@@ -111,7 +111,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static void GrabAll(LibraryImage source, string label, List<Entry> entries)
     {
         int w = Math.Min(source.Width, 120), h = Math.Min(source.Height, 90);
-        var palette = new GFXEPalette();
+        var palette = new Palette();
         for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { R = (byte)(i * 5), G = (byte)(i * 7 + 3), B = (byte)(i * 13 + 1) };
         palette.PixelFormatID = PixelFormats.pfBGR24;
         var s555 = new DataSurface(w, h, PixelFormats.pfRGB555, null!);
@@ -122,7 +122,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         int grabs = 0;
         try
         {
-            SurfaceDesc d555 = default, d565 = default, d8 = default, d24 = default;
+            LockedSurface d555 = default, d565 = default, d8 = default, d24 = default;
             s555.Lock(ref d555);
             s565.Lock(ref d565);
             s8.Lock(ref d8);
@@ -146,12 +146,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 }
 
             int key565 = 0xF81F, key24 = 0xF800F8;
-            var sources = new (string Name, SurfaceDesc SD, int Key)[] { ("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24) };
+            var sources = new (string Name, LockedSurface SD, int Key)[] { ("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24) };
             var rects = new[] { new Rect(0, 0, w, h), new Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1)) };
             var grabbers = new Func<LibraryImage>[]
             {
-                () => new Picture08(null!), () => new RLESprite08(null!), () => new Picture16(null!),
-                () => new Sprite16(null!), () => new RLESprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
+                () => new Picture08(null!), () => new RleSprite08(null!), () => new Picture16(null!),
+                () => new Sprite16(null!), () => new RleSprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
             };
             foreach (var (name, sd, key) in sources)
                 foreach (var rect in rects)
@@ -164,7 +164,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                                 image.Dispose();
                                 continue;
                             }
-                            hash.Add($"{image.GetType().Name} {name} {rect.Left} {inverse}");
+                            hash.Add($"{RecordedTypeName(image.GetType())} {name} {rect.Left} {inverse}");
                             grabs++;
                             var grab = image.CreateGrabInfo();
                             grab.TransparentPixel = key;
@@ -229,7 +229,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     public void PixelReadersReadEveryFormatAsRecorded()
     {
         var entries = new List<Entry>();
-        var palette = new GFXEPalette();
+        var palette = new Palette();
         for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { R = (byte)i, G = (byte)(i * 3), B = (byte)(i * 11) };
         palette.PixelFormatID = PixelFormats.pfBGR24;
         {
@@ -241,7 +241,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     var hash = new Fnv();
                     try
                     {
-                        SurfaceDesc sd = default;
+                        LockedSurface sd = default;
                         surface.Lock(ref sd);
                         var bytes = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
                         for (int i = 0; i < bytes.Length; i++) bytes[i] = (byte)((i * 7 + w) % 5 == 0 ? 0xC3 : i * 29 + 1);
@@ -260,7 +260,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             foreach (var rect in new[] { whole, inset })
                             {
                                 Rect found = default;
-                                hash.Add(Read(() => { SurfaceDesc.MinimizeTransparentRect(sd, rect, key, ref found); return 0; }));
+                                hash.Add(Read(() => { LockedSurface.MinimizeTransparentRect(sd, rect, key, ref found); return 0; }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom }) hash.Add(value);
                                 found = default;
                                 hash.Add(Read(() => { BitMask.MinimizeInvTransparentRect(sd, rect, key, ref found); return 0; }));
@@ -293,8 +293,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         var entries = new List<Entry>();
         WithImageClasses(() =>
         {
-            foreach (var (name, collection) in new[] { ("alpha", GfxState.AlphaBlendTable), ("intensity", GfxState.IntensityBlendTable),
-                         ("brighten", GfxState.BrightenBlendTable), ("shadow", GfxState.ShadowBlendTable), ("linear", GfxState.LinearAlphaBlendTable) })
+            foreach (var (name, collection) in new[] { ("alpha", GraphicsState.AlphaBlendTable), ("intensity", GraphicsState.IntensityBlendTable),
+                         ("brighten", GraphicsState.BrightenBlendTable), ("shadow", GraphicsState.ShadowBlendTable), ("linear", GraphicsState.LinearAlphaBlendTable) })
             {
                 var hash = new Fnv();
                 for (int k = 0; k < collection.Tables.Count; k++)
@@ -362,11 +362,21 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         action(image);
     }
 
+    // The recorded FNV mixes pixels with the CLR simple name from before this rename.
+    // These three classes changed only in case. The hash keeps that spelling.
+    private static string RecordedTypeName(Type type) => type.Name switch
+    {
+        "RleSprite08" => "RLESprite08",
+        "RleSprite16" => "RLESprite16",
+        "TransparentRleSprite16" => "TransparentRLESprite16",
+        _ => type.Name,
+    };
+
     // The decoded buffer, its pitch and size, then the draws in a fixed order. A draw into the
     // other 16 bit format remaps the image in place, so the buffer is hashed again at the end.
     private static void Pin(LibraryImage image, Fnv hash)
     {
-        hash.Add(image.GetType().Name);
+        hash.Add(RecordedTypeName(image.GetType()));
         hash.Add(image.DataLoaded ? 1 : 0);
         foreach (int value in new[] { image.DataWidth, image.DataHeight, image.Width, image.Height, image.Xshift, image.Yshift, image.DataSize })
             hash.Add(value);
@@ -385,12 +395,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             hash.Add(Draw(image, format, 3, 2, d => image.ShowOpaque(3, 2, d)));
             hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
             hash.Add(Draw(image, format, 3, 2, d => image.ShowTransparent(3, 2, d)));
-            hash.Add(Draw(image, format, 3, 2, d => image.ShowBlended(3, 2, d, GfxState.AlphaBlendTable.Lookup[50])));
-            hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowBlended(-w / 3, -h / 3, d, GfxState.IntensityBlendTable.Lookup[30])));
+            hash.Add(Draw(image, format, 3, 2, d => image.ShowBlended(3, 2, d, GraphicsState.AlphaBlendTable.Lookup[50])));
+            hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowBlended(-w / 3, -h / 3, d, GraphicsState.IntensityBlendTable.Lookup[30])));
             hash.Add(Draw(image, format, 0, 0, d => image.ShowOpaqueStretched(stretched, d)));
             hash.Add(Draw(image, format, 0, 0, d => image.ShowOpaqueStretched(shrunk, d)));
-            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(stretched, d, GfxState.AlphaBlendTable.Lookup[50])));
-            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(shrunk, d, GfxState.ShadowBlendTable.Lookup[70])));
+            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(stretched, d, GraphicsState.AlphaBlendTable.Lookup[50])));
+            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(shrunk, d, GraphicsState.ShadowBlendTable.Lookup[70])));
         }
         AddBuffer(image, hash);
     }
@@ -416,15 +426,15 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // A surface two pixels wider and taller on each side than the image, filled with a pattern,
     // clipped one pixel in from its edges, after the draw: the hash of its pixels, or the name of
     // the exception the draw raised.
-    private static ulong Draw(LibraryImage image, int format, int x, int y, Action<SurfaceDesc> draw)
+    private static ulong Draw(LibraryImage image, int format, int x, int y, Action<LockedSurface> draw)
     {
         int w = Math.Max(1, image.Width + 6), h = Math.Max(1, image.Height + 4);
-        var palette = new GFXEPalette();
+        var palette = new Palette();
         var surface = new DataSurface(w, h, format, palette);
         var hash = new Fnv();
         try
         {
-            SurfaceDesc sd = default;
+            LockedSurface sd = default;
             Assert.Equal(0, surface.Lock(ref sd));
             var pixels = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
             for (int i = 0; i < pixels.Length; i++) pixels[i] = (byte)(i * 37 + x * 5 + y);
@@ -449,17 +459,17 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         // relative to it and loads its on-demand images from there.
         var previousBase = ImageLibraries.BaseImageLibraryPath;
         ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
-        var previousTables = (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable);
-        (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) =
+        var previousTables = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
+        (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         try
         {
-            GfxState.InitBlendTables(5, 31);
+            GraphicsState.InitBlendTables(5, 31);
             ImageLibraries.RegisterLibraryImageClasses([
-                LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>(),
+                LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RleSprite08>(),
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
-                LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
+                LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(),
                 LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>(),
                 LibraryImageClass.Of<BitMask>()]);
             body();
@@ -469,12 +479,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
             ImageLibraries.BaseImageLibraryPath = previousBase;
-            GfxState.AlphaBlendTable?.Dispose();
-            GfxState.IntensityBlendTable?.Dispose();
-            GfxState.BrightenBlendTable?.Dispose();
-            GfxState.ShadowBlendTable?.Dispose();
-            GfxState.LinearAlphaBlendTable?.Dispose();
-            (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) = previousTables;
+            GraphicsState.AlphaBlendTable?.Dispose();
+            GraphicsState.IntensityBlendTable?.Dispose();
+            GraphicsState.BrightenBlendTable?.Dispose();
+            GraphicsState.ShadowBlendTable?.Dispose();
+            GraphicsState.LinearAlphaBlendTable?.Dispose();
+            (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) = previousTables;
         }
     }
 

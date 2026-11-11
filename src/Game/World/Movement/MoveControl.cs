@@ -23,9 +23,9 @@ public partial class MoveControl : IDisposable
     public MoveControl(HSMap owner)
     {
         FMap = owner;
-        FGapStarts = new XYLList();
-        FGapEnds = new XYLList();
-        FDirectRoute = new XYLList();
+        FGapStarts = new MapCoordinateList();
+        FGapEnds = new MapCoordinateList();
+        FDirectRoute = new MapCoordinateList();
     }
 
     public HSMap FMap;
@@ -41,17 +41,17 @@ public partial class MoveControl : IDisposable
     public MapLevel FMapLevel;
     public int FProcessedCount;
     public int FMovePointsLimit;
-    public FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
+    public SByteArray16By16 FMovePointTable;
     public DelphiList FProcessedMapFields;
-    public ArmyHS FArmyHS;
+    public ArmyHexSprite FArmyHS;
     public int FSelection;
-    public ArmyHS FTransporterArmy;
+    public ArmyHexSprite FTransporterArmy;
     public MoveOnMovePointProc FOnMovePoint;
-    public FixedArray_int_8[] FFieldOffsets = new FixedArray_int_8[2];
-    public FixedArray_Aow_Units_FixedArray_int_8_2 FPointOffsets;
-    public XYLList FGapStarts;
-    public XYLList FGapEnds;
-    public XYLList FDirectRoute;
+    public Int32Array8[] FFieldOffsets = new Int32Array8[2];
+    public Int32Array8By2 FPointOffsets;
+    public MapCoordinateList FGapStarts;
+    public MapCoordinateList FGapEnds;
+    public MapCoordinateList FDirectRoute;
     public int FExploredMask;
     public MoveControlSettings FSettings;
 
@@ -67,7 +67,7 @@ public partial class MoveControl : IDisposable
     public virtual bool SetupMove()
     {
         AoWMapField Field;
-        SubMove SubMove;
+        PathFindingStep SubMove;
         FProcessedCount = 0;
         FSettings.ClearMovePoints();
         FSettings.FSubMoves.Clear();
@@ -201,7 +201,7 @@ public partial class MoveControl : IDisposable
         int Best;
         int Points;
         int I;
-        SubMove SubMove;
+        PathFindingStep SubMove;
         MoveControlSettings Settings;
         Best = 16777215;
         AoWMapField Result = null;
@@ -241,7 +241,7 @@ public partial class MoveControl : IDisposable
         int Points = default;
         int Previous = default;
         int Index = default;
-        SubMove SubMove = default;
+        PathFindingStep SubMove = default;
         var canMoveOver = Source.CanMoveOver(this);
         Points = FOnMovePoint(Target, canMoveOver);
         if (Points >= 0)
@@ -289,7 +289,7 @@ public partial class MoveControl : IDisposable
                 }
                 else
                 {
-                    SubMove = new SubMove(null);
+                    SubMove = new PathFindingStep(null);
                     var targetXYL = Target.GetXYL();
                     SubMove.FLocation.Packed = targetXYL;
                     var sourceXYL = Source.GetXYL();
@@ -301,14 +301,14 @@ public partial class MoveControl : IDisposable
     }
 
     // MoveT.PAS:1257
-    public SubMove SetupSubMove(AoWMapField MapF, AoWMapField Origin)
+    public PathFindingStep SetupSubMove(AoWMapField MapF, AoWMapField Origin)
     {
-        SubMove SubMove;
+        PathFindingStep SubMove;
         int OverCode;
         int Direction;
         int Count;
         int HT;
-        SubMove = new SubMove(null);
+        SubMove = new PathFindingStep(null);
         var xyl = MapF.GetXYL();
         SubMove.FLocation.Packed = xyl;
         if (Origin != null)
@@ -369,7 +369,7 @@ public partial class MoveControl : IDisposable
     }
 
     // MoveT.PAS:1295
-    public bool ProcessSubMove(SubMove SubMove)
+    public bool ProcessSubMove(PathFindingStep SubMove)
     {
         int X = default;
         int Y = default;
@@ -426,7 +426,7 @@ public partial class MoveControl : IDisposable
     }
 
     // MoveT.PAS:1436
-    public void CalculatePath(MoveControlSettings Settings, Movepath Path, sbyte X, sbyte Y, sbyte L)
+    public void CalculatePath(MoveControlSettings Settings, MovePath Path, sbyte X, sbyte Y, sbyte L)
     {
         Activate(Settings);
         CalculatePathEx(Path, X, Y, L);
@@ -516,7 +516,7 @@ public partial class MoveControl : IDisposable
     }
 
     // MoveT.PAS:1589
-    public bool ValidPath(MoveControlSettings Settings, Movepath Path)
+    public bool ValidPath(MoveControlSettings Settings, MovePath Path)
     {
         bool Valid;
         int I;
@@ -738,10 +738,10 @@ public partial class MoveControl : IDisposable
         return Points;
     }
 
-    private static FixedArray_int_7 P5OppositeDirections = FixedArray_int_7.From([0, 4, 5, 6, 1, 2, 3]);
-    private static FixedArray_Aow_Units_FixedArray_int_2_7 P5SideDirections = FixedArray_Aow_Units_FixedArray_int_2_7.From([FixedArray_int_2.From([-1, -1]), FixedArray_int_2.From([6, 2]), FixedArray_int_2.From([1, 3]), FixedArray_int_2.From([2, 4]), FixedArray_int_2.From([3, 5]), FixedArray_int_2.From([4, 6]), FixedArray_int_2.From([5, 1])]);
-    private static FixedArray_Aow_Units_FixedArray_byte_3_6 P5OddDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([1, 3, 5]), FixedArray_byte_3.From([3, 1, 5]), FixedArray_byte_3.From([3, 5, 1]), FixedArray_byte_3.From([5, 3, 1]), FixedArray_byte_3.From([5, 1, 3]), FixedArray_byte_3.From([1, 5, 3])]);
-    private static FixedArray_Aow_Units_FixedArray_byte_3_6 P5EvenDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([2, 4, 6]), FixedArray_byte_3.From([4, 2, 6]), FixedArray_byte_3.From([4, 6, 2]), FixedArray_byte_3.From([6, 4, 2]), FixedArray_byte_3.From([6, 2, 4]), FixedArray_byte_3.From([2, 6, 4])]);
+    private static Int32Array7 P5OppositeDirections = Int32Array7.From([0, 4, 5, 6, 1, 2, 3]);
+    private static Int32Array2By7 P5SideDirections = Int32Array2By7.From([Int32Array2.From([-1, -1]), Int32Array2.From([6, 2]), Int32Array2.From([1, 3]), Int32Array2.From([2, 4]), Int32Array2.From([3, 5]), Int32Array2.From([4, 6]), Int32Array2.From([5, 1])]);
+    private static ByteArray3By6 P5OddDirections = ByteArray3By6.From([ByteArray3.From([1, 3, 5]), ByteArray3.From([3, 1, 5]), ByteArray3.From([3, 5, 1]), ByteArray3.From([5, 3, 1]), ByteArray3.From([5, 1, 3]), ByteArray3.From([1, 5, 3])]);
+    private static ByteArray3By6 P5EvenDirections = ByteArray3By6.From([ByteArray3.From([2, 4, 6]), ByteArray3.From([4, 2, 6]), ByteArray3.From([4, 6, 2]), ByteArray3.From([6, 4, 2]), ByteArray3.From([6, 2, 4]), ByteArray3.From([2, 6, 4])]);
 
     public enum StatusElement : byte
     {

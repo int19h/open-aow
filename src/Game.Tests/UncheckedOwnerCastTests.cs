@@ -34,7 +34,7 @@ public sealed class UncheckedOwnerCastTests
     }
 
     // The list is the owner without going through AddChild.
-    private sealed class PlacedUnit : AbstractUnit
+    private sealed class PlacedUnit : Troop
     {
         public PlacedUnit(int id, UnitList list) : base(null!)
         {
@@ -43,7 +43,7 @@ public sealed class UncheckedOwnerCastTests
         }
     }
 
-    private sealed class RecordingUnit : AbstractUnit
+    private sealed class RecordingUnit : Troop
     {
         public RecordingUnit() : base(null!)
         {
@@ -62,7 +62,7 @@ public sealed class UncheckedOwnerCastTests
     {
         var ability = new PossessAbility(null!);
         var item = new Item(null!);
-        var unit = new AbstractUnit(null!);
+        var unit = new Troop(null!);
         int strength = 7;
         var types = Set<DamageType>.Of(DamageType.Fire);
         ability.GetOffensiveStrength(item, ref strength, ref types);
@@ -79,7 +79,7 @@ public sealed class UncheckedOwnerCastTests
     {
         var ability = new EnchantedWeaponAbility(null!);
         Assert.Equal(0, ability.GetAIUpkeepPriority(new Item(null!)));
-        Assert.Equal(225, ability.GetAIUpkeepPriority(new AbstractUnit(null!)));
+        Assert.Equal(225, ability.GetAIUpkeepPriority(new Troop(null!)));
     }
 
     [Fact]
@@ -107,7 +107,7 @@ public sealed class UncheckedOwnerCastTests
         bool fired = false;
         scope.Map.FOnActivateAbility += sender =>
         {
-            var info = (UnitSelectorAAI)sender;
+            var info = (UnitSelectionActivation)sender;
             fired = true;
             id = info.FUnitID;
             source = info.FUnitSelector.FSourceUnitID;
@@ -130,7 +130,7 @@ public sealed class UncheckedOwnerCastTests
     public void RequiredManaOfANonHeroIsTheMissingHeroResult()
     {
         using var scope = new MapScope();
-        var unit = new AbstractUnit(null!) { FUnitID = 42 };
+        var unit = new Troop(null!) { FUnitID = 42 };
         scope.Map.FUnitControl.RegisterUnit(unit);
         var caster = new UnitSpellCaster(null!) { FCasterSourceID = 42 };
         Assert.Equal(-1, caster.GetRequiredMana());
@@ -157,14 +157,14 @@ public sealed class UncheckedOwnerCastTests
         scope.Map.FUnitControl.RegisterUnit(unit);
         scope.Map.FUnitControl.RegisterUnit(hero);
 
-        var skipped = new HeroUpgradeTE(null!) { FUnitID = 42, FPlayer = 0, FAttack = 1 };
+        var skipped = new HeroUpgradeTokenEvent(null!) { FUnitID = 42, FPlayer = 0, FAttack = 1 };
         Assert.Equal(ExecuteResult.Done, skipped.Execute(null!));
         Assert.Null(scope.Map.FUnitControl.FindUnit<Hero>(42));
         Assert.Equal(4, unit.FAbAttack);
         Assert.Equal(0, hero.FUnitAttack);
         Assert.True(hero.FUpgradePending);
 
-        var applied = new HeroUpgradeTE(null!) { FUnitID = 43, FPlayer = 0, FAttack = 1 };
+        var applied = new HeroUpgradeTokenEvent(null!) { FUnitID = 43, FPlayer = 0, FAttack = 1 };
         Assert.Equal(ExecuteResult.Done, applied.Execute(null!));
         Assert.False(hero.FUpgradePending);
         Assert.Equal(1, hero.FUnitAttack);
@@ -174,9 +174,9 @@ public sealed class UncheckedOwnerCastTests
     public void UpdateTokenHaltsForANonHeroAndAMissingId()
     {
         using var scope = new MapScope();
-        var unit = new AbstractUnit(null!) { FUnitID = 42 };
+        var unit = new Troop(null!) { FUnitID = 42 };
         scope.Map.FUnitControl.RegisterUnit(unit);
-        var token = new HeroUpdateTE(null!) { FUnitID = 42, FMode = HeroUpdateTE.HeroUpdateMode.CancelCasting };
+        var token = new HeroUpdateTokenEvent(null!) { FUnitID = 42, FMode = HeroUpdateTokenEvent.Mode.CancelCasting };
         Assert.Equal(ExecuteResult.DoneHalt, token.Execute(null!));
 
         token.FUnitID = 99;
@@ -186,7 +186,7 @@ public sealed class UncheckedOwnerCastTests
         Runtime.MessageHandler = message => shown = message;
         try
         {
-            var executer = new TokenExecuter(null!);
+            var executer = new TokenExecutor(null!);
             Assert.Equal(ExecuteResult.Done, executer.ExecuteTokenEvent(token));
             Assert.Contains("Exception occured during ", shown);
         }
@@ -203,7 +203,7 @@ public sealed class UncheckedOwnerCastTests
         var player = scope.Map.FPlayers.GetPlayers(1);
         player.FPlayerType = PlayerType.Human;
         player.FMagicControl.FCheatEnabled = true;
-        var unit = new AbstractUnit(null!) { FUnitID = 42, FPlayer = 1 };
+        var unit = new Troop(null!) { FUnitID = 42, FPlayer = 1 };
         scope.Map.FUnitControl.RegisterUnit(unit);
         var enchantment = new GlobalEnchantment(null!)
         {

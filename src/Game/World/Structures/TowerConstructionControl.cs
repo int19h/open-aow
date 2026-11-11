@@ -14,7 +14,7 @@ public partial class TowerConstructionControl : StructureConstructionControl
     { }
 
     // Tower.pas:139
-    public override void GetInfo(AbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
+    public override void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
     {
         var tower = AbilityRules.TranslateRStr(GameText.TowerRStr);
         Text = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.BuildXRStr), [tower]);
@@ -23,7 +23,7 @@ public partial class TowerConstructionControl : StructureConstructionControl
     }
 
     // Tower.pas:146
-    public override bool CanConstruct(AbstractUnit AUnit, ref string Reason)
+    public override bool CanConstruct(Troop AUnit, ref string Reason)
     {
         bool Result;
         sbyte Xhx = default;
@@ -45,7 +45,7 @@ public partial class TowerConstructionControl : StructureConstructionControl
     }
 
     // Tower.pas:133
-    public override StructureResource StructureResource(AbstractUnit AUnit) => (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindChild(132159);
+    public override StructureResource StructureResource(Troop AUnit) => (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindChild(132159);
 
     // Tower.pas:130
     public override int ID() => 3;

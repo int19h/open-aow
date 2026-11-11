@@ -37,7 +37,7 @@ public partial class CrusaderAbility : DurationAbility
     public override bool Remove(AbilityOwner owner)
     {
         bool Result = base.Remove(owner);
-        if (owner is AbstractUnit unit)
+        if (owner is Troop unit)
         {
             unit.Killed();
         }

@@ -48,9 +48,9 @@ public partial class TranslateStorageStream : EStorageStream
     }
 
     // Engine.pas:10857
-    public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
+    public override void rwCreateEObject(ref EngineObject Obj, ECustomNode AOwner, int ID)
     {
-        EObject O;
+        EngineObject O;
         O = Obj;
         if (O != null)
         {
@@ -59,7 +59,7 @@ public partial class TranslateStorageStream : EStorageStream
     }
 
     // Engine.pas:10865
-    public override void rwEObject(EObject Obj, int ID)
+    public override void rwEObject(EngineObject Obj, int ID)
     {
         bool Continue = default;
         try
@@ -86,7 +86,7 @@ public partial class TranslateStorageStream : EStorageStream
     }
 
     // Engine.pas:10882
-    public override void rwEObjectStream(EObject Obj, int ID)
+    public override void rwEObjectStream(EngineObject Obj, int ID)
     {
         rwEObject(Obj, ID);
     }
@@ -94,7 +94,7 @@ public partial class TranslateStorageStream : EStorageStream
     // Engine.pas:10887
     public override void rwChildren(ECustomNode Node, int ID)
     {
-        EObject C;
+        EngineObject C;
         for (int I = 0, last = Node.Count - 1; I <= last; I++)
         {
             C = Node.Children[I];

@@ -30,13 +30,13 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1428
     public override bool Deactivate(byte Player)
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         base.Deactivate(Player);
         // { Original doubles Death. }
         AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(MagicSphere.Death);
         var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
         AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
-        EMsg.InitMsg(ref Msg, 537002240, this);
+        EngineMessage.InitMsg(ref Msg, 537002240, this);
         AoWHSMap.Current.SendMsg(ref Msg, this);
         return true;
     }

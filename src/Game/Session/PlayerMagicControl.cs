@@ -27,7 +27,7 @@ namespace Aow.Game.Session;
 // (next ID, cheat, player, updates, external mana/power, external source, mana, spheres,
 // research percentage, spells, research spell, points, enchantments, power sources, enchantment
 // sets, changed events)
-public partial class PlayerMagicControl : EObject
+public partial class PlayerMagicControl : EngineObject
 {
 
     // Spells.PAS:1908
@@ -38,7 +38,7 @@ public partial class PlayerMagicControl : EObject
     {
         ExternalPowerSource Source;
 
-        FSpells = new IntegerList();
+        FSpells = new Int32List();
         FChangedEventsStore = new();
         FEnchantments = new EnchantmentList(null);
         FPowerSources = new PowerSourceList(null);
@@ -63,7 +63,7 @@ public partial class PlayerMagicControl : EObject
     public int FMana;
     public Set<MagicSphere> FSpheres;
     public int FResearchPercentage;
-    public IntegerList FSpells;
+    public Int32List FSpells;
     public int FResearchSpellID;
     public int FResearchPointsLeft;
     public EnchantmentList FEnchantments;
@@ -88,7 +88,7 @@ public partial class PlayerMagicControl : EObject
             FEnchantments?.Dispose();
             FChangedEventsStore.Clear();
             FPowerSources.RemoveChild(FExternalPowerSource);
-            if (FPowerSources.GetCount() != 0 && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+            if (FPowerSources.GetCount() != 0 && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
             {
                 try
                 {
@@ -128,7 +128,7 @@ public partial class PlayerMagicControl : EObject
     }
 
     // Spells.PAS:2243
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer.FPlayerIndex)
@@ -278,7 +278,7 @@ public partial class PlayerMagicControl : EObject
                 Mana -= FEnchantments.GetEnchantments(Index).FUpkeep;
                 Log = new PlayerMagicEventLog(null);
                 Log.FPlayer = FPlayer.FPlayerIndex;
-                Log.FMode = PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana;
+                Log.FMode = PlayerMagicEventLog.EventMode.OutOfMana;
                 FEnchantments.GetEnchantments(Index).GetLocation(ref Log.FLocation.X, ref Log.FLocation.Y, ref Log.FLocation.L);
                 Log.FEnchantmentName = FEnchantments.GetEnchantments(Index).GetName();
                 AoWHSMap.Current.FPlayers.GetPlayers(FPlayer.FPlayerIndex).FEventLogbook.AddEvent(Log);
@@ -343,13 +343,13 @@ public partial class PlayerMagicControl : EObject
     public void NewTurn()
     {
         SpellType Kind = default;
-        IntegerList Candidates = default;
+        Int32List Candidates = default;
         int Index = default;
         Spell Spell = default;
         PlayerMagicEventLog Log;
         if (AoWHSMap.Current.FDay == 1 && FPlayer.FPlayerIndex != 0 && (AoWHSMap.Current.FGameType != GameType.Campaign || FSpells.Count == 0))
         {
-            Candidates = new IntegerList();
+            Candidates = new Int32List();
             for (int kindOrdinal = (int)(SpellType)0; kindOrdinal <= (int)(SpellType)2; kindOrdinal++)
             {
                 Kind = (SpellType)kindOrdinal;
@@ -389,7 +389,7 @@ public partial class PlayerMagicControl : EObject
 
                     Log = new PlayerMagicEventLog(null);
                     Log.FPlayer = FPlayer.FPlayerIndex;
-                    Log.FMode = PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched;
+                    Log.FMode = PlayerMagicEventLog.EventMode.SpellResearched;
                     Log.FSpellID = FResearchSpellID;
                     FPlayer.FEventLogbook.AddEvent(Log);
                     ExecuteSpellResearched(FResearchSpellID);
@@ -502,7 +502,7 @@ public partial class PlayerMagicControl : EObject
     public bool ValidResearchSpell(Spell Spell)
     {
         bool Result;
-        FixedArray_int_4 Counts;
+        Int32Array4 Counts;
         int Level;
         Spell Known;
         if (FPlayer.FLeader.GetSpherePicks(Spell.FMagicSphere) >= Spell.FSpellLevel && FSpells.IndexOf(Spell.FSpellID) == -1)
@@ -717,9 +717,9 @@ public partial class PlayerMagicControl : EObject
     }
 
     // Spells.PAS:2306
-    public ChangePlayerMagicTE CreateChangeMagicTE()
+    public ChangePlayerMagicTokenEvent CreateChangeMagicTE()
     {
-        ChangePlayerMagicTE Result = new ChangePlayerMagicTE(null);
+        ChangePlayerMagicTokenEvent Result = new ChangePlayerMagicTokenEvent(null);
         Result.FPlayerIndex = (byte)FPlayer.FPlayerIndex;
         return Result;
     }
@@ -745,12 +745,12 @@ public partial class PlayerMagicControl : EObject
     {
         bool Result;
         int Index;
-        ChangePlayerMagicTE Event;
+        ChangePlayerMagicTokenEvent Event;
         Index = FEnchantments.FChildren.IndexOf(Enchantment);
         if (!FPlayer.GetBusy() && Index != -1)
         {
             Event = CreateChangeMagicTE();
-            Event.FMode = ChangePlayerMagicTE.ChangePlayerMagicMode.DispelEnchantment;
+            Event.FMode = ChangePlayerMagicTokenEvent.Mode.DispelEnchantment;
             Event.FValue = Index;
             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
             Event.Release();
@@ -776,13 +776,13 @@ public partial class PlayerMagicControl : EObject
     public bool ChangePowerSettings(int Percentage)
     {
         bool Result;
-        ChangePlayerMagicTE Event;
+        ChangePlayerMagicTokenEvent Event;
         if (!FPlayer.GetBusy())
         {
             if (Percentage != FResearchPercentage)
             {
                 Event = CreateChangeMagicTE();
-                Event.FMode = ChangePlayerMagicTE.ChangePlayerMagicMode.ChangePowerSettings;
+                Event.FMode = ChangePlayerMagicTokenEvent.Mode.ChangePowerSettings;
                 Event.FValue = Percentage;
                 AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
                 Event.Release();
@@ -829,11 +829,11 @@ public partial class PlayerMagicControl : EObject
     public bool ResearchSpell(int SpellID)
     {
         bool Result;
-        ChangePlayerMagicTE Event;
+        ChangePlayerMagicTokenEvent Event;
         if (!FPlayer.GetBusy())
         {
             Event = CreateChangeMagicTE();
-            Event.FMode = ChangePlayerMagicTE.ChangePlayerMagicMode.ResearchSpell;
+            Event.FMode = ChangePlayerMagicTokenEvent.Mode.ResearchSpell;
             Event.FValue = SpellID;
             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
             Event.Release();

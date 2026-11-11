@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.Net;
 
 // FConnectionMode (stored with id 5), FSystemID (id 6). One per player
-public partial class PlayerCommunicationSettings : EObject
+public partial class PlayerCommunicationSettings : EngineObject
 {
     internal ConnectionMode FConnectionMode;
     internal int FSystemID;

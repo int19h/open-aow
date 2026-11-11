@@ -19,7 +19,7 @@ public partial class DarkGiftEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1261
     public override int GetAIUpkeepPriority(AbilityOwner Owner)
     {
-        if (Owner is not AbstractUnit unit)
+        if (Owner is not Troop unit)
         {
             return 0;
         }

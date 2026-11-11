@@ -14,7 +14,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Session;
 
 // behaviors, race, status, leader, player, behavior, email
-public partial class PlayerSetupSettings : EObject
+public partial class PlayerSetupSettings : EngineObject
 {
     // AoWSetup.pas:312
     public new const int ClassID = 131683;
@@ -62,14 +62,14 @@ public partial class PlayerSetupSettings : EObject
     private static SetupPlayerBehavior DefaultBehavior = new SetupPlayerBehavior
     {
         PlayerType = 0,
-        Reserved = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
     private static SetupPlayerBehavior DefaultOriginalBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
-        Reserved = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 

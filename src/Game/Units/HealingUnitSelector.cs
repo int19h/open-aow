@@ -15,7 +15,7 @@ public partial class HealingUnitSelector : UnitSelector
     { }
 
     // AoWAb.PAS:3894
-    public override bool CanSelectUnit(AbstractUnit AUnit)
+    public override bool CanSelectUnit(Troop AUnit)
     {
         var unitType = AUnit.GetUnitType();
         if (!(Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && AUnit.GetHits() != AUnit.GetHitPoints()))
@@ -30,11 +30,11 @@ public partial class HealingUnitSelector : UnitSelector
     public override bool Select()
     {
         bool Result;
-        AbstractUnit Source;
-        AbstractUnit Target;
+        Troop Source;
+        Troop Target;
         string Error = "";
         int I;
-        HealingTE Event;
+        HealingTokenEvent Event;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FSourceUnitID);
         if (CanSelect(ref Error) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
@@ -52,7 +52,7 @@ public partial class HealingUnitSelector : UnitSelector
 
             if (Target != null)
             {
-                Event = new HealingTE(null);
+                Event = new HealingTokenEvent(null);
                 Event.FSourceID = Source.FUnitID;
                 Event.FSourcePlayer = (byte)Source.FPlayer;
                 Event.FTargetID = Target.FUnitID;

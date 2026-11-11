@@ -179,19 +179,19 @@ public partial class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1516
-    public WordList CreateSurroundingHNTable()
+    public UInt16List CreateSurroundingHNTable()
     {
         int HN;
         int Xhx = default;
         int Yhx = default;
-        HNWalkData Walk = default;
-        WordList Result = new WordList();
+        HexNumberWalkData Walk = default;
+        UInt16List Result = new UInt16List();
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
             if (GetTerrain(I) >= 0)
             {
                 HexGeometry.HNtoHX(I, ref Xhx, ref Yhx);
-                HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 1);
+                HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 1);
                 while (Walk.HN != 7)
                 {
                     HN = HexGeometry.HXtoHN(Walk.X, Walk.Y);
@@ -203,7 +203,7 @@ public partial class TerrainList : IDisposable
                         }
                     }
 
-                    HNWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHN(ref Walk);
                 }
             }
         }
@@ -272,12 +272,12 @@ public partial class TerrainList : IDisposable
 
     public OverlayAccessor Overlay => new OverlayAccessor(this);
 
-    public sealed class TandOAccessor(TerrainList target)
+    public sealed class TerrainAndOverlayAccessor(TerrainList target)
     {
         public ushort this[int Index] { get => target.GetTandO(Index); set => target.SetTandO(Index, value); }
     }
 
-    public TandOAccessor TandO => new TandOAccessor(this);
+    public TerrainAndOverlayAccessor TandO => new TerrainAndOverlayAccessor(this);
 
     public sealed class UsedAccessor(TerrainList target)
     {

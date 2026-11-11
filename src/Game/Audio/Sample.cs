@@ -102,7 +102,7 @@ public partial class Sample : IDisposable
     {
         if (FCallBack != null)
         {
-            FCallBack(this, SampleCallBackMode.Done);
+            FCallBack(this, SampleCallbackMode.Done);
         }
 
         if (FSampleData != null)

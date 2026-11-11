@@ -32,7 +32,7 @@ public partial class AnimateRuins : CityTargetSpell
     }
 
     // CitySpells.pas:938
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         bool Result = default;
         City TargetCity = default;
@@ -42,7 +42,7 @@ public partial class AnimateRuins : CityTargetSpell
         Unit AUnit = default;
         if (ExecuteCount == 0)
         {
-            TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
+            TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
             Log = new LocationTextEventLog(null);
             Log.FPlayer = Source.FPlayer;
             var animateRuins = AbilityRules.TranslateRStr(AnimateRuinsRStr);
@@ -76,7 +76,7 @@ public partial class AnimateRuins : CityTargetSpell
         {
             if (ExecuteCount == 50)
             {
-                TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
+                TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
                 TargetCity.SetRace(AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FPlayerRace);
                 TargetCity.SetRazed(false);
                 var size = TargetCity.GetSize();
@@ -105,14 +105,14 @@ public partial class AnimateRuins : CityTargetSpell
     }
 
     // CitySpells.pas:924
-    public override bool ValidTargetCity(AbstractUnit Source, City TargetCity)
+    public override bool ValidTargetCity(Troop Source, City TargetCity)
     {
         bool Result = base.ValidTargetCity(Source, TargetCity);
         return Result && TargetCity.GetRazed();
     }
 
     // CitySpells.pas:930
-    public void ShowAnimation(Animation Animation, int X, int Y, in SurfaceDesc SD)
+    public void ShowAnimation(Animation Animation, int X, int Y, in LockedSurface SD)
     {
         var imageSequenceAnimation = (ImageSequenceAnimation)Animation;
         if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != 0)
@@ -123,5 +123,5 @@ public partial class AnimateRuins : CityTargetSpell
     }
 
     private static readonly string AnimateRuinsRStr = "Animate Ruins";
-    private static FixedArray_int_2 TAnimateRuins_ExecuteTE__UndeadUnits = FixedArray_int_2.From([198, 201]);
+    private static Int32Array2 TAnimateRuins_ExecuteTE__UndeadUnits = Int32Array2.From([198, 201]);
 }

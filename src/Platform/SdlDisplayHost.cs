@@ -239,7 +239,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         upload = new byte[checked(width * height * 2)];
     }
 
-    public void Present(in SurfaceDesc backSurface)
+    public void Present(in LockedSurface backSurface)
     {
         OnThread();
         if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatID != PixelFormats.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)

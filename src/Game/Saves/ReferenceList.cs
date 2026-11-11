@@ -9,7 +9,7 @@ public sealed class ReferenceList(string member, ReferenceDomain domain) : Conte
 {
     public override IEnumerable<string> Members => [member];
 
-    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocPath path)
+    public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path)
     {
         if (value[member] is not JsonObject list || list["items"] is not JsonArray items) yield break;
         for (int i = 0; i < items.Items.Count; i++)

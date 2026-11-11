@@ -24,7 +24,7 @@ namespace Aow.Game.Combat;
 // FCombat. FID. FTargets. FTargetedBy. outgoing CV/wall CV. incoming CV/wall CV. target counts.
 // attacker counts. target priority/cache flag. strength/cache flag. FCombatPlayer. FPosition.
 // FStatus. FControlMode
-public partial class CombatObject : EObject
+public partial class CombatObject : EngineObject
 {
 
     // Combat.pas:1922
@@ -413,15 +413,15 @@ public partial class CombatObject : EObject
     }
 
     // Combat.pas:5990
-    public virtual void Show(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public virtual void Show(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
     }
 
     // Combat.pas:5993
-    public virtual int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface) => 0;
+    public virtual int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface) => 0;
 
     // Combat.pas:5996
-    public virtual int ShowHitAnimation(int Frame, int Direction, int X, int Y, in SurfaceDesc Surface) => 0;
+    public virtual int ShowHitAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface) => 0;
 
     // Combat.pas:5868
     public virtual int DoDamage(CombatObject Target, int Damage)
@@ -590,8 +590,8 @@ public partial class CombatObject : EObject
     // Combat.pas:5663
     public virtual void TurnDone()
     {
-        CombatObjectTurnDoneCA A;
-        A = new CombatObjectTurnDoneCA(null);
+        CombatObjectTurnDoneCombatAction A;
+        A = new CombatObjectTurnDoneCombatAction(null);
         A.F_CombatObjectTurnDoneCA_0C = FID;
         FCombat.ExecuteCombatAction(A);
         A.Release();
@@ -857,9 +857,9 @@ public partial class CombatObject : EObject
         return Result;
     }
 
-    internal static StrikeCA CreateStrikeCA(CombatObject Source, CombatObject Target, bool Defensive)
+    internal static StrikeCombatAction CreateStrikeCA(CombatObject Source, CombatObject Target, bool Defensive)
     {
-        StrikeCA Result;
+        StrikeCombatAction Result;
         sbyte Attack;
         Set<DamageType> Types;
         sbyte Damage;
@@ -900,7 +900,7 @@ public partial class CombatObject : EObject
                 Damage = (sbyte)(Damage + 3);
             }
 
-            Result = new StrikeCA(null);
+            Result = new StrikeCombatAction(null);
             Result.Generate(Source, Target, Attack, Damage, Types);
             Result.SetDefensive(Defensive);
         }

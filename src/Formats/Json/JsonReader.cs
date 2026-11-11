@@ -134,11 +134,11 @@ public sealed class JsonReader
                 break;
             case 't':
                 Expect("true");
-                value = new JsonBool(true);
+                value = new JsonBoolean(true);
                 break;
             case 'f':
                 Expect("false");
-                value = new JsonBool(false);
+                value = new JsonBoolean(false);
                 break;
             case 'n':
                 Expect("null");

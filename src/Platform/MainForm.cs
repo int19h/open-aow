@@ -10,7 +10,7 @@ using Aow.Game.Host;
 using Aow.Game.Layout;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using Aow.Game.Ui.Dialogs;
+using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -20,8 +20,8 @@ namespace Aow.Platform;
 public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 {
     public Display Display { get; }
-    public SdlDC WinDC { get; }
-    public SdlDC DXDC => WinDC;
+    public SdlDisplayController WinDC { get; }
+    public SdlDisplayController DXDC => WinDC;
     public short FCursor { get; set; }
     public LibraryImage FCursorImage { get; set; }
     public Rect FLastCursorRect { get; private set; }
@@ -43,7 +43,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         Display.Host = host;
         Display.EventSink = this;
         Display.Terminated = () => IsClosed;
-        WinDC = new SdlDC(host);
+        WinDC = new SdlDisplayController(host);
     }
 
     public static MainForm Create(IDisplayHost host, string argument = "", bool mute = true, bool audioOutput = false)
@@ -149,13 +149,13 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         Display.StartUpdateFrameLoop();
     }
 
-    public void DisplayUpdateFrame(object sender, AbstractDC dc, int surfaceType)
+    public void DisplayUpdateFrame(object sender, CustomDisplayController dc, int surfaceType)
     {
         RtlUnit.Clock.WaitMilliseconds(GameTables.AoWEngine.FRegistry.GetDebugMode() ? 1 : 0);
         switch (GameHost.DeferredSetupAction)
         {
             case 1: GameHost.DeferredSetupAction = 0; DialogHosts.ScenSetup.FSetupControl.hPlayerSetupDone(); break;
-            case 2: GameHost.DeferredSetupAction = 0; FileDlgWindow.OpenSelectedGame(DialogHosts.FileDlgWindow); break;
+            case 2: GameHost.DeferredSetupAction = 0; FileDialogWindow.OpenSelectedGame(DialogHosts.FileDlgWindow); break;
         }
         if (DialogHosts.SetupEvents.DPlay.DPlay is not null)
             DialogHosts.SetupEvents.DPlay.CheckMessages();
@@ -174,7 +174,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             if (AoWHSMap.Current is not null) ScrollMap(x, y);
             try { DialogHosts.General.Manager.DrawSurface(back); }
             catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
-            SurfaceDesc descriptor = default;
+            LockedSurface descriptor = default;
             if (x != -1 && back.Lock(ref descriptor) >= 0)
             {
                 try { DrawCursor(x, y, descriptor); }
@@ -214,10 +214,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private Rect FCursorBounds;
 
-    public void DrawCursor(int x, int y, in SurfaceDesc surface)
+    public void DrawCursor(int x, int y, in LockedSurface surface)
     {
         if (x == -1) return;
-        if (AoWHSMap.Current is not null && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Activated))
+        if (AoWHSMap.Current is not null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, surface);
             var image = CursorIndex != 1 ? AoWHSSet.Current.FCursorImages[CursorIndex] : null;
@@ -227,7 +227,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
                 if (player.GetBusy() && player.FGameOverStatus == GameOverStatus.None)
                 {
-                    image.ShowBlended(x - 25, y - 25, surface, GfxState.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Current.Frame << 2) % 100 - 50) + 30));
+                    image.ShowBlended(x - 25, y - 25, surface, GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Current.Frame << 2) % 100 - 50) + 30));
                     FCursorChanged = true;
                     return;
                 }
@@ -252,7 +252,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         Display.MouseButtons = shift;
         DialogHosts.General.Manager.CheckMouseUp(button, shift, x, y);
-        if (AoWHSMap.Current?.Mouse is AbstractAoWHSMapMouse mouse) mouse.ResetRectangleSelection();
+        if (AoWHSMap.Current?.Mouse is GameMapMouse mouse) mouse.ResetRectangleSelection();
     }
 
     public void MouseMove(Set<ShiftState> shift, int x, int y) { Display.MouseButtons = shift; DialogHosts.General.Manager.CheckMouseMove(shift, x, y); }

@@ -1,8 +1,6 @@
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
@@ -17,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
 public partial class CityEnchantmentSpell : CityTargetSpell
 {
-    public CityEnchantmentID FEnchantmentID;
+    public CityEnchantmentId FEnchantmentID;
     public int FEnchantmentSpellID;
     public int FAIPriority;
     public int FAIBudget;
@@ -30,11 +28,11 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     }
 
     // CitySpells.pas:576
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         City TargetCity;
         CityEnchantment Enchantment;
-        TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
+        TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
         Enchantment = new CityEnchantment(null);
         Enchantment.FEnchantmentID = FEnchantmentID;
         Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
@@ -49,7 +47,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     }
 
     // CitySpells.pas:594
-    public override void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
     {
         bool Valid;
         AICastSpellAction Action;
@@ -87,7 +85,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     }
 
     // CitySpells.pas:623
-    public override bool AIExecuteCastSpellAction(AbstractUnit Source)
+    public override bool AIExecuteCastSpellAction(Troop Source)
     {
         bool Result;
         string Reason = "";
@@ -127,11 +125,11 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     }
 
     // CitySpells.pas:570
-    public override bool ValidTargetCity(AbstractUnit Source, City TargetCity) => base.ValidTargetCity(Source, TargetCity) && !TargetCity.FEnchantments.Contains(FEnchantmentID);
+    public override bool ValidTargetCity(Troop Source, City TargetCity) => base.ValidTargetCity(Source, TargetCity) && !TargetCity.FEnchantments.Contains(FEnchantmentID);
 
     // CitySpells.pas:560
-    public override CityTargetSpellTE CreateTE() => new CityEnchantmentSpellTE(null);
+    public override CityTargetSpellTokenEvent CreateTE() => new CityEnchantmentSpellTokenEvent(null);
 
     // CitySpells.pas:565
-    public override bool SetupTE(CityTargetSpellTE Event, AbstractUnit Source, int X, int Y, int L) => base.SetupTE(Event, Source, X, Y, L);
+    public override bool SetupTE(CityTargetSpellTokenEvent Event, Troop Source, int X, int Y, int L) => base.SetupTE(Event, Source, X, Y, L);
 }

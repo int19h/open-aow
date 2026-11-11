@@ -34,7 +34,7 @@ public sealed class LibraryImageClass
 
     public static IReadOnlyList<LibraryImageClass> All => catalog.All;
 
-    public int GrabImages(in SurfaceDesc SD, GrabInfo GrabInfo, CustomImageLibrary ImageLibrary, GrabProgressEvent OnProgress)
+    public int GrabImages(in LockedSurface SD, GrabInfo GrabInfo, CustomImageLibrary ImageLibrary, GrabProgressEvent OnProgress)
     {
         int Result = default;
         LibraryImageClass ImageClass;
@@ -97,7 +97,7 @@ public sealed class LibraryImageClass
         return Result;
     }
 
-    internal static RectangleList GetSurfaceRectangles(SurfaceDesc SD, int TransparentColor, ProgressEvent OnProgress)
+    internal static RectangleList GetSurfaceRectangles(LockedSurface SD, int TransparentColor, ProgressEvent OnProgress)
     {
         RectangleList tRectangleList = new RectangleList();
         int i = 0;

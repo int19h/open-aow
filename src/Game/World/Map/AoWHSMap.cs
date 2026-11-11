@@ -7,9 +7,8 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
-
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 
@@ -28,7 +27,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
-using Aow.Game.Ui.Controls;
+using Aow.Game.UI.Controls;
 using Aow.Game.Units;
 
 using Aow.Game.World.Movement;
@@ -43,7 +42,7 @@ namespace Aow.Game.World.Map;
 // map name, heroes, game mode, stream mode, fixed leaders, allied victory, day limit, turn
 // order, day/turn events, event-log locks, diplomacy events, initial seed, random seed, debug
 // save, communicator, token log Text, logging enabled
-public partial class AoWHSMap : AbstractAoWHSMap
+public partial class AoWHSMap : GameMap
 {
 
     public new const int ClassID = 131089;
@@ -63,17 +62,17 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public StringList FObjectives;
     public sbyte FHeroCountMax;
     public StartupSongList FStartupSongs;
-    public Songlist FGameSongs;
+    public SongList FGameSongs;
     public GameStatus FGameStatus;
     public GameResult FGameResult;
     public GameType FGameType;
-    public AbstractAoWCombatMap FCombatMap;
-    public Combat.Battle FCombat;
+    public CustomCombatMap FCombatMap;
+    public Battle FCombat;
     public TutorialControl FTutorialControl;
-    public AIExecuter FAIExecuter;
+    public AIExecutor FAIExecuter;
     public AIPlayerActionManager FAIPlayerActionManager;
     public AIGroupManager FAIGroupManager;
-    public AoWHSMapKeyboard FKeyboard;
+    public HexSpriteMapKeyboard FKeyboard;
     public bool FUnlimitedMoves;
     public bool FRequestCombatType;
     public PlayerConnectionType FConnectionType;
@@ -109,7 +108,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public bool FShowIndependentMoves;
     public MoveControl FMoveControl;
     public GlobalMagicControl FGlobalMagicControl;
-    public AoWMapCampaignSettings FCampaignSettings;
+    public MapCampaignSettings FCampaignSettings;
     public sbyte FEditorPlayer;
     public bool FShowAllPlayers;
     public int FRelationsChangedLockCount;
@@ -162,9 +161,9 @@ public partial class AoWHSMap : AbstractAoWHSMap
         remove => FSeatedPlayerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Combat.Battle> FCombatEventsStore;
+    internal EventStore<Battle> FCombatEventsStore;
 
-    public event NotifyEvent<Combat.Battle> FCombatEvents
+    public event NotifyEvent<Battle> FCombatEvents
     {
         add => FCombatEventsStore.Add(value);
         remove => FCombatEventsStore.Remove(value);
@@ -215,7 +214,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
         remove => FExecuteEventLogEventsStore.Remove(value);
     }
 
-    public ExecuteEventLogCallBackList FExecuteEventLogCallBacks;
+    public ExecuteEventLogCallbackList FExecuteEventLogCallBacks;
     public int FAILockCount;
     public int FExecuteEventLogDelay;
 
@@ -227,17 +226,17 @@ public partial class AoWHSMap : AbstractAoWHSMap
         remove => FCosmeticSurgeryEventsStore.Remove(value);
     }
 
-    internal EventStore<ActivateAbilityInfo> FOnActivateAbilityStore;
+    internal EventStore<AbilityActivation> FOnActivateAbilityStore;
 
-    public event NotifyEvent<ActivateAbilityInfo> FOnActivateAbility
+    public event NotifyEvent<AbilityActivation> FOnActivateAbility
     {
         add => FOnActivateAbilityStore.Add(value);
         remove => FOnActivateAbilityStore.Remove(value);
     }
 
-    internal EventStore<EObject> FDiplomaticRelationsChangedEventsStore;
+    internal EventStore<EngineObject> FDiplomaticRelationsChangedEventsStore;
 
-    public event NotifyEvent<EObject> FDiplomaticRelationsChangedEvents
+    public event NotifyEvent<EngineObject> FDiplomaticRelationsChangedEvents
     {
         add => FDiplomaticRelationsChangedEventsStore.Add(value);
         remove => FDiplomaticRelationsChangedEventsStore.Remove(value);
@@ -251,16 +250,16 @@ public partial class AoWHSMap : AbstractAoWHSMap
         remove => FUpdateVisibilityEventsStore.Remove(value);
     }
 
-    public List<WorldFXHS> FEffects;
+    public List<WorldEffectHexSprite> FEffects;
     public int FUpdateVisibilityLockCount;
     public bool FVisibilityChanged;
     public int FArmyUpdateCount;
     public int FStructureUpdateCount;
     public int FUnitUpdateCount;
 
-    internal EventStore<AbstractUnit> FUnitChangedEventsStore;
+    internal EventStore<Troop> FUnitChangedEventsStore;
 
-    public event NotifyEvent<AbstractUnit> FUnitChangedEvents
+    public event NotifyEvent<Troop> FUnitChangedEvents
     {
         add => FUnitChangedEventsStore.Add(value);
         remove => FUnitChangedEventsStore.Remove(value);
@@ -282,9 +281,9 @@ public partial class AoWHSMap : AbstractAoWHSMap
         remove => FStructureChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<AbstractUnit> FUnitDestroyedEventsStore;
+    internal EventStore<Troop> FUnitDestroyedEventsStore;
 
-    public event NotifyEvent<AbstractUnit> FUnitDestroyedEvents
+    public event NotifyEvent<Troop> FUnitDestroyedEvents
     {
         add => FUnitDestroyedEventsStore.Add(value);
         remove => FUnitDestroyedEventsStore.Remove(value);
@@ -350,16 +349,16 @@ public partial class AoWHSMap : AbstractAoWHSMap
         LockMapChangedEvent();
         OnViewLevel = null;
         OnCenterView = null;
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "GENERAL.ILB");
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "CURSORS.ILB");
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "COMBAT.ILB");
+        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
+        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
+        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
         FMoveControl?.Dispose();
         for (int I = FEffects.Count - 1; I >= 0; I--)
         {
             var animation = FEffects[I];
-            DynamicFixedVisibleHS.RemoveChild((EObject)animation);
+            DynamicFixedVisibleHS.RemoveChild((EngineObject)animation);
             var fEffectsItem = FEffects[I];
-            DynamicVisibleHS.RemoveChild((EObject)fEffectsItem);
+            DynamicVisibleHS.RemoveChild((EngineObject)fEffectsItem);
             (FEffects[I] as IDisposable)?.Dispose();
         }
 
@@ -480,7 +479,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
         }
 
         FIgnoreStreamErrors = false;
-        if (Status.Contains(HSMapStatusElement.Editting))
+        if (Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             Stream.OnError = OnStreamError;
         }
@@ -616,20 +615,20 @@ public partial class AoWHSMap : AbstractAoWHSMap
         FPlayerCommunicator = new PlayerCommunicator(null);
         FPlayerCommunicator.Engine = GameTables.AoWEngine;
         FConnectionType = PlayerConnectionType.Local;
-        FAIExecuter = new AIExecuter(null);
+        FAIExecuter = new AIExecutor(null);
         FAIGroupManager = new AIGroupManager(null);
         FAIPlayerActionManager = new AIPlayerActionManager(null);
-        FAIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPA>(), AIPlayerActionClass.Of<GroupControlAIPA>(), AIPlayerActionClass.Of<GroupControlLoopAIPA>(), AIPlayerActionClass.Of<InitializeAIPA>(), AIPlayerActionClass.Of<BudgetManagerAIPA>(), AIPlayerActionClass.Of<AutoProduceAIPA>(), AIPlayerActionClass.Of<DiplomacyAIPA>(), AIPlayerActionClass.Of<ProcessEventlogAIPA>(), AIPlayerActionClass.Of<ResearchSpellAIPA>(), AIPlayerActionClass.Of<CastSpellAIPA>(), AIPlayerActionClass.Of<StructurePhase1AIPA>(), AIPlayerActionClass.Of<StructurePhase2AIPA>()]);
+        FAIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<BudgetManagerAIPlayerAction>(), AIPlayerActionClass.Of<AutoProduceAIPlayerAction>(), AIPlayerActionClass.Of<DiplomacyAIPlayerAction>(), AIPlayerActionClass.Of<ProcessEventLogAIPlayerAction>(), AIPlayerActionClass.Of<ResearchSpellAIPlayerAction>(), AIPlayerActionClass.Of<CastSpellAIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase1AIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase2AIPlayerAction>()]);
         FTokenManager.TokenExecuter.OnEventsExecuted += FAIExecuter.TokenControlDoneEvent;
-        FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<HuntAG>()]);
+        FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<HuntAIGroup>()]);
         FPlayMode = PlayMode.None;
-        FKeyboard = new AoWHSMapKeyboard(null);
+        FKeyboard = new HexSpriteMapKeyboard(null);
         FTargetSelection = new TargetSelectionControl();
-        FEffects = new List<WorldFXHS>();
+        FEffects = new List<WorldEffectHexSprite>();
         FDefendersSeed = 0;
         FHeroCountMax = 5;
         FSelectedArmy = new SelectedArmy();
-        ((AbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents += FSelectedArmy.RectangleSelectEvent;
+        ((GameMapMouse)Mouse).FRectangleSelectEvents += FSelectedArmy.RectangleSelectEvent;
         FMoveControl = new MoveControl(this);
         FGlobalMagicControl = new GlobalMagicControl(null);
         FMapName = "noname";
@@ -680,11 +679,11 @@ public partial class AoWHSMap : AbstractAoWHSMap
         FExecuteEventLogEventsStore = new();
         FUnitChangedEvents += FTargetSelection.UnitChanged;
         FArmyDestroyedEvents += FSelectedArmy.OnDestroyArmy;
-        FExecuteEventLogCallBacks = new ExecuteEventLogCallBackList();
+        FExecuteEventLogCallBacks = new ExecuteEventLogCallbackList();
         FCosmeticSurgeryEventsStore = new();
         FOnActivateAbilityStore = new();
         FStartupSongs = new StartupSongList(null);
-        FGameSongs = new Songlist(null);
+        FGameSongs = new SongList(null);
         FPlayerTerminatedEventsStore = new();
         FGameOverEventsStore = new();
         FGameTerminatedEventsStore = new();
@@ -693,12 +692,12 @@ public partial class AoWHSMap : AbstractAoWHSMap
         FCombatMapCreatedEventsStore = new();
         FCombatMapDestroyedEventsStore = new();
         FExitEventsStore = new();
-        FCampaignSettings = new AoWMapCampaignSettings(null);
+        FCampaignSettings = new MapCampaignSettings(null);
         Mouse.OnMove += MouseMoved;
     }
 
     // AoWHSMap.PAS:2826
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         if (Msg.MsgID == 536870920)
         {
@@ -735,7 +734,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:2853
-    public override void SendMsg(ref EMsg Msg, EObject Sender)
+    public override void SendMsg(ref EngineMessage Msg, EngineObject Sender)
     {
         base.SendMsg(ref Msg, Sender);
         if (FGlobalMagicControl != null)
@@ -758,7 +757,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:1549
-    public override HSMapMouse CreateMouse() => new AoWHSMapMouse();
+    public override HexSpriteMapMouse CreateMouse() => new AowHexSpriteMapMouse();
 
     // AoWHSMap.PAS:2116
     public override void NotifyProgress(in MapProgress Progress)
@@ -843,7 +842,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     // AoWHSMap.PAS:2290
     public override void InitializeNewMap()
     {
-        EObject Obj;
+        EngineObject Obj;
         FRaces.Update();
         FPlayers.SetNumberOfPlayers(2);
         FPlayers.ValidateRaces(FRaces);
@@ -933,7 +932,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
         FTokenManager.Initialize(FPlayerCommunicator);
         base.Activate();
-        if (!Status.Contains(HSMapStatusElement.Editting))
+        if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             if (FDay == 0)
             {
@@ -956,24 +955,24 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:2326
-    public override bool CreateNewMap(NewHSMapSettings Settings) => base.CreateNewMap(Settings);
+    public override bool CreateNewMap(NewHexSpriteMapSettings Settings) => base.CreateNewMap(Settings);
 
     // AoWHSMap.PAS:3130
-    public override int ChangeTerrain(EObject MO, int X, int Y, int L, int Radius, int TerrainType)
+    public override int ChangeTerrain(EngineObject MO, int X, int Y, int L, int Radius, int TerrainType)
     {
         RandSeed = Current.Random(16777215);
         return base.ChangeTerrain(MO, X, Y, L, Radius, TerrainType);
     }
 
     // AoWHSMap.PAS:3137
-    public override int ChangeTerrainEx(EObject MO, int X, int Y, int L, int Radius, ChangeTerrainProc ChangeTerrainProc, TerrainChangedProc TerrainChangedProc)
+    public override int ChangeTerrainEx(EngineObject MO, int X, int Y, int L, int Radius, ChangeTerrainProc ChangeTerrainProc, TerrainChangedProc TerrainChangedProc)
     {
         RandSeed = Current.Random(16777215);
         return base.ChangeTerrainEx(MO, X, Y, L, Radius, ChangeTerrainProc, TerrainChangedProc);
     }
 
     // AoWHSMap.PAS:2983
-    public override void DrawDynamicScene(ref SurfaceDesc SD)
+    public override void DrawDynamicScene(ref LockedSurface SD)
     {
         base.DrawDynamicScene(ref SD);
         DrawFog(SD);
@@ -984,18 +983,18 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
         FSelectedArmy.ShowMovePaths(SD);
         FTargetSelection.ShowSelection(FViewXhp, FViewYhp, SD);
-        if (((AbstractAoWHSMapMouse)Mouse).FSelectionRectangle.Left != -1)
+        if (((GameMapMouse)Mouse).FSelectionRectangle.Left != -1)
         {
-            DrawSelectionRect(FViewXhp, FViewYhp, ((AbstractAoWHSMapMouse)Mouse).FSelectionRectangle, SD);
+            DrawSelectionRect(FViewXhp, FViewYhp, ((GameMapMouse)Mouse).FSelectionRectangle, SD);
         }
     }
 
     // AoWHSMap.PAS:2568
     public override void NewFrame()
     {
-        AbstractAoWCombatMap CombatMap;
+        CustomCombatMap CombatMap;
         base.NewFrame();
-        if (Status.Contains(HSMapStatusElement.Activated))
+        if (Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             FPlayerControl.NewFrame();
             FPlayerCommunicator.Process();
@@ -1024,7 +1023,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:1887
-    public virtual void TriggerCombatEvent(Combat.Battle Combat)
+    public virtual void TriggerCombatEvent(Battle Combat)
     {
         FCombatEventsStore.Raise(Combat);
     }
@@ -1130,7 +1129,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public bool GetSynchronised()
     {
         bool Result;
-        if (FSynchroniseCount == 0 && !FTokenManager.TokenExecuter.Executing && !Status.Contains(HSMapStatusElement.Editting))
+        if (FSynchroniseCount == 0 && !FTokenManager.TokenExecuter.Executing && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             Result = false;
         }
@@ -1158,7 +1157,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public IndependentAIMode GetIndependentAIMode()
     {
         IndependentAIMode Result = FIndependentAIMode;
-        if (!Current.Status.Contains(HSMapStatusElement.Editting) && Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
+        if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
         {
             if (Result == IndependentAIMode.Off)
             {
@@ -1177,10 +1176,10 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public bool SaveGame(string FileName)
     {
         bool Result;
-        SaveGameTE Event;
+        SaveGameTokenEvent Event;
         if (Current.FSeatedPlayer != -1)
         {
-            Event = new SaveGameTE(null);
+            Event = new SaveGameTokenEvent(null);
             Event.FFileName = ExpandFileName(FileName);
             Current.FTokenManager.GetTokenControl(Current.FSeatedPlayer).AddEvent(Event);
             Event.Release();
@@ -1199,11 +1198,11 @@ public partial class AoWHSMap : AbstractAoWHSMap
     {
         MapLevel MapLevel;
         AoWMapField Field;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         // { Original returns true immediately when exploration is enabled. }
         bool Result = Current.FExplorationEnabled;
         MapLevel = MapContainer.GetMapLevel(L);
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius && !Result)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -1214,7 +1213,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
             if (!Result)
             {
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -1226,10 +1225,10 @@ public partial class AoWHSMap : AbstractAoWHSMap
     {
         MapLevel MapLevel;
         AoWMapField Field;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Result = false;
         MapLevel = MapContainer.GetMapLevel(L);
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius && !Result)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -1240,7 +1239,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
             if (!Result)
             {
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -1252,10 +1251,10 @@ public partial class AoWHSMap : AbstractAoWHSMap
     {
         MapLevel MapLevel;
         AoWMapField Field;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Result = false;
         MapLevel = MapContainer.GetMapLevel(L);
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius && !Result)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -1266,7 +1265,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
             if (!Result)
             {
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -1278,10 +1277,10 @@ public partial class AoWHSMap : AbstractAoWHSMap
     {
         MapLevel MapLevel;
         AoWMapField Field;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Result = false;
         MapLevel = MapContainer.GetMapLevel(L);
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius && !Result)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -1292,7 +1291,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
             if (!Result)
             {
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -1305,13 +1304,13 @@ public partial class AoWHSMap : AbstractAoWHSMap
         bool Result;
         MapLevel MapLevel;
         AoWMapField Field;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         int WX;
         if (FShowIndependentMoves && Player != Current.FSeatedPlayer)
         {
             Result = false;
             MapLevel = MapContainer.GetMapLevel(L);
-            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius && !Result)
             {
                 WX = Walk.X;
@@ -1323,7 +1322,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
                 if (!Result)
                 {
-                    HNWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHN(ref Walk);
                 }
             }
 
@@ -1499,11 +1498,11 @@ public partial class AoWHSMap : AbstractAoWHSMap
     // AoWHSMap.PAS:1809
     public void SeatedPlayerChanged()
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         Selection.UnselectAll();
-        EMsg.InitMsg(ref Msg, 537001990, this);
+        EngineMessage.InitMsg(ref Msg, 537001990, this);
         MapContainer.SendMsg(ref Msg, this);
-        EMsg.InitMsg(ref Msg, 537001993, this);
+        EngineMessage.InitMsg(ref Msg, 537001993, this);
         MapContainer.SendMsg(ref Msg, this);
         FSeatedPlayerChangedEventsStore.Raise(Current);
         ShowMessage("");
@@ -1526,7 +1525,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:1833
-    public void UnitChanged(AbstractUnit AUnit)
+    public void UnitChanged(Troop AUnit)
     {
         if (FUnitUpdateCount == 0)
         {
@@ -1535,9 +1534,9 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:1838
-    public void UnitDestroyed(AbstractUnit AUnit)
+    public void UnitDestroyed(Troop AUnit)
     {
-        if (!Current.Status.Contains(HSMapStatusElement.Destroying))
+        if (!Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             FUnitDestroyedEventsStore.Raise(AUnit);
         }
@@ -1815,7 +1814,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     // AoWHSMap.PAS:2077
     public void GameOver(sbyte Player, GameOverStatus Status)
     {
-        if (Player > 0 && this.Status.Contains(HSMapStatusElement.Activated) && !this.Status.Contains(HSMapStatusElement.Editting) && !this.Status.Contains(HSMapStatusElement.Destroying))
+        if (Player > 0 && this.Status.Contains(HexSpriteMapStatusElement.Activated) && !this.Status.Contains(HexSpriteMapStatusElement.Editting) && !this.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             FPlayerControl.GameOver(Player, Status);
         }
@@ -1829,8 +1828,8 @@ public partial class AoWHSMap : AbstractAoWHSMap
     // AoWHSMap.PAS:2088
     public bool ValidateMap(StringCollection Messages)
     {
-        EMsg Msg = default;
-        EMsg.InitMsg(ref Msg, 537002243, this);
+        EngineMessage Msg = default;
+        EngineMessage.InitMsg(ref Msg, 537002243, this);
         Msg.Payload = Messages;
         Msg.Data[0] = 0;
         Current.SendMsg(ref Msg, this);
@@ -1850,7 +1849,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     // AoWHSMap.PAS:2261
     public void InitializeMapLevel(sbyte Level)
     {
-        HexagonControl Control;
+        HexControl Control;
         Control = Engine.HSSet.HexagonControl;
         if (Level == 0)
         {
@@ -1904,13 +1903,13 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public void NotifyPlayerChangedEx(int X, int Y, int L, int Radius)
     {
         MapLevel MapLevel;
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         AoWMapField Field;
         MapLevel = MapContainer.GetMapLevel(L);
         Msg.MsgID = 4365;
         Msg.Result = 1;
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= Radius)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -1923,7 +1922,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
     }
 
@@ -1931,13 +1930,13 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public void UpdatePlayerSeen(int Player, int X, int Y, int L, int SightRadius, int Radius)
     {
         MapLevel MapLevel;
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         AoWMapField Field;
         MapLevel = MapContainer.GetMapLevel(L);
         Msg.MsgID = 4400;
         Msg.Param[0] = Player;
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Walk.Radius <= SightRadius || Walk.Radius <= Radius)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -1967,7 +1966,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
                 }
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
     }
 
@@ -1982,8 +1981,8 @@ public partial class AoWHSMap : AbstractAoWHSMap
     {
         bool Result;
         MapLevel MapLevel;
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         AoWMapField Field;
         MapLevel = MapContainer.GetMapLevel(Level);
         if (Player >= 0)
@@ -1991,7 +1990,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
             Msg.MsgID = 4362;
             Msg.Result = 0;
             Msg.Param[1] = Player;
-            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Msg.Result.Int == 0 && Walk.Radius <= 12)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -2004,7 +2003,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
                     }
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
 
             Result = Msg.Result.Int != 0;
@@ -2022,8 +2021,8 @@ public partial class AoWHSMap : AbstractAoWHSMap
     {
         bool Result;
         MapLevel MapLevel;
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         AoWMapField Field;
         MapLevel = MapContainer.GetMapLevel(L);
         if (!FExplorationEnabled || ((AoWMapField)MapLevel.GetField(X, Y)).GetExplored(Player))
@@ -2035,7 +2034,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
                     Msg.MsgID = 4362;
                     Msg.Result = 0;
                     Msg.Param[1] = Player;
-                    HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                    HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
                     while (Msg.Result.Int == 0 && Walk.Radius <= 12)
                     {
                         if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -2048,7 +2047,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
                             }
                         }
 
-                        HNWalkData.WalkToNextHN(ref Walk);
+                        HexNumberWalkData.WalkToNextHN(ref Walk);
                     }
 
                     Result = Msg.Result.Int == 0;
@@ -2092,7 +2091,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
             {
                 var yhp = Mouse.Yhp;
                 var xhp = Mouse.Xhp;
-                if (Selection.CanSelectLocation(xhp, yhp, FViewL) && !((AbstractAoWHSMapMouse)Mouse).GetSelectingRectangle())
+                if (Selection.CanSelectLocation(xhp, yhp, FViewL) && !((GameMapMouse)Mouse).GetSelectingRectangle())
                 {
                     Mouse.CursorMode = 257;
                 }
@@ -2167,7 +2166,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:2538
-    public void Select(HexagonSprite Sprite, bool Center)
+    public void Select(HexSprite Sprite, bool Center)
     {
         // { This eliminated copy preserves the original saved registers. }
         Selection.UnselectLocation();
@@ -2209,16 +2208,16 @@ public partial class AoWHSMap : AbstractAoWHSMap
             case PlayMode.Turn:
                 if (FConnectionType == PlayerConnectionType.Email)
                 {
-                    if (!(FPlayerControl is PBEMPlayerControl))
+                    if (!(FPlayerControl is PbemPlayerControl))
                     {
                         FPlayerControl?.Dispose();
-                        FPlayerControl = new PBEMPlayerControl(null);
+                        FPlayerControl = new PbemPlayerControl(null);
                     }
                 }
                 else
                 {
                     // { Original tests TPBEMPlayerControl even in the non-email branch. }
-                    if (!(FPlayerControl is PBEMPlayerControl))
+                    if (!(FPlayerControl is PbemPlayerControl))
                     {
                         FPlayerControl?.Dispose();
                         FPlayerControl = new TurnPlayerControl(null);
@@ -2227,13 +2226,13 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
                 break;
             case PlayMode.Simultaneous:
-                if (!(FPlayerControl is SimultaniousPlayerControl))
+                if (!(FPlayerControl is SimultaneousPlayerControl))
                 {
                     FPlayerControl?.Dispose();
                 }
 
                 // { Original replaces an existing control without freeing it. }
-                FPlayerControl = new SimultaniousPlayerControl(null);
+                FPlayerControl = new SimultaneousPlayerControl(null);
                 break;
         }
 
@@ -2253,7 +2252,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
             FRaces.ResetDefaultRelations();
         }
 
-        if (!Status.Contains(HSMapStatusElement.Editting) && FDay == 0)
+        if (!Status.Contains(HexSpriteMapStatusElement.Editting) && FDay == 0)
         {
             FExplorationEnabled = true;
             FFogEnabled = true;
@@ -2264,7 +2263,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public int Random(int Range)
     {
         int Result;
-        if (!Current.Status.Contains(HSMapStatusElement.Destroying))
+        if (!Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             if (GetSynchronised())
             {
@@ -2368,13 +2367,13 @@ public partial class AoWHSMap : AbstractAoWHSMap
     // AoWHSMap.PAS:2797
     public void UpdateVisibility()
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         if (FUpdateVisibilityLockCount == 0)
         {
-            if (!Status.Contains(HSMapStatusElement.Destroying))
+            if (!Status.Contains(HexSpriteMapStatusElement.Destroying))
             {
                 LockMapChangedEvent();
-                EMsg.InitMsg(ref Msg, 537001992, this);
+                EngineMessage.InitMsg(ref Msg, 537001992, this);
                 Current.SendMsg(ref Msg, this);
                 UnlockMapChangedEvent();
                 Current.InvalidateMap();
@@ -2406,7 +2405,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:2870
-    public void InitializeCombatMap(Combat.Battle Combat, string FileName)
+    public void InitializeCombatMap(Battle Combat, string FileName)
     {
         Player Player = default;
         int X = default;
@@ -2423,7 +2422,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
                 Player.FViewL = (byte)L;
             }
 
-            FCombatMap = (AbstractAoWCombatMap)GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, GameProfile.TacticalMap);
+            FCombatMap = (CustomCombatMap)GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, GameProfile.TacticalMap);
             FCombatMapCreatedEventsStore.Raise(this);
         }
     }
@@ -2441,12 +2440,12 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:2903
-    public Combat.Battle CreateCombat(int AClassID)
+    public Battle CreateCombat(int AClassID)
     {
-        Combat.Battle Result;
+        Battle Result;
         if (FCombat == null)
         {
-            Result = (Combat.Battle)GameTables.AoWEngine.CreateEObject(AClassID, null);
+            Result = (Battle)GameTables.AoWEngine.CreateEObject(AClassID, null);
             FCombat = Result;
             if (FGameType == GameType.Tutorial && AClassID == 2228496)
             {
@@ -2455,7 +2454,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
             if (AClassID == 2228496)
             {
-                ((AbstractAoWHSMapMouse)Current.Mouse).ResetRectangleSelection();
+                ((GameMapMouse)Current.Mouse).ResetRectangleSelection();
                 Current.Selection.UnselectLocation();
                 FTargetSelection.Deactivate();
                 DisableTurnTimer();
@@ -2549,7 +2548,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     // AoWHSMap.PAS:3026
     public void TriggerRelationsChanged()
     {
-        if (Status.Contains(HSMapStatusElement.Activated) && FRelationsChangedLockCount == 0)
+        if (Status.Contains(HexSpriteMapStatusElement.Activated) && FRelationsChangedLockCount == 0)
         {
             BeginUnitUpdate();
             FUnitControl.TriggerUnitsChanged();
@@ -2665,7 +2664,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         if (Current.FPlayers.GetPlayers(Player).FLeader != null)
         {
             Current.FPlayers.GetPlayers(Player).FLeader.GetLocation(ref X, ref Y, ref L);
@@ -2691,7 +2690,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
     // AoWHSMap.PAS:3167
     public void PlaceTerrain(sbyte X, sbyte Y, sbyte L, sbyte TerrainType, sbyte OverlayType)
     {
-        EObjectList Resources;
+        EngineObjectList Resources;
         DelphiList Candidates;
         MapObjectResource Resource;
         RandSeed = Current.Random(16777215);
@@ -2726,8 +2725,8 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public void UpdateEffects()
     {
         int I;
-        WorldFXHS Effect;
-        if (!Status.Contains(HSMapStatusElement.Editting))
+        WorldEffectHexSprite Effect;
+        if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             I = 0;
             while (I < FEffects.Count)
@@ -2749,10 +2748,10 @@ public partial class AoWHSMap : AbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:3219
-    public WorldFXHS AddEffect(TworldFXType EffectType)
+    public WorldEffectHexSprite AddEffect(WorldEffectType EffectType)
     {
-        WorldFXHS Effect;
-        Effect = new WorldFXHS(null);
+        WorldEffectHexSprite Effect;
+        Effect = new WorldEffectHexSprite(null);
         FEffects.Add(Effect);
         Effect.Activate();
         Effect.FEffectType = EffectType;
@@ -2763,8 +2762,8 @@ public partial class AoWHSMap : AbstractAoWHSMap
     public bool ValidateObservation(sbyte player, sbyte x, sbyte y, sbyte level, int radius)
     {
         if (!FShowIndependentMoves || player == Current.FSeatedPlayer) return false;
-        HNWalkData walk = default;
-        HNWalkData.InitHNWalk(ref walk, x, y, 0);
+        HexNumberWalkData walk = default;
+        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
         MapLevel mapLevel = null;
         bool result = false;
         while (walk.Radius <= radius && !result)
@@ -2781,7 +2780,7 @@ public partial class AoWHSMap : AbstractAoWHSMap
                         (field.GetExplored(Current.FSeatedPlayer) || !Current.FExplorationEnabled);
                 }
             }
-            if (!result) HNWalkData.WalkToNextHN(ref walk);
+            if (!result) HexNumberWalkData.WalkToNextHN(ref walk);
         }
         if (result) MakeVisible(walk.X, walk.Y, level, 3);
         return result;
@@ -2821,13 +2820,13 @@ public partial class AoWHSMap : AbstractAoWHSMap
     private static bool CancelPlayerTurn(sbyte Player)
     {
         bool Result;
-        EndTurnTE Event;
+        EndTurnTokenEvent Event;
         if (!Current.FPlayers.GetPlayers(Player).GetBusy() && Current.FPlayers.GetPlayers(Player).FSingleProcessCycle)
         {
-            Event = new EndTurnTE(null);
+            Event = new EndTurnTokenEvent(null);
             Event.FPlayer = Player;
             Event.FDay = Current.FDay;
-            Event.FMode = EndTurnTE.EndTurnMode.CancelEndTurn;
+            Event.FMode = EndTurnTokenEvent.Mode.CancelEndTurn;
             Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
             Event.Release();
             Result = true;
@@ -2846,10 +2845,10 @@ public partial class AoWHSMap : AbstractAoWHSMap
 
     // { Interface declaration run owned by P5. }
     // allied victory. . points. gold. mana. next scenario
-    public partial class AoWMapCampaignSettings : EObject
+    public partial class MapCampaignSettings : EngineObject
     {
         // Diplomacy.pas:1716
-        public AoWMapCampaignSettings(ECustomNode owner) : base(owner)
+        public MapCampaignSettings(ECustomNode owner) : base(owner)
         {
             FTransferPointsMax = 1000;
             FTransferGoldMax = 100;

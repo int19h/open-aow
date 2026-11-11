@@ -47,7 +47,7 @@ public partial class DiplomaticActionEventLog : EventLog
     }
 
     // Diplomacy.pas:1182
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         FAction.MsgProc(ref Msg, Sender);
@@ -292,7 +292,7 @@ public partial class DiplomaticActionEventLog : EventLog
 
     public override int GetMiddleIcon() => FAction.Proposal.MiddleIcon(FAction);
 
-    private static FixedArray_int_13 P5RaceColors = FixedArray_int_13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
+    private static Int32Array13 P5RaceColors = Int32Array13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
 
     internal static bool P5DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)
     {

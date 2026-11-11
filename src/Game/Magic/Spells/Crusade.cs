@@ -2,8 +2,7 @@
 using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
@@ -32,7 +31,7 @@ public partial class Crusade : Spell
     }
 
     // GlobalSpells.pas:1340
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         int Count;
         int UnitIndex;
@@ -41,21 +40,21 @@ public partial class Crusade : Spell
         sbyte X = default;
         sbyte Y = default;
         sbyte Layer = default;
-        ArmyHS Party;
+        ArmyHexSprite Party;
         Unit NewUnit;
         if (ExecuteCount == 0)
         {
             Source.GetLocation(ref X, ref Y, ref Layer);
             AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, Layer, 0);
             HexGeometry.HXtoHP(X, Y, ref Xhp, ref Yhp);
-            var worldFXHS = AoWHSMap.Current.AddEffect(TworldFXType.Crusade);
+            var worldFXHS = AoWHSMap.Current.AddEffect(WorldEffectType.Crusade);
             worldFXHS.FX = Xhp + 16;
             worldFXHS.FY = Yhp + 16;
             worldFXHS.FLayer = Layer;
 
             if (AoWHSMap.Current.Random(100) < 20)
             {
-                Party = new ArmyHS(null);
+                Party = new ArmyHexSprite(null);
                 Party.FArmy.SetPlayer(0);
                 Count = 1;
                 UnitIndex = AoWHSMap.Current.Random(1);
@@ -77,7 +76,7 @@ public partial class Crusade : Spell
             {
                 for (int I = 0; I <= 1; I++)
                 {
-                    Party = new ArmyHS(null);
+                    Party = new ArmyHexSprite(null);
                     Party.FArmy.SetPlayer(0);
                     Count = AoWHSMap.Current.Random(3) + 4;
                     for (int J = 0; J <= Count - 1; J++)
@@ -96,7 +95,7 @@ public partial class Crusade : Spell
                     }
                 }
 
-                Party = new ArmyHS(null);
+                Party = new ArmyHexSprite(null);
                 Party.FArmy.SetPlayer(0);
                 UnitIndex = AoWHSMap.Current.Random(3);
                 Count = 2;
@@ -128,15 +127,15 @@ public partial class Crusade : Spell
     }
 
     // GlobalSpells.pas:1417
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string Reason = "";
-        SpellTE Event;
+        SpellTokenEvent Event;
         base.Activate(Source);
         if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new SpellTE(null);
+            Event = new SpellTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
@@ -151,7 +150,7 @@ public partial class Crusade : Spell
     }
 
     // GlobalSpells.pas:1313
-    public bool PlaceParty(AbstractUnit Source, ArmyHS Party)
+    public bool PlaceParty(Troop Source, ArmyHexSprite Party)
     {
         bool Result;
         int TargetX = default;
@@ -197,7 +196,7 @@ public partial class Crusade : Spell
     }
 
     private static readonly string CrusadeRStr = "Crusade";
-    private static FixedArray_int_1 TCrusade_ExecuteTE__LargeUnits = FixedArray_int_1.From([133]);
-    private static FixedArray_int_3 TCrusade_ExecuteTE__MountedUnits = FixedArray_int_3.From([132, 134, 128]);
-    private static FixedArray_int_2 TCrusade_ExecuteTE__FootUnits = FixedArray_int_2.From([129, 126]);
+    private static Int32Array1 TCrusade_ExecuteTE__LargeUnits = Int32Array1.From([133]);
+    private static Int32Array3 TCrusade_ExecuteTE__MountedUnits = Int32Array3.From([132, 134, 128]);
+    private static Int32Array2 TCrusade_ExecuteTE__FootUnits = Int32Array2.From([129, 126]);
 }

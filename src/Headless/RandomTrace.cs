@@ -2,7 +2,8 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI.Groups;
+using Aow.Game.Commands;
 using Aow.Rtl;
 
 namespace Aow.Headless;
@@ -20,7 +21,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     public void Cost(int cost, int used) => writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "cost", frame = frame(), cost, used }));
 
-    public void Path(Game.Commands.MoveTE move) => writer.WriteLine(JsonSerializer.Serialize(new
+    public void Path(MoveTokenEvent move) => writer.WriteLine(JsonSerializer.Serialize(new
     {
         kind = "path",
         frame = frame(),

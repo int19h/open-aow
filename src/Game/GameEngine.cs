@@ -6,8 +6,6 @@ using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Formats;
-
-using Aow.Game.Ai.Groups;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
@@ -47,14 +45,14 @@ public partial class GameEngine : ENode
     public new const int ClassID = 131073;
 
     public int FVersion;
-    public AoWRegistry FRegistry;
+    public GameSettings FRegistry;
     public AoWHSMap FGameMap;
     public AoWHSSet FGameSet;
     public ImageLibraryFont FCombatFont;
     public bool FDebug;
     public byte FAnimationDetail;
     public bool FDemo;
-    public AoWCampaign FCampaign;
+    public Campaign FCampaign;
     public EmailGameControl FEmailGames;
     public AoWDictionary FDictionary;
     public byte FLanguage;
@@ -65,7 +63,7 @@ public partial class GameEngine : ENode
         if (!fullConstruction) return;
         GameTables.AoWEngine = this;
         SetVersion(1, 36, 53);
-        FRegistry = new AoWRegistry();
+        FRegistry = new GameSettings();
         FUser = Set<EngineUserElement>.Of(EngineUserElement.Programmer, EngineUserElement.Designer, EngineUserElement.User);
         P2InitializeMovePoints();
         FDebug = FRegistry.GetDebugMode();
@@ -76,22 +74,22 @@ public partial class GameEngine : ENode
         // { Original selects English for every explicit language here. }
         switch (FRegistry.GetLanguage())
         {
-            case AoWRegistry.AoWLanguage.Auto:
+            case GameSettings.Language.Auto:
                 FDictionary.SetLanguage(-1);
                 break;
-            case AoWRegistry.AoWLanguage.English:
+            case GameSettings.Language.English:
                 FDictionary.SetLanguage(1);
                 break;
-            case AoWRegistry.AoWLanguage.German:
+            case GameSettings.Language.German:
                 FDictionary.SetLanguage(1);
                 break;
-            case AoWRegistry.AoWLanguage.French:
+            case GameSettings.Language.French:
                 FDictionary.SetLanguage(1);
                 break;
-            case AoWRegistry.AoWLanguage.Italian:
+            case GameSettings.Language.Italian:
                 FDictionary.SetLanguage(1);
                 break;
-            case AoWRegistry.AoWLanguage.Spanish:
+            case GameSettings.Language.Spanish:
                 FDictionary.SetLanguage(1);
                 break;
         }
@@ -145,7 +143,7 @@ public partial class GameEngine : ENode
     }
 
     // Army.PAS:5648
-    public void TranslateEObject(EObject Obj, IvDictionary Dictionary)
+    public void TranslateEObject(EngineObject Obj, IvDictionary Dictionary)
     {
         TranslateTextStream Stream;
         Stream = new TranslateTextStream(this);
@@ -161,7 +159,7 @@ public partial class GameEngine : ENode
     }
 
     // Army.PAS:5660
-    public void TranslateEObjectFromFile(EObject Obj, string FileName)
+    public void TranslateEObjectFromFile(EngineObject Obj, string FileName)
     {
         AoWDictionary Dictionary;
         if (FileExists(FileName))
@@ -173,22 +171,22 @@ public partial class GameEngine : ENode
                 Dictionary.Open();
                 switch (FRegistry.GetLanguage())
                 {
-                    case AoWRegistry.AoWLanguage.Auto:
+                    case GameSettings.Language.Auto:
                         Dictionary.SetLanguage(-1);
                         break;
-                    case AoWRegistry.AoWLanguage.English:
+                    case GameSettings.Language.English:
                         Dictionary.SetLanguage(1);
                         break;
-                    case AoWRegistry.AoWLanguage.German:
+                    case GameSettings.Language.German:
                         Dictionary.SetLanguage(2);
                         break;
-                    case AoWRegistry.AoWLanguage.French:
+                    case GameSettings.Language.French:
                         Dictionary.SetLanguage(3);
                         break;
-                    case AoWRegistry.AoWLanguage.Italian:
+                    case GameSettings.Language.Italian:
                         Dictionary.SetLanguage(4);
                         break;
-                    case AoWRegistry.AoWLanguage.Spanish:
+                    case GameSettings.Language.Spanish:
                         Dictionary.SetLanguage(5);
                         break;
                 }
@@ -204,7 +202,7 @@ public partial class GameEngine : ENode
     }
 
     // Army.PAS:5725
-    public void ExportTextToFile(string FileName, EObject Obj)
+    public void ExportTextToFile(string FileName, EngineObject Obj)
     {
         ExportTextStream Stream;
         Stream FileStream;
@@ -480,7 +478,7 @@ public partial class GameEngine : ENode
     public void LoadCampaign(string FileName, byte[] Image)
     {
         CloseCampaign();
-        FCampaign = (AoWCampaign)RetrieveFromImage(Image, null);
+        FCampaign = (Campaign)RetrieveFromImage(Image, null);
         TranslateEObjectFromFile(FCampaign, GameTables.AoWEngine.StartupDirectory + "Dict\\" + "Campaign" + ".mld");
         FCampaign.FFileName = FileName;
     }
@@ -504,7 +502,7 @@ public partial class GameEngine : ENode
     public void NewCampaign(int AClassID)
     {
         CloseCampaign();
-        FCampaign = (AoWCampaign)CreateEObject(AClassID, null);
+        FCampaign = (Campaign)CreateEObject(AClassID, null);
     }
 
     // intf_P2_08.inc:29. The flag is set before construction and cleared when it returns.
@@ -521,13 +519,13 @@ public partial class GameEngine : ENode
         }
     }
 
-    private static FixedArray_byte_8 P2InitializeMovePoints__MoveBits = FixedArray_byte_8.From([1, 4, 2, 8, 16, 32, 64, 128]);
+    private static ByteArray8 P2InitializeMovePoints__MoveBits = ByteArray8.From([1, 4, 2, 8, 16, 32, 64, 128]);
 
     private static readonly string P2UndeadPluralRStr = "Undead(plural)";
 
     private static readonly string P2UndeadRStr = "Undead";
 
-    private static FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_8 P2MovementTemplates = FixedArray_Aow_Units_FixedArray_Aow_Units_FixedArray_sbyte_16_16_8.From([FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 4, 4, -1, 4, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 4, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 4, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([3, -1, 6, -1, 3, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, 6, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), FixedArray_Aow_Units_FixedArray_sbyte_16_16.From([FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), FixedArray_sbyte_16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])])]);
+    private static SByteArray16By16By8 P2MovementTemplates = SByteArray16By16By8.From([SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 4, 4, -1, 4, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 4, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, 4, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([3, -1, 6, -1, 3, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])])]);
 
     internal static int MAGICDID;
 
@@ -579,19 +577,19 @@ public partial class GameEngine : ENode
     {
         SpellControl Control;
         Control = AEngine.FGameSet.FSpellControl;
-        AEngine.UnregisterEClasses([EClass.Of<SpellTE>()]);
-        AEngine.UnregisterEClasses([EClass.Of<SpellCastEventLog>()]);
-        AEngine.UnregisterEClasses([EClass.Of<UnitSpellTE>(), EClass.Of<UnitSpellCA>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<SpellTokenEvent>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<SpellCastEventLog>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<UnitSpellTokenEvent>(), EngineClass.Of<UnitSpellCombatAction>()]);
         Control.UnregisterAll();
     }
 
     private static void UnregisterCoreAbilities(AbilityControl Control)
     {
-        GameTables.AoWEngine.UnregisterEClasses([EClass.Of<CosmeticSurgeryEnchantment>(), EClass.Of<LeadershipAbilityData>()]);
-        GameTables.AoWEngine.UnregisterEClasses([EClass.Of<DurationAbilityData>(), EClass.Of<MultiLevelAbilityData>(), EClass.Of<RangedAttackCA>(), EClass.Of<SelfDestructCA>(), EClass.Of<StrikeCA>(), EClass.Of<DispelMagicAbilityCA>()]);
-        GameTables.AoWEngine.UnregisterEClasses([EClass.Of<UnitEnchantmentAbilityData>(), EClass.Of<UnitEnchantment>(), EClass.Of<DispelMagicAbilityTE>()]);
-        GameTables.AoWEngine.UnregisterEClasses([EClass.Of<CommandCA>(), EClass.Of<CommandedAbilityData>(), EClass.Of<CommandAbilityData>(), EClass.Of<HealingTE>(), EClass.Of<DispelMagicAbilityData>()]);
-        GameTables.AoWEngine.UnregisterEClasses([EClass.Of<PossessCA>(), EClass.Of<WebCA>(), EClass.Of<HealingCA>(), EClass.Of<EntangleCA>(), EClass.Of<HealingAbilityData>(), EClass.Of<InvokeDeathCA>()]);
+        GameTables.AoWEngine.UnregisterEClasses([EngineClass.Of<CosmeticSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>()]);
+        GameTables.AoWEngine.UnregisterEClasses([EngineClass.Of<DurationAbilityData>(), EngineClass.Of<MultiLevelAbilityData>(), EngineClass.Of<RangedAttackCombatAction>(), EngineClass.Of<SelfDestructCombatAction>(), EngineClass.Of<StrikeCombatAction>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
+        GameTables.AoWEngine.UnregisterEClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>()]);
+        GameTables.AoWEngine.UnregisterEClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
+        GameTables.AoWEngine.UnregisterEClasses([EngineClass.Of<PossessCombatAction>(), EngineClass.Of<WebCombatAction>(), EngineClass.Of<HealingCombatAction>(), EngineClass.Of<EntangleCombatAction>(), EngineClass.Of<HealingAbilityData>(), EngineClass.Of<InvokeDeathCombatAction>()]);
         Control.UnregisterAbilityID(86);
         Control.UnregisterAbilityID(87);
         Control.UnregisterAbilityID(88);
@@ -829,7 +827,7 @@ public partial class GameEngine : ENode
     private static void P2InitializeMovePoints()
     {
         int Points;
-        FillBytes(MemoryMarshal.AsBytes((Span<FixedArray_Aow_Units_FixedArray_sbyte_16_16>)MovementTables.MovePointTables).Slice(0, 65536), 255);
+        FillBytes(MemoryMarshal.AsBytes((Span<SByteArray16By16>)MovementTables.MovePointTables).Slice(0, 65536), 255);
         for (int Mask = 0; Mask <= 255; Mask++)
         {
             for (int Overlay = -1; Overlay <= 11; Overlay++)
@@ -860,16 +858,16 @@ public partial class GameEngine : ENode
 
     private static void P2RegisterMoveEvents(GameEngine AEngine)
     {
-        AEngine.RegisterEClasses([EClass.Of<EndTurnTE>(), EClass.Of<GameOverTE>(), EClass.Of<MultiMoveTE>(), EClass.Of<CheatTE>(), EClass.Of<DisbandUnitTE>(), EClass.Of<ChangePlayerSettingsTE>(), EClass.Of<CombatFlowControlTE>(), EClass.Of<TerminatePlayerTE>()]);
+        AEngine.RegisterEClasses([EngineClass.Of<EndTurnTokenEvent>(), EngineClass.Of<GameOverTokenEvent>(), EngineClass.Of<MultiMoveTokenEvent>(), EngineClass.Of<CheatTokenEvent>(), EngineClass.Of<DisbandUnitTokenEvent>(), EngineClass.Of<ChangePlayerSettingsTokenEvent>(), EngineClass.Of<CombatFlowControlTokenEvent>(), EngineClass.Of<TerminatePlayerTokenEvent>()]);
     }
 
     private static void P2RegisterAbilities(AbilityControl Control)
     {
-        GameTables.AoWEngine.RegisterEClasses([EClass.Of<CosmeticSurgeryEnchantment>(), EClass.Of<LeadershipAbilityData>(), EClass.Of<DispelMagicAbilityCA>()]);
-        GameTables.AoWEngine.RegisterEClasses([EClass.Of<DurationAbilityData>(), EClass.Of<MultiLevelAbilityData>(), EClass.Of<RangedAttackCA>(), EClass.Of<SelfDestructCA>(), EClass.Of<StrikeCA>()]);
-        GameTables.AoWEngine.RegisterEClasses([EClass.Of<UnitEnchantmentAbilityData>(), EClass.Of<UnitEnchantment>(), EClass.Of<DispelMagicAbilityTE>(), EClass.Of<PossessedAbilityData>()]);
-        GameTables.AoWEngine.RegisterEClasses([EClass.Of<CommandCA>(), EClass.Of<CommandedAbilityData>(), EClass.Of<CommandAbilityData>(), EClass.Of<HealingTE>(), EClass.Of<DispelMagicAbilityData>()]);
-        GameTables.AoWEngine.RegisterEClasses([EClass.Of<PossessCA>(), EClass.Of<WebCA>(), EClass.Of<HealingCA>(), EClass.Of<EntangleCA>(), EClass.Of<HealingAbilityData>(), EClass.Of<TurnUndeadCA>(), EClass.Of<InvokeDeathCA>()]);
+        GameTables.AoWEngine.RegisterEClasses([EngineClass.Of<CosmeticSurgeryEnchantment>(), EngineClass.Of<LeadershipAbilityData>(), EngineClass.Of<DispelMagicAbilityCombatAction>()]);
+        GameTables.AoWEngine.RegisterEClasses([EngineClass.Of<DurationAbilityData>(), EngineClass.Of<MultiLevelAbilityData>(), EngineClass.Of<RangedAttackCombatAction>(), EngineClass.Of<SelfDestructCombatAction>(), EngineClass.Of<StrikeCombatAction>()]);
+        GameTables.AoWEngine.RegisterEClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>(), EngineClass.Of<PossessedAbilityData>()]);
+        GameTables.AoWEngine.RegisterEClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
+        GameTables.AoWEngine.RegisterEClasses([EngineClass.Of<PossessCombatAction>(), EngineClass.Of<WebCombatAction>(), EngineClass.Of<HealingCombatAction>(), EngineClass.Of<EntangleCombatAction>(), EngineClass.Of<HealingAbilityData>(), EngineClass.Of<TurnUndeadCombatAction>(), EngineClass.Of<InvokeDeathCombatAction>()]);
         Control.RegisterAbility(new LeadershipAbility(null));
         Control.RegisterAbility(new EntangleAbility(null));
         Control.RegisterAbility(new WebAbility(null));
@@ -897,9 +895,9 @@ public partial class GameEngine : ENode
 
     private static void P2RegisterSpells(GameEngine AEngine)
     {
-        AEngine.RegisterEClasses([EClass.Of<SpellTE>()]);
-        AEngine.RegisterEClasses([EClass.Of<SpellCastEventLog>()]);
-        AEngine.RegisterEClasses([EClass.Of<UnitSpellTE>(), EClass.Of<UnitSpellCA>()]);
+        AEngine.RegisterEClasses([EngineClass.Of<SpellTokenEvent>()]);
+        AEngine.RegisterEClasses([EngineClass.Of<SpellCastEventLog>()]);
+        AEngine.RegisterEClasses([EngineClass.Of<UnitSpellTokenEvent>(), EngineClass.Of<UnitSpellCombatAction>()]);
     }
 
     private static void LoadExternalPlugIns(string Directory)
@@ -981,23 +979,23 @@ public partial class GameEngine : ENode
 
     private static void RegisterEventLog(GameEngine AEngine)
     {
-        AEngine.RegisterEClasses([EClass.Of<TextEventLog>(), EClass.Of<EndTurnEventLog>(), EClass.Of<GameOverEventLog>(), EClass.Of<LocationTextEventLog>()]);
+        AEngine.RegisterEClasses([EngineClass.Of<TextEventLog>(), EngineClass.Of<EndTurnEventLog>(), EngineClass.Of<GameOverEventLog>(), EngineClass.Of<LocationTextEventLog>()]);
     }
 
     private static void RegisterNetworkEngine(GameEngine AEngine)
     {
         NetworkSession.NetworkEngineDID = AEngine.RegisterDebugID("Network Engine");
-        AEngine.RegisterEClasses([EClass.Of<TokenPackage>(), EClass.Of<PassTokenTE>(), EClass.Of<SyncTE>()]);
+        AEngine.RegisterEClasses([EngineClass.Of<TokenPackage>(), EngineClass.Of<PassTokenTokenEvent>(), EngineClass.Of<SyncTokenEvent>()]);
     }
 
     private static void RegisterSoundEngineClasses(GameEngine AEngine)
     {
-        AEngine.RegisterEClasses([EClass.Of<SFXSequence>(), EClass.Of<SFXLibrary>(), EClass.Of<SFX>()]);
+        AEngine.RegisterEClasses([EngineClass.Of<SfxSequence>(), EngineClass.Of<SfxLibrary>(), EngineClass.Of<Sfx>()]);
     }
 
     internal static void UnregisterCitySpells(GameEngine Engine)
     {
-        Engine.UnregisterEClasses([EClass.Of<CityEnchantmentSpellTE>(), EClass.Of<CityTargetSpellTE>(), EClass.Of<TownGateTE>()]);
+        Engine.UnregisterEClasses([EngineClass.Of<CityEnchantmentSpellTokenEvent>(), EngineClass.Of<CityTargetSpellTokenEvent>(), EngineClass.Of<TownGateTokenEvent>()]);
         var spellControl = Engine.FGameSet.FSpellControl;
         spellControl.UnregisterSpellID(72);
         // { Original leaves Town Quake ($47) registered. }
@@ -1013,7 +1011,7 @@ public partial class GameEngine : ENode
     {
         SpellControl Control;
         Control = Engine.FGameSet.FSpellControl;
-        Engine.UnregisterEClasses([EClass.Of<CombatSpellCA>(), EClass.Of<FastCombatTerrorCA>(), EClass.Of<TacticalCombatTerrorCA>(), EClass.Of<RecallSpiritCA>(), EClass.Of<AnimateDeadCA>(), EClass.Of<FastCombatHighPrayerCA>(), EClass.Of<TacticalCombatHighPrayerCA>(), EClass.Of<EntangleSpellCA>(), EClass.Of<MindDecayCA>(), EClass.Of<TurnUndeadSpellCA>(), EClass.Of<SlowCA>()]);
+        Engine.UnregisterEClasses([EngineClass.Of<CombatSpellCombatAction>(), EngineClass.Of<FastBattleTerrorCombatAction>(), EngineClass.Of<TacticalBattleTerrorCombatAction>(), EngineClass.Of<RecallSpiritCombatAction>(), EngineClass.Of<AnimateDeadCombatAction>(), EngineClass.Of<FastBattleHighPrayerCombatAction>(), EngineClass.Of<TacticalBattleHighPrayerCombatAction>(), EngineClass.Of<EntangleSpellCombatAction>(), EngineClass.Of<MindDecayCombatAction>(), EngineClass.Of<TurnUndeadSpellCombatAction>(), EngineClass.Of<SlowCombatAction>()]);
         Control.UnregisterSpellID(100);
         Control.UnregisterSpellID(101);
         Control.UnregisterSpellID(102);
@@ -1050,7 +1048,7 @@ public partial class GameEngine : ENode
     {
         SpellControl Control;
         Control = Engine.FGameSet.FSpellControl;
-        Engine.UnregisterEClasses([EClass.Of<WarpPartyTE>(), EClass.Of<DisjunctionTE>()]);
+        Engine.UnregisterEClasses([EngineClass.Of<WarpPartyTokenEvent>(), EngineClass.Of<DisjunctionTokenEvent>()]);
         Control.UnregisterSpellID(1);
         Control.UnregisterSpellID(2);
         Control.UnregisterSpellID(34);
@@ -1077,9 +1075,9 @@ public partial class GameEngine : ENode
         Control.UnregisterSpellID(64);
         Control.UnregisterSpellID(45);
         Control.UnregisterSpellID(65);
-        AEngine.UnregisterEClasses([EClass.Of<EnchantedRoadsEnchantment>(), EClass.Of<GlobalEnchantmentSpellTE>(), EClass.Of<GlobalEnchantmentEventLog>()]);
-        AEngine.UnregisterEClasses([EClass.Of<WaterMasteryEnchantment>(), EClass.Of<HatredEnchantment>(), EClass.Of<HarmonyEnchantment>(), EClass.Of<PowerLeakEnchantment>(), EClass.Of<FloodEnchantment>(), EClass.Of<AirMasteryEnchantment>()]);
-        AEngine.UnregisterEClasses([EClass.Of<LifeMasteryEnchantment>(), EClass.Of<DeathMasteryEnchantment>(), EClass.Of<FireMasteryEnchantment>(), EClass.Of<EarthMasteryEnchantment>(), EClass.Of<SpellWardEnchantment>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<EnchantedRoadsEnchantment>(), EngineClass.Of<GlobalEnchantmentSpellTokenEvent>(), EngineClass.Of<GlobalEnchantmentEventLog>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<WaterMasteryEnchantment>(), EngineClass.Of<HatredEnchantment>(), EngineClass.Of<HarmonyEnchantment>(), EngineClass.Of<PowerLeakEnchantment>(), EngineClass.Of<FloodEnchantment>(), EngineClass.Of<AirMasteryEnchantment>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<LifeMasteryEnchantment>(), EngineClass.Of<DeathMasteryEnchantment>(), EngineClass.Of<FireMasteryEnchantment>(), EngineClass.Of<EarthMasteryEnchantment>(), EngineClass.Of<SpellWardEnchantment>()]);
     }
 
     internal static void UnregisterGlobalTargetSpells(GameEngine Engine)
@@ -1095,14 +1093,14 @@ public partial class GameEngine : ENode
         Control.UnregisterSpellID(70);
         Control.UnregisterSpellID(73);
         Control.UnregisterSpellID(74);
-        Engine.UnregisterEClasses([EClass.Of<FreezeWaterTE>(), EClass.Of<FrozenWaterHS>(), EClass.Of<FireBarrierTE>(), EClass.Of<LevelTerrainTE>(), EClass.Of<RejuvenateTE>(), EClass.Of<WatcherTE>(), EClass.Of<WatcherHS>(), EClass.Of<TornadoTE>(), EClass.Of<VortexTE>(), EClass.Of<HealingShowersTE>(), EClass.Of<GlobalTargetSpellTE>()]);
+        Engine.UnregisterEClasses([EngineClass.Of<FreezeWaterTokenEvent>(), EngineClass.Of<FrozenWaterHexSprite>(), EngineClass.Of<FireBarrierTokenEvent>(), EngineClass.Of<LevelTerrainTokenEvent>(), EngineClass.Of<RejuvenateTokenEvent>(), EngineClass.Of<WatcherTokenEvent>(), EngineClass.Of<WatcherHexSprite>(), EngineClass.Of<TornadoTokenEvent>(), EngineClass.Of<VortexTokenEvent>(), EngineClass.Of<HealingShowersTokenEvent>(), EngineClass.Of<GlobalTargetSpellTokenEvent>()]);
     }
 
     internal static void UnregisterSummonSpells(GameEngine AEngine)
     {
         SpellControl Control;
         Control = AEngine.FGameSet.FSpellControl;
-        AEngine.UnregisterEClasses([EClass.Of<SummonSpellTE>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<SummonSpellTokenEvent>()]);
         Control.UnregisterSpellID(24);
         Control.UnregisterSpellID(22);
         Control.UnregisterSpellID(31);
@@ -1140,18 +1138,18 @@ public partial class GameEngine : ENode
         Control.UnregisterSpellID(56);
         Control.UnregisterSpellID(59);
         Control.UnregisterSpellID(77);
-        Engine.UnregisterEClasses([EClass.Of<DispelMagicSpellCA>()]);
+        Engine.UnregisterEClasses([EngineClass.Of<DispelMagicSpellCombatAction>()]);
     }
 
     internal static void UnRegisterPoisonPlant(GameEngine AEngine)
     {
-        AEngine.UnregisterEClasses([EClass.Of<PoisonPlant>(), EClass.Of<PoisonPlant.Resource>(), EClass.Of<PoisonPlantSpellTE>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<PoisonPlant>(), EngineClass.Of<PoisonPlant.Resource>(), EngineClass.Of<PoisonPlantSpellTokenEvent>()]);
         AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
     }
 
     internal static void UnRegisterUnholyGround(GameEngine AEngine)
     {
-        AEngine.UnregisterEClasses([EClass.Of<UnHolyGround>(), EClass.Of<UnHolyGround.Resource>(), EClass.Of<UnholyGroundSpellTE>()]);
+        AEngine.UnregisterEClasses([EngineClass.Of<UnholyGround>(), EngineClass.Of<UnholyGround.Resource>(), EngineClass.Of<UnholyGroundSpellTokenEvent>()]);
         AEngine.FGameSet.FSpellControl.UnregisterSpellID(14);
     }
 

@@ -40,10 +40,10 @@ public partial class StrikeAbility : AdjustableAbility
     public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => Set<AbilityControlTypeElement>.Of();
 
     // AoWAb.PAS:1445
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
         CombatObject Target;
-        FastCombatCommand Command;
+        FastBattleCommand Command;
         AbilityDamageValues Values = default;
         for (int I = 0, last = Commands.FTargetSide.GetCount() - 1; I <= last; I++)
         {
@@ -53,7 +53,7 @@ public partial class StrikeAbility : AdjustableAbility
                 fcGetDamageValueEx(Commands.FSource, Target, WallSituation.None, ref Values);
                 if (Values.SourceDamage != 0)
                 {
-                    Command = new FastCombatCommand(FAbilityID);
+                    Command = new FastBattleCommand(FAbilityID);
                     Command.FTarget = Target;
                     Command.FSourceDV = Values.SourceDamage;
                     Command.FTargetDV = Values.TargetDamage;
@@ -75,26 +75,26 @@ public partial class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1399
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         MeleeRound Round;
         int I;
         bool Stop;
         CombatObject Target;
         CombatAction Action;
-        MoveWallCA MoveCA;
-        MeleeRound.MeleeStrike Strike = default;
+        MoveWallCombatAction MoveCA;
+        MeleeRound.Strike Strike = default;
         Target = Command.FTarget;
         Round = new MeleeRound();
         Round.Calculate(Source, Target);
         Stop = false;
         I = 0;
-        if (Source is FastCombatUnit)
+        if (Source is FastBattleUnit)
         {
-            ((FastCombatUnit)Source).FState = ((FastCombatUnit)Source).FState + Set<FastCombatUnitStateElement>.Of(FastCombatUnitStateElement.Vulnerable);
+            ((FastBattleUnit)Source).FState = ((FastBattleUnit)Source).FState + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
             if (Source.fcBehindWall() && Source.fcWallInBetween(Target.FPosition) && !Target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
-                MoveCA = new MoveWallCA(null);
+                MoveCA = new MoveWallCombatAction(null);
                 MoveCA.F_MoveWallCA_0C = Source.FID;
 
                 MoveCA.F_MoveWallCA_0D = 0;
@@ -133,7 +133,7 @@ public partial class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1297
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         if (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1))
@@ -150,7 +150,7 @@ public partial class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1308
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         if (WallSituation == WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)))
         {
@@ -179,7 +179,7 @@ public partial class StrikeAbility : AdjustableAbility
         int Attack;
         int Damage;
         int Repeats;
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Repeats = 2;
             Attack = unit.GetAttack();
@@ -227,9 +227,9 @@ public partial class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1378
     public override void GetCombatInfo(AbilityOwner Owner, ref AbilityCombatInfo Info)
     {
-        if (Owner is AbstractUnit)
+        if (Owner is Troop)
         {
-            var unit = (AbstractUnit)Owner;
+            var unit = (Troop)Owner;
             var attack = unit.GetAttack();
             Info.Attack = attack;
             var damage = unit.GetDamage();
@@ -282,10 +282,10 @@ public partial class StrikeAbility : AdjustableAbility
     public Set<DamageType> GetDamageTypes(AbilityOwner Owner)
     {
         Set<DamageType> Result;
-        if (Owner is AbstractUnit && ((AbstractUnit)Owner).GetAbilityEnabled(21))
+        if (Owner is Troop && ((Troop)Owner).GetAbilityEnabled(21))
         {
             Result = Set<DamageType>.Of(DamageType.Physical);
-            var unit = (AbstractUnit)Owner;
+            var unit = (Troop)Owner;
             if (unit.GetAbilityEnabled(14) || unit.GetAbilityEnabled(163))
             {
                 Result = Result + Set<DamageType>.Of(DamageType.Fire);
@@ -306,7 +306,7 @@ public partial class StrikeAbility : AdjustableAbility
                 Result = Result + Set<DamageType>.Of(DamageType.Poison);
             }
 
-            var unit2 = (AbstractUnit)Owner;
+            var unit2 = (Troop)Owner;
             if (unit2.GetAbilityEnabled(18) || unit2.GetAbilityEnabled(169))
             {
                 Result = Result + Set<DamageType>.Of(DamageType.Death);
@@ -317,7 +317,7 @@ public partial class StrikeAbility : AdjustableAbility
                 Result = Result + Set<DamageType>.Of(DamageType.Holy);
             }
 
-            var unit3 = (AbstractUnit)Owner;
+            var unit3 = (Troop)Owner;
             if (unit3.GetAbilityEnabled(20) || unit3.GetAbilityEnabled(154))
             {
                 Result = Result + Set<DamageType>.Of(DamageType.Magic);

@@ -29,19 +29,19 @@ public partial class EStorageStream : IDisposable
     public virtual Stream OpenPropertyStream(int ID) => null;
 
     // Engine.pas:1186
-    public virtual void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
+    public virtual void rwCreateEObject(ref EngineObject Obj, ECustomNode AOwner, int ID)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Engine.pas:1187
-    public virtual void rwEObject(EObject Obj, int ID)
+    public virtual void rwEObject(EngineObject Obj, int ID)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Engine.pas:1188
-    public virtual void rwEObjectStream(EObject Obj, int ID)
+    public virtual void rwEObjectStream(EngineObject Obj, int ID)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -131,7 +131,7 @@ public partial class EStorageStream : IDisposable
     }
 
     // Engine.pas:9497
-    public void ShowProgress(EObject Sender, string Msg, int Percent)
+    public void ShowProgress(EngineObject Sender, string Msg, int Percent)
     {
         if (FOnProgress != null)
         {
@@ -146,9 +146,9 @@ public partial class EStorageStream : IDisposable
     public ProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
 
     // Delphi var parameters alias a descendant reference through a base-class cast.
-    public void rwCreateEObject<T>(ref T value, ECustomNode owner, int id) where T : EObject
+    public void rwCreateEObject<T>(ref T value, ECustomNode owner, int id) where T : EngineObject
     {
-        EObject result = value;
+        EngineObject result = value;
         try { rwCreateEObject(ref result, owner, id); }
         finally { value = (T)result; }
     }

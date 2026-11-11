@@ -22,7 +22,7 @@ public partial class PanickedAbility : DurationAbility
     public override bool Expand(AbilityOwner Owner)
     {
         bool Result = base.Expand(Owner);
-        if (Owner is AbstractUnit)
+        if (Owner is Troop)
         {
             Owner.Changed();
         }

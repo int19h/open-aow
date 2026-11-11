@@ -20,7 +20,7 @@ public sealed class ValidationTests : FormatsTest
             if (!slots.Contains(current.Value))
                 yield return context.At(Codes.Reference,
                     $"Player slot {current.Value} is absent from root.Players.Children. Use an existing slot.",
-                    current, DocPath.Root.Member("CurrentPlayer"), current.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), "domain player-slot");
+                    current, DocumentNodePath.Root.Member("CurrentPlayer"), current.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), "domain player-slot");
         }
     }
 

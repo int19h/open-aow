@@ -15,7 +15,7 @@ public partial class RaceList : EControlStyleNode
     // Ability.PAS:367
     public RaceList(ECustomNode owner) : base(owner)
     {
-        SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, EControlStyleElement.ArrayMode));
+        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }
 
     public int FRelationOffset;

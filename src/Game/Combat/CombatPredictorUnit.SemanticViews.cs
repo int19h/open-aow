@@ -5,7 +5,7 @@ namespace Aow.Game.Combat;
 
 public partial class CombatPredictorUnit
 {
-    public void Setup(AbstractUnit unit, CombatPredictor predictor, byte side)
+    public void Setup(Troop unit, CombatPredictor predictor, byte side)
     {
         FUnit = unit;
         unit.AddRef();

@@ -75,7 +75,7 @@ public partial class ItemExplorationSite : ExplorationSite
     public override bool GetExplored() => FItems.Count == 0;
 
     // ItemExpS.pas:146
-    public override void SetupCombat(Combat.Battle Combat, ArmyHS Army)
+    public override void SetupCombat(Combat.Battle Combat, ArmyHexSprite Army)
     {
         base.SetupCombat(Combat, Army);
         Combat.FItems = FItems;
@@ -84,12 +84,12 @@ public partial class ItemExplorationSite : ExplorationSite
     // ItemExpS.pas:152
     public override void ExecuteSearchDone(CombatType CombatType, CombatResult CombatResult)
     {
-        ArmyHS Army;
+        ArmyHexSprite Army;
         ItemExplorationSiteEventLog Log;
         Item Item = default;
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(CombatResult))
         {
-            Army = (ArmyHS)Owner.FindOwnedChild(131607);
+            Army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             Log = new ItemExplorationSiteEventLog(null);
             Log.FPlayer = Army.FArmy.FPlayer;
             Log.FTitle = AbilityRules.TranslateRStr(ItemsFoundRStr);

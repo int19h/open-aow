@@ -34,7 +34,7 @@ public partial class CombatPredictor : IDisposable
 
     public CombatPredictorUnitList FAllUnits;
     public CombatPredictorUnitList FActiveUnits;
-    public FixedArray_Aow_Units_AoWE_TCombatPredictorSide_2 FSides;
+    public CombatPredictorSideArray2 FSides;
     public byte FResult;
     public int FSuperiority;
     public int FEfficiency;
@@ -231,8 +231,8 @@ public partial class CombatPredictor : IDisposable
     public void FinishCombat()
     {
         CombatPredictorUnit Wall;
-        FixedArray_int_2 Surviving;
-        FixedArray_int_2 Hits;
+        Int32Array2 Surviving;
+        Int32Array2 Hits;
         CombatPredictorUnit U;
         Surviving = default;
         Hits = default;
@@ -335,7 +335,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:466
-    public void DeleteUnit(AbstractUnit AUnit)
+    public void DeleteUnit(Troop AUnit)
     {
         int I;
         int J;
@@ -371,7 +371,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:489
-    public CombatPredictorUnit AddUnitEx(AbstractUnit AUnit, byte Side, byte BehindWall)
+    public CombatPredictorUnit AddUnitEx(Troop AUnit, byte Side, byte BehindWall)
     {
         CombatPredictorUnit U;
         DamageType D;
@@ -393,7 +393,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:504
-    public void AddUnit(AbstractUnit AUnit)
+    public void AddUnit(Troop AUnit)
     {
         AddUnitEx(AUnit, 0, 0);
     }
@@ -408,7 +408,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:514
-    public void AddOpponent(AbstractUnit AUnit, byte BehindWall)
+    public void AddOpponent(Troop AUnit, byte BehindWall)
     {
         AddUnitEx(AUnit, 1, BehindWall);
     }
@@ -425,7 +425,7 @@ public partial class CombatPredictor : IDisposable
     // CombatPredictor.pas:524
     public void AddWall(WallType WallType)
     {
-        WallUnit Wall;
+        WallCombatant Wall;
         CombatPredictorUnit UnitObj;
         if (WallType == WallType.None)
         {
@@ -436,7 +436,7 @@ public partial class CombatPredictor : IDisposable
         UnitObj = FWall;
         if (UnitObj == null)
         {
-            Wall = new WallUnit(null);
+            Wall = new WallCombatant(null);
             Wall.SetWallType(WallType);
             Wall.FHits = (sbyte)(Wall.FHits + 5);
             Wall.FHitPoints = (sbyte)(Wall.FHitPoints + 5);
@@ -445,7 +445,7 @@ public partial class CombatPredictor : IDisposable
         }
         else
         {
-            ((WallUnit)UnitObj.FUnit).SetWallType(WallType);
+            ((WallCombatant)UnitObj.FUnit).SetWallType(WallType);
         }
     }
 
@@ -480,19 +480,19 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:739
-    public void InitAdjacentArmies(ArmyHS Army, sbyte X, sbyte Y, sbyte L)
+    public void InitAdjacentArmies(ArmyHexSprite Army, sbyte X, sbyte Y, sbyte L)
     {
         MapLevel Level;
-        ArmyHS ArmyHS;
-        AbstractUnit U;
+        ArmyHexSprite ArmyHS;
+        Troop U;
         byte Defender;
         byte Player;
         byte Relation;
         byte DefenderRelation;
         CombatSideIndex Side;
         MapField Field;
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         AddUnits(Army.FArmy);
         Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
         var army = Army.FArmy;
@@ -513,12 +513,12 @@ public partial class CombatPredictor : IDisposable
                 AddWall((WallType)Msg.Result.Int);
             }
 
-            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    ArmyHS = (ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                    ArmyHS = (ArmyHexSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                     if (ArmyHS != null && ArmyHS != Army)
                     {
                         Side = CombatAbilityTables.GetCombatSide((sbyte)Player, (sbyte)Relation, (sbyte)Defender, (sbyte)DefenderRelation, ArmyHS.FArmy.FPlayer, ArmyHS.FArmy.FIndependentRelation);
@@ -542,7 +542,7 @@ public partial class CombatPredictor : IDisposable
                     }
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
     }
@@ -551,14 +551,14 @@ public partial class CombatPredictor : IDisposable
     public void InitAdjacentOpponents(byte Player, byte Relation, sbyte X, sbyte Y, sbyte L)
     {
         MapLevel Level;
-        ArmyHS ArmyHS;
-        AbstractUnit U;
+        ArmyHexSprite ArmyHS;
+        Troop U;
         byte DefenderRelation;
         byte Defender;
         CombatSideIndex Side;
         MapField Field;
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
         Defender = (byte)((AoWMapField)Level.GetField(X, Y)).GetPlayer();
         DefenderRelation = ((AoWMapField)Level.GetField(X, Y)).GetIndependentRelation();
@@ -574,12 +574,12 @@ public partial class CombatPredictor : IDisposable
                 AddWall((WallType)Msg.Result.Int);
             }
 
-            HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    ArmyHS = (ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                    ArmyHS = (ArmyHexSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                     if (ArmyHS != null)
                     {
                         Side = CombatAbilityTables.GetCombatSide((sbyte)Player, (sbyte)Relation, (sbyte)Defender, (sbyte)DefenderRelation, ArmyHS.FArmy.FPlayer, ArmyHS.FArmy.FIndependentRelation);
@@ -603,7 +603,7 @@ public partial class CombatPredictor : IDisposable
                     }
                 }
 
-                HNWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHN(ref Walk);
             }
         }
     }
@@ -701,7 +701,7 @@ public partial class CombatPredictor : IDisposable
     // CombatPredictor.pas:872
     public int GetEfficiency()
     {
-        FixedArray_int_2 Lost = default;
+        Int32Array2 Lost = default;
         byte Side;
         CombatPredictorUnit U;
         if (FEfficiency == -1)
@@ -948,7 +948,7 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:1004
-    public int Usefullness(AbstractUnit AUnit)
+    public int Usefullness(Troop AUnit)
     {
         int Result;
         CombatPredictorUnit Wall;

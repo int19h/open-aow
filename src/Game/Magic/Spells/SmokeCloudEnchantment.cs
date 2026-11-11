@@ -19,7 +19,7 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
     // SmokeCloud.pas:91
     public SmokeCloudEnchantment(ECustomNode owner) : base(owner)
     {
-        FEnchantmentMode = Set<GlobalEnchantmentModeElement>.FromMask((Set<CloudEnchantmentOptionsElement>.FromMask(FEnchantmentMode.Mask) - Set<CloudEnchantmentOptionsElement>.Of(CloudEnchantmentOptionsElement.Bit0, CloudEnchantmentOptionsElement.Bit1)).Mask);
+        FEnchantmentMode = Set<GlobalEnchantmentModeElement>.FromMask((Set<OptionsElement>.FromMask(FEnchantmentMode.Mask) - Set<OptionsElement>.Of(OptionsElement.Bit0, OptionsElement.Bit1)).Mask);
         FDispelMana = 25;
     }
 
@@ -29,23 +29,23 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
     // SmokeCloud.pas:156
     public override bool VisibleForPlayer(sbyte Player)
     {
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Result = FPlayerIndex == Player;
         ref var walk = ref Walk;
         var yhx = FCloud.Yhx;
         var xhx = FCloud.Xhx;
-        HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
         while (!Result && walk.Radius <= 3)
         {
             Result = AoWHSMap.Current.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, Player);
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;
     }
 
     // The unused fourth byte in the original register result has no defined value.
-    public override XYL GetLocation() => new() { X = FCloud.GetXhx(), Y = FCloud.GetYhx(), L = FCloud.GetLhx() };
+    public override MapCoordinate GetLocation() => new() { X = FCloud.GetXhx(), Y = FCloud.GetYhx(), L = FCloud.GetLhx() };
 
     public override bool Deactivate(byte player)
     {
@@ -55,7 +55,7 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
         return result;
     }
 
-    public enum CloudEnchantmentOptionsElement : byte
+    public enum OptionsElement : byte
     {
         Bit0 = 0, Bit1 = 1, Bit2 = 2, Bit3 = 3, Bit4 = 4, Bit5 = 5, Bit6 = 6, Bit7 = 7
     }

@@ -12,7 +12,7 @@ namespace Aow.Game.World;
 
 // { Interface declaration run owned by P5. }
 // pad resources, terrain types
-public partial class PadControl : EControlStyleObject
+public partial class PadControl : ControlStyleObject
 {
     public List<MapObjectResource> FPadResources;
     public BitList FTerrainTypes;
@@ -30,7 +30,7 @@ public partial class PadControl : EControlStyleObject
     {
         FTerrainTypes = new BitList();
         FPadResources = new List<MapObjectResource>();
-        SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.FixedChild));
+        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
     }
 
     // MoveT.PAS:3629
@@ -83,11 +83,11 @@ public partial class PadControl : EControlStyleObject
     {
         bool Result;
         MapObjectResource Resource;
-        ILTerrainMO Pad;
+        ImageLibraryTerrainMapObject Pad;
         Resource = GetPadResource(Size);
         if (Resource != null)
         {
-            Pad = (ILTerrainMO)Resource.CreateResourceUser();
+            Pad = (ImageLibraryTerrainMapObject)Resource.CreateResourceUser();
             Result = Pad.CanPlace(AoWHSMap.Current.MapContainer, X, Y, L);
             Pad?.Dispose();
         }
@@ -100,14 +100,14 @@ public partial class PadControl : EControlStyleObject
     }
 
     // MoveT.PAS:3666
-    public ILTerrainMO PlacePad(sbyte X, sbyte Y, sbyte L, int Size)
+    public ImageLibraryTerrainMapObject PlacePad(sbyte X, sbyte Y, sbyte L, int Size)
     {
-        ILTerrainMO Result;
+        ImageLibraryTerrainMapObject Result;
         MapObjectResource Resource;
         Resource = GetPadResource(Size);
         if (Resource != null)
         {
-            Result = (ILTerrainMO)Resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
+            Result = (ImageLibraryTerrainMapObject)Resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
         }
         else
         {

@@ -4,7 +4,7 @@ namespace Aow.Rtl;
 
 public static partial class RtlUnit
 {
-    public static IFileSystem Files { get; set; } = new SystemIoFileSystem();
+    public static IFileSystem Files { get; set; } = new PhysicalFileSystem();
     public static IClock Clock { get; set; } = new SystemClock();
 
     public static ISettingsStore? Settings { get; set; }

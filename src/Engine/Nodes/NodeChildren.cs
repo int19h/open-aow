@@ -21,11 +21,11 @@ public sealed class NodeChildren(ECustomNode node) : IChildCollection
 
     public bool KeepIndex => node.GetControlStyle().Contains(EngineServices.csKeepIndex);
 
-    public void Attach(IPersistable child) => ((EObject)child).FOwner = node;
+    public void Attach(IPersistable child) => ((EngineObject)child).FOwner = node;
 
     public void Place(int slot, IPersistable child)
     {
-        var obj = (EObject)child;
+        var obj = (EngineObject)child;
         obj.FOwner = null;
         if (KeepIndex) obj.SetArrayOwner(node, slot);
         else obj.SetOwner(node);

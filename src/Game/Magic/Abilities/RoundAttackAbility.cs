@@ -23,27 +23,27 @@ public partial class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2404
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         Set<DamageType> DamageTypes;
         int Count;
-        StrikeCA Action;
+        StrikeCombatAction Action;
         Combat.Battle Combat;
         DelphiList Targets;
         CombatObject Target;
         CombatObject Other;
-        MoveWallCA MoveAction;
+        MoveWallCombatAction MoveAction;
         Combat = Source.FCombat;
         Targets = new DelphiList();
         DamageTypes = CombatObject.MeleeDamageTypes(Source);
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
-        if (Source is FastCombatUnit)
+        if (Source is FastBattleUnit)
         {
-            ((FastCombatUnit)Source).FRoundDistance = 0;
+            ((FastBattleUnit)Source).FRoundDistance = 0;
             if (Source.fcBehindWall() && Source.fcWallInBetween(Target.FPosition) && !Target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
-                MoveAction = new MoveWallCA(null);
+                MoveAction = new MoveWallCombatAction(null);
                 MoveAction.F_MoveWallCA_0C = Source.FID;
                 MoveAction.F_MoveWallCA_0D = 0;
                 Source.FCombat.ExecuteCombatAction(MoveAction);
@@ -88,12 +88,12 @@ public partial class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2286
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         if (CanTouchUnit(Attacker, Defender))
         {
-            Result = AbstractUnit.P4UnitStrikeDV(Attacker, Defender) * 2;
+            Result = Troop.P4UnitStrikeDV(Attacker, Defender) * 2;
         }
         else
         {
@@ -104,14 +104,14 @@ public partial class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2318
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         if (WallSituation == WallSituation.None && CanTouchUnit(Attacker, Defender))
         {
-            var p4UnitStrikeDV = AbstractUnit.P4UnitStrikeDV(Attacker, Defender);
+            var p4UnitStrikeDV = Troop.P4UnitStrikeDV(Attacker, Defender);
             DamageValues.SourceDamage = p4UnitStrikeDV * 2;
             DamageValues.SourceCost = 0;
-            var aoWEP4UnitStrikeDV = AbstractUnit.P4UnitStrikeDV(Attacker, Defender);
+            var aoWEP4UnitStrikeDV = Troop.P4UnitStrikeDV(Attacker, Defender);
             DamageValues.TargetDamage = aoWEP4UnitStrikeDV;
             DamageValues.TargetCost = 0;
             var damageTypes = ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).GetDamageTypes(Attacker);
@@ -133,7 +133,7 @@ public partial class RoundAttackAbility : TouchAbility
     {
         int Attack;
         int Damage;
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Attack = unit.GetAttack();
             Damage = unit.GetDamage();
@@ -228,10 +228,10 @@ public partial class RoundAttackAbility : TouchAbility
     // AoWAb.PAS:2294
     public override void GetCombatInfo(AbilityOwner Owner, ref AbilityCombatInfo Info)
     {
-        AbstractUnit Source;
-        if (Owner is AbstractUnit)
+        Troop Source;
+        if (Owner is Troop)
         {
-            Source = (AbstractUnit)Owner;
+            Source = (Troop)Owner;
             var attack = Source.GetAttack();
             Info.Attack = attack;
             var damage = Source.GetDamage();

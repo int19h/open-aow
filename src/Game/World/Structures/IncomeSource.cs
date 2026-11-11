@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class IncomeSource : EObject
+public partial class IncomeSource : EngineObject
 {
     public IncomeSource(ECustomNode owner) : base(owner)
     { }

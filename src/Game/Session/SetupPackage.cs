@@ -4,7 +4,7 @@ using Aow.Engine.Storage;
 
 namespace Aow.Game.Session;
 
-public partial class SetupPackage : EObject
+public partial class SetupPackage : EngineObject
 {
     // AoWSetup.pas:254
     public new const int ClassID = 131681;
@@ -12,12 +12,12 @@ public partial class SetupPackage : EObject
     public int FMessageID;
     public int FParam2;
     public int FParam1;
-    public EObject FData;
+    public EngineObject FData;
 
     // AoWSetup.pas:245
     public override void Dispose()
     {
-        EObject Data;
+        EngineObject Data;
         Data = FData;
         if (Data != null)
         {

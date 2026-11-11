@@ -31,7 +31,7 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:52
 
     // ReflectingPool.pas:241
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         if (Msg.MsgID == 4362 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
         {

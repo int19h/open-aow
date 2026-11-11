@@ -1,8 +1,6 @@
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 
@@ -20,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public partial class StormSpell : Spell
 {
     public Storm FTargetStorm;
-    public AbstractUnit FSource;
+    public Troop FSource;
 
     // Storms.pas:762
     public StormSpell(ECustomNode owner) : base(owner)
@@ -29,7 +27,7 @@ public partial class StormSpell : Spell
     }
 
     // Storms.pas:888
-    public override void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
     {
         int Priority;
         AICastSpellAction Action;
@@ -47,11 +45,11 @@ public partial class StormSpell : Spell
     }
 
     // Storms.pas:906
-    public override bool AIExecuteCastSpellAction(AbstractUnit Source)
+    public override bool AIExecuteCastSpellAction(Troop Source)
     {
         bool Result;
         string Reason = "";
-        XYL Target = default;
+        MapCoordinate Target = default;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
@@ -98,7 +96,7 @@ public partial class StormSpell : Spell
     }
 
     // Storms.pas:809
-    public override bool CanActivate(AbstractUnit Source, ref string MessageText)
+    public override bool CanActivate(Troop Source, ref string MessageText)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -118,7 +116,7 @@ public partial class StormSpell : Spell
     }
 
     // Storms.pas:825
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result = default;
         sbyte X = default;
@@ -168,13 +166,13 @@ public partial class StormSpell : Spell
     }
 
     // Storms.pas:768
-    public virtual bool ExecuteStormSpell(AbstractUnit Source, sbyte X, sbyte Y, sbyte L)
+    public virtual bool ExecuteStormSpell(Troop Source, sbyte X, sbyte Y, sbyte L)
     {
         bool Result;
-        StormSpellTE TE;
+        StormSpellTokenEvent TE;
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            TE = new StormSpellTE(null);
+            TE = new StormSpellTokenEvent(null);
             TE.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             TE.FX = X;
             TE.FY = Y;
@@ -192,10 +190,10 @@ public partial class StormSpell : Spell
     }
 
     // Storms.pas:860
-    public virtual int AICastSpellPriority(AbstractUnit Source)
+    public virtual int AICastSpellPriority(Troop Source)
     {
         int Result;
-        XYL Target = default;
+        MapCoordinate Target = default;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;

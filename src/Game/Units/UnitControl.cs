@@ -12,19 +12,19 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // FNextUnitID. FUnitTable. FUnits
-public partial class UnitControl : EObject
+public partial class UnitControl : EngineObject
 {
     // Unit.PAS:1
     public UnitControl(ECustomNode owner) : base(owner)
     {
-        FUnitTable = new Dictionary<int, AbstractUnit>();
-        FUnits = new List<AbstractUnit>();
+        FUnitTable = new Dictionary<int, Troop>();
+        FUnits = new List<Troop>();
         FNextUnitID = 1;
     }
 
     public int FNextUnitID;
-    public Dictionary<int, AbstractUnit> FUnitTable;
-    public List<AbstractUnit> FUnits;
+    public Dictionary<int, Troop> FUnitTable;
+    public List<Troop> FUnits;
 
     // Unit.PAS:8
     public override void Dispose()
@@ -57,14 +57,14 @@ public partial class UnitControl : EObject
     }
 
     // Unit.PAS:31
-    public AbstractUnit GetUnit(int Index) => FUnits[Index];
+    public Troop GetUnit(int Index) => FUnits[Index];
 
     // Unit.PAS:35
-    public AbstractUnit FindUnit(int ID) => FUnitTable.TryGetValue(ID, out AbstractUnit found) ? found : null;
+    public Troop FindUnit(int ID) => FUnitTable.TryGetValue(ID, out Troop found) ? found : null;
 
     // Null when the id is missing or the stored unit is not a T.
-    public T FindUnit<T>(int id) where T : AbstractUnit =>
-        FUnitTable.TryGetValue(id, out AbstractUnit found) && found is T typed ? typed : null;
+    public T FindUnit<T>(int id) where T : Troop =>
+        FUnitTable.TryGetValue(id, out Troop found) && found is T typed ? typed : null;
 
     // Unit.PAS:39
     public int GetFreeID()
@@ -82,9 +82,9 @@ public partial class UnitControl : EObject
     }
 
     // Unit.PAS:48
-    public void RegisterUnit(AbstractUnit AUnit)
+    public void RegisterUnit(Troop AUnit)
     {
-        AbstractUnit ExistingUnit;
+        Troop ExistingUnit;
         if (!AUnit.FUnitStatus.Contains(UnitStatusElement.Registered))
         {
             if (AUnit.FUnitID == -1)
@@ -96,7 +96,7 @@ public partial class UnitControl : EObject
             }
             else
             {
-                ExistingUnit = FUnitTable.TryGetValue(AUnit.FUnitID, out AbstractUnit found) ? found : null;
+                ExistingUnit = FUnitTable.TryGetValue(AUnit.FUnitID, out Troop found) ? found : null;
                 if (ExistingUnit != AUnit)
                 {
                     FUnits.Add(AUnit);
@@ -107,7 +107,7 @@ public partial class UnitControl : EObject
                     }
                     else
                     {
-                        if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
                             AUnit.FUnitID = GetFreeID();
                             HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
@@ -131,12 +131,12 @@ public partial class UnitControl : EObject
     }
 
     // Unit.PAS:86
-    public void UnRegisterUnit(AbstractUnit AUnit)
+    public void UnRegisterUnit(Troop AUnit)
     {
         if (AUnit.FUnitStatus.Contains(UnitStatusElement.Registered))
         {
             AUnit.FUnitStatus = AUnit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
-            if (FUnitTable.TryGetValue(AUnit.FUnitID, out AbstractUnit stored) && stored == AUnit)
+            if (FUnitTable.TryGetValue(AUnit.FUnitID, out Troop stored) && stored == AUnit)
             {
                 FUnitTable.Remove(AUnit.FUnitID);
             }

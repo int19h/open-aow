@@ -93,7 +93,7 @@ written during initialization, before the map view has a size).
 Run settings of the native harness and the host (2026-10-26). Native runs play with the game's
 sound and music volume at 0 and the enable flags unchanged, so that no sound code path changes.
 Both sides take `--movement-speed normal|fast|turbo` (`General\Movement Speed`, read by
-`AoWRegistry.GetMovementSpeed` (Delphi `TAoWRegistry`)). Comparisons with the reference runs use normal, as those runs
+`GameSettings.GetMovementSpeed` (Delphi `TAoWRegistry`)). Comparisons with the reference runs use normal, as those runs
 did. Turbo is safe for new traces: a native and a port run at turbo equal each other for 20 turns,
 and the port at turbo equals the normal-speed reference on all days, so the speed changes the
 animation steps and nothing that is saved. The host's frame rate (`FFPS`, which shortens moves
@@ -164,7 +164,7 @@ The port is driven by calls, not by a debugger. `tools/oracle/run.py` does, for 
    display left out. The original's path, verified by the recovery in the source on 2026-10-25:
    - `AoW.exe` reads only `ParamStr(1)`. A `.asg` or `.acg` path shows the title scene and is
      loaded on the first frame (`AoWUnit.pas:403-417`) from `TMainForm.DisplayUpdateFrame` through
-     `OpenSelectedGame`, `FileDlgWindow.LoadSelectedGame` (Delphi `TFileDlgWindow`), `LoadGame`, `StartGame` and
+     `OpenSelectedGame`, `FileDialogWindow.LoadSelectedGame` (Delphi `TFileDlgWindow`), `LoadGame`, `StartGame` and
      `AoWHSMap.Activate`. The frame loop is synchronous: the main form sets `UpdateFrameMode =
      umSynchrone` and `FrameRate` 30, so `CustomDisplay.StartUpdateFrameLoop` (Delphi `TCustomDisplay`) calls `UpdateFrame`
      and `Application.ProcessMessages` in the main thread. No thread or timer is involved;
@@ -174,8 +174,8 @@ The port is driven by calls, not by a debugger. `tools/oracle/run.py` does, for 
      local games), `NewTurn` of the first player and `FAIExecuter.ActivatePlayer` for a CPU player.
    - Every frame, `AoWHSMap.NewFrame` calls `FPlayerControl.NewFrame`,
      `FPlayerCommunicator.Process`, `FAIExecuter.Process` and `FTokenManager.Process`, in that
-     order. `AIExecuter.Process` (Delphi `TAIExecuter`) runs `AIPlayerControl.Process` (Delphi `TAIPlayerControl`) until the counter budget is used,
-     and `EndTurnAIPA.Process` (Delphi `TEndTurnAIPA`) queues a `EndTurnTE` (Delphi `TEndTurnTE`). `TokenManager.Process` (Delphi `TTokenManager`) executes it:
+     order. `AIExecutor.Process` (Delphi `TAIExecuter`) runs `AIPlayerControl.Process` (Delphi `TAIPlayerControl`) until the counter budget is used,
+     and `EndTurnAIPlayerAction.Process` (Delphi `TEndTurnAIPA`) queues a `EndTurnTokenEvent` (Delphi `TEndTurnTE`). `TokenManager.Process` (Delphi `TTokenManager`) executes it:
      `TurnPlayerControl.EndTurn`, and after the last player `NewDay`, then `NewTurn` of the next
      player and `ActivatePlayer`.
    The harness loads the save through the game's load path, sets `RandSeed` to the seed and makes
@@ -251,13 +251,13 @@ the same input give identical saves. What the recovery verified about the origin
   turn timer (`AoWHSMap.PAS:3093-3120`) feeds it into the two ignored fields, and `DisableTurnTimer`
   subtracts the start time even when it is -1, so those fields are garbage by design. `IClock` in
   the harness returns a fixed value, and the comparison still masks `$37` and `$3A`.
-- The AI budget is a counter, not wall clock. `AIExecuter.Create` sets `ptmStatic` and
+- The AI budget is a counter, not wall clock. `AIExecutor.Create` sets `ptmStatic` and
   `FProcessTime` 5000 (`AI.pas:564-565`), nothing else assigns the mode, and `RequestProcessTime`
   and `GetProcessTimeLeft` compare against `FProcessTimeUsed`, which only `UseProcessTime` raises by
   fixed costs. The wall-clock branch (`AI.pas:598, 962`) is dead code and stays so in the port.
 - Combat. With no human in a battle, `SetupCombat` falls back to `ctFast` (`MoveT.PAS:2692,
   2710-2711`), so all-CPU runs exercise fast combat only. The recovery's `--tactical` runs forced
-  `ArmyCombatMoveTE.FCombatType` (Delphi `TArmyCombatMoveTE`) to `ctTactical` when `ExecuteCombat` starts and set
+  `ArmyCombatMoveTokenEvent.FCombatType` (Delphi `TArmyCombatMoveTE`) to `ctTactical` when `ExecuteCombat` starts and set
   `TacticalCombat.FHostPlayer` (Delphi `TTacticalCombat`) to 0 in `Execute`, because without a human it stays -1
   (`AoWTC.pas:5103-5107`). The harness has the same option (`--tactical`), applied at the same two
   points, so the tactical resolver is covered by the `heroes` tactical runs.
@@ -277,8 +277,8 @@ the same input give identical saves. What the recovery verified about the origin
 
 Functions the oracle cannot vouch for. The recovery's equivalence review of the functions that do
 not byte-match leaves six `UNSURE`: `ChatWindow.ChatEditReturn` (Delphi `TChatWindow`) in `AoW.exe`, and in AoWEPACK
-`AIGroupTargetSelector.Process` (Delphi `TAIGroupTargetSelector`), `AoWEngine.Create` (Delphi `TAoWEngine`), `DiplomacyAIPA.ExecuteDiplomacy` (Delphi `TDiplomacyAIPA`),
-`ShowMovePaths` and `TransportMEC.CalculateMoves` (Delphi `TTransportMEC`). The seven scenarios ran equal through them, so
+`AIGroupTargetSelector.Process` (Delphi `TAIGroupTargetSelector`), `AoWEngine.Create` (Delphi `TAoWEngine`), `DiplomacyAIPlayerAction.ExecuteDiplomacy` (Delphi `TDiplomacyAIPA`),
+`ShowMovePaths` and `TransportMoveExecutorControl.CalculateMoves` (Delphi `TTransportMEC`). The seven scenarios ran equal through them, so
 they are right on those paths, but a divergence of the port that traces into one of them is settled
 against the original binary, not the rebuilt one. Everything else either byte-matches (97 percent
 of functions) or was reviewed equivalent, and the 22 functions once marked different carry their

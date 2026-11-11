@@ -151,7 +151,7 @@ public sealed class GraphicsArrayTests
     public void InvalidBlockSizeFindsTheLargestBlock()
     {
         using var owner = new Component(null!);
-        var dc = new DisplayCtrl(owner);
+        var dc = new DisplayController(owner);
         var matrix = new Matrix(4, 4);
         foreach (var (x, y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) }) matrix.SetVal((byte)x, (byte)y, 1);
         int bw = -1, bh = -1;

@@ -16,13 +16,13 @@ public static class EngineServices
 
     internal const int MaxListSize = 134217727;
 
-    internal const EControlStyleElement csStored = 0;
+    internal const ControlStyleElement csStored = 0;
 
-    internal const EControlStyleElement csShared = (EControlStyleElement)1;
+    internal const ControlStyleElement csShared = (ControlStyleElement)1;
 
-    internal const EControlStyleElement csReserved2 = (EControlStyleElement)2;
+    internal const ControlStyleElement csReserved2 = (ControlStyleElement)2;
 
-    internal const EControlStyleElement csKeepIndex = (EControlStyleElement)3;
+    internal const ControlStyleElement csKeepIndex = (ControlStyleElement)3;
 
     internal const StorageModeElement smText = (StorageModeElement)2;
 
@@ -43,9 +43,9 @@ public static class EngineServices
         return Result + S;
     }
 
-    internal static PlugIn GetPlugIn(int Index)
+    internal static Plugin GetPlugIn(int Index)
     {
-        PlugIn Result;
+        Plugin Result;
         if (EngineHost.PlugIns != null && Index >= 0 && Index < EngineHost.PlugIns.Count)
         {
             Result = EngineHost.PlugIns[Index];

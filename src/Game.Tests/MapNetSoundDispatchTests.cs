@@ -21,12 +21,12 @@ public sealed class MapNetSoundDispatchTests
     {
         internal int MouseCalls;
 
-        public override HSMapMouse CreateMouse()
+        public override HexSpriteMapMouse CreateMouse()
         {
             Assert.Null(FSelection);
             Assert.Null(FTimer);
             MouseCalls++;
-            return new HSMapMouse();
+            return new HexSpriteMapMouse();
         }
     }
 
@@ -34,13 +34,13 @@ public sealed class MapNetSoundDispatchTests
 
     private sealed class SpecializedLevel(ECustomNode owner) : MapLevel(owner)
     {
-        public override EClass MapFieldClass() => EClass.Of<SpecializedField>();
+        public override EngineClass MapFieldClass() => EngineClass.Of<SpecializedField>();
     }
 
     static MapNetSoundDispatchTests()
     {
-        EClass.Register(MapField.ClassID, static owner => new SpecializedField(owner), 40);
-        EClass.Register(MapLevel.ClassID, static owner => new SpecializedLevel(owner), 124);
+        EngineClass.Register(MapField.ClassID, static owner => new SpecializedField(owner), 40);
+        EngineClass.Register(MapLevel.ClassID, static owner => new SpecializedLevel(owner), 124);
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void LegacyMouseStartsWithEmptyEvents()
     {
-        var mouse = new AbstractAoWHSMapMouse();
+        var mouse = new GameMapMouse();
         Assert.Equal(0, mouse.FOnUpStore.Count);
         Assert.Equal(0, mouse.FOnDownStore.Count);
         Assert.Equal(0, mouse.FOnMoveStore.Count);

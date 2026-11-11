@@ -28,7 +28,7 @@ public partial class FireBarrier : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:914
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         TargetSelectionControl Target;
         Target = TargetSelection;
@@ -41,10 +41,10 @@ public partial class FireBarrier : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:926
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
-        FireBarrierTE Event;
-        Event = new FireBarrierTE(null);
+        FireBarrierTokenEvent Event;
+        Event = new FireBarrierTokenEvent(null);
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
@@ -55,7 +55,7 @@ public partial class FireBarrier : GlobalTargetSpell
     // GlobalTargetSpells.pas:900
     public override bool ValidTargetSelectionMapF(MapField Field)
     {
-        ArmyHS Army;
+        ArmyHexSprite Army;
         bool Result = base.ValidTargetSelectionMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(Structure)) == null;
         if (Result)
         {

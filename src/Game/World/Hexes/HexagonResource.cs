@@ -24,12 +24,12 @@ public partial class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:83
 
     // Hexagon.pas:99
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
         {
-            FTransitionLibrary = FEngine.HSSet.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "HexTrans.ILB");
+            FTransitionLibrary = FEngine.HSSet.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "HexTrans.ILB");
         }
 
         if (Msg.MsgID == 65621)
@@ -76,7 +76,7 @@ public partial class HexagonResource : AbstractHexagonResource
     }
 
     // Hexagon.pas:141
-    public void Show(int Xhp, int Yhp, in SurfaceDesc SurfaceDesc, Hexagon Hexagon)
+    public void Show(int Xhp, int Yhp, in LockedSurface SurfaceDesc, Hexagon Hexagon)
     {
         byte Sides;
         FImageLibrary[0].Show(Xhp, Yhp, SurfaceDesc);

@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Combat;
 
 // (spell ID, source ID, refcount)
-public partial class CombatSpellCaster : EObject
+public partial class CombatSpellCaster : EngineObject
 {
     // Spells.PAS:793
     public CombatSpellCaster(ECustomNode owner) : base(owner)

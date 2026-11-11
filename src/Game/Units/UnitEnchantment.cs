@@ -48,7 +48,7 @@ public partial class UnitEnchantment : Enchantment
     public override string GetName()
     {
         string Result;
-        AbstractUnit Source;
+        Troop Source;
         if (AoWHSMap.Current != null)
         {
             Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
@@ -73,7 +73,7 @@ public partial class UnitEnchantment : Enchantment
     public override string GetBinding()
     {
         string Result;
-        AbstractUnit Source;
+        Troop Source;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
         if (Source != null)
         {
@@ -91,7 +91,7 @@ public partial class UnitEnchantment : Enchantment
     public override int GetAIUpkeepPriority()
     {
         int Result;
-        AbstractUnit Source;
+        Troop Source;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
         if (Source != null)
         {
@@ -108,7 +108,7 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:859
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        AbstractUnit Source;
+        Troop Source;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
         if (Source != null)
         {
@@ -126,7 +126,7 @@ public partial class UnitEnchantment : Enchantment
     public override bool Dispel()
     {
         bool Result;
-        AbstractUnit Source;
+        Troop Source;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
         if (Source != null)
         {
@@ -146,7 +146,7 @@ public partial class UnitEnchantment : Enchantment
         sbyte Xhx = default;
         sbyte Yhx = default;
         sbyte Lhx = default;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         GetLocation(ref Xhx, ref Yhx, ref Lhx);
         if (Xhx != -1)
         {

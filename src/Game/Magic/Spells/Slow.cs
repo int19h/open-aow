@@ -29,8 +29,8 @@ public partial class Slow : CombatSpell
     // CombatSpells.pas:1313
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        SlowCA Action;
-        Action = new SlowCA(null);
+        SlowCombatAction Action;
+        Action = new SlowCombatAction(null);
         Action.FSourceID = Source.FID;
         Action.FTargetID = Target.FID;
         Action.FSpellID = FSpellID;

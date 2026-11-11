@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class PowerSource : EObject
+public partial class PowerSource : EngineObject
 {
     public PowerSource(ECustomNode owner) : base(owner)
     { }

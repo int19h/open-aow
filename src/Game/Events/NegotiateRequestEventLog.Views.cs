@@ -18,7 +18,7 @@ public partial class NegotiateRequestEventLog
 
         if (FObject == NegotiateObject.Army)
         {
-            var ArmyHS = (ArmyHS)World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
+            var ArmyHS = (ArmyHexSprite)World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
             if (ArmyHS != null)
             {
                 var joinSelection = ArmyHS.FArmy.GetJoinSelection(FPlayer);

@@ -37,15 +37,15 @@ public sealed class EventLogConstructionTests
             };
         }
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Last = (EventLog)child;
             return base.AddChild(child);
         }
 
-        public override int RemoveChild(EObject child)
+        public override int RemoveChild(EngineObject child)
         {
-            DestroyEntries = Math.Max(DestroyEntries, new StackTrace().GetFrames().Count(x => x.GetMethod() is { Name: "Dispose", DeclaringType: { } t } && t == typeof(EObject)));
+            DestroyEntries = Math.Max(DestroyEntries, new StackTrace().GetFrames().Count(x => x.GetMethod() is { Name: "Dispose", DeclaringType: { } t } && t == typeof(EngineObject)));
             // Record removal notifications without indexing an empty list.
             var changed = FOnChanged;
             FOnChanged = _ => Changes++;
@@ -90,7 +90,7 @@ public sealed class EventLogConstructionTests
         "Aow.Game.Events.ProductionPlaceEventLog",
         "Aow.Game.Events.RazeStructureEventLog",
         "Aow.Game.Events.RestartGameEventLog",
-        "Aow.Game.Events.SMTPEventLog",
+        "Aow.Game.Events.SmtpEventLog",
         "Aow.Game.Events.SaveGameEventLog",
         "Aow.Game.Events.SendEmailGameEventLog",
         "Aow.Game.Events.ShowBookEventLog",
@@ -125,7 +125,7 @@ public sealed class EventLogConstructionTests
                         Assert.NotNull(value);
                         actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.FRefCount }));
                         GameTables.AoWEngine.FDictionary = fixture.Dictionary;
-                        AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying); });
+                        AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                         if (owner is not null) value?.AddRef();
                         value?.Dispose();
                         owner?.Dispose();

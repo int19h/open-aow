@@ -21,7 +21,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Terrain;
 
 // FMode, FPlayer, FDuration, FOriginalOverlay
-public partial class HolyGround : ILTerrainMO
+public partial class HolyGround : ImageLibraryTerrainMapObject
 {
     public HolyGround(ECustomNode owner) : base(owner)
     { }
@@ -44,7 +44,7 @@ public partial class HolyGround : ILTerrainMO
     }
 
     // HolyG.pas:243
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001986)
@@ -54,7 +54,7 @@ public partial class HolyGround : ILTerrainMO
     }
 
     // HolyG.pas:249
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         if (!FMode.Contains(HolySummoning.Summoning))
         {
@@ -86,14 +86,14 @@ public partial class HolyGround : ILTerrainMO
     }
 
     // HolyG.pas:219
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4418)
         {
-            if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
-                ArmyPlaced(Msg.Param[0].As<ArmyHS>());
+                ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
                 return;
             }
 
@@ -104,7 +104,7 @@ public partial class HolyGround : ILTerrainMO
         {
             if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
             {
-                if (CanDoDamage(Msg.Param[0].As<ArmyHS>().FArmy))
+                if (CanDoDamage(Msg.Param[0].As<ArmyHexSprite>().FArmy))
                 {
                     Msg.Result = 1;
                 }
@@ -123,7 +123,7 @@ public partial class HolyGround : ILTerrainMO
     }
 
     // HolyG.pas:209
-    public override int CanMoveOver(in HSSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo Info)
     {
         int Result;
         if (FResource.TerrainList.Terrain[Info.HN] >= 0)
@@ -146,7 +146,7 @@ public partial class HolyGround : ILTerrainMO
     }
 
     // HolyG.pas:181
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (FResource.TerrainList.Terrain[Info.HN] >= 0)
         {
@@ -155,12 +155,12 @@ public partial class HolyGround : ILTerrainMO
     }
 
     // HolyG.pas:95
-    public void TriggerArmyDamage(ArmyHS Army)
+    public void TriggerArmyDamage(ArmyHexSprite Army)
     {
         ArmyEventLog Log;
         int Damage;
         int Damaged;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Damaged = 0;
         RandSeed = AoWHSMap.Current.Random(16777215);
         Log = new ArmyEventLog(null);
@@ -219,9 +219,9 @@ public partial class HolyGround : ILTerrainMO
     }
 
     // HolyG.pas:139
-    public void ArmyPlaced(ArmyHS Army)
+    public void ArmyPlaced(ArmyHexSprite Army)
     {
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             TriggerArmyDamage(Army);
         }
@@ -244,8 +244,8 @@ public partial class HolyGround : ILTerrainMO
     // HolyG.pas:154
     public void NewTurn(sbyte Player)
     {
-        ArmyHS Army;
-        Army = (ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHexSprite Army;
+        Army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (Army != null && Player == Army.FArmy.FPlayer)
         {
             TriggerArmyDamage(Army);
@@ -265,7 +265,7 @@ public partial class HolyGround : ILTerrainMO
     public bool CanDoDamage(UnitList Units)
     {
         int I;
-        AbstractUnit AUnit;
+        Troop AUnit;
         bool Result = false;
         I = Units.Count;
         while (!Result && I != 0)
@@ -286,7 +286,7 @@ public partial class HolyGround : ILTerrainMO
     }
 
     // HolyG.pas:254
-    public void ShowSummonAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowSummonAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         MapField Field;
         var lhx = Anim.GetLhx();
@@ -326,7 +326,7 @@ public partial class HolyGround : ILTerrainMO
 
     private static readonly string HolyGroundDamageRStr = "Holy Ground Damage";
 
-    public new partial class Resource : ILTerrainMOR
+    public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

@@ -29,7 +29,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:613
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -55,7 +55,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:636
     public override GlobalEnchantment CreateEnchantment() => new EnchantedRoadsEnchantment(null);
 
-    public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in SurfaceDesc surface)
+    public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in LockedSurface surface)
     {
         var map = AoWHSMap.Current;
         var level = map.MapContainer.GetMapLevel(map.ViewL);

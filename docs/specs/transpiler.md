@@ -291,12 +291,12 @@ specification, the probe is their regression test. With the layout fixed, `rwDat
 SizeOf(Rec), id)` and `Move` on records can use the struct's bytes directly. `SizeOf(T)` is a
 compile-time constant from the same model.
 
-Variant records. The set has eight (`records.md` lists them): `XYL` (Delphi `TXYL`), `PaletteEntry` (Delphi `TPaletteEntry`),
+Variant records. The set has eight (`records.md` lists them): `MapCoordinate` (Delphi `TXYL`), `Palette.Entry` (Delphi `TPaletteEntry`),
 `TDefenseRequirements` and the three anonymous `TAbilityCombatInfo` buffers of `AoWTC.pas` are
 unmanaged and become explicit-layout structs whose arms are overlapping `[FieldOffset]` fields,
-which the toolchain probe `tests/toolchain/cs15probe` compiles. `EMsg` (Delphi `TEMsg`) (Engine) and `ShowInfo` (Delphi `TShowInfo`)
+which the toolchain probe `tests/toolchain/cs15probe` compiles. `EngineMessage` (Delphi `TEMsg`) (Engine) and `ShowInfo` (Delphi `TShowInfo`)
 (ImageLib) overlay a reference with an integer at one offset, which the runtime forbids, and the
-survey shows `EMsg` is a real pun, not a tagged union: `PlayerControl.NewTurn` (Delphi `TPlayerControl`) writes `Value` and
+survey shows `EngineMessage` is a real pun, not a tagged union: `PlayerControl.NewTurn` (Delphi `TPlayerControl`) writes `Value` and
 `AIGroup.MsgProc` (Delphi `TAIGroup`) reads `Integer(Msg.Engine)` for the same message, and `ValidateMap` stores a
 `StringCollection` (Delphi `TStrings`) reference in `Value`. The rule for such an overlay is the shim's `IntOrRef`
 (`rtl-shim.md` 1.5): the overlapping arms become one `IntOrRef` field, and each arm name is an
@@ -313,25 +313,25 @@ shapes, and milestone 9.6 replaced them in the product (the end of this section)
 Addresses of records. The 51 `@` sites on census records and the 437 record casts fall into four
 forms, and the transpiler maps each mechanically:
 
-1. A same-type identity view, `MapFieldMsg(Pointer(@Msg)^)` or `HNWalkData(Pointer(@Walk)^)`:
+1. A same-type identity view, `MapFieldMessage(Pointer(@Msg)^)` or `HexNumberWalkData(Pointer(@Walk)^)`:
    folded to the variable (rule N9).
 2. A record view over a record, `PP1DamageValues(@A4)^.Field`, `PSurfaceDesc(@SD.Width)^`,
-   `PCrystalAIInfo(Msg.Param[0])^`, `DropMsg(Msg)`, `SpellLocation(Loc)` (108 casts),
+   `PCrystalAIInfo(Msg.Param[0])^`, `DropMessage(Msg)`, `SpellLocation(Loc)` (108 casts),
    `Location(X)` (9): resolved by offset and width with the layout model to the field of the real
    record at that offset, as rule N3 does for views over class instances. The view type is
    replaced by the real type at every declaration that uses it (a `var Info: CrystalAIInfo`
-   parameter, the `var Msg: DropMsg` parameter of `EditDropMsg`, the local
+   parameter, the `var Msg: DropMessage` parameter of `EditDropMsg`, the local
    `Values: TP1DamageValues` and the virtual method signature it feeds in `Ability.PAS:1326`), and
    its members by the real fields at every use, so that nothing of the view survives. A view field
    that straddles two real fields or padding is an error when accessed. One view field covers
    `DamageTypes` and two bytes of padding, and the product leaves that field unread. The damage
    path writes `AbilityDamageValues.SourceDamage`, `SourceCost`, `TargetDamage` and `TargetCost`.
-   The `SpellLocation` and `Location` casts read `XYL.X`, `XYL.Y` and `XYL.L`. `XYLRec`
+   The `SpellLocation` and `Location` casts read `MapCoordinate.X`, `MapCoordinate.Y` and `MapCoordinate.L`. `XYLRec`
    (Delphi `TXYLRec`) is a view over an `Integer`, not a record, and its three uses in
    `HSEngine.pas:3231-3232` become `Unsafe.BitCast<int, TXYL>(XYL).X` and so on.
 3. An address that escapes the expression (17 sites, 10 types): passed as `TObject(@Info)` to a
    synchronous notification (`ExecuteEventLogInfo` (Delphi `TExecuteEventLogInfo`), `MapChangedInfo` (Delphi `TMapChangedInfo`), `ShowMessageInfo` (Delphi `TShowMessageInfo`),
-   `EngineDebugInfo` (Delphi `TEngineDebugInfo`), `TerrainChangedInfo` (Delphi `TTerrainChangedInfo`)), or stored as `Integer(@Info)` in a message
+   `DebugInfo` (Delphi `TEngineDebugInfo`), `TerrainChangedInfo` (Delphi `TTerrainChangedInfo`)), or stored as `Integer(@Info)` in a message
    parameter and read back and written through by the receivers during one `SendMapFieldMsg`
    loop (`StormDamageInfo`, `AITargetInfo` (Delphi `TAITargetInfo`), `BattleFieldInfo` (Delphi `TBattleFieldInfo`), `DefenseRequirements` (Delphi `TDefenseRequirements`),
    `AITargetData` (Delphi `TAITargetData`)). The variable becomes a cell: a local or value parameter whose address escapes
@@ -367,13 +367,13 @@ The survey found none in the set, so the rule is there for upstream changes.
 Pointers to records in arrays and allocated blocks (the 15 types: the engine's item lists with
 `ReallocMem`, `MeleeRound.FStrikes` (Delphi `TMeleeRound`), palette entries, hash items, `CallBackEvent` (Delphi `TCallBackEvent`) through
 `New`) are `Ptr<T>` over the backing array (section 5.8). `@FItems^[I]` is `Ptr<T>.To(FItems.Array,
-I)`, and `GetEntry` returning `@Entries[Index]` returns a `Ptr<PaletteEntry>` into the `T[]` that
+I)`, and `GetEntry` returning `@Entries[Index]` returns a `Ptr<Entry>` into the `T[]` that
 the addressable static array became. A pointer into one of these outlives a call by design and
 needs no cell.
 
 Scalar reinterpretations of a record (93 `Integer(XYL)`, 19 `XYL(i)`, 8 `Comp(Item)` on
 `DoubleItem` (Delphi `TDoubleItem`), `Integer(FTargetXYL) := X`): when the record has an arm or a field of that size at
-offset 0 the expression becomes that field (`XYL.XYL`), otherwise `Unsafe.BitCast<TRec, long>(x)`
+offset 0 the expression becomes that field (`MapCoordinate.Packed`, Delphi `XYL.XYL`), otherwise `Unsafe.BitCast<TRec, long>(x)`
 for an unmanaged struct of the same size, in both directions. These are numeric reinterpretations
 and rule N5 keeps its method-pointer guard. `CompareMem(A, B, n * SizeOf(T))` on two `Ptr<T>` is
 `Ptr<T>.CompareMem(a, b, n)`, a byte comparison of the explicit layouts.
@@ -394,7 +394,7 @@ attribute `[InlineArray(n)]` (C# 12), a one-field struct that the runtime lays o
 of `T`. Element access `A[i]` becomes `A[i - L]`. Multi-dimensional arrays become nested inline
 arrays. Array constants become static fields initialized by a collection expression. `Low(A)`,
 `High(A)` and `Length(A)` are constants. A static array whose elements or whole are address-taken
-(`GFXEPalette.Entries` (Delphi `TGFXEPalette`), whose `GetEntry` returns `@Entries[Index]` and whose `CompareMem` takes
+(`Palette.Entries` (Delphi `TGFXEPalette`), whose `GetEntry` returns `@Entries[Index]` and whose `CompareMem` takes
 `@Entries`) is instead a `T[]` field allocated with its owner, because `Ptr<T>` needs array backing
 and an inline array has none. An assignment of such an array copies with `Array.Copy`, so value
 semantics hold. The report lists these arrays. The one address-taken global array,
@@ -414,8 +414,8 @@ records and kinds of milestone 9.6:
 | the emitter writes | the product holds |
 |---|---|
 | `array of const` as `params TVarRec[]` | `params ReadOnlySpan<FormatArg>`, the union of `rtl-shim.md` 1.6. `TVarRec` is deleted from the shim |
-| `EMsg.Param` and `MapFieldMsg.Param` (Delphi `TMapFieldMsg`) as `FixedArray_IntOrRef_3` and `FixedArray_IntOrRef_4`, `MapFieldMsg.Result` as `IntOrRef` | `EMsgParams` (Delphi `TEMsgParams`) and `MapFieldMsgParams` (Delphi `TMapFieldMsgParams`), inline arrays of the union `MsgArg` with the protocol arity as a named constant, and `Result` as `MsgArg` (`rtl-shim.md` 1.5) |
-| `EMsg` and `ShowInfo` with one `IntOrRef Payload` and an accessor property per arm (`Engine`, `Obj`, `Value`, `BlendPercentage`, `BlendTable`) | `EMsg.Payload` as `MsgArg` with no arm accessors, `ShowInfo.Blend` as the union `BlendValue` (`unions-and-kinds.md` 3.3) |
+| `EngineMessage.Param` and `MapFieldMessage.Param` (Delphi `TMapFieldMsg`) as `FixedArray_IntOrRef_3` and `FixedArray_IntOrRef_4`, `MapFieldMessage.Result` as `IntOrRef` | `EngineMessageParameters` (Delphi `TEMsgParams`) and `MapFieldMessageParameters` (Delphi `TMapFieldMsgParams`), inline arrays of the union `MsgArg` with the protocol arity as a named constant, and `Result` as `MsgArg` (`rtl-shim.md` 1.5) |
+| `EngineMessage` and `ShowInfo` with one `IntOrRef Payload` and an accessor property per arm (`Engine`, `Obj`, `Value`, `BlendPercentage`, `BlendTable`) | `EngineMessage.Payload` as `MsgArg` with no arm accessors, `ShowInfo.Blend` as the union `BlendValue` (`unions-and-kinds.md` 3.3) |
 | the three combat-info buffers of `AoWTC.pas` as explicit-layout structs | plain `TAbilityCombatInfo` locals |
 | the type cascades over structures and event logs and the class id `case` of the tactical map generator | the virtual methods of `Structure.Views.cs` and `EventLog.Views.cs` (`unions-and-kinds.md` 3.4 and 3.5) |
 | `ProductionItem` (Delphi `TProductionItem`) with `FProductionID`, `FParameter` and `FGroupID`, and the `case` statements over the production id | `ProductionItem.Order`, a `ProductionOrder` record (`unions-and-kinds.md` 3.6) |
@@ -428,7 +428,7 @@ records or kinds is ported by hand into the product's form.
 
 CF-3 retires the product metaclass shim. The private transpiler continues to emit the historical
 `Meta` reference tree described below. Its output is a reference diff, not compilable replacement
-product source. Product creation and class-side dispatch use `EClass`, family descriptors and
+product source. Product creation and class-side dispatch use `EngineClass`, family descriptors and
 `Catalog<TKey, TValue>`, registered in the hand-maintained `src/Game/ClassRegistry.cs`.
 
 A class becomes `public partial class Name : Parent`. A class with no parent derives from the
@@ -445,8 +445,8 @@ sizes both: 15 `class of` types, 702 class method declarations of which 39 intro
 class method, 10 virtual constructors, 31 constructor calls through a class reference, 222 calls of
 a virtual class method on an instance's run-time class, 384 `is` tests, 23 `ClassName` uses, no
 `as` and no TypInfo use. The closure of classes that need a `Meta` under the rule below is 1,014 of
-1,307 (973 of them through `EObject.ClassID` (Delphi `TEObject`) alone, then `HexagonSprite.ControlMode` (Delphi `THexagonSprite`) 150,
-`EResource.ResourceEditName` (Delphi `TEResource`) 110, `Ability.AbilityDataClass` (Delphi `TAbility`) 84). 293 classes need none.
+1,307 (973 of them through `EngineObject.ClassID` (Delphi `TEObject`) alone, then `HexSprite.ControlMode` (Delphi `THexagonSprite`) 150,
+`EngineResource.ResourceEditName` (Delphi `TEResource`) 110, `Ability.AbilityDataClass` (Delphi `TAbility`) 84). 293 classes need none.
 
 The rule. A class is in the metaclass closure when it, or an ancestor, introduces a virtual class
 method, is the target of a project `class of` type that is used as a value, or has a virtual
@@ -462,7 +462,7 @@ design check appended to `metaclass.md`, which read the rule against every site)
   instance methods of `Meta`. `Self` in a class method is the `Meta` instance, and an unqualified
   `ClassName` inside one is `this.ClassName`, the represented class's name. 537 classes get a
   `Meta` type (531 by class methods, 6 class-of targets that declare none: `AIGroupControl` (Delphi `TAIGroupControl`),
-  `AIMoveExecuterControl` (Delphi `TAIMoveExecuterControl`), `ListObject` (Delphi `TListObject`), `GrabInfo` (Delphi `TGrabInfo`), `Sample` (Delphi `TSample`), `SampleData` (Delphi `TSampleData`)), and the other
+  `AIMoveExecutorControl` (Delphi `TAIMoveExecuterControl`), `ListObject` (Delphi `TListObject`), `GrabInfo` (Delphi `TGrabInfo`), `Sample` (Delphi `Sample`), `SampleData` (Delphi `TSampleData`)), and the other
   477 classes of the closure reuse an ancestor's. For the common case, a persisted class
   overriding `ClassID`, this is three lines:
 
@@ -485,9 +485,9 @@ design check appended to `metaclass.md`, which read the rule against every site)
   { o.Create__init(args); } catch { o.Destroy(); throw; } return o; }`. The factory is not
   virtual: `Create__init` is, and `NewInstance` makes the right class. 7 of the 10 virtual
   constructors are in the closure. The 3 outside it (`GroupDefenseSelector` (Delphi `TGroupDefenseSelector`),
-  `TokenPackageDistributer` (Delphi `TTokenPackageDistributer`), `TokenControl` (Delphi `TTokenControl`)) are never called through a class reference and get
+  `TokenPackageDistributor` (Delphi `TTokenPackageDistributer`), `TokenControl` (Delphi `TTokenControl`)) are never called through a class reference and get
   no factory. A `class of` target below the introducing class gets a forwarding factory with its
-  own type, `public new AIPlayerAction Create(EObject owner) => (AIPlayerAction)base.Create(owner);`,
+  own type, `public new AIPlayerAction Create(EngineObject owner) => (AIPlayerAction)base.Create(owner);`,
   so that the 7 assignments of a factory result to the target type need no cast at the call site.
 - The `Meta` of a `class of` target gets `public static new Meta Of<T>() where T : TFoo =>
   (Meta)MetaRegistry.Of(typeof(T))`, the spelling of a class used as a value of that type. 15 of
@@ -501,7 +501,7 @@ design check appended to `metaclass.md`, which read the rule against every site)
   before any generated static field runs, because the 11 `TEObjectClass` typed constants of
   `inc/Combat.pas` evaluate `Of<T>()` during type initialization, and it keeps one instance per
   type, so that list identity and event removal hold.
-- A class outside the closure that declares class methods (4, the `BehaviorRegistrator` (Delphi `TRegistrator`) classes of
+- A class outside the closure that declares class methods (4, the `BehaviorRegistrar` (Delphi `TRegistrator`) classes of
   `BehaviorAG`, `City`, `IndependentAG` and `MainAG`, whose `MapLoaded` is only used as an event
   handler) gets plain C# static methods, and a reference to one is a static method group.
 
@@ -527,10 +527,10 @@ The mappings:
 | `C.Create(args)` with a static constructor (1 site) | `((TFoo)C.NewInstance())` followed by the static body method |
 | `TFooClass(X)` between class references | a cast between `Meta` types |
 | `obj is TFoo` (380) | `obj is TFoo`, except where the static class of `obj` is `TFoo` or a descendant: Delphi 3 compiles that test to the constant True without testing `obj`, so `nil is TBase` is True for a `TBase` variable (probe `classes`, 2026-10-26), and the emitter writes `true` after evaluating `obj` if it has a side effect. The report lists the folded sites |
-| `obj.ClassType = TFoo`, `C = TFoo`, `C <> EObject` | `obj.GetType() == typeof(TFoo)`, `C.Type == typeof(TFoo)` |
+| `obj.ClassType = TFoo`, `C = TFoo`, `C <> EngineObject` | `obj.GetType() == typeof(TFoo)`, `C.Type == typeof(TFoo)` |
 | `C.InheritsFrom(AClass)` (1, `GetDescendantClasses`, `AClass: TClass`) | `C.InheritsFrom(AClass)` with `AClass` a `Type` |
 | `ClassName` (23), `C.ClassName` | `TObject.ClassNameOf(GetType())`, `C.ClassName`: the Delphi spelling, which the shim recovers from the C# name (section 3, spelling) |
-| `C.ClassParent` (1, the editor walk in `EObject.Editor`) | `C.ClassParent`, a `Meta` |
+| `C.ClassParent` (1, the editor walk in `EngineObject.Editor`) | `C.ClassParent`, a `Meta` |
 | `InstanceSize` (1, `FieldClass.InstanceSize` in `HSEngine`, through a `TEObjectClass`) | `C.InstanceSize`, the base `Meta` property filled from the layout model at registration |
 | `is` against a class held in a variable (4) | `type.IsInstanceOfType(obj)` |
 
@@ -542,7 +542,7 @@ becomes `((AIGroup)Group).ClassType.Behavior()`. One call `P2LegacyBehaviorCalls
 (`Unit.PAS:1776`) resolves by slot to `TGroupControl.Behavior`, an instance method, and becomes an
 instance call. N3 runs before the metaclass closure is computed, so the two synthetic view classes
 are not in it. `ClassParent` on `Meta` is defined for the registered classes and their parents
-down to the closure root (the one use, the editor walk, stops at `EObject`), not for `TObject`.
+down to the closure root (the one use, the editor walk, stops at `EngineObject`), not for `TObject`.
 
 The separation matters for the second stage: `Type` uses need no rewrite, and the `Meta` objects
 are retired in one pass (`../milestones.md` 9.4) by moving the few class-side behaviors to generics
@@ -561,7 +561,7 @@ body, and a factory:
   o.Create__init(args); } catch { o.Destroy(); throw; } return o;`. It is emitted on every class
   that a constructor call names, not only on the classes that declare a constructor: a call
   `TNewCombatRoundCA.Create` (`Combat.pas:6172`) on a class that inherits its constructor must
-  allocate `NewCombatRoundCA` (Delphi `TNewCombatRoundCA`), where an inherited C# static allocates the ancestor. The report
+  allocate `NewCombatRoundCombatAction` (Delphi `TNewCombatRoundCA`), where an inherited C# static allocates the ancestor. The report
   lists the classes that get a factory this way.
 - A virtual constructor of a class in the metaclass closure also gets the `Meta` factory of the
   emission list above, and `TEObjectClass(ClassType).Create(nil)` becomes
@@ -919,7 +919,7 @@ set uses and reports everything else:
   record or `Array.Fill` for an array. A literal size equal to the type's `SizeOf` counts as
   `SizeOf` (`FillChar(Values, 20, 0)` on `AbilityDamageValues`, 3 sites), and the range forms
   `FillChar(P^[i], (n - i) * SizeOf(T), 0)` and `Move(P^[i], P^[j], k * SizeOf(T))` become
-  `Ptr<T>.Fill(P + i, n - i, default)` and `Ptr<T>.Copy(P + i, P + j, k)` (the `MeleeStrike` (Delphi `TMeleeStrike`)
+  `Ptr<T>.Fill(P + i, n - i, default)` and `Ptr<T>.Copy(P + i, P + j, k)` (the `Strike` (Delphi `TMeleeStrike`)
   suffix reset and the `SortItem` (Delphi `TSortItem`) shifts). Other `Move` and `FillChar` forms are errors, and no
   form ever copies a managed record as bytes.
 - `DelphiList.List^[I]` (224 uses) becomes `List.List[I]`, the shim's raw array of the list.
@@ -1075,11 +1075,11 @@ five hero and item grid units 10 each, HSEngine 8, and smaller groups; by kind:
 | constant | 35 | `XOR EAX,EAX`, `MOV EAX,n`, `MOV AL,n` bodies | rule A1 |
 | allocator | 1 | `MapField.NewInstance` from the pool `MapFieldMemory` | rule A3 |
 | blitter | 32 | GFXE and ImageLib pixel routines | `graphics.md` section 5 |
-| bitop | 9 | `BitList.Get` (Delphi `TBitList`) and `Put`, `AoWMapField.GetExplored` (Delphi `TAoWMapField`) and `SetExplored`, `CustomAbilityList.GetAbSet` (Delphi `TCustomAbilityList`) and `SetAbSet`, `AbstractUnit.GetAbilitySet` (Delphi `TAbstractUnit`), `Mine.GetRazed` (Delphi `TMine`), `Teleport.GetRazed` (Delphi `TTeleport`): `BT`, `RCR`, `SBB` style bit tests, the original authors' assembler | overrides from the catalogue's Pascal equivalents, with their edge cases (`GetExplored` masks the rotate count to 5 bits, so player 0 and player 32 read as explored and player 33 tests bit 0; `SetExplored(0, ...)` touches bit 31 and tests all of `ECX`; `BitList.Put` with a negative index corrupts memory before the array) |
+| bitop | 9 | `BitList.Get` (Delphi `TBitList`) and `Put`, `AoWMapField.GetExplored` (Delphi `TAoWMapField`) and `SetExplored`, `CustomAbilityList.GetAbSet` (Delphi `TCustomAbilityList`) and `SetAbSet`, `Troop.GetAbilitySet` (Delphi `TAbstractUnit`), `Mine.GetRazed` (Delphi `TMine`), `Teleport.GetRazed` (Delphi `TTeleport`): `BT`, `RCR`, `SBB` style bit tests, the original authors' assembler | overrides from the catalogue's Pascal equivalents, with their edge cases (`GetExplored` masks the rotate count to 5 bits, so player 0 and player 32 read as explored and player 33 tests bit 0; `SetExplored(0, ...)` touches bit 31 and tests all of `ECX`; `BitList.Put` with a negative index corrupts memory before the array) |
 | fill | 7 | the Engine `Fill*` routines and GFXE's `FillInt`, `FillWord`, `FillTrippleByte` (no zero-count guard) | overrides |
 | hex-coords | 6 | `HXtoV`, `HXtoH` (a floor division by 2 except at one overflow value), `HVtoHX`, `HPtoHX`, `HPtoHXs` (writes 4 bytes into each `Shortint` target), `WalkToNextHN` | overrides |
 | list-error | 10 | the nested `ReturnAddr` helpers of the typed lists' `Error` methods | the shim's exception raise |
-| other | 52 | AoWEPACK routines that reproduce compiled Delphi code in assembler (prologues, short jumps, a hand-built `try..finally` in `SpellTE.Validate` (Delphi `TSpellTE`)), written because drafts of shared virtual methods had wrong signatures; all that exist in the original are `MATCH` | overrides transcribed from the catalogue's Pascal equivalents. The original behaviors they carry are kept: `MultiLevelAbility.GetSkillPoints` (Delphi `TMultiLevelAbility`) charges the current level's cost once per level, `MultiLevelAbility.Expand` tests `FLevel = FMaxLevel`, `RaceList.ReadWrite` (Delphi `TRaceList`) skips its immediate ancestor's `ReadWrite`, `Spell.CreateCastSpellAction` (Delphi `TSpell`) runs only `EObject.Create` on its new object |
+| other | 52 | AoWEPACK routines that reproduce compiled Delphi code in assembler (prologues, short jumps, a hand-built `try..finally` in `SpellTokenEvent.Validate` (Delphi `TSpellTE`)), written because drafts of shared virtual methods had wrong signatures; all that exist in the original are `MATCH` | overrides transcribed from the catalogue's Pascal equivalents. The original behaviors they carry are kept: `MultiLevelAbility.GetSkillPoints` (Delphi `TMultiLevelAbility`) charges the current level's cost once per level, `MultiLevelAbility.Expand` tests `FLevel = FMaxLevel`, `RaceList.ReadWrite` (Delphi `TRaceList`) skips its immediate ancestor's `ReadWrite`, `Spell.CreateCastSpellAction` (Delphi `TSpell`) runs only `EngineObject.Create` on its new object |
 
 The transpiler recognizes the three generated shapes and reports each:
 

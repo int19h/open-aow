@@ -27,7 +27,7 @@ public partial class FlagEvent : MapObject
     }
 
     // FlagEvents.pas:157
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001987 && FTriggerMode == TriggerMode.NewTurn)
@@ -37,16 +37,16 @@ public partial class FlagEvent : MapObject
     }
 
     // FlagEvents.pas:164
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
-        if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
     }
 
     // FlagEvents.pas:150
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4365 && FTriggerMode == TriggerMode.Instant)
@@ -56,7 +56,7 @@ public partial class FlagEvent : MapObject
     }
 
     // FlagEvents.pas:110
-    public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting);
+    public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // FlagEvents.pas:105
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;

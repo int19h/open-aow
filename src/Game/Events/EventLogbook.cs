@@ -9,7 +9,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Events;
 
 // events, player, next ID
-public partial class EventLogbook : EObject
+public partial class EventLogbook : EngineObject
 {
     // EventLog.pas:532
     public new const int ClassID = 131808;
@@ -40,7 +40,7 @@ public partial class EventLogbook : EObject
     }
 
     // EventLog.pas:535
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         FEvents.MsgProc(ref Msg, Sender);
@@ -113,7 +113,7 @@ public partial class EventLogbook : EObject
     public int FindFirstLogEx(int AClassID, int Player, int Day)
     {
         int Result = 0;
-        while (Result != this.FEvents.FChildren.Count && (((EventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((EventLog)this.FEvents.FChildren.List[Result]).FDay != Day || ((EObject)this.FEvents.FChildren.List[Result]).EClass.ClassID != AClassID))
+        while (Result != this.FEvents.FChildren.Count && (((EventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((EventLog)this.FEvents.FChildren.List[Result]).FDay != Day || ((EngineObject)this.FEvents.FChildren.List[Result]).EClass.ClassID != AClassID))
         {
             Result += 1;
         }

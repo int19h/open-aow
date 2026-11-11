@@ -28,9 +28,9 @@ the file boundary converts between a document and the engine image on every open
 
 | file | container |
 |---|---|
-| `.asg` save, `.hsm` map, `.csm` campaign map | `CompressStream`: 4 bytes `CFS\0`, 1 byte level (`CompressLevel` (Delphi `TCompressLevel`): 0 none, 1 fastest, 2 default, 3 max, v1.36 writes 2), then the payload. Level 0 means the payload follows uncompressed. Otherwise the payload is a zlib stream (`78 9C` for level 2). A file without the magic is read as uncompressed from byte 0 |
+| `.asg` save, `.hsm` map, `.csm` campaign map | `CompressStream`: 4 bytes `CFS\0`, 1 byte level (`Level` (Delphi `TCompressLevel`): 0 none, 1 fastest, 2 default, 3 max, v1.36 writes 2), then the payload. Level 0 means the payload follows uncompressed. Otherwise the payload is a zlib stream (`78 9C` for level 2). A file without the magic is read as uncompressed from byte 0 |
 | `.hss` scenario set | no container: a 52-byte header (its size, the identifier `#4'HSS'#0`, the set name of up to 40 bytes), the stored root, then a CRC-32 of all preceding bytes |
-| `.cam` campaign, `.acg` campaign save | an uncompressed stored object with its class id, no container. A campaign save can hold a map as an embedded HSM file image in its CFS container (`AoWCampaign` (Delphi `TAoWCampaign`) ids 5 and 6) |
+| `.cam` campaign, `.acg` campaign save | an uncompressed stored object with its class id, no container. A campaign save can hold a map as an embedded HSM file image in its CFS container (`Campaign` (Delphi `TAoWCampaign`) ids 5 and 6) |
 | `.ahl`, `.ail` user lists (heroes, items) | storage streams written by the rules code (`Hero.PAS`, `Army.PAS`), the root without class id |
 
 The game inflates with zlib 1.0.4 linked into Enginep.dpl and deflates with level 2 (zlib default).
@@ -47,7 +47,7 @@ A 16-byte header record, then the root object:
 
 ```
 Integer 16          size of this header
-'HSM' #0            HSMHeader.ID
+'HSM' #0            HsmHeader.ID
 Integer 0           reserved
 Integer ClassID     class id of the root object (AoWHSMap is 131089)
 ```
@@ -95,8 +95,8 @@ stack of (`First`, `NextIndex`, `MaxID`), so one `PropertyTable` instance serves
 | `rwEObjectStream(Obj, id)` | `Integer` length, then a table and data | always | skip by the length on error |
 | `OpenPropertyStream(id)` | the caller writes raw bytes | always | the caller reads from the property offset |
 
-A property id written twice in one object raises `DoublePrioriyIDException` (Delphi `EDoublePrioriyID`). The writer collects an
-object's data in a `EBufferStream` (Delphi `TEBufferStream`) and writes the table and the buffer to the outer stream when the
+A property id written twice in one object raises `DoublePriorityIdException` (Delphi `EDoublePrioriyID`). The writer collects an
+object's data in a `BufferStream` (Delphi `TEBufferStream`) and writes the table and the buffer to the outer stream when the
 object ends, so nested tables appear before their data in the file.
 
 `ECustomNode.MainReadWrite` (Delphi `TECustomNode`) calls `Clear` first in read mode, then `ReadWrite`, then
@@ -106,13 +106,13 @@ id 1. A child is stored when its `Owner` is the node and its control style has `
 
 ### 1.5 Class ids and the registry
 
-Every `EObject` (Delphi `TEObject`) class has a virtual class method `ClassID` that returns a constant. `Engine`
-keeps a `EObjectClassList` (Delphi `TEObjectClassList`) and a hash table from class id to class, filled by `RegisterEClasses`
+Every `EngineObject` (Delphi `TEObject`) class has a virtual class method `ClassID` that returns a constant. `Engine`
+keeps a `EngineObjectClassList` (Delphi `TEObjectClassList`) and a hash table from class id to class, filled by `RegisterEClasses`
 from the units' initialization code, and `CreateEObject(id, owner)` looks the class up and calls
 its virtual constructor `Create(owner)`. A double class id raises at registration. The port keeps
-the engine tables as transpiled code. Since milestone 9.4 the class side is the `EClass`
+the engine tables as transpiled code. Since milestone 9.4 the class side is the `EngineClass`
 descriptor that `ClassRegistry.cs` registers (`metaclass-retirement.md`), each engine's
-`FClassTable` maps an id to its `EClass`, and `CreateEObject` is `GetEClass(id).Create(owner)`.
+`FClassTable` maps an id to its `EngineClass`, and `CreateEObject` is `GetEClass(id).Create(owner)`.
 The class ids are the values in the file, so the port's class ids are the original constants, and
 `tools/asg_dump.py` in the `aow` repository already maps ids to names.
 
@@ -135,8 +135,8 @@ of its HSM header.
 | profile | files | engine table, root | G1 domain B | engine image |
 |---|---|---|---|---|
 | `world-hsm` | `.asg`, `.hsm` world maps, `.csm` | game, `AoWHSMap` | the five CFS bytes and the inflated payload, or the whole file for raw HSM. CFS level 0 and raw HSM stay distinct | the payload: HSM header and root |
-| `tactical-hsm` | `.hsm` under `TCMaps` | tactical, `AoWCombatMap` (Delphi `TAoWCombatMap`) | as `world-hsm` | the payload |
-| `campaign` | `.cam`, `.acg` | campaign, `AoWCampaign` | the whole file | the whole file |
+| `tactical-hsm` | `.hsm` under `TCMaps` | tactical, `CombatMap` (Delphi `TAoWCombatMap`) | as `world-hsm` | the payload |
+| `campaign` | `.cam`, `.acg` | campaign, `Campaign` | the whole file | the whole file |
 | `scenario-set` | `.hss` | game, `AoWHSSet` (Delphi `TAoWHSSet`) | the whole file, header and CRC-32 included | the whole file |
 | `hero-list` | `.ahl` | game, `HeroLibrary` (Delphi `THeroLibrary`) | the whole file | the whole file |
 | `item-list` | `.ail` | game, `ItemLibrary` (Delphi `TItemLibrary`) | the whole file | the whole file |
@@ -216,8 +216,8 @@ the inflated input for both shipped saves (`After the Fall.asg`, `autosave.asg`)
 load and save, for all 23 shipped maps. This is the first end-to-end test of the transpiler, the
 shim's streams and strings, the metaclass registry and the layout model, on about 12,000 lines.
 
-Caveat: the reduced engine's `EObject` differs from the real one (`CreateEObject` takes a
-`EObject` owner, the storage mode is an integer), so the units are a separate transpile input,
+Caveat: the reduced engine's `EngineObject` differs from the real one (`CreateEObject` takes a
+`EngineObject` owner, the storage mode is an integer), so the units are a separate transpile input,
 under `tests/roundtrip-model/`, not part of the game's transpile set.
 
 ### M1b: round trip on the real engine
@@ -299,8 +299,8 @@ byte of a file:
   order (20 to 22 for the production item, 20 to 31 for the diplomatic action, the action type as
   the one-byte `rwData` at 25) and the zero rule of 1.4: it takes the stored values from the record
   (`ToFields`, and the proposal's message) before the calls and, when reading, builds the record
-  with the registry's `FromFields` after them. Saves, maps, `ProductionTE` (Delphi `TProductionTE`) and
-  `DiplomaticActionTE` (Delphi `TDiplomaticActionTE`) reach both classes through the same `ReadWrite`.
+  with the registry's `FromFields` after them. Saves, maps, `ProductionTokenEvent` (Delphi `TProductionTE`) and
+  `DiplomaticActionTokenEvent` (Delphi `TDiplomaticActionTE`) reach both classes through the same `ReadWrite`.
 - An id that no kind registered reads as `UnknownOrder` or `UnknownProposal`, which writes the
   stored values back unchanged.
 - A registered kind holds only its own fields and drops a value that a file holds in a field the

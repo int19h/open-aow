@@ -27,7 +27,7 @@ public partial class ItemLibrary : ItemList
     }
 
     // Army.PAS:4909
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         var item = (Item)Child;
         // { Original checks the world item ID, not the library ID. }

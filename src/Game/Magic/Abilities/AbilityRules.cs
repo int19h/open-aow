@@ -2,10 +2,8 @@
 using System.Runtime.InteropServices;
 using Aow.Engine;
 using Aow.Engine.Buffers;
-
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
-
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
 using Aow.Game.Commands;
@@ -34,28 +32,28 @@ public static class AbilityRules
     {
         RefCount = -1,
         Len = 30,
-        Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 73, 71, 114, 111, 117, 112, 46, 112, 97, 115, 0])
+        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 73, 71, 114, 111, 117, 112, 46, 112, 97, 115, 0])
     };
 
     internal static AIGroup_Deactivate__TOriginalAssertText TAIGroup_Deactivate__OriginalAssertMessage = new AIGroup_Deactivate__TOriginalAssertText
     {
         RefCount = -1,
         Len = 17,
-        Text = FixedArray_byte_128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
+        Text = ByteArray128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
     };
 
     internal static SpellControl_GetSpell__TOriginalAssertText TSpellControl_GetSpell__OriginalAssertFile = new SpellControl_GetSpell__TOriginalAssertText
     {
         RefCount = -1,
         Len = 29,
-        Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 83, 112, 101, 108, 108, 115, 46, 80, 65, 83, 0])
+        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 83, 112, 101, 108, 108, 115, 46, 80, 65, 83, 0])
     };
 
     internal static SpellControl_GetSpell__TOriginalAssertText TSpellControl_GetSpell__OriginalAssertMessage = new SpellControl_GetSpell__TOriginalAssertText
     {
         RefCount = -1,
         Len = 15,
-        Text = FixedArray_byte_128.From([73, 110, 118, 97, 108, 105, 100, 32, 83, 112, 101, 108, 108, 73, 68, 0])
+        Text = ByteArray128.From([73, 110, 118, 97, 108, 105, 100, 32, 83, 112, 101, 108, 108, 73, 68, 0])
     };
 
     internal static Set<DamageType> TWallUnit_GetImmunityTypes__AllDamageTypes = Set<DamageType>.FromMask(1023UL);
@@ -256,17 +254,17 @@ public static class AbilityRules
         {
             for (int J = 0; J <= 15; J++)
             {
-                OldValue = MemoryMarshal.Cast<byte, FixedArray_Aow_Units_FixedArray_sbyte_16_16>(Table)[0][J][I];
-                Value = MemoryMarshal.Cast<byte, FixedArray_Aow_Units_FixedArray_sbyte_16_16>(Other)[0][J][I];
+                OldValue = MemoryMarshal.Cast<byte, SByteArray16By16>(Table)[0][J][I];
+                Value = MemoryMarshal.Cast<byte, SByteArray16By16>(Other)[0][J][I];
                 if (OldValue != -1 && (OldValue < Value || Value == -1))
                 {
-                    MemoryMarshal.Cast<byte, FixedArray_Aow_Units_FixedArray_sbyte_16_16>(Table)[0][J][I] = Value;
+                    MemoryMarshal.Cast<byte, SByteArray16By16>(Table)[0][J][I] = Value;
                 }
             }
         }
     }
 
-    internal static int RoadConstructionCost(sbyte Player, Movepath Path, int MovePoints)
+    internal static int RoadConstructionCost(sbyte Player, MovePath Path, int MovePoints)
     {
         int I;
         int Points;
@@ -307,7 +305,7 @@ public static class AbilityRules
         return Result;
     }
 
-    internal static void ShowDamageIcon(int X, int Y, in SurfaceDesc Surface, int Damage, DamageType DamageType)
+    internal static void ShowDamageIcon(int X, int Y, in LockedSurface Surface, int Damage, DamageType DamageType)
     {
         if (DamageType != DamageType.None)
         {
@@ -355,34 +353,34 @@ public static class AbilityRules
         return Result;
     }
 
-    internal static AbstractUnit.Morale MoraleValueToMorale(int Value)
+    internal static Troop.Morale MoraleValueToMorale(int Value)
     {
-        AbstractUnit.Morale Result;
+        Troop.Morale Result;
         if (Value <= 20)
         {
-            Result = AbstractUnit.Morale.Terrible;
+            Result = Troop.Morale.Terrible;
         }
         else
         {
             if (Value > 80)
             {
-                Result = AbstractUnit.Morale.High;
+                Result = Troop.Morale.High;
             }
             else
             {
                 switch (Value)
                 {
                     case >= 21 and <= 40:
-                        Result = AbstractUnit.Morale.Poor;
+                        Result = Troop.Morale.Poor;
                         break;
                     case >= 41 and <= 60:
-                        Result = AbstractUnit.Morale.OK;
+                        Result = Troop.Morale.OK;
                         break;
                     case >= 61 and <= 80:
-                        Result = AbstractUnit.Morale.Good;
+                        Result = Troop.Morale.Good;
                         break;
                     default:
-                        Result = AbstractUnit.Morale.OK;
+                        Result = Troop.Morale.OK;
                         // { Original leaks the exception without raising it. }
                         new ArgumentException("Invalid MoralValue");
                         break;
@@ -661,18 +659,18 @@ public static class AbilityRules
         return Result;
     }
 
-    internal static int GetMovepathBattleFieldStrength(sbyte Player, sbyte IndependentRelation, Movepath Movepath, int TargetRange, int Range, int Step)
+    internal static int GetMovepathBattleFieldStrength(sbyte Player, sbyte IndependentRelation, MovePath Movepath, int TargetRange, int Range, int Step)
     {
         int Result;
         UnitUserList Units;
         int I;
         int J;
         int Distance;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         BattleFieldInfo Info = default;
         MapLevel Level;
         AoWMapField Field;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         if (Movepath != null && Movepath.Count > 0)
         {
             Distance = Round((double)Range * 0.5);
@@ -694,7 +692,7 @@ public static class AbilityRules
                 Level = AoWHSMap.Current.MapContainer.MapLevels[item.L];
                 var movepathItem = Movepath[Movepath.Count - 1];
                 var item2 = Movepath[Movepath.Count - 1];
-                HNWalkData.InitHNWalk(ref Walk, item2.X, movepathItem.Y, 0);
+                HexNumberWalkData.InitHNWalk(ref Walk, item2.X, movepathItem.Y, 0);
                 while (Walk.Radius <= Step)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -710,7 +708,7 @@ public static class AbilityRules
                         }
                     }
 
-                    HNWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHN(ref Walk);
                 }
 
                 Info.Units = Units;
@@ -796,13 +794,13 @@ public static class AbilityRules
         return Ability;
     }
 
-    internal static FixedArray_int_3 CommandAbilityIDs = FixedArray_int_3.From([29, 28, 148]);
+    internal static Int32Array3 CommandAbilityIDs = Int32Array3.From([29, 28, 148]);
 
-    internal static FixedArray_int_13 RaceColors = FixedArray_int_13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
+    internal static Int32Array13 RaceColors = Int32Array13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
 
     internal static Set<DamageType> dtAll = Set<DamageType>.FromMask(1023UL);
 
-    internal static FixedArray_string_2 ExplosionSFX = FixedArray_string_2.From(["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"]);
+    internal static StringArray2 ExplosionSFX = StringArray2.From(["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"]);
 
     internal static Set<AbilitySelectionType> astAll = Set<AbilitySelectionType>.Of().WithRange(AbilitySelectionType.Unit, AbilitySelectionType.Editor);
 
@@ -810,21 +808,21 @@ public static class AbilityRules
 
     internal static int AIDID;
 
-    internal static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 P2RaceTerrain = FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12.From([new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Desert), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Water), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert, AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Grass) }]);
+    internal static RaceTerrainArray12 P2RaceTerrain = RaceTerrainArray12.From([new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Desert), Disliked = Set<TerrainType>.Of(TerrainType.Snow, TerrainType.Ice, TerrainType.UndergroundIce) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Water), Disliked = Set<TerrainType>.Of(TerrainType.Desert, TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Snow, TerrainType.Ice, TerrainType.UndergroundIce), Disliked = Set<TerrainType>.Of(TerrainType.Desert) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Grass), Disliked = Set<TerrainType>.Of(TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Grass), Disliked = Set<TerrainType>.Of(TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Wasteland), Disliked = Set<TerrainType>.Of(TerrainType.Grass) }]);
 
-    internal static FixedArray_string_5 P2AbilityTypeNames = FixedArray_string_5.From(["Enhancement", "Handicap", "Movement", "Combat", "Enchantment"]);
+    internal static StringArray5 P2AbilityTypeNames = StringArray5.From(["Enhancement", "Handicap", "Movement", "Combat", "Enchantment"]);
 
-    internal static FixedArray_byte_9 ArmySelectionMasks = FixedArray_byte_9.From([0, 1, 3, 7, 15, 31, 63, 127, 255]);
+    internal static ByteArray9 ArmySelectionMasks = ByteArray9.From([0, 1, 3, 7, 15, 31, 63, 127, 255]);
 
     internal static int TMPDID;
 
-    internal static EClass P4DurationDataClass = EClass.Of<DurationAbilityData>();
+    internal static EngineClass P4DurationDataClass = EngineClass.Of<DurationAbilityData>();
 
-    internal static EClass P4MultiLevelDataClass = EClass.Of<MultiLevelAbilityData>();
+    internal static EngineClass P4MultiLevelDataClass = EngineClass.Of<MultiLevelAbilityData>();
 
-    internal static EClass P4CastSpellActionClass = EClass.Of<AICastSpellAction>();
+    internal static EngineClass P4CastSpellActionClass = EngineClass.Of<AICastSpellAction>();
 
-    internal static EClass P4ImageAnimationClass = EClass.Of<ImageSequenceAnimation>();
+    internal static EngineClass P4ImageAnimationClass = EngineClass.Of<ImageSequenceAnimation>();
 
     internal static int P3LimitedDamage(int Attack, int Defense, int Damage)
     {
@@ -838,11 +836,11 @@ public static class AbilityRules
 
     internal static bool EndPlayerTurn(sbyte Player)
     {
-        EndTurnTE Event;
-        Event = new EndTurnTE(null);
+        EndTurnTokenEvent Event;
+        Event = new EndTurnTokenEvent(null);
         Event.FPlayer = Player;
         Event.FDay = AoWHSMap.Current.FDay;
-        Event.FMode = EndTurnTE.EndTurnMode.EndTurn;
+        Event.FMode = EndTurnTokenEvent.Mode.EndTurn;
         AoWHSMap.Current.FTokenManager.TokenControls[Player].AddEvent(Event);
         Event.Release();
         return true;
@@ -880,11 +878,11 @@ public static class AbilityRules
             }
         };
         var mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(level);
-        var message = new MapFieldMsg { MsgID = 0x1151 };
+        var message = new MapFieldMessage { MsgID = 0x1151 };
         message.Param[0] = (int)storm;
         message.Param[2] = query;
-        HNWalkData walk = default;
-        HNWalkData.InitHNWalk(ref walk, x, y, innerRadius);
+        HexNumberWalkData walk = default;
+        HexNumberWalkData.InitHNWalk(ref walk, x, y, innerRadius);
         try
         {
             while (walk.Radius <= outerRadius)
@@ -894,7 +892,7 @@ public static class AbilityRules
                     message.Param[1] = walk.Radius;
                     mapLevel.GetField(walk.X, walk.Y).SendMapFieldMsg(ref message);
                 }
-                HNWalkData.WalkToNextHN(ref walk);
+                HexNumberWalkData.WalkToNextHN(ref walk);
             }
         }
         finally { info = query.Info; }
@@ -906,14 +904,14 @@ public static class AbilityRules
 
     internal static void TriggerStormDamage(StormType Storm, sbyte X, sbyte Y, sbyte L, sbyte InnerRadius, sbyte OuterRadius, sbyte Player)
     {
-        MapFieldMsg Msg = default;
-        HNWalkData Walk = default;
+        MapFieldMessage Msg = default;
+        HexNumberWalkData Walk = default;
         MapLevel Level;
         Level = AoWHSMap.Current.MapContainer.MapLevels[L];
         Msg.MsgID = 4432;
         Msg.Param[0] = (int)Storm;
         Msg.Param[2] = Player;
-        HNWalkData.InitHNWalk(ref Walk, X, Y, InnerRadius);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, InnerRadius);
         while (Walk.Radius <= OuterRadius)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -922,7 +920,7 @@ public static class AbilityRules
                 Level.Field[Walk.X, Walk.Y].SendMapFieldMsg(ref Msg);
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
     }
 

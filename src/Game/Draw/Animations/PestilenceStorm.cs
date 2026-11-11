@@ -25,7 +25,7 @@ public partial class PestilenceStorm : Storm
     public PoisonCloud.Resource FCloudResource;
 
     // Storms.pas:644
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;
@@ -52,7 +52,7 @@ public partial class PestilenceStorm : Storm
                     Blend = 100;
                 }
 
-                Sequence.ImageLibrary[Frame].ShowBlended(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc, GfxState.ShadowBlendTable.LookupTables[Blend]);
+                Sequence.ImageLibrary[Frame].ShowBlended(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc, GraphicsState.ShadowBlendTable.LookupTables[Blend]);
             }
 
             Sequence = Sequence.Next;

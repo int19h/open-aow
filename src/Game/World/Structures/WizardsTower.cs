@@ -2,8 +2,8 @@
 using System.Runtime.CompilerServices;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 
@@ -52,7 +52,7 @@ public partial class WizardsTower : Structure
     // WizardsTower.pas:76
 
     // WizardsTower.pas:196
-    public override ExecuteResult ExecuteTE(StructureTE TE, TokenExecuter Executer)
+    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
     {
         Player Player;
         string Reason = "";
@@ -85,7 +85,7 @@ public partial class WizardsTower : Structure
     }
 
     // WizardsTower.pas:126
-    public override void ArmyPlaced(ArmyHS PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
     {
         Army Army;
         AIGroup Group;
@@ -105,11 +105,11 @@ public partial class WizardsTower : Structure
             Found = false;
             var lhx = GetLhx();
             var yhx = GetYhx();
-            Location = Unsafe.BitCast<XYL, int>(HexGeometry.PackXYL(GetXhx(), yhx, lhx));
+            Location = Unsafe.BitCast<MapCoordinate, int>(HexGeometry.PackXYL(GetXhx(), yhx, lhx));
             while (!Found && I != Army.Count)
             {
                 Group = Army.GetUnit(I).FGroup;
-                Found = Group != null && Unsafe.As<XYL, int>(ref Group.FTargetXYL) == Location && Group.FGoldBudget == Cost;
+                Found = Group != null && Unsafe.As<MapCoordinate, int>(ref Group.FTargetXYL) == Location && Group.FGoldBudget == Cost;
                 I += 1;
             }
 
@@ -178,8 +178,8 @@ public partial class WizardsTower : Structure
     public bool CanEnter(sbyte Player)
     {
         bool Result;
-        ArmyHS ArmyHS;
-        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHexSprite ArmyHS;
+        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (ArmyHS == null || ArmyHS.FArmy.FPlayer != Player)
         {
             Result = false;
@@ -267,7 +267,7 @@ public partial class WizardsTower : Structure
     public bool Buy(sbyte Player, ref string Reason)
     {
         bool Result;
-        StructureTE TE;
+        StructureTokenEvent TE;
         Reason = "";
         if (CanBuy(Player, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
         {

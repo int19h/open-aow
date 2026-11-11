@@ -19,11 +19,11 @@ public partial class Hexagon : AbstractHexagon
 
     public new const int ClassID = 131410;
 
-    protected internal FixedArray_byte_3 FTransitions;
+    protected internal ByteArray3 FTransitions;
     protected internal byte FTransitionSides;
 
     // Hexagon.pas:60
-    public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
     {
         if (HN == 0)
         {
@@ -43,7 +43,7 @@ public partial class Hexagon : AbstractHexagon
     }
 
     // Hexagon.pas:52
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;

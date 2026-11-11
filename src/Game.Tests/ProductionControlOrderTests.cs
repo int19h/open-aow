@@ -1,4 +1,4 @@
-using Aow.Game.Ai;
+using Aow.Game.AI;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -16,7 +16,7 @@ public sealed class ProductionControlOrderTests
         var previous = AoWHSMap.Current;
         AoWHSMap.Current = null!;
         var player = new Player(null!);
-        var action = new AutoProduceAIPA(null!);
+        var action = new AutoProduceAIPlayerAction(null!);
         try
         {
             var city = new CityProductionControl(null!);

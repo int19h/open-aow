@@ -23,14 +23,14 @@ public partial class BloodShrine : Structure
     // BloodShrine.pas:62
 
     // BloodShrine.pas:103
-    public override void ArmyPlaced(ArmyHS PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
     {
         base.ArmyPlaced(PlacedArmy);
         ExecuteBloodlust(PlacedArmy);
     }
 
     // BloodShrine.pas:68
-    public void ShowBlessingAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowBlessingAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -41,9 +41,9 @@ public partial class BloodShrine : Structure
     }
 
     // BloodShrine.pas:77
-    public void ExecuteBloodlust(ArmyHS ArmyHS)
+    public void ExecuteBloodlust(ArmyHexSprite ArmyHS)
     {
-        AbstractUnit AUnit = default;
+        Troop AUnit = default;
         Rect R = default;
         BloodShrineAnimation Anim = default;
         for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)

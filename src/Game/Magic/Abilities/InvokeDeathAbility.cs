@@ -25,11 +25,11 @@ public partial class InvokeDeathAbility : TouchAbility
     }
 
     // AoWAb.PAS:3532
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
-        InvokeDeathCA Action;
-        StrikeCA Strike;
+        InvokeDeathCombatAction Action;
+        StrikeCombatAction Strike;
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
         Action = CreateCA(Source, Target);
@@ -49,7 +49,7 @@ public partial class InvokeDeathAbility : TouchAbility
     }
 
     // AoWAb.PAS:3464
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         float Probability;
@@ -67,7 +67,7 @@ public partial class InvokeDeathAbility : TouchAbility
     }
 
     // AoWAb.PAS:3476
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         float Probability;
         int HitPoints;
@@ -77,7 +77,7 @@ public partial class InvokeDeathAbility : TouchAbility
             HitPoints = Defender.GetHitPoints();
             DamageValues.SourceCost = HitPoints;
             DamageValues.SourceDamage = Round((double)((double)HitPoints * Probability) * 100);
-            var p4UnitStrikeDV = AbstractUnit.P4UnitStrikeDV(Defender, Attacker);
+            var p4UnitStrikeDV = Troop.P4UnitStrikeDV(Defender, Attacker);
             DamageValues.TargetDamage = Round((double)p4UnitStrikeDV * ((double)1 - Probability));
             var protectionTypes = Attacker.GetProtectionTypes();
             var damageTypes = ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).GetDamageTypes(Defender);
@@ -99,7 +99,7 @@ public partial class InvokeDeathAbility : TouchAbility
     // AoWAb.PAS:3456
     public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
     {
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Strength = Round((double)(unit.GetAttack() * 6 * 5) * 0.1);
             Types = Set<DamageType>.Of(DamageType.Death);
@@ -170,7 +170,7 @@ public partial class InvokeDeathAbility : TouchAbility
     }
 
     // AoWAb.PAS:3554
-    public override bool CanTouchUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool CanTouchUnit(Troop Source, Troop Target)
     {
         bool Result = base.CanTouchUnit(Source, Target);
         if (Result)
@@ -183,9 +183,9 @@ public partial class InvokeDeathAbility : TouchAbility
     }
 
     // AoWAb.PAS:3527
-    public InvokeDeathCA CreateCA(CombatObject Source, CombatObject Target)
+    public InvokeDeathCombatAction CreateCA(CombatObject Source, CombatObject Target)
     {
-        InvokeDeathCA Result = new InvokeDeathCA(null);
+        InvokeDeathCombatAction Result = new InvokeDeathCombatAction(null);
         var combatTouchRole = CombatTouchRole((CombatUnit)Source, Target);
         Result.Initialize(Source.FID, Target.FID, combatTouchRole);
         return Result;

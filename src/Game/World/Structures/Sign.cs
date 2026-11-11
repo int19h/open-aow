@@ -58,7 +58,7 @@ public partial class Sign : Structure
     public override void Select()
     {
         base.Select();
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             FTextSeen[AoWHSMap.Current.FSeatedPlayer] = true;
         }
@@ -77,7 +77,7 @@ public partial class Sign : Structure
     // Sign.pas:125
     public bool CanChangeText()
     {
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         ArmyHS = ((AoWMapField)Owner).GetArmyHS();
         return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)AoWHSMap.Current.FSeatedPlayer;
     }
@@ -86,10 +86,10 @@ public partial class Sign : Structure
     public bool ChangeText(int Player, StringCollection Text)
     {
         bool Result;
-        UpdateSignTE Event;
+        UpdateSignTokenEvent Event;
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
         {
-            Event = new UpdateSignTE(null);
+            Event = new UpdateSignTokenEvent(null);
             Event.FXhx = GetXhx();
             Event.FYhx = GetYhx();
             Event.FLhx = GetLhx();
@@ -123,7 +123,7 @@ public partial class Sign : Structure
         public override int ResourceUserClassID() => 131330;
 
         // Sign.pas:168
-        public override void Show(int X, int Y, in SurfaceDesc SurfaceDesc, Structure Structure)
+        public override void Show(int X, int Y, in LockedSurface SurfaceDesc, Structure Structure)
         {
             ImageSequence Sequence;
             int Index;

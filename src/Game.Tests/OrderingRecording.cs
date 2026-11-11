@@ -23,13 +23,13 @@ internal static class OrderingRecording
         foreach (var pair in actual) ConstructionSnapshot.Check(name, pair.Key, pair.Value);
     }
 
-    internal static EObject Direct(Type type, ECustomNode? owner)
+    internal static EngineObject Direct(Type type, ECustomNode? owner)
     {
         try
         {
-            if (type.GetConstructor([typeof(ECustomNode)]) is { } ctor) return (EObject)ctor.Invoke([owner]);
+            if (type.GetConstructor([typeof(ECustomNode)]) is { } ctor) return (EngineObject)ctor.Invoke([owner]);
             if (type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(ECustomNode)]) is { } factory)
-                return (EObject)factory.Invoke(null, [owner])!;
+                return (EngineObject)factory.Invoke(null, [owner])!;
             throw new InvalidOperationException(type.FullName + " has no public construction entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -39,12 +39,12 @@ internal static class OrderingRecording
         }
     }
 
-    internal static EObject Create(Type type, ECustomNode? owner, int route, GameEngine engine) => route switch
+    internal static EngineObject Create(Type type, ECustomNode? owner, int route, GameEngine engine) => route switch
     {
         0 => Direct(type, owner),
-        1 => EClass.Of(type).Create(owner!),
-        2 => EClass.Of(type).Create(owner!),
-        _ => engine.CreateEObject(EClass.Of(type).ClassID, owner!)
+        1 => EngineClass.Of(type).Create(owner!),
+        2 => EngineClass.Of(type).Create(owner!),
+        _ => engine.CreateEObject(EngineClass.Of(type).ClassID, owner!)
     };
 
     internal sealed class Fixture : IDisposable
@@ -64,16 +64,16 @@ internal static class OrderingRecording
         {
             Runtime.RandSeed = 123456789;
             var value = EngineFixture.CreateGameSet(Manager);
-            if (type == typeof(ArmyHS)) value.FUnitGFXResources = new UnitGFXResourceList(null!);
+            if (type == typeof(ArmyHexSprite)) value.FUnitGFXResources = new UnitGFXResourceList(null!);
             AoWHSSet.Current = value;
             GameTables.AoWEngine = EngineFixture.Engine;
             AoWHSMap.Current = null!;
-            if (type != typeof(ArmyHS)) AoWHSSet.Current.FUnitGFXResources = null!;
+            if (type != typeof(ArmyHexSprite)) AoWHSSet.Current.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
             if (EngineHost.Engines is null) EngineHost.Initialize();
             Engine = new GameEngine(null!);
             Engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-            foreach (var descriptor in EClass.All.Where(x => x.Type == type))
+            foreach (var descriptor in EngineClass.All.Where(x => x.Type == type))
             {
                 try { Engine.UnregisterEClasses([Engine.GetEClass(descriptor.ClassID)]); }
                 catch (Exception error) when (PortedExceptions.Is(error)) { }

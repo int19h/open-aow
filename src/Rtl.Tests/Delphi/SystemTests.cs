@@ -124,7 +124,7 @@ public sealed class SystemTests
         Assert.Equal(255, Ord((byte)255));
         Assert.Equal(-1, Ord(-1));
         Assert.Equal(-1, Ord(uint.MaxValue));
-        Assert.Equal(1, Ord(Generated.TFlag.Second));
+        Assert.Equal(1, Ord(Generated.Flag.Second));
         for (int i = 0; i <= 255; i++)
             Assert.Equal(i is >= 97 and <= 122 ? i - 32 : i, UpCase((byte)i));
         var pointer = Ptr<byte>.Unbox("ab\0cd");
@@ -221,7 +221,7 @@ public sealed class SystemTests
         Assert.Null(As<object>(null));
         var obj = new object();
         Assert.Same(obj, As<object>(obj));
-        Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.TSample>(obj)).Message);
+        Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.Sample>(obj)).Message);
         Assert.Throws<AbortException>(Abort);
         Assert.Equal(0, Assert.Throws<HaltException>(() => Halt()).ExitCode);
         Assert.Equal(-1, Assert.Throws<HaltException>(() => Halt(-1)).ExitCode);

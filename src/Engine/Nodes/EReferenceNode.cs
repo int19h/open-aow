@@ -18,7 +18,7 @@ public partial class EReferenceNode : ENode
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EObject)FChildren.List[I]).Release();
+            ((EngineObject)FChildren.List[I]).Release();
         }
 
         FChildren.Clear();
@@ -31,18 +31,18 @@ public partial class EReferenceNode : ENode
         {
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
-                if (((EObject)FChildren.List[I]).FOwner == null)
+                if (((EngineObject)FChildren.List[I]).FOwner == null)
                 {
-                    ((EObject)FChildren.List[I]).FOwner = this;
+                    ((EngineObject)FChildren.List[I]).FOwner = this;
                 }
             }
 
             base.ReadWriteChildren(Stream);
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
-                if (((EObject)FChildren.List[I]).FOwner == this)
+                if (((EngineObject)FChildren.List[I]).FOwner == this)
                 {
-                    ((EObject)FChildren.List[I]).FOwner = null;
+                    ((EngineObject)FChildren.List[I]).FOwner = null;
                 }
             }
         }
@@ -53,7 +53,7 @@ public partial class EReferenceNode : ENode
             {
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    ((EObject)FChildren.List[I]).Release();
+                    ((EngineObject)FChildren.List[I]).Release();
                 }
             }
         }
@@ -66,7 +66,7 @@ public partial class EReferenceNode : ENode
     }
 
     // Engine.pas:8177
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         int Result = FChildren.Remove(Child);
         if (Result != -1)
@@ -78,7 +78,7 @@ public partial class EReferenceNode : ENode
     }
 
     // Engine.pas:8183
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         if (Child.FOwner == this)
         {

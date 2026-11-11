@@ -15,7 +15,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatTerrain : TerrainMO
+public partial class CombatTerrain : TerrainMapObject
 {
     public CombatTerrain(ECustomNode owner) : base(owner)
     { }
@@ -59,14 +59,14 @@ public partial class CombatTerrain : TerrainMO
     }
 
     // CombatTerrain.pas:149
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         AbilityCombatInfo AbilityInfo = default;
         SpellCombatInfo SpellInfo = default;
         base.MapFieldMsgProc(ref Msg);
         if (Msg.HN == 0)
         {
-            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMOR)FResource).DecorationType))
+            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)FResource).DecorationType))
             {
                 switch (Msg.MsgID)
                 {
@@ -174,7 +174,7 @@ public partial class CombatTerrain : TerrainMO
     }
 
     // CombatTerrain.pas:291
-    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
     {
         if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
         {
@@ -190,7 +190,7 @@ public partial class CombatTerrain : TerrainMO
     public override void Activate()
     {
         base.Activate();
-        if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMOR)FResource).DecorationType))
+        if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)FResource).DecorationType))
         {
             FHitPoints = 3;
         }
@@ -211,7 +211,7 @@ public partial class CombatTerrain : TerrainMO
     }
 
     // CombatTerrain.pas:284
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         base.UpdateMapField(Info);
         if (Info.HN < FResource.TerrainList.Count)
@@ -238,7 +238,7 @@ public partial class CombatTerrain : TerrainMO
     public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
 
     // CombatTerrain.pas:106
-    public override bool CanPlaceOnHS(HexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;
+    public override bool CanPlaceOnHS(HexSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;
 
     // CombatTerrain.pas:96
     public void DestroyShadow()
@@ -281,7 +281,7 @@ public partial class CombatTerrain : TerrainMO
     }
 
     // CombatTerrain.pas:138
-    public void ShowShadow(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;
@@ -291,7 +291,7 @@ public partial class CombatTerrain : TerrainMO
         FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
     }
 
-    public new partial class Resource : TerrainMOR
+    public new partial class Resource : TerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

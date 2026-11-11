@@ -26,7 +26,7 @@ public partial class Bridge : AbstractRoad
     // Bridge.pas:43
 
     // Bridge.pas:53
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -40,7 +40,7 @@ public partial class Bridge : AbstractRoad
     public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         MapField MapField;
-        HexagonSprite OldRoad;
+        HexSprite OldRoad;
         MapField OldOwner;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
         OldRoad = MapField.FindHS(typeof(AbstractRoad));
@@ -67,7 +67,7 @@ public partial class Bridge : AbstractRoad
     // Bridge.pas:82
     public override void UpdateTransitions()
     {
-        FixedArray_byte_6 Sides = default;
+        ByteArray6 Sides = default;
         int Transitions;
         int MaxDistance;
         int MaxSide;
@@ -259,7 +259,7 @@ public partial class Bridge : AbstractRoad
         public override int ResourceUserClassID() => 131444;
 
         // Bridge.pas:210
-        public void Show(int Xhp, int Yhp, in SurfaceDesc SurfaceDesc, Bridge Bridge)
+        public void Show(int Xhp, int Yhp, in LockedSurface SurfaceDesc, Bridge Bridge)
         {
             int Transitions;
             int Base;
@@ -352,7 +352,7 @@ public partial class Bridge : AbstractRoad
         }
 
         // Bridge.pas:259
-        public override void MsgProc(ref EMsg Msg, EObject Sender)
+        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
         {
             if (Msg.MsgID != 65556)
             {

@@ -15,7 +15,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units;
 
 // { Interface declaration run owned by P1. }
-public partial class FaceResource : EResource
+public partial class FaceResource : EngineResource
 {
     public new const int ClassID = 131696;
 
@@ -86,7 +86,7 @@ public partial class FaceResource : EResource
         ReleaseIL();
         if (!IsEmpty(FImageLibraryName))
         {
-            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
+            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
         }
         else
         {
@@ -101,7 +101,7 @@ public partial class FaceResource : EResource
         {
             if (!IsEmpty(FImageLibraryName))
             {
-                AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
+                AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
             }
 
             FImageLibrary = null;
@@ -114,14 +114,14 @@ public partial class FaceResource : EResource
         if (!IsEmpty(FImageLibraryName))
         {
             // { Original releases the old name even when this resource has no references. }
-            AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
+            AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
             FImageLibrary = null;
         }
 
         FImageLibraryName = Value;
         if (!IsEmpty(FImageLibraryName) && FReferences != 0)
         {
-            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), FImageLibraryName);
+            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
         }
     }
 

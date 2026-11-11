@@ -10,22 +10,22 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class CombatAbilityTables
 {
-    internal static FixedArray_int_3 TCombatUnit_CommandingTargetPriority__CommandAbilityIDs = FixedArray_int_3.From([29, 28, 148]);
+    internal static Int32Array3 TCombatUnit_CommandingTargetPriority__CommandAbilityIDs = Int32Array3.From([29, 28, 148]);
 
-    internal static FixedArray_int_3 TCombatUnit_CommandingTargetStrength__CommandAbilityIDs = FixedArray_int_3.From([29, 28, 148]);
+    internal static Int32Array3 TCombatUnit_CommandingTargetStrength__CommandAbilityIDs = Int32Array3.From([29, 28, 148]);
 
     internal static CombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertFile = new CombatPredictor_AddWall__TOriginalAssertText
     {
         RefCount = -1,
         Len = 38,
-        Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 67, 111, 109, 98, 97, 116, 80, 114, 101, 100, 105, 99, 116, 111, 114, 46, 112, 97, 115, 0])
+        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 67, 111, 109, 98, 97, 116, 80, 114, 101, 100, 105, 99, 116, 111, 114, 46, 112, 97, 115, 0])
     };
 
     internal static CombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertMessage = new CombatPredictor_AddWall__TOriginalAssertText
     {
         RefCount = -1,
         Len = 23,
-        Text = FixedArray_byte_128.From([85, 115, 101, 32, 68, 101, 108, 101, 116, 101, 87, 97, 108, 108, 32, 105, 110, 115, 116, 101, 97, 100, 33, 0])
+        Text = ByteArray128.From([85, 115, 101, 32, 68, 101, 108, 101, 116, 101, 87, 97, 108, 108, 32, 105, 110, 115, 116, 101, 97, 100, 33, 0])
     };
 
     internal static CombatSideIndex GetCombatSide(sbyte Attacker, sbyte AttackerRelation, sbyte Defender, sbyte DefenderRelation, sbyte Player, sbyte Relation)
@@ -94,6 +94,6 @@ internal static class CombatAbilityTables
 
     internal static int CombatDID;
 
-    internal static EClass P4CombatCasterClass = EClass.Of<CombatSpellCaster>();
+    internal static EngineClass P4CombatCasterClass = EngineClass.Of<CombatSpellCaster>();
 
 }

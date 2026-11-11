@@ -24,7 +24,7 @@ public partial class JoinEventLog : EventLog
     // Diplomacy.pas:1
     public JoinEventLog(ECustomNode owner) : base(owner)
     {
-        FUnitIDs = new IntegerList();
+        FUnitIDs = new Int32List();
         FJoinMessage = new StringList();
         FLocation.X = -1;
         FLocation.Y = -1;
@@ -33,8 +33,8 @@ public partial class JoinEventLog : EventLog
     }
 
     public int FFirstUnitID;
-    public IntegerList FUnitIDs;
-    public XYL FLocation;
+    public Int32List FUnitIDs;
+    public MapCoordinate FLocation;
     public byte FSelection;
     public int FJoinIndex;
     public StringList FJoinMessage;
@@ -59,7 +59,7 @@ public partial class JoinEventLog : EventLog
         Stream.rwByte(ref FSelection, 23);
         Stream.rwStrings(FJoinMessage, 24);
         Stream.rwInteger(ref FGold, 25);
-        Stream.rwInteger(ref Unsafe.As<XYL, int>(ref FLocation), 26);
+        Stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref FLocation), 26);
         Stream.rwData(Bytes.Of(ref FJoinMode, 1), 1, 27);
         Stream.rwString(ref FText, 28);
         Stream.rwIntegerEx(ref FJoinIndex, -1, 29);
@@ -69,8 +69,8 @@ public partial class JoinEventLog : EventLog
     public virtual bool Validate()
     {
         int I;
-        AbstractUnit AUnit;
-        XYL Location = default;
+        Troop AUnit;
+        MapCoordinate Location = default;
         bool Result = true;
         I = FUnitIDs.Count;
         while (Result && I != 0)
@@ -92,7 +92,7 @@ public partial class JoinEventLog : EventLog
     // Diplomacy.pas:80
     public virtual void ListJoinUnits(UnitList Units, ref byte Selection)
     {
-        AbstractUnit AUnit;
+        Troop AUnit;
         for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
         {
             var item = FUnitIDs[I];

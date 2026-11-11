@@ -29,8 +29,8 @@ public partial class WindsOfFury : CombatSpell
     // CombatSpells.pas:1904
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        CombatSpellCA Action;
-        Action = new CombatSpellCA(null);
+        CombatSpellCombatAction Action;
+        Action = new CombatSpellCombatAction(null);
         Action.FSpellID = FSpellID;
         if (Target.GetAbilityEnabled(1) || Target.GetAbilityEnabled(59))
         {

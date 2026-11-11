@@ -63,10 +63,10 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1883
-    public virtual GFXEPalette GetPalette() => null;
+    public virtual Palette GetPalette() => null;
 
     // ImageLib.pas:1888
-    public virtual GFXEPalette GetRemapPalette() => null;
+    public virtual Palette GetRemapPalette() => null;
 
     // ImageLib.pas:1893
     public virtual bool GetTransparent() => false;
@@ -413,7 +413,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1996
-    public virtual void Show(int X, int Y, in SurfaceDesc SD)
+    public virtual void Show(int X, int Y, in LockedSurface SD)
     {
         switch (FShowInfo.ShowMode)
         {
@@ -434,19 +434,19 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlended(X, Y, SD, GfxState.AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlended(X, Y, SD, GfxState.BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlended(X, Y, SD, GfxState.IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlended(X, Y, SD, GfxState.ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlended(X, Y, SD, GfxState.LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -455,7 +455,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2040
-    public virtual void ShowStretched(in Rect R, in SurfaceDesc SD)
+    public virtual void ShowStretched(in Rect R, in LockedSurface SD)
     {
         switch (FShowInfo.ShowMode)
         {
@@ -473,19 +473,19 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlendedStretched(R, SD, GfxState.AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, SD, GraphicsState.AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlendedStretched(R, SD, GfxState.BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, SD, GraphicsState.BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlendedStretched(R, SD, GfxState.IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, SD, GraphicsState.IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlendedStretched(R, SD, GfxState.ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, SD, GraphicsState.ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlendedStretched(R, SD, GfxState.LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, SD, GraphicsState.LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -494,34 +494,34 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2066
-    public virtual void ShowOpaque(int X, int Y, in SurfaceDesc SD)
+    public virtual void ShowOpaque(int X, int Y, in LockedSurface SD)
     {
     }
 
     // ImageLib.pas:2070
-    public virtual void ShowOpaqueStretched(in Rect R, in SurfaceDesc SD)
+    public virtual void ShowOpaqueStretched(in Rect R, in LockedSurface SD)
     {
     }
 
     // ImageLib.pas:2078
-    public virtual void ShowBlended(int X, int Y, in SurfaceDesc SD, BlendTable Table)
+    public virtual void ShowBlended(int X, int Y, in LockedSurface SD, BlendTable Table)
     {
     }
 
     // ImageLib.pas:2082
-    public virtual void ShowBlendedStretched(in Rect R, in SurfaceDesc SD, BlendTable Table)
+    public virtual void ShowBlendedStretched(in Rect R, in LockedSurface SD, BlendTable Table)
     {
     }
 
     // ImageLib.pas:2074
-    public virtual void ShowTransparent(int X, int Y, in SurfaceDesc SD)
+    public virtual void ShowTransparent(int X, int Y, in LockedSurface SD)
     {
     }
 
     // ImageLib.pas:2020
     // { ShowEx: the blend mode comes from the image's own show info (an original bug: ShowInfo only
     //   gives the show mode and the blend value), and bmLinearAlpha is not handled. }
-    public virtual void ShowEx(int X, int Y, in SurfaceDesc SD, in ShowInfo ShowInfo)
+    public virtual void ShowEx(int X, int Y, in LockedSurface SD, in ShowInfo ShowInfo)
     {
         switch (ShowInfo.ShowMode)
         {
@@ -542,16 +542,16 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlended(X, Y, SD, GfxState.AlphaBlendTable.Lookup[ShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.AlphaBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlended(X, Y, SD, GfxState.BrightenBlendTable.Lookup[ShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.BrightenBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlended(X, Y, SD, GfxState.IntensityBlendTable.Lookup[ShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.IntensityBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlended(X, Y, SD, GfxState.ShadowBlendTable.Lookup[ShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, SD, GraphicsState.ShadowBlendTable.Lookup[ShowInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -571,10 +571,10 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public virtual bool SupportGrabPixelFormat(int PixelFormatID) => false;
 
     // ImageLib.pas:1908
-    public virtual Form CreateGrabForm(Component AOwner, in SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public virtual Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:1914
-    public virtual bool GrabImage(in SurfaceDesc SD, in Rect R, GrabInfo GrabInfo) => false;
+    public virtual bool GrabImage(in LockedSurface SD, in Rect R, GrabInfo GrabInfo) => false;
 
     // ImageLib.pas:1920
     public virtual GrabInfo CreateGrabInfo() => new GrabInfo();
@@ -596,7 +596,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2061
-    public void ShowClipped(int X, int Y, in SurfaceDesc SD)
+    public void ShowClipped(int X, int Y, in LockedSurface SD)
     {
         Show(X, Y, SD);
     }
@@ -617,8 +617,8 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public string FileName { get => FFileName; set => FFileName = value; }
     public int FileIndex { get => FFileIndex; set => FFileIndex = value; }
     public ShowInfo ShowInfo { get => FShowInfo; set => SetDefaultShowInfo(value); }
-    public GFXEPalette Palette { get => GetPalette(); }
-    public GFXEPalette RemapPalette { get => GetRemapPalette(); }
+    public Palette Palette { get => GetPalette(); }
+    public Palette RemapPalette { get => GetRemapPalette(); }
     public bool Transparent { get => GetTransparent(); }
 
     public static void WriteImageToStream(LibraryImage Image, Stream Stream)

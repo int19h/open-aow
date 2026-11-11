@@ -16,17 +16,17 @@ internal static class ImageTree
     {
         var ctx = new EncodeContext(schema, engine, engine, null, FormatLimits.Default, ExportOptions.Default);
         var output = new ByteBuffer();
-        WriteBody(node, cls, ctx, output, DocPath.Root, false);
+        WriteBody(node, cls, ctx, output, DocumentNodePath.Root, false);
         return output.ToArray();
     }
 
     internal static ObjectNode Read(byte[] image, SchemaClass cls, FormatSchema schema, string engine)
     {
         var ctx = new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts());
-        return ReadBody(ctx, 0, image.Length, cls, DocPath.Root, null, null);
+        return ReadBody(ctx, 0, image.Length, cls, DocumentNodePath.Root, null, null);
     }
 
-    internal static void WriteBody(ObjectNode node, SchemaClass cls, EncodeContext ctx, ByteBuffer data, DocPath path, bool allowIdentity)
+    internal static void WriteBody(ObjectNode node, SchemaClass cls, EncodeContext ctx, ByteBuffer data, DocumentNodePath path, bool allowIdentity)
     {
         RefuseMapping(cls, path);
         if (!allowIdentity)
@@ -69,7 +69,7 @@ internal static class ImageTree
         ctx.Leave();
     }
 
-    internal static ObjectNode ReadBody(DecodeContext ctx, int start, int end, SchemaClass cls, DocPath path, string? className, int? slot)
+    internal static ObjectNode ReadBody(DecodeContext ctx, int start, int end, SchemaClass cls, DocumentNodePath path, string? className, int? slot)
     {
         RefuseMapping(cls, path);
         ctx.Enter(start, path);
@@ -126,7 +126,7 @@ internal static class ImageTree
         return node;
     }
 
-    private static void RefuseMapping(SchemaClass cls, DocPath path)
+    private static void RefuseMapping(SchemaClass cls, DocumentNodePath path)
     {
         if (cls.Mapping is null) return;
         throw new ConversionException(new FormatDiagnostic(Codes.Mapping,

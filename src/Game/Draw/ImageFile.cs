@@ -28,7 +28,7 @@ public partial class ImageFile : IImageFileClass
     }
 
     // GFXE.pas:698
-    public static int LoadToSurfaceDesc(string FileName, ref SurfaceDesc SD, int X, int Y)
+    public static int LoadToSurfaceDesc(string FileName, ref LockedSurface SD, int X, int Y)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }

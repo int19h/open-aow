@@ -26,10 +26,10 @@ public partial class TacticalBattle : Battle
     public sbyte FHostPlayer;
 
     // AoWTC.pas:5086
-    public override CombatUnit CreateCombatUnit() => new TacticalCombatUnit(null);
+    public override CombatUnit CreateCombatUnit() => new TacticalBattleUnit(null);
 
     // AoWTC.pas:5157
-    public override CombatPlayer CreateCombatPlayer() => new TacticalCombatPlayer(null);
+    public override CombatPlayer CreateCombatPlayer() => new TacticalBattlePlayer(null);
 
     // AoWTC.pas:5097
     public override void Initialize()
@@ -65,14 +65,14 @@ public partial class TacticalBattle : Battle
             var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
             if (AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType != PlayerType.Human)
             {
-                if (AoWHSMap.Current.FPlayerCommunicator.PCC is RemotePCC)
+                if (AoWHSMap.Current.FPlayerCommunicator.PCC is RemotePlayerCommunicationControl)
                 {
                     var playerConnectionMode = AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
                     var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                    ((RemotePCC)AoWHSMap.Current.FPlayerCommunicator.PCC).SetConnectionMode(player.FPlayer, playerConnectionMode.ConnectionMode);
+                    ((RemotePlayerCommunicationControl)AoWHSMap.Current.FPlayerCommunicator.PCC).SetConnectionMode(player.FPlayer, playerConnectionMode.ConnectionMode);
                     var playerSystemID = AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
                     var player2 = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                    ((RemotePCC)AoWHSMap.Current.FPlayerCommunicator.PCC).SetSystemID(player2.FPlayer, playerSystemID.SystemID);
+                    ((RemotePlayerCommunicationControl)AoWHSMap.Current.FPlayerCommunicator.PCC).SetSystemID(player2.FPlayer, playerSystemID.SystemID);
                 }
             }
         }
@@ -136,7 +136,7 @@ public partial class TacticalBattle : Battle
             HeadlessHooks.TacticalExecutions++;
         }
         CombatResult Result = default;
-        RndTacHsm Generator = default;
+        RandomBattleMapGenerator Generator = default;
         int Seated = default;
         if (!ValidateWallCombat())
         {
@@ -163,12 +163,12 @@ public partial class TacticalBattle : Battle
                 else
                 {
                     AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = true;
-                    Generator = new RndTacHsm();
+                    Generator = new RandomBattleMapGenerator();
                     Generator.RandomMap(this, FCombatData.FX, FCombatData.FY, FCombatData.FL);
                     Generator?.Dispose();
                     bool condition = AoWHSMap.Current.FStartingGame || AoWHSMap.Current.VisibleForPlayer(FCombatData.FX, FCombatData.FY, FCombatData.FL, AoWHSMap.Current.FSeatedPlayer);
-                    AoWCombatMap.Current.FPlaySounds = condition;
-                    if (!AoWCombatMap.Current.FPlaySounds)
+                    CombatMap.Current.FPlaySounds = condition;
+                    if (!CombatMap.Current.FPlaySounds)
                     {
                         for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
                         {
@@ -178,13 +178,13 @@ public partial class TacticalBattle : Battle
                                 var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
                                 if (AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).GetLocal())
                                 {
-                                    AoWCombatMap.Current.FPlaySounds = true;
+                                    CombatMap.Current.FPlaySounds = true;
                                 }
                             }
                         }
                     }
 
-                    AoWCombatMap.Current.FDeselectEventsStore.Raise(this);
+                    CombatMap.Current.FDeselectEventsStore.Raise(this);
                     Seated = -1;
                     for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
                     {
@@ -206,13 +206,13 @@ public partial class TacticalBattle : Battle
                         }
                     }
 
-                    AoWCombatMap.Current.SetSeatedCombatPlayer((sbyte)Seated);
-                    AoWCombatMap.Current.CenterViewTo(32, 29, 0);
-                    AoWCombatMap.Current.FCombat.NewRound();
+                    CombatMap.Current.SetSeatedCombatPlayer((sbyte)Seated);
+                    CombatMap.Current.CenterViewTo(32, 29, 0);
+                    CombatMap.Current.FCombat.NewRound();
                     var turnOrder = FCombatData.FTurnOrder[0];
-                    AoWCombatMap.Current.NewTurn((sbyte)turnOrder);
+                    CombatMap.Current.NewTurn((sbyte)turnOrder);
                     Result = CombatResult.Busy;
-                    FOnTerminated = _ => AoWCombatMap.Current.EndCombat();
+                    FOnTerminated = _ => CombatMap.Current.EndCombat();
                     SetLogCombatActions(1);
                 }
             }

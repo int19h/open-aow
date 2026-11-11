@@ -24,7 +24,7 @@ public partial class Harmony : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:980
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -32,7 +32,7 @@ public partial class Harmony : GlobalEnchantmentSpell
         base.ExecuteTE(Event, Source, ExecuteCount);
         Source.GetLocation(ref X, ref Y, ref L);
         AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-        AoWHSMap.Current.AddEffect(TworldFXType.Tranquility);
+        AoWHSMap.Current.AddEffect(WorldEffectType.Tranquility);
         FCastSounds.Play(0);
         CastingDone(Source, Event.FEventMana);
         return false;

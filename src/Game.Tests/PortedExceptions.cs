@@ -29,7 +29,7 @@ internal static class PortedExceptions
             or AbortException
             or HaltException
             or GameFileErrorException
-            or DoublePrioriyIDException
-            or PlugInMissingException
+            or DoublePriorityIdException
+            or PluginMissingException
             or MapObjectResourceMissingException);
 }

@@ -366,7 +366,7 @@ public partial class EReadStorageStream : EStorageStream
     }
 
     // Engine.pas:10208
-    public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
+    public override void rwCreateEObject(ref EngineObject Obj, ECustomNode AOwner, int ID)
     {
         int Offset;
         int SavedBase;
@@ -418,7 +418,7 @@ public partial class EReadStorageStream : EStorageStream
         int Offset;
         int SavedBase;
         int ChildID;
-        EObject Child = default;
+        EngineObject Child = default;
         Offset = FPropertyTable.FindOffset(ID);
         if (Offset != -1)
         {
@@ -458,7 +458,7 @@ public partial class EReadStorageStream : EStorageStream
     }
 
     // Engine.pas:10277
-    public override void rwEObject(EObject Obj, int ID)
+    public override void rwEObject(EngineObject Obj, int ID)
     {
         int Offset;
         int SavedBase;
@@ -494,7 +494,7 @@ public partial class EReadStorageStream : EStorageStream
     }
 
     // Engine.pas:10304
-    public override void rwEObjectStream(EObject Obj, int ID)
+    public override void rwEObjectStream(EngineObject Obj, int ID)
     {
         int SavedBase;
         int Start;

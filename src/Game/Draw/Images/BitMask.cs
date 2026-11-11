@@ -126,12 +126,12 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public override Images.GrabInfo CreateGrabInfo() => new GrabInfo();
 
     // ImageLib.pas:4751
-    public override Form CreateGrabForm(Component AOwner, in SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:4759
     // { GrabImage sets a bit for every pixel that differs from the transparent pixel value. With an
     //   inverse grab info no bit is added at all (an original bug: the mask stays empty). }
-    public override bool GrabImage(in SurfaceDesc SD, in Rect R, Images.GrabInfo GrabInfo)
+    public override bool GrabImage(in LockedSurface SD, in Rect R, Images.GrabInfo GrabInfo)
     {
         int Bits;
         int BitCount;
@@ -185,7 +185,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         TransparentColor = GrabInfo.TransparentPixel;
         if (!((GrabInfo)GrabInfo).Inverse)
         {
-            SurfaceDesc.MinimizeTransparentRect(SD, R, TransparentColor, ref MinRect);
+            LockedSurface.MinimizeTransparentRect(SD, R, TransparentColor, ref MinRect);
         }
         else
         {
@@ -226,7 +226,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:4861
-    public override void ShowOpaque(int X, int Y, in SurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in LockedSurface SD)
     {
         if (!FDataLoaded)
         {
@@ -244,7 +244,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         FMaskData = MemorySurfaces.Reallocate(FMaskData, checked(FDataSize + 4));
     }
 
-    internal static int GetPixelInfo(in SurfaceDesc SD, int X, int Y)
+    internal static int GetPixelInfo(in LockedSurface SD, int X, int Y)
     {
         SurfaceView val;
         switch (SD.BitCount)
@@ -266,9 +266,9 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         }
     }
 
-    internal static void MinimizeInvTransparentRect(in SurfaceDesc SD, in Rect R, int TransparentColor, ref Rect Result)
+    internal static void MinimizeInvTransparentRect(in LockedSurface SD, in Rect R, int TransparentColor, ref Rect Result)
     {
-        SurfaceDesc SD__value = SD;
+        LockedSurface SD__value = SD;
         Rect val = R;
         bool flag = false;
         while (!flag && val.Top < val.Bottom)
@@ -350,7 +350,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         }
     }
 
-    private static void ShowBitMask16(int X, int Y, in SurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height)
+    private static void ShowBitMask16(int X, int Y, in LockedSurface SD, ReadOnlySpan<byte> Data, int Width, int Height)
     {
         Blit.ShowBitMask16(X, Y, SD.View(), Data, Width, Height);
     }

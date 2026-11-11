@@ -20,7 +20,7 @@ public partial class CombatPredictorUnit : IDisposable
         FRoundTargets = new QuadItemList<CombatPredictorUnit>();
     }
 
-    public AbstractUnit FUnit;
+    public Troop FUnit;
     public int FCPUID;
     public CombatPredictor FPredictor;
     public int FInitialHitPoints;
@@ -47,7 +47,7 @@ public partial class CombatPredictorUnit : IDisposable
     public virtual void Dispose()
     {
         object Obj;
-        AbstractUnit U;
+        Troop U;
         FRoundTargets?.Dispose();
         Obj = FTargets;
         if (Obj != null)

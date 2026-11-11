@@ -55,7 +55,7 @@ public sealed partial record Loot : ProductionOrder
         var xhx = city.GetXhx();
         EventLog.DistributeLocationEventLog(Log, Control.GetPlayer(), xhx, cityYhx, cityLhx, false);
         Log.Release();
-        city.FOverlay.SetMode(CityOverlayHS.CityOverlayMode.Looting);
+        city.FOverlay.SetMode(CityOverlayHexSprite.OverlayMode.Looting);
         Control.FStatus = ProductionControl.Status.Producing;
     }
 
@@ -71,7 +71,7 @@ public sealed partial record Loot : ProductionOrder
         Log(Control, city, RtlUnit.Format(AbilityRules.TranslateRStr(CityLootedRStr), [city.GetName(), IntToStr(city.FIncome * 3)]));
         var playerGems = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
         AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(playerGems.FGems + city.FIncome * 3);
-        city.FOverlay.SetMode(CityOverlayHS.CityOverlayMode.Idle);
+        city.FOverlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         city.SetRazed(true);
         Control.EndUpdate();
     }

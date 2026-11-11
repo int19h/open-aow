@@ -21,7 +21,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     public CombatRange FRangeRA;
     public sbyte FDamageRA;
     public sbyte FAttackRA;
-    public P3PackedDamageTypes FDamageTypesRA;
+    public PackedDamageTypes FDamageTypesRA;
     public sbyte FAttackRepeatRA;
 
     // AoWAb.PAS:4694
@@ -76,11 +76,11 @@ public partial class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4808
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
         CombatObject Target;
         AbilityDamageValues Values = default;
-        FastCombatCommand Command;
+        FastBattleCommand Command;
         for (int I = 0, last = Commands.FTargetSide.GetCount() - 1; I <= last; I++)
         {
             Target = Commands.FTargetSide.GetObjects(I);
@@ -90,7 +90,7 @@ public partial class RangedAttackAbility : AdjustableAbility
                 fcGetDamageValueEx(Commands.FSource, Target, wallSituation, ref Values);
                 if (Values.SourceDamage != 0)
                 {
-                    Command = new FastCombatCommand(FAbilityID);
+                    Command = new FastBattleCommand(FAbilityID);
                     Command.FTarget = Commands.FTargetSide.GetObjects(I);
                     Command.FMoveCost = 1;
                     Command.FExpectedDV = AbilityRules.DVtoDEV(Values.SourceDamage, Values.TargetDamage, Commands.FSource, Target);
@@ -101,11 +101,11 @@ public partial class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4787
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
         int Penalty;
-        RangedAttackCA Action;
+        RangedAttackCombatAction Action;
         Target = Command.FTarget;
         if (Source.FCombat.GetWallSituation(Source, Target) == WallSituation.Target)
         {
@@ -125,14 +125,14 @@ public partial class RangedAttackAbility : AdjustableAbility
                 Action.Release();
             }
 
-            ((FastCombatUnit)Source).FState = ((FastCombatUnit)Source).FState + Set<FastCombatUnitStateElement>.Of(FastCombatUnitStateElement.Vulnerable);
+            ((FastBattleUnit)Source).FState = ((FastBattleUnit)Source).FState + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
         }
 
         return true;
     }
 
     // AoWAb.PAS:4708
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Repeats;
         var hitPoints = Defender.GetHitPoints();
@@ -148,7 +148,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4717
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         int Defense;
         int Damage;
@@ -307,10 +307,10 @@ public partial class RangedAttackAbility : AdjustableAbility
     public virtual Set<DamageType> GetDamageTypesRA(AbilityOwner Owner) => FDamageTypesRA.Value;
 
     // AoWAb.PAS:4777
-    public RangedAttackCA CreateRangedAttackCA(CombatObject Source, CombatObject Target, int AttackPenalty)
+    public RangedAttackCombatAction CreateRangedAttackCA(CombatObject Source, CombatObject Target, int AttackPenalty)
     {
-        RangedAttackCA Action;
-        Action = new RangedAttackCA(null);
+        RangedAttackCombatAction Action;
+        Action = new RangedAttackCombatAction(null);
         var damageRA = GetDamageRA(Source.GetAbilityOwner());
         var damageTypesRA = GetDamageTypesRA(Source.GetAbilityOwner());
         Action.Generate(Source, Target, (sbyte)(GetAttackRA(Source.GetAbilityOwner()) - AttackPenalty), damageRA, damageTypesRA);

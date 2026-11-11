@@ -20,7 +20,7 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     public override bool Remove(AbilityOwner owner)
     {
         bool Result = base.Remove(owner);
-        if (Result && owner is AbstractUnit unit)
+        if (Result && owner is Troop unit)
         {
             unit.Killed();
             unit.SetOwner(null);
@@ -32,7 +32,7 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1134
     public override int GetAIUpkeepPriority(AbilityOwner Owner)
     {
-        if (Owner is not AbstractUnit unit)
+        if (Owner is not Troop unit)
         {
             return 0;
         }
@@ -63,7 +63,7 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1108
     // Static: the original calls this and GetDefaultDispelResistance on the nil result of GetSpell(155)
     // (PrdPlace.pas:336, SummonSpells.pas:258), which works there because they read only the unit argument.
-    public static int GetDefaultManaUpkeep(AbstractUnit AUnit)
+    public static int GetDefaultManaUpkeep(Troop AUnit)
     {
         int Result;
         if (AUnit is Unit)
@@ -79,7 +79,7 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1115
-    public static int GetDefaultDispelResistance(AbstractUnit AUnit)
+    public static int GetDefaultDispelResistance(Troop AUnit)
     {
         int Result;
         if (AUnit is Unit)

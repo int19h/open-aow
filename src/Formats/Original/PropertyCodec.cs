@@ -54,11 +54,11 @@ public abstract partial class PropertyCodec
             "u8" => new IntegerCodec(1, false, raw: Raw(source)),
             "u16" => new IntegerCodec(2, false, raw: Raw(source)),
             "i8" => new IntegerCodec(1, true, raw: Raw(source)),
-            "bool" => new BoolCodec(),
-            "raw-bool" => new RawBoolCodec(),
+            "bool" => new BooleanCodec(),
+            "raw-bool" => new RawBooleanCodec(),
             "string" => new StringCodec(),
             "strings" => new StringsCodec(),
-            "strings-ex" => new StringsExCodec(),
+            "strings-ex" => new StringsWithValuesCodec(),
             "data" => new DataCodec(size),
             "list" => new ListCodec(Create((JsonObject)source["element"]!, schema, path + ".element"), schema.StoresLists),
             "record" => source["record"] is JsonString named
@@ -96,7 +96,7 @@ public abstract partial class PropertyCodec
         throw new InvalidOperationException(path + " has width " + width + ". An " + kind + " width is 1, 2 or 4.");
     }
 
-    private static bool Signed(JsonObject source) => source["signed"] is JsonBool { Value: true };
+    private static bool Signed(JsonObject source) => source["signed"] is JsonBoolean { Value: true };
 
     private static int Count(JsonObject source) =>
         source["count"] is JsonInteger count ? (int)count.Value : throw new InvalidOperationException("An integer array needs a count.");
@@ -107,7 +107,7 @@ public abstract partial class PropertyCodec
     private static int CheckedSize(JsonObject source, string path) =>
         source["size"] is JsonInteger size && size.Value > 0 ? (int)size.Value : throw new InvalidOperationException(path + " record needs a size.");
 
-    private static bool Raw(JsonObject source) => source["raw"] is JsonBool { Value: true };
+    private static bool Raw(JsonObject source) => source["raw"] is JsonBoolean { Value: true };
 
     /// <summary>Decodes one stored value that occupies data[start..end) exactly.</summary>
     internal abstract JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site);
@@ -126,7 +126,7 @@ public abstract partial class PropertyCodec
     internal virtual JsonValue DecodeElement(DecodeContext ctx, int start, int end, ValueSite site) =>
         throw new InvalidOperationException($"{GetType().Name} has no dynamic elements.");
 
-    internal virtual int ElementId(EncodeContext ctx, JsonValue value, SchemaProperty property, int index, DocPath path) =>
+    internal virtual int ElementId(EncodeContext ctx, JsonValue value, SchemaProperty property, int index, DocumentNodePath path) =>
         throw new InvalidOperationException($"{GetType().Name} has no dynamic elements.");
 
     internal virtual void EncodeElement(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site) => Encode(ctx, value, data, site);
@@ -186,17 +186,17 @@ internal sealed partial class IntegerCodec(int width, bool signed, string? domai
 }
 
 /// <summary>rwBool: true when present. Explicit false normalizes to absence.</summary>
-internal sealed partial class BoolCodec : PropertyCodec
+internal sealed partial class BooleanCodec : PropertyCodec
 {
     public override bool ZeroSize => true;
 
-    internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site) => new JsonBool(true);
+    internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site) => new JsonBoolean(true);
 
     internal override void Encode(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site) { }
 
     internal override void EncodeMember(EncodeContext ctx, JsonValue value, ObjectWriter writer, ValueSite site)
     {
-        if (value is not JsonBool b) throw ctx.Fail(Codes.Type, $"{site.Property.Name} is a boolean.", value, site.Path, value.KindName);
+        if (value is not JsonBoolean b) throw ctx.Fail(Codes.Type, $"{site.Property.Name} is a boolean.", value, site.Path, value.KindName);
         if (!b.Value) return;
         writer.Begin(site.Id, site.Property);
         writer.End();
@@ -208,7 +208,7 @@ internal static class TextCodec
 {
     public static string Decode(ReadOnlySpan<byte> bytes) => Cp1252.Decode(bytes);
 
-    public static byte[] Encode(EncodeContext ctx, string text, JsonValue at, DocPath path)
+    public static byte[] Encode(EncodeContext ctx, string text, JsonValue at, DocumentNodePath path)
     {
         if (Problem(text, ctx.Limits.StringBytes) is { } problem)
             throw ctx.Fail(problem.Code, problem.Message, at, path, problem.Value, problem.Constraint);
@@ -216,7 +216,7 @@ internal static class TextCodec
     }
 
     /// <summary>The code page bytes of <paramref name="text"/>, or the same refusal the document path raises.</summary>
-    internal static byte[] Bytes(EncodeContext ctx, string text, DocPath path)
+    internal static byte[] Bytes(EncodeContext ctx, string text, DocumentNodePath path)
     {
         if (Problem(text, ctx.Limits.StringBytes) is { } problem)
             throw ctx.Fail(problem.Code, problem.Message, null, path, problem.Value, problem.Constraint);
@@ -324,7 +324,7 @@ internal partial class StringsCodec : PropertyCodec
         return array;
     }
 
-    internal static string TextOf(EncodeContext ctx, JsonValue value, DocPath path, out int lines)
+    internal static string TextOf(EncodeContext ctx, JsonValue value, DocumentNodePath path, out int lines)
     {
         if (value is JsonArray array)
         {
@@ -362,7 +362,7 @@ internal partial class StringsCodec : PropertyCodec
         data.Bytes(bytes);
     }
 
-    protected static void CheckOnly(EncodeContext ctx, JsonObject obj, DocPath path, params string[] names)
+    protected static void CheckOnly(EncodeContext ctx, JsonObject obj, DocumentNodePath path, params string[] names)
     {
         foreach (var m in obj.Members)
             if (Array.IndexOf(names, m.Name) < 0)
@@ -373,7 +373,7 @@ internal partial class StringsCodec : PropertyCodec
 }
 
 /// <summary>rwStringsEx: the text block, then one signed 32-bit object value per line.</summary>
-internal sealed partial class StringsExCodec : StringsCodec
+internal sealed partial class StringsWithValuesCodec : StringsCodec
 {
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
@@ -400,7 +400,7 @@ internal sealed partial class StringsExCodec : StringsCodec
         foreach (var id in ids) data.Int32(id);
     }
 
-    internal static (string Text, List<int> Ids) ReadMembers(EncodeContext ctx, JsonObject obj, DocPath path)
+    internal static (string Text, List<int> Ids) ReadMembers(EncodeContext ctx, JsonObject obj, DocumentNodePath path)
     {
         bool hasText = obj.Find("$text") is not null;
         CheckOnly(ctx, obj, path, hasText ? "$text" : "lines", "objects");
@@ -562,7 +562,7 @@ internal sealed class RunListCodec(int width) : PropertyCodec
                 throw new ConversionException(new FormatDiagnostic(Codes.UnknownMember, $"Member \"{m.Name}\" is not allowed in a list.")
                 { File = ctx.File, Span = m.NameSpan, Path = site.Path.Member(m.Name).ToString() });
         long min = width == 1 ? 0 : int.MinValue, max = width == 1 ? 255 : int.MaxValue;
-        long Item(JsonValue? v, DocPath p) => v is JsonInteger n && n.Value >= min && n.Value <= max ? n.Value
+        long Item(JsonValue? v, DocumentNodePath p) => v is JsonInteger n && n.Value >= min && n.Value <= max ? n.Value
             : throw ctx.Fail(v is JsonInteger ? Codes.Range : Codes.Type, "A list value is outside its storage range.", v ?? obj, p, null, $"{min} to {max}");
         long def = Item(obj["default"], site.Path.Member("default"));
         var array = obj["items"] as JsonArray ?? throw ctx.Fail(Codes.MissingMember, "items is an array.", obj, site.Path);
@@ -584,7 +584,7 @@ internal sealed class RunListCodec(int width) : PropertyCodec
         try
         {
             var probe = new DecodeContext(bytes, FormatSchema.Current, "game", "", null, FormatLimits.Default, new LayoutCounts());
-            var site = new ValueSite { Property = null!, Id = 0, Path = DocPath.Root, Owner = new JsonObject() };
+            var site = new ValueSite { Property = null!, Id = 0, Path = DocumentNodePath.Root, Owner = new JsonObject() };
             var parsed = Parse(probe, 0, bytes.Length, site, out long d);
             return d == def && parsed.SequenceEqual(items);
         }

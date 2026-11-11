@@ -5,7 +5,7 @@ namespace Aow.Formats.Tree;
 public abstract class TreeValue
 {
     /// <summary>A version 1 document has no list and no record. Nested values are checked too.</summary>
-    internal virtual void RejectVersion(int version, DocPath path)
+    internal virtual void RejectVersion(int version, DocumentNodePath path)
     {
     }
 
@@ -59,7 +59,7 @@ public sealed class ReferenceNode(string domain, int key) : TreeValue
 }
 
 /// <summary>A boolean. A named false is omitted. A list item stores false.</summary>
-public sealed class BoolNode(bool value) : TreeValue
+public sealed class BooleanNode(bool value) : TreeValue
 {
     public bool Value { get; } = value;
 }
@@ -95,25 +95,25 @@ public sealed class LinesNode : TreeValue
 }
 
 /// <summary>rwStringsEx. The object values are signed 32-bit integers, one per line.</summary>
-public sealed class LinesExNode : TreeValue
+public sealed class LinesWithValuesNode : TreeValue
 {
     public IReadOnlyList<string>? Lines { get; }
     public string? RawText { get; }
     public IReadOnlyList<int> Objects { get; }
 
-    private LinesExNode(IReadOnlyList<string>? lines, string? rawText, IReadOnlyList<int> objects)
+    private LinesWithValuesNode(IReadOnlyList<string>? lines, string? rawText, IReadOnlyList<int> objects)
     {
         Lines = lines;
         RawText = rawText;
         Objects = objects;
     }
 
-    public static LinesExNode FromLines(IReadOnlyList<string> lines, IReadOnlyList<int> objects) => new(lines, null, objects);
+    public static LinesWithValuesNode FromLines(IReadOnlyList<string> lines, IReadOnlyList<int> objects) => new(lines, null, objects);
 
-    internal static LinesExNode FromText(string text, IReadOnlyList<int> objects)
+    internal static LinesWithValuesNode FromText(string text, IReadOnlyList<int> objects)
     {
         var lines = Original.StringsCodec.Lines(text);
-        return lines is null ? new LinesExNode(null, text, objects) : new LinesExNode(lines, null, objects);
+        return lines is null ? new LinesWithValuesNode(null, text, objects) : new LinesWithValuesNode(lines, null, objects);
     }
 }
 
@@ -164,7 +164,7 @@ public sealed class ObjectNode : TreeValue
                 yield return hit;
     }
 
-    internal override void RejectVersion(int version, DocPath path)
+    internal override void RejectVersion(int version, DocumentNodePath path)
     {
         foreach (var (name, value) in members)
             value.RejectVersion(version, path.Member(name));
@@ -194,7 +194,7 @@ public sealed class RecordNode : TreeValue
         return null;
     }
 
-    internal override void RejectVersion(int version, DocPath path)
+    internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version < 3)
             throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " does not store a record.", path);
@@ -220,7 +220,7 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
     public IReadOnlyList<int> Indices { get; } = indices;
     public byte Residue { get; } = residue;
 
-    internal override void RejectVersion(int version, DocPath path)
+    internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version < 3)
             throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " does not store a bit array.", path);
@@ -232,7 +232,7 @@ public sealed class ListNode : TreeValue
 {
     public List<TreeValue> Items { get; } = [];
 
-    internal override void RejectVersion(int version, DocPath path)
+    internal override void RejectVersion(int version, DocumentNodePath path)
     {
         if (version == 1)
             throw TreeErrors.Fail(Codes.Type, "Version 1 does not store a list.", path);
@@ -253,7 +253,7 @@ public sealed class ChildListNode(IReadOnlyList<ObjectNode> children) : TreeValu
 {
     public IReadOnlyList<ObjectNode> Children { get; } = children;
 
-    internal override void RejectVersion(int version, DocPath path)
+    internal override void RejectVersion(int version, DocumentNodePath path)
     {
         for (int i = 0; i < Children.Count; i++)
             Children[i].RejectVersion(version, path.Item(i));

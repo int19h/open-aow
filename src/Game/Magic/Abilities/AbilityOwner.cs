@@ -31,7 +31,7 @@ public partial class AbilityOwner : CustomAbilityList
     {
         AbilityData Previous = default;
         AbilityData Data = default;
-        IntegerList IDs = default;
+        Int32List IDs = default;
         base.ReadWrite(Stream);
         if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
@@ -39,7 +39,7 @@ public partial class AbilityOwner : CustomAbilityList
             if (Stream.PropertyTable.PropertyExist(3))
             {
                 Previous = null;
-                IDs = new IntegerList();
+                IDs = new Int32List();
                 Stream.rwStreamProc(49, IDs.LoadFromStream, IDs.SaveToStream);
                 for (int I = 0, last = IDs.Count - 1; I <= last; I++)
                 {
@@ -66,7 +66,7 @@ public partial class AbilityOwner : CustomAbilityList
             {
                 if (FAbilityData != null)
                 {
-                    IDs = new IntegerList();
+                    IDs = new Int32List();
                     Data = FAbilityData;
                     while (Data != null)
                     {
@@ -113,7 +113,7 @@ public partial class AbilityOwner : CustomAbilityList
     }
 
     // Ability.PAS:1998
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001985)

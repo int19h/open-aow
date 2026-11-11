@@ -22,11 +22,11 @@ public sealed class MapViewerCenteringTests
         public override void UpdateStaticScene() => FStaticSceneInvalid = false;
         public override void UpdateDynamicScene() => FDynamicSceneInvalid = false;
 
-        public override void DrawDynamicScene(ref SurfaceDesc SD)
+        public override void DrawDynamicScene(ref LockedSurface SD)
         {
         }
 
-        public override void DrawStaticScene(ref SurfaceDesc SD)
+        public override void DrawStaticScene(ref LockedSurface SD)
         {
             PixelFormats.ColorFillSD(new Rect(0, 0, SD.Width, SD.Height), 0xFFFFFF, SD);
             PixelFormats.ColorFillSD(new Rect(16 - FViewXhp, 0, 17 - FViewXhp, SD.Height), 0x0000FF, SD);
@@ -37,7 +37,7 @@ public sealed class MapViewerCenteringTests
     private sealed class Fixture : IDisposable
     {
         public readonly PaintedMap Map = new();
-        public readonly HSMapViewer Viewer = new(null!);
+        public readonly HexSpriteMapViewer Viewer = new(null!);
         public readonly DataSurface Target = new(420, 320, PixelFormats.pfRGB555, null!);
 
         public Fixture(int sceneWidth, int sceneHeight)
@@ -47,7 +47,7 @@ public sealed class MapViewerCenteringTests
             Viewer.SceneWidth = sceneWidth;
             Viewer.SceneHeight = sceneHeight;
             Viewer.ChangeScene(100, 30, 0);
-            SurfaceDesc sd = default;
+            LockedSurface sd = default;
             Assert.Equal(PixelFormats.GFXE_OK, Target.Lock(ref sd));
             PixelFormats.ColorFillSD(new Rect(0, 0, sd.Width, sd.Height), 0x00FF00, sd);
             Target.Unlock();
@@ -56,7 +56,7 @@ public sealed class MapViewerCenteringTests
 
         public int Pixel(int x, int y)
         {
-            SurfaceDesc sd = default;
+            LockedSurface sd = default;
             Target.Lock(ref sd);
             var data = sd.Data;
             int at = sd.DataIndex + y * sd.Pitch + x * 2;

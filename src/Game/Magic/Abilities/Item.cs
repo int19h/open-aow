@@ -159,7 +159,7 @@ public partial class Item : AbilityOwner
     }
 
     // Army.PAS:4510
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 65541)
@@ -258,10 +258,10 @@ public partial class Item : AbilityOwner
     {
         bool Result;
         string Reason = "";
-        ItemTE Event;
+        ItemTokenEvent Event;
         if (CanUse(Hero, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).GetBusy())
         {
-            Event = new ItemTE(null);
+            Event = new ItemTokenEvent(null);
             Event.FItemID = FItemID;
             Event.FHeroID = Hero.FUnitID;
             AoWHSMap.Current.FTokenManager.GetTokenControl(Hero.FPlayer).AddEvent(Event);
@@ -306,9 +306,9 @@ public partial class Item : AbilityOwner
     }
 
     // Army.PAS:4418
-    public virtual void Show(int X, int Y, in SurfaceDesc Surface)
+    public virtual void Show(int X, int Y, in LockedSurface Surface)
     {
-        ItemGFX GFX;
+        ItemGraphics GFX;
         GFX = AoWHSSet.Current.FItemGFXResources.GetItemGFX(FItemGFXIndex);
         if (GFX != null)
         {
@@ -323,7 +323,7 @@ public partial class Item : AbilityOwner
     {
         if (!FStatus.Contains(ItemStatusElement.Activated))
         {
-            if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || AoWHSMap.Current.FDay == 0)
+            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.FDay == 0)
             {
                 UpdateFromLibrary();
             }
@@ -363,7 +363,7 @@ public partial class Item : AbilityOwner
     public LibraryImage GetImage()
     {
         LibraryImage Result;
-        ItemGFX GFX;
+        ItemGraphics GFX;
         GFX = AoWHSSet.Current.FItemGFXResources.GetItemGFX(FItemGFXIndex);
         if (GFX != null)
         {
@@ -464,16 +464,16 @@ public partial class Item : AbilityOwner
     }
 
     // Army.PAS:4474
-    public bool PlaceOnMap(AbstractAoWHSMap Map, sbyte X, sbyte Y, sbyte L)
+    public bool PlaceOnMap(GameMap Map, sbyte X, sbyte Y, sbyte L)
     {
         bool Result;
-        ItemHS HS;
+        ItemHexSprite HS;
         if (X >= 0 && Y >= 0 && L >= 0 && X < Map.MapContainer.Width && Y < Map.MapContainer.Height && L < Map.MapContainer.LevelCount && Map.MapContainer.GetField(X, Y, L).TerrainType != 15)
         {
-            HS = (ItemHS)Map.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            HS = (ItemHexSprite)Map.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
             if (HS == null)
             {
-                HS = new ItemHS(null);
+                HS = new ItemHexSprite(null);
                 if (!Map.PlaceHX(HS, X, Y, L))
                 {
                     HS?.Dispose();
@@ -500,7 +500,7 @@ public partial class Item : AbilityOwner
     }
 
     // Army.PAS:4501
-    public void EditDropMsg(ref DropMsg Msg)
+    public void EditDropMsg(ref DropMessage Msg)
     {
         int X = default;
         int Y = default;
@@ -529,12 +529,12 @@ public partial class Item : AbilityOwner
 
     // { Interface declaration run owned by P2. }
     // The editor drop message carries screen X/Y, level, and result.
-    public struct DropMsg
+    public struct DropMessage
     {
         public int MsgID;
         public int Seq;
-        public EObject Sender;
-        public FixedArray_int_3 Param;
+        public EngineObject Sender;
+        public Int32Array3 Param;
         public int Xhp;
         public int Yhp;
         public int Lhp;

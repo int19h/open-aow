@@ -31,22 +31,22 @@ public partial class ConcealArea : Spell
     }
 
     // GlobalSpells.pas:302
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         AoWMapField MapF;
         sbyte X = default;
         sbyte Y = default;
         sbyte Layer = default;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapLevel Level;
         LocationTextEventLog Log;
-        ConcealAreaHS Conceal;
+        ConcealAreaHexSprite Conceal;
         base.ExecuteTE(Event, Source, ExecuteCount);
         CastingDone(Source, Event.FEventMana);
         Source.GetLocation(ref X, ref Y, ref Layer);
         if (Source.FPlayer == AoWHSMap.Current.FSeatedPlayer)
         {
-            Conceal = new ConcealAreaHS(null);
+            Conceal = new ConcealAreaHexSprite(null);
             Conceal.StartAnimation(X, Y, Layer, 14);
         }
 
@@ -56,7 +56,7 @@ public partial class ConcealArea : Spell
             if (AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Source.FPlayer, (sbyte)Player) == DiplomaticRelation.War && Player != Source.FPlayer)
             {
                 Log = null;
-                HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= 14)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -80,7 +80,7 @@ public partial class ConcealArea : Spell
                         }
                     }
 
-                    HNWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHN(ref Walk);
                 }
             }
             else
@@ -107,7 +107,7 @@ public partial class ConcealArea : Spell
     public override bool GetEnabled() => AoWHSMap.Current.FExplorationEnabled;
 
     // GlobalSpells.pas:368
-    public override bool CanActivate(AbstractUnit Source, ref string MessageText)
+    public override bool CanActivate(Troop Source, ref string MessageText)
     {
         bool War;
         bool Result = base.CanActivate(Source, ref MessageText);
@@ -131,15 +131,15 @@ public partial class ConcealArea : Spell
     }
 
     // GlobalSpells.pas:388
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string Reason = "";
-        SpellTE Event;
+        SpellTokenEvent Event;
         base.Activate(Source);
         if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new SpellTE(null);
+            Event = new SpellTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();

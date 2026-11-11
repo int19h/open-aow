@@ -30,8 +30,8 @@ public partial class HighPrayer : CombatSpell
     // CombatSpells.pas:1013
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        TacticalCombatHighPrayerCA Action;
-        Action = new TacticalCombatHighPrayerCA(null);
+        TacticalBattleHighPrayerCombatAction Action;
+        Action = new TacticalBattleHighPrayerCombatAction(null);
         Action.FSucceeded = true;
         Action.FSourceID = Source.FID;
         Action.FTargetID = Target.FID;
@@ -75,12 +75,12 @@ public partial class HighPrayer : CombatSpell
     }
 
     // CombatSpells.pas:1026
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
         CombatSide Side;
         CombatObject Target;
         int Value;
-        SpellCC Command;
+        FastBattleSpellCommand Command;
         Value = 0;
         var side = Commands.FSource.GetSide();
         Side = Commands.FCombat.FSides[(int)side];
@@ -95,7 +95,7 @@ public partial class HighPrayer : CombatSpell
 
         if (Value != 0)
         {
-            Command = new SpellCC(52);
+            Command = new FastBattleSpellCommand(52);
             Command.FTarget = null;
             Command.FMoveCost = 1;
             Command.FSpellID = FSpellID;
@@ -105,10 +105,10 @@ public partial class HighPrayer : CombatSpell
     }
 
     // CombatSpells.pas:1054
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
-        FastCombatHighPrayerCA Action;
-        Action = new FastCombatHighPrayerCA(null);
+        FastBattleHighPrayerCombatAction Action;
+        Action = new FastBattleHighPrayerCombatAction(null);
         Action.Generate(Source);
         Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
         Source.FCombat.ExecuteCombatAction(Action);

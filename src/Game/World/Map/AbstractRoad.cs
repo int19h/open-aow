@@ -27,7 +27,7 @@ public partial class AbstractRoad : MapObject
     }
 
     // MAPOBJ.PAS:848
-    public override void ChangeTerrain(in HSTerrainInfo Msg)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo Msg)
     {
         MapObjectResource R;
         if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
@@ -57,7 +57,7 @@ public partial class AbstractRoad : MapObject
     }
 
     // MAPOBJ.PAS:843
-    public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Msg)
+    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Msg)
     {
         UpdateTransitions();
     }
@@ -72,7 +72,7 @@ public partial class AbstractRoad : MapObject
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         bool Result;
-        HexagonSprite HS;
+        HexSprite HS;
         bool condition = Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount;
         if (condition)
         {

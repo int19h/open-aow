@@ -9,8 +9,8 @@ using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
@@ -95,25 +95,25 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void TEResourceEditSettingsMatchesTheConverter()
     {
-        Check("EControlStyleObject", new EControlStyleObject(null!));
-        var zeroStyle = new EControlStyleObject(null!) { FControlStyle = Set<EControlStyleElement>.FromMask(0) };
-        Check("EControlStyleObject", zeroStyle);
-        var bits = new EControlStyleObject(null!) { FControlStyle = Set<EControlStyleElement>.FromMask(0xA5) };
-        Check("EControlStyleObject", bits);
-        Check("EResourceEditSettings", new EResourceEditSettings(null!));
-        var editors = new EResourceEditSettings(null!) { FControlStyle = Set<EControlStyleElement>.FromMask(0) };
+        Check("ControlStyleObject", new ControlStyleObject(null!));
+        var zeroStyle = new ControlStyleObject(null!) { FControlStyle = Set<ControlStyleElement>.FromMask(0) };
+        Check("ControlStyleObject", zeroStyle);
+        var bits = new ControlStyleObject(null!) { FControlStyle = Set<ControlStyleElement>.FromMask(0xA5) };
+        Check("ControlStyleObject", bits);
+        Check("ResourceEditSettings", new ResourceEditSettings(null!));
+        var editors = new ResourceEditSettings(null!) { FControlStyle = Set<ControlStyleElement>.FromMask(0) };
         editors.FEditors.AddObject("", Runtime.IntToObject(0));
         editors.FEditors.AddObject("Gate", Runtime.IntToObject(4));
-        Check("EResourceEditSettings", editors);
+        Check("ResourceEditSettings", editors);
     }
 
     [Fact]
     public void TItemGfxMatchesTheConverter()
     {
-        Check("EResource", new EResource(null!));
-        Check("EResource", new EResource(null!) { FResourceID = int.MinValue, FEditID = int.MaxValue, FEditIndex = 0 });
-        Check("ItemGFX", new ItemGFX(null!));
-        var zero = new ItemGFX(null!)
+        Check("EngineResource", new EngineResource(null!));
+        Check("EngineResource", new EngineResource(null!) { FResourceID = int.MinValue, FEditID = int.MaxValue, FEditIndex = 0 });
+        Check("ItemGraphics", new ItemGraphics(null!));
+        var zero = new ItemGraphics(null!)
         {
             FResourceID = 0,
             FEditID = 0,
@@ -123,8 +123,8 @@ public sealed class PersistEquivalenceTests
             FItemType = 0,
             FHidden = false,
         };
-        Check("ItemGFX", zero);
-        var full = new ItemGFX(null!)
+        Check("ItemGraphics", zero);
+        var full = new ItemGraphics(null!)
         {
             FResourceID = int.MaxValue,
             FEditID = int.MinValue,
@@ -134,7 +134,7 @@ public sealed class PersistEquivalenceTests
             FItemType = (ItemType)255,
             FHidden = true,
         };
-        Check("ItemGFX", full);
+        Check("ItemGraphics", full);
     }
 
     [Fact]
@@ -182,10 +182,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void TFrozenWaterHsMatchesTheConverter()
     {
-        Check("FrozenWaterHS", new FrozenWaterHS(null!));
-        Check("FrozenWaterHS", new FrozenWaterHS(null!) { FDaysRemaining = 0, FCasterPlayer = 0 });
-        Check("FrozenWaterHS", new FrozenWaterHS(null!) { FDaysRemaining = -128, FCasterPlayer = 127 });
-        Check("FrozenWaterHS", new FrozenWaterHS(null!) { FDaysRemaining = 127, FCasterPlayer = -1 });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!));
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { FDaysRemaining = 0, FCasterPlayer = 0 });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { FDaysRemaining = -128, FCasterPlayer = 127 });
+        Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { FDaysRemaining = 127, FCasterPlayer = -1 });
     }
 
     [Fact]
@@ -266,13 +266,13 @@ public sealed class PersistEquivalenceTests
     {
         Each<DiplomaticRelation>(value => Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null!) { FDay = 3, FRelation = value }));
         Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null!) { FRelation = (DiplomaticRelation)255, FDay = int.MinValue });
-        Each<ChangeGlobalMagicTE.ChangeGlobalMagicMode>(value => Check("ChangeGlobalMagicTE", new ChangeGlobalMagicTE(null!) { FMode = value, FPlayerIndex = 1, FEnchantmentID = 2, FValue = 3 }));
-        Check("ChangeGlobalMagicTE", new ChangeGlobalMagicTE(null!) { FMode = (ChangeGlobalMagicTE.ChangeGlobalMagicMode)255, FPlayerIndex = 255, FEnchantmentID = int.MaxValue, FValue = int.MinValue });
+        Each<ChangeGlobalMagicTokenEvent.Mode>(value => Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null!) { FMode = value, FPlayerIndex = 1, FEnchantmentID = 2, FValue = 3 }));
+        Check("ChangeGlobalMagicTokenEvent", new ChangeGlobalMagicTokenEvent(null!) { FMode = (ChangeGlobalMagicTokenEvent.Mode)255, FPlayerIndex = 255, FEnchantmentID = int.MaxValue, FValue = int.MinValue });
         Each<GlobalEnchantmentType>(value => Check("GlobalEnchantment", new GlobalEnchantment(null!) { FEnchantmentType = value }));
-        Each<ItemType>(value => Check("ItemGFX", new ItemGFX(null!) { FItemType = value }));
+        Each<ItemType>(value => Check("ItemGraphics", new ItemGraphics(null!) { FItemType = value }));
         Each<MessageEventLog.Layout>(value => Check("MessageEventLog", new MessageEventLog(null!) { FLayout = value }));
         Each<MessageEventLog.Buttons>(value => Check("MessageEventLog", new MessageEventLog(null!) { FButtons = value }));
-        Each<CityEnchantmentID>(value =>
+        Each<CityEnchantmentId>(value =>
         {
             var control = new GlobalMagicControl(null!);
             var city = new CityEnchantment(null!) { FEnchantmentID = value };
@@ -285,25 +285,25 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void SetsCoverEmptyFullAndUnnamedBits()
     {
-        Check("EControlStyleObject", new EControlStyleObject(null!) { FControlStyle = Set<EControlStyleElement>.FromMask(0xFF) });
-        Check("SingleTargetCA", new SingleTargetCA(null!) { FMode = Set<SingleTargetModeElement>.FromMask(0), FSourceID = 0, FTargetID = 0 });
-        Check("SingleTargetCA", new SingleTargetCA(null!) { FMode = Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive), FSourceID = 255, FTargetID = 1 });
-        Check("SingleTargetCA", new SingleTargetCA(null!) { FMode = Set<SingleTargetModeElement>.FromMask(0xFF), FSourceID = 4, FTargetID = 5 });
+        Check("ControlStyleObject", new ControlStyleObject(null!) { FControlStyle = Set<ControlStyleElement>.FromMask(0xFF) });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { FMode = Set<SingleTargetModeElement>.FromMask(0), FSourceID = 0, FTargetID = 0 });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { FMode = Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive), FSourceID = 255, FTargetID = 1 });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null!) { FMode = Set<SingleTargetModeElement>.FromMask(0xFF), FSourceID = 4, FTargetID = 5 });
     }
 
     [Fact]
     public void FixedArraysCoverZeroMixedAndBoundaryValues()
     {
-        var zero = new UnitSpellCA(null!);
-        Check("UnitSpellCA", zero);
-        var mixed = new UnitSpellCA(null!) { FSpellID = 8, FSourceID = 1, FTargetID = 2, FMana = -4 };
+        var zero = new UnitSpellCombatAction(null!);
+        Check("UnitSpellCombatAction", zero);
+        var mixed = new UnitSpellCombatAction(null!) { FSpellID = 8, FSourceID = 1, FTargetID = 2, FMana = -4 };
         mixed.FSpellData[0] = 7;
         mixed.FSpellData[1] = -1;
-        Check("UnitSpellCA", mixed);
-        var bounds = new UnitSpellCA(null!) { FSpellID = int.MinValue, FMana = int.MaxValue };
+        Check("UnitSpellCombatAction", mixed);
+        var bounds = new UnitSpellCombatAction(null!) { FSpellID = int.MinValue, FMana = int.MaxValue };
         bounds.FSpellData[0] = int.MinValue;
         bounds.FSpellData[1] = int.MaxValue;
-        Check("UnitSpellCA", bounds);
+        Check("UnitSpellCombatAction", bounds);
         var control = new GlobalMagicControl(null!);
         Check("GlobalMagicControl", control);
         var spheres = new GlobalMagicControl(null!) { FNextEnchantmentID = int.MaxValue };
@@ -320,7 +320,7 @@ public sealed class PersistEquivalenceTests
     {
         var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
+        map.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         AoWHSMap.Current = map;
         try
         {
@@ -356,8 +356,8 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AnOverlongSpellDataListIsRefusedOnExport()
     {
-        using var spell = new UnitSpellCA(null!);
-        var cls = Schema.Get("UnitSpellCA");
+        using var spell = new UnitSpellCombatAction(null!);
+        var cls = Schema.Get("UnitSpellCombatAction");
         var tree = TreeWriter.Write(spell, Factory);
         var list = (ListNode)tree.Find("SpellData")!;
         list.Items.Add(new IntegerNode(4, true, 1));
@@ -479,16 +479,16 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void TDamageCaMatchesTheConverter()
     {
-        Check("DamageCA", new DamageCA(null!));
-        var edge = new DamageCA(null!)
+        Check("DamageCombatAction", new DamageCombatAction(null!));
+        var edge = new DamageCombatAction(null!)
         {
             FDamage = 255,
             FSourceID = 255,
             FTargetID = 1,
-            FEffects = new P3PackedDamageTypes { Value = Set<DamageType>.FromMask((1UL << 9) | (1UL << 15)) },
-            FDamageTypes = new P3PackedDamageTypes { Value = Set<DamageType>.Of(DamageType.Fire, DamageType.None) },
+            FEffects = new PackedDamageTypes { Value = Set<DamageType>.FromMask((1UL << 9) | (1UL << 15)) },
+            FDamageTypes = new PackedDamageTypes { Value = Set<DamageType>.Of(DamageType.Fire, DamageType.None) },
         };
-        Check("DamageCA", edge);
+        Check("DamageCombatAction", edge);
     }
 
     [Fact]
@@ -677,11 +677,11 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AChildWhosePersistThrowsIsDroppedUnlessTheHandlerStops()
     {
-        var descriptor = EClass.Of<HatredEnchantment>();
+        var descriptor = EngineClass.Of<HatredEnchantment>();
         bool added = !EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassID);
         if (added) EngineFixture.Engine.RegisterEClasses([descriptor]);
         var control = new GlobalMagicControl(null!);
-        Func<ECustomNode, EObject>? previous = null;
+        Func<ECustomNode, EngineObject>? previous = null;
         try
         {
             var hatred = new HatredEnchantment(null!) { FDaysActive = 12 };
@@ -806,7 +806,7 @@ public sealed class PersistEquivalenceTests
             {
                 PlayerType = 2,
                 Flags = 9,
-                Reserved = FixedArray_byte_3.From([1, 0, 2]),
+                Reserved = ByteArray3.From([1, 0, 2]),
             },
         };
         var cls = Schema.Get("PlayerSetupSettings");
@@ -840,7 +840,7 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void CsSaveLoadIsTheStoredNameOfTheAlias()
     {
-        var info = EnumTypeInfo.Describe(typeof(EControlStyleElement));
+        var info = EnumTypeInfo.Describe(typeof(ControlStyleElement));
         Assert.Equal("SaveLoad", info.ByValue[0]);
         Assert.False(info.ByName.ContainsKey("csStored"));
         Assert.Equal(0, info.ByName["SaveLoad"]);
@@ -850,7 +850,7 @@ public sealed class PersistEquivalenceTests
     {
         var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
+        map.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         AoWHSMap.Current = map;
         try
         {
@@ -871,11 +871,11 @@ public sealed class PersistEquivalenceTests
     // Three constructed states own a child the live table does not enlist. Both loads drop that
     // child, and the converter document still holds it, so those states pass converterRead false.
     // The record pilots have no children, so their tree read also matches the converter encode.
-    private static void Check(string className, EObject obj, bool converterRead = true)
+    private static void Check(string className, EngineObject obj, bool converterRead = true)
     {
-        EObject? loaded = null;
-        EObject? fromImage = null;
-        EObject? viaReadWrite = null;
+        EngineObject? loaded = null;
+        EngineObject? fromImage = null;
+        EngineObject? viaReadWrite = null;
         try
         {
             var cls = Schema.Get(className);
@@ -919,14 +919,14 @@ public sealed class PersistEquivalenceTests
         }
     }
 
-    private static EObject Blank(string className)
+    private static EngineObject Blank(string className)
     {
-        foreach (var eclass in EClass.All)
+        foreach (var eclass in EngineClass.All)
             if (eclass.ClassName == className) return eclass.Create(null!);
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
-    private static void Load(EObject obj, byte[] image, EStorageStream.StorageStreamError? onError = null)
+    private static void Load(EngineObject obj, byte[] image, EStorageStream.StorageStreamError? onError = null)
     {
         using var memory = new MemoryStream();
         memory.Write(image);
@@ -990,7 +990,7 @@ public sealed class PersistEquivalenceTests
         public void Persist(IPersister persister) => PersistSupport.Record(persister, "Behavior", ref Behavior);
     }
 
-    private static byte[] Image(EObject obj)
+    private static byte[] Image(EngineObject obj)
     {
         using var memory = new MemoryStream();
         using (var writer = new EWriteStorageStream(memory, EngineFixture.Engine, false))

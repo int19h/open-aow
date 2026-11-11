@@ -184,7 +184,7 @@ public partial class DurationAbility : AdjustableAbility
     public virtual int GetTotalDuration() => 3;
 
     // AoWAb.PAS:30
-    public override EClass AbilityDataClass() => EClass.Of<DurationAbilityData>();
+    public override EngineClass AbilityDataClass() => EngineClass.Of<DurationAbilityData>();
 
     public override bool Remove(AbilityOwner owner)
     {

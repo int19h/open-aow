@@ -21,16 +21,16 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
 
-// name, ID, description, cost, SFX library, image sequences, selection types. Procedure
+// name, ID, description, cost, Sfx library, image sequences, selection types. Procedure
 // return-ABI adapters preserve unmarked overrides in other packages
-public partial class Ability : EObject
+public partial class Ability : EngineObject
 {
 
     // Ability.PAS:1238
     public Ability(ECustomNode owner) : base(owner)
     {
         FDescription = new StringList();
-        FSFXLibrary = new SFXLibrary(null);
+        FSFXLibrary = new SfxLibrary(null);
         FImageSequences = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
     }
 
@@ -38,7 +38,7 @@ public partial class Ability : EObject
     public int FAbilityID;
     public StringList FDescription;
     public int FSkillPointCost;
-    public SFXLibrary FSFXLibrary;
+    public SfxLibrary FSFXLibrary;
     public ImageSequenceList FImageSequences;
     public Set<AbilitySelectionType> FSelectionTypes;
 
@@ -137,12 +137,12 @@ public partial class Ability : EObject
     }
 
     // Ability.PAS:1571
-    public virtual void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public virtual void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
     }
 
     // Ability.PAS:1574
-    public virtual bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command) => false;
+    public virtual bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command) => false;
 
     // Ability.PAS:1582
     public virtual void NewDay(AbilityOwner Owner)
@@ -165,15 +165,15 @@ public partial class Ability : EObject
     public virtual bool Activate(AbilityOwner Owner, ref string Reason)
     {
         bool Result;
-        ActivateAbilityInfo Info;
+        AbilityActivation Info;
         // { The original reports successful activation after releasing the notification. }
         if (CanActivate(Owner, ref Reason))
         {
-            Info = new ActivateAbilityInfo(null);
+            Info = new AbilityActivation(null);
             Info.FAbilityID = FAbilityID;
-            if (Owner is AbstractUnit)
+            if (Owner is Troop)
             {
-                Info.FUnitID = ((AbstractUnit)Owner).FUnitID;
+                Info.FUnitID = ((Troop)Owner).FUnitID;
             }
             else
             {
@@ -203,14 +203,14 @@ public partial class Ability : EObject
     public virtual bool ActivateCombat(AbilityOwner Owner, ref string Reason)
     {
         bool Result;
-        ActivateAbilityInfo Info;
+        AbilityActivation Info;
         if (this.CanActivateCombat(Owner, ref Reason))
         {
-            Info = new ActivateAbilityInfo(null);
+            Info = new AbilityActivation(null);
             Info.FAbilityID = FAbilityID;
-            if (Owner is AbstractUnit)
+            if (Owner is Troop)
             {
-                Info.FUnitID = ((AbstractUnit)Owner).FUnitID;
+                Info.FUnitID = ((Troop)Owner).FUnitID;
             }
             else
             {
@@ -245,10 +245,10 @@ public partial class Ability : EObject
     }
 
     // Ability.PAS:1272
-    public virtual int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender) => 0;
+    public virtual int GetDamageValue(Troop Attacker, Troop Defender) => 0;
 
     // Ability.PAS:1276
-    public virtual void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public virtual void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         DamageValues.SourceDamage = 0;
         DamageValues.SourceCost = 0;
@@ -420,7 +420,7 @@ public partial class Ability : EObject
 
     // Ability.PAS:1252
     // class receiver
-    public void ShowInfo(AbilityOwner Owner, ImageLibraryFont Font, int X, int Y, in SurfaceDesc Surface)
+    public void ShowInfo(AbilityOwner Owner, ImageLibraryFont Font, int X, int Y, in LockedSurface Surface)
     {
         Font.SetText(X, Y, this.GetName(Owner), Surface);
     }
@@ -432,7 +432,7 @@ public partial class Ability : EObject
     }
 
     // Ability.PAS:1445
-    public virtual EClass AbilityDataClass() => default;
+    public virtual EngineClass AbilityDataClass() => default;
 
     public virtual bool CanExpand(AbilityOwner owner) => !owner.GetAbSet(FAbilityID) && (owner.GetAbilitySelectionTypes() & FSelectionTypes) != default(Set<AbilitySelectionType>);
     public virtual int ExpandCost(AbilityOwner owner) => FSkillPointCost;
@@ -448,8 +448,8 @@ public partial class Ability : EObject
     public virtual int GetSkillPoints(AbilityOwner owner) => owner.GetAbSet(FAbilityID) ? FSkillPointCost : 0;
     public virtual bool GetEnabled(AbilityOwner owner) => owner.GetAbSet(FAbilityID);
 
-    private static FixedArray_string_6 TCombatModeRStr = FixedArray_string_6.From(default(ReadOnlySpan<string>));
-    private static FixedArray_string_10 TDamageTypeRStr = FixedArray_string_10.From(default(ReadOnlySpan<string>));
+    private static StringArray6 TCombatModeRStr = StringArray6.From(default(ReadOnlySpan<string>));
+    private static StringArray10 TDamageTypeRStr = StringArray10.From(default(ReadOnlySpan<string>));
     private static Set<MoveType> P1EmptyMoveTypes = Set<MoveType>.FromMask(0uL);
     private static Set<DamageType> P1EmptyDamageTypes = Set<DamageType>.FromMask(0uL);
     private static Set<WallCombatFeaturesElement> P1EmptyWallFeatures = Set<WallCombatFeaturesElement>.FromMask(0uL);

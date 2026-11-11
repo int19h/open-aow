@@ -52,7 +52,7 @@ public partial class Dungeon : ExplorationSite
     // Dungeon.pas:95
 
     // Dungeon.pas:249
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         FPrisoners.MsgProc(ref Msg, Sender);
@@ -73,7 +73,7 @@ public partial class Dungeon : ExplorationSite
     }
 
     // Dungeon.pas:255
-    public override ExecuteResult ExecuteTE(StructureTE TE, TokenExecuter Executer)
+    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
     {
         ExecuteResult Result = base.ExecuteTE(TE, Executer);
         if (TE.FAction == 1)
@@ -99,7 +99,7 @@ public partial class Dungeon : ExplorationSite
     public override bool GetExplored() => FPrisoners.Count == 0;
 
     // Dungeon.pas:121
-    public override void SetupCombat(Combat.Battle Combat, ArmyHS Army)
+    public override void SetupCombat(Combat.Battle Combat, ArmyHexSprite Army)
     {
         base.SetupCombat(Combat, Army);
         Combat.FItems = FPrisoners;
@@ -108,11 +108,11 @@ public partial class Dungeon : ExplorationSite
     // Dungeon.pas:127
     public override void ExecuteSearchDone(CombatType CombatType, CombatResult CombatResult)
     {
-        ArmyHS Army;
+        ArmyHexSprite Army;
         PrisonersJoinEventLog Log;
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(CombatResult))
         {
-            Army = (ArmyHS)Owner.FindOwnedChild(131607);
+            Army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             Log = new PrisonersJoinEventLog(null);
             Log.FX = GetXhx();
             Log.FY = GetYhx();
@@ -166,7 +166,7 @@ public partial class Dungeon : ExplorationSite
                 List.Add(Collections.GetU(Collection, I));
             }
 
-            IntegerList.FillWithRandomUnits(List, FPrisoners, 4, (int)FPrisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            Int32List.FillWithRandomUnits(List, FPrisoners, 4, (int)FPrisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             List?.Dispose();
         }
     }
@@ -177,7 +177,7 @@ public partial class Dungeon : ExplorationSite
         LocationTextEventLog LocationLog;
         ArmyInfoEventLog ArmyLog;
         Hero Hero;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         LocationLog = new LocationTextEventLog(null);
         LocationLog.FPlayer = GetPlayer();
         var name = GetName();
@@ -233,7 +233,7 @@ public partial class Dungeon : ExplorationSite
         var lhx4 = GetLhx();
         EventLog.DistributeLocationEventLog(ArmyLog, -1, GetXhx(), yhx4, lhx4, false);
         ArmyLog.Release();
-        Army = new ArmyHS(null);
+        Army = new ArmyHexSprite(null);
         Army.FArmy.BeginUpdate();
         Army.FArmy.SetPlayer(Player);
         Army.FArmy.AddUnits(FPrisoners);

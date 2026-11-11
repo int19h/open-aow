@@ -18,7 +18,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CityWall : CombatILTerrain
+public partial class CityWall : CombatImageLibraryTerrain
 {
     public CityWall(ECustomNode owner) : base(owner)
     { }
@@ -56,7 +56,7 @@ public partial class CityWall : CombatILTerrain
     }
 
     // CityWall.pas:230
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         AbilityCombatInfo AbilityInfo = default;
         SpellCombatInfo SpellInfo = default;
@@ -164,7 +164,7 @@ public partial class CityWall : CombatILTerrain
     }
 
     // CityWall.pas:155
-    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
     {
         if (Info.HN == 0)
         {
@@ -211,7 +211,7 @@ public partial class CityWall : CombatILTerrain
     }
 
     // CityWall.pas:180
-    public override int CanMoveOver(in HSSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo Info)
     {
         int Result;
         if (Info.HN == 0)
@@ -253,7 +253,7 @@ public partial class CityWall : CombatILTerrain
         PlayerStructure Structure;
         bool Razed;
         base.Activate();
-        if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             Razed = false;
             FPlaySound = true;
@@ -298,7 +298,7 @@ public partial class CityWall : CombatILTerrain
                 RemoveFromMap();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                UpdateMapFields(AoWCombatMap.Current.MapContainer.GetMapLevel(0), xhx, yhx);
+                UpdateMapFields(CombatMap.Current.MapContainer.GetMapLevel(0), xhx, yhx);
                 this.Dispose();
             }
             else
@@ -317,7 +317,7 @@ public partial class CityWall : CombatILTerrain
                     FFlagID = 32;
                 }
 
-                AoWCombatMap.Current.FWalls.Add(this);
+                CombatMap.Current.FWalls.Add(this);
             }
         }
         else
@@ -327,7 +327,7 @@ public partial class CityWall : CombatILTerrain
     }
 
     // CityWall.pas:147
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         base.UpdateMapField(Info);
         if (Info.HN == 0)
@@ -343,7 +343,7 @@ public partial class CityWall : CombatILTerrain
     public override int GetTerrainTypeImage(int TerrainType) => 0;
 
     // CityWall.pas:363
-    public override void ShowShadow(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
     }
 
@@ -356,8 +356,8 @@ public partial class CityWall : CombatILTerrain
     // CityWall.pas:200
     public void SetHitPoints(int Value)
     {
-        TfxHS Effect;
-        XYZ Point;
+        BattleEffectSprite Effect;
+        Point3D Point;
         if (Value < 0)
         {
             Value = 0;
@@ -367,14 +367,14 @@ public partial class CityWall : CombatILTerrain
         {
             if (Value == 0)
             {
-                AoWCombatMap.Current.FCombat.FCombatData.FWallBreached = true;
-                if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
+                CombatMap.Current.FCombat.FCombatData.FWallBreached = true;
+                if (FPlaySound && CombatMap.Current.FPlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                Effect = AoWCombatMap.Current.AddEffect(TfxType.WallSmoke);
-                Point = new XYZ();
+                Effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
+                Point = new Point3D();
                 Effect.FPath.Add(Point);
                 HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Point.X, ref Point.Y);
                 Point.X = Random(20) + Point.X + 6;
@@ -382,7 +382,7 @@ public partial class CityWall : CombatILTerrain
             }
             else
             {
-                if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
+                if (FPlaySound && CombatMap.Current.FPlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
@@ -416,7 +416,7 @@ public partial class CityWall : CombatILTerrain
         FPlaySound = true;
     }
 
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         ImageSequence Sequence;
         int ImageIndex;
@@ -428,7 +428,7 @@ public partial class CityWall : CombatILTerrain
         YhpSurf = Yhp - YhpSurf;
         var yhx = GetYhx();
         var xhx = GetXhx();
-        switch (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+        switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
         {
             case 3:
                 TerrainOffset = 10;
@@ -451,10 +451,10 @@ public partial class CityWall : CombatILTerrain
                 switch (Sequence.Layer)
                 {
                     case 7:
-                        ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        ImageIndex = Sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (ImageIndex != -1)
                         {
-                            if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                            if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                             {
                                 var xhx2 = GetXhx();
                                 var yhx2 = GetYhx();
@@ -481,9 +481,9 @@ public partial class CityWall : CombatILTerrain
         }
     }
 
-    private static FixedArray_int_2 WallISIndex = FixedArray_int_2.From([30, 0]);
+    private static Int32Array2 WallISIndex = Int32Array2.From([30, 0]);
 
-    public new partial class Resource : CombatILTerrainResource
+    public new partial class Resource : CombatImageLibraryTerrainResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

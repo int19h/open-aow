@@ -11,7 +11,7 @@ public partial class CombatPredictorUnitList : DelphiList<CombatPredictorUnit>
     public CombatPredictorUnit GetUnits(int Index) => List[Index];
 
     // CombatPredictor.pas:256
-    public int IndexOfUnit(AbstractUnit AUnit)
+    public int IndexOfUnit(Troop AUnit)
     {
         int Result = Count;
         while (Result != 0)

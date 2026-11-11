@@ -25,16 +25,16 @@ public partial class CosmeticSurgerySpellCaster : SpellCaster
     public override bool Cast()
     {
         bool Result;
-        AbstractUnit Source;
-        AbstractUnit Target;
-        UnitSpellTE Event;
+        Troop Source;
+        Troop Target;
+        UnitSpellTokenEvent Event;
         string Reason = "";
         ((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(59)).ResetTargetSelection();
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
         Target = AoWHSMap.Current.FUnitControl.FindUnit(FTargetUnitID);
         if (Source != null && Target != null && CanCast(ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new UnitSpellTE(null);
+            Event = new UnitSpellTokenEvent(null);
             var spell = AoWHSSet.Current.FSpellControl.GetSpell(59);
             Event.Initialize(FCasterSpellID, Source, null, spell.FBaseManaCost);
             Event.FTargetUnitIDs.Add(FTargetUnitID);

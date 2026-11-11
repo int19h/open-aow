@@ -11,7 +11,7 @@ public partial class AoWBorderHexagon : BorderHexagon
     { }
 
     // AoWHex.pas:261
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (Info.HN == 0 && AoWHSMap.Current != null && AoWHSMap.Current.FDay == 0)
         {

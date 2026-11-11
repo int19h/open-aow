@@ -48,7 +48,7 @@ public sealed class ThrowingCastTests
         public override sbyte GetTerrain(int index) => 0;
 
         // The tag query reads the resource. This site has none and leaves the query unanswered.
-        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMessage Msg)
         {
         }
 
@@ -91,13 +91,13 @@ public sealed class ThrowingCastTests
     {
         using var scope = new MapScope();
         var heroList = new HeroList(null!);
-        var unit = new AbstractUnit(null!) { FUnitID = 9 };
+        var unit = new Troop(null!) { FUnitID = 9 };
         unit.FOwner = heroList;
         int source = -1;
         int count = -1;
         scope.Map.FOnActivateAbility += sender =>
         {
-            var info = (UnitSelectorAAI)sender;
+            var info = (UnitSelectionActivation)sender;
             source = info.FUnitSelector.FSourceUnitID;
             count = info.FUnitSelector.FUnits.GetCount();
         };
@@ -108,7 +108,7 @@ public sealed class ThrowingCastTests
         Assert.Equal(0, count);
 
         var list = new UnitUserList(null!);
-        var listed = new AbstractUnit(null!) { FUnitID = 8 };
+        var listed = new Troop(null!) { FUnitID = 8 };
         listed.FOwner = list;
         source = -1;
         Assert.True(ability.Activate(listed, ref reason));
@@ -120,7 +120,7 @@ public sealed class ThrowingCastTests
     {
         using var scope = new MapScope();
         scope.Map.FSeatedPlayer = 0;
-        var unit = new AbstractUnit(null!) { FUnitID = 42, FPlayer = 0 };
+        var unit = new Troop(null!) { FUnitID = 42, FPlayer = 0 };
         var hero = new Hero(null!) { FUnitID = 43, FPlayer = 4 };
         scope.Map.FUnitControl.RegisterUnit(unit);
         scope.Map.FUnitControl.RegisterUnit(hero);
@@ -131,8 +131,8 @@ public sealed class ThrowingCastTests
         var resolved = new HeroUpgradeEventLog(null!) { FUnitID = 43 };
         Assert.False(resolved.Execute(false, ExecuteTrigger.User, null!));
 
-        var spell = new SpellTE(null!) { FEventSourceID = 42 };
-        var executer = new TokenExecuter(null!);
+        var spell = new SpellTokenEvent(null!) { FEventSourceID = 42 };
+        var executer = new TokenExecutor(null!);
         Assert.Equal(ExecuteResult.DoneHalt, spell.Execute(executer));
 
         executer.FExecuteCount = 1;
@@ -148,8 +148,8 @@ public sealed class ThrowingCastTests
     [Fact]
     public void SharedWallIdSkipsAStructureAndKeepsADoor()
     {
-        var previous = AoWCombatMap.Current;
-        var map = new AoWCombatMap(null!);
+        var previous = CombatMap.Current;
+        var map = new CombatMap(null!);
         try
         {
             var container = new MapContainer(null!);
@@ -165,7 +165,7 @@ public sealed class ThrowingCastTests
             structure.FOwner = field;
             field.FHSList[0] = structure;
             field.FCount = 1;
-            var ai = new CAI();
+            var ai = new BattleAI();
             int value = 7;
             ai.EvalHex(null!, 0, 0, 0, 0, ref value, true, false, null!, null);
             Assert.Equal(7, value);
@@ -179,14 +179,14 @@ public sealed class ThrowingCastTests
         }
         finally
         {
-            AoWCombatMap.Current = previous;
+            CombatMap.Current = previous;
         }
     }
 
     [Fact]
     public void PrisonersStayOffTheItemList()
     {
-        var previous = AoWCombatMap.Current;
+        var previous = CombatMap.Current;
         using var scope = new MapScope();
         try
         {
@@ -200,7 +200,7 @@ public sealed class ThrowingCastTests
 
             var combat = new TacticalBattle(null!) { FExplorationSite = 1 };
             combat.FItems = new PrisonersArmy(null!);
-            var prisoners = new RndTacHsm();
+            var prisoners = new RandomBattleMapGenerator();
             var error = Record.Exception(() => prisoners.RandomMap(combat, 3, 3, 0));
             Assert.Null(prisoners.FItems);
             // The generator keeps going after the item field and can fail on the map file.
@@ -212,13 +212,13 @@ public sealed class ThrowingCastTests
 
             var items = new ItemList(null!);
             combat.FItems = items;
-            var laidOut = new RndTacHsm();
+            var laidOut = new RandomBattleMapGenerator();
             Record.Exception(() => laidOut.RandomMap(combat, 3, 3, 0));
             Assert.Same(items, laidOut.FItems);
         }
         finally
         {
-            AoWCombatMap.Current = previous;
+            CombatMap.Current = previous;
         }
     }
 
@@ -236,7 +236,7 @@ public sealed class ThrowingCastTests
         scope.Map.FMapContainer = container;
 
         var tactical = new MoveControlSettings(null!);
-        tactical.FArmyHS = new TacticalCombatUnitHS(null!);
+        tactical.FArmyHS = new TacticalBattleUnitHexSprite(null!);
         tactical.SetSourcePos(0, 0, 0);
         tactical.SetDestinationPos(1, 0, 0);
         var error = Record.Exception(() => scope.Map.FMoveControl.Activate(tactical));
@@ -244,7 +244,7 @@ public sealed class ThrowingCastTests
         Assert.Null(error);
 
         scope.Map.FMoveControl.Deactivate();
-        var army = new ArmyHS(null!);
+        var army = new ArmyHexSprite(null!);
         var world = new MoveControlSettings(null!);
         world.FArmyHS = army;
         world.SetSourcePos(0, 0, 0);
@@ -252,26 +252,26 @@ public sealed class ThrowingCastTests
         Assert.True(scope.Map.FMoveControl.Activate(world));
         Assert.Same(army, scope.Map.FMoveControl.FArmyHS);
 
-        var previous = AoWCombatMap.Current;
-        var combatMap = new AoWCombatMap(null!);
+        var previous = CombatMap.Current;
+        var combatMap = new CombatMap(null!);
         try
         {
             var settings = new CombatMoveControlSettings(null!);
-            settings.FArmyHS = new ArmyHS(null!);
+            settings.FArmyHS = new ArmyHexSprite(null!);
             settings.SetSourcePos(-1, -1, -1);
             settings.SetDestinationPos(-1, -1, -1);
             var control = (CombatMoveControl)combatMap.FMoveControl;
             control.ProcessMove(settings);
             Assert.Null(control.FUnitHS);
 
-            var unit = new TacticalCombatUnitHS(null!);
+            var unit = new TacticalBattleUnitHexSprite(null!);
             settings.FArmyHS = unit;
             control.ProcessMove(settings);
             Assert.Same(unit, control.FUnitHS);
         }
         finally
         {
-            AoWCombatMap.Current = previous;
+            CombatMap.Current = previous;
         }
     }
 }

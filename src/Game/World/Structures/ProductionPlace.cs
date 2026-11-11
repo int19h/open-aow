@@ -1,8 +1,8 @@
 // Translated from PrdPlace.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
 
@@ -71,7 +71,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:264
 
     // PrdPlace.pas:352
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537002242)
@@ -81,7 +81,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:692
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4609 && Msg.HN == 0)
@@ -415,7 +415,7 @@ public partial class ProductionPlace : PlayerStructure
     public override void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
     {
         ProductionPlaceEventLog Log;
-        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).FClaimed)
+        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).FClaimed)
         {
             Log = new ProductionPlaceEventLog(null);
             Log.FPlayer = NewPlayer;
@@ -437,7 +437,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:625
     public virtual void GenerateDefenders()
     {
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         int Budget;
         int Collection;
         UnitIndexList Units;
@@ -449,7 +449,7 @@ public partial class ProductionPlace : PlayerStructure
             }
 
             Budget = (FDefenderLevel - 2) * 25 + 25;
-            ArmyHS = (ArmyHS)FOwner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHexSprite)FOwner.FindOwnedChild(131607);
             if (ArmyHS != null)
             {
                 Budget -= ArmyHS.FArmy.ObtainValue(255);
@@ -542,7 +542,7 @@ public partial class ProductionPlace : PlayerStructure
     {
         int UnitIndex;
         Unit AUnit;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         UnitEnchantment Enchantment;
         ImageSequenceAnimation Animation;
         if (Sphere == GetMagicSphere() && FPlayer > 0)

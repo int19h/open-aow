@@ -48,7 +48,7 @@ public static class PixelFormats
     internal static bool ValidImageFile(string FileName)
     {
         var extractFileExt = ExtractFileExt(FileName);
-        return GfxState.ImageFileClassList.FindClass(extractFileExt) != null;
+        return GraphicsState.ImageFileClassList.FindClass(extractFileExt) != null;
     }
 
     internal static Surface CreateSurfaceFromImageFile(string FileName)
@@ -56,7 +56,7 @@ public static class PixelFormats
         Surface Result;
         ImageFileClass C;
         var extractFileExt = ExtractFileExt(FileName);
-        C = GfxState.ImageFileClassList.FindClass(extractFileExt);
+        C = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
         if (C != null)
         {
             Result = C.CreateSurface(FileName);
@@ -71,9 +71,9 @@ public static class PixelFormats
 
     internal static int MASKtoPFID(int BitCount, int RMask, int GMask, int BMask, int AMask)
     {
-        FixedArray_byte_4 Order = default;
+        ByteArray4 Order = default;
         bool Swapped;
-        FixedArray_int_4 Masks = default;
+        Int32Array4 Masks = default;
         int Bits;
         int T;
         int Result = BitCount;
@@ -126,7 +126,7 @@ public static class PixelFormats
 
     internal static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
 
-    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, GFXEPalette Palette) => PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, pfBGR24, null);
+    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, Palette Palette) => PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, pfBGR24, null);
 
     internal static string GetErrorMsg(int ErrorCode)
     {
@@ -160,11 +160,11 @@ public static class PixelFormats
     {
         if (PixelFormatID == pfRGB565 || PixelFormatID == pfRGB555)
         {
-            GfxState.ForcedPixelFormatID = PixelFormatID;
+            GraphicsState.ForcedPixelFormatID = PixelFormatID;
         }
         else
         {
-            GfxState.ForcedPixelFormatID = 0;
+            GraphicsState.ForcedPixelFormatID = 0;
         }
     }
 
@@ -195,7 +195,7 @@ public static class PixelFormats
 
     public static bool MMXsupport() => false;
 
-    internal static int Color2PixelInfo(int Color, int PixelFormatID, GFXEPalette Palette)
+    internal static int Color2PixelInfo(int Color, int PixelFormatID, Palette Palette)
     {
         int r = Color & 255, g = (Color >> 8) & 255, b = (Color >> 16) & 255;
         return PixelFormatID switch
@@ -209,7 +209,7 @@ public static class PixelFormats
         };
     }
 
-    public static int ColorFillSD(Rect R, int Color, in SurfaceDesc SD)
+    public static int ColorFillSD(Rect R, int Color, in LockedSurface SD)
     {
         if (SD.PixelFormatID != pfRGB555 && SD.PixelFormatID != pfARGB1555 && SD.PixelFormatID != pfRGB565) return GFXE_NOTSUPPORTED;
         int left = Math.Max(R.Left, SD.ClipRect.Left), right = Math.Min(R.Right, SD.ClipRect.Right);

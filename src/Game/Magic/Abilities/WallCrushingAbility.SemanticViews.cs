@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class WallCrushingAbility
 {
     // AoWAb.PAS:2081
-    public override bool fcExecuteCombatCommand(CombatObject source, FastCombatCommand command)
+    public override bool fcExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
         var target = command.FTarget;
         if (target.GetEnabled())

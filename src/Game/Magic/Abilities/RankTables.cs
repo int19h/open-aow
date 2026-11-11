@@ -5,14 +5,14 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class RankTables
 {
-    internal static FixedArray_sbyte_3 P2RankDefense = FixedArray_sbyte_3.From([0, 1, 1]);
+    internal static SByteArray3 P2RankDefense = SByteArray3.From([0, 1, 1]);
 
-    internal static FixedArray_sbyte_3 P2RankAttack = FixedArray_sbyte_3.From([0, 1, 1]);
+    internal static SByteArray3 P2RankAttack = SByteArray3.From([0, 1, 1]);
 
-    internal static FixedArray_sbyte_3 P2RankDamage = FixedArray_sbyte_3.From([0, 0, 1]);
+    internal static SByteArray3 P2RankDamage = SByteArray3.From([0, 0, 1]);
 
-    internal static FixedArray_sbyte_3 P2RankResistance = FixedArray_sbyte_3.From([0, 0, 1]);
+    internal static SByteArray3 P2RankResistance = SByteArray3.From([0, 0, 1]);
 
-    internal static FixedArray_sbyte_3 P2RankHits = FixedArray_sbyte_3.From([0, 1, 2]);
+    internal static SByteArray3 P2RankHits = SByteArray3.From([0, 1, 2]);
 
 }

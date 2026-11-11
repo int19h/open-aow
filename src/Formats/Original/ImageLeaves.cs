@@ -56,15 +56,15 @@ internal sealed partial class IntegerCodec
     private static string ImageName(ImageFrame frame) => frame.Property?.Name ?? "The value";
 }
 
-internal sealed partial class BoolCodec
+internal sealed partial class BooleanCodec
 {
     internal override void WriteImage(TreeValue value, EncodeContext ctx, ByteBuffer data, ImageFrame frame)
     {
-        if (value is not BoolNode)
+        if (value is not BooleanNode)
             throw ctx.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is a boolean.", null, frame.Path);
     }
 
-    internal override TreeValue ReadImage(DecodeContext ctx, int start, int end, ImageFrame frame) => new BoolNode(true);
+    internal override TreeValue ReadImage(DecodeContext ctx, int start, int end, ImageFrame frame) => new BooleanNode(true);
 }
 
 internal sealed partial class StringCodec
@@ -125,11 +125,11 @@ internal partial class StringsCodec
     }
 }
 
-internal sealed partial class StringsExCodec
+internal sealed partial class StringsWithValuesCodec
 {
     internal override void WriteImage(TreeValue value, EncodeContext ctx, ByteBuffer data, ImageFrame frame)
     {
-        if (value is not LinesExNode node)
+        if (value is not LinesWithValuesNode node)
             throw ctx.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is lines with objects.", null, frame.Path);
         string text = node.RawText ?? Join(node.Lines ?? []);
         int lines = LineCount(text);
@@ -150,7 +150,7 @@ internal sealed partial class StringsExCodec
         if (count != LineCount(text)) throw Mismatch(ctx, start, site, "The text has " + LineCount(text) + " lines and " + count + " object values.");
         var ids = new int[count];
         for (int i = 0; i < count; i++) ids[i] = ctx.Int32(after + 4 * i);
-        return LinesExNode.FromText(text, ids);
+        return LinesWithValuesNode.FromText(text, ids);
     }
 }
 
@@ -251,7 +251,7 @@ internal sealed partial class FixedArrayCodec
     }
 }
 
-internal sealed partial class RawBoolCodec
+internal sealed partial class RawBooleanCodec
 {
     internal override void WriteImage(TreeValue value, EncodeContext ctx, ByteBuffer data, ImageFrame frame)
     {
@@ -263,14 +263,14 @@ internal sealed partial class RawBoolCodec
         if (end - start != 1)
             throw Mismatch(ctx, start, frame.Value(ctx), "A raw boolean is stored in " + (end - start) + " bytes.");
         byte stored = ctx.Data[start];
-        if (stored is 0 or 1) return new BoolNode(stored != 0);
+        if (stored is 0 or 1) return new BooleanNode(stored != 0);
         return new IntegerNode(1, false, stored);
     }
 
     private static byte ImageByte(EncodeContext ctx, TreeValue value, ImageFrame frame)
     {
         string name = frame.Property?.Name ?? "The value";
-        if (value is BoolNode bit) return bit.Value ? (byte)1 : (byte)0;
+        if (value is BooleanNode bit) return bit.Value ? (byte)1 : (byte)0;
         if (value is IntegerNode { Width: 1, Signed: false, Value: >= 0 and <= 255 } number) return (byte)number.Value;
         if (value is IntegerNode integer)
             throw ctx.Fail(Codes.Range, name + " is outside its storage range.", null, frame.Path, Text(integer.Value), "0 to 255");
@@ -282,14 +282,14 @@ internal sealed partial class RawBoolCodec
 /// A boolean field inside a record. 0 is absent, 1 is true, and any other byte stays that integer.
 /// The tree stores the byte as an integer node, including 1.
 /// </summary>
-internal sealed class RecordBoolCodec(string name) : PropertyCodec
+internal sealed class RecordBooleanCodec(string name) : PropertyCodec
 {
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
         if (end - start != 1) throw Mismatch(ctx, start, site, name + " is one byte.");
         byte stored = ctx.Data[start];
-        if (stored == 0) return new JsonBool(false);
-        if (stored == 1) return new JsonBool(true);
+        if (stored == 0) return new JsonBoolean(false);
+        if (stored == 1) return new JsonBoolean(true);
         return new JsonInteger(stored);
     }
 
@@ -300,11 +300,11 @@ internal sealed class RecordBoolCodec(string name) : PropertyCodec
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
-        if (value is BoolNode bit) return bit.Value ? new JsonBool(true) : null;
+        if (value is BooleanNode bit) return bit.Value ? new JsonBoolean(true) : null;
         if (value is IntegerNode { Width: 1, Signed: false } number)
         {
             if (number.Value == 0) return null;
-            if (number.Value == 1) return new JsonBool(true);
+            if (number.Value == 1) return new JsonBoolean(true);
             if (number.Value is < 0 or > 255)
                 throw site.Fail(Codes.Range, (site.Property?.Name ?? name) + " is outside its storage range.", value: Text(number.Value), constraint: "0 to 255");
             return new JsonInteger(number.Value);
@@ -314,7 +314,7 @@ internal sealed class RecordBoolCodec(string name) : PropertyCodec
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
-        if (value is JsonBool bit) return bit.Value ? new IntegerNode(1, false, 1) : null;
+        if (value is JsonBoolean bit) return bit.Value ? new IntegerNode(1, false, 1) : null;
         if (value is JsonInteger number)
         {
             if (number.Value is < 0 or > 255)
@@ -336,9 +336,9 @@ internal sealed class RecordBoolCodec(string name) : PropertyCodec
         return new IntegerNode(1, false, ctx.Data[start]);
     }
 
-    private byte Stored(EncodeContext ctx, JsonValue value, DocPath path)
+    private byte Stored(EncodeContext ctx, JsonValue value, DocumentNodePath path)
     {
-        if (value is JsonBool bit) return bit.Value ? (byte)1 : (byte)0;
+        if (value is JsonBoolean bit) return bit.Value ? (byte)1 : (byte)0;
         if (value is JsonInteger { Value: >= 0 and <= 255 } number) return (byte)number.Value;
         if (value is JsonInteger integer)
             throw ctx.Fail(Codes.Range, name + " is outside its storage range.", integer, path, Text(integer.Value), "0 to 255");
@@ -347,7 +347,7 @@ internal sealed class RecordBoolCodec(string name) : PropertyCodec
 
     private static byte ImageByte(EncodeContext ctx, TreeValue value, ImageFrame frame)
     {
-        if (value is BoolNode bit) return bit.Value ? (byte)1 : (byte)0;
+        if (value is BooleanNode bit) return bit.Value ? (byte)1 : (byte)0;
         if (value is IntegerNode { Width: 1, Signed: false, Value: >= 0 and <= 255 } number) return (byte)number.Value;
         if (value is IntegerNode integer)
             throw ctx.Fail(Codes.Range, (frame.Property?.Name ?? "The value") + " is outside its storage range.", null, frame.Path, Text(integer.Value), "0 to 255");

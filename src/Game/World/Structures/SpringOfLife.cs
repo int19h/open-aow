@@ -23,7 +23,7 @@ public partial class SpringOfLife : Structure
     // Spring.pas:70
 
     // Spring.pas:111
-    public override void ArmyPlaced(ArmyHS PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
     {
         base.ArmyPlaced(PlacedArmy);
         if (!Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)((MapField)Owner).TerrainType))
@@ -33,7 +33,7 @@ public partial class SpringOfLife : Structure
     }
 
     // Spring.pas:76
-    public void ShowBlessingAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowBlessingAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
@@ -44,7 +44,7 @@ public partial class SpringOfLife : Structure
     }
 
     // Spring.pas:86
-    public void ExecuteNaturesBlessing(ArmyHS ArmyHS)
+    public void ExecuteNaturesBlessing(ArmyHexSprite ArmyHS)
     {
         SpringOfLifeAnimation Anim = default;
         Rect R = default;

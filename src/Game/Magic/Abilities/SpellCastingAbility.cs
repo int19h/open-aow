@@ -33,7 +33,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action, AbilityControlTypeElement.CombatAction);
 
     // AoWAb.PAS:4588
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
         FastBattle Combat;
         CombatObject Source;
@@ -88,7 +88,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:4484
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command) => AoWHSSet.Current.FSpellControl.GetSpell(((SpellCC)Command).FSpellID).fcExecuteCombatCommand(Source, Command);
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command) => AoWHSSet.Current.FSpellControl.GetSpell(((FastBattleSpellCommand)Command).FSpellID).fcExecuteCombatCommand(Source, Command);
 
     // AoWAb.PAS:4479
     public override bool CanActivate(AbilityOwner Owner, ref string Reason)
@@ -112,9 +112,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
         bool Result = base.Expand(owner);
         if (Result)
         {
-            if (owner is AbstractUnit && AoWHSMap.Current != null)
+            if (owner is Troop && AoWHSMap.Current != null)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(((AbstractUnit)owner).FPlayer).FMagicControl.Update();
+                AoWHSMap.Current.FPlayers.GetPlayers(((Troop)owner).FPlayer).FMagicControl.Update();
             }
         }
 
@@ -127,9 +127,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
         bool Result = base.Remove(owner);
         if (Result)
         {
-            if (owner is AbstractUnit && AoWHSMap.Current != null)
+            if (owner is Troop && AoWHSMap.Current != null)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(((AbstractUnit)owner).FPlayer).FMagicControl.Update();
+                AoWHSMap.Current.FPlayers.GetPlayers(((Troop)owner).FPlayer).FMagicControl.Update();
             }
         }
 
@@ -140,7 +140,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         Spell Spell;
-        AbstractUnit Source;
+        Troop Source;
         PlayerMagicControl Magic;
         AbilityDamageValues Values = default;
         DamageValues = default;
@@ -169,7 +169,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     public override void tcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, ref AbilityDamageValues DamageValues)
     {
         Spell Spell;
-        AbstractUnit Source;
+        Troop Source;
         PlayerMagicControl Magic;
         AbilityDamageValues Values = default;
         DamageValues = default;
@@ -224,7 +224,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:4488
-    public bool CanCastBreachWallSpell(AbstractUnit AUnit)
+    public bool CanCastBreachWallSpell(Troop AUnit)
     {
         bool Result;
         int I;

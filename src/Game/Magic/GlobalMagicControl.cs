@@ -19,7 +19,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic;
 
 // next ID, update count, active types, enchantments, double-mana counters, changed events
-public partial class GlobalMagicControl : EObject
+public partial class GlobalMagicControl : EngineObject
 {
 
     // Spells.PAS:2673
@@ -34,7 +34,7 @@ public partial class GlobalMagicControl : EObject
     public int FUpdateCount;
     public Set<GlobalEnchantmentType> FActiveEnchantments;
     public GlobalEnchantmentList FEnchantments;
-    public FixedArray_int_9 FDoubleSphereManaCount;
+    public Int32Array9 FDoubleSphereManaCount;
 
     internal EventStore<GlobalMagicControl> FChangedEventsStore;
 
@@ -72,7 +72,7 @@ public partial class GlobalMagicControl : EObject
     }
 
     // Spells.PAS:2690
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         FEnchantments.MsgProc(ref Msg, Sender);
@@ -121,7 +121,7 @@ public partial class GlobalMagicControl : EObject
                 Mana -= Enchantment.GetUpkeep();
                 Log = new PlayerMagicEventLog(null);
                 Log.FPlayer = Player;
-                Log.FMode = PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana;
+                Log.FMode = PlayerMagicEventLog.EventMode.OutOfMana;
                 Log.FEnchantmentName = FEnchantments.GetEnchantments(Index).GetName();
                 EventLog.DistributeEventLog(Log, false);
                 Log.Release();
@@ -258,7 +258,7 @@ public partial class GlobalMagicControl : EObject
     }
 
     // Spells.PAS:2708
-    public ChangeGlobalMagicTE CreateChangeMagicTE() => new ChangeGlobalMagicTE(null);
+    public ChangeGlobalMagicTokenEvent CreateChangeMagicTE() => new ChangeGlobalMagicTokenEvent(null);
 
     // Spells.PAS:2710
     public bool ExecuteDispelEnchantment(sbyte Player, int EnchantmentID)
@@ -282,14 +282,14 @@ public partial class GlobalMagicControl : EObject
     public bool DispelEnchantment(sbyte Player, GlobalEnchantment Enchantment)
     {
         bool Result;
-        ChangeGlobalMagicTE Event;
+        ChangeGlobalMagicTokenEvent Event;
         string Reason = "";
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy() && IndexOfID(Enchantment.FEnchantmentID) != -1)
         {
             if (Enchantment.CanDispel(Player, ref Reason))
             {
                 Event = CreateChangeMagicTE();
-                Event.FMode = ChangeGlobalMagicTE.ChangeGlobalMagicMode.DispelEnchantment;
+                Event.FMode = ChangeGlobalMagicTokenEvent.Mode.DispelEnchantment;
                 Event.FEnchantmentID = Enchantment.FEnchantmentID;
                 Event.FPlayerIndex = (byte)Player;
                 AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
@@ -336,14 +336,14 @@ public partial class GlobalMagicControl : EObject
     public bool RemoveEnchantment(sbyte Player, GlobalEnchantment Enchantment)
     {
         bool Result;
-        ChangeGlobalMagicTE Event;
+        ChangeGlobalMagicTokenEvent Event;
         string Reason = "";
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy() && IndexOfID(Enchantment.FEnchantmentID) != -1)
         {
             if (Enchantment.CanRemove(Player, ref Reason))
             {
                 Event = CreateChangeMagicTE();
-                Event.FMode = ChangeGlobalMagicTE.ChangeGlobalMagicMode.RemoveEnchantment;
+                Event.FMode = ChangeGlobalMagicTokenEvent.Mode.RemoveEnchantment;
                 Event.FEnchantmentID = Enchantment.FEnchantmentID;
                 Event.FPlayerIndex = (byte)Player;
                 AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);

@@ -16,7 +16,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatStructure : CombatFixedILTerrain
+public partial class CombatStructure : CombatFixedImageLibraryTerrain
 {
     public CombatStructure(ECustomNode owner) : base(owner)
     {
@@ -55,7 +55,7 @@ public partial class CombatStructure : CombatFixedILTerrain
     }
 
     // CombatStructure.pas:104
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         AbilityCombatInfo AbilityInfo = default;
         SpellCombatInfo SpellInfo = default;
@@ -169,7 +169,7 @@ public partial class CombatStructure : CombatFixedILTerrain
     }
 
     // CombatStructure.pas:216
-    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
     {
         if (FResource.TerrainList.GetUsed(Info.HN))
         {
@@ -199,7 +199,7 @@ public partial class CombatStructure : CombatFixedILTerrain
         PlayerStructure Structure;
         bool Razed;
         base.Activate();
-        if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             FPlaySound = true;
             Razed = false;
@@ -225,7 +225,7 @@ public partial class CombatStructure : CombatFixedILTerrain
     }
 
     // CombatStructure.pas:208
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         base.UpdateMapField(Info);
         if (Info.HN == 0)
@@ -238,7 +238,7 @@ public partial class CombatStructure : CombatFixedILTerrain
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
 
     // CombatStructure.pas:250
-    public override bool CanPlaceOnHS(HexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is CombatRoad;
+    public override bool CanPlaceOnHS(HexSprite HS) => base.CanPlaceOnHS(HS) || HS is CombatRoad;
 
     // CombatStructure.pas:247
     public override bool ValidTerrainType(int TerrainType) => true;
@@ -267,15 +267,15 @@ public partial class CombatStructure : CombatFixedILTerrain
     }
 
     // CombatStructure.pas:244
-    public override void ShowShadow(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
     }
 
     // CombatStructure.pas:79
     public void SetHitPoints(int Value)
     {
-        TfxHS Effect;
-        XYZ Point;
+        BattleEffectSprite Effect;
+        Point3D Point;
         if (Value < 0)
         {
             Value = 0;
@@ -285,13 +285,13 @@ public partial class CombatStructure : CombatFixedILTerrain
         {
             if (Value == 0)
             {
-                if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
+                if (FPlaySound && CombatMap.Current.FPlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                Effect = AoWCombatMap.Current.AddEffect(TfxType.WallSmoke);
-                Point = new XYZ();
+                Effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
+                Point = new Point3D();
                 Effect.FPath.Add(Point);
                 HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Point.X, ref Point.Y);
                 Point.X = Random(20) + Point.X + 6;
@@ -299,7 +299,7 @@ public partial class CombatStructure : CombatFixedILTerrain
             }
             else
             {
-                if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
+                if (FPlaySound && CombatMap.Current.FPlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }

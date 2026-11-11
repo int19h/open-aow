@@ -15,14 +15,14 @@ public sealed class MapNetSoundFailureTests
 
         internal readonly List<string> Events = [];
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Events.Add("insert");
             base.AddChild(child);
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EObject child)
+        public override int RemoveChild(EngineObject child)
         {
             Events.Add("remove");
             int index = Members.IndexOf(child);
@@ -48,13 +48,13 @@ public sealed class MapNetSoundFailureTests
     {
         internal readonly List<string> Events = [];
 
-        public override int AddChild(EObject child)
+        public override int AddChild(EngineObject child)
         {
             Events.Add("insert");
             return base.AddChild(child);
         }
 
-        public override int RemoveChild(EObject child)
+        public override int RemoveChild(EngineObject child)
         {
             Events.Add("remove");
             return base.RemoveChild(child);
@@ -108,7 +108,7 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void PlainWorldAndCombatLevelsKeepTheRegisteredTypeAndOwner()
     {
-        foreach (var descriptor in new[] { EClass.Of<AoWMapLevel>(), EClass.Of<AoWCombatMapLevel>() })
+        foreach (var descriptor in new[] { EngineClass.Of<AoWMapLevel>(), EngineClass.Of<CombatMapLevel>() })
         {
             var owner = new SoundOwner();
             var level = Assert.IsAssignableFrom<MapLevel>(descriptor.Create(owner));

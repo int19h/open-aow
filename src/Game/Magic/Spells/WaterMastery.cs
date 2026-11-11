@@ -26,7 +26,7 @@ public partial class WaterMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:819
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         sbyte X = default;
         sbyte Y = default;
@@ -37,7 +37,7 @@ public partial class WaterMastery : GlobalEnchantmentSpell
         SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Water);
         AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
         FCastSounds.Play(0);
-        AoWHSMap.Current.AddEffect(TworldFXType.WaterMastery);
+        AoWHSMap.Current.AddEffect(WorldEffectType.WaterMastery);
         CastingDone(Source, FBaseManaCost);
         return false;
     }

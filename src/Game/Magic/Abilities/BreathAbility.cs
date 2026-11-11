@@ -24,14 +24,14 @@ public partial class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4894
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         Combat.Battle Combat;
         DelphiList Targets;
         CombatObject Target;
         CombatObject Other;
         int Count;
-        RangedAttackCA Action;
+        RangedAttackCombatAction Action;
         bool Result = base.fcExecuteCombatCommand(Source, Command);
         if (Result)
         {

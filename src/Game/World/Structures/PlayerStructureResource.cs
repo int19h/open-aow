@@ -36,7 +36,7 @@ public partial class PlayerStructureResource : StructureResource
     // (claimed, flag position, flag control)
 
     // Structur.PAS:2467
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)
@@ -52,7 +52,7 @@ public partial class PlayerStructureResource : StructureResource
     public override MapObject PlaceResourceUser(HSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         MapObject Result = base.PlaceResourceUser(HSMap, Xhx, Yhx, Lhx);
-        if (Result != null && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (Result != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             ((PlayerStructure)Result).SetPlayer(AoWHSMap.Current.FEditorPlayer);
         }

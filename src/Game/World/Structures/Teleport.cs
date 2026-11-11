@@ -51,7 +51,7 @@ public partial class Teleport : Structure
     // Teleport.pas:97
 
     // Teleport.pas:157
-    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.HN == 0 && Msg.MsgID == 4416 && Msg.Param[1].As<MapField>().Xhx == FDestinationX && Msg.Param[1].As<MapField>().Yhx == FDestinationY && Msg.Param[1].As<MapField>().Lhx == FDestinationL)
@@ -75,7 +75,7 @@ public partial class Teleport : Structure
     }
 
     // Teleport.pas:138
-    public override void MoveExclusive(in HSSenderInfo Info)
+    public override void MoveExclusive(in HexSpriteSenderInfo Info)
     {
         if (Info.HN == 0 && !FState.Contains(StateElement.Razed))
         {
@@ -100,7 +100,7 @@ public partial class Teleport : Structure
     }
 
     // Teleport.pas:131
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         if (Info.HN == 0)
         {
@@ -156,10 +156,10 @@ public partial class Teleport : Structure
     }
 
     // Teleport.pas:185
-    public bool CanTeleportArmy(ArmyHS ArmyHS)
+    public bool CanTeleportArmy(ArmyHexSprite ArmyHS)
     {
         AoWMapField Field;
-        ArmyHS OtherArmy;
+        ArmyHexSprite OtherArmy;
         bool Result = false;
         if (FDestinationL >= 0 && FDestinationL < AoWHSMap.Current.MapContainer.LevelCount && FDestinationX >= 0 && FDestinationX < AoWHSMap.Current.MapContainer.Width && FDestinationY >= 0 && FDestinationY < AoWHSMap.Current.MapContainer.Height)
         {
@@ -183,8 +183,8 @@ public partial class Teleport : Structure
     // Teleport.pas:208
     public bool CanTeleport(sbyte Player)
     {
-        ArmyHS ArmyHS;
-        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHexSprite ArmyHS;
+        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         // { Original only checks destination X here; X=0 is rejected. }
         return ArmyHS != null && Player == ArmyHS.FArmy.FPlayer && !FState.Contains(StateElement.Razed) && FDestinationX > 0;
     }
@@ -193,18 +193,18 @@ public partial class Teleport : Structure
     public bool TeleportPlayer(sbyte Player)
     {
         bool Result;
-        ArmyHS ArmyHS;
-        Movepath Path;
+        ArmyHexSprite ArmyHS;
+        MovePath Path;
         AoWMapField Field;
         TokenEvent Event;
         string MessageText;
         if (CanTeleport(Player))
         {
-            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             if (CanTeleportArmy(ArmyHS))
             {
                 ArmyHS.FArmy.ResetDestinationPos();
-                Path = new Movepath();
+                Path = new MovePath();
                 Path.AddXYL(FDestinationX, FDestinationY, FDestinationL);
                 var lhx = GetLhx();
                 var yhx = GetYhx();
@@ -225,7 +225,7 @@ public partial class Teleport : Structure
                         if (!AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
                         {
                             // { Original passes action before mode. }
-                            Event = Draw.ArmyHS.CreateArmyMoveTE(ArmyHS, 255, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                            Event = Draw.ArmyHexSprite.CreateArmyMoveTE(ArmyHS, 255, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                             if (Event != null)
                             {
                                 AoWHSMap.Current.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer).AddEvent(Event);
@@ -244,7 +244,7 @@ public partial class Teleport : Structure
                     }
                     else
                     {
-                        Result = Draw.ArmyHS.MoveArmyEx(ArmyHS, 255, Path, Set<ArmyMoveModeElement>.Of(), false);
+                        Result = Draw.ArmyHexSprite.MoveArmyEx(ArmyHS, 255, Path, Set<ArmyMoveModeElement>.Of(), false);
                     }
 
                     if (Result && (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)

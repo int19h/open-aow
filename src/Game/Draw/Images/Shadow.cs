@@ -21,7 +21,7 @@ public partial class Shadow : BitMask, ILibraryImageClass
     public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && base.SupportShowMode(ShowMode, PixelFormatID);
 
     // ImageLib.pas:5122
-    public override void ShowOpaque(int X, int Y, in SurfaceDesc SD)
+    public override void ShowOpaque(int X, int Y, in LockedSurface SD)
     {
         if (!FDataLoaded)
         {
@@ -59,12 +59,12 @@ public partial class Shadow : BitMask, ILibraryImageClass
         }
     }
 
-    private static void ShowShadow565(int X, int Y, in SurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height)
+    private static void ShowShadow565(int X, int Y, in LockedSurface SD, ReadOnlySpan<byte> Data, int Width, int Height)
     {
         Blit.ShowShadow565(X, Y, SD.View(), Data, Width, Height);
     }
 
-    private static void ShowShadow555(int X, int Y, in SurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height)
+    private static void ShowShadow555(int X, int Y, in LockedSurface SD, ReadOnlySpan<byte> Data, int Width, int Height)
     {
         Blit.ShowShadow555(X, Y, SD.View(), Data, Width, Height);
     }

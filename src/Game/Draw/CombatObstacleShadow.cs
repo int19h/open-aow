@@ -5,7 +5,7 @@ using Aow.Game.World;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatObstacleShadow : HexagonSprite
+public partial class CombatObstacleShadow : HexSprite
 {
     public CombatObstacleShadow(ECustomNode owner) : base(owner)
     { }
@@ -16,7 +16,7 @@ public partial class CombatObstacleShadow : HexagonSprite
     public override int GetShowPriority() => (FObstacle.GetShowPriority() & 67108863) - 1677721600;
 
     // CombatObstacle.pas:79
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         FObstacle.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
     }

@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
-public partial class RemotePlayer : EObject
+public partial class RemotePlayer : EngineObject
 {
     // AoWSetup.pas:266
     public new const int ClassID = 131682;

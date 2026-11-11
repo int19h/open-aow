@@ -5,9 +5,9 @@ public partial class PlayerMagicEventLog
 {
     public override EventView View() => FMode switch
     {
-        PlayerMagicEventMode.SpellResearched => EventView.SpellResearched,
-        PlayerMagicEventMode.OutOfMana => EventView.OutOfMana,
-        PlayerMagicEventMode.StartResearch => EventView.StartResearch,
+        EventMode.SpellResearched => EventView.SpellResearched,
+        EventMode.OutOfMana => EventView.OutOfMana,
+        EventMode.StartResearch => EventView.StartResearch,
         _ => EventView.None,
     };
 }

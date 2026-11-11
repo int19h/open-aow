@@ -66,7 +66,7 @@ public sealed class FormatSchema
     {
         Hash = hash;
         Version = (int)((JsonInteger)root["version"]!).Value;
-        StoresLists = root["lists"] is JsonBool { Value: true };
+        StoresLists = root["lists"] is JsonBoolean { Value: true };
         var list = (JsonArray)root["classes"]!;
         foreach (var item in list.Items)
         {
@@ -207,8 +207,8 @@ public sealed class SchemaClass
         parentName = (source["parent"] as JsonString)?.Value;
         Id = source["id"] is JsonInteger id ? (int)id.Value : null;
         Engines = source["engines"] is JsonArray e ? e.Items.Select(i => ((JsonString)i).Value).ToArray() : [];
-        Inherits = source["inherits"] is not JsonBool { Value: false };
-        KeepsChildren = source["children"] is not JsonBool { Value: false };
+        Inherits = source["inherits"] is not JsonBoolean { Value: false };
+        KeepsChildren = source["children"] is not JsonBoolean { Value: false };
         FieldClassName = (source["fieldClass"] as JsonString)?.Value;
         Mapping = source["mapping"] is JsonObject mapping ? new SchemaMapping(mapping) : null;
         if (source["properties"] is JsonArray props)

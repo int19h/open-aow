@@ -10,7 +10,7 @@ namespace Aow.Engine.Nodes;
 
 // children through an abstract list interface. Message ids carry flags: $10000000 deliver once
 // per Seq, $20000000 owned children only, $40000000 do not forward to children
-public partial class ECustomNode : EObject
+public partial class ECustomNode : EngineObject
 {
 
     // Engine.pas:2430
@@ -48,7 +48,7 @@ public partial class ECustomNode : EObject
     // Engine.pas:2626
     public override void Clear()
     {
-        EObject C;
+        EngineObject C;
         if (Count != 0)
         {
             for (int I = Count - 1; I >= 0; I--)
@@ -82,14 +82,14 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:2648
-    public override void Assign(EObject Source, GameEngine AEngine)
+    public override void Assign(EngineObject Source, GameEngine AEngine)
     {
         Clear();
         base.Assign(Source, AEngine);
     }
 
     // Engine.pas:2720
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (SendToChild(ref Msg))
@@ -99,13 +99,13 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:593
-    public virtual EObject GetChild(int Index)
+    public virtual EngineObject GetChild(int Index)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Engine.pas:594
-    public virtual void SetChild(int Index, EObject Child)
+    public virtual void SetChild(int Index, EngineObject Child)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -123,12 +123,12 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:2715
-    public virtual bool SendToChild(ref EMsg Msg) => (Msg.MsgID & 1073741824) == 0;
+    public virtual bool SendToChild(ref EngineMessage Msg) => (Msg.MsgID & 1073741824) == 0;
 
     // Engine.pas:2608
     public virtual void DestroyAllChildren()
     {
-        EObject C;
+        EngineObject C;
         for (int I = Count - 1; I >= 0; I--)
         {
             C = Children[I];
@@ -161,9 +161,9 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:2674
-    public virtual void SendMsg(ref EMsg Msg, EObject Sender)
+    public virtual void SendMsg(ref EngineMessage Msg, EngineObject Sender)
     {
-        EObject C;
+        EngineObject C;
         if ((Msg.MsgID & 268435456) != 0)
         {
             if ((Msg.MsgID & 536870912) == 0)
@@ -219,13 +219,13 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:601
-    public virtual int RemoveChild(EObject Child)
+    public virtual int RemoveChild(EngineObject Child)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Engine.pas:602
-    public virtual int AddChild(EObject Child)
+    public virtual int AddChild(EngineObject Child)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -234,7 +234,7 @@ public partial class ECustomNode : EObject
     // { The original tests Result before the child-count call. }
     public virtual int DestroyChildren(int AClassID)
     {
-        EObject C;
+        EngineObject C;
         int N;
         N = 0;
         for (int I = Count - 1; I >= 0; I--)
@@ -251,10 +251,10 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:2768
-    public virtual EObject FindChildInTree(int AClassID)
+    public virtual EngineObject FindChildInTree(int AClassID)
     {
         int I;
-        EObject Result = FindChild(AClassID);
+        EngineObject Result = FindChild(AClassID);
         if (Result == null)
         {
             I = 0;
@@ -273,12 +273,12 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:2726
-    public virtual EObject FindChild(int AClassID)
+    public virtual EngineObject FindChild(int AClassID)
     {
-        EObject Result;
+        EngineObject Result;
         int I;
         bool Found;
-        EObject C;
+        EngineObject C;
         I = 0;
         Found = false;
         C = null;
@@ -302,12 +302,12 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:2744
-    public virtual EObject FindOwnedChild(int AClassID)
+    public virtual EngineObject FindOwnedChild(int AClassID)
     {
-        EObject Result;
+        EngineObject Result;
         int I;
         bool Found;
-        EObject C;
+        EngineObject C;
         I = 0;
         Found = false;
         C = null;
@@ -331,7 +331,7 @@ public partial class ECustomNode : EObject
     }
 
     // Engine.pas:2762
-    public virtual int FindChildIndex(EObject Child)
+    public virtual int FindChildIndex(EngineObject Child)
     {
         int Result = Count - 1;
         while (Result >= 0 && Child != Children[Result])
@@ -353,7 +353,7 @@ public partial class ECustomNode : EObject
 
     public sealed class ChildrenAccessor(ECustomNode target)
     {
-        public EObject this[int Index] { get => target.GetChild(Index); set => target.SetChild(Index, value); }
+        public EngineObject this[int Index] { get => target.GetChild(Index); set => target.SetChild(Index, value); }
     }
 
     public ChildrenAccessor Children => new ChildrenAccessor(this);

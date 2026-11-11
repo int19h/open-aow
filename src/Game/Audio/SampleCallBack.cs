@@ -2,4 +2,4 @@
 
 namespace Aow.Game.Audio;
 
-public delegate void SampleCallBack(Sample Sample, SampleCallBackMode Mode);
+public delegate void SampleCallBack(Sample Sample, SampleCallbackMode Mode);

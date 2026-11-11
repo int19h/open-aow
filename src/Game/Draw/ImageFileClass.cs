@@ -6,7 +6,7 @@ public sealed class ImageFileClass
 {
     private static readonly Catalog<Type, ImageFileClass> catalog = new("image file class");
 
-    private delegate int LoadImage(string fileName, ref SurfaceDesc surface, int x, int y);
+    private delegate int LoadImage(string fileName, ref LockedSurface surface, int x, int y);
 
     private readonly Func<string> getName;
     private readonly Func<string> getExtension;
@@ -36,7 +36,7 @@ public sealed class ImageFileClass
 
     public int GetPixelFormatID(string fileName) => getPixelFormatID(fileName);
     public Surface CreateSurface(string fileName) => createSurface(fileName);
-    public int LoadToSurfaceDesc(string fileName, ref SurfaceDesc surface, int x, int y) => loadToSurfaceDesc(fileName, ref surface, x, y);
+    public int LoadToSurfaceDesc(string fileName, ref LockedSurface surface, int x, int y) => loadToSurfaceDesc(fileName, ref surface, x, y);
 
     public static ImageFileClass Register<T>() where T : ImageFile, IImageFileClass =>
         catalog.Add(typeof(T), new ImageFileClass(typeof(T), static () => T.Name, static () => T.Extension,

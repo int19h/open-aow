@@ -7,7 +7,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Combat;
 
 // FRefCount. FInitialData. FFinalData. FActions. result flag
-public partial class CombatLogbook : EObject
+public partial class CombatLogbook : EngineObject
 {
     // Combat2.pas:381
     public new const int ClassID = 131749;

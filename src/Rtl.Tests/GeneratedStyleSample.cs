@@ -3,21 +3,21 @@ using System.Runtime.InteropServices;
 
 namespace Aow.Rtl.Tests.Generated;
 
-public enum TFlag : byte { First, Second, Third }
+public enum Flag : byte { First, Second, Third }
 
 [InlineArray(6)]
-public struct FixedArray_byte_6 { private byte element0; }
+public struct ByteArray6 { private byte element0; }
 
 [StructLayout(LayoutKind.Explicit, Size = 12)]
-public struct TSampleRecord
+public struct SampleRecord
 {
     [FieldOffset(0)] private byte flags;
-    [FieldOffset(1)] private FixedArray_byte_6 name;
+    [FieldOffset(1)] private ByteArray6 name;
     [FieldOffset(8)] public int Value;
 
-    public Set<TFlag> Flags
+    public Set<Flag> Flags
     {
-        readonly get => Set<TFlag>.FromMask(flags);
+        readonly get => Set<Flag>.FromMask(flags);
         set => flags = (byte)value.Image;
     }
 
@@ -37,7 +37,7 @@ public struct TSampleRecord
     }
 }
 
-public class TSample(int value) : IDisposable
+public class Sample(int value) : IDisposable
 {
     public int Value = value;
     public bool Destroyed;
@@ -48,45 +48,45 @@ public class TSample(int value) : IDisposable
     public virtual void Dispose() => Destroyed = true;
 }
 
-public sealed class TSampleChild(int value) : TSample(value + 10)
+public sealed class SampleChild(int value) : Sample(value + 10)
 {
     public override int ClassID => 2;
 }
 
-public sealed class TFailingSample : TSample
+public sealed class FailingSample : Sample
 {
-    public static TFailingSample? LastInstance;
+    public static FailingSample? LastInstance;
 
-    private TFailingSample(ConstructionContext context, int value) : base(value)
+    private FailingSample(ConstructionContext context, int value) : base(value)
     {
         context.Capture(this);
         LastInstance = this;
         throw new InvalidOperationException("Constructor failure");
     }
 
-    public static TFailingSample Create(int value) =>
-        ConstructionContext.Create(value, static (context, value) => new TFailingSample(context, value));
+    public static FailingSample Create(int value) =>
+        ConstructionContext.Create(value, static (context, value) => new FailingSample(context, value));
 }
 
 public static class GeneratedStyleSample
 {
     public static int TypedConstant = 7;
-    public static Func<int, TSample> ClassConstant = static value => new TSampleChild(value);
+    public static Func<int, Sample> ClassConstant = static value => new SampleChild(value);
 
-    public static TSampleRecord Run()
+    public static SampleRecord Run()
     {
         var instance = ClassConstant(TypedConstant);
         try
         {
-            var records = new TSampleRecord[3];
-            var pointer = Ptr<TSampleRecord>.To(records, 0);
+            var records = new SampleRecord[3];
+            var pointer = Ptr<SampleRecord>.To(records, 0);
             for (int i = 0; i < records.Length; i++)
             {
                 pointer.Value.Value = instance.Value + i;
                 pointer += 1;
             }
             ref var sampleRecord = ref records[1];
-            sampleRecord.Flags = Set<TFlag>.Of(TFlag.First).WithRange(TFlag.Second, TFlag.Third);
+            sampleRecord.Flags = Set<Flag>.Of(Flag.First).WithRange(Flag.Second, Flag.Third);
             sampleRecord.Name = "abcdef";
             sampleRecord.Value += instance.ClassID;
             return records[1];

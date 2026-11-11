@@ -11,7 +11,7 @@ public partial class EInverseSortNode : ESortNode
     { }
 
     // Engine.pas:1635
-    public override int AddSortChild(EObject Child, int SortValue)
+    public override int AddSortChild(EngineObject Child, int SortValue)
     {
         int Result;
         int I;

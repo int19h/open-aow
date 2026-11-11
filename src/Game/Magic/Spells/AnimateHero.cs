@@ -31,7 +31,7 @@ public partial class AnimateHero : Spell
     }
 
     // GlobalSpells.pas:1091
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         bool Result = default;
         sbyte X = default;
@@ -40,7 +40,7 @@ public partial class AnimateHero : Spell
         TwinkleAnimation Animation = default;
         HeroList Heroes;
         Hero Hero;
-        ArmyHS Army;
+        ArmyHexSprite Army;
         LocationTextEventLog Log;
         HeroEmergeEventLog EmergeLog = default;
         ArmyInfoEventLog InfoLog = default;
@@ -131,15 +131,15 @@ public partial class AnimateHero : Spell
     }
 
     // GlobalSpells.pas:1166
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
         string Reason = "";
-        SpellTE Event;
+        SpellTokenEvent Event;
         base.Activate(Source);
         if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new SpellTE(null);
+            Event = new SpellTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();

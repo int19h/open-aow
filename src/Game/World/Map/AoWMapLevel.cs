@@ -14,6 +14,6 @@ public partial class AoWMapLevel : MapLevel
     public new const int ClassID = 131091;
 
     // AoWHSMap.PAS:231
-    public override EClass MapFieldClass() => EClass.Of<AoWMapField>();
+    public override EngineClass MapFieldClass() => EngineClass.Of<AoWMapField>();
 
 }

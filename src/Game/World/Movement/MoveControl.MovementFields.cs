@@ -1,5 +1,5 @@
-using Aow.Game.Ai;
 
+using Aow.Game.AI;
 using Aow.Game.Host;
 
 using Aow.Game.World.Map;
@@ -9,7 +9,7 @@ namespace Aow.Game.World.Movement;
 
 public partial class MoveControl
 {
-    public void CalculatePathEx(Movepath path, sbyte x, sbyte y, sbyte level)
+    public void CalculatePathEx(MovePath path, sbyte x, sbyte y, sbyte level)
     {
         RtlUnit.Assert(FStatus.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
         path.Clear();
@@ -55,7 +55,7 @@ public partial class MoveControl
         }
         if (failed) path.Clear();
         else if (field != null && points == 0) path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
-        if (AoWHSMap.Current.FAIExecuter.FStatus.Contains(AIExecuterStatusElement.Executing)) AoWHSMap.Current.FAIExecuter.UseProcessTime(path.Count);
+        if (AoWHSMap.Current.FAIExecuter.FStatus.Contains(AIExecutorStatusElement.Executing)) AoWHSMap.Current.FAIExecuter.UseProcessTime(path.Count);
     }
 
     private AoWMapField NeighborField(AoWMapField field, int direction)

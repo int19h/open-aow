@@ -17,11 +17,11 @@ public partial class CombatRoad : AbstractRoad
     // CombatRoad.pas:51
     public new const int ClassID = 2229506;
 
-    public FixedArray_byte_7 FImages;
+    public ByteArray7 FImages;
 
     // main image, neighbour images
     // CombatRoad.pas:108
-    public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Msg)
+    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Msg)
     {
         if (HN == 0)
         {
@@ -30,7 +30,7 @@ public partial class CombatRoad : AbstractRoad
     }
 
     // CombatRoad.pas:113
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         CustomImageLibrary Images;
         int X = default;
@@ -79,7 +79,7 @@ public partial class CombatRoad : AbstractRoad
     // CombatRoad.pas:66
     public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        HexagonSprite OldRoad;
+        HexSprite OldRoad;
         MapField MapField;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
         OldRoad = MapField.FindHS(typeof(AbstractRoad));
@@ -155,7 +155,7 @@ public partial class CombatRoad : AbstractRoad
         public new const int ClassID = 2229507;
 
         // CombatRoad.pas:144
-        public override void MsgProc(ref EMsg Msg, EObject Sender)
+        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65621)

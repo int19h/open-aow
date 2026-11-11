@@ -92,7 +92,7 @@ public partial class UnitSpellCaster : SpellCaster
         bool Result;
         UnitUserList Targets;
         string Reason = "";
-        AbstractUnit Source;
+        Troop Source;
         if (CanCast(ref Reason))
         {
             Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
@@ -146,8 +146,8 @@ public partial class UnitSpellCaster : SpellCaster
     public bool Valid()
     {
         bool Result;
-        AbstractUnit Source;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit<AbstractUnit>(FCasterSourceID);
+        Troop Source;
+        Source = AoWHSMap.Current.FUnitControl.FindUnit<Troop>(FCasterSourceID);
         if (Source == null || (((byte)Source.FUnitStatus.Image) & 16) != 0)
         {
             Result = false;

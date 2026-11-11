@@ -32,8 +32,8 @@ public partial class CombatSpell : Spell
     // CombatSpells.pas:655
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        CombatSpellCA Action;
-        Action = new CombatSpellCA(null);
+        CombatSpellCombatAction Action;
+        Action = new CombatSpellCombatAction(null);
         Action.FSpellID = FSpellID;
         Action.GenerateEx(Source, Target, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, FDamageMode);
         if (ChargeMana)
@@ -45,7 +45,7 @@ public partial class CombatSpell : Spell
     }
 
     // CombatSpells.pas:643
-    public override void GetCombatInfo(AbstractUnit Source, ref SpellCombatInfo Info)
+    public override void GetCombatInfo(Troop Source, ref SpellCombatInfo Info)
     {
         Info = FCombatInfo;
     }
@@ -99,13 +99,13 @@ public partial class CombatSpell : Spell
     }
 
     // CombatSpells.pas:754
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
-        AbstractUnit Hero;
+        Troop Hero;
         int Distance;
         string Reason = "";
         CombatObject Target;
-        SpellCC Command;
+        FastBattleSpellCommand Command;
         AbilityDamageValues Values = default;
         Hero = ((CombatUnit)Commands.FSource).FUnit;
         if (Hero is Hero && ((Hero)Hero).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
@@ -139,7 +139,7 @@ public partial class CombatSpell : Spell
                     fcGetDamageValueEx(Commands.FSource, Target, wallSituation, ref Values);
                     if (Values.SourceDamage != 0)
                     {
-                        Command = new SpellCC(52);
+                        Command = new FastBattleSpellCommand(52);
                         Command.FTarget = Commands.FTargetSide.GetObjects(I);
                         Command.FMoveCost = 1;
                         Command.FSpellID = FSpellID;
@@ -152,7 +152,7 @@ public partial class CombatSpell : Spell
     }
 
     // CombatSpells.pas:791
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         int Count;
         CombatAction Action;

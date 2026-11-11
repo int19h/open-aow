@@ -25,7 +25,7 @@ public partial class AoWHSMap
 
     public void StartTokenEventLogging()
     {
-        if (FTokenEventLogging || Current.Status.Contains(HSMapStatusElement.Editting)) return;
+        if (FTokenEventLogging || Current.Status.Contains(HexSpriteMapStatusElement.Editting)) return;
         try
         {
             try { tokenLog = RtlUnit.Files.Open(GameTables.AoWEngine.StartupDirectory + "Debug\\SYNC_LOG" + RtlUnit.IntToStr(PixelFormats.GetElapsedMilliSeconds()) + ".TXT", RtlUnit.fmCreate); }

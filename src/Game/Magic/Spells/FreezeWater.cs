@@ -26,7 +26,7 @@ public partial class FreezeWater : GlobalTargetSpell
 
     // GlobalTargetSpells.pas:811
     // { Original Boolean-return ABI; foreign P7 overrides remain procedures. }
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         TargetSelectionControl Target;
         Target = TargetSelection;
@@ -39,10 +39,10 @@ public partial class FreezeWater : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:823
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
-        FreezeWaterTE Event;
-        Event = new FreezeWaterTE(null);
+        FreezeWaterTokenEvent Event;
+        Event = new FreezeWaterTokenEvent(null);
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);

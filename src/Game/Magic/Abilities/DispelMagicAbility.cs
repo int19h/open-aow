@@ -103,10 +103,10 @@ public partial class DispelMagicAbility : TouchAbility
     public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action, AbilityControlTypeElement.CombatAction);
 
     // AoWAb.PAS:4275
-    public override void fcPrefetchCombatCommands(FastCombatCommandList Commands)
+    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
     {
         CombatObject Target;
-        FastCombatCommand Command;
+        FastBattleCommand Command;
         AbilityDamageValues Values = default;
         for (int I = 0, last = Commands.FSourceSide.GetCount() - 1; I <= last; I++)
         {
@@ -116,7 +116,7 @@ public partial class DispelMagicAbility : TouchAbility
                 fcGetDamageValueEx(Commands.FSource, Target, WallSituation.None, ref Values);
                 if (Values.SourceDamage != 0)
                 {
-                    Command = new FastCombatCommand(FAbilityID);
+                    Command = new FastBattleCommand(FAbilityID);
                     Command.FTarget = Target;
                     Command.FSourceDV = Values.SourceDamage;
                     Command.FTargetDV = 0;
@@ -129,13 +129,13 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4262
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
+    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
     {
         CombatObject Target;
-        DispelMagicAbilityCA Action;
+        DispelMagicAbilityCombatAction Action;
         Target = Command.FTarget;
         fcValidateMoveOutsideWall(Source, Target);
-        Action = new DispelMagicAbilityCA(null);
+        Action = new DispelMagicAbilityCombatAction(null);
         Action.Generate(Source, Target, GetDispelMana(((CombatUnit)Source).FUnit));
         Source.FCombat.ExecuteCombatAction(Action);
         Action.Release();
@@ -145,7 +145,7 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4087
     public override void NewTurn(AbilityOwner Owner, sbyte Player)
     {
-        if (Owner is AbstractUnit && ((AbstractUnit)Owner).FPlayer == Player)
+        if (Owner is Troop && ((Troop)Owner).FPlayer == Player)
         {
             SetEnabled(Owner, true);
         }
@@ -155,12 +155,12 @@ public partial class DispelMagicAbility : TouchAbility
     public override bool Activate(AbilityOwner Owner, ref string Reason)
     {
         bool Result;
-        UnitSelectorAAI Info;
+        UnitSelectionActivation Info;
         DispelMagicAbilityUnitSelector Selector;
         if (CanActivate(Owner, ref Reason))
         {
-            var unit = Owner as AbstractUnit;
-            Info = new UnitSelectorAAI(null);
+            var unit = Owner as Troop;
+            Info = new UnitSelectionActivation(null);
             Info.FAbilityID = FAbilityID;
             if (unit != null)
             {
@@ -279,7 +279,7 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4209
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         int Result;
         // { Original evaluates dispelling with the healing hit-point formula. }
@@ -298,7 +298,7 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4221
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         // { Original evaluates dispelling with the healing hit-point formula. }
         if (WallSituation == WallSituation.None && !Defender.GetImmunityTypes().Contains(DamageType.None))
@@ -375,7 +375,7 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4197
-    public override bool CanTouchUnit(AbstractUnit Source, AbstractUnit Target) => base.CanTouchUnit(Source, Target) && Target.CanDispelEnchantment(Source.FPlayer);
+    public override bool CanTouchUnit(Troop Source, Troop Target) => base.CanTouchUnit(Source, Target) && Target.CanDispelEnchantment(Source.FPlayer);
 
     // AoWAb.PAS:4052
     public void SetEnabled(AbilityOwner Owner, bool Enabled)
@@ -418,10 +418,10 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4301
-    public DispelMagicAbilityCA CreateCA(CombatUnit Source, CombatObject Target)
+    public DispelMagicAbilityCombatAction CreateCA(CombatUnit Source, CombatObject Target)
     {
         bool Successful;
-        DispelMagicAbilityCA Result = new DispelMagicAbilityCA(null);
+        DispelMagicAbilityCombatAction Result = new DispelMagicAbilityCombatAction(null);
         Result.Generate(Source, Target, GetDispelMana(Source.FUnit));
         if (Source.GetSide() == Target.GetSide())
         {
@@ -441,8 +441,8 @@ public partial class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4092
-    public override EClass AbilityDataClass() => P4DispelMagicDataClass;
+    public override EngineClass AbilityDataClass() => P4DispelMagicDataClass;
 
-    private static EClass P4DispelMagicDataClass = EClass.Of<DispelMagicAbilityData>();
+    private static EngineClass P4DispelMagicDataClass = EngineClass.Of<DispelMagicAbilityData>();
 
 }

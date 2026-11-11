@@ -125,7 +125,7 @@ internal static class RecordMigration
     {
         if (document["root"] is not JsonObject root) return;
         if (RootClass(document, root) is not SchemaClass cls) return;
-        Visit(root, cls, DocPath.Root);
+        Visit(root, cls, DocumentNodePath.Root);
     }
 
     private static SchemaClass? RootClass(JsonObject document, JsonObject root)
@@ -138,7 +138,7 @@ internal static class RecordMigration
         return null;
     }
 
-    private static void Visit(JsonObject obj, SchemaClass cls, DocPath path)
+    private static void Visit(JsonObject obj, SchemaClass cls, DocumentNodePath path)
     {
         foreach (var prop in cls.Properties)
         {
@@ -155,7 +155,7 @@ internal static class RecordMigration
         }
     }
 
-    private static void VisitDynamic(JsonValue item, SchemaProperty prop, DocPath path)
+    private static void VisitDynamic(JsonValue item, SchemaProperty prop, DocumentNodePath path)
     {
         if (item is not JsonObject obj) return;
         if (prop.Codec is FixedObjectCodec fixedObject)
@@ -164,7 +164,7 @@ internal static class RecordMigration
             Visit(obj, cls, path);
     }
 
-    private static void Convert(JsonMember member, SchemaProperty prop, JsonObject owner, SchemaClass ownerClass, DocPath path)
+    private static void Convert(JsonMember member, SchemaProperty prop, JsonObject owner, SchemaClass ownerClass, DocumentNodePath path)
     {
         if (Pinned.Contains(prop.Owner.Name + "." + prop.Name))
         {
@@ -202,7 +202,7 @@ internal static class RecordMigration
 
     private static readonly Dictionary<string, PropertyCodec> Targets = BuildTargets();
 
-    private static JsonValue Rewrite(JsonValue value, SchemaProperty prop, JsonObject owner, DocPath path)
+    private static JsonValue Rewrite(JsonValue value, SchemaProperty prop, JsonObject owner, DocumentNodePath path)
     {
         if (value is not JsonString text)
             throw Fail(Codes.Type, prop.Name + " is hexadecimal in version 2.", path);
@@ -265,7 +265,7 @@ internal static class RecordMigration
             ["TSetupSettings.ConnectionType"] = rawByte,
             ["TSetupSettings.TacticalCombatAvailability"] = rawByte,
             ["TUnitGFXResource._UnitGFXResource_30"] = rawByte,
-            ["TUnitResource.Champion"] = new RawBoolCodec(),
+            ["TUnitResource.Champion"] = new RawBooleanCodec(),
             ["TWMCampaignScenario.MapKind"] = rawByte,
             ["TWizardsTower.SpellID"] = rawInt,
         };
@@ -312,6 +312,6 @@ internal static class RecordMigration
         Residue = [(1, 3)],
     };
 
-    private static ConversionException Fail(string code, string message, DocPath path) =>
+    private static ConversionException Fail(string code, string message, DocumentNodePath path) =>
         new(new FormatDiagnostic(code, message) { Path = path.ToString() });
 }

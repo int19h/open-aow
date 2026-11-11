@@ -17,7 +17,7 @@ public partial class CombatData
         FParties.Clear();
     }
 
-    public override void MsgProc(ref EMsg message, EObject sender)
+    public override void MsgProc(ref EngineMessage message, EngineObject sender)
     {
         base.MsgProc(ref message, sender);
         FCombatObjects.MsgProc(ref message, sender);

@@ -41,11 +41,11 @@ public partial class MapObjectResourceList : EResourceList
         return Result;
     }
 
-    public sealed class MORsAccessor(MapObjectResourceList target)
+    public new sealed class ResourcesAccessor(MapObjectResourceList target)
     {
         public MapObjectResource this[int Index] { get => target.GetMOR(Index); }
     }
 
-    public MORsAccessor MORs => new MORsAccessor(this);
+    public ResourcesAccessor MORs => new ResourcesAccessor(this);
 
 }

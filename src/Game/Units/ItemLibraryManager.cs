@@ -14,7 +14,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units;
 
 // system library, libraries
-public partial class ItemLibraryManager : EObject
+public partial class ItemLibraryManager : EngineObject
 {
     // Army.PAS:4967
     public ItemLibraryManager(ECustomNode owner) : base(owner)

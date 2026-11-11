@@ -15,17 +15,17 @@ public partial class ItemExplorationSiteEventLog : EventLog
     // ItemExpS.pas:187
     public ItemExplorationSiteEventLog(ECustomNode owner) : base(owner)
     {
-        FItemIDs = new IntegerList();
+        FItemIDs = new Int32List();
         FMessages = new StringList();
     }
 
     // ItemExpS.pas:201
     public new const int ClassID = 132085;
 
-    public IntegerList FItemIDs;
+    public Int32List FItemIDs;
     public StringList FMessages;
     public string FTitle = "";
-    public XYL FLocation;
+    public MapCoordinate FLocation;
 
     // ItemExpS.pas:194
     public override void Dispose()

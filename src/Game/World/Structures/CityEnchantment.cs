@@ -20,8 +20,8 @@ public partial class CityEnchantment : GlobalEnchantment
     // City.pas:2722
     public new const int ClassID = 131820;
 
-    public new CityEnchantmentID FEnchantmentID;
-    public XYL FEnchantmentLocation;
+    public new CityEnchantmentId FEnchantmentID;
+    public MapCoordinate FEnchantmentLocation;
 
     // City.pas:2727
     public override void ReadWrite(EStorageStream Stream)
@@ -48,9 +48,9 @@ public partial class CityEnchantment : GlobalEnchantment
     public override string GetName() => AbilityRules.TranslateRStr(TCityEnchantmentIDRStr[(int)FEnchantmentID]);
 
     // City.pas:2739
-    public override XYL GetLocation()
+    public override MapCoordinate GetLocation()
     {
-        XYL Result = default;
+        MapCoordinate Result = default;
         Result.X = FEnchantmentLocation.X;
         Result.Y = FEnchantmentLocation.Y;
         Result.L = FEnchantmentLocation.L;
@@ -98,6 +98,6 @@ public partial class CityEnchantment : GlobalEnchantment
     // City.pas:2756
     public City GetCity() => (City)AoWHSMap.Current.MapContainer.GetField(FEnchantmentLocation.X, FEnchantmentLocation.Y, FEnchantmentLocation.L).FindNoneTransparentHS(typeof(City));
 
-    private static FixedArray_string_4 TCityEnchantmentIDRStr = FixedArray_string_4.From(["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"]);
+    private static StringArray4 TCityEnchantmentIDRStr = StringArray4.From(["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"]);
 
 }

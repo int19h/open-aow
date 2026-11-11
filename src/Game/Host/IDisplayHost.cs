@@ -13,7 +13,7 @@ public interface IDisplayHost
 
     bool Fullscreen { get; set; }
 
-    void Present(in SurfaceDesc backSurface);
+    void Present(in LockedSurface backSurface);
     (int X, int Y, bool Inside) PointerPosition();
 
     bool HasFocus { get; }

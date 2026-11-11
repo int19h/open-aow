@@ -23,7 +23,7 @@ public partial class AntiMagicShell : CityEnchantmentSpell
         FBaseManaCost = 1;
         FSpellLevel = 4;
         FMagicSphere = MagicSphere.Cosmos;
-        FEnchantmentID = CityEnchantmentID.AntiMagicShell;
+        FEnchantmentID = CityEnchantmentId.AntiMagicShell;
         FCastDuration = 40;
         FAIPriority = 500;
         FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.LeaderInCity);
@@ -31,7 +31,7 @@ public partial class AntiMagicShell : CityEnchantmentSpell
     }
 
     // CitySpells.pas:743
-    public override void PlayDefaultCityEffects(AbstractUnit Source, City TargetCity)
+    public override void PlayDefaultCityEffects(Troop Source, City TargetCity)
     {
         base.PlayDefaultCityEffects(Source, TargetCity);
         bool condition = Source.FPlayer == AoWHSMap.Current.FSeatedPlayer;

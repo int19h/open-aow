@@ -9,7 +9,7 @@ internal sealed class ImageFrame
 {
     public required SchemaProperty Property { get; init; }
     public required int Id { get; init; }
-    public required DocPath Path { get; init; }
+    public required DocumentNodePath Path { get; init; }
     public JsonObject Owner { get; init; } = new();
     public ObjectNode? Parent { get; init; }
 

@@ -11,16 +11,16 @@ public partial class ItemGFXList : EResourceList
     // Army.PAS:5176
     public ItemGFXList(ECustomNode owner) : base(owner)
     {
-        SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, EControlStyleElement.ArrayMode));
+        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }
 
     // Army.PAS:5182
-    public ItemGFX GetItemGFX(int Index)
+    public ItemGraphics GetItemGFX(int Index)
     {
-        ItemGFX Result;
+        ItemGraphics Result;
         if (Index >= 0 && Index < FChildren.Count)
         {
-            Result = (ItemGFX)FChildren.List[Index];
+            Result = (ItemGraphics)FChildren.List[Index];
         }
         else
         {
@@ -38,7 +38,7 @@ public partial class ItemGFXList : EResourceList
         I = 0;
         while (Result == -1 && I != FChildren.Count)
         {
-            if (FChildren.List[I] != null && ((ItemGFX)FChildren.List[I]).FItemType == ItemType)
+            if (FChildren.List[I] != null && ((ItemGraphics)FChildren.List[I]).FItemType == ItemType)
             {
                 Result = I;
             }

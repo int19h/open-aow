@@ -51,7 +51,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:77
 
     // ExploreS.pas:351
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         FDefenders.MsgProc(ref Msg, Sender);
@@ -77,7 +77,7 @@ public partial class ExplorationSite : Structure
         bool Result;
         int Xhx = default;
         int Yhx = default;
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             if (((MapField)Owner).Xhx == Xhx && ((MapField)Owner).Yhx == Yhx)
@@ -123,7 +123,7 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:209
-    public override ExecuteResult ExecuteTE(StructureTE TE, TokenExecuter Executer)
+    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
     {
         ExecuteResult Result = base.ExecuteTE(TE, Executer);
         if (TE.FAction == 0)
@@ -162,7 +162,7 @@ public partial class ExplorationSite : Structure
     public virtual bool GetExplored() => true;
 
     // ExploreS.pas:138
-    public virtual void SetupCombat(Combat.Battle Combat, ArmyHS Army)
+    public virtual void SetupCombat(Combat.Battle Combat, ArmyHexSprite Army)
     {
         Combat.FOnExecuted = CombatExecuted;
         var yhx = Army.GetYhx();
@@ -189,11 +189,11 @@ public partial class ExplorationSite : Structure
     public virtual bool ExecuteSearch(CombatType CombatType)
     {
         bool Result = default;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         Combat.Battle Combat;
         sbyte Player;
         CombatEventLog Event;
-        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
         {
             Player = ArmyHS.FArmy.FPlayer;
@@ -269,10 +269,10 @@ public partial class ExplorationSite : Structure
     public virtual bool Search()
     {
         bool Result = default;
-        ArmyHS ArmyHS = default;
+        ArmyHexSprite ArmyHS = default;
         CombatTypeRequestEventLog Request = default;
-        StructureTE TE = default;
-        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+        StructureTokenEvent TE = default;
+        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
         {
             var playerList = AoWHSMap.Current.FPlayers;
@@ -319,7 +319,7 @@ public partial class ExplorationSite : Structure
     {
         CombatData Data;
         CombatObject Obj;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Data = Combat.FCombatData;
         for (int I = 0, last = Data.GetCount() - 1; I <= last; I++)
         {
@@ -347,7 +347,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:230
     public void RequestCombatTypeCallBack(EventLog Log)
     {
-        StructureTE TE;
+        StructureTokenEvent TE;
         var combatTypeRequestEventLog = (CombatTypeRequestEventLog)Log;
         if (combatTypeRequestEventLog.FCombatType != CombatType.None)
         {
@@ -364,10 +364,10 @@ public partial class ExplorationSite : Structure
     public bool CanSearch(sbyte Player)
     {
         bool Result;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         if (!GetExplored())
         {
-            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             if (ArmyHS == null || ArmyHS.FArmy.FPlayer != Player)
             {
                 Result = false;
@@ -409,7 +409,7 @@ public partial class ExplorationSite : Structure
 
             try
             {
-                IntegerList.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                Int32List.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {

@@ -38,7 +38,7 @@ public partial class Fury : UnitSpell
     }
 
     // UnitSpells.pas:376
-    public override bool ValidTargetUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool ValidTargetUnit(Troop Source, Troop Target)
     {
         bool Result = base.ValidTargetUnit(Source, Target);
         Result = Result && !Target.GetAbilityEnabled(156);
@@ -54,7 +54,7 @@ public partial class Fury : UnitSpell
     }
 
     // UnitSpells.pas:350
-    public override bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
+    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
     {
         bool Result;
         UnitEnchantment Enchantment;

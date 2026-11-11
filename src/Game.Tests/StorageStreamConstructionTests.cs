@@ -14,7 +14,7 @@ public sealed class StorageStreamConstructionTests
     private static T Field<T>(object value, string name) => (T)value.GetType()
         .GetField(name, BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
 
-    private sealed class StoredObject() : EObject(null!)
+    private sealed class StoredObject() : EngineObject(null!)
     {
         internal string Name = "";
         internal string Detail = "";
@@ -94,7 +94,7 @@ public sealed class StorageStreamConstructionTests
             if (stream is EWriteStorageStream)
             {
                 Assert.True(Field<bool>(stream, "FPartial"));
-                var buffer = Field<EBufferStream>(stream, "FBuffer");
+                var buffer = Field<BufferStream>(stream, "FBuffer");
                 Assert.NotSame(memory, buffer);
                 Assert.Equal(0L, buffer.Position);
                 Assert.Equal(0L, buffer.Length);
@@ -103,7 +103,7 @@ public sealed class StorageStreamConstructionTests
                 Assert.Equal("", Field<string>(stream, "FPath"));
             if (stream is EWriteTextStorageStream)
             {
-                var buffer = Field<EBufferStream>(stream, "FBuffer");
+                var buffer = Field<BufferStream>(stream, "FBuffer");
                 Assert.NotSame(memory, buffer);
                 Assert.Equal(0L, buffer.Length);
                 Assert.Equal(0L, buffer.Position);

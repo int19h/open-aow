@@ -10,7 +10,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-public partial class CombatObstacle : MultiHexMO
+public partial class CombatObstacle : MultiHexMapObject
 {
     public CombatObstacle(ECustomNode owner) : base(owner)
     { }
@@ -53,7 +53,7 @@ public partial class CombatObstacle : MultiHexMO
     }
 
     // CombatObstacle.pas:229
-    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
     {
         if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
         {
@@ -82,7 +82,7 @@ public partial class CombatObstacle : MultiHexMO
     }
 
     // CombatObstacle.pas:222
-    public override void UpdateMapField(in HSMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
     {
         base.UpdateMapField(Info);
         if (Info.HN < FResource.TerrainList.Count)
@@ -145,7 +145,7 @@ public partial class CombatObstacle : MultiHexMO
         {
             if (GetVisible())
             {
-                AoWCombatMap.Current.DynamicVisibleHS.RemoveChild(FShadow);
+                CombatMap.Current.DynamicVisibleHS.RemoveChild(FShadow);
             }
 
             FShadow?.Dispose();
@@ -178,7 +178,7 @@ public partial class CombatObstacle : MultiHexMO
         {
             if (GetVisible())
             {
-                AoWCombatMap.Current.DynamicVisibleHS.RemoveChild(FOverlay);
+                CombatMap.Current.DynamicVisibleHS.RemoveChild(FOverlay);
             }
 
             FOverlay?.Dispose();
@@ -187,7 +187,7 @@ public partial class CombatObstacle : MultiHexMO
     }
 
     // CombatObstacle.pas:171
-    public void ShowShadow(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;
@@ -198,7 +198,7 @@ public partial class CombatObstacle : MultiHexMO
     }
 
     // CombatObstacle.pas:182
-    public void ShowOverlay(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public void ShowOverlay(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;
@@ -208,7 +208,7 @@ public partial class CombatObstacle : MultiHexMO
         FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 41, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
     }
 
-    public new partial class Resource : MultiHexMOR
+    public new partial class Resource : MultiHexMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

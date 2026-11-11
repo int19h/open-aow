@@ -26,14 +26,14 @@ public partial class FreeMovement : UnitSpell
     }
 
     // UnitSpells.pas:418
-    public override bool ValidTargetUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool ValidTargetUnit(Troop Source, Troop Target)
     {
         bool Result = base.ValidTargetUnit(Source, Target);
         return Result && !Target.GetAbilityEnabled(157) && (!Target.GetAbilityEnabled(3) || !Target.GetAbilityEnabled(5) || !Target.GetAbilityEnabled(4));
     }
 
     // UnitSpells.pas:399
-    public override bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
+    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
     {
         bool Result;
         UnitEnchantment Enchantment;

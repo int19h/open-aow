@@ -1,7 +1,7 @@
 // Translated from Mine.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-using Aow.Game.Ai;
+using Aow.Game.AI;
 using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
@@ -183,7 +183,7 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:178
-    public override string GetCombatEventText(Combat.Battle Combat)
+    public override string GetCombatEventText(Battle Combat)
     {
         string Result;
         if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)

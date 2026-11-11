@@ -12,7 +12,7 @@ public partial class PrisonersArmy : Army
     { }
 
     // Dungeon.pas:89
-    public override bool CanAddUnit(AbstractUnit AUnit)
+    public override bool CanAddUnit(Troop AUnit)
     {
         bool Result = base.CanAddUnit(AUnit);
         return Result && !AUnit.GetTransporter() && AUnit.ValidTerrain(1, 4);

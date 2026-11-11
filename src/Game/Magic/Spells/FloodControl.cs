@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // FWidth, FHeight, FOriginalTerrain
-public partial class FloodControl : EObject
+public partial class FloodControl : EngineObject
 {
     public int FWidth;
     public int FHeight;
@@ -83,10 +83,10 @@ public partial class FloodControl : EObject
     public void Flood()
     {
         MapLevel MapLevel;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         MapField MapF;
         int Index;
-        HexagonSprite RoadHS;
+        HexSprite RoadHS;
         sbyte TerrainType;
         AoWHSMap.Current.LockMapChangedEvent();
         MapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(0);
@@ -97,7 +97,7 @@ public partial class FloodControl : EObject
             {
                 if (MapLevel.GetField(X, Y).TerrainType == 0)
                 {
-                    HNWalkData.InitHNWalk(ref Walk, X, Y, 1);
+                    HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 1);
                     while (Walk.Radius == 1)
                     {
                         MapF = MapLevel.GetField(Walk.X, Walk.Y);
@@ -120,7 +120,7 @@ public partial class FloodControl : EObject
                             }
                         }
 
-                        HNWalkData.WalkToNextHN(ref Walk);
+                        HexNumberWalkData.WalkToNextHN(ref Walk);
                     }
                 }
             }
@@ -153,7 +153,7 @@ public partial class FloodControl : EObject
     // GlobalEnchantmentSpells.pas:1160
     public void Restore()
     {
-        EObjectList Resources;
+        EngineObjectList Resources;
         DelphiList Candidates;
         int Index;
         MapField MapF;

@@ -27,7 +27,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
     public override bool CanCast(ref string Reason)
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
-        AbstractUnit Source;
+        Troop Source;
         bool Result = base.CanCast(ref Reason);
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
         if (Result && SelectedEnchantment() != null)
@@ -75,14 +75,14 @@ public partial class DisjunctionSpellCaster : SpellCaster
     {
         bool Result;
         string Reason = "";
-        AbstractUnit Source;
-        DisjunctionTE Event;
+        Troop Source;
+        DisjunctionTokenEvent Event;
         if (CanCast(ref Reason))
         {
             Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
             if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
-                Event = new DisjunctionTE(null);
+                Event = new DisjunctionTokenEvent(null);
                 var spell = AoWHSSet.Current.FSpellControl.GetSpell(51);
                 Event.Initialize(FCasterSpellID, (byte)Source.FPlayer, Source.FUnitID, spell.FBaseManaCost);
                 Event.FEnchantmentID = FEnchantmentID;
@@ -169,7 +169,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
     public bool GetEnoughMana()
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
-        AbstractUnit Source;
+        Troop Source;
         int Mana;
         bool Result = false;
         Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);

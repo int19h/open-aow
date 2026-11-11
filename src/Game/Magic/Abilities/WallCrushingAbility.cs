@@ -23,7 +23,7 @@ public partial class WallCrushingAbility : TouchAbility
     public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner Owner) => Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
 
     // AoWAb.PAS:2000
-    public override int GetDamageValue(AbstractUnit Attacker, AbstractUnit Defender)
+    public override int GetDamageValue(Troop Attacker, Troop Defender)
     {
         var hitPoints = Defender.GetHitPoints();
         var defense = Defender.GetDefense();
@@ -34,7 +34,7 @@ public partial class WallCrushingAbility : TouchAbility
     }
 
     // AoWAb.PAS:2006
-    public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
     {
         if (WallSituation == WallSituation.None)
         {
@@ -66,7 +66,7 @@ public partial class WallCrushingAbility : TouchAbility
     // AoWAb.PAS:2096
     public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
     {
-        if (Owner is AbstractUnit unit)
+        if (Owner is Troop unit)
         {
             Strength = AbilityRules.P3LimitedDamage(unit.GetAttack(), 6, 1);
             Types = Set<DamageType>.Of(DamageType.Wall);
@@ -150,9 +150,9 @@ public partial class WallCrushingAbility : TouchAbility
 
     private static readonly string WallCrushingRStr = "Wall Crushing";
 
-    private static DamageCA CreateDamageCA(CombatObject Source, CombatObject Target, int Attack, int Damage, Set<DamageType> DamageTypes)
+    private static DamageCombatAction CreateDamageCA(CombatObject Source, CombatObject Target, int Attack, int Damage, Set<DamageType> DamageTypes)
     {
-        DamageCA tDamageCA = new DamageCA(null);
+        DamageCombatAction tDamageCA = new DamageCombatAction(null);
         tDamageCA.Generate(Source, Target, (sbyte)Attack, (sbyte)Damage, DamageTypes);
         return tDamageCA;
     }

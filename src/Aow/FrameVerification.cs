@@ -15,7 +15,7 @@ internal static class FrameVerification
         RtlUnit.Clock = clock;
         var host = new TestHost();
         var display = new TestDisplay();
-        var controller = new SdlDC(host);
+        var controller = new SdlDisplayController(host);
         int checks = 0;
         void Check(bool success, string label)
         {
@@ -27,12 +27,12 @@ internal static class FrameVerification
             display.Host = host;
             display.EventSink = host;
             Check(display.ActivateDC(controller) == 0, "activation");
-            Check(controller.GetStatus().Contains(DisplayCtrlStatusElement.Activated) && controller.GetStatus().Contains(DisplayCtrlStatusElement.Windowed), "controller status");
+            Check(controller.GetStatus().Contains(DisplayControllerStatusElement.Activated) && controller.GetStatus().Contains(DisplayControllerStatusElement.Windowed), "controller status");
             var screen = controller.GetSurface(0);
             var back = controller.GetSurface(1);
             Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, "screen and back sizes");
             Check(controller.GetSurfaceCount() == 1 && controller.GetSurface(2) is null, "double buffering");
-            SurfaceDesc sd = default;
+            LockedSurface sd = default;
             Check(back.Lock(ref sd) == 0 && sd.PixelFormatID == PixelFormats.pfRGB555, "555 back surface");
             back.Unlock();
             Check(controller.FlipSurface(1) == DisplayCodes.DCERR_NOFLIP && host.Presents == 1, "flip presents and reports fallback");
@@ -96,7 +96,7 @@ internal static class FrameVerification
         public bool SystemCursor;
         public int Presents, Pumps;
 
-        public void Present(in SurfaceDesc surface) => Presents++;
+        public void Present(in LockedSurface surface) => Presents++;
         public (int X, int Y, bool Inside) PointerPosition() => (639, 479, true);
         public void PumpEvents(IDisplayEvents sink) => Pumps++;
         public void ShowSystemCursor(bool show) => SystemCursor = show;

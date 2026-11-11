@@ -15,7 +15,7 @@ public sealed class SurfaceRectangleTests
     private static DataSurface MakeSource()
     {
         var surface = new DataSurface(SourceWidth, SourceHeight, PixelFormats.pfRGB555, null!);
-        SurfaceDesc sd = default;
+        LockedSurface sd = default;
         Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref sd));
         for (int y = 0; y < SourceHeight; y++)
             for (int x = 0; x < SourceWidth; x++) sd.View().Word(y * sd.Pitch + x * 2, Source(x, y));
@@ -153,7 +153,7 @@ public sealed class SurfaceRectangleTests
         var source = MakeSource();
         try
         {
-            SurfaceDesc full = default, part = default, sub = default;
+            LockedSurface full = default, part = default, sub = default;
             Assert.Equal(PixelFormats.GFXE_OK, source.Lock(ref full));
             source.Unlock();
             Assert.Equal(0, full.DataIndex);
@@ -164,7 +164,7 @@ public sealed class SurfaceRectangleTests
             Assert.Equal((3, 2), (part.Width, part.Height));
             Assert.Equal(Source(1, 1), part.View().Word(0));
             Assert.Equal(Source(3, 2), part.View().Word(part.Pitch + 4));
-            SurfaceDesc.CreateSDfromSD(full, new Rect(2, 1, 4, 3), ref sub);
+            LockedSurface.CreateSDfromSD(full, new Rect(2, 1, 4, 3), ref sub);
             Assert.Same(full.Data, sub.Data);
             Assert.Equal(full.Pitch + 4, sub.DataIndex);
             Assert.Equal(new Rect(0, 0, 2, 2), sub.ClipRect);
@@ -180,8 +180,8 @@ public sealed class SurfaceRectangleTests
     public void ControllersReturnThePrimaryRegion()
     {
         using var owner = new Component(null!);
-        var dc = new DisplayCtrl(owner);
-        var sdl = new SdlDC(new NullDisplayHost(), owner);
+        var dc = new DisplayController(owner);
+        var sdl = new SdlDisplayController(new NullDisplayHost(), owner);
         var region = new Rect(3, 4, 643, 484);
         dc.SetPrimarySurfaceRgn(region);
         sdl.SetPrimarySurfaceRgn(region);
@@ -196,7 +196,7 @@ public sealed class SurfaceRectangleTests
         public bool Fullscreen { get; set; }
         public bool HasFocus => true;
 
-        public void Present(in SurfaceDesc surface) { }
+        public void Present(in LockedSurface surface) { }
 
         public (int X, int Y, bool Inside) PointerPosition() => (0, 0, true);
 

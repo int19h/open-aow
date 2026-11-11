@@ -81,7 +81,7 @@ public partial class MoveSettingsList : ENode
                     {
                         var moveLoc = GetMoveSettings(Index).GetMoveLoc();
                         var moveLoc2 = GetMoveSettings(I).GetMoveLoc();
-                        if (Unsafe.BitCast<XYL, int>(moveLoc) == Unsafe.BitCast<XYL, int>(moveLoc2))
+                        if (Unsafe.BitCast<MapCoordinate, int>(moveLoc) == Unsafe.BitCast<MapCoordinate, int>(moveLoc2))
                         {
                             if (GetMoveSettings(Index).GetMovePrio() < GetMoveSettings(I).GetMovePrio())
                             {

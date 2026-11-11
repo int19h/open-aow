@@ -7,7 +7,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
 {
     internal BlendTableList FTables;
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
-    public FixedArray_Aow_Units_GFXE_TBlendTable_101 Lookup;
+    public BlendTableArray101 Lookup;
 
     // GFXE.pas:9687
     public BlendTable GetLookupTables(int Index) => Lookup[Index];

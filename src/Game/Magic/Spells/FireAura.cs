@@ -36,14 +36,14 @@ public partial class FireAura : UnitSpell
     }
 
     // UnitSpells.pas:655
-    public override bool ValidTargetUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool ValidTargetUnit(Troop Source, Troop Target)
     {
         bool Result = base.ValidTargetUnit(Source, Target);
         return Result && (!Target.GetAbilityEnabled(7) || !Target.GetAbilityEnabled(43)) && !Target.GetAbilityEnabled(163);
     }
 
     // UnitSpells.pas:636
-    public override bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
+    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
     {
         bool Result;
         UnitEnchantment Enchantment;

@@ -28,13 +28,13 @@ public partial class MapLevel : ECustomNode
     protected internal int FMapFieldCID;
     protected internal int FFieldSize;
     protected internal int FFieldsSize;
-    public FixedArray_Aow_Units_FixedArray_int_8_2 FHNOffsets;
+    public Int32Array8By2 FHNOffsets;
 
     // HSEngine.pas:2925
     public override GameEngine GetEngine() => FEngine;
 
     // HSEngine.pas:2913
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         if (Msg.MsgID == 536870920)
         {
@@ -56,7 +56,7 @@ public partial class MapLevel : ECustomNode
     }
 
     // HSEngine.pas:2935
-    public override void SetChild(int Index, EObject Child)
+    public override void SetChild(int Index, EngineObject Child)
     {
         throw new InvalidOperationException("Cannot set child in TMapLevel");
     }
@@ -65,19 +65,19 @@ public partial class MapLevel : ECustomNode
     public override int GetCount() => FCount;
 
     // HSEngine.pas:2945
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         throw new InvalidOperationException("Cannot remove from TMapLevel");
     }
 
     // HSEngine.pas:2940
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         throw new InvalidOperationException("Cannot add child to TMapLevel");
     }
 
     // HSEngine.pas:3140
-    public virtual void New(NewHSMapSettings Settings)
+    public virtual void New(NewHexSpriteMapSettings Settings)
     {
         Clear();
         try
@@ -92,7 +92,7 @@ public partial class MapLevel : ECustomNode
     }
 
     // HSEngine.pas:2842
-    public virtual EClass MapFieldClass() => EClass.Of<MapField>();
+    public virtual EngineClass MapFieldClass() => EngineClass.Of<MapField>();
 
     public int Lhx { get => FLhx; set => FLhx = value; }
     public int Width { get => FWidth; }

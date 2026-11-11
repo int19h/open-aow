@@ -9,7 +9,7 @@ public partial class MapLevel
 {
     private MapField[] fields = [];
 
-    public override EObject GetChild(int index) => fields[index];
+    public override EngineObject GetChild(int index) => fields[index];
     public MapField GetField(int x, int y) => fields[y * FWidth + x];
 
     // HSEngine.pas:2960 stores adjacent instances in a raw allocation.

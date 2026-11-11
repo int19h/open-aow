@@ -20,17 +20,17 @@ public partial class StructureConstructionControl : ConstructionControl
     { }
 
     // Structur.PAS:3195
-    public override bool CanConstruct(AbstractUnit AUnit, ref string Reason) => ValidateLocation(AUnit, ref Reason) && (base.CanConstruct(AUnit, ref Reason) && StructureResource(AUnit) != null);
+    public override bool CanConstruct(Troop AUnit, ref string Reason) => ValidateLocation(AUnit, ref Reason) && (base.CanConstruct(AUnit, ref Reason) && StructureResource(AUnit) != null);
 
     // Structur.PAS:3201
-    public override bool Construct(AbstractUnit AUnit)
+    public override bool Construct(Troop AUnit)
     {
         bool Result;
-        ConstructStructureTE Event;
+        ConstructStructureTokenEvent Event;
         string Reason = "";
         if (CanConstruct(AUnit, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).GetBusy())
         {
-            Event = new ConstructStructureTE(null);
+            Event = new ConstructStructureTokenEvent(null);
             Event.FUnitID = AUnit.FUnitID;
             Event.FPlayer = AUnit.FPlayer;
             Event.FControlID = ID();
@@ -47,7 +47,7 @@ public partial class StructureConstructionControl : ConstructionControl
     }
 
     // Structur.PAS:3162
-    public virtual bool ValidateLocation(AbstractUnit AUnit, ref string Reason)
+    public virtual bool ValidateLocation(Troop AUnit, ref string Reason)
     {
         StructureResource Resource;
         sbyte X = default;
@@ -55,12 +55,12 @@ public partial class StructureConstructionControl : ConstructionControl
         sbyte L = default;
         MapLevel Level;
         AoWMapField MapField;
-        HNWalkData Walk = default;
+        HexNumberWalkData Walk = default;
         bool Result = true;
         Resource = StructureResource(AUnit);
         AUnit.GetLocation(ref X, ref Y, ref L);
         Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-        HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
         while (Resource.TerrainList.Count > Walk.HN && Result)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -79,7 +79,7 @@ public partial class StructureConstructionControl : ConstructionControl
                 Result = false;
             }
 
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
         }
 
         if (!Result)
@@ -91,7 +91,7 @@ public partial class StructureConstructionControl : ConstructionControl
     }
 
     // Structur.PAS:3158
-    public virtual StructureResource StructureResource(AbstractUnit AUnit) => null;
+    public virtual StructureResource StructureResource(Troop AUnit) => null;
 
     private static readonly string CannotBuildOnCurrentLocationRStr = "Cannot build on current location";
 }

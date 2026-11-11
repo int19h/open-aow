@@ -18,7 +18,7 @@ public partial class HeroList : EReferenceNode
         Hero Result = null;
         while (I != FChildren.Count && Result == null)
         {
-            if (ID == ((AbstractUnit)FChildren.List[I]).FUnitID)
+            if (ID == ((Troop)FChildren.List[I]).FUnitID)
             {
                 Result = (Hero)FChildren.List[I];
             }

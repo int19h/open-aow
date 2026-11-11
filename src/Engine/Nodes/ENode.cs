@@ -14,20 +14,20 @@ public partial class ENode : ECustomNode
 
     private protected ENode(ConstructionContext context, ECustomNode owner) : base(context, owner)
     {
-        FChildren = new EObjectList();
+        FChildren = new EngineObjectList();
     }
 
-    public EObjectList FChildren;
+    public EngineObjectList FChildren;
 
     // Engine.pas:2833
     public override void Clear()
     {
         int I;
-        EObject C;
+        EngineObject C;
         I = Count - 1;
         for (; I >= 0; I -= 1)
         {
-            C = (EObject)FChildren.List[I];
+            C = (EngineObject)FChildren.List[I];
             if (C != null && C.Owner == this)
             {
                 if (!C.GetControlStyle().Contains(EngineServices.csShared))
@@ -46,7 +46,7 @@ public partial class ENode : ECustomNode
             I = Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (EObject)FChildren.List[I];
+                C = (EngineObject)FChildren.List[I];
                 if (C != null)
                 {
                     if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.csShared)))
@@ -66,17 +66,17 @@ public partial class ENode : ECustomNode
     }
 
     // Engine.pas:2866
-    public override EObject GetChild(int Index) => (EObject)FChildren.List[Index];
+    public override EngineObject GetChild(int Index) => (EngineObject)FChildren.List[Index];
 
     // Engine.pas:2871
-    public override void SetChild(int Index, EObject Child)
+    public override void SetChild(int Index, EngineObject Child)
     {
         while (Index >= Count)
         {
             FChildren.Add(null);
         }
 
-        if (FChildren.List[Index] != null && ((EObject)FChildren.List[Index]).Owner == this)
+        if (FChildren.List[Index] != null && ((EngineObject)FChildren.List[Index]).Owner == this)
         {
             ((FChildren.List[Index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
@@ -90,13 +90,13 @@ public partial class ENode : ECustomNode
     // Engine.pas:2819
     public override void DestroyAllChildren()
     {
-        EObject C;
+        EngineObject C;
         Clear();
         if (FChildren.Count != 0)
         {
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (EObject)FChildren.List[I];
+                C = (EngineObject)FChildren.List[I];
                 if (C != null && C.Owner == this)
                 {
                     C.Dispose();
@@ -106,7 +106,7 @@ public partial class ENode : ECustomNode
     }
 
     // Engine.pas:2884
-    public override void SendMsg(ref EMsg Msg, EObject Sender)
+    public override void SendMsg(ref EngineMessage Msg, EngineObject Sender)
     {
         var children = FChildren;
         if (GetControlStyle().Contains(EngineServices.csKeepIndex))
@@ -119,7 +119,7 @@ public partial class ENode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EObject)children.List[I];
+                            var node = (EngineObject)children.List[I];
                             if (node.GetLastMsg() != Msg.Seq)
                             {
                                 node.SetLastMsg(Msg.Seq);
@@ -134,7 +134,7 @@ public partial class ENode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EObject)children[I];
+                            var node = (EngineObject)children[I];
                             if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
                             {
                                 node.SetLastMsg(Msg.Seq);
@@ -152,7 +152,7 @@ public partial class ENode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EObject)children.List[I];
+                            var node = (EngineObject)children.List[I];
                             node.MsgProc(ref Msg, this);
                         }
                     }
@@ -163,7 +163,7 @@ public partial class ENode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EObject)children[I];
+                            var node = (EngineObject)children[I];
                             if (node.Owner == this)
                             {
                                 node.MsgProc(ref Msg, this);
@@ -181,7 +181,7 @@ public partial class ENode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EObject)children.List[I];
+                        var node = (EngineObject)children.List[I];
                         if (node.GetLastMsg() != Msg.Seq)
                         {
                             node.SetLastMsg(Msg.Seq);
@@ -193,7 +193,7 @@ public partial class ENode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EObject)children[I];
+                        var node = (EngineObject)children[I];
                         if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
                         {
                             node.SetLastMsg(Msg.Seq);
@@ -208,7 +208,7 @@ public partial class ENode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EObject)children.List[I];
+                        var node = (EngineObject)children.List[I];
                         node.MsgProc(ref Msg, this);
                     }
                 }
@@ -216,7 +216,7 @@ public partial class ENode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EObject)children[I];
+                        var node = (EngineObject)children[I];
                         if (node.Owner == this)
                         {
                             node.MsgProc(ref Msg, this);
@@ -228,7 +228,7 @@ public partial class ENode : ECustomNode
     }
 
     // Engine.pas:2981
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         int Result;
         if (GetControlStyle().Contains(EngineServices.csKeepIndex))
@@ -248,25 +248,25 @@ public partial class ENode : ECustomNode
     }
 
     // Engine.pas:2992
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         FChildren.Add(Child);
         return FChildren.Count - 1;
     }
 
     // Engine.pas:2998
-    public override EObject FindChild(int AClassID)
+    public override EngineObject FindChild(int AClassID)
     {
-        EObject Result;
+        EngineObject Result;
         int I;
         bool Found;
-        EObject C;
+        EngineObject C;
         I = 0;
         Found = false;
         C = null;
         while (!Found && I < FChildren.Count)
         {
-            C = (EObject)FChildren.List[I];
+            C = (EngineObject)FChildren.List[I];
             Found = C != null && AClassID == C.EClass.ClassID;
             I += 1;
         }
@@ -284,10 +284,10 @@ public partial class ENode : ECustomNode
     }
 
     // Engine.pas:3016
-    public override int FindChildIndex(EObject Child)
+    public override int FindChildIndex(EngineObject Child)
     {
         int Result = Count - 1;
-        while (Result >= 0 && Child != (EObject)FChildren.List[Result])
+        while (Result >= 0 && Child != (EngineObject)FChildren.List[Result])
         {
             Result -= 1;
         }
@@ -305,10 +305,10 @@ public partial class ENode : ECustomNode
     // Engine.pas:3022
     public void DestroyEObjects(int AClassID)
     {
-        EObject C;
+        EngineObject C;
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            C = (EObject)FChildren.List[I];
+            C = (EngineObject)FChildren.List[I];
             if (C != null && AClassID == C.EClass.ClassID && C.Owner == this)
             {
                 C.Dispose();

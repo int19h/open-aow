@@ -6,7 +6,7 @@ namespace Aow.Game.Magic.Abilities;
 
 // { Interface declaration run owned by P1. }
 // (FNext,)
-public partial class AbilityData : EObject
+public partial class AbilityData : EngineObject
 {
 
     public AbilityData(ECustomNode owner) : base(owner)

@@ -26,14 +26,14 @@ public partial class WaterWalking : UnitSpell
     }
 
     // UnitSpells.pas:694
-    public override bool ValidTargetUnit(AbstractUnit Source, AbstractUnit Target)
+    public override bool ValidTargetUnit(Troop Source, Troop Target)
     {
         bool Result = base.ValidTargetUnit(Source, Target);
         return Result && !Target.GetAbilityEnabled(23) && !Target.GetAbilityEnabled(2) && !Target.GetAbilityEnabled(164) && !Target.GetAbilityEnabled(1) && !Target.GetAbilityEnabled(59);
     }
 
     // UnitSpells.pas:675
-    public override bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
+    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
     {
         bool Result;
         UnitEnchantment Enchantment;

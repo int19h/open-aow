@@ -16,9 +16,9 @@ public partial class CenterViewLocation : MapObject
     public new const int ClassID = 2233640;
 
     // CenterViewLoc.pas:80
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
-        if (AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -30,12 +30,12 @@ public partial class CenterViewLocation : MapObject
         base.Activate();
         if (!GetEditMode())
         {
-            if (AoWCombatMap.Current.FCenterViewLocation != null)
+            if (CombatMap.Current.FCenterViewLocation != null)
             {
-                AoWCombatMap.Current.FCenterViewLocation?.Dispose();
+                CombatMap.Current.FCenterViewLocation?.Dispose();
             }
 
-            AoWCombatMap.Current.FCenterViewLocation = this;
+            CombatMap.Current.FCenterViewLocation = this;
         }
     }
 
@@ -45,9 +45,9 @@ public partial class CenterViewLocation : MapObject
         base.Deactivate();
         if (!GetEditMode())
         {
-            if (AoWCombatMap.Current.FCenterViewLocation == this)
+            if (CombatMap.Current.FCenterViewLocation == this)
             {
-                AoWCombatMap.Current.FCenterViewLocation = null;
+                CombatMap.Current.FCenterViewLocation = null;
             }
         }
     }

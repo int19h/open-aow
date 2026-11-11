@@ -80,7 +80,7 @@ internal sealed class LayoutBuilder
         foreach (var e in entries)
             list.Add(new JsonArray().Add(new JsonInteger(e.Id)).Add(new JsonInteger(e.Offset)).Add(new JsonInteger(e.Long ? 1 : 0)));
         part.Add("entries", list);
-        if (emptyLongMarker) part.Add("longMarker", new JsonBool(true));
+        if (emptyLongMarker) part.Add("longMarker", new JsonBoolean(true));
         Parts.Add(part);
     }
 
@@ -152,7 +152,7 @@ internal sealed class LayoutReader
     /// Parses $layout and checks its fingerprint against the visible subtree. A stale layout
     /// returns null and is reported, or fails under --exact-layout. Malformed parts always fail.
     /// </summary>
-    public static LayoutReader? Read(EncodeContext ctx, JsonObject owner, DocPath path)
+    public static LayoutReader? Read(EncodeContext ctx, JsonObject owner, DocumentNodePath path)
     {
         var member = owner.Find("$layout");
         if (member is null) return null;
@@ -207,7 +207,7 @@ internal sealed class LayoutReader
         return s.Length % 2 == 0;
     }
 
-    private static byte[] Bytes(EncodeContext ctx, JsonValue? value, DocPath path)
+    private static byte[] Bytes(EncodeContext ctx, JsonValue? value, DocumentNodePath path)
     {
         if (value is not JsonString s || !IsHex(s.Value))
             throw ctx.Fail(Codes.Layout, "A layout part needs bytes as lowercase hexadecimal digits of even length.", value, path);
@@ -216,7 +216,7 @@ internal sealed class LayoutReader
         return Convert.FromHexString(s.Value);
     }
 
-    private static int Int(EncodeContext ctx, JsonValue? value, DocPath path, long min, long max)
+    private static int Int(EncodeContext ctx, JsonValue? value, DocumentNodePath path, long min, long max)
     {
         if (value is not JsonInteger n || n.Value < min || n.Value > max)
             throw ctx.Fail(Codes.Layout, "A layout part has an integer out of bounds.", value, path,
@@ -224,7 +224,7 @@ internal sealed class LayoutReader
         return (int)n.Value;
     }
 
-    private void ReadPart(EncodeContext ctx, JsonValue item, DocPath path)
+    private void ReadPart(EncodeContext ctx, JsonValue item, DocumentNodePath path)
     {
         if (item is not JsonObject part) throw ctx.Fail(Codes.Type, "A layout part is not an object.", item, path);
         string category = part["category"] is JsonString c ? c.Value : throw ctx.Fail(Codes.MissingMember, "A layout part needs a category.", part, path);
@@ -248,7 +248,7 @@ internal sealed class LayoutReader
                     bool marker = part["longMarker"] switch
                     {
                         null => false,
-                        JsonBool { Value: true } => true,
+                        JsonBoolean { Value: true } => true,
                         var v => throw ctx.Fail(Codes.Layout, "longMarker is true or absent.", v, path.Member("longMarker")),
                     };
                     if (Tables.Any(t => t.Property == property)) throw ctx.Fail(Codes.Duplicate, "Two table parts describe the same table.", part, path);

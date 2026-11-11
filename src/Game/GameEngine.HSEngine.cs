@@ -22,7 +22,7 @@ namespace Aow.Game;
 // compressed). the event lists are told when a map or a set is loaded or closed
 public partial class GameEngine : ENode
 {
-    internal Set<HSEngineStatusElement> FStatus;
+    internal Set<HexSpriteEngineStatusElement> FStatus;
     protected internal HSSet FHSSet;
     protected internal HSMap FHSMap;
     internal string FHSSetSearchPath = "";
@@ -66,7 +66,7 @@ public partial class GameEngine : ENode
     public virtual void LoadHSM(string FileName, bool Edit, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         CompressStream Stream;
-        HSMHeader Header = default;
+        HsmHeader Header = default;
         byte[] Image = FileBoundary.Load(FileName, Profile);
         if (Image == null)
         {
@@ -87,15 +87,15 @@ public partial class GameEngine : ENode
                 Stream.LoadImage(Image);
                 Stream.ReadExactly(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
+                if (ArrayEquals<ByteArray4, byte>(Header.ID, HSMID))
                 {
                     SetHSMap((HSMap)CreateEObject(Header.ClassID, this));
                     var expandFileName = ExpandFileName(FileName);
                     FHSMap.FFileName = expandFileName;
-                    FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                     if (Edit)
                     {
-                        FHSMap.FStatus = FHSMap.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting);
+                        FHSMap.FStatus = FHSMap.FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
                     }
 
                     try
@@ -112,7 +112,7 @@ public partial class GameEngine : ENode
                         SetHSMap(null);
                     }
 
-                    FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                 }
             }
             finally
@@ -130,7 +130,7 @@ public partial class GameEngine : ENode
     {
         CompressStream Stream;
         string FullName;
-        HSMHeader Header = default;
+        HsmHeader Header = default;
         HSMap Result = null;
         byte[] Image;
         FullName = ExpandFileName(FileName);
@@ -148,11 +148,11 @@ public partial class GameEngine : ENode
                 Stream.LoadImage(Image);
                 Stream.ReadExactly(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
+                if (ArrayEquals<ByteArray4, byte>(Header.ID, HSMID))
                 {
                     Result = (HSMap)CreateEObject(Header.ClassID, this);
                     Result.FFileName = ExpandFileName(FileName);
-                    FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                     try
                     {
                         ReadPreviewEObject(Stream, Result, null);
@@ -163,7 +163,7 @@ public partial class GameEngine : ENode
                         Result = null;
                     }
 
-                    FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                 }
             }
             finally
@@ -184,7 +184,7 @@ public partial class GameEngine : ENode
     public virtual void SaveHSM(string FileName, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         CompressStream Stream;
-        HSMHeader Header;
+        HsmHeader Header;
         if (FHSMap != null)
         {
             Header = default;
@@ -194,7 +194,7 @@ public partial class GameEngine : ENode
             Header.Reserved = 0;
             Header.ID = HSMID;
             Stream = new CompressStream();
-            FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSM);
+            FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHSM);
             try
             {
                 Stream.Write(Bytes.Of(ref Header, 16));
@@ -203,7 +203,7 @@ public partial class GameEngine : ENode
             }
             finally
             {
-                FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSM);
+                FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHSM);
                 Stream?.Dispose();
             }
         }
@@ -224,7 +224,7 @@ public partial class GameEngine : ENode
         void Search(string Dir)
         {
             StringList Dirs;
-            HSSHeader Header = default;
+            HssHeader Header = default;
             SearchRec SR = default;
             bool Found;
             Found = FindFirst(Dir + Mask, 63 & ~16, ref SR) == 0;
@@ -235,7 +235,7 @@ public partial class GameEngine : ENode
                 var head = FileBoundary.ListingHeader(Dir + SR.Name, GameProfile.ScenarioSet, 52);
                 if (head.Length == 52)
                 {
-                    Header = MemoryMarshal.Read<HSSHeader>(head);
+                    Header = MemoryMarshal.Read<HssHeader>(head);
                 }
 
                 if (Header.ID == "HSS\0")
@@ -278,13 +278,13 @@ public partial class GameEngine : ENode
     public void LoadHSS(string FileName, bool Edit, Aow.Engine.ProgressEvent AProgress, GameProfile Profile)
     {
         MemoryStream Mem;
-        HSSHeader Header = default;
-        EMsg Msg = default;
+        HssHeader Header = default;
+        EngineMessage Msg = default;
         int CRC;
         byte[] Image = FileBoundary.LoadOrRaise(ExpandFileName(FileName), Profile);
         FHSSet.Clear();
         FHSSFileName = ExpandFileName(FileName);
-        FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSS);
+        FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSS);
         Mem = ImageStream(Image);
         try
         {
@@ -306,14 +306,14 @@ public partial class GameEngine : ENode
 
             ReadEObject(Mem, FHSSet, AProgress);
             ActivateEObject(FHSSet);
-            EMsg.InitMsg(ref Msg, 65556, this);
+            EngineMessage.InitMsg(ref Msg, 65556, this);
             FHSSet.MsgProc(ref Msg, this);
             ControlNode.MsgProc(ref Msg, this);
             FOnHSSLoadedStore.Raise(this);
         }
         finally
         {
-            FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSS);
+            FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSS);
             Mem?.Dispose();
         }
     }
@@ -323,14 +323,14 @@ public partial class GameEngine : ENode
     {
         MemoryStream Mem;
         int CRC = default;
-        HSSHeader Header = default;
+        HssHeader Header = default;
         if (FHSSet != null)
         {
             Header.Size = 52;
             Header.Name = FHSSet.Name;
             Header.ID = "HSS\0";
             FHSSFileName = ExpandFileName(FileName);
-            FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSS);
+            FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHSS);
             Mem = new MemoryStream();
             try
             {
@@ -343,7 +343,7 @@ public partial class GameEngine : ENode
             }
             finally
             {
-                FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSS);
+                FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHSS);
                 Mem?.Dispose();
             }
         }
@@ -353,7 +353,7 @@ public partial class GameEngine : ENode
     public void LoadPreviewHSM(string FileName, GameProfile Profile)
     {
         CompressStream Stream;
-        HSMHeader Header = default;
+        HsmHeader Header = default;
         byte[] Image = FileBoundary.Load(FileName, Profile, "preview");
         if (Image == null)
         {
@@ -374,13 +374,13 @@ public partial class GameEngine : ENode
                 Stream.LoadImage(Image);
                 Stream.ReadExactly(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
+                if (ArrayEquals<ByteArray4, byte>(Header.ID, HSMID))
                 {
                     SetHSMap((HSMap)CreateEObject(Header.ClassID, this));
-                    FHSMap.FStatus = FHSMap.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.PreviewMode);
+                    FHSMap.FStatus = FHSMap.FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
                     var expandFileName = ExpandFileName(FileName);
                     FHSMap.FFileName = expandFileName;
-                    FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                     try
                     {
                         ReadEObject(Stream, FHSMap, null);
@@ -391,7 +391,7 @@ public partial class GameEngine : ENode
                         SetHSMap(null);
                     }
 
-                    FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                 }
             }
             finally
@@ -409,7 +409,7 @@ public partial class GameEngine : ENode
     {
         CompressStream Stream;
         string FullName;
-        HSMHeader Header = default;
+        HsmHeader Header = default;
         HSMap Result = null;
         byte[] Image;
         FullName = ExpandFileName(FileName);
@@ -427,14 +427,14 @@ public partial class GameEngine : ENode
                 Stream.LoadImage(Image);
                 Stream.ReadExactly(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
+                if (ArrayEquals<ByteArray4, byte>(Header.ID, HSMID))
                 {
                     Result = (HSMap)CreateEObject(Header.ClassID, null);
                     Result.FFileName = FullName;
-                    FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                     if (Edit)
                     {
-                        Result.FStatus = Result.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting);
+                        Result.FStatus = Result.FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
                     }
 
                     try
@@ -451,7 +451,7 @@ public partial class GameEngine : ENode
                         Result = null;
                     }
 
-                    FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                 }
             }
             finally
@@ -470,7 +470,7 @@ public partial class GameEngine : ENode
     public void LoadHSMfromStream(Stream Stream, bool Edit, Aow.Engine.ProgressEvent AProgress)
     {
         CompressStream CStream;
-        HSMHeader Header = default;
+        HsmHeader Header = default;
         if (FHSMap != null)
         {
             FHSMap?.Dispose();
@@ -485,13 +485,13 @@ public partial class GameEngine : ENode
                 CStream.LoadFromStream(Stream);
                 CStream.ReadExactly(Bytes.Of(ref Header, 16));
                 CStream.Position = Header.Size;
-                if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSMID))
+                if (ArrayEquals<ByteArray4, byte>(Header.ID, HSMID))
                 {
                     SetHSMap((HSMap)CreateEObject(Header.ClassID, this));
-                    FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                     if (Edit)
                     {
-                        FHSMap.FStatus = FHSMap.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting);
+                        FHSMap.FStatus = FHSMap.FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
                     }
 
                     try
@@ -508,7 +508,7 @@ public partial class GameEngine : ENode
                         SetHSMap(null);
                     }
 
-                    FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
+                    FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM);
                 }
             }
             finally
@@ -525,7 +525,7 @@ public partial class GameEngine : ENode
     public void SaveHSMtoStream(Stream Stream, Aow.Engine.ProgressEvent AProgress)
     {
         CompressStream CStream;
-        HSMHeader Header;
+        HsmHeader Header;
         if (FHSMap != null)
         {
             Header = default;
@@ -535,7 +535,7 @@ public partial class GameEngine : ENode
             Header.Reserved = 0;
             Header.ID = HSMID;
             CStream = new CompressStream();
-            FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSM);
+            FStatus = FStatus + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHSM);
             try
             {
                 CStream.Write(Bytes.Of(ref Header, 16));
@@ -544,7 +544,7 @@ public partial class GameEngine : ENode
             }
             finally
             {
-                FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSM);
+                FStatus = FStatus - Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHSM);
                 CStream?.Dispose();
             }
         }
@@ -555,7 +555,7 @@ public partial class GameEngine : ENode
     // first (own-formats.md 2.9).
     public void InitializeHSSet(string FileName, Aow.Engine.ProgressEvent AProgress)
     {
-        EMsg Msg = default;
+        EngineMessage Msg = default;
         FileName = FileBoundary.ReadName(FileName);
         if (FHSSet == null || CompareText(FileName, FHSSFileName) != 0)
         {
@@ -563,7 +563,7 @@ public partial class GameEngine : ENode
         }
         else
         {
-            EMsg.InitMsg(ref Msg, 65557, this);
+            EngineMessage.InitMsg(ref Msg, 65557, this);
             FHSSet.MsgProc(ref Msg, this);
         }
     }
@@ -578,13 +578,13 @@ public partial class GameEngine : ENode
         }
 
         SetHSMap((HSMap)CreateEObject(AClassID, this));
-        FHSMap.FStatus = FHSMap.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting);
+        FHSMap.FStatus = FHSMap.FStatus + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
         ActivateEObject(FHSMap);
         FOnHSMLoadedStore.Raise(FHSMap);
         return FHSMap;
     }
 
-    public Set<HSEngineStatusElement> Status { get => FStatus; }
+    public Set<HexSpriteEngineStatusElement> Status { get => FStatus; }
     public HSSet HSSet { get => FHSSet; }
     public HSMap HSMap { get => FHSMap; set => SetHSMap(value); }
     public string HSSetSearchPath { get => FHSSetSearchPath; set => FHSSetSearchPath = value; }
@@ -614,7 +614,7 @@ public partial class GameEngine : ENode
         remove => FOnHSSCloseStore.Remove(value);
     }
 
-    private static FixedArray_byte_4 HSMID = FixedArray_byte_4.From("HSM\0"u8);
+    private static ByteArray4 HSMID = ByteArray4.From("HSM\0"u8);
     internal static int HSEngineDID;
 
 }

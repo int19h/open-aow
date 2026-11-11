@@ -33,10 +33,10 @@ point where the generated tree stops being regenerated and becomes the source of
 
 | step | work | depends on | done |
 |---|---|---|---|
-| 3.1 | Memory surfaces, `SurfaceDesc` (Delphi `TSurfaceDesc`), the rewritten blitters, the `blitters` probe | 1.5 | G1 (`graphics.md` 10) |
+| 3.1 | Memory surfaces, `LockedSurface` (Delphi `TSurfaceDesc`), the rewritten blitters, the `blitters` probe | 1.5 | G1 (`graphics.md` 10) |
 | 3.2 | Blend tables and their probe | 3.1 | G2 |
 | 3.3 | Image libraries end to end and the `libraries` probe over all 538 files | 3.1, 3.2 | G3 |
-| 3.4 | `SdlDC` (Delphi `TSdlDC`), the presenter, the frame loop and the software cursor on the SDL host (step 5.1) | 3.3, 5.1 | a frame renders |
+| 3.4 | `SdlDisplayController` (Delphi `TSdlDC`), the presenter, the frame loop and the software cursor on the SDL host (step 5.1) | 3.3, 5.1 | a frame renders |
 | 3.5 | Frame capture from the rebuilt game, fixtures, comparison | 3.4, 4.2 | G4, G5 |
 
 ## 4. UI layout

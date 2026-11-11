@@ -9,14 +9,14 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // references, leader, mode, original leader, items, done event
-public partial class LeaderSetupControl : EObject
+public partial class LeaderSetupControl : EngineObject
 {
 
     // Player.PAS:1755
     // { Return the final search index. }
     public LeaderSetupControl(ECustomNode owner) : base(owner)
     {
-        FItems = new IntegerList();
+        FItems = new Int32List();
         FOriginalLeader = new Leader(null);
         FLeader = new Leader(null);
         FRefCount = 1;
@@ -28,7 +28,7 @@ public partial class LeaderSetupControl : EObject
     public Leader FLeader;
     public Set<LeaderSetupModeElement> FMode;
     public Leader FOriginalLeader;
-    public IntegerList FItems;
+    public Int32List FItems;
     public LeaderSetupStatus FStatus;
     public NotifyEvent<LeaderSetupControl> FOnDone;
 

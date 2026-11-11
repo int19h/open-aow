@@ -16,7 +16,7 @@ public partial class Warmonger : CityEnchantmentSpell
         FSpellName = AbilityRules.TranslateRStr(GameText.WarmongerRStr);
         FSpellID = 58;
         FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
-        FEnchantmentID = CityEnchantmentID.Warmonger;
+        FEnchantmentID = CityEnchantmentId.Warmonger;
         FCastDuration = 30;
         FAIPriority = 600;
         FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City, CityEnchantmentCastSpellSituationElement.Hex3City);

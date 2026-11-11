@@ -32,8 +32,8 @@ public partial class TurnUndead : CombatSpell
     // CombatSpells.pas:905
     public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
     {
-        TurnUndeadSpellCA Action;
-        Action = new TurnUndeadSpellCA(null);
+        TurnUndeadSpellCombatAction Action;
+        Action = new TurnUndeadSpellCombatAction(null);
         Action.FSpellID = FSpellID;
         Action.FSourceID = Source.FID;
         Action.FTargetID = Target.FID;

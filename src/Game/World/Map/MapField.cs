@@ -29,7 +29,7 @@ public partial class MapField : ECustomNode
         Resize(3);
     }
 
-    internal HexagonSprite[] FHSList = [];
+    internal HexSprite[] FHSList = [];
     internal byte FCapacity;
     internal byte FCount;
     internal byte FStaticCount;
@@ -48,7 +48,7 @@ public partial class MapField : ECustomNode
     }
 
     // HSEngine.pas:1928
-    public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared);
+    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared);
 
     // HSEngine.pas:1923
     public override void SetOwner(ECustomNode AOwner)
@@ -61,7 +61,7 @@ public partial class MapField : ECustomNode
     {
         int J;
         int I;
-        EObject HS = default;
+        EngineObject HS = default;
         if ((Stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.smText)) == Set<StorageModeElement>.Of())
         {
             if (Stream.StorageMode().Contains(StorageModeElement.Read))
@@ -126,7 +126,7 @@ public partial class MapField : ECustomNode
     // HSEngine.pas:1898
 
     // HSEngine.pas:1943
-    public override EObject GetChild(int Index)
+    public override EngineObject GetChild(int Index)
     {
         if (Index >= FCount)
         {
@@ -137,29 +137,29 @@ public partial class MapField : ECustomNode
     }
 
     // HSEngine.pas:1949
-    public override void SetChild(int Index, EObject Child)
+    public override void SetChild(int Index, EngineObject Child)
     {
         if (Index >= FCount)
         {
             throw new IndexOutOfRangeException("Index out of bounds");
         }
 
-        FHSList[Index] = (HexagonSprite)Child;
+        FHSList[Index] = (HexSprite)Child;
     }
 
     // HSEngine.pas:1972
     public override int GetCount() => FCount;
 
     // HSEngine.pas:2226
-    public override int RemoveChild(EObject Child) => RemoveHS((HexagonSprite)Child);
+    public override int RemoveChild(EngineObject Child) => RemoveHS((HexSprite)Child);
 
     // HSEngine.pas:2221
-    public override int AddChild(EObject Child) => AddHS((HexagonSprite)Child, 0);
+    public override int AddChild(EngineObject Child) => AddHS((HexSprite)Child, 0);
 
     // HSEngine.pas:2154
-    public override EObject FindChild(int AClassID)
+    public override EngineObject FindChild(int AClassID)
     {
-        EObject Result;
+        EngineObject Result;
         int I;
         I = 0;
         while (I < FCount && FHSList[I].EClass.ClassID != AClassID)
@@ -180,9 +180,9 @@ public partial class MapField : ECustomNode
     }
 
     // HSEngine.pas:2211
-    public override EObject FindOwnedChild(int AClassID)
+    public override EngineObject FindOwnedChild(int AClassID)
     {
-        EObject Result;
+        EngineObject Result;
         int I;
         I = 0;
         while (I < FCount && !(FHSList[I].EClass.ClassID == AClassID && FHSList[I].Owner == this))
@@ -209,9 +209,9 @@ public partial class MapField : ECustomNode
     public int HSListDataSize() => (FCapacity << 2) + ((FCapacity + 3) & 252);
 
     // HSEngine.pas:2163
-    public HexagonSprite FindHS(Type AClass)
+    public HexSprite FindHS(Type AClass)
     {
-        HexagonSprite Result;
+        HexSprite Result;
         int I;
         I = 0;
         while (I < FCount && !AClass.IsInstanceOfType(FHSList[I]))
@@ -232,12 +232,12 @@ public partial class MapField : ECustomNode
     }
 
     // HSEngine.pas:2172
-    public HexagonSprite FindOwnedHS(Type AClass)
+    public HexSprite FindOwnedHS(Type AClass)
     {
         int I;
-        HexagonSprite HS;
+        HexSprite HS;
         I = 0;
-        HexagonSprite Result = null;
+        HexSprite Result = null;
         while (I < FCount && Result == null)
         {
             HS = FHSList[I];
@@ -361,7 +361,7 @@ public partial class MapField : ECustomNode
     // HSEngine.pas:2581
     public sbyte GetDecorationType()
     {
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         Msg.MsgID = 17;
         Msg.Result = -1;
         SendMapFieldMsg(ref Msg);
@@ -371,15 +371,15 @@ public partial class MapField : ECustomNode
     // HSEngine.pas:2591
     public void UpdateNeighbourTerrain()
     {
-        HSTerrainInfo Info = default;
-        HNWalkData Walk = default;
+        HexSpriteTerrainInfo Info = default;
+        HexNumberWalkData Walk = default;
         Info.MapField = this;
         Info.TerrainType = FTerrainType;
         Info.OverlayType = FOverlayType;
-        HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         for (int I = 1; I <= 6; I++)
         {
-            HNWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHN(ref Walk);
             if (Walk.X >= 0 && Walk.X < ((MapLevel)Owner).FWidth && Walk.Y >= 0 && ((MapLevel)Owner).FHeight > Walk.Y)
             {
                 Info.HN = (sbyte)OppositeHTTable[I - 1];
@@ -388,7 +388,7 @@ public partial class MapField : ECustomNode
         }
     }
 
-    public HexagonSprite[] HSList { get => FHSList; }
+    public HexSprite[] HSList { get => FHSList; }
     public byte Capacity { get => FCapacity; }
     public byte StaticCount { get => FStaticCount; }
     public Set<MapFieldStatusElement> Status { get => FStatus; set => FStatus = value; }
@@ -399,14 +399,14 @@ public partial class MapField : ECustomNode
     public sbyte TerrainType { get => FTerrainType; set => FTerrainType = value; }
     public sbyte OverlayType { get => FOverlayType; set => FOverlayType = value; }
 
-    public sealed class HNAccessor(MapField target)
+    public sealed class HexNumberAccessor(MapField target)
     {
         public byte this[int Index] { get => target.GetHN(Index); set => target.SetHN(Index, value); }
     }
 
-    public HNAccessor HN => new HNAccessor(this);
+    public HexNumberAccessor HN => new HexNumberAccessor(this);
 
-    public override void SendMsg(ref EMsg message, EObject sender)
+    public override void SendMsg(ref EngineMessage message, EngineObject sender)
     {
         if ((message.MsgID & 0x10000000) != 0)
         {
@@ -432,7 +432,7 @@ public partial class MapField : ECustomNode
         }
     }
 
-    private static FixedArray_byte_6 OppositeHTTable = FixedArray_byte_6.From((ReadOnlySpan<byte>)new byte[6] { 4, 5, 6, 1, 2, 3 });
-    private static FixedArray_Aow_Units_HSEngine_THexagonSprite_256 SendMsgList;
-    private static FixedArray_Aow_Units_HSEngine_THexagonSprite_256 LoadedList;
+    private static ByteArray6 OppositeHTTable = ByteArray6.From((ReadOnlySpan<byte>)new byte[6] { 4, 5, 6, 1, 2, 3 });
+    private static HexSpriteArray256 SendMsgList;
+    private static HexSpriteArray256 LoadedList;
 }

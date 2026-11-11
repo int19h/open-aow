@@ -6,7 +6,7 @@ using Aow.Game.Session;
 namespace Aow.Game.Units;
 
 // FRace, FTime, FRelation
-public partial class MigrationItem : EObject
+public partial class MigrationItem : EngineObject
 {
     public MigrationItem(ECustomNode owner) : base(owner)
     { }

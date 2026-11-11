@@ -33,19 +33,19 @@ public sealed class PersistCorpusTests
     // hero list or save. Storm and animation sprites are absent from these files.
     private static readonly string[] Required =
     [
-        "GuardAG", "PassiveAG", "FortifyAG", "NormalAG", "SkirmishAG",
-        "AIBudgetManager", "EResourceEditSettings", "GlobalMagicControl",
+        "GuardAIGroup", "PassiveAIGroup", "FortifyAIGroup", "NormalAIGroup", "SkirmishAIGroup",
+        "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
     ];
 
     private static readonly string[] Watched =
     [
-"GuardAG", "PassiveAG", "FortifyAG", "RaidAG", "ScoutAG", "NormalAG", "SkirmishAG",
-        "GuardAreaAG", "PatrolAG", "RefugeAG", "DefenderAG", "AggressorAG", "ExpanderAG", "ScorcherAG",
-        "SuicidalAG", "TransportAG", "AbstractBehaviorAG",
+"GuardAIGroup", "PassiveAIGroup", "FortifyAIGroup", "RaidAIGroup", "ScoutAIGroup", "NormalAIGroup", "SkirmishAIGroup",
+        "GuardAreaAIGroup", "PatrolAIGroup", "RefugeAIGroup", "DefenderAIGroup", "AggressorAIGroup", "ExpanderAIGroup", "ScorcherAIGroup",
+        "SuicidalAIGroup", "TransportAIGroup", "BehaviorAIGroup",
         "Storm", "IceStorm", "DeathStorm", "DivineStorm", "FireStorm", "LightningStorm", "PestilenceStorm", "BlastStorm",
         "Animation", "BloodShrineAnimation", "ImageSequenceAnimation", "SpringOfLifeAnimation", "TwinkleAnimation",
-        "DamageCA", "SelfDestructCA", "TurnUndeadCA", "RemotePlayer", "CustomAbilityList", "SetupSettings", "AIGroup",
-        "AIBudgetManager", "EResourceEditSettings", "GlobalMagicControl",
+        "DamageCombatAction", "SelfDestructCombatAction", "TurnUndeadCombatAction", "RemotePlayer", "CustomAbilityList", "SetupSettings", "AIGroup",
+        "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
     ];
 
     private readonly ITestOutputHelper output;
@@ -60,7 +60,7 @@ public sealed class PersistCorpusTests
     {
         var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
+        map.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         reaper = map;
         blocked.Clear();
         proved.Clear();
@@ -127,7 +127,7 @@ public sealed class PersistCorpusTests
 
     private static void Walk(JsonObject obj, SchemaClass cls, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
-        if (EngineTypes.TryGetValue(cls.Name, out var type) && EObject.TreePersistenceRefusal(type) == null)
+        if (EngineTypes.TryGetValue(cls.Name, out var type) && EngineObject.TreePersistenceRefusal(type) == null)
         {
             counts.TryGetValue(cls.Name, out int seen);
             counts[cls.Name] = seen + 1;
@@ -298,9 +298,9 @@ public sealed class PersistCorpusTests
     private static Dictionary<string, Type> BuildEngineTypes()
     {
         var types = new Dictionary<string, Type>();
-        foreach (var eclass in EClass.All)
+        foreach (var eclass in EngineClass.All)
         {
-            if (eclass.Type.Assembly != typeof(EObject).Assembly) continue;
+            if (eclass.Type.Assembly != typeof(EngineObject).Assembly) continue;
             types.TryAdd(eclass.Type.Name, eclass.Type);
         }
         return types;
@@ -314,10 +314,10 @@ public sealed class PersistCorpusTests
         int nameEnd = message.IndexOf(' ', prefix.Length);
         if (nameEnd < 0) return false;
         string name = message.Substring(prefix.Length, nameEnd - prefix.Length);
-        return EngineTypes.TryGetValue(name, out var type) && EObject.TreePersistenceRefusal(type) == message;
+        return EngineTypes.TryGetValue(name, out var type) && EngineObject.TreePersistenceRefusal(type) == message;
     }
 
-    private static void Release(EObject obj)
+    private static void Release(EngineObject obj)
     {
         var previous = AoWHSMap.Current;
         AoWHSMap.Current = reaper;
@@ -331,9 +331,9 @@ public sealed class PersistCorpusTests
         }
     }
 
-    private static EObject Blank(string className)
+    private static EngineObject Blank(string className)
     {
-        foreach (var eclass in EClass.All)
+        foreach (var eclass in EngineClass.All)
             if (eclass.ClassName == className) return eclass.Create(null!);
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
@@ -342,7 +342,7 @@ public sealed class PersistCorpusTests
     // vanishing from both sides.
     private static void Stop(string message, ref bool continueLoad) => continueLoad = false;
 
-    private static void Load(EObject obj, byte[] image)
+    private static void Load(EngineObject obj, byte[] image)
     {
         using var memory = new MemoryStream();
         memory.Write(image);
@@ -359,7 +359,7 @@ public sealed class PersistCorpusTests
         }
     }
 
-    private static byte[] Image(EObject obj)
+    private static byte[] Image(EngineObject obj)
     {
         using var memory = new MemoryStream();
         using (var writer = new EWriteStorageStream(memory, EngineFixture.Engine, false))

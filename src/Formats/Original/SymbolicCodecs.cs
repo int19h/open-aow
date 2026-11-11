@@ -80,7 +80,7 @@ internal sealed partial class EnumCodec : PropertyCodec
         return new EnumNode(TypeName, Width, Signed, number);
     }
 
-    internal long Parse(EncodeContext ctx, JsonValue value, DocPath path, string name)
+    internal long Parse(EncodeContext ctx, JsonValue value, DocumentNodePath path, string name)
     {
         var type = Catalog(ctx.File, path.ToString());
         long number;
@@ -177,7 +177,7 @@ internal sealed partial class SetCodec : PropertyCodec
         return array;
     }
 
-    internal ulong Parse(EncodeContext ctx, JsonValue value, DocPath path, string name)
+    internal ulong Parse(EncodeContext ctx, JsonValue value, DocumentNodePath path, string name)
     {
         if (value is not JsonArray array)
             throw ctx.Fail(Codes.Type, name + " is an array of " + TypeName + " names.", value, path, value.KindName);
@@ -290,7 +290,7 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
         return node;
     }
 
-    private List<long> Values(EncodeContext ctx, JsonValue value, DocPath path, string name, bool refuseLong)
+    private List<long> Values(EncodeContext ctx, JsonValue value, DocumentNodePath path, string name, bool refuseLong)
     {
         if (value is not JsonArray array)
             throw ctx.Fail(Codes.Type, name + " is an array of integers.", value, path, value.KindName);
@@ -310,7 +310,7 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
         return numbers;
     }
 
-    private void Check(EncodeContext ctx, long number, DocPath path, string name)
+    private void Check(EncodeContext ctx, long number, DocumentNodePath path, string name)
     {
         if (number < IntegerBytes.Min(Width, Signed) || number > IntegerBytes.Max(Width, Signed))
             throw ctx.Fail(Codes.Range, name + " is outside its storage range.", null, path, number.ToString(System.Globalization.CultureInfo.InvariantCulture),

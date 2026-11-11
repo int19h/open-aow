@@ -6,10 +6,8 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
-
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 
 using Aow.Game.Commands;
@@ -40,7 +38,7 @@ namespace Aow.Game.Session;
 // players, seen days, PBEM, emerging hero, participating, initial gold, base income, hero join
 // days, upkeep. end turn, view, password, turn number, base hero level, emerging hero ID,
 // emerge day, highest hero level, settings/description
-public partial class Player : EObject
+public partial class Player : EngineObject
 {
     public new const int ClassID = 131104;
 
@@ -79,16 +77,16 @@ public partial class Player : EObject
         FLeaderSetup = new Leader(null);
         FStatus = Status.Idle;
         FGameOverStatus = GameOverStatus.None;
-        FFirstDaySeen = new IntegerList();
+        FFirstDaySeen = new Int32List();
         FFirstDaySeen.Default = -1;
-        FLastDaySeen = new IntegerList();
+        FLastDaySeen = new Int32List();
         FLastDaySeen.Default = -1;
         FVictoryLocations = new PlayerStructureList(null);
         FKnownStructures = new PlayerStructureList(null);
         FMessages = new StringList();
         FDiplomaticActions = new DiplomaticActionList(null);
         FAIValidAttackPlayers = new BitList();
-        FPBEMSettings = new PBEMPlayerSettings(null);
+        FPBEMSettings = new PbemPlayerSettings(null);
         FLegacyRelations = new DiplomaticRelationList();
         FHeroEmerging = false;
         FBaseHeroJoinDay = -1;
@@ -167,9 +165,9 @@ public partial class Player : EObject
     public AIBudgetManager FAIBudget;
     public DiplomaticActionList FDiplomaticActions;
     public BitList FAIValidAttackPlayers;
-    public IntegerList FFirstDaySeen;
-    public IntegerList FLastDaySeen;
-    public PBEMPlayerSettings FPBEMSettings;
+    public Int32List FFirstDaySeen;
+    public Int32List FLastDaySeen;
+    public PbemPlayerSettings FPBEMSettings;
     public bool FHeroEmerging;
     public sbyte FPlayerRace;
     public sbyte FPlayerIndex;
@@ -201,7 +199,7 @@ public partial class Player : EObject
             FUpkeepChangedEventsStore.Clear();
             try
             {
-                if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+                if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
                 {
                     Assert(FVictoryLocations.Count == 0, "Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
                     Assert(FStructures.Count == 0, "Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
@@ -363,7 +361,7 @@ public partial class Player : EObject
         Stream.rwString(ref FDescription, 12);
         Stream.rwInteger(ref FGems, 16);
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayerIndex), 18);
-        if ((GameTables.AoWEngine.Status & Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM, HSEngineStatusElement.SavingHSM)) != Set<HSEngineStatusElement>.Of() || Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        if ((GameTables.AoWEngine.Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM, HexSpriteEngineStatusElement.SavingHSM)) != Set<HexSpriteEngineStatusElement>.Of() || Stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
             if (!Stream.StorageMode().Contains(StorageModeElement.Write))
             {
@@ -413,7 +411,7 @@ public partial class Player : EObject
         Stream.rwData(Bytes.Of(ref FBehavior, 1), 1, 29);
         if (FPlayerIndex != 0)
         {
-            if (Stream.StorageMode().Contains(StorageModeElement.Write) && AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && FLeader != null)
+            if (Stream.StorageMode().Contains(StorageModeElement.Write) && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && FLeader != null)
             {
                 Stream.rwEObject(FLeader, 30);
             }
@@ -464,7 +462,7 @@ public partial class Player : EObject
     }
 
     // Player.PAS:974
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         FDiplomaticRelations.MsgProc(ref Msg, Sender);
@@ -591,7 +589,7 @@ public partial class Player : EObject
         GameOverEventLog Event;
         PlayerStructureList Structures;
         ArmyList Armies;
-        AoWCampaign Campaign;
+        Campaign Campaign;
         if (Value != FGameOverStatus && FGameOverStatus == GameOverStatus.None)
         {
             FGameOverStatus = Value;
@@ -673,10 +671,10 @@ public partial class Player : EObject
     public bool Surrender()
     {
         bool Result;
-        GameOverTE TE;
+        GameOverTokenEvent TE;
         if (!GetBusy() && FGameOverStatus == GameOverStatus.None)
         {
-            TE = new GameOverTE(null);
+            TE = new GameOverTokenEvent(null);
             TE.FPlayer = FPlayerIndex;
             TE.FGameOverStatus = GameOverStatus.Lost;
             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayerIndex).AddEvent(TE);
@@ -695,10 +693,10 @@ public partial class Player : EObject
     public bool Win()
     {
         bool Result;
-        GameOverTE TE;
+        GameOverTokenEvent TE;
         if (!GetBusy() && FGameOverStatus == GameOverStatus.None)
         {
-            TE = new GameOverTE(null);
+            TE = new GameOverTokenEvent(null);
             TE.FPlayer = FPlayerIndex;
             TE.FGameOverStatus = GameOverStatus.Won;
             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayerIndex).AddEvent(TE);
@@ -1127,7 +1125,7 @@ public partial class Player : EObject
         int Chance = default;
         DoubleItemList<Hero> Heroes;
         HeroEmergeEventLog Log;
-        XYLList Locations;
+        MapCoordinateList Locations;
         Structure Structure;
         DoubleItem<Hero> Item;
         int I;
@@ -1172,7 +1170,7 @@ public partial class Player : EObject
 
         if (Heroes.Count != 0)
         {
-            Locations = new XYLList();
+            Locations = new MapCoordinateList();
             I = FStructures.Count - 1;
             for (; I >= 0; I -= 1)
             {
@@ -1360,7 +1358,7 @@ public partial class Player : EObject
                 }
                 else
                 {
-                    if (FLeader != null && !AoWHSMap.Current.FFixedLeaders && AoWHSMap.Current.FGameType != GameType.Campaign && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                    if (FLeader != null && !AoWHSMap.Current.FFixedLeaders && AoWHSMap.Current.FGameType != GameType.Campaign && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                     {
                         FLeader.Owner = null;
                     }
@@ -1415,7 +1413,7 @@ public partial class Player : EObject
     {
         TurnInfoItem Info;
         Army Army;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Info = new TurnInfoItem(FStatistics.FTurnInfo);
         if (FGameOverStatus != GameOverStatus.Lost)
         {
@@ -1516,7 +1514,7 @@ public partial class Player : EObject
     // Player.PAS:1124
     public void PlayerSeen(sbyte Player)
     {
-        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && (Player >= FLastDaySeen.Count || FLastDaySeen[Player] != AoWHSMap.Current.FDay))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && (Player >= FLastDaySeen.Count || FLastDaySeen[Player] != AoWHSMap.Current.FDay))
         {
             FLastDaySeen[Player] = AoWHSMap.Current.FDay;
             if (GetFirstDaySeen(Player) == -1)
@@ -1736,7 +1734,7 @@ public partial class Player : EObject
             {
                 if (I != Player && I != FPlayerIndex && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Status.Playing)
                 {
-                    bool condition = !DiplomaticActionAleadySend(DeclareWarToY.Kind, Player, (sbyte)I) && AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1;
+                    bool condition = !DiplomaticActionAleadySend(SuggestWarDeclaration.Kind, Player, (sbyte)I) && AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1;
                     if (condition)
                     {
                         var diplomaticRelation = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, (sbyte)I);
@@ -1745,7 +1743,7 @@ public partial class Player : EObject
 
                     if (condition)
                     {
-                        Action = CreateDiplomaticAction(new DeclareWarToY(), Player, (sbyte)I);
+                        Action = CreateDiplomaticAction(new SuggestWarDeclaration(), Player, (sbyte)I);
                         if (Action != null)
                         {
                             Actions.AddChild(Action);
@@ -1759,9 +1757,9 @@ public partial class Player : EObject
             {
                 if (I != Player && I != FPlayerIndex && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Status.Playing)
                 {
-                    if (!DiplomaticActionAleadySend(BreakAllianceWithY.Kind, Player, (sbyte)I) && AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance)
+                    if (!DiplomaticActionAleadySend(SuggestAllianceBreak.Kind, Player, (sbyte)I) && AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance)
                     {
-                        Action = CreateDiplomaticAction(new BreakAllianceWithY(), Player, (sbyte)I);
+                        Action = CreateDiplomaticAction(new SuggestAllianceBreak(), Player, (sbyte)I);
                         if (Action != null)
                         {
                             Actions.AddChild(Action);
@@ -1779,7 +1777,7 @@ public partial class Player : EObject
                     {
                         if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(I).GetFirstDaySeen(Player) != -1)
                         {
-                            Action = CreateDiplomaticAction(new SendMessageAsY(), Player, (sbyte)I);
+                            Action = CreateDiplomaticAction(new ImpersonatedMessage(), Player, (sbyte)I);
                             if (Action != null)
                             {
                                 Actions.AddChild(Action);
@@ -1822,10 +1820,10 @@ public partial class Player : EObject
     public bool ChangePlayerSettings(string Settings, ref string Error)
     {
         bool Result;
-        ChangePlayerSettingsTE Event;
+        ChangePlayerSettingsTokenEvent Event;
         if (!GetBusy())
         {
-            Event = new ChangePlayerSettingsTE(null);
+            Event = new ChangePlayerSettingsTokenEvent(null);
             Event.FPlayer = FPlayerIndex;
             Event.FSettings = Settings;
             AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayerIndex).AddEvent(Event);
@@ -1954,7 +1952,7 @@ public partial class Player : EObject
 
     // Kind 7: the source writes to the target in the name of the other player, offered between human
     // players to a source of race 5 whose hero emerges (Player.PAS:1226).
-    public sealed partial record SendMessageAsY : DiplomaticProposal
+    public sealed partial record ImpersonatedMessage : DiplomaticProposal
     {
         public const byte Kind = 7;
 
@@ -1978,7 +1976,7 @@ public partial class Player : EObject
     }
 
     // Kind 8: the source asks the target to end its alliance with the other player.
-    public sealed partial record BreakAllianceWithY(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+    public sealed partial record SuggestAllianceBreak(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
     {
         public const byte Kind = 8;
 
@@ -2048,7 +2046,7 @@ public partial class Player : EObject
     }
 
     // Kind 9: the source asks the target to declare war on the other player.
-    public sealed partial record DeclareWarToY(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+    public sealed partial record SuggestWarDeclaration(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
     {
         public const byte Kind = 9;
 

@@ -219,7 +219,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
     }
 
-    private static void CheckNames(JsonObject obj, RecordTypeInfo info, EncodeContext ctx, DocPath path)
+    private static void CheckNames(JsonObject obj, RecordTypeInfo info, EncodeContext ctx, DocumentNodePath path)
     {
         var known = info.Fields.Select(field => field.Name).ToHashSet();
         foreach (var member in obj.Members)
@@ -243,7 +243,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         return bytes;
     }
 
-    private static byte[] ResidueBytes(string hex, RecordTypeInfo info, EncodeContext ctx, DocPath path)
+    private static byte[] ResidueBytes(string hex, RecordTypeInfo info, EncodeContext ctx, DocumentNodePath path)
     {
         if (!HexText.IsLowerHex(hex)) throw ctx.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", null, path.Member("$reserved"), hex);
         var bytes = HexText.Decode(hex);
@@ -349,7 +349,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         return new JsonObject().Add("values", array).Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));
     }
 
-    internal static byte[] Pack(int count, JsonValue value, EncodeContext ctx, DocPath path, string name)
+    internal static byte[] Pack(int count, JsonValue value, EncodeContext ctx, DocumentNodePath path, string name)
     {
         if (count < 0) throw ctx.Fail(Codes.Range, name + " has a negative count.", value, path, Text(count));
         int length = (count + 7) >> 3;
@@ -361,7 +361,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         return bytes;
     }
 
-    internal static (int[] Indices, byte Residue) Unpack(int count, ReadOnlySpan<byte> bytes, DecodeContext ctx, DocPath path)
+    internal static (int[] Indices, byte Residue) Unpack(int count, ReadOnlySpan<byte> bytes, DecodeContext ctx, DocumentNodePath path)
     {
         int length = count < 0 ? -1 : (count + 7) >> 3;
         if (count < 0 || bytes.Length != length)
@@ -388,7 +388,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         return (indices.ToArray(), residue);
     }
 
-    private static (int[] Indices, byte Residue) Read(JsonValue value, int count, EncodeContext ctx, DocPath path, string name)
+    private static (int[] Indices, byte Residue) Read(JsonValue value, int count, EncodeContext ctx, DocumentNodePath path, string name)
     {
         JsonArray array;
         byte residue = 0;
@@ -433,7 +433,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         return (indices, residue);
     }
 
-    private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, DecodeContext ctx, DocPath path)
+    private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, DecodeContext ctx, DocumentNodePath path)
     {
         if (owner?[name] is JsonInteger json)
         {
@@ -450,7 +450,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         return 0;
     }
 
-    private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, EncodeContext ctx, DocPath path)
+    private static int CountOf(JsonObject? owner, ObjectNode? parent, string name, EncodeContext ctx, DocumentNodePath path)
     {
         if (owner?[name] is JsonInteger json)
         {
@@ -475,14 +475,14 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
 /// A bool stored through rwData. The byte is present even when false.
 /// 0 and 1 are booleans. Any other byte is that integer, so the image round-trips.
 /// </summary>
-internal sealed partial class RawBoolCodec : PropertyCodec
+internal sealed partial class RawBooleanCodec : PropertyCodec
 {
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
         if (end - start != 1) throw Mismatch(ctx, start, site, "A raw boolean is stored in " + (end - start) + " bytes.");
         byte value = ctx.Data[start];
-        if (value == 0) return new JsonBool(false);
-        if (value == 1) return new JsonBool(true);
+        if (value == 0) return new JsonBoolean(false);
+        if (value == 1) return new JsonBoolean(true);
         return new JsonInteger(value);
     }
 
@@ -493,7 +493,7 @@ internal sealed partial class RawBoolCodec : PropertyCodec
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
-        if (value is BoolNode bit) return new JsonBool(bit.Value);
+        if (value is BooleanNode bit) return new JsonBoolean(bit.Value);
         if (value is IntegerNode { Width: 1, Signed: false } number)
         {
             if (number.Value is < 0 or > 255)
@@ -505,20 +505,20 @@ internal sealed partial class RawBoolCodec : PropertyCodec
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
-        if (value is JsonBool bit) return new BoolNode(bit.Value);
+        if (value is JsonBoolean bit) return new BooleanNode(bit.Value);
         if (value is JsonInteger number)
         {
             if (number.Value is < 0 or > 255)
                 throw site.Fail(Codes.Range, (site.Property?.Name ?? "The value") + " is outside its storage range.", value, Text(number.Value), "0 to 255");
-            if (number.Value is 0 or 1) return new BoolNode(number.Value != 0);
+            if (number.Value is 0 or 1) return new BooleanNode(number.Value != 0);
             return new IntegerNode(1, false, number.Value);
         }
         throw site.Mismatch((site.Property?.Name ?? "The value") + " is a boolean.", value);
     }
 
-    internal static byte ByteOf(EncodeContext ctx, JsonValue value, DocPath path, string name)
+    internal static byte ByteOf(EncodeContext ctx, JsonValue value, DocumentNodePath path, string name)
     {
-        if (value is JsonBool bit) return bit.Value ? (byte)1 : (byte)0;
+        if (value is JsonBoolean bit) return bit.Value ? (byte)1 : (byte)0;
         if (value is JsonInteger { Value: >= 0 and <= 255 } number) return (byte)number.Value;
         if (value is JsonInteger integer)
             throw ctx.Fail(Codes.Range, name + " is outside its storage range.", integer, path, Text(integer.Value), "0 to 255");

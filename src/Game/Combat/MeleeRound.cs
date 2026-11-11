@@ -22,13 +22,13 @@ public partial class MeleeRound : IDisposable
 
     public int FCount;
     public int FCapacity;
-    public MeleeStrike[] FStrikes = [];
+    public Strike[] FStrikes = [];
     public CombatObject FAttacker;
     public CombatObject FDefender;
     public int FAttackerDV;
     public int FDefenderDV;
-    public AbstractUnit FAttackerUnit;
-    public AbstractUnit FDefenderUnit;
+    public Troop FAttackerUnit;
+    public Troop FDefenderUnit;
     public int FAttackerStrikes;
     public int FDefenderStrikes;
     public Set<DamageType> FAttackerDamageTypes;
@@ -69,7 +69,7 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1513
-    public void GetMeleeStrike(int Index, ref MeleeStrike Strike)
+    public void GetMeleeStrike(int Index, ref Strike Strike)
     {
         Strike = FStrikes[Index];
     }
@@ -94,8 +94,8 @@ public partial class MeleeRound : IDisposable
         int AttackerCount;
         int DefenderCount;
         CombatSideIndex Side;
-        AbstractUnit Source;
-        AbstractUnit Target;
+        Troop Source;
+        Troop Target;
         Side = FirstSide;
         AttackerCount = 0;
         DefenderCount = 0;
@@ -113,7 +113,7 @@ public partial class MeleeRound : IDisposable
                 Target = FAttackerUnit;
             }
 
-            ref MeleeStrike Strike = ref FStrikes[I];
+            ref Strike Strike = ref FStrikes[I];
             Strike.Side = Side;
             if (I == 0 || (I == 1 && Side != FirstSide))
             {
@@ -191,7 +191,7 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1600
-    public void CalculateFreeUnitSwing(AbstractUnit Attacker, AbstractUnit Defender)
+    public void CalculateFreeUnitSwing(Troop Attacker, Troop Defender)
     {
         Reset();
         FAttackerUnit = Attacker;
@@ -206,7 +206,7 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1614
-    public void CalculateUnit(AbstractUnit Attacker, AbstractUnit Defender)
+    public void CalculateUnit(Troop Attacker, Troop Defender)
     {
         CombatSideIndex Side;
         Reset();
@@ -273,7 +273,7 @@ public partial class MeleeRound : IDisposable
                 Target = FAttacker;
             }
 
-            ref MeleeStrike Strike = ref FStrikes[I];
+            ref Strike Strike = ref FStrikes[I];
             Strike.Side = Side;
             if (I == 0 || (I == 1 && Side != FirstSide))
             {
@@ -414,18 +414,18 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1754
-    public StrikeCA CreateStrikeCA(int Index)
+    public StrikeCombatAction CreateStrikeCA(int Index)
     {
-        StrikeCA Result = null;
+        StrikeCombatAction Result = null;
         if (Index < FCount)
         {
-            ref MeleeStrike Strike = ref FStrikes[Index];
+            ref Strike Strike = ref FStrikes[Index];
             switch (Strike.Side)
             {
                 case CombatSideIndex.Attacker:
                     if (!FAttacker.GetLocked())
                     {
-                        Result = new StrikeCA(null);
+                        Result = new StrikeCombatAction(null);
                         var damage = FAttacker.GetDamage();
                         var attack = FAttacker.GetAttack();
                         Result.Generate(FAttacker, FDefender, (sbyte)(attack + Strike.AttackBonus), (sbyte)(damage + Strike.DamageBonus), FAttackerDamageTypes);
@@ -439,7 +439,7 @@ public partial class MeleeRound : IDisposable
                 case CombatSideIndex.Defender:
                     if (!FDefender.GetLocked())
                     {
-                        Result = new StrikeCA(null);
+                        Result = new StrikeCombatAction(null);
                         Result.SetDefensive(true);
                         var damage = FDefender.GetDamage();
                         var attack = FDefender.GetAttack();
@@ -552,7 +552,7 @@ public partial class MeleeRound : IDisposable
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 20)]
-    public struct MeleeStrike
+    public struct Strike
     {
         [FieldOffset(0)]
         public int AttackBonus;
@@ -563,7 +563,7 @@ public partial class MeleeRound : IDisposable
         [FieldOffset(12)]
         public CombatSideIndex Side;
         [FieldOffset(13)]
-        public FixedArray_byte_7 F_0D;
+        public ByteArray7 F_0D;
     }
 
     // intf_P4_02.inc:123

@@ -28,14 +28,14 @@ public partial class TownQuake : CityTargetSpell
     }
 
     // CitySpells.pas:820
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         bool Result;
         City TargetCity;
         ArmyHSList Armies;
         if (ExecuteCount == 0)
         {
-            TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
+            TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
             PlayDefaultCityEffects(Source, TargetCity);
             TargetCity.StartTownQuake();
             TargetCity.ValidateObservation(Source.FPlayer);
@@ -45,7 +45,7 @@ public partial class TownQuake : CityTargetSpell
         {
             if (ExecuteCount == 50)
             {
-                TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
+                TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
                 TargetCity.StopTownQuake();
                 Armies = new ArmyHSList(null);
                 if (AoWHSMap.Current.Random(10) < 7)
@@ -73,10 +73,10 @@ public partial class TownQuake : CityTargetSpell
     }
 
     // CitySpells.pas:812
-    public override bool ValidTargetCity(AbstractUnit Source, City TargetCity)
+    public override bool ValidTargetCity(Troop Source, City TargetCity)
     {
         bool Result = base.ValidTargetCity(Source, TargetCity);
-        if (!Result || TargetCity.FEnchantments.Contains(CityEnchantmentID.AntiMagicShell))
+        if (!Result || TargetCity.FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
             Result = false;
         }
@@ -89,12 +89,12 @@ public partial class TownQuake : CityTargetSpell
     }
 
     // CitySpells.pas:773
-    public void TriggerArmyDamage(AbstractUnit Source, ArmyHS Army)
+    public void TriggerArmyDamage(Troop Source, ArmyHexSprite Army)
     {
         ArmyEventLog Log;
         bool Damaged;
         int Damage;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Log = new ArmyEventLog(null);
         Log.FArmyText = AbilityRules.TranslateRStr(TownQuakeDamageRStr);
         Log.FPlayer = Source.FPlayer;

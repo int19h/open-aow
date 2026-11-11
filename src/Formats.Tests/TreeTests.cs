@@ -26,7 +26,7 @@ public sealed class TreeTests : FormatsTest
         return FormatSchema.Load(memory.ToArray(), file);
     }
 
-    private static SchemaClass SampleClass => Schema.Get(NameTable.Stored(typeof(TSample)));
+    private static SchemaClass SampleClass => Schema.Get(NameTable.Stored(typeof(Sample)));
 
     [Fact]
     public void EveryValueRoundTripsInSchemaOrder()
@@ -39,7 +39,7 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(4, ((JsonInteger)document["Player"]!).Value);
         var readNode = DocumentBackend.Read(document, SampleClass, Schema, "game");
         Assert.Equal([("Player", 4)], readNode.References("player-slot").ToList());
-        var loaded = new TSample();
+        var loaded = new Sample();
         TreeReader.Read(readNode, loaded, new TestFactory());
         AssertSame(source, loaded);
     }
@@ -47,14 +47,14 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void FallbacksAndEmptyValuesAreAbsent()
     {
-        var document = Write(new TSample());
+        var document = Write(new Sample());
         Assert.Equal(["Blob", "Fixed", "Made", "Children", "Pair"], document.Members.Select(m => m.Name).ToList());
         Assert.Equal("00000000", ((JsonString)document["Blob"]!).Value);
         Assert.IsType<JsonNull>(document["Made"]);
         Assert.Empty(((JsonObject)document["Fixed"]!).Members);
         Assert.Empty(((JsonArray)document["Children"]!).Items);
         Assert.Empty(((JsonObject)document["Pair"]!).Members);
-        var loaded = new TSample
+        var loaded = new Sample
         {
             Number = 1,
             NumberFallback = 1,
@@ -74,17 +74,17 @@ public sealed class TreeTests : FormatsTest
         loaded.EditorObjects.Add(1);
         loaded.Scores.Add(1);
         loaded.Flags.Add(true);
-        loaded.Kids.Add(new TInner { N = 1 });
-        loaded.Made = new TInner { N = 1 };
+        loaded.Kids.Add(new Inner { N = 1 });
+        loaded.Made = new Inner { N = 1 };
         loaded.Fixed.N = 5;
         TreeReader.Read(DocumentBackend.Read(document, SampleClass, Schema, "game"), loaded, new TestFactory());
-        AssertSame(new TSample(), loaded);
+        AssertSame(new Sample(), loaded);
     }
 
     [Fact]
     public void NonZeroFallbacksAndBoundariesRoundTrip()
     {
-        var source = new TSample
+        var source = new Sample
         {
             Number = int.MinValue,
             NumberFallback = 0,
@@ -104,7 +104,7 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(65535, loaded.Word);
         Assert.Equal(0, loaded.WordFallback);
         Assert.True(loaded.Flag);
-        var other = RoundTrip(new TSample { Number = int.MaxValue, NumberFallback = 8, SmallFallback = 255, SignedByte = 127, WordFallback = 65535 });
+        var other = RoundTrip(new Sample { Number = int.MaxValue, NumberFallback = 8, SmallFallback = 255, SignedByte = 127, WordFallback = 65535 });
         Assert.Equal(int.MaxValue, other.Number);
         Assert.Equal(8, other.NumberFallback);
         Assert.Equal(255, other.SmallFallback);
@@ -135,7 +135,7 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void ALineThatHoldsCrIsStoredAsText()
     {
-        var source = new TSample();
+        var source = new Sample();
         source.Message.Add("a\rb");
         var document = Write(source);
         Assert.Equal("a\rb\r\n", ((JsonString)((JsonObject)document["Message"]!)["$text"]!).Value);
@@ -144,7 +144,7 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void ALineWithObjectsThatHoldsCrIsRefusedAsTheConverterRefusesIt()
     {
-        var source = new TSample();
+        var source = new Sample();
         source.EditorLines.Add("a\rb");
         source.EditorObjects.Add(1);
         var node = TreeWriter.Write(source, new TestFactory());
@@ -156,8 +156,8 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void AnUnconsumedMemberIsAnErrorWithItsPath()
     {
-        var source = new TSample { SkipNote = true, Note = "kept" };
-        var node = TreeWriter.Write(new TSample { Note = "kept" }, new TestFactory());
+        var source = new Sample { SkipNote = true, Note = "kept" };
+        var node = TreeWriter.Write(new Sample { Note = "kept" }, new TestFactory());
         var error = Assert.Throws<ConversionException>(() => TreeReader.Read(node, source, new TestFactory()));
         Assert.Equal(Codes.Required, error.Diagnostic.Code);
         Assert.Equal("root.Note", error.Diagnostic.Path);
@@ -167,8 +167,8 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void HasDoesNotConsumeAMember()
     {
-        var node = TreeWriter.Write(new TSample { Note = "kept" }, new TestFactory());
-        var target = new TSample { SkipNote = true };
+        var node = TreeWriter.Write(new Sample { Note = "kept" }, new TestFactory());
+        var target = new Sample { SkipNote = true };
         var error = Assert.Throws<ConversionException>(() => TreeReader.Read(node, target, new TestFactory()));
         Assert.Equal("root.Note", error.Diagnostic.Path);
         Assert.True(target.HadNote);
@@ -177,17 +177,17 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void ANestedRefusalIsSwallowedUnlessTheHandlerStops()
     {
-        var made = new ObjectNode(nameof(TInner), null);
+        var made = new ObjectNode(nameof(Inner), null);
         made.Add("N", new IntegerNode(4, true, 2));
         made.Add("Extra", new IntegerNode(4, true, 1));
         var created = new ObjectNode(null, null);
         created.Add("Made", made);
         created.Add("Number", new IntegerNode(4, true, 6));
-        var continued = new TSample { Number = 1 };
+        var continued = new Sample { Number = 1 };
         TreeReader.Read(created, continued, new TestFactory());
         Assert.Null(continued.Made);
         Assert.Equal(6, continued.Number);
-        var stopped = new TSample { Number = 1 };
+        var stopped = new Sample { Number = 1 };
         var createdError = Assert.Throws<ConversionException>(() =>
             TreeReader.Read(created, stopped, new TestFactory(), static (string _, ref bool cont) => cont = false));
         Assert.Equal(Codes.Required, createdError.Diagnostic.Code);
@@ -195,18 +195,18 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(1, stopped.Number);
 
         var nested = new ObjectNode(null, null);
-        nested.Add("N", new BoolNode(true));
+        nested.Add("N", new BooleanNode(true));
         var parent = new ObjectNode(null, null);
         parent.Add("Fixed", nested);
         parent.Add("Number", new IntegerNode(4, true, 6));
-        var kept = new TSample { Number = 1 };
+        var kept = new Sample { Number = 1 };
         kept.Fixed.N = 4;
         var instance = kept.Fixed;
         TreeReader.Read(parent, kept, new TestFactory());
         Assert.Same(instance, kept.Fixed);
         Assert.Equal(4, kept.Fixed.N);
         Assert.Equal(6, kept.Number);
-        var refused = new TSample { Number = 1 };
+        var refused = new Sample { Number = 1 };
         refused.Fixed.N = 4;
         var refusedFixed = refused.Fixed;
         var fixedError = Assert.Throws<ConversionException>(() =>
@@ -221,12 +221,12 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void AnUnknownMemberIsAnErrorWithItsPath()
     {
-        var document = Write(new TSample());
+        var document = Write(new Sample());
         document.Add("Nope", new JsonInteger(1));
         var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, SampleClass, Schema, "game"));
         Assert.Equal(Codes.UnknownMember, error.Diagnostic.Code);
         Assert.Equal("root.Nope", error.Diagnostic.Path);
-        var nested = Write(new TSample());
+        var nested = Write(new Sample());
         ((JsonObject)nested["Fixed"]!).Add("Nope", new JsonInteger(1));
         var nestedError = Assert.Throws<ConversionException>(() => DocumentBackend.Read(nested, SampleClass, Schema, "game"));
         Assert.Equal("root.Fixed.Nope", nestedError.Diagnostic.Path);
@@ -235,7 +235,7 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void ADuplicateMemberIsRefused()
     {
-        var document = Write(new TSample());
+        var document = Write(new Sample());
         document.Add("Fixed", new JsonObject());
         var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, SampleClass, Schema, "game"));
         Assert.Equal(Codes.Duplicate, error.Diagnostic.Code);
@@ -248,7 +248,7 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void AListLongerThanAFixedArrayRoundTrips()
     {
-        var source = new TSample();
+        var source = new Sample();
         for (int i = 0; i < 300; i++) source.Scores.Add(i - 10);
         source.Scores[0] = 0;
         source.Scores[1] = int.MinValue;
@@ -258,8 +258,8 @@ public sealed class TreeTests : FormatsTest
         var document = Write(source);
         Assert.Equal(300, ((JsonArray)document["Scores"]!).Items.Count);
         Assert.Equal(0, ((JsonInteger)((JsonArray)document["Scores"]!).Items[0]).Value);
-        Assert.False(((JsonBool)((JsonArray)document["Flags"]!).Items[0]).Value);
-        Assert.True(((JsonBool)((JsonArray)document["Flags"]!).Items[1]).Value);
+        Assert.False(((JsonBoolean)((JsonArray)document["Flags"]!).Items[0]).Value);
+        Assert.True(((JsonBoolean)((JsonArray)document["Flags"]!).Items[1]).Value);
         AssertSame(source, RoundTrip(source));
     }
 
@@ -267,15 +267,15 @@ public sealed class TreeTests : FormatsTest
     public void ARecordThatGainsAFieldReadsTheOlderDocumentWithTheFallback()
     {
         var older = (JsonObject)JsonReader.Parse("""{"Pair":{"A":2}}""", "older.json");
-        var loaded = new TSample();
+        var loaded = new Sample();
         TreeReader.Read(DocumentBackend.Read(older, SampleClass, Schema, "game"), loaded, new TestFactory());
         Assert.Equal(2, loaded.PairA);
         Assert.Equal(4, loaded.PairB);
-        var absent = new TSample { PairA = 9, PairB = 9 };
+        var absent = new Sample { PairA = 9, PairB = 9 };
         TreeReader.Read(DocumentBackend.Read(new JsonObject(), SampleClass, Schema, "game"), absent, new TestFactory());
         Assert.Equal(0, absent.PairA);
         Assert.Equal(4, absent.PairB);
-        var written = Write(new TSample { PairA = 2, PairB = 4 });
+        var written = Write(new Sample { PairA = 2, PairB = 4 });
         Assert.Equal(["A"], ((JsonObject)written["Pair"]!).Members.Select(m => m.Name).ToList());
     }
 
@@ -342,19 +342,19 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(4, fromDocument.Key);
     }
 
-    private static JsonObject Write(TSample sample) =>
+    private static JsonObject Write(Sample sample) =>
         DocumentBackend.Write(TreeWriter.Write(sample, new TestFactory()), SampleClass, Schema, "game");
 
-    private static TSample RoundTrip(TSample sample)
+    private static Sample RoundTrip(Sample sample)
     {
-        var loaded = new TSample();
+        var loaded = new Sample();
         TreeReader.Read(DocumentBackend.Read(Write(sample), SampleClass, Schema, "game"), loaded, new TestFactory());
         return loaded;
     }
 
-    private static TSample Full()
+    private static Sample Full()
     {
-        var sample = new TSample
+        var sample = new Sample
         {
             Number = int.MinValue,
             NumberFallback = 8,
@@ -370,7 +370,7 @@ public sealed class TreeTests : FormatsTest
             Blob = [0x0A, 0x0B, 0x0C, 0x0D],
             PairA = 1,
             PairB = 5,
-            Made = new TInner { N = 5 },
+            Made = new Inner { N = 5 },
         };
         sample.Message.Add("one");
         sample.Message.Add("two");
@@ -382,12 +382,12 @@ public sealed class TreeTests : FormatsTest
         sample.Scores.Add(int.MaxValue);
         sample.Flags.Add(false);
         sample.Flags.Add(true);
-        sample.Kids.Add(new TInner { N = 1 });
-        sample.Kids.Add(new TInner());
+        sample.Kids.Add(new Inner { N = 1 });
+        sample.Kids.Add(new Inner());
         return sample;
     }
 
-    private static void AssertSame(TSample expected, TSample actual)
+    private static void AssertSame(Sample expected, Sample actual)
     {
         Assert.Equal(expected.Number, actual.Number);
         Assert.Equal(expected.NumberFallback, actual.NumberFallback);
@@ -409,18 +409,18 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(expected.Scores, actual.Scores);
         Assert.Equal(expected.Flags, actual.Flags);
         Assert.Equal(expected.Kids.Select(k => k.N).ToList(), actual.Kids.Select(k => k.N).ToList());
-        Assert.Equal(expected.Made is TInner made ? made.N : -1, actual.Made is TInner loaded ? loaded.N : -1);
+        Assert.Equal(expected.Made is Inner made ? made.N : -1, actual.Made is Inner loaded ? loaded.N : -1);
         Assert.Equal(expected.Fixed.N, actual.Fixed.N);
     }
 
-    private sealed class TInner : IPersistable
+    private sealed class Inner : IPersistable
     {
         public int N;
 
         public void Persist(IPersister persister) => persister.Int("N", ref N);
     }
 
-    private sealed class TSample : IPersistable
+    private sealed class Sample : IPersistable
     {
         public int Number;
         public int NumberFallback = 7;
@@ -439,7 +439,7 @@ public sealed class TreeTests : FormatsTest
         public bool SkipNote;
         public bool HadNote;
 
-        public TInner Fixed { get; } = new();
+        public Inner Fixed { get; } = new();
 
         public IPersistable? Made;
 
@@ -448,7 +448,7 @@ public sealed class TreeTests : FormatsTest
         public List<int> EditorObjects { get; } = [];
         public List<int> Scores { get; } = [];
         public List<bool> Flags { get; } = [];
-        public List<TInner> Kids { get; } = [];
+        public List<Inner> Kids { get; } = [];
 
         public void Persist(IPersister persister)
         {
@@ -487,7 +487,7 @@ public sealed class TreeTests : FormatsTest
         private static void FlagItem(IItemSlot slot, ref bool value) => slot.Bool(ref value);
     }
 
-    private sealed class KidList(List<TInner> kids) : IChildCollection
+    private sealed class KidList(List<Inner> kids) : IChildCollection
     {
         public int Count => kids.Count;
 
@@ -503,7 +503,7 @@ public sealed class TreeTests : FormatsTest
         {
         }
 
-        public void Place(int slot, IPersistable child) => kids.Add((TInner)child);
+        public void Place(int slot, IPersistable child) => kids.Add((Inner)child);
     }
 
     private sealed class BytesProbe : IPersistable
@@ -537,8 +537,8 @@ public sealed class TreeTests : FormatsTest
 
         public IPersistable Create(string className)
         {
-            if (NameTable.Names(typeof(TInner), className)) return new TInner();
-            if (NameTable.Names(typeof(TSample), className)) return new TSample();
+            if (NameTable.Names(typeof(Inner), className)) return new Inner();
+            if (NameTable.Names(typeof(Sample), className)) return new Sample();
             throw new InvalidOperationException("The test factory has no class " + className + ".");
         }
     }

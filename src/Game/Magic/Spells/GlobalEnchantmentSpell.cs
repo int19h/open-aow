@@ -1,8 +1,6 @@
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
-
-using Aow.Game.Ai;
-
+using Aow.Game.AI;
 using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
@@ -23,18 +21,18 @@ public partial class GlobalEnchantmentSpell : Spell
     }
 
     // GlobalEnchantmentSpells.pas:429
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         if (ExecuteCount == 0)
         {
-            ((GlobalEnchantmentSpellTE)Event).FEnchantment.Cast(Source.FPlayer);
+            ((GlobalEnchantmentSpellTokenEvent)Event).FEnchantment.Cast(Source.FPlayer);
         }
 
         return false;
     }
 
     // GlobalEnchantmentSpells.pas:494
-    public override void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
     {
         AICastSpellAction Action;
         bool aiCanCastSpell = AICanCastSpell(Source);
@@ -54,7 +52,7 @@ public partial class GlobalEnchantmentSpell : Spell
     }
 
     // GlobalEnchantmentSpells.pas:507
-    public override bool AIExecuteCastSpellAction(AbstractUnit Source)
+    public override bool AIExecuteCastSpellAction(Troop Source)
     {
         bool Result;
         string Reason = "";
@@ -89,7 +87,7 @@ public partial class GlobalEnchantmentSpell : Spell
     }
 
     // GlobalEnchantmentSpells.pas:435
-    public override bool CanActivate(AbstractUnit Source, ref string MessageText)
+    public override bool CanActivate(Troop Source, ref string MessageText)
     {
         GlobalEnchantment Enchantment;
         bool Result = base.CanActivate(Source, ref MessageText);
@@ -116,14 +114,14 @@ public partial class GlobalEnchantmentSpell : Spell
     }
 
     // GlobalEnchantmentSpells.pas:458
-    public override bool Activate(AbstractUnit Source)
+    public override bool Activate(Troop Source)
     {
         bool Result;
-        GlobalEnchantmentSpellTE Event;
+        GlobalEnchantmentSpellTokenEvent Event;
         string Reason = "";
         if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new GlobalEnchantmentSpellTE(null);
+            Event = new GlobalEnchantmentSpellTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.FEnchantment = CreateEnchantment();
             SetupEnchantment(Source, Event.FEnchantment);
@@ -140,7 +138,7 @@ public partial class GlobalEnchantmentSpell : Spell
     }
 
     // GlobalEnchantmentSpells.pas:476
-    public virtual bool AICanCastSpell(AbstractUnit Source)
+    public virtual bool AICanCastSpell(Troop Source)
     {
         string Reason = "";
         bool Result = FAIBasePriority != -1 && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
@@ -151,7 +149,7 @@ public partial class GlobalEnchantmentSpell : Spell
     public virtual GlobalEnchantment CreateEnchantment() => null;
 
     // GlobalEnchantmentSpells.pas:424
-    public virtual void SetupEnchantment(AbstractUnit Source, GlobalEnchantment Enchantment)
+    public virtual void SetupEnchantment(Troop Source, GlobalEnchantment Enchantment)
     {
         Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
     }

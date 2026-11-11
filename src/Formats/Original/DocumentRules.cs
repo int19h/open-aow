@@ -53,22 +53,22 @@ internal sealed partial class IntegerCodec
     private static string Name(DocumentSite site) => site.Property?.Name ?? "The value";
 }
 
-internal sealed partial class BoolCodec
+internal sealed partial class BooleanCodec
 {
-    internal override bool StoresImage(TreeValue value) => value is not BoolNode { Value: false };
+    internal override bool StoresImage(TreeValue value) => value is not BooleanNode { Value: false };
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
-        if (value is not BoolNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a boolean.");
+        if (value is not BooleanNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a boolean.");
         if (!node.Value && !site.Element) return null;
-        return new JsonBool(node.Value);
+        return new JsonBoolean(node.Value);
     }
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
-        if (value is not JsonBool node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a boolean.", value);
+        if (value is not JsonBoolean node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a boolean.", value);
         if (!node.Value && !site.Element) return null;
-        return new BoolNode(node.Value);
+        return new BooleanNode(node.Value);
     }
 }
 
@@ -117,11 +117,11 @@ internal partial class StringsCodec
     }
 }
 
-internal sealed partial class StringsExCodec
+internal sealed partial class StringsWithValuesCodec
 {
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
-        if (value is not LinesExNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is lines with objects.");
+        if (value is not LinesWithValuesNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is lines with objects.");
         string text = node.RawText ?? StringsCodec.Join(node.Lines ?? []);
         int lines = LineCount(text);
         if (lines != node.Objects.Count)
@@ -143,7 +143,7 @@ internal sealed partial class StringsExCodec
         if (value is not JsonObject obj) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an object with lines or $text, and objects.", value);
         var (text, ids) = ReadMembers(site.Context, obj, site.Path);
         site.RequireText(text, value);
-        return LinesExNode.FromText(text, ids);
+        return LinesWithValuesNode.FromText(text, ids);
     }
 }
 

@@ -30,7 +30,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1792
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         bool Result = default;
         sbyte X = default;
@@ -68,7 +68,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1746
     public override GlobalEnchantment CreateEnchantment() => new FireMasteryEnchantment(null);
 
-    public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in SurfaceDesc surface)
+    public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in LockedSurface surface)
     {
         int chance = GameTables.AoWEngine.FAnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
         var map = AoWHSMap.Current;

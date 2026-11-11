@@ -3,8 +3,8 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Formats.Schema;
-using Aow.Game.Ai;
-using Aow.Game.Ai.Groups;
+using Aow.Game.AI;
+using Aow.Game.AI.Groups;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -18,6 +18,7 @@ using Aow.Game.Units;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
+using Aow.Rtl;
 
 namespace Aow.Game.Tests;
 
@@ -28,19 +29,19 @@ public sealed class ClassRegistryTests
     [Fact]
     public void EveryProductClassHasItsDescriptor()
     {
-        var types = typeof(EObject).Assembly.GetTypes();
-        var engineTypes = types.Where(t => t.IsClass && typeof(EObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal);
-        Assert.Equal(engineTypes, EClass.All.Where(c => c.Type.Assembly == typeof(EObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName, StringComparer.Ordinal));
+        var types = typeof(EngineObject).Assembly.GetTypes();
+        var engineTypes = types.Where(t => t.IsClass && typeof(EngineObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal);
+        Assert.Equal(engineTypes, EngineClass.All.Where(c => c.Type.Assembly == typeof(EngineObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName, StringComparer.Ordinal));
         foreach (var type in engineTypes)
         {
-            var descriptor = EClass.Of(type);
+            var descriptor = EngineClass.Of(type);
             Assert.Equal(type, descriptor.Type);
             Assert.Equal((int)type.GetField("ClassID", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassID);
-            Assert.Equal(type == typeof(EObject) ? null : type.BaseType, descriptor.Parent?.Type);
+            Assert.Equal(type == typeof(EngineObject) ? null : type.BaseType, descriptor.Parent?.Type);
         }
         CheckFamily(typeof(IAIPlayerActionClass), types, AIPlayerActionClass.All.Select(c => c.Class.Type));
         CheckFamily(typeof(IAIGroupClass), types, AIGroupClass.All.Select(c => c.Class.Type));
-        CheckFamily(typeof(IEObjectEditorClass), types, EditorClass.All.Select(c => c.Class.Type));
+        CheckFamily(typeof(IEngineObjectEditorClass), types, EditorClass.All.Select(c => c.Class.Type));
         CheckFamily(typeof(ILibraryImageClass), types, LibraryImageClass.All.Select(c => c.Type));
         CheckFamily(typeof(IImageFileClass), types, ImageFileClass.All.Select(c => c.Type));
     }
@@ -88,7 +89,7 @@ public sealed class ClassRegistryTests
         foreach (var c in production.Cases)
         {
             var order = ProductionOrder.FromFields((int)c.Key!.Value, 7, 3);
-            Assert.Equal(c.Name, order.GetType().Name);
+            Assert.Equal(c.Name, NameTable.Delphi(order.GetType()));
             var (id, parameter, groupId) = order.ToFields();
             Assert.Equal(c.Key, id);
             Assert.Equal(c.Fields.Any(f => f.Member == "Parameter"), parameter == 7);
@@ -99,7 +100,7 @@ public sealed class ClassRegistryTests
         foreach (var c in diplomacy.Cases)
         {
             var proposal = DiplomaticProposal.FromFields((byte)c.Key!.Value, 70, 30);
-            Assert.Equal(c.Name, proposal.GetType().Name);
+            Assert.Equal(c.Name, NameTable.Delphi(proposal.GetType()));
             var (kind, gold, mana) = proposal.ToFields();
             Assert.Equal(c.Key, kind);
             Assert.Equal(c.Fields.Any(f => f.Member == "Gold"), gold == 70);
@@ -109,20 +110,20 @@ public sealed class ClassRegistryTests
         Assert.IsType<UnknownProposal>(DiplomaticProposal.FromFields(12, 0, 0));
     }
 
-    public static IEnumerable<object?[]> Classes => EClass.All
-        .Where(c => c.Type.Assembly == typeof(EObject).Assembly).Select(c => new object?[] { c.Type, IncompleteCleanup.GetValueOrDefault(c.Type) });
+    public static IEnumerable<object?[]> Classes => EngineClass.All
+        .Where(c => c.Type.Assembly == typeof(EngineObject).Assembly).Select(c => new object?[] { c.Type, IncompleteCleanup.GetValueOrDefault(c.Type) });
 
     [Theory]
     [MemberData(nameof(Classes))]
     public void RegisteredCreationReturnsTheExactType(Type type, Type? cleanupError)
     {
         // These two entries require a linked owner even though the descriptor accepts null.
-        if (type == typeof(DynamicIsometricHexagon) || type == typeof(FlagControl))
+        if (type == typeof(DynamicIsometricHex) || type == typeof(FlagControl))
         {
-            Assert.Throws<NullReferenceException>(() => EClass.Of(type).Create(null!));
+            Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).Create(null!));
             return;
         }
-        var instance = EClass.Of(type).Create(null!);
+        var instance = EngineClass.Of(type).Create(null!);
         try { Assert.IsType(type, instance); }
         finally
         {
@@ -139,48 +140,48 @@ public sealed class ClassRegistryTests
         [typeof(AIGroupControl)] = typeof(NullReferenceException),
         [typeof(Army)] = typeof(NullReferenceException),
         [typeof(ArmyEventLog)] = typeof(NullReferenceException),
-        [typeof(ArmyHS)] = typeof(NullReferenceException),
+        [typeof(ArmyHexSprite)] = typeof(NullReferenceException),
         [typeof(ArmyInfoEventLog)] = typeof(NullReferenceException),
         [typeof(ArmyView)] = typeof(NullReferenceException),
         [typeof(CombatParty)] = typeof(NullReferenceException),
-        [typeof(HuntAGC)] = typeof(NullReferenceException),
-        [typeof(WorldFXHS)] = typeof(NullReferenceException),
-        [typeof(CCorpseHS)] = typeof(NullReferenceException),
-        [typeof(CItemHS)] = typeof(NullReferenceException),
-        [typeof(TacticalCombatUnitHS)] = typeof(NullReferenceException),
-        [typeof(TfxHS)] = typeof(NullReferenceException),
-        [typeof(AbstractBehaviorAGC)] = typeof(NullReferenceException),
-        [typeof(AggressorAGC)] = typeof(NullReferenceException),
-        [typeof(DefenderAGC)] = typeof(NullReferenceException),
-        [typeof(ExpanderAGC)] = typeof(NullReferenceException),
-        [typeof(NormalAGC)] = typeof(NullReferenceException),
-        [typeof(ScorcherAGC)] = typeof(NullReferenceException),
-        [typeof(SkirmishAGC)] = typeof(NullReferenceException),
+        [typeof(HuntAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(WorldEffectHexSprite)] = typeof(NullReferenceException),
+        [typeof(TacticalBattleCorpseHexSprite)] = typeof(NullReferenceException),
+        [typeof(TacticalBattleItemHexSprite)] = typeof(NullReferenceException),
+        [typeof(TacticalBattleUnitHexSprite)] = typeof(NullReferenceException),
+        [typeof(BattleEffectSprite)] = typeof(NullReferenceException),
+        [typeof(BehaviorAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(AggressorAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(DefenderAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(ExpanderAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(NormalAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(ScorcherAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(SkirmishAIGroupControl)] = typeof(NullReferenceException),
         [typeof(Crypt)] = typeof(NullReferenceException),
         [typeof(Dungeon)] = typeof(NullReferenceException),
         [typeof(PrisonersArmy)] = typeof(NullReferenceException),
         [typeof(ECustomNode)] = typeof(AbstractErrorException),
         [typeof(DefendersArmy)] = typeof(NullReferenceException),
         [typeof(ExplorationSite)] = typeof(NullReferenceException),
-        [typeof(WatcherHS)] = typeof(NullReferenceException),
-        [typeof(GuardAGC)] = typeof(NullReferenceException),
-        [typeof(GuardAreaAGC)] = typeof(NullReferenceException),
-        [typeof(PatrolAGC)] = typeof(NullReferenceException),
-        [typeof(RaidAGC)] = typeof(NullReferenceException),
-        [typeof(RefugeAGC)] = typeof(NullReferenceException),
-        [typeof(ScoutAGC)] = typeof(NullReferenceException),
+        [typeof(WatcherHexSprite)] = typeof(NullReferenceException),
+        [typeof(GuardAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(GuardAreaAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(PatrolAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(RaidAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(RefugeAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(ScoutAIGroupControl)] = typeof(NullReferenceException),
         [typeof(ItemExplorationSite)] = typeof(NullReferenceException),
         [typeof(MagicSanctuary)] = typeof(NullReferenceException),
-        [typeof(FortifyAGC)] = typeof(NullReferenceException),
-        [typeof(PassiveAGC)] = typeof(NullReferenceException),
-        [typeof(SuicidalAGC)] = typeof(NullReferenceException),
-        [typeof(TransportAGC)] = typeof(NullReferenceException),
-        [typeof(Monsterlair)] = typeof(NullReferenceException),
+        [typeof(FortifyAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(PassiveAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(SuicidalAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(TransportAIGroupControl)] = typeof(NullReferenceException),
+        [typeof(MonsterLair)] = typeof(NullReferenceException),
         [typeof(Pyramid)] = typeof(NullReferenceException),
         [typeof(Ruin)] = typeof(NullReferenceException),
     };
 
     private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered) =>
         Assert.Equal(types.Where(t => t.IsClass && contract.IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal),
-            registered.Where(t => t.Assembly == typeof(EObject).Assembly).OrderBy(t => t.FullName, StringComparer.Ordinal));
+            registered.Where(t => t.Assembly == typeof(EngineObject).Assembly).OrderBy(t => t.FullName, StringComparer.Ordinal));
 }

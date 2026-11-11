@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Terrain;
 
 // FPadActive
-public partial class Pad : FixedILTerrainMO
+public partial class Pad : FixedImageLibraryTerrainMapObject
 {
     public Pad(ECustomNode owner) : base(owner)
     {
@@ -40,7 +40,7 @@ public partial class Pad : FixedILTerrainMO
     }
 
     // FPadSize
-    public new partial class Resource : FixedILTerrainMOR
+    public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         {
@@ -55,7 +55,7 @@ public partial class Pad : FixedILTerrainMO
         // Pad.pas:69
         public override void Dispose()
         {
-            if (Engine != null && !Engine.HSSet.Status.Contains(HSSetStatusElement.Destroying))
+            if (Engine != null && !Engine.HSSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
                 ((AoWHSSet)Engine.HSSet).FPadControl.UnregisterPadResource(this, FPadSize);
             }
@@ -78,7 +78,7 @@ public partial class Pad : FixedILTerrainMO
         }
 
         // Pad.pas:95
-        public override void MsgProc(ref EMsg Msg, EObject Sender)
+        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)

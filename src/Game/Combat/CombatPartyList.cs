@@ -13,7 +13,7 @@ public partial class CombatPartyList : ENode
     { }
 
     // Combat2.pas:70
-    public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.ArrayMode);
+    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.ArrayMode);
 
     // Combat2.pas:73
     public CombatParty CreateParty(Battle ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, Army Army)

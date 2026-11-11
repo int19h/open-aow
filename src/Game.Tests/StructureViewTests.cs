@@ -7,7 +7,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Ui.Dialogs;
+using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Xunit.Abstractions;
@@ -24,7 +24,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private const sbyte Viewer = 1;
     private const sbyte OtherPlayer = 2;
 
-    private static Type[] StructureTypes() => EClass.All
+    private static Type[] StructureTypes() => EngineClass.All
         .Where(c => typeof(Structure).IsAssignableFrom(c.Type))
         .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal).ToArray();
 
@@ -34,9 +34,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         internal int ArmyQueries;
 
-        public override EObject FindOwnedChild(int AClassID)
+        public override EngineObject FindOwnedChild(int AClassID)
         {
-            if (AClassID == ArmyHS.ClassID) ArmyQueries++;
+            if (AClassID == ArmyHexSprite.ClassID) ArmyQueries++;
             return null!;
         }
     }
@@ -224,7 +224,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         internal (Structure Structure, ArmyOwner Owner) Create(Type type)
         {
             var owner = new ArmyOwner();
-            var structure = (Structure)EClass.Of(type).Create(owner);
+            var structure = (Structure)EngineClass.Of(type).Create(owner);
             Assert.IsType(type, structure);
             created.Add(structure);
             return (structure, owner);
@@ -270,7 +270,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 Apply(structure, state);
                 string expected = OldInfoPanel(structure, Viewer);
                 var view = structure.InfoPanel(Viewer);
-                Assert.True(IWindow.StructurePanels.TryGet(view, out _), $"{type.Name} {state}: no panel renderer for {view}");
+                Assert.True(InfoWindow.StructurePanels.TryGet(view, out _), $"{type.Name} {state}: no panel renderer for {view}");
                 if (view.Name != expected) mismatches.Add($"{type.Name} {state}: {view.Name}, old cascade {expected}");
                 row.Add($"{state}={view.Name}");
                 // A razed state has no plain reset in every kind, so the next state starts from a new instance.
@@ -304,7 +304,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 selection.FStatus = Set<TargetSelectionStatusElement>.Of();
                 selection.FSource = null;
                 if (view != StructureView.None)
-                    Assert.True(IWindow.StructureButtons.TryGet(view, out _), $"{type.Name}: no button renderer for {view}");
+                    Assert.True(InfoWindow.StructureButtons.TryGet(view, out _), $"{type.Name}: no button renderer for {view}");
                 string actual = Observed(view, type, nameof(Structure.InfoButton), owner, queries, cancelled);
                 if (actual != expected) mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
                 output.WriteLine($"{type.Name} {(owned ? "owned" : "other")}: {actual}");
@@ -366,7 +366,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                             int actualSeed = Runtime.RandSeed;
                             Runtime.RandSeed = 0x5EED + pattern.Length;
                             bool expectedTerrain = randomTerrain;
-                            string expected = OldCombatMapName(EClass.Of(type).ClassID, siteCombat, ref expectedTerrain, randomTerrain,
+                            string expected = OldCombatMapName(EngineClass.Of(type).ClassID, siteCombat, ref expectedTerrain, randomTerrain,
                                 pattern.Contains, out bool expectedItems, out int expectedTags);
                             string state = $"{type.Name} site={siteCombat} random={randomTerrain} neighbors=[{string.Join(",", pattern)}]";
                             if (actual != expected) mismatches.Add($"{state}: {actual}, old switch {expected}");
@@ -376,7 +376,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                             if (actualSeed != Runtime.RandSeed) mismatches.Add($"{state}: random draws differ");
                             names.Add(actual.Length == 8 && actual[0] == 'e' ? actual[..7] + "?" : actual);
                         }
-                output.WriteLine($"{type.Name} ({(EClass.Of(type).ClassID)}): {string.Join(" ", names)}");
+                output.WriteLine($"{type.Name} ({(EngineClass.Of(type).ClassID)}): {string.Join(" ", names)}");
             }
         }
         finally { Runtime.RandSeed = previousSeed; }
@@ -405,13 +405,13 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void TheScreensRegisterEveryOriginalView()
     {
-        Assert.Equal(19, IWindow.StructurePanels.All.Count);
-        Assert.Equal(2, IWindow.StructureButtons.All.Count);
+        Assert.Equal(19, InfoWindow.StructurePanels.All.Count);
+        Assert.Equal(2, InfoWindow.StructureButtons.All.Count);
         Assert.Equal(2, MapEvents.StructureScreens.All.Count);
-        Assert.False(IWindow.StructureButtons.TryGet(StructureView.None, out _));
+        Assert.False(InfoWindow.StructureButtons.TryGet(StructureView.None, out _));
         Assert.False(MapEvents.StructureScreens.TryGet(StructureView.None, out _));
         var duplicate = Assert.Throws<InvalidOperationException>(() =>
-            IWindow.StructurePanels.Add(StructureView.Generic, static (_, _) => { }));
+            InfoWindow.StructurePanels.Add(StructureView.Generic, static (_, _) => { }));
         Assert.Contains("structure info panel", duplicate.Message);
     }
 }

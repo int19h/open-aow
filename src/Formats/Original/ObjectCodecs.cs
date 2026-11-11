@@ -113,7 +113,7 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
         return DecodeCreated(ctx, start, end, site, family, slot, out _);
     }
 
-    internal override int ElementId(EncodeContext ctx, JsonValue value, SchemaProperty property, int index, DocPath path)
+    internal override int ElementId(EncodeContext ctx, JsonValue value, SchemaProperty property, int index, DocumentNodePath path)
     {
         if (value is not JsonObject obj) throw ctx.Fail(Codes.Type, $"An item of {property.Name} is an object.", value, path, value.KindName);
         if (property.SlotBase is not int b)

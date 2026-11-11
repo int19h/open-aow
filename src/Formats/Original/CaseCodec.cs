@@ -14,7 +14,7 @@ namespace Aow.Formats.Original;
 /// </summary>
 internal static class CaseCodec
 {
-    private static ConversionException Missing(SchemaClass cls, SchemaMapping mapping, string? file, long offset, DocPath path) =>
+    private static ConversionException Missing(SchemaClass cls, SchemaMapping mapping, string? file, long offset, DocumentNodePath path) =>
         new(new FormatDiagnostic(Codes.Mapping, $"Class {cls.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.")
         { File = file, Offset = offset, Path = path.ToString() });
 
@@ -48,7 +48,7 @@ internal static class CaseCodec
     }
 
     /// <summary>Turns the decoded stored members of a mapped object into its case.</summary>
-    public static void ToDocument(DecodeContext ctx, SchemaClass cls, SchemaMapping mapping, JsonObject target, DocPath path, int offset)
+    public static void ToDocument(DecodeContext ctx, SchemaClass cls, SchemaMapping mapping, JsonObject target, DocumentNodePath path, int offset)
     {
         if (CaseMappings.Find(cls.Name) is null) throw Missing(cls, mapping, ctx.File, offset, path);
         var stored = new Dictionary<string, JsonValue>(StringComparer.Ordinal);
@@ -95,7 +95,7 @@ internal static class CaseCodec
     /// residue goes back exactly. The kind must keep every case field: the unit side's
     /// ToFields writes it back unchanged.
     /// </summary>
-    public static JsonObject FromDocument(EncodeContext ctx, SchemaClass cls, SchemaMapping mapping, JsonObject obj, DocPath path)
+    public static JsonObject FromDocument(EncodeContext ctx, SchemaClass cls, SchemaMapping mapping, JsonObject obj, DocumentNodePath path)
     {
         var unit = CaseMappings.Find(cls.Name)
             ?? throw ctx.Fail(Codes.Mapping, $"Class {cls.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.", obj, path);

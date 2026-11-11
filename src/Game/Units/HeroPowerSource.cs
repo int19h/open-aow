@@ -37,7 +37,7 @@ public partial class HeroPowerSource : PowerSource
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        ArmyHS ArmyHS;
+        ArmyHexSprite ArmyHS;
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {

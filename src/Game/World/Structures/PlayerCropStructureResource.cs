@@ -15,7 +15,7 @@ public partial class PlayerCropStructureResource : PlayerStructureResource
     // Crops.pas:599
     public new const int ClassID = 131919;
 
-    public WordList FCropLocations;
+    public UInt16List FCropLocations;
 
     // Crops.pas:592
     public override void Dispose()
@@ -26,7 +26,7 @@ public partial class PlayerCropStructureResource : PlayerStructureResource
     }
 
     // Crops.pas:605
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 536870920)

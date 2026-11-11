@@ -16,7 +16,7 @@ public partial class AoWRoad : Road
         byte OldTransitions;
         int Xhx = default;
         int Yhx = default;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         MapLevel Level;
         MapField MapField;
         bool HasRoad;

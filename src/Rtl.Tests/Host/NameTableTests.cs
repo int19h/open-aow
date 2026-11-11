@@ -11,14 +11,14 @@ public sealed class NameTableTests
 {
     public NameTableTests()
     {
-        TranslatorProperties.Register<TRenamedForm>("Caption", form => form.Caption, (form, value) => form.Caption = value);
+        TranslatorProperties.Register<RenamedForm>("Caption", form => form.Caption, (form, value) => form.Caption = value);
     }
 
     [Fact]
     public void OriginalFilesKeepTheDelphiName()
     {
         string table = "kind,delphi,current\n"
-            + "type,TDelphiForm," + NameTable.QualifiedName(typeof(TRenamedForm)) + "\n";
+            + "type,TDelphiForm," + NameTable.QualifiedName(typeof(RenamedForm)) + "\n";
         string path = Path.Combine(Path.GetTempPath(), "aow-names-" + Guid.NewGuid().ToString("N"));
         try
         {
@@ -41,26 +41,26 @@ public sealed class NameTableTests
                     Text("");
                 }
                 Entry("Hello", "TDelphiForm", "from delphi");
-                Entry("Hello", "TRenamedForm", "from current");
+                Entry("Hello", "RenamedForm", "from current");
             }
             var dictionary = new MldDictionary();
             dictionary.Open(path);
             using (NameTable.Install(table))
             {
-                Assert.Equal("TDelphiForm", NameTable.Delphi(typeof(TRenamedForm)));
-                Assert.Equal(nameof(TRenamedForm), NameTable.Stored(typeof(TRenamedForm)));
-                Assert.Equal("from delphi", dictionary.TranslateContext("Hello", NameTable.Delphi(typeof(TRenamedForm)), ""));
-                Assert.Equal("from current", dictionary.TranslateContext("Hello", NameTable.Stored(typeof(TRenamedForm)), ""));
+                Assert.Equal("TDelphiForm", NameTable.Delphi(typeof(RenamedForm)));
+                Assert.Equal(nameof(RenamedForm), NameTable.Stored(typeof(RenamedForm)));
+                Assert.Equal("from delphi", dictionary.TranslateContext("Hello", NameTable.Delphi(typeof(RenamedForm)), ""));
+                Assert.Equal("from current", dictionary.TranslateContext("Hello", NameTable.Stored(typeof(RenamedForm)), ""));
 
-                var form = new TRenamedForm { Caption = "Hello" };
+                var form = new RenamedForm { Caption = "Hello" };
                 var translator = new IvCustomTranslator(form) { Dictionary = dictionary, Language = 1 };
-                translator.TargetsData.Add(new TranslationTarget(NameTable.Delphi(typeof(TRenamedForm)), "Caption"));
+                translator.TargetsData.Add(new TranslationTarget(NameTable.Delphi(typeof(RenamedForm)), "Caption"));
                 translator.Translate(form);
                 Assert.Equal("from delphi", form.Caption);
 
                 form.Caption = "Hello";
                 translator.TargetsData.Clear();
-                translator.TargetsData.Add(new TranslationTarget(NameTable.Stored(typeof(TRenamedForm)), "Caption"));
+                translator.TargetsData.Add(new TranslationTarget(NameTable.Stored(typeof(RenamedForm)), "Caption"));
                 translator.Translate(form);
                 Assert.Equal("Hello", form.Caption);
                 form.Dispose();
@@ -101,7 +101,7 @@ public sealed class NameTableTests
         }
     }
 
-    private sealed class TRenamedForm : Component
+    private sealed class RenamedForm : Component
     {
         public string Caption { get; set; } = "";
     }

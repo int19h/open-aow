@@ -125,13 +125,13 @@ public partial class Picture08 : Image08, ILibraryImageClass
     }
 
     // ImageLib.pas:7378
-    public override Form CreateGrabForm(Component AOwner, in SurfaceDesc SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
 
     // ImageLib.pas:7384
     public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == PixelFormats.pfPAL8;
 
     // ImageLib.pas:7389
-    public override bool GrabImage(in SurfaceDesc SD, in Rect R, GrabInfo GrabInfo)
+    public override bool GrabImage(in LockedSurface SD, in Rect R, GrabInfo GrabInfo)
     {
         bool Result;
         try
@@ -174,7 +174,7 @@ public partial class Picture08 : Image08, ILibraryImageClass
         return Result;
     }
 
-    public override void ShowOpaque(int x, int y, in SurfaceDesc sd)
+    public override void ShowOpaque(int x, int y, in LockedSurface sd)
     {
         int destX = x + FXshift, destY = y + FYshift;
         int right = destX + FDataWidth, bottom = destY + FDataHeight;

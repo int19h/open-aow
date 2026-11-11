@@ -30,7 +30,7 @@ public partial class LifeMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1457
-    public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
+    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
     {
         sbyte X = default;
         sbyte Y = default;

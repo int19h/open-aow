@@ -5,7 +5,7 @@ namespace Aow.Game.Draw.Images;
 
 internal static class LibraryDrawing
 {
-    internal static void BltLibraryImage(Canvas Canvas, LibraryImage Image, Rect Rect, BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref Rect DrawRect)
+    internal static void BltLibraryImage(Canvas Canvas, LibraryImage Image, Rect Rect, BlitMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref Rect DrawRect)
     {
         /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
         throw new NotImplementedException();

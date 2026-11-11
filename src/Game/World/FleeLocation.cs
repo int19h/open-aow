@@ -27,19 +27,19 @@ public partial class FleeLocation : MapObject
     public override int GetShowPriority() => 1744830464 + (Yhx << 13) + Xhx;
 
     // FleeLoc.pas:151
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         int X = default;
         int Y = default;
         if (FAlpha > 0)
         {
             HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-            FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, GfxState.AlphaBlendTable.LookupTables[FAlpha]);
+            FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, GraphicsState.AlphaBlendTable.LookupTables[FAlpha]);
         }
     }
 
     // FleeLoc.pas:120
-    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
     {
         if (Info.HN == 0)
         {
@@ -60,8 +60,8 @@ public partial class FleeLocation : MapObject
     public override void Activate()
     {
         base.Activate();
-        AoWCombatMap.Current.NewFrameEvents += NewFrame;
-        FHighlighted = AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting);
+        CombatMap.Current.NewFrameEvents += NewFrame;
+        FHighlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
         if (FHighlighted)
         {
             FAlpha = 50;
@@ -71,13 +71,13 @@ public partial class FleeLocation : MapObject
             FAlpha = 0;
         }
 
-        AoWCombatMap.Current.FFleeLocations.Add(this);
+        CombatMap.Current.FFleeLocations.Add(this);
     }
 
     // FleeLoc.pas:65
     public override void Deactivate()
     {
-        AoWCombatMap.Current.NewFrameEvents -= NewFrame;
+        CombatMap.Current.NewFrameEvents -= NewFrame;
         base.Deactivate();
     }
 
@@ -93,7 +93,7 @@ public partial class FleeLocation : MapObject
     // FleeLoc.pas:93
     public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        EObject OldHexagon;
+        EngineObject OldHexagon;
         MapField MapField;
         if (!GetEditMode())
         {
@@ -102,7 +102,7 @@ public partial class FleeLocation : MapObject
             if (OldHexagon != null)
             {
                 OldHexagon?.Dispose();
-                AoWHSSet.Current.FCombatHexagons.Place(AoWCombatMap.Current.MapContainer, Xhx, Yhx, 0, 1);
+                AoWHSSet.Current.FCombatHexagons.Place(CombatMap.Current.MapContainer, Xhx, Yhx, 0, 1);
             }
         }
 
@@ -114,13 +114,13 @@ public partial class FleeLocation : MapObject
     {
         bool Highlight;
         Highlight = false;
-        if (AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             Highlight = true;
         }
         else
         {
-            if (AoWCombatMap.Current.FUnitSelection.GetTCUnitHS() != null && AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == AoWCombatMap.Current.FSeatedCombatPlayer && AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != AoWCombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
+            if (CombatMap.Current.FUnitSelection.GetTCUnitHS() != null && CombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == CombatMap.Current.FSeatedCombatPlayer && CombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != CombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
             {
                 Highlight = true;
             }

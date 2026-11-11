@@ -38,9 +38,9 @@ internal static class AlignmentTables
         return Result;
     }
 
-    internal static FixedArray_Aow_Units_FixedArray_sbyte_7_7 dAlignmentToStatusValue = FixedArray_Aow_Units_FixedArray_sbyte_7_7.From([FixedArray_sbyte_7.From([100, 90, 30, 40, 10, 0, 50]), FixedArray_sbyte_7.From([90, 90, 40, 50, 10, 10, 50]), FixedArray_sbyte_7.From([30, 40, 70, 50, 40, 30, 50]), FixedArray_sbyte_7.From([40, 50, 50, 50, 50, 40, 50]), FixedArray_sbyte_7.From([10, 10, 40, 50, 90, 90, 50]), FixedArray_sbyte_7.From([0, 10, 30, 40, 90, 100, 50]), FixedArray_sbyte_7.From([50, 50, 50, 50, 50, 50, 50])]);
+    internal static SByteArray7By7 dAlignmentToStatusValue = SByteArray7By7.From([SByteArray7.From([100, 90, 30, 40, 10, 0, 50]), SByteArray7.From([90, 90, 40, 50, 10, 10, 50]), SByteArray7.From([30, 40, 70, 50, 40, 30, 50]), SByteArray7.From([40, 50, 50, 50, 50, 40, 50]), SByteArray7.From([10, 10, 40, 50, 90, 90, 50]), SByteArray7.From([0, 10, 30, 40, 90, 100, 50]), SByteArray7.From([50, 50, 50, 50, 50, 50, 50])]);
 
-    internal static FixedArray_Aow_Units_FixedArray_sbyte_7_7 P2AlignmentToStatusValue = FixedArray_Aow_Units_FixedArray_sbyte_7_7.From([FixedArray_sbyte_7.From([100, 90, 30, 40, 10, 0, 50]), FixedArray_sbyte_7.From([90, 90, 40, 50, 10, 10, 50]), FixedArray_sbyte_7.From([30, 40, 70, 50, 40, 30, 50]), FixedArray_sbyte_7.From([40, 50, 50, 50, 50, 40, 50]), FixedArray_sbyte_7.From([10, 10, 40, 50, 90, 90, 50]), FixedArray_sbyte_7.From([0, 10, 30, 40, 90, 100, 50]), FixedArray_sbyte_7.From([50, 50, 50, 50, 50, 50, 50])]);
+    internal static SByteArray7By7 P2AlignmentToStatusValue = SByteArray7By7.From([SByteArray7.From([100, 90, 30, 40, 10, 0, 50]), SByteArray7.From([90, 90, 40, 50, 10, 10, 50]), SByteArray7.From([30, 40, 70, 50, 40, 30, 50]), SByteArray7.From([40, 50, 50, 50, 50, 40, 50]), SByteArray7.From([10, 10, 40, 50, 90, 90, 50]), SByteArray7.From([0, 10, 30, 40, 90, 100, 50]), SByteArray7.From([50, 50, 50, 50, 50, 50, 50])]);
 
     internal static DiplomaticRelation dAlignmentToDiplomaticRelation(Alignment A, Alignment B)
     {

@@ -45,7 +45,7 @@ clock, the installed host, process safety, the gate switches, console output, th
 and the localization runtime. `Aow.Rtl.Host` is the namespace because these types are the host
 seam, and `Aow.Rtl.Localize` already names the localization subset.
 
-No implementation moved to `src/Platform`. `RtlUnit` constructs `SystemIoFileSystem` and
+No implementation moved to `src/Platform`. `RtlUnit` constructs `PhysicalFileSystem` and
 `SystemClock` as its defaults, and tests construct them too. The interfaces the units call stay in
 this project, which sits below Units.
 
@@ -54,7 +54,7 @@ this project, which sits below Units.
 ### 1.1 TObject and the metaclass
 
 CF-3 retires the metaclass shim from the product. `TObject` retains instance identity, class-name
-lookup, destruction and freeing. Engine class identity and creation use `EClass`, and family
+lookup, destruction and freeing. Engine class identity and creation use `EngineClass`, and family
 descriptors use `Catalog<TKey, TValue>`. The historical code below documents the transpiler's
 reference output, which still emits `Meta` and diverges from the product source.
 
@@ -214,10 +214,10 @@ reference and the integer 0 are all the word 0, and a nonzero integer never equa
 `MapField.SendMapFieldMsg` (Delphi `TMapField`) compares the answer slot that way to tell whether a handler answered.
 
 The parameter arrays are inline arrays of `MsgArg` named by their role, with the arity of the
-message protocol as a named constant: `EMsgParams` (Delphi `TEMsgParams`) (`Engine.cs`, `Arity = 3`) for `EMsg.Param` (Delphi `TEMsg`)
-and `MapFieldMsgParams` (Delphi `TMapFieldMsgParams`) (`HSEngine.cs`, `Arity = 4`) for `MapFieldMsg.Param` (Delphi `TMapFieldMsg`). `EMsg.Payload`
-and `MapFieldMsg.Result` are single `MsgArg` fields. The `Engine`, `Obj` and `Value` accessors of
-the first stage's `EMsg` are gone. No message record reaches a stream or a packet.
+message protocol as a named constant: `EngineMessageParameters` (Delphi `TEMsgParams`) (`Engine.cs`, `Arity = 3`) for `EngineMessage.Param` (Delphi `TEMsg`)
+and `MapFieldMessageParameters` (Delphi `TMapFieldMsgParams`) (`HSEngine.cs`, `Arity = 4`) for `MapFieldMessage.Param` (Delphi `TMapFieldMsg`). `EngineMessage.Payload`
+and `MapFieldMessage.Result` are single `MsgArg` fields. The `Engine`, `Obj` and `Value` accessors of
+the first stage's `EngineMessage` are gone. No message record reaches a stream or a packet.
 
 ### 1.6 FormatArg
 
@@ -465,7 +465,7 @@ part and loop on the right. The AI sorts candidate lists with its own comparator
 equal elements after this exact algorithm decides which candidate wins, so the algorithm is ported
 as written and probe `lists` checks it on arrays with many equal keys.
 
-`DelphiList` of the shim is also the base of the engine's `EObjectList` (Delphi `TEObjectList`) and `EObjectClassList` (Delphi `TEObjectClassList`)
+`DelphiList` of the shim is also the base of the engine's `EngineObjectList` (Delphi `TEObjectList`) and `EngineObjectClassList` (Delphi `TEObjectClassList`)
 (generated code).
 
 ### 4.2 StringCollection and StringList
@@ -540,7 +540,7 @@ names, `MulDiv`, `HiWord`, `LoWord`, `MakeLong`, `GetSystemMetrics` (screen size
 
 ### 5.2 Dialogs
 
-`ShowMessage(msg)`, `MessageDlg(msg, type, buttons, helpCtx)`, `MessageBox(hwnd, text, caption,
+`ShowMessage(msg)`, `MessageDialog(msg, type, buttons, helpCtx)`, `MessageBox(hwnd, text, caption,
 flags)` and `Application.MessageBox` go to the host's `IDialogService`. The game compares the
 results (`mrYes`, `mrNo`, `mrCancel`, `mrOk`, 20 comparisons), so the calls are modal: the service
 shows the dialog and runs a nested frame loop until the player answers, then returns the result.
@@ -562,7 +562,7 @@ configured game directory. `Application.Handle`, `MainForm`, `Title`, `Active`, 
 `Registry` (Delphi `TRegistry`) (`OpenKey`, `CreateKey`, `ReadString`, `WriteString`, `ReadInteger`, `WriteInteger`,
 `ReadBool`, `WriteBool`, `ValueExists`, `KeyExists`, `DeleteValue`, `RootKey`, `CloseKey`) is
 backed by the host's settings store, a JSON file in the user data directory, with the key path as
-the section. The game's `AoWRegistry` (Delphi `TAoWRegistry`) (generated) derives from it. `IniFile` (Delphi `TIniFile`) (`ReadString`,
+the section. The game's `GameSettings` (Delphi `TAoWRegistry`) (generated) derives from it. `IniFile` (Delphi `TIniFile`) (`ReadString`,
 `WriteString`, `ReadInteger`, `WriteInteger`, `ReadBool`, `ReadSection`, `ReadSections`,
 `EraseSection`) reads and writes a real ini file, because `ImageSequence` (Delphi `TImageSequence`) stores frame tables in
 ini files next to the image libraries.
@@ -591,7 +591,7 @@ and a test can each provide it:
 public interface IRtlHost
 {
     IFileSystem Files { get; }        // open, exists, enumerate (sorted as 3.5), delete, rename, directories
-    IDialogService Dialogs { get; }   // MessageDlg, MessageBox, ShowMessage, modal
+    IDialogService Dialogs { get; }   // MessageDialog, MessageBox, ShowMessage, modal
     IClock Clock { get; }             // Now, GetTickCount, timeGetTime
     ISettingsStore Settings { get; }  // Registry backing store
     string ExeName { get; }

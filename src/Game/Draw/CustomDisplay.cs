@@ -13,7 +13,7 @@ namespace Aow.Game.Draw;
 public partial class CustomDisplay : WinControl
 {
 
-    internal DDrawFSWinControl FFSWinControl;
+    internal DirectDrawFullScreenWindowControl FFSWinControl;
     internal NotifyEvent<object> FOnBltSurface;
     internal UpdateFrameEvent FOnUpdateFrame;
     internal SurfaceDataLostEvent FOnSurfaceDataLost;
@@ -33,7 +33,7 @@ public partial class CustomDisplay : WinControl
 
     internal UpdateFrameThread FUpdateFrameThread;
     public Set<DisplayStatusElement> FStatus;
-    internal Set<DisplayOptionsElement> FOptions;
+    internal Set<OptionsElement> FOptions;
     internal UpdateFrameMode FUpdateFrameMode;
     internal BackSurfaceControlMode FBackSurfaceControlMode;
     internal BufferingScheme FBufferingScheme;
@@ -43,9 +43,9 @@ public partial class CustomDisplay : WinControl
     // direct frame blit
     internal int FPauseCount;
     internal bool FMouseAboveSurface;
-    internal AbstractDC FPrimaryDC;
-    internal AbstractDC FSecondaryDC;
-    internal AbstractDC FActiveDC;
+    internal CustomDisplayController FPrimaryDC;
+    internal CustomDisplayController FSecondaryDC;
+    internal CustomDisplayController FActiveDC;
 
     // DisplayC.pas:1397
     internal void SetBufferingScheme(BufferingScheme Value)
@@ -79,7 +79,7 @@ public partial class CustomDisplay : WinControl
         if (!FStatus.Contains(DisplayStatusElement.FrameLoopActive))
         {
             FUpdateFrameMode = Value;
-            if (!ComponentState.Contains(Rtl.ComponentState.Designing) && FOptions.Contains(DisplayOptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(Rtl.ComponentState.Loading))
+            if (!ComponentState.Contains(Rtl.ComponentState.Designing) && FOptions.Contains(OptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(Rtl.ComponentState.Loading))
             {
                 StartUpdateFrameLoop();
             }
@@ -270,9 +270,9 @@ public partial class CustomDisplay : WinControl
     }
 
     // DisplayC.pas:1541
-    public virtual AbstractDC GetDC(int Index)
+    public virtual CustomDisplayController GetDC(int Index)
     {
-        AbstractDC Result;
+        CustomDisplayController Result;
         switch (Index)
         {
             case -1:
@@ -354,7 +354,7 @@ public partial class CustomDisplay : WinControl
         try
         {
             Result = 0;
-            if (FActiveDC != null && FActiveDC.GetStatus().Contains(DisplayCtrlStatusElement.Visible))
+            if (FActiveDC != null && FActiveDC.GetStatus().Contains(DisplayControllerStatusElement.Visible))
             {
                 if (FOnBltSurface != null)
                 {
@@ -377,7 +377,7 @@ public partial class CustomDisplay : WinControl
                     }
                 }
 
-                if (FOptions.Contains(DisplayOptionsElement.ShowFrameRate))
+                if (FOptions.Contains(OptionsElement.ShowFrameRate))
                 {
                     FActiveDC.ShowFrameRate();
                 }
@@ -428,7 +428,7 @@ public partial class CustomDisplay : WinControl
     }
 
     // DisplayC.pas:1669
-    public int SupportDC(AbstractDC DC)
+    public int SupportDC(CustomDisplayController DC)
     {
         int Result;
         if (DC != null)
@@ -446,7 +446,7 @@ public partial class CustomDisplay : WinControl
     // DisplayC.pas:1755
     public int DeactivateDC()
     {
-        if (FActiveDC != null && FActiveDC.GetStatus().Contains(DisplayCtrlStatusElement.Activated))
+        if (FActiveDC != null && FActiveDC.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
             if (FOnDeactivateDC != null)
             {
@@ -461,16 +461,16 @@ public partial class CustomDisplay : WinControl
     }
 
     public new int Cursor { get => GetCursor(); set => SetCursor(value); }
-    public AbstractDC ActiveDC { get => FActiveDC; }
-    public DDrawFSWinControl FSWinControl { get => FFSWinControl; }
-    protected internal Set<DisplayOptionsElement> Options { get => FOptions; set => FOptions = value; }
+    public CustomDisplayController ActiveDC { get => FActiveDC; }
+    public DirectDrawFullScreenWindowControl FSWinControl { get => FFSWinControl; }
+    protected internal Set<OptionsElement> Options { get => FOptions; set => FOptions = value; }
     protected internal BufferingScheme BufferingScheme { get => FBufferingScheme; set => SetBufferingScheme(value); }
     protected internal BackSurfaceControlMode BackSurfaceControlMode { get => FBackSurfaceControlMode; set => FBackSurfaceControlMode = value; }
     protected internal int BackSurfaceWidth { get => FBackSurfaceWidth; set => SetBackSurfaceWidth(value); }
     protected internal int BackSurfaceHeight { get => FBackSurfaceHeight; set => SetBackSurfaceHeight(value); }
     protected internal int FrameRate { get => FFrameRate; set => SetFrameRate(value); }
-    protected internal AbstractDC PrimaryDC { get => FPrimaryDC; set => FPrimaryDC = value; }
-    protected internal AbstractDC SecondaryDC { get => FSecondaryDC; set => FSecondaryDC = value; }
+    protected internal CustomDisplayController PrimaryDC { get => FPrimaryDC; set => FPrimaryDC = value; }
+    protected internal CustomDisplayController SecondaryDC { get => FSecondaryDC; set => FSecondaryDC = value; }
     protected internal UpdateFrameMode UpdateFrameMode { get => FUpdateFrameMode; set => SetUpdateFrameMode(value); }
     protected internal NotifyEvent<object> OnResize { get => FOnResize; set => FOnResize = value; }
     protected internal NotifyEvent<object> OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
@@ -488,28 +488,28 @@ public partial class CustomDisplay : WinControl
 
     private static int RemapSurface(Surface Src, Surface Dest)
     {
-        SurfaceDesc SD = default(SurfaceDesc);
-        SurfaceDesc SD2 = default(SurfaceDesc);
+        LockedSurface SD = default(LockedSurface);
+        LockedSurface SD2 = default(LockedSurface);
         Src.Lock(ref SD);
         Dest.Lock(ref SD2);
-        int result = SurfaceDesc.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
+        int result = LockedSurface.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
         Src.Unlock();
         Dest.Unlock();
         return result;
     }
 
-    public enum DisplayOptionsElement : byte
+    public enum OptionsElement : byte
     {
         AutoResizeBackSurface = 0, AutoSwapDC = 1, AutoStartUpdateFrameLoop = 2, AutoActivatePrimaryDC = 3, ShowFrameRate = 4, ShowErrors = 5, FocusAble = 6, RestoreSurfacesOnSwap = 7, BltOnWMPAINT = 8, AutoEnableDDraw = 9
     }
 
-    public delegate void UpdateFrameEvent(object Sender, AbstractDC DC, int SurfaceType);
-    public delegate void DCNotifyEvent(object Sender, AbstractDC DC);
+    public delegate void UpdateFrameEvent(object Sender, CustomDisplayController DC, int SurfaceType);
+    public delegate void DCNotifyEvent(object Sender, CustomDisplayController DC);
 
     public delegate void ErrorEvent(string ErrorStr, int Error);
-    public delegate void SurfaceDataLostEvent(AbstractDC DC, int SurfaceType);
+    public delegate void SurfaceDataLostEvent(CustomDisplayController DC, int SurfaceType);
 
-    public delegate void ResizeBackSurfaceEvent(AbstractDC DC, int Width, int Height);
-    public delegate void SwapDCEvent(AbstractDC DC);
+    public delegate void ResizeBackSurfaceEvent(CustomDisplayController DC, int Width, int Height);
+    public delegate void SwapDCEvent(CustomDisplayController DC);
 
 }

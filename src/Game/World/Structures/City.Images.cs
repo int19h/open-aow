@@ -13,7 +13,7 @@ public partial class City
         FProduction.Activate();
         var map = AoWHSMap.Current;
         if (FPlayer != -1) map.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProduction);
-        if (map.Status.Contains(HSMapStatusElement.Editting) && map.FDay == 0) SetUpgradeLevel(FUpgradeLevel);
+        if (map.Status.Contains(HexSpriteMapStatusElement.Editting) && map.FDay == 0) SetUpgradeLevel(FUpgradeLevel);
         UpdateImages();
     }
 

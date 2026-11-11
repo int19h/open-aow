@@ -4,8 +4,7 @@ using System.Text.Json;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.Host;
-using Aow.Game.Ui.Dialogs;
-
+using Aow.Game.UI.Dialogs;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Rtl;
@@ -86,7 +85,7 @@ internal sealed class FrameDiagnostics : IDisposable
     {
         if (AoWHSMap.Current is not { } map) return;
         var viewer = DialogHosts.MWindow.MapViewer;
-        var window = DialogHosts.MWindow.MapWindow;
+        var window = DialogHosts.MWindow.MainWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);
         var objects = new List<object>();
         for (int y = 0; y < level.Height; y++)

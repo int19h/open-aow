@@ -6,7 +6,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-public partial class StructureControl : EObject
+public partial class StructureControl : EngineObject
 {
     // Structur.PAS:3220
     // (structures, next ID, city count)

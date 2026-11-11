@@ -6,7 +6,7 @@ namespace Aow.Game.Draw.Images;
 
 public partial class Picture16
 {
-    public override void ShowOpaqueStretched(in Rect R, in SurfaceDesc SD)
+    public override void ShowOpaqueStretched(in Rect R, in LockedSurface SD)
     {
         Span<int> RowTable;
         Span<int> ColTable;
@@ -176,7 +176,7 @@ public partial class Picture16
         }
     }
 
-    public override void ShowBlendedStretched(in Rect R, in SurfaceDesc SD, BlendTable Table)
+    public override void ShowBlendedStretched(in Rect R, in LockedSurface SD, BlendTable Table)
     {
         Span<int> RowTable;
         Span<int> ColTable;

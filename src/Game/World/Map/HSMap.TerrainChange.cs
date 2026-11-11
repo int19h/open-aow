@@ -12,8 +12,8 @@ public partial class HSMap
         var saved = new TerrainList();
         saved.SetCount(terrain.FCount);
         var mapLevel = FMapContainer.GetMapLevel(level);
-        HNWalkData walk = default;
-        HNWalkData.InitHNWalk(ref walk, x, y, 0);
+        HexNumberWalkData walk = default;
+        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
         bool InRange() => terrain.GetUsed(walk.HN) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.FWidth && walk.Y < mapLevel.FHeight;
         while (walk.HN < terrain.FCount)
         {
@@ -26,15 +26,15 @@ public partial class HSMap
                 value = terrain.GetOverlay(walk.HN);
                 if (value >= 0) field.FOverlayType = value;
             }
-            HNWalkData.WalkToNextHN(ref walk);
+            HexNumberWalkData.WalkToNextHN(ref walk);
         }
-        HNWalkData.InitHNWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
         while (walk.HN < terrain.FCount && result)
         {
             if (InRange()) result = mapLevel.GetField(walk.X, walk.Y).CanChangeTerrainEx(sender);
-            HNWalkData.WalkToNextHN(ref walk);
+            HexNumberWalkData.WalkToNextHN(ref walk);
         }
-        HNWalkData.InitHNWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
         while (walk.HN < terrain.FCount)
         {
             if (InRange())
@@ -44,7 +44,7 @@ public partial class HSMap
                 field.FTerrainType = (sbyte)pair;
                 field.FOverlayType = (sbyte)(pair >> 8);
             }
-            HNWalkData.WalkToNextHN(ref walk);
+            HexNumberWalkData.WalkToNextHN(ref walk);
         }
         saved?.Dispose();
         return result;

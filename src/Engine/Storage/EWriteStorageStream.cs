@@ -16,17 +16,17 @@ public partial class EWriteStorageStream : EStorageStream
 {
 
     internal bool FPartial;
-    internal EBufferStream FBuffer;
+    internal BufferStream FBuffer;
 
     // Engine.pas:9592
     internal void PropertyExistError(int ID)
     {
-        throw new DoublePrioriyIDException("PropertyID already in use (" + IntToStr(ID) + " / " + this.GetType().Name + ")");
+        throw new DoublePriorityIdException("PropertyID already in use (" + IntToStr(ID) + " / " + this.GetType().Name + ")");
     }
 
     // Engine.pas:9565
     // Engine.pas:10489 TDebugWriteStream borrows the supplied stream as its buffer.
-    private protected EWriteStorageStream(Stream stream, GameEngine engine, EBufferStream buffer) : base(stream, engine)
+    private protected EWriteStorageStream(Stream stream, GameEngine engine, BufferStream buffer) : base(stream, engine)
     {
         FBuffer = buffer;
         FPropertyTable = new PropertyTable();
@@ -37,7 +37,7 @@ public partial class EWriteStorageStream : EStorageStream
     {
         FEngine = AEngine;
         FStream = AStream;
-        FBuffer = new EBufferStream();
+        FBuffer = new BufferStream();
         FPropertyTable = new PropertyTable();
         FPartial = APartial;
     }
@@ -132,7 +132,7 @@ public partial class EWriteStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("PropertyID already in use");
+            throw new DoublePriorityIdException("PropertyID already in use");
         }
     }
 
@@ -200,7 +200,7 @@ public partial class EWriteStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("PropertyID already in use");
+            throw new DoublePriorityIdException("PropertyID already in use");
         }
     }
 
@@ -355,12 +355,12 @@ public partial class EWriteStorageStream : EStorageStream
     }
 
     // Engine.pas:9820
-    public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
+    public override void rwCreateEObject(ref EngineObject Obj, ECustomNode AOwner, int ID)
     {
-        EBufferStream Outer;
+        BufferStream Outer;
         int Start;
         int AClassID;
-        EObject O;
+        EngineObject O;
         if (!FPropertyTable.PropertyExist(ID))
         {
             Start = (int)(FBuffer.Position);
@@ -377,7 +377,7 @@ public partial class EWriteStorageStream : EStorageStream
             if (AClassID != 0)
             {
                 Outer = FBuffer;
-                FBuffer = new EBufferStream();
+                FBuffer = new BufferStream();
                 FPropertyTable.BackupSettings();
                 try
                 {
@@ -410,21 +410,21 @@ public partial class EWriteStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
+            throw new DoublePriorityIdException("Double priorityID found (" + IntToStr(ID) + ")");
         }
     }
 
     // Engine.pas:9866
     public override void rwChildren(ECustomNode Node, int ID)
     {
-        EBufferStream Outer;
+        BufferStream Outer;
         int Start;
-        EObject C = default;
+        EngineObject C = default;
         if (!FPropertyTable.PropertyExist(ID))
         {
             Start = (int)(FBuffer.Position);
             Outer = FBuffer;
-            FBuffer = new EBufferStream();
+            FBuffer = new BufferStream();
             FPropertyTable.BackupSettings();
             for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
@@ -444,20 +444,20 @@ public partial class EWriteStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
+            throw new DoublePriorityIdException("Double priorityID found (" + IntToStr(ID) + ")");
         }
     }
 
     // Engine.pas:9897
-    public override void rwEObject(EObject Obj, int ID)
+    public override void rwEObject(EngineObject Obj, int ID)
     {
-        EBufferStream Outer;
+        BufferStream Outer;
         int Start;
         if (!FPropertyTable.PropertyExist(ID))
         {
             Start = (int)(FBuffer.Position);
             Outer = FBuffer;
-            FBuffer = new EBufferStream();
+            FBuffer = new BufferStream();
             FPropertyTable.BackupSettings();
             try
             {
@@ -483,19 +483,19 @@ public partial class EWriteStorageStream : EStorageStream
         }
         else
         {
-            throw new DoublePrioriyIDException("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
+            throw new DoublePriorityIdException("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
         }
     }
 
     // Engine.pas:9931
-    public override void rwEObjectStream(EObject Obj, int ID)
+    public override void rwEObjectStream(EngineObject Obj, int ID)
     {
-        EBufferStream Outer;
+        BufferStream Outer;
         int Start;
         int Len = default;
         Start = (int)(FBuffer.Position);
         Outer = FBuffer;
-        FBuffer = new EBufferStream();
+        FBuffer = new BufferStream();
         FPropertyTable.BackupSettings();
         try
         {

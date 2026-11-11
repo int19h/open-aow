@@ -9,7 +9,7 @@ namespace Aow.Game.Commands;
 
 // FRefCount, FTokenCounter (stored with id 10. -1 until the executer numbers the event). The
 // base of the game's token events
-public partial class TokenEvent : EObject
+public partial class TokenEvent : EngineObject
 {
     // NetworkE.pas:950
     public new const int ClassID = CID_TokenEvent;
@@ -59,7 +59,7 @@ public partial class TokenEvent : EObject
     }
 
     // NetworkE.pas:975
-    public virtual ExecuteResult Execute(TokenExecuter TE) => ExecuteResult.Done;
+    public virtual ExecuteResult Execute(TokenExecutor TE) => ExecuteResult.Done;
 
     public int TokenCounter { get => FTokenCounter; set => FTokenCounter = value; }
 

@@ -271,7 +271,7 @@ internal sealed partial class RecordTypeInfo
             };
         }
         if (field.FieldType == typeof(bool))
-            return new BoolRecordField { Name = field.Name, Offset = offset, Size = size };
+            return new BooleanRecordField { Name = field.Name, Offset = offset, Size = size };
         var nested = field.FieldType.StructLayoutAttribute;
         if (nested is { Value: LayoutKind.Explicit, Size: > 0 })
             return new NestedRecordField

@@ -10,7 +10,7 @@ public partial class UnitResourceList : EResourceList
     // UnitRes.PAS:206
     public UnitResourceList(ECustomNode owner) : base(owner)
     {
-        SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, EControlStyleElement.ArrayMode));
+        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }
 
     // UnitRes.PAS:212

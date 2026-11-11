@@ -10,13 +10,13 @@ public partial class MoveControlSettings
 
     public int GetMovePointsXYL(int packed)
     {
-        var location = new XYL { Packed = packed };
+        var location = new MapCoordinate { Packed = packed };
         return GetMovePoints(location.X, location.Y, location.L);
     }
 
     public void SetMovePointsXYL(int packed, int value)
     {
-        var location = new XYL { Packed = packed };
+        var location = new MapCoordinate { Packed = packed };
         SetMovePoints(location.X, location.Y, location.L, value);
     }
 }

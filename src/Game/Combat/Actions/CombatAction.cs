@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // FRefCount
-public partial class CombatAction : EObject
+public partial class CombatAction : EngineObject
 {
 
     // Combat2.pas:698
@@ -57,19 +57,19 @@ public partial class CombatAction : EObject
     }
 
     // Combat2.pas:716
-    public virtual void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public virtual void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         Obj.Show(Frame, Direction, X, Y, Surface);
     }
 
     // Combat2.pas:721
-    public virtual void ShowFieldObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+    public virtual void ShowFieldObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
     {
         Obj.Show(Frame, Direction, X, Y, Surface);
     }
 
     // Combat2.pas:726
-    public virtual void ShowFightingObjects(CombatViewer Viewer, int Frame, int X, int Y, in SurfaceDesc Surface)
+    public virtual void ShowFightingObjects(CombatViewer Viewer, int Frame, int X, int Y, in LockedSurface Surface)
     {
     }
 

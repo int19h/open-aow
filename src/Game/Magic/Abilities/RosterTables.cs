@@ -18,14 +18,14 @@ internal static class RosterTables
     {
         RefCount = -1,
         Len = 28,
-        Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 111, 87, 65, 98, 46, 80, 65, 83, 0])
+        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 111, 87, 65, 98, 46, 80, 65, 83, 0])
     };
 
     internal static UnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertMessage = new UnitEnchantmentAbility_Expand__TOriginalAssertText
     {
         RefCount = -1,
         Len = 17,
-        Text = FixedArray_byte_128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
+        Text = ByteArray128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
     };
 
     internal static int GetUnitIndexAIPriority(int UnitIndex, sbyte Player, sbyte Relation)
@@ -34,7 +34,7 @@ internal static class RosterTables
         UnitResource Resource;
         int Value;
         Unit Unit_;
-        AdjustableUnit DefaultUnit;
+        HypotheticalUnit DefaultUnit;
         Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex);
         if (Resource != null && Resource.GetTransportCapacity() == 0)
         {
@@ -61,7 +61,7 @@ internal static class RosterTables
             {
                 Unit_ = new Unit(null);
                 Unit_.SetUnitResource(Resource);
-                DefaultUnit = new AdjustableUnit(null);
+                DefaultUnit = new HypotheticalUnit(null);
                 DefaultUnit.MakeDefaultLevelUnit(1);
                 if (Unit_.GetCombatValue(DefaultUnit, 0) > 0)
                 {
@@ -112,7 +112,7 @@ internal static class RosterTables
         return Result;
     }
 
-    internal static EClass P4UnitSelectionClass = EClass.Of<UnitUserList>();
+    internal static EngineClass P4UnitSelectionClass = EngineClass.Of<UnitUserList>();
 
     internal static Set<HeroType> AllHeroTypes = Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant);
 

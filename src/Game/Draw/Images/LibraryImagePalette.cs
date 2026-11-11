@@ -8,14 +8,14 @@ namespace Aow.Game.Draw.Images;
 public partial class LibraryImagePalette : Persistent
 {
     internal int FIndex;
-    internal GFXEPalette FPalette;
-    internal GFXEPalette FRemapPalette;
+    internal Palette FPalette;
+    internal Palette FRemapPalette;
     internal int FRefCount;
 
     // ImageLib.pas:7084
     public LibraryImagePalette()
     {
-        FPalette = new GFXEPalette();
+        FPalette = new Palette();
     }
 
     // ImageLib.pas:7090
@@ -37,9 +37,9 @@ public partial class LibraryImagePalette : Persistent
     }
 
     // ImageLib.pas:7107
-    public GFXEPalette RemapPalette(int PixelFormatID)
+    public Palette RemapPalette(int PixelFormatID)
     {
-        GFXEPalette Result;
+        Palette Result;
         if (PixelFormatID == FPalette.PixelFormatID)
         {
             Result = FPalette;
@@ -51,7 +51,7 @@ public partial class LibraryImagePalette : Persistent
             {
                 if (FRemapPalette == null)
                 {
-                    FRemapPalette = new GFXEPalette();
+                    FRemapPalette = new Palette();
                 }
 
                 FRemapPalette.Assign(FPalette);
@@ -74,7 +74,7 @@ public partial class LibraryImagePalette : Persistent
             {
                 if (FRemapPalette == null)
                 {
-                    FRemapPalette = new GFXEPalette();
+                    FRemapPalette = new Palette();
                 }
 
                 FRemapPalette.Assign(((LibraryImagePalette)Source).FRemapPalette);
@@ -90,7 +90,7 @@ public partial class LibraryImagePalette : Persistent
     }
 
     public int Index { get => FIndex; }
-    public GFXEPalette Palette { get => FPalette; }
+    public Palette Palette { get => FPalette; }
     public int RefCount { get => FRefCount; }
 
 }

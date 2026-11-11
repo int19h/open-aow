@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // (spell ID, source ID, refcount)
-public partial class SpellCaster : EObject
+public partial class SpellCaster : EngineObject
 {
 
     // Spells.PAS:748
@@ -48,6 +48,6 @@ public partial class SpellCaster : EObject
     public virtual bool Cast() => true;
 
     // intf_P4_02.inc:998
-    public AbstractUnit GetSource() => AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
+    public Troop GetSource() => AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
     public virtual bool CanCast(ref string reason) => AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID) != null;
 }

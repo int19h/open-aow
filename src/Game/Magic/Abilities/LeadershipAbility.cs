@@ -152,7 +152,7 @@ public partial class LeadershipAbility : MultiLevelAbility
             Data.FExternalLevel = Level;
         }
 
-        if (Owner is AbstractUnit)
+        if (Owner is Troop)
         {
             Owner.Changed();
         }
@@ -177,17 +177,17 @@ public partial class LeadershipAbility : MultiLevelAbility
             }
         }
 
-        if (Owner is AbstractUnit)
+        if (Owner is Troop)
         {
             Owner.Changed();
         }
     }
 
     // AoWAb.PAS:973
-    public override EClass AbilityDataClass() => EClass.Of<LeadershipAbilityData>();
+    public override EngineClass AbilityDataClass() => EngineClass.Of<LeadershipAbilityData>();
 
-    private static FixedArray_sbyte_5 P4LeadershipAttack = FixedArray_sbyte_5.From((ReadOnlySpan<sbyte>)new sbyte[5] { 0, 1, 1, 2, 2 });
-    private static FixedArray_sbyte_5 P4LeadershipDefense = FixedArray_sbyte_5.From((ReadOnlySpan<sbyte>)new sbyte[5] { 2, 0, 1, 1, 2 });
+    private static SByteArray5 P4LeadershipAttack = SByteArray5.From((ReadOnlySpan<sbyte>)new sbyte[5] { 0, 1, 1, 2, 2 });
+    private static SByteArray5 P4LeadershipDefense = SByteArray5.From((ReadOnlySpan<sbyte>)new sbyte[5] { 2, 0, 1, 1, 2 });
     private static readonly string LeadershipRStr = "Leadership";
 
 }

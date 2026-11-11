@@ -11,7 +11,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // costs, turns left, upkeep, turns total, player, group, unit, unit production
-public partial class ProductionSettings : EObject
+public partial class ProductionSettings : EngineObject
 {
     public ProductionSettings(ECustomNode owner) : base(owner)
     { }
@@ -53,7 +53,7 @@ public partial class ProductionSettings : EObject
     // Structur.PAS:135
     public override void Clear()
     {
-        AbstractUnit U;
+        Troop U;
         FTurnsLeft = 0;
         FGold = 0;
         FMana = 0;

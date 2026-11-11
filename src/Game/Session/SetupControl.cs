@@ -86,7 +86,7 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:476
-    public void SendMessage(int MessageID, EObject Obj, int Param2, int Param1, int Recipient)
+    public void SendMessage(int MessageID, EngineObject Obj, int Param2, int Param1, int Recipient)
     {
         SetupPackage Package;
         if (GetRemote())
@@ -106,7 +106,7 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:492
-    public void SendHostMessage(int MessageID, EObject Obj, int Param2, int Param1)
+    public void SendHostMessage(int MessageID, EngineObject Obj, int Param2, int Param1)
     {
         SetupPackage Package;
         if (GetRemote())
@@ -136,7 +136,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:509
     public void DataReceived(object Data, int Size, int SenderID)
     {
-        EObject Obj = default;
+        EngineObject Obj = default;
         MemoryStream Stream;
         Stream = new MemoryStream();
         Stream.SetLength(Size);
@@ -765,8 +765,8 @@ public partial class SetupControl : Component
     {
         int Index = default;
         Player Player = default;
-        RemotePCC RemotePCC = default;
-        LocalPCC LocalPCC = default;
+        RemotePlayerCommunicationControl RemotePCC = default;
+        LocalPlayerCommunicationControl LocalPCC = default;
         FPhase = SetupPhase.SetupMap;
         for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
         {
@@ -817,7 +817,7 @@ public partial class SetupControl : Component
         AoWHSMap.Current.FConnectionType = (PlayerConnectionType)FSettings.FConnectionType;
         if (GetRemote())
         {
-            RemotePCC = new RemotePCC();
+            RemotePCC = new RemotePlayerCommunicationControl();
             RemotePCC.Setup(AoWHSMap.Current.FPlayers.GetCount(), FRemotePlayer.FRemoteID);
             RemotePCC.SetConnectionMode(0, ConnectionMode.Global);
             RemotePCC.SetSystemID(0, FRemotePlayer.FRemoteID);
@@ -851,7 +851,7 @@ public partial class SetupControl : Component
         }
         else
         {
-            LocalPCC = new LocalPCC();
+            LocalPCC = new LocalPlayerCommunicationControl();
             LocalPCC.Setup(AoWHSMap.Current.FPlayers.GetCount());
             LocalPCC.SetConnectionMode(0, ConnectionMode.Global);
             for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
@@ -1742,14 +1742,14 @@ public partial class SetupControl : Component
     private static SetupPlayerBehavior CPUBehavior = new SetupPlayerBehavior
     {
         PlayerType = 1,
-        Reserved = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
     private static SetupPlayerBehavior FreeBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
-        Reserved = FixedArray_byte_3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 

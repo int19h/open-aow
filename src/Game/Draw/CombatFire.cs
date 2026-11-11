@@ -12,7 +12,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatFire : SingleHS
+public partial class CombatFire : SingleHexSprite
 {
     public CombatFire(ECustomNode owner) : base(owner)
     {
@@ -29,12 +29,12 @@ public partial class CombatFire : SingleHS
     // CombatFire.pas:60
 
     // CombatFire.pas:119
-    public override void MsgProc(ref EMsg Msg, EObject Sender)
+    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537006081)
         {
-            if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
                 NewTurn();
             }
@@ -54,7 +54,7 @@ public partial class CombatFire : SingleHS
     public override int GetShowPriority() => 1811939328;
 
     // CombatFire.pas:146
-    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
     {
         int Penalty;
         if (Info.HN == 0)
@@ -92,7 +92,7 @@ public partial class CombatFire : SingleHS
         base.Activate();
         FXShift = Random(10) + 11;
         FYShift = Random(10) + 11;
-        FPlayer = AoWCombatMap.Current.FCurrentCombatPlayer;
+        FPlayer = CombatMap.Current.FCurrentCombatPlayer;
         FFirstTurn = true;
     }
 
@@ -113,21 +113,21 @@ public partial class CombatFire : SingleHS
     {
         int Xhx = default;
         int Yhx = default;
-        MapFieldMsg Msg = default;
+        MapFieldMessage Msg = default;
         if (FFirstTurn)
         {
             FFirstTurn = false;
         }
         else
         {
-            if (AoWCombatMap.Current.FCurrentCombatPlayer == FPlayer)
+            if (CombatMap.Current.FCurrentCombatPlayer == FPlayer)
             {
                 Msg.MsgID = 200711;
                 Msg.Param[0] = this;
                 Msg.Result = -1;
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
+                CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
                 for (int I = 1; I <= 6; I++)
                 {
                     var yhx2 = GetYhx();
@@ -144,7 +144,7 @@ public partial class CombatFire : SingleHS
     }
 
     // CombatFire.pas:26
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         ImageSequence Sequence;
         int ImageIndex;

@@ -118,7 +118,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
     }
 
     // ImageLib.pas:6399
-    public void SetText(int X, int Y, string Text, in SurfaceDesc SD)
+    public void SetText(int X, int Y, string Text, in LockedSurface SD)
     {
         switch (FCharCase)
         {
@@ -135,7 +135,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
     }
 
     // ImageLib.pas:6408
-    public void SetTextCentered(int X, int Y, string Text, in SurfaceDesc SD)
+    public void SetTextCentered(int X, int Y, string Text, in LockedSurface SD)
     {
         string S;
         switch (FCharCase)
@@ -158,7 +158,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
     }
 
     // ImageLib.pas:6433
-    public void SetTextEx(int X, int Y, string Text, in SurfaceDesc SD, Set<SetTextModeElement> Mode, in ShowInfo ShowInfo)
+    public void SetTextEx(int X, int Y, string Text, in LockedSurface SD, Set<SetTextModeElement> Mode, in ShowInfo ShowInfo)
     {
         int C;
         string S;

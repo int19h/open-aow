@@ -5,11 +5,11 @@ namespace Aow.Headless;
 
 internal static class TacticalInput
 {
-    public static void Install(AoWHSMap world, HSMapViewer viewer)
+    public static void Install(AoWHSMap world, HexSpriteMapViewer viewer)
     {
         world.FCombatMapCreatedEvents += _ =>
         {
-            var combat = (AoWCombatMap)world.FCombatMap;
+            var combat = (CombatMap)world.FCombatMap;
             viewer.HSMap = combat;
             // TTBWindow.TCTurnButtonAnimDone completes the turn banner before CPU input.
             combat.FChangeTurnEvents += _ => combat.FEndTurnPending = true;

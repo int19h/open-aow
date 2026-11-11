@@ -24,7 +24,7 @@ public partial class Vortex : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:2120
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         // { Use the incoming target. }
         base.SetupTargetSelection(Source, TargetSelection);
@@ -33,14 +33,14 @@ public partial class Vortex : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:2100
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
         bool Result;
-        VortexTE Event;
-        ArmyHS Army;
+        VortexTokenEvent Event;
+        ArmyHexSprite Army;
         if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
         {
-            Event = new VortexTE(null);
+            Event = new VortexTokenEvent(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             Army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHS();

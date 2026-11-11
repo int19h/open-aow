@@ -30,7 +30,7 @@ public partial class EventLogList : ENode
             {
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    ((EObject)FChildren.List[I]).Release();
+                    ((EngineObject)FChildren.List[I]).Release();
                 }
             }
 
@@ -43,7 +43,7 @@ public partial class EventLogList : ENode
     {
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            ((EObject)FChildren.List[I]).Release();
+            ((EngineObject)FChildren.List[I]).Release();
         }
 
         FChildren.Clear();
@@ -56,7 +56,7 @@ public partial class EventLogList : ENode
     }
 
     // EventLog.pas:464
-    public override int RemoveChild(EObject Child)
+    public override int RemoveChild(EngineObject Child)
     {
         int Result = FChildren.Remove(Child);
         if (Result != -1)
@@ -70,7 +70,7 @@ public partial class EventLogList : ENode
     }
 
     // EventLog.pas:456
-    public override int AddChild(EObject Child)
+    public override int AddChild(EngineObject Child)
     {
         FChildren.Add(Child);
         if (Child.AddRef() == -1)

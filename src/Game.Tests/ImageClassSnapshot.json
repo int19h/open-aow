@@ -6,7 +6,7 @@
     "Name": "Picture (08bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.RLESprite08",
+    "Type": "Aow.Game.Draw.Images.RleSprite08",
     "ClassID": 2,
     "ClassVersion": 3,
     "Name": "RLE Sprite (08bpp)"
@@ -24,13 +24,13 @@
     "Name": "Transparent Picture (16bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.RLESprite16",
+    "Type": "Aow.Game.Draw.Images.RleSprite16",
     "ClassID": 17,
     "ClassVersion": 3,
     "Name": "RLE Sprite (16bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.TransparentRLESprite16",
+    "Type": "Aow.Game.Draw.Images.TransparentRleSprite16",
     "ClassID": 18,
     "ClassVersion": 3,
     "Name": "Transparent RLE Sprite (16bpp)"

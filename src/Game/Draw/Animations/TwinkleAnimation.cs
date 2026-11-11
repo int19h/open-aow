@@ -29,7 +29,7 @@ public partial class TwinkleAnimation : Animation
     // Animation.pas:532
 
     // Animation.pas:538
-    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
     {
         ImageSequence Sequence;
         int OldSeed;

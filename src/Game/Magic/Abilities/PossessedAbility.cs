@@ -86,9 +86,9 @@ public partial class PossessedAbility : PossessAbility
     }
 
     // AoWAb.PAS:2592
-    public override EClass AbilityDataClass() => P4PossessedDataClass;
+    public override EngineClass AbilityDataClass() => P4PossessedDataClass;
 
-    private static EClass P4PossessedDataClass = EClass.Of<PossessedAbilityData>();
+    private static EngineClass P4PossessedDataClass = EngineClass.Of<PossessedAbilityData>();
     private static readonly string PossessedRStr = "Possessed";
 
 }

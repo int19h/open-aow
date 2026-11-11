@@ -8,7 +8,7 @@ namespace Aow.Game.Saves;
 /// What a rule sees: the validation context and the identity domains of the document, each
 /// collected once.
 /// </summary>
-public sealed class ContentScope(ValidationContext context, JsonObject root, DocPath rootPath)
+public sealed class ContentScope(ValidationContext context, JsonObject root, DocumentNodePath rootPath)
 {
     private readonly Dictionary<ReferenceDomain, IReadOnlySet<long>> domains = [];
 
@@ -21,7 +21,7 @@ public sealed class ContentScope(ValidationContext context, JsonObject root, Doc
     /// </summary>
     public JsonObject Root { get; } = root;
 
-    public DocPath RootPath { get; } = rootPath;
+    public DocumentNodePath RootPath { get; } = rootPath;
 
     public IReadOnlySet<long> Identities(ReferenceDomain domain)
     {

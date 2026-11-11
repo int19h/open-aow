@@ -17,13 +17,13 @@ public partial class EnterArenaEventLog : EventLog
     // Arena.pas:259
     public EnterArenaEventLog(ECustomNode owner) : base(owner)
     {
-        FUnitIDs = new IntegerList();
+        FUnitIDs = new Int32List();
     }
 
     public Arena FArena;
     public byte FSelection;
     public byte FTrainable;
-    public IntegerList FUnitIDs;
+    public Int32List FUnitIDs;
 
     // Arena.pas:265
     public override void Dispose()
@@ -36,9 +36,9 @@ public partial class EnterArenaEventLog : EventLog
     public int GetCount() => FUnitIDs.Count;
 
     // Arena.pas:274
-    public AbstractUnit GetUnit(int Index)
+    public Troop GetUnit(int Index)
     {
-        AbstractUnit Result;
+        Troop Result;
         if (Index >= 0 && Index < FUnitIDs.Count)
         {
             var unitID = FUnitIDs[Index];
@@ -61,8 +61,8 @@ public partial class EnterArenaEventLog : EventLog
     // Arena.pas:284
     public bool Train(ref string ErrorText)
     {
-        IntegerList Units;
-        Units = new IntegerList();
+        Int32List Units;
+        Units = new Int32List();
         for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
         {
             if (((1 << I) & FSelection) != 0)
@@ -79,8 +79,8 @@ public partial class EnterArenaEventLog : EventLog
     // Arena.pas:294
     public bool CanTrain(ref string ErrorText)
     {
-        IntegerList Units;
-        Units = new IntegerList();
+        Int32List Units;
+        Units = new Int32List();
         for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
         {
             if (((1 << I) & FSelection) != 0)
@@ -99,7 +99,7 @@ public partial class EnterArenaEventLog : EventLog
     {
         string Result;
         int Total;
-        AbstractUnit AUnit;
+        Troop AUnit;
         Total = 0;
         for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
         {

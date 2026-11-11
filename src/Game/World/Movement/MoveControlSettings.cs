@@ -20,7 +20,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Movement;
 
-public partial class MoveControlSettings : EObject
+public partial class MoveControlSettings : EngineObject
 {
 
     // MoveT.PAS:73
@@ -28,7 +28,7 @@ public partial class MoveControlSettings : EObject
     {
         FRefCount = 1;
         FProcessedMapFields = new DelphiList();
-        FPath = new Movepath();
+        FPath = new MovePath();
         FSubMoves = new SubMoveList(null);
         FUnits = new UnitUserList(null);
         Reset();
@@ -41,12 +41,12 @@ public partial class MoveControlSettings : EObject
     public DelphiList FProcessedMapFields;
     public int[] FRowOffsets = [];
     public int[][] FLevelData = [];
-    public FixedArray_int_8 FEvenOffsets;
-    public FixedArray_int_8 FOddOffsets;
+    public Int32Array8 FEvenOffsets;
+    public Int32Array8 FOddOffsets;
     public bool FMovePointsClear;
     public Status FStatus;
     public Set<MoveModeElement> FMode;
-    public Movepath FPath;
+    public MovePath FPath;
     public sbyte FPlayer;
     public int FWidth;
     public int FHeight;
@@ -58,12 +58,12 @@ public partial class MoveControlSettings : EObject
     public int FDestinationY;
     public int FDestinationL;
     public int FMovePointsMax;
-    public UnitHS FArmyHS;
+    public UnitHexSprite FArmyHS;
     public int FSelection;
-    public ArmyHS FTransporterArmy;
+    public ArmyHexSprite FTransporterArmy;
     public UnitUserList FUnits;
     // AddUnitsEx
-    public FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
+    public SByteArray16By16 FMovePointTable;
 
     // MoveT.PAS:84
     public override void Dispose()
@@ -164,7 +164,7 @@ public partial class MoveControlSettings : EObject
     }
 
     // MoveT.PAS:162
-    public void SetupArmy(ArmyHS Army, byte Selection)
+    public void SetupArmy(ArmyHexSprite Army, byte Selection)
     {
         FArmyHS = Army;
         FSelection = Selection;

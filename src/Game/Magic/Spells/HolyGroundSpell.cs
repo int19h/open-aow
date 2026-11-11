@@ -30,7 +30,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
     // HolyG.pas:339
 
     // HolyG.pas:375
-    public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
     {
         base.SetupTargetSelection(Source, TargetSelection);
         TargetSelection.FHNs.Clear();
@@ -41,10 +41,10 @@ public partial class HolyGroundSpell : GlobalTargetSpell
     }
 
     // HolyG.pas:384
-    public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop Source, int X, int Y, int L)
     {
-        HolyGroundSpellTE Event;
-        Event = new HolyGroundSpellTE(null);
+        HolyGroundSpellTokenEvent Event;
+        Event = new HolyGroundSpellTokenEvent(null);
         Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
         Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
@@ -55,7 +55,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
     // HolyG.pas:360
     public override bool ValidTargetSelectionMapF(MapField Field)
     {
-        ArmyHS Army;
+        ArmyHexSprite Army;
         bool Result = base.ValidTargetMapF(Field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
         // { Original overlay test allows these overlays even when the terrain check failed. }
         Result = (Result && Field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);

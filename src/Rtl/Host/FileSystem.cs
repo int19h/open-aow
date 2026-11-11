@@ -38,7 +38,7 @@ public interface IFileSystem
     IEnumerable<RtlFileEntry> Enumerate(string directory);
 }
 
-public sealed class SystemIoFileSystem : IFileSystem
+public sealed class PhysicalFileSystem : IFileSystem
 {
     private string? currentDirectory;
 
