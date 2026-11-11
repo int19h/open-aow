@@ -32,9 +32,9 @@ public partial class TerrainList : IDisposable
     // HSEngine.pas:1562
     public virtual void LoadFromStream(Stream Stream)
     {
-        Stream.ReadBytes(Bytes.Of(ref FCount, 4));
+        Stream.ReadExactly(Bytes.Of(ref FCount, 4));
         SetCount(FCount);
-        Stream.ReadBytes(FList.AsSpan(0, FCount * 2));
+        Stream.ReadExactly(FList.AsSpan(0, FCount * 2));
     }
 
     // HSEngine.pas:1569

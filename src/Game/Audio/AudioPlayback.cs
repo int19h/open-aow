@@ -192,14 +192,14 @@ public static class AudioPlayback
             if (Ext == ".IT")
             {
                 Stream.Seek(4, SeekOrigin.Begin);
-                Stream.ReadBytes(((Span<byte>)Title).Slice(0, 28));
+                Stream.ReadExactly(((Span<byte>)Title).Slice(0, 28));
                 Result = StrPasBuffer(Title);
             }
             else
             {
                 if (Ext == ".S3M")
                 {
-                    Stream.ReadBytes(((Span<byte>)Title).Slice(0, 28));
+                    Stream.ReadExactly(((Span<byte>)Title).Slice(0, 28));
                     Result = StrPasBuffer(Title);
                 }
                 else

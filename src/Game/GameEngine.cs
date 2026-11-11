@@ -963,13 +963,19 @@ public partial class GameEngine : ENode
     internal static void StringFromStream(ref string S, Stream Stream)
     {
         int Len = default;
-        Stream.ReadBytes(Bytes.Of(ref Len, 4));
+        Stream.ReadExactly(Bytes.Of(ref Len, 4));
         if (Len < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         byte[] buffer = new byte[Len];
         Cp1252.Encode(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
         S = Cp1252.Decode(buffer);
-        Stream.ReadBytes(buffer);
+        int transferred = Stream.Read(buffer);
+        if (transferred != buffer.Length)
+        {
+            S = Cp1252.Decode(buffer);
+            return;
+        }
+
         S = Cp1252.Decode(buffer);
     }
 

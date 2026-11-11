@@ -28,9 +28,6 @@ public static class StreamExtensions
 {
     public static int Read(this Stream stream, Span<byte> buffer, int count) => count < 0 ? 0 : stream.Read(buffer[..count]);
 
-    // One Read. Returning the count keeps a short transfer.
-    public static int ReadBytes(this Stream stream, Span<byte> buffer) => stream.Read(buffer);
-
     public static int Write(this Stream stream, ReadOnlySpan<byte> buffer, int count) => WriteCounted(stream, buffer, count);
 
     public static int Read(this Stream stream, Ptr<byte> buffer, int count) => count <= 0 ? 0 : stream.Read(buffer.Array!.AsSpan(buffer.Index, count));

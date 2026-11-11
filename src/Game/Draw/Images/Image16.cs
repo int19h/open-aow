@@ -22,7 +22,7 @@ public partial class Image16 : LibraryImage, ILibraryImageClass
     public override void ReadImageData(Stream Stream)
     {
         base.ReadImageData(Stream);
-        Stream.ReadBytes(Bytes.Of(ref FStoredPixelFormatID, 4));
+        Stream.ReadExactly(Bytes.Of(ref FStoredPixelFormatID, 4));
         FPixelFormatID = FStoredPixelFormatID;
     }
 

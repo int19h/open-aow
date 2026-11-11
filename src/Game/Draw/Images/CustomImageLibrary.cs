@@ -250,7 +250,7 @@ public partial class CustomImageLibrary : Component
         Clear();
         FReloading = FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) && FLoadOnDemand;
         StartPos = (int)(Stream.Position);
-        Stream.ReadBytes(Bytes.Of(ref Header, 24));
+        Stream.ReadExactly(Bytes.Of(ref Header, 24));
         Stream.Seek(Header.HeaderSize + StartPos, SeekOrigin.Begin);
         if ((double)Header.Version < 4)
         {
@@ -283,7 +283,7 @@ public partial class CustomImageLibrary : Component
                         Image = ImageStreams.ReadImageFromStream(Stream, this);
                     }
 
-                    Stream.ReadBytes(Bytes.Of(ref Reference, 4));
+                    Stream.ReadExactly(Bytes.Of(ref Reference, 4));
                     SetImageReference(Index, Reference);
                     Stream.ReadBuffer(Bytes.Of(ref Index, 4));
                 }
@@ -297,7 +297,7 @@ public partial class CustomImageLibrary : Component
                     {
                         var readImageFromStream = ImageStreams.ReadImageFromStream(Stream, this);
                         SetImage(Index, readImageFromStream);
-                        Stream.ReadBytes(Bytes.Of(ref Reference, 4));
+                        Stream.ReadExactly(Bytes.Of(ref Reference, 4));
                         SetImageReference(Index, Reference);
                         Stream.ReadBuffer(Bytes.Of(ref Index, 4));
                     }

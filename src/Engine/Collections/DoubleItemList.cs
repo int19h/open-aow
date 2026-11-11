@@ -377,15 +377,15 @@ public partial class DoubleItemList : Persistent
         int Run = default;
         int Count = default;
         Clear();
-        Stream.ReadBytes(Bytes.Of(ref FDefault, 8));
-        Stream.ReadBytes(Bytes.Of(ref Count, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDefault, 8));
+        Stream.ReadExactly(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.ReadBytes(Bytes.Of(ref Item, 8));
+            Stream.ReadExactly(Bytes.Of(ref Item, 8));
             if ((double)Unsafe.As<DoubleItem, long>(ref Item) == Unsafe.As<DoubleItem, long>(ref FDefault))
             {
-                Stream.ReadBytes(Bytes.Of(ref Run, 4));
+                Stream.ReadExactly(Bytes.Of(ref Run, 4));
                 SetCount(FCount + Run);
             }
             else

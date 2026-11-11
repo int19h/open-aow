@@ -60,7 +60,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref I, 4));
+            FStream.ReadExactly(Bytes.Of(ref I, 4));
         }
         else
         {
@@ -80,7 +80,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref B, 1));
+            FStream.ReadExactly(Bytes.Of(ref B, 1));
         }
         else
         {
@@ -100,7 +100,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref S, 1));
+            FStream.ReadExactly(Bytes.Of(ref S, 1));
         }
         else
         {
@@ -120,7 +120,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref W, 2));
+            FStream.ReadExactly(Bytes.Of(ref W, 2));
         }
         else
         {
@@ -140,7 +140,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref I, 4));
+            FStream.ReadExactly(Bytes.Of(ref I, 4));
         }
         else
         {
@@ -160,7 +160,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref B, 1));
+            FStream.ReadExactly(Bytes.Of(ref B, 1));
         }
         else
         {
@@ -180,7 +180,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref S, 1));
+            FStream.ReadExactly(Bytes.Of(ref S, 1));
         }
         else
         {
@@ -200,7 +200,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref W, 2));
+            FStream.ReadExactly(Bytes.Of(ref W, 2));
         }
         else
         {
@@ -280,7 +280,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Buffer.Slice(0, Size));
+            FStream.ReadExactly(Buffer.Slice(0, Size));
         }
     }
 
@@ -380,7 +380,7 @@ public partial class EReadStorageStream : EStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.ReadBytes(Bytes.Of(ref AClassID, 4));
+            FStream.ReadExactly(Bytes.Of(ref AClassID, 4));
             if (AClassID != 0)
             {
                 SavedBase = FDataBase;
@@ -500,7 +500,7 @@ public partial class EReadStorageStream : EStorageStream
         int Start;
         int Size = default;
         Start = (int)(FStream.Position);
-        FStream.ReadBytes(Bytes.Of(ref Size, 4));
+        FStream.ReadExactly(Bytes.Of(ref Size, 4));
         if (Size != 0)
         {
             SavedBase = FDataBase;
@@ -537,13 +537,13 @@ public partial class EReadStorageStream : EStorageStream
         Strings.BeginUpdate();
         try
         {
-            StreamExtensions.ReadBytes(Stream, Bytes.Of<int>(ref num, 4));
+            Stream.ReadExactly(Bytes.Of<int>(ref num, 4));
             if (num < 0)
             {
                 throw new ArgumentOutOfRangeException((string)null, "Negative string length");
             }
             byte[] array = new byte[num];
-            StreamExtensions.ReadBytes(Stream, (Span<byte>)(array));
+            Stream.ReadExactly((Span<byte>)(array));
             Strings.Text = Cp1252.Decode((ReadOnlySpan<byte>)(array));
         }
         finally
@@ -557,10 +557,10 @@ public partial class EReadStorageStream : EStorageStream
         int num = 0;
         byte b = 0;
         S = "";
-        StreamExtensions.ReadBytes(Stream, Bytes.Of<byte>(ref b, 1));
+        Stream.ReadExactly(Bytes.Of<byte>(ref b, 1));
         if (b == 255)
         {
-            StreamExtensions.ReadBytes(Stream, Bytes.Of<int>(ref num, 4));
+            Stream.ReadExactly(Bytes.Of<int>(ref num, 4));
         }
         else
         {
@@ -573,7 +573,7 @@ public partial class EReadStorageStream : EStorageStream
         byte[] array = new byte[num];
         Cp1252.Encode(S)[..Math.Min(S.Length, num)].CopyTo(array);
         S = Cp1252.Decode((ReadOnlySpan<byte>)(array));
-        StreamExtensions.ReadBytes(Stream, (Span<byte>)(array));
+        Stream.ReadExactly((Span<byte>)(array));
         S = Cp1252.Decode((ReadOnlySpan<byte>)(array));
     }
 
@@ -584,18 +584,18 @@ public partial class EReadStorageStream : EStorageStream
         Strings.BeginUpdate();
         try
         {
-            StreamExtensions.ReadBytes(Stream, Bytes.Of<int>(ref num, 4));
+            Stream.ReadExactly(Bytes.Of<int>(ref num, 4));
             if (num < 0)
             {
                 throw new ArgumentOutOfRangeException((string)null, "Negative string length");
             }
             byte[] array = new byte[num];
-            StreamExtensions.ReadBytes(Stream, (Span<byte>)(array));
+            Stream.ReadExactly((Span<byte>)(array));
             Strings.Text = Cp1252.Decode((ReadOnlySpan<byte>)(array));
             int i = 0;
             for (int num3 = Strings.Count - 1; i <= num3; i++)
             {
-                StreamExtensions.ReadBytes(Stream, Bytes.Of<int>(ref num2, 4));
+                Stream.ReadExactly(Bytes.Of<int>(ref num2, 4));
                 Strings.Objects[i] = RtlUnit.IntToObject(num2);
             }
         }

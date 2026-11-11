@@ -104,12 +104,12 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
     public override void ReadImageData(Stream Stream)
     {
         base.ReadImageData(Stream);
-        Stream.ReadBytes(Bytes.Of(ref FRLEWidth, 4));
-        Stream.ReadBytes(Bytes.Of(ref FRLEHeight, 4));
-        Stream.ReadBytes(Bytes.Of(ref FRLELeft, 4));
-        Stream.ReadBytes(Bytes.Of(ref FRLETop, 4));
-        Stream.ReadBytes(Bytes.Of(ref FTransparentColor, 4));
-        Stream.ReadBytes(Bytes.Of(ref FReserved, 4));
+        Stream.ReadExactly(Bytes.Of(ref FRLEWidth, 4));
+        Stream.ReadExactly(Bytes.Of(ref FRLEHeight, 4));
+        Stream.ReadExactly(Bytes.Of(ref FRLELeft, 4));
+        Stream.ReadExactly(Bytes.Of(ref FRLETop, 4));
+        Stream.ReadExactly(Bytes.Of(ref FTransparentColor, 4));
+        Stream.ReadExactly(Bytes.Of(ref FReserved, 4));
     }
 
     // ImageLib.pas:7572
@@ -129,7 +129,7 @@ public partial class RLESprite08 : Image08, ILibraryImageClass
     {
         base.ReadDiscardableImageData(Stream);
         FData = MemorySurfaces.Reallocate(FData, FDataSize);
-        Stream.ReadBytes(FData.AsSpan(0, FDataSize));
+        Stream.ReadExactly(FData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:7590

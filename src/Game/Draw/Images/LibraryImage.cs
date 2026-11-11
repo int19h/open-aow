@@ -134,24 +134,24 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1702
     public virtual void ReadImageData(Stream Stream)
     {
-        Stream.ReadBytes(Bytes.Of(ref FVersion, 1));
+        Stream.ReadExactly(Bytes.Of(ref FVersion, 1));
         LibraryDrawing.ReadStringFromStream(ref FFileName, Stream);
-        Stream.ReadBytes(Bytes.Of(ref FDataWidth, 4));
-        Stream.ReadBytes(Bytes.Of(ref FDataHeight, 4));
-        Stream.ReadBytes(Bytes.Of(ref FXshift, 4));
-        Stream.ReadBytes(Bytes.Of(ref FYshift, 4));
-        Stream.ReadBytes(Bytes.Of(ref FFileIndex, 4));
-        Stream.ReadBytes(Bytes.Of(ref FLoadMode, 1));
-        Stream.ReadBytes(Bytes.Of(ref FDataSize, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDataWidth, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDataHeight, 4));
+        Stream.ReadExactly(Bytes.Of(ref FXshift, 4));
+        Stream.ReadExactly(Bytes.Of(ref FYshift, 4));
+        Stream.ReadExactly(Bytes.Of(ref FFileIndex, 4));
+        Stream.ReadExactly(Bytes.Of(ref FLoadMode, 1));
+        Stream.ReadExactly(Bytes.Of(ref FDataSize, 4));
         if (FVersion > 0)
         {
             if (FVersion >= 2)
             {
-                Stream.ReadBytes(Bytes.Of(ref FDataPosition, 4));
+                Stream.ReadExactly(Bytes.Of(ref FDataPosition, 4));
             }
 
-            Stream.ReadBytes(Bytes.Of(ref FWidth, 4));
-            Stream.ReadBytes(Bytes.Of(ref FHeight, 4));
+            Stream.ReadExactly(Bytes.Of(ref FWidth, 4));
+            Stream.ReadExactly(Bytes.Of(ref FHeight, 4));
         }
         else
         {

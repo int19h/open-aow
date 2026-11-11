@@ -447,12 +447,12 @@ public partial class ImageSequence : IDisposable
         bool HasNext = default;
         ReleaseIL();
         LibraryDrawing.ReadStringFromStream(ref FImageLibraryName, Stream);
-        Stream.ReadBytes(Bytes.Of(ref FLayer, 1));
-        Stream.ReadBytes(Bytes.Of(ref FSequenceSpeed, 1));
-        Stream.ReadBytes(Bytes.Of(ref FSequenceMode, 1));
-        Stream.ReadBytes(Bytes.Of(ref FImageIndex, 4));
-        Stream.ReadBytes(Bytes.Of(ref FdXshift, 4));
-        Stream.ReadBytes(Bytes.Of(ref FdYshift, 4));
+        Stream.ReadExactly(Bytes.Of(ref FLayer, 1));
+        Stream.ReadExactly(Bytes.Of(ref FSequenceSpeed, 1));
+        Stream.ReadExactly(Bytes.Of(ref FSequenceMode, 1));
+        Stream.ReadExactly(Bytes.Of(ref FImageIndex, 4));
+        Stream.ReadExactly(Bytes.Of(ref FdXshift, 4));
+        Stream.ReadExactly(Bytes.Of(ref FdYshift, 4));
         if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RndFrameTable).Contains(FSequenceMode))
         {
             if (FFrameTable == null)
@@ -464,7 +464,7 @@ public partial class ImageSequence : IDisposable
             FImageIndex = Random(FFrameTable.Count);
         }
 
-        Stream.ReadBytes(Bytes.Of(ref HasNext, 1));
+        Stream.ReadExactly(Bytes.Of(ref HasNext, 1));
         if (HasNext)
         {
             FNext = new ImageSequence(FOwner);

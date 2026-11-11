@@ -348,10 +348,10 @@ public partial class BitList : Persistent
     public void LoadFromStream(Stream Stream)
     {
         Clear();
-        Stream.ReadBytes(Bytes.Of(ref FDefault, 1));
-        Stream.ReadBytes(Bytes.Of(ref FCount, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDefault, 1));
+        Stream.ReadExactly(Bytes.Of(ref FCount, 4));
         SetCapacity(FCount);
-        Stream.ReadBytes(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)));
+        Stream.ReadExactly(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)));
     }
 
     // Engine.pas:4791

@@ -28,13 +28,13 @@ internal static class LibraryDrawing
     internal static void ReadStringFromStream(ref string S, Stream Stream)
     {
         int L = default;
-        Stream.ReadBytes(Bytes.Of(ref L, 4));
+        Stream.ReadExactly(Bytes.Of(ref L, 4));
         if (L < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         byte[] buffer = new byte[L];
         Cp1252.Encode(S)[..Math.Min(S.Length, L)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
         S = Cp1252.Decode(buffer);
-        Stream.ReadBytes(buffer);
+        Stream.ReadExactly(buffer);
         S = Cp1252.Decode(buffer);
     }
 
