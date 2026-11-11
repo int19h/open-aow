@@ -20,7 +20,7 @@ public sealed class GlyphIndexTests
         (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         GfxState.InitBlendTables(5, 31);
-        ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         // The game keeps library names relative to the install, as FontModule does with Int\Fonts.
         ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
         try
@@ -36,7 +36,7 @@ public sealed class GlyphIndexTests
         }
         finally
         {
-            ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
             ImageLibraries.BaseImageLibraryPath = previousBase;
             GfxState.AlphaBlendTable?.Dispose();

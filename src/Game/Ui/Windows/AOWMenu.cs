@@ -39,7 +39,7 @@ public partial class AOWMenu : AOWGenericWindow
     public NotifyEvent<AOWMenu> FOnSelect;
     public int FHighlighted;
     public int FSubMenuItem;
-    public DelphiList FSubMenus;
+    public List<AOWMenu> FSubMenus;
     public int FShowDelay;
     public int FDrawItem;
     public Rect FDrawItemRect;
@@ -53,7 +53,7 @@ public partial class AOWMenu : AOWGenericWindow
         FSelectedItem = -1;
         FSubMenuItem = -1;
         FItemHeight = 10;
-        FSubMenus = new DelphiList();
+        FSubMenus = new List<AOWMenu>();
         FVisible = false;
     }
 
@@ -71,10 +71,10 @@ public partial class AOWMenu : AOWGenericWindow
             {
                 while (I < FOwnerMenu.FSubMenus.Count)
                 {
-                    M = (AOWMenu)FOwnerMenu.FSubMenus[I];
+                    M = FOwnerMenu.FSubMenus[I];
                     if (M == this)
                     {
-                        FOwnerMenu.FSubMenus.Delete(I);
+                        FOwnerMenu.FSubMenus.RemoveAt(I);
                         I = FOwnerMenu.FSubMenus.Count;
                     }
 
@@ -93,10 +93,10 @@ public partial class AOWMenu : AOWGenericWindow
             {
                 while (I < FOwnerMenuBar.FMenus.Count)
                 {
-                    M = (AOWMenu)FOwnerMenuBar.FMenus[I];
+                    M = FOwnerMenuBar.FMenus[I];
                     if (M == this)
                     {
-                        FOwnerMenuBar.FMenus.Delete(I);
+                        FOwnerMenuBar.FMenus.RemoveAt(I);
                         I = FOwnerMenuBar.FMenus.Count;
                     }
 
@@ -113,10 +113,10 @@ public partial class AOWMenu : AOWGenericWindow
         int last = FSubMenus.Count - 1;
         for (; I <= last; I += 1)
         {
-            ((AOWMenu)FSubMenus[I]).DetachMenu();
+            (FSubMenus[I]).DetachMenu();
         }
 
-        FSubMenus.Dispose();
+        FSubMenus.Clear();
         base.Dispose();
     }
 
@@ -274,7 +274,7 @@ public partial class AOWMenu : AOWGenericWindow
                     {
                         for (int I = 0, last = FSubMenus.Count - 1; I <= last; I++)
                         {
-                            M = (AOWMenu)FSubMenus[I];
+                            M = FSubMenus[I];
                             if (M.FOwnerItem == FSubMenuItem)
                             {
                                 M.SetVisible(false);
@@ -284,7 +284,7 @@ public partial class AOWMenu : AOWGenericWindow
 
                     for (int I = 0, last = FSubMenus.Count - 1; I <= last; I++)
                     {
-                        M = (AOWMenu)FSubMenus[I];
+                        M = FSubMenus[I];
                         if (M.FOwnerItem == FHighlighted)
                         {
                             var ilFrame = FILFrame[FILIndexFrame + 2];
@@ -537,7 +537,7 @@ public partial class AOWMenu : AOWGenericWindow
                         Show = false;
                         for (int I = 0, last = FSubMenus.Count - 1; I <= last; I++)
                         {
-                            M = (AOWMenu)FSubMenus[I];
+                            M = FSubMenus[I];
                             if (M.FHandled && M.FVisible)
                             {
                                 Show = true;
@@ -569,7 +569,7 @@ public partial class AOWMenu : AOWGenericWindow
                 Show = false;
                 for (int I = 0, last = FSubMenus.Count - 1; I <= last; I++)
                 {
-                    M = (AOWMenu)FSubMenus[I];
+                    M = FSubMenus[I];
                     if (M.FHandled == true)
                     {
                         if (M.FVisible == true)
@@ -712,7 +712,7 @@ public partial class AOWMenu : AOWGenericWindow
                     int last = FSubMenus.Count - 1;
                     for (; I <= last; I += 1)
                     {
-                        var component = (AoWComponent)FSubMenus[I];
+                        var component = FSubMenus[I];
                         if (component.FHandled == true)
                         {
                             this.FHighlighted = component.FOwnerItem;
@@ -726,7 +726,7 @@ public partial class AOWMenu : AOWGenericWindow
                 FShowDelay = 0;
                 if (OldHighlighted > -1 && FSubMenus.Count > OldHighlighted)
                 {
-                    ((AoWComponent)FSubMenus[OldHighlighted]).SetVisible(false);
+                    (FSubMenus[OldHighlighted]).SetVisible(false);
                 }
 
                 FDrawn = false;
@@ -801,10 +801,10 @@ public partial class AOWMenu : AOWGenericWindow
                 I = 0;
                 while (I < FOwnerMenu.FSubMenus.Count)
                 {
-                    M = (AOWMenu)FOwnerMenu.FSubMenus[I];
+                    M = FOwnerMenu.FSubMenus[I];
                     if (M == this)
                     {
-                        FOwnerMenu.FSubMenus.Delete(I);
+                        FOwnerMenu.FSubMenus.RemoveAt(I);
                         I = FOwnerMenu.FSubMenus.Count;
                     }
 
@@ -819,7 +819,7 @@ public partial class AOWMenu : AOWGenericWindow
                 NewIndex = -1;
                 while (I < FOwnerMenu.FSubMenus.Count)
                 {
-                    M = (AOWMenu)FOwnerMenu.FSubMenus[I];
+                    M = FOwnerMenu.FSubMenus[I];
                     if (M.FPriority > FPriority)
                     {
                         NewIndex = I;
@@ -855,10 +855,10 @@ public partial class AOWMenu : AOWGenericWindow
                 I = 0;
                 while (I < FOwnerMenuBar.FMenus.Count)
                 {
-                    M = (AOWMenu)FOwnerMenuBar.FMenus[I];
+                    M = FOwnerMenuBar.FMenus[I];
                     if (M == this)
                     {
-                        FOwnerMenuBar.FMenus.Delete(I);
+                        FOwnerMenuBar.FMenus.RemoveAt(I);
                         I = FOwnerMenuBar.FMenus.Count;
                     }
 
@@ -873,7 +873,7 @@ public partial class AOWMenu : AOWGenericWindow
                 NewIndex = -1;
                 while (I < FOwnerMenuBar.FMenus.Count)
                 {
-                    M = (AOWMenu)FOwnerMenuBar.FMenus[I];
+                    M = FOwnerMenuBar.FMenus[I];
                     if (M.FPriority > FPriority)
                     {
                         NewIndex = I;

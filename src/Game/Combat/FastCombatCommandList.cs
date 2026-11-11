@@ -9,7 +9,7 @@ public partial class FastCombatCommandList : IDisposable
     // AIGroup.pas:6716
     public FastCombatCommandList(CombatObject Source, FastBattle Combat, CombatSide Side)
     {
-        FCommands = new DelphiList();
+        FCommands = new DelphiList<FastCombatCommand>();
         FSource = Source;
         FCombat = Combat;
         FSourceSide = Side;
@@ -27,7 +27,7 @@ public partial class FastCombatCommandList : IDisposable
     public CombatSide FSourceSide;
     public CombatSide FTargetSide;
     public FastBattle FCombat;
-    public DelphiList FCommands;
+    public DelphiList<FastCombatCommand> FCommands;
 
     // AIGroup.pas:6727
     public virtual void Dispose()
@@ -48,7 +48,7 @@ public partial class FastCombatCommandList : IDisposable
     }
 
     // AIGroup.pas:6742
-    public FastCombatCommand GetCommands(int Index) => (FastCombatCommand)FCommands.List[Index];
+    public FastCombatCommand GetCommands(int Index) => FCommands.List[Index];
 
     // AIGroup.pas:6747
     public int GetCount() => FCommands.Count;
@@ -72,9 +72,9 @@ public partial class FastCombatCommandList : IDisposable
         FCommands.Sort(CompareFastCombatCommands);
     }
 
-    private static int CompareFastCombatCommands(object Item1, object Item2)
+    private static int CompareFastCombatCommands(FastCombatCommand Item1, FastCombatCommand Item2)
     {
-        return ((FastCombatCommand)Item2).FExpectedDV - ((FastCombatCommand)Item1).FExpectedDV;
+        return Item2.FExpectedDV - Item1.FExpectedDV;
     }
 
     // intf_P5_05.inc:23

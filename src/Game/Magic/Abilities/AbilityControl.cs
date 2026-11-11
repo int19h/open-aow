@@ -16,7 +16,7 @@ public partial class AbilityControl : EObject
     {
         AbilityType Kind;
 
-        FAbilities = new DelphiList();
+        FAbilities = new List<Ability>();
         for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
         {
             Kind = (AbilityType)kindOrdinal;
@@ -25,7 +25,7 @@ public partial class AbilityControl : EObject
         }
     }
 
-    public DelphiList FAbilities;
+    public List<Ability> FAbilities;
     public FixedArray_Aow_Units_AoWE_TAbilityTypeList_5 FAbilitiesByType;
 
     // Ability.PAS:2044
@@ -39,7 +39,7 @@ public partial class AbilityControl : EObject
             FAbilitiesByType[(int)Kind]?.Dispose();
         }
 
-        FAbilities?.Dispose();
+        FAbilities?.Clear();
         base.Dispose();
     }
 
@@ -51,7 +51,7 @@ public partial class AbilityControl : EObject
         {
             if (FAbilities[I] != null)
             {
-                Stream.rwEObject((EObject)FAbilities[I], I + 10);
+                Stream.rwEObject(FAbilities[I], I + 10);
             }
         }
     }
@@ -76,7 +76,7 @@ public partial class AbilityControl : EObject
                 FAbilities.Add(null);
             }
 
-            FAbilities.List[ID] = Ability;
+            FAbilities[ID] = Ability;
             var abilityType = Ability.GetAbilityType();
             FAbilitiesByType[(int)abilityType].Add(Ability);
             Ability.FImageSequences.LinkToIL();
@@ -99,13 +99,13 @@ public partial class AbilityControl : EObject
                 throw new InvalidOperationException("Cannot Unregister Ability (" + IntToStr(ID) + ")");
             }
 
-            if (FAbilities.List[ID] != null)
+            if (FAbilities[ID] != null)
             {
                 var abilityType = Ability.GetAbilityType();
                 FAbilitiesByType[(int)abilityType].Remove(Ability);
-                ((Ability)FAbilities.List[ID]).FImageSequences.ReleaseIL();
-                (FAbilities.List[ID] as IDisposable)?.Dispose();
-                FAbilities.List[ID] = null;
+                (FAbilities[ID]).FImageSequences.ReleaseIL();
+                (FAbilities[ID] as IDisposable)?.Dispose();
+                FAbilities[ID] = null;
             }
         }
         else
@@ -121,7 +121,7 @@ public partial class AbilityControl : EObject
         {
             if (FAbilities[I] != null)
             {
-                UnregisterAbility((Ability)FAbilities[I]);
+                UnregisterAbility(FAbilities[I]);
             }
         }
     }
@@ -132,11 +132,11 @@ public partial class AbilityControl : EObject
         Text.Clear();
         for (int I = 0, last = this.FAbilities.Count - 1; I <= last; I++)
         {
-            if (this.FAbilities.List[I] != null)
+            if (this.FAbilities[I] != null)
             {
-                if ((((Ability)this.FAbilities.List[I]).FSelectionTypes & Types) != Set<AbilitySelectionType>.Of() || (Types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && ((Ability)this.FAbilities.List[I]).FSelectionTypes == Set<AbilitySelectionType>.Of()))
+                if (((this.FAbilities[I]).FSelectionTypes & Types) != Set<AbilitySelectionType>.Of() || (Types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && (this.FAbilities[I]).FSelectionTypes == Set<AbilitySelectionType>.Of()))
                 {
-                    Text.AddObject(((Ability)this.FAbilities.List[I]).GetName(null), IntToObject(I));
+                    Text.AddObject((this.FAbilities[I]).GetName(null), IntToObject(I));
                 }
             }
         }
@@ -149,9 +149,9 @@ public partial class AbilityControl : EObject
         List = new DelphiList();
         for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
         {
-            if (FAbilities.List[I] != null)
+            if (FAbilities[I] != null)
             {
-                List.Add(FAbilities.List[I]);
+                List.Add(FAbilities[I]);
             }
         }
 
@@ -180,7 +180,7 @@ public partial class AbilityControl : EObject
     public Ability GetAbility(int index)
     {
         Assert(index >= 0, "Invalid AbilityID", "Ability.PAS", 2069);
-        return index < FAbilities.Count ? (Ability)FAbilities[index] : null;
+        return index < FAbilities.Count ? FAbilities[index] : null;
     }
 
     public static int CompareAbilityNames(object Item1, object Item2)

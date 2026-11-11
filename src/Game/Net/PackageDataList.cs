@@ -7,36 +7,36 @@ namespace Aow.Game.Net;
 // FList, the memory streams of the packages that wait to be received
 public partial class PackageDataList : IDisposable
 {
-    internal DelphiList FList;
+    internal List<MemoryStream> FList;
 
     // NetworkE.pas:870
     public PackageDataList()
     {
-        FList = new DelphiList();
+        FList = new List<MemoryStream>();
     }
 
     // NetworkE.pas:876
     public virtual void Dispose()
     {
         Clear();
-        FList?.Dispose();
+        FList?.Clear();
     }
 
     // NetworkE.pas:883
     public int GetCount() => FList.Count;
 
     // NetworkE.pas:888
-    public MemoryStream GetPackageData(int Index) => (MemoryStream)FList.List[Index];
+    public MemoryStream GetPackageData(int Index) => FList[Index];
 
     // NetworkE.pas:893
     public void Clear()
     {
-        DelphiList L;
+        List<MemoryStream> L;
         L = FList;
         while (L.Count != 0)
         {
-            (L.List[L.Count - 1] as IDisposable)?.Dispose();
-            L.Delete(L.Count - 1);
+            (L[L.Count - 1] as IDisposable)?.Dispose();
+            L.RemoveAt(L.Count - 1);
         }
     }
 
@@ -75,8 +75,8 @@ public partial class PackageDataList : IDisposable
     // NetworkE.pas:935
     public void Delete(int Index)
     {
-        (FList.List[Index] as IDisposable)?.Dispose();
-        FList.Delete(Index);
+        (FList[Index] as IDisposable)?.Dispose();
+        FList.RemoveAt(Index);
     }
 
     public int Count { get => GetCount(); }

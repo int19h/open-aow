@@ -85,9 +85,9 @@ public partial class CombatPredictor : IDisposable
     {
         for (int I = FAllUnits.Count - 1; I >= 0; I--)
         {
-            if (((CombatPredictorUnit)FAllUnits.List[I]).FEnabled == 0)
+            if ((FAllUnits.List[I]).FEnabled == 0)
             {
-                ((CombatPredictorUnit)FAllUnits.List[I]).FEnabled = 1;
+                (FAllUnits.List[I]).FEnabled = 1;
                 FInvalid = 1;
             }
         }
@@ -111,7 +111,7 @@ public partial class CombatPredictor : IDisposable
         FRound = 0;
         for (int I = FAllUnits.Count - 1; I >= 0; I--)
         {
-            ((CombatPredictorUnit)FAllUnits.List[I]).ResetCombat();
+            (FAllUnits.List[I]).ResetCombat();
         }
     }
 
@@ -124,7 +124,7 @@ public partial class CombatPredictor : IDisposable
         {
             for (int I = FSides[1].Count - 1; I >= 0; I--)
             {
-                ((CombatPredictorUnit)FSides[1].List[I]).InvalidateTargets();
+                (FSides[1].List[I]).InvalidateTargets();
             }
 
             FSides[0].F_CombatPredictorSide_10[0] = 0;
@@ -134,7 +134,7 @@ public partial class CombatPredictor : IDisposable
         {
             for (int I = FSides[0].Count - 1; I >= 0; I--)
             {
-                ((CombatPredictorUnit)FSides[0].List[I]).InvalidateTargets();
+                (FSides[0].List[I]).InvalidateTargets();
             }
 
             FSides[1].F_CombatPredictorSide_10[0] = 0;
@@ -142,22 +142,22 @@ public partial class CombatPredictor : IDisposable
 
         for (int I = FAllUnits.Count - 1; I >= 0; I--)
         {
-            ((CombatPredictorUnit)FAllUnits.List[I]).ResetRoundTargets();
+            (FAllUnits.List[I]).ResetRoundTargets();
         }
 
         for (int I = FAllUnits.Count - 1; I >= 0; I--)
         {
-            ((CombatPredictorUnit)FAllUnits.List[I]).SetupRoundTargets(WallPhase);
+            (FAllUnits.List[I]).SetupRoundTargets(WallPhase);
         }
 
         for (int I = FAllUnits.Count - 1; I >= 0; I--)
         {
-            ((CombatPredictorUnit)FAllUnits.List[I]).UpdateRoundTargetPriority();
+            (FAllUnits.List[I]).UpdateRoundTargetPriority();
         }
 
         for (int I = FAllUnits.Count - 1; I >= 0; I--)
         {
-            U = (CombatPredictorUnit)FAllUnits.List[I];
+            U = FAllUnits.List[I];
             if (U.FEnabled != 0 && U.FRoundTargets.Count != 0)
             {
                 U.SortRoundTargets();
@@ -173,7 +173,7 @@ public partial class CombatPredictor : IDisposable
         bool Result = false;
         for (int I = FActiveUnits.Count - 1; I >= 0; I--)
         {
-            U = (CombatPredictorUnit)FActiveUnits.List[I];
+            U = FActiveUnits.List[I];
             if (!U.ExecuteRound())
             {
                 FActiveUnits.Delete(I);
@@ -186,7 +186,7 @@ public partial class CombatPredictor : IDisposable
 
         for (int I = FActiveUnits.Count - 1; I >= 0; I--)
         {
-            U = (CombatPredictorUnit)FActiveUnits.List[I];
+            U = FActiveUnits.List[I];
             if (U.FHitPoints <= 0)
             {
                 FActiveUnits.Delete(I);
@@ -238,7 +238,7 @@ public partial class CombatPredictor : IDisposable
         Hits = default;
         for (int I = FAllUnits.Count - 1; I >= 0; I--)
         {
-            U = (CombatPredictorUnit)FAllUnits.List[I];
+            U = FAllUnits.List[I];
             U.FinishCombat();
             if (!U.FStatus.Contains(CombatPredictorUnitStatusElement.Destroyed))
             {
@@ -623,7 +623,7 @@ public partial class CombatPredictor : IDisposable
                 Left = 0;
                 for (int I = FSides[0].Count - 1; I >= 0; I--)
                 {
-                    U = (CombatPredictorUnit)FSides[0].List[I];
+                    U = FSides[0].List[I];
                     Value = U.FCombatValueTotal;
                     Total += Value;
                     if (U.FHitPoints > 0)
@@ -656,7 +656,7 @@ public partial class CombatPredictor : IDisposable
                     Left = 0;
                     for (int I = FSides[1].Count - 1; I >= 0; I--)
                     {
-                        U = (CombatPredictorUnit)FSides[1].List[I];
+                        U = FSides[1].List[I];
                         Value = U.FCombatValueTotal;
                         Total += Value;
                         if (U.FHitPoints > 0)
@@ -712,7 +712,7 @@ public partial class CombatPredictor : IDisposable
                 Lost[Side] = 0;
                 for (int I = FSides[Side].Count - 1; I >= 0; I--)
                 {
-                    U = (CombatPredictorUnit)FSides[Side].List[I];
+                    U = FSides[Side].List[I];
                     if (U.FStatus.Contains(CombatPredictorUnitStatusElement.Destroyed))
                     {
                         var obtainValue = U.FUnit.GetObtainValue();
@@ -770,7 +770,7 @@ public partial class CombatPredictor : IDisposable
             Total = 0;
             for (int I = FSides[0].Count - 1; I >= 0; I--)
             {
-                U = (CombatPredictorUnit)FSides[0].List[I];
+                U = FSides[0].List[I];
                 if (U.FIncomingCombatValue != 0)
                 {
                     Score = U.FCombatValueTotal * 100 / U.FIncomingCombatValue;
@@ -902,7 +902,7 @@ public partial class CombatPredictor : IDisposable
         {
             for (int I = FSides[0].Count - 1; I >= 0; I--)
             {
-                U = (CombatPredictorUnit)FSides[0].List[I];
+                U = FSides[0].List[I];
                 if (U.FCombatValueTotal == 0)
                 {
                     if (Useless != null)
@@ -939,7 +939,7 @@ public partial class CombatPredictor : IDisposable
         CombatPredictorUnit U;
         for (int I = FSides[0].Count - 1; I >= 0; I--)
         {
-            U = (CombatPredictorUnit)FSides[0].List[I];
+            U = FSides[0].List[I];
             if (U.FCombatValueTotal <= 0)
             {
                 Useless.AddUnit(U.FUnit);

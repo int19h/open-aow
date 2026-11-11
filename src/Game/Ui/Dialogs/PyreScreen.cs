@@ -209,9 +209,9 @@ public partial class PyreScreen : DataModule
 
         for (int I = 0; I <= 11; I++)
         {
-            ((AoWComponent)Window.FControls[I]).Visible = I < Window.FPlayers.Count;
+            (Window.FControls[I]).Visible = I < Window.FPlayers.Count;
             bool condition = I < Window.FPlayers.Count && Window.FPlayers[I] == AoWHSMap.Current.FSeatedPlayer;
-            ((AOWCheckBox)Window.FControls[I]).Checked = condition;
+            (Window.FControls[I]).Checked = condition;
         }
 
         if (GameTables.AoWEngine.FCampaign != null && AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.Lost)

@@ -120,9 +120,9 @@ public partial class PlugInControl : EObject
                 {
                     break;
                 }
-                if (((PlugIn)EngineHost.PlugIns[i]).Name() == Name)
+                if ((EngineHost.PlugIns[i]).Name() == Name)
                 {
-                    tPlugIn = (PlugIn)EngineHost.PlugIns[i];
+                    tPlugIn = EngineHost.PlugIns[i];
                 }
             }
         }

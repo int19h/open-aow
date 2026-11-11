@@ -293,7 +293,7 @@ public sealed class ControlStyleConstructionTests
     {
         string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
         var previousClasses = ImageLibraries.LibraryImageClasses;
-        var classes = imageClassesInitialized ? new DelphiList() : null;
+        var classes = imageClassesInitialized ? new List<LibraryImageClass>() : null;
         Directory.CreateDirectory(directory);
         try
         {
@@ -315,7 +315,7 @@ public sealed class ControlStyleConstructionTests
         finally
         {
             ImageLibraries.LibraryImageClasses = previousClasses;
-            classes?.Dispose();
+            classes?.Clear();
             Directory.Delete(directory, recursive: true);
         }
     }

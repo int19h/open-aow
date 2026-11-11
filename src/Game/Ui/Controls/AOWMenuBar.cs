@@ -21,7 +21,7 @@ public partial class AOWMenuBar : AOWControl
     public int FLastSelected;
     public int FILIndexUp;
     public int FILIndexDown;
-    public DelphiList FMenus;
+    public List<Windows.AOWMenu> FMenus;
     public bool F130;
 
     // AOWMenuBar.pas:65
@@ -29,7 +29,7 @@ public partial class AOWMenuBar : AOWControl
     {
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
-        FMenus = new DelphiList();
+        FMenus = new List<Windows.AOWMenu>();
         FSelected = -1;
     }
 
@@ -39,11 +39,11 @@ public partial class AOWMenuBar : AOWControl
         AOWWindowControl M;
         for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
         {
-            M = (AOWWindowControl)FMenus[I];
+            M = FMenus[I];
             M.DetachMenuBar();
         }
 
-        FMenus.Dispose();
+        FMenus.Clear();
         FItems.Dispose();
         base.Dispose();
     }
@@ -87,7 +87,7 @@ public partial class AOWMenuBar : AOWControl
         FWinHeight = FILButton[FILIndexUp].Height;
         for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
         {
-            ((AoWComponent)FMenus[I]).FAligned = false;
+            (FMenus[I]).FAligned = false;
         }
 
         base.SetSize();
@@ -98,7 +98,7 @@ public partial class AOWMenuBar : AOWControl
     {
         for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
         {
-            ((AoWComponent)FMenus[I]).FAligned = false;
+            (FMenus[I]).FAligned = false;
         }
 
         base.ReAlign();
@@ -200,7 +200,7 @@ public partial class AOWMenuBar : AOWControl
                         int last = FMenus.Count - 1;
                         for (; I <= last; I += 1)
                         {
-                            var component = (AoWComponent)FMenus[I];
+                            var component = FMenus[I];
                             if (component.FOwnerItem == this.FSelected)
                             {
                                 component.SetVisible(true);

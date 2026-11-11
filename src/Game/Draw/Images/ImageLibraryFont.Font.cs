@@ -34,7 +34,7 @@ public partial class ImageLibraryFont
     {
         if (FFontColorPaletteIndex >= 0 && FPaletteManager.FPalettes.Count != 0)
         {
-            var palette = (LibraryImagePalette)FPaletteManager.FPalettes.List[0];
+            var palette = FPaletteManager.FPalettes[0];
             palette.FPalette.Entries[FFontColorPaletteIndex].Value =
                 PixelFormats.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
             if (palette.FRemapPalette != null)

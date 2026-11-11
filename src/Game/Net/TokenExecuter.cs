@@ -17,7 +17,7 @@ public partial class TokenExecuter : IDisposable
     internal TokenControl FPrefetchTC;
     internal int FActiveTCIndex;
     internal TokenEventList FEvents;
-    internal DelphiList FTCList;
+    internal List<TokenControl> FTCList;
     internal int FTokenCounter;
     internal int FRound;
     internal int FExecuteCount;
@@ -78,7 +78,7 @@ public partial class TokenExecuter : IDisposable
     {
         FTokenManager = AManager;
         FEvents = new TokenEventList(null);
-        FTCList = new DelphiList();
+        FTCList = new List<TokenControl>();
         FOnEventsExecutedStore = new();
         FOnActivateTCStore = new();
         FSystemEvents = new TokenEventList(null);
@@ -89,7 +89,7 @@ public partial class TokenExecuter : IDisposable
     {
         Reset();
         FEvents?.Dispose();
-        FTCList?.Dispose();
+        FTCList?.Clear();
         FOnEventsExecutedStore.Clear();
         FOnActivateTCStore.Clear();
         FSystemEvents?.Dispose();
@@ -112,7 +112,7 @@ public partial class TokenExecuter : IDisposable
     }
 
     // NetworkE.pas:1380
-    public TokenControl GetTC(int Index) => (TokenControl)FTCList.List[Index];
+    public TokenControl GetTC(int Index) => FTCList[Index];
 
     // NetworkE.pas:1385
     public void AddTC(TokenControl TC)
@@ -123,7 +123,7 @@ public partial class TokenExecuter : IDisposable
     // NetworkE.pas:1390
     public void DeleteTC(int Index)
     {
-        FTCList.Delete(Index);
+        FTCList.RemoveAt(Index);
     }
 
     // NetworkE.pas:1395
@@ -204,7 +204,7 @@ public partial class TokenExecuter : IDisposable
         FState = Set<TokenExecuterState>.Of();
         if (AIndex < FTCList.Count)
         {
-            FActiveTC = (TokenControl)FTCList[AIndex];
+            FActiveTC = FTCList[AIndex];
             FActiveTCIndex = AIndex;
             FRound = 0;
         }
@@ -213,7 +213,7 @@ public partial class TokenExecuter : IDisposable
     // NetworkE.pas:1474
     public void ActivateTC(int Index)
     {
-        FActiveTC = (TokenControl)FTCList[Index];
+        FActiveTC = FTCList[Index];
         FActiveTC.FActive = true;
         FActiveTCIndex = Index;
         FOnActivateTCStore.Raise(this);
@@ -239,11 +239,11 @@ public partial class TokenExecuter : IDisposable
                 FRound += 1;
             }
 
-            if (((TokenControl)FTCList[FActiveTCIndex]).FActive || N > FTCList.Count)
+            if ((FTCList[FActiveTCIndex]).FActive || N > FTCList.Count)
                 break;
         }
 
-        if (((TokenControl)FTCList[FActiveTCIndex]).FActive)
+        if ((FTCList[FActiveTCIndex]).FActive)
         {
             ActivateTC(FActiveTCIndex);
         }

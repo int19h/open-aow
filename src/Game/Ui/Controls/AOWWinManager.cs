@@ -287,7 +287,7 @@ public partial class AOWWinManager : AoWComponent
                 {
                     for (int J = 0, last = FDrawCount - 1; J <= last; J++)
                     {
-                        D = (TaowRect)FDrawList[J];
+                        D = FDrawList[J];
                         if (FWinLeft > D.R.Left)
                         {
                             D.R.Left = FWinLeft;
@@ -350,7 +350,7 @@ public partial class AOWWinManager : AoWComponent
                     C.FSurfaceValid = true;
                     for (int J = 0, lastJ = FBltCount - 1; J <= lastJ; J++)
                     {
-                        D = (TaowRect)FBltList[J];
+                        D = FBltList[J];
                         InvalidateRect(I + 1, ref D.R, null);
                     }
 
@@ -360,7 +360,7 @@ public partial class AOWWinManager : AoWComponent
                         {
                             for (int J = 0, lastJ = FBltCount - 1; J <= lastJ; J++)
                             {
-                                D = (TaowRect)FBltList[J];
+                                D = FBltList[J];
                                 if (C.FWinLeft > D.R.Left)
                                 {
                                     D.R.Left = C.FWinLeft;

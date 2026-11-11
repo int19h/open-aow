@@ -42,7 +42,7 @@ public partial class General : DataModule
     public bool FTargetVisible;
     public P2UnitShowInfo FUnitShowInfo;
     // are part of FUnitShowInfo
-    public DelphiList FAbilities;
+    public List<CombatAbilityRef> FAbilities;
     public int FActiveAbilityCount;
     public FixedArray_int_8 FSelectedUnits;
     public Army FUnitList;
@@ -480,7 +480,7 @@ public partial class General : DataModule
     {
         FUnitShowInfo.Direction = 3;
         FUnitShowInfo.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
-        FAbilities = new DelphiList();
+        FAbilities = new List<CombatAbilityRef>();
     }
 
     // AoWWinMan.pas:223
@@ -491,7 +491,7 @@ public partial class General : DataModule
             (FAbilities[I] as IDisposable)?.Dispose();
         }
 
-        FAbilities?.Dispose();
+        FAbilities?.Clear();
     }
 
     // AoWWinMan.pas:231

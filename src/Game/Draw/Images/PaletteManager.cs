@@ -6,34 +6,34 @@ namespace Aow.Game.Draw.Images;
 
 public partial class PaletteManager : IDisposable
 {
-    internal DelphiList FPalettes;
+    internal List<LibraryImagePalette> FPalettes;
 
     // ImageLib.pas:6984
     internal int GetCount() => FPalettes.Count;
 
     // ImageLib.pas:6989
-    internal LibraryImagePalette GetPalette(int Index) => (LibraryImagePalette)FPalettes[Index];
+    internal LibraryImagePalette GetPalette(int Index) => FPalettes[Index];
 
     // ImageLib.pas:6994
     internal void UpdateIndices()
     {
         for (int I = 0, last = FPalettes.Count - 1; I <= last; I++)
         {
-            ((LibraryImagePalette)FPalettes[I]).FIndex = I;
+            (FPalettes[I]).FIndex = I;
         }
     }
 
     // ImageLib.pas:6971
     public PaletteManager()
     {
-        FPalettes = new DelphiList();
+        FPalettes = new List<LibraryImagePalette>();
     }
 
     // ImageLib.pas:6977
     public virtual void Dispose()
     {
         Clear();
-        FPalettes?.Dispose();
+        FPalettes?.Clear();
     }
 
     // ImageLib.pas:7001
@@ -58,7 +58,7 @@ public partial class PaletteManager : IDisposable
         Stream.Write(ValueBytes(FPalettes.Count, 4));
         for (int I = 0, last = FPalettes.Count - 1; I <= last; I++)
         {
-            ((LibraryImagePalette)FPalettes.List[I]).SaveToStream(Stream);
+            (FPalettes[I]).SaveToStream(Stream);
         }
     }
 
@@ -67,7 +67,7 @@ public partial class PaletteManager : IDisposable
     {
         for (int I = FPalettes.Count - 1; I >= 0; I--)
         {
-            ((LibraryImagePalette)FPalettes.List[I])?.Dispose();
+            (FPalettes[I])?.Dispose();
         }
 
         FPalettes.Clear();
@@ -76,7 +76,7 @@ public partial class PaletteManager : IDisposable
     // ImageLib.pas:7033
     public LibraryImagePalette LinkToPalette(int Index)
     {
-        LibraryImagePalette Result = (LibraryImagePalette)FPalettes[Index];
+        LibraryImagePalette Result = FPalettes[Index];
         Result.FRefCount += 1;
         return Result;
     }
@@ -93,7 +93,7 @@ public partial class PaletteManager : IDisposable
         while (I != 0 && !Found)
         {
             I -= 1;
-            Found = Palette.Compare(((LibraryImagePalette)FPalettes.List[I]).FPalette);
+            Found = Palette.Compare((FPalettes[I]).FPalette);
         }
 
         if (!Found)
@@ -109,7 +109,7 @@ public partial class PaletteManager : IDisposable
         {
             var libraryImagePalette = FPalettes[I];
             ((LibraryImagePalette)libraryImagePalette).FRefCount += 1;
-            Result = (LibraryImagePalette)FPalettes[I];
+            Result = FPalettes[I];
         }
 
         return Result;
@@ -119,11 +119,11 @@ public partial class PaletteManager : IDisposable
     public void UnregisterPalette(int Index)
     {
         LibraryImagePalette P;
-        P = (LibraryImagePalette)FPalettes[Index];
+        P = FPalettes[Index];
         P.FRefCount -= 1;
         if (P.FRefCount <= 0)
         {
-            FPalettes.Delete(Index);
+            FPalettes.RemoveAt(Index);
             UpdateIndices();
             P?.Dispose();
         }

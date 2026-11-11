@@ -20,14 +20,14 @@ public partial class AOWTabPanel : AOWControl
     public int FBorderHeightSelected;
     public int FILIndexUp;
     public int FILIndexDown;
-    public DelphiList FPanels;
+    public List<Windows.AOWPanel> FPanels;
 
     // AoWTabPanel.pas:62
     public AOWTabPanel(Component owner) : base(owner)
     {
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
-        FPanels = new DelphiList();
+        FPanels = new List<Windows.AOWPanel>();
     }
 
     // AoWTabPanel.pas:70
@@ -36,11 +36,11 @@ public partial class AOWTabPanel : AOWControl
         AOWWindowControl P;
         for (int I = 0, last = FPanels.Count - 1; I <= last; I++)
         {
-            P = (AOWWindowControl)FPanels[I];
+            P = FPanels[I];
             P.DetachMenuBar();
         }
 
-        FPanels.Dispose();
+        FPanels.Clear();
         FItems.Dispose();
         base.Dispose();
     }
@@ -260,7 +260,7 @@ public partial class AOWTabPanel : AOWControl
             FSelected = Value;
             for (int I = 0, last = FPanels.Count - 1; I <= last; I++)
             {
-                var component = (AoWComponent)FPanels[I];
+                var component = FPanels[I];
                 if (component.FOwnerItem == this.FSelected)
                 {
                     component.SetVisible(true);

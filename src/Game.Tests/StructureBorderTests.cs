@@ -61,7 +61,7 @@ public sealed class StructureBorderTests
         var library = new ImageLibrary(null!);
         var target = new DIB16Surface(Width, height, PixelFormats.pfRGB565);
         var previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
@@ -94,7 +94,7 @@ public sealed class StructureBorderTests
             target.Unlock();
             target.Dispose();
             library.Dispose();
-            ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }

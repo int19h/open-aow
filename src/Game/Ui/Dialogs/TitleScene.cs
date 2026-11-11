@@ -49,7 +49,7 @@ public partial class TitleScene : DataModule
     public Rect FSceneRect;
     public bool FRedrawBackground;
     public bool FShowCredits;
-    public DelphiList FCredits;
+    public List<StringList> FCredits;
     public int FCreditPage;
     public int FCreditFrame;
     public bool FShowIntro;
@@ -70,7 +70,7 @@ public partial class TitleScene : DataModule
         FCreditFrame += 1;
         Info.ShowMode = ShowMode.Blended;
         Info.BlendMode = BlendMode.Alpha;
-        Lines = (StringCollection)FCredits[FCreditPage];
+        Lines = FCredits[FCreditPage];
         X = Surface.Width / 2;
         var count = Lines.Count;
         Y = Surface.Height / 2 - ((count * 25 + FCreditsFont.Height) / 2 + 35);
@@ -498,7 +498,7 @@ public partial class TitleScene : DataModule
         var versionStr = GameTables.AoWEngine.GetVersionStr();
         var format = AbilityRules.Format(AbilityRules.TranslateRStr(VersionXRStr), [versionStr]);
         Version.Text = format;
-        FCredits = new DelphiList();
+        FCredits = new List<StringList>();
         Lines = new StringList();
         Lines.Add(AbilityRules.TranslateRStr(DesignerAndDirectorRStr));
         Lines.Add("Lennart Sas");
@@ -606,10 +606,10 @@ public partial class TitleScene : DataModule
     {
         for (int I = FCredits.Count - 1; I >= 0; I--)
         {
-            (FCredits.List[I] as IDisposable)?.Dispose();
+            (FCredits[I] as IDisposable)?.Dispose();
         }
 
-        FCredits?.Dispose();
+        FCredits?.Clear();
     }
 
     // AoWTitleScene.pas:456

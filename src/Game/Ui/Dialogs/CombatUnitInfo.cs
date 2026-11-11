@@ -112,7 +112,7 @@ public partial class CombatUnitInfo : DataModule
             {
                 var ability = DialogHosts.General.FCombatUnit.FAbilities[DrawItem];
                 var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && ((CombatAbilityRef)DialogHosts.General.FCombatUnit.FAbilities[DrawItem]).Ability != 52;
+                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.FCombatUnit.FAbilities[DrawItem]).Ability != 52;
                 if (!test)
                 {
                     var moves = DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves();
@@ -188,7 +188,7 @@ public partial class CombatUnitInfo : DataModule
             {
                 var ability = DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188];
                 var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && ((CombatAbilityRef)DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188]).Ability != 52)
+                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188]).Ability != 52)
                 {
                     return;
                 }

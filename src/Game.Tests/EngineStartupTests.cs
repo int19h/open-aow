@@ -15,6 +15,60 @@ namespace Aow.Game.Tests;
 
 public sealed class EngineStartupTests
 {
+    // These fields were untyped DelphiList. The startup walk still enters them so the recorded element paths stay.
+    private static readonly HashSet<string> ConvertedListFields = new(StringComparer.Ordinal)
+    {
+        "Aow.Engine.PlugIn.FEngines",
+        "Aow.Game.Ai.Groups.AIGroupManager.FRegisteredClasses",
+        "Aow.Game.Combat.AoWCombatMap.FEffects",
+        "Aow.Game.Combat.AoWCombatMap.FFleeLocations",
+        "Aow.Game.Combat.AoWCombatMap.FWalls",
+        "Aow.Game.Combat.CAI.Allies",
+        "Aow.Game.Combat.CAI.Enemies",
+        "Aow.Game.Combat.CAI.Moves",
+        "Aow.Game.Combat.CAI.Units",
+        "Aow.Game.Combat.CAI.Walls",
+        "Aow.Game.Commands.CombatMoveTE.FObjects",
+        "Aow.Game.Draw.BlendTableList.FList",
+        "Aow.Game.Draw.DisplayModeList.FList",
+        "Aow.Game.Draw.Images.PaletteManager.FPalettes",
+        "Aow.Game.Draw.TacticalCombatUnitHS.FAbilities",
+        "Aow.Game.Draw.XYZList.FList",
+        "Aow.Game.GameEngine.FEClasses",
+        "Aow.Game.Magic.Abilities.AbilityControl.FAbilities",
+        "Aow.Game.Magic.Spells.SpellControl.FRegisteredSpells",
+        "Aow.Game.Net.PackageDataList.FList",
+        "Aow.Game.Net.TokenExecuter.FTCList",
+        "Aow.Game.Net.TokenManager.FTokenControls",
+        "Aow.Game.Ui.Controls.AOWMemo.FColorList",
+        "Aow.Game.Ui.Controls.AOWMenuBar.FMenus",
+        "Aow.Game.Ui.Controls.AOWTabPanel.FPanels",
+        "Aow.Game.Ui.Controls.AoWComponent.FBltList",
+        "Aow.Game.Ui.Controls.AoWComponent.FDrawList",
+        "Aow.Game.Ui.Dialogs.General.FAbilities",
+        "Aow.Game.Ui.Dialogs.ResultsWin.FControls",
+        "Aow.Game.Ui.Dialogs.TitleScene.FCredits",
+        "Aow.Game.Ui.Windows.AOWMenu.FSubMenus",
+        "Aow.Game.Ui.Windows.TaowHTMLMemo.FChanges",
+        "Aow.Game.Ui.Windows.TaowHTMLMemo.FFonts",
+        "Aow.Game.Units.ItemControl.FItems",
+        "Aow.Game.Units.UnitControl.FUnits",
+        "Aow.Game.World.Map.AoWHSMap.FEffects",
+        "Aow.Game.World.Map.HexagonSpriteSelection.FLocationHS",
+        "Aow.Game.World.Map.MORTerrainControl.FResources",
+        "Aow.Game.World.PadControl.FPadResources",
+        "Aow.Game.World.Terrain.FireControl.FResources",
+    };
+
+    private static bool IsGenericList(object value)
+    {
+        Type type = value.GetType();
+        return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
+    }
+
+    private static bool ConvertedListField(FieldInfo field) =>
+        ConvertedListFields.Contains((field.DeclaringType?.FullName ?? "") + "." + field.Name);
+
     [Fact]
     public async Task RealStartupSideEffectsStateAndFourFailuresMatchBaseCommit()
     {
@@ -149,12 +203,20 @@ public sealed class EngineStartupTests
                 }
             }
             if (value is DelphiList list)
-                for (int i = 0; i < list.Count; i++)
-                    if (list[i] is object child && LegacyRoots.Contains(child.GetType())) Visit(child, path + $"[{i}]");
+            {
+                for (int index = 0; index < list.Count; index++)
+                    if (list[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
+            }
+            else if (IsGenericList(value) && value is System.Collections.IList items)
+            {
+                for (int index = 0; index < items.Count; index++)
+                    if (items[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
+            }
             for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
                 foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name != "FOwner" && field.GetValue(value) is object child && LegacyRoots.Contains(child.GetType()))
+                    if (field.Name == "FOwner" || field.GetValue(value) is not object child) continue;
+                    if (LegacyRoots.Contains(child.GetType()) || (IsGenericList(child) && ConvertedListField(field)))
                         Visit(child, path + "." + field.Name);
                 }
         }
@@ -174,7 +236,7 @@ public sealed class EngineStartupTests
         ["Demo"] = engine.FDemo,
         ["StartupDirectory"] = fixture.Relative(engine.StartupDirectory),
         ["DebugIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.DebugIDs.Count).Select(i => new { Name = engine.DebugIDs[i], Id = Runtime.ObjectToInt(engine.DebugIDs.Objects[i]) })),
-        ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EClasses.Count).Select(i => ((EClass)engine.EClasses[i]!).ClassID)),
+        ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EClasses.Count).Select(i => (engine.EClasses[i]!).ClassID)),
         ["Children"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.Count).Select(i => engine.Children[i].GetType().FullName)),
         ["Globals"] = fixture.State()
     };

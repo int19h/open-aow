@@ -13,13 +13,13 @@ namespace Aow.Engine;
 public partial class PlugIn : IDisposable
 {
     internal int FRefCount;
-    internal DelphiList FEngines;
+    internal List<GameEngine> FEngines;
     internal IntegerList FCounts;
 
     // Engine.pas:9144
     public PlugIn()
     {
-        FEngines = new DelphiList();
+        FEngines = new List<GameEngine>();
         FCounts = new IntegerList();
         RegisterPlugIn(this);
         FRefCount = 1;
@@ -30,10 +30,10 @@ public partial class PlugIn : IDisposable
     {
         while (FEngines.Count != 0)
         {
-            Finalize((GameEngine)FEngines[FEngines.Count - 1]);
+            Finalize(FEngines[FEngines.Count - 1]);
         }
 
-        FEngines?.Dispose();
+        FEngines?.Clear();
         FCounts?.Dispose();
         UnregisterPlugIn(this);
     }
@@ -123,12 +123,12 @@ public partial class PlugIn : IDisposable
         int num = 0;
         while (!flag && num != EngineHost.PlugIns.Count)
         {
-            flag = ((PlugIn)EngineHost.PlugIns[num]).Name() == PlugIn.Name();
+            flag = (EngineHost.PlugIns[num]).Name() == PlugIn.Name();
             num++;
         }
         if (!flag)
         {
-            EngineHost.PlugIns.Add((object)PlugIn);
+            EngineHost.PlugIns.Add(PlugIn);
             return;
         }
         throw new InvalidOperationException("PlugIn " + PlugIn.Name() + " already registered");
@@ -136,9 +136,9 @@ public partial class PlugIn : IDisposable
 
     private static void UnregisterPlugIn(PlugIn PlugIn)
     {
-        if (EngineHost.PlugIns.IndexOf((object)PlugIn) != -1)
+        if (EngineHost.PlugIns.IndexOf(PlugIn) != -1)
         {
-            EngineHost.PlugIns.Remove((object)PlugIn);
+            EngineHost.PlugIns.Remove(PlugIn);
             return;
         }
         throw new KeyNotFoundException("PlugIn not found");

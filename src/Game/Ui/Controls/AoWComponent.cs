@@ -58,8 +58,8 @@ public partial class AoWComponent : Component
     public DelphiList FChildren;
     public AOWAlignment FAlignment;
     public bool FMasked;
-    public DelphiList FBltList;
-    public DelphiList FDrawList;
+    public List<TaowRect> FBltList;
+    public List<TaowRect> FDrawList;
     public int FBltCount;
     public int FDrawCount;
     public int FToolTipLeft;
@@ -75,8 +75,8 @@ public partial class AoWComponent : Component
         FFirstDraw = true;
         FAlignment = new AOWAlignment();
         FChildren = new DelphiList();
-        FBltList = new DelphiList();
-        FDrawList = new DelphiList();
+        FBltList = new List<TaowRect>();
+        FDrawList = new List<TaowRect>();
     }
 
     // AoWComp.pas:233
@@ -98,8 +98,8 @@ public partial class AoWComponent : Component
         {
         }
 
-        FBltList?.Dispose();
-        FDrawList?.Dispose();
+        FBltList?.Clear();
+        FDrawList?.Clear();
         base.Dispose();
     }
 
@@ -371,7 +371,7 @@ public partial class AoWComponent : Component
             {
                 while (I < Count && Add)
                 {
-                    R = (TaowRect)FBltList[I];
+                    R = FBltList[I];
                     if (ARect.Right >= R.R.Left && ARect.Left <= R.R.Right && ARect.Bottom >= R.R.Top && ARect.Top <= R.R.Bottom)
                     {
                         if (R.R.Left <= ARect.Left)
@@ -403,7 +403,7 @@ public partial class AoWComponent : Component
                                             FBltList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FBltList[FBltCount];
+                                        N = FBltList[FBltCount];
                                         N.R = new Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Top = R.R.Bottom + 1;
@@ -426,7 +426,7 @@ public partial class AoWComponent : Component
                                             FBltList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FBltList[FBltCount];
+                                        N = FBltList[FBltCount];
                                         N.R = new Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
@@ -442,7 +442,7 @@ public partial class AoWComponent : Component
                                             FBltList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FBltList[FBltCount];
+                                        N = FBltList[FBltCount];
                                         N.R = new Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
@@ -472,7 +472,7 @@ public partial class AoWComponent : Component
                                             FBltList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FBltList[FBltCount];
+                                        N = FBltList[FBltCount];
                                         N.R = new Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Right = R.R.Left - 1;
@@ -488,7 +488,7 @@ public partial class AoWComponent : Component
                                             FBltList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FBltList[FBltCount];
+                                        N = FBltList[FBltCount];
                                         N.R = new Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Right = R.R.Left - 1;
@@ -511,7 +511,7 @@ public partial class AoWComponent : Component
                                             FBltList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FBltList[FBltCount];
+                                        N = FBltList[FBltCount];
                                         N.R = new Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
@@ -548,7 +548,7 @@ public partial class AoWComponent : Component
                     FBltList.Add(taowRect);
                 }
 
-                R = (TaowRect)FBltList[FBltCount];
+                R = FBltList[FBltCount];
                 R.R = ARect;
                 FBltCount += 1;
             }
@@ -587,7 +587,7 @@ public partial class AoWComponent : Component
             {
                 while (I < Count && Add)
                 {
-                    R = (TaowRect)FDrawList[I];
+                    R = FDrawList[I];
                     if (ARect.Right >= R.R.Left && ARect.Left <= R.R.Right && ARect.Bottom >= R.R.Top && ARect.Top <= R.R.Bottom)
                     {
                         if (R.R.Left <= ARect.Left)
@@ -619,7 +619,7 @@ public partial class AoWComponent : Component
                                             FDrawList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FDrawList[FDrawCount];
+                                        N = FDrawList[FDrawCount];
                                         N.R = new Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Top = R.R.Bottom + 1;
@@ -642,7 +642,7 @@ public partial class AoWComponent : Component
                                             FDrawList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FDrawList[FDrawCount];
+                                        N = FDrawList[FDrawCount];
                                         N.R = new Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
@@ -658,7 +658,7 @@ public partial class AoWComponent : Component
                                             FDrawList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FDrawList[FDrawCount];
+                                        N = FDrawList[FDrawCount];
                                         N.R = new Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
@@ -688,7 +688,7 @@ public partial class AoWComponent : Component
                                             FDrawList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FDrawList[FDrawCount];
+                                        N = FDrawList[FDrawCount];
                                         N.R = new Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Right = R.R.Left - 1;
@@ -704,7 +704,7 @@ public partial class AoWComponent : Component
                                             FDrawList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FDrawList[FDrawCount];
+                                        N = FDrawList[FDrawCount];
                                         N.R = new Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Right = R.R.Left - 1;
@@ -727,7 +727,7 @@ public partial class AoWComponent : Component
                                             FDrawList.Add(taowRect);
                                         }
 
-                                        N = (TaowRect)FDrawList[FDrawCount];
+                                        N = FDrawList[FDrawCount];
                                         N.R = new Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
@@ -764,7 +764,7 @@ public partial class AoWComponent : Component
                     FDrawList.Add(taowRect);
                 }
 
-                R = (TaowRect)FDrawList[FDrawCount];
+                R = FDrawList[FDrawCount];
                 R.R = ARect;
                 R.Owner = Sender;
                 FDrawCount += 1;

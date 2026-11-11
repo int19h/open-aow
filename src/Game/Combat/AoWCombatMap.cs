@@ -102,9 +102,9 @@ public partial class AoWCombatMap : AbstractAoWCombatMap
 
     // CMapCtrl
     public CAI FAI;
-    public DelphiList FEffects;
-    public DelphiList FWalls;
-    public DelphiList FFleeLocations;
+    public List<TfxHS> FEffects;
+    public List<World.Terrain.CityWall> FWalls;
+    public List<FleeLocation> FFleeLocations;
     public bool FEndTurnPending;
     public bool FPlaySounds;
     public FixedArray_byte_8 FPositionStatus;
@@ -120,7 +120,7 @@ public partial class AoWCombatMap : AbstractAoWCombatMap
             var effect2 = FEffects[0];
             DynamicVisibleHS.RemoveChild((EObject)effect2);
             (FEffects[0] as IDisposable)?.Dispose();
-            FEffects.Delete(0);
+            FEffects.RemoveAt(0);
         }
 
         base.Dispose();
@@ -135,9 +135,9 @@ public partial class AoWCombatMap : AbstractAoWCombatMap
         FUnitChangedEventsStore.Clear();
         FMoveControl?.Dispose();
         FUnitSelection?.Dispose();
-        FEffects?.Dispose();
-        FWalls?.Dispose();
-        FFleeLocations?.Dispose();
+        FEffects?.Clear();
+        FWalls?.Clear();
+        FFleeLocations?.Clear();
         FAI?.Dispose();
     }
 
@@ -159,9 +159,9 @@ public partial class AoWCombatMap : AbstractAoWCombatMap
         FPlayers = new TacticalCombatPlayerList();
         FUnitSelection = new CombatUnitSelectionControl();
         ((AbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents += FUnitSelection.RectangleSelectEvent;
-        FEffects = new DelphiList();
-        FWalls = new DelphiList();
-        FFleeLocations = new DelphiList();
+        FEffects = new List<TfxHS>();
+        FWalls = new List<World.Terrain.CityWall>();
+        FFleeLocations = new List<FleeLocation>();
         FAI = new CAI();
         Mouse.SetCapture(this);
         Mouse.OnMove += MouseMoveEvent;
@@ -257,13 +257,13 @@ public partial class AoWCombatMap : AbstractAoWCombatMap
             I = 0;
             while (I < FEffects.Count)
             {
-                Effect = (TfxHS)FEffects[I];
+                Effect = FEffects[I];
                 if (Effect.FDone)
                 {
                     DynamicFixedVisibleHS.RemoveChild(Effect);
                     DynamicVisibleHS.RemoveChild(Effect);
                     Effect?.Dispose();
-                    FEffects.Delete(I);
+                    FEffects.RemoveAt(I);
                 }
                 else
                 {

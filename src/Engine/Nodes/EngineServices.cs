@@ -48,7 +48,7 @@ public static class EngineServices
         PlugIn Result;
         if (EngineHost.PlugIns != null && Index >= 0 && Index < EngineHost.PlugIns.Count)
         {
-            Result = (PlugIn)EngineHost.PlugIns[Index];
+            Result = EngineHost.PlugIns[Index];
         }
         else
         {
@@ -96,13 +96,13 @@ public static class EngineServices
             Found = false;
             while (!Found && I < EngineHost.Engines.Count)
             {
-                Found = AClassID == ((EObject)EngineHost.Engines[I]).EClass.ClassID;
+                Found = AClassID == (EngineHost.Engines[I]).EClass.ClassID;
                 I += 1;
             }
 
             if (Found)
             {
-                Result = (GameEngine)EngineHost.Engines[I - 1];
+                Result = EngineHost.Engines[I - 1];
             }
         }
 

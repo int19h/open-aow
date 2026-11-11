@@ -5,14 +5,12 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw;
 
 // { The implementation list of image file classes (TList of TImageFileClass). }
-public partial class ImageFileClassList : DelphiList
+public partial class ImageFileClassList : DelphiList<ImageFileClass>
 {
     // GFXE.pas:941
     internal ImageFileClass GetClasses(int Index)
     {
-        object P;
-        P = this[Index];
-        return (ImageFileClass)P;
+        return this[Index];
     }
 
     // GFXE.pas:949
@@ -26,14 +24,14 @@ public partial class ImageFileClassList : DelphiList
             Ext = Copy(Ext, 2, Ext.Length - 1);
         }
 
-        while (I != Count && CompareText(((ImageFileClass)List[I]).Extension, Ext) != 0)
+        while (I != Count && CompareText(List[I].Extension, Ext) != 0)
         {
             I += 1;
         }
 
         if (I != Count)
         {
-            Result = (ImageFileClass)List[I];
+            Result = List[I];
         }
         else
         {

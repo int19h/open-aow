@@ -40,7 +40,7 @@ public partial class TacticalCombatUnitHS : UnitHS
     public int FSelectedAbility;
     public int FSelectedSpell;
     public int FCombatAbilityCount;
-    public DelphiList FAbilities;
+    public List<CombatAbilityRef> FAbilities;
     public bool FBusy;
 
     // AoWTC.pas:3566
@@ -445,7 +445,7 @@ public partial class TacticalCombatUnitHS : UnitHS
     {
         base.Activate();
         SetUnitGFXResourceIndex(FUnit.FUnit.GetUnitGFXResourceIndex());
-        FAbilities = new DelphiList();
+        FAbilities = new List<CombatAbilityRef>();
         CreateTCAbList();
         AoWCombatMap.Current.NewFrameEvents += NewFrame;
         if (AoWCombatMap.Current.FExplorationEnabled)
@@ -475,7 +475,7 @@ public partial class TacticalCombatUnitHS : UnitHS
             (FAbilities[I] as IDisposable)?.Dispose();
         }
 
-        FAbilities?.Dispose();
+        FAbilities?.Clear();
         base.Deactivate();
     }
 
@@ -596,7 +596,7 @@ public partial class TacticalCombatUnitHS : UnitHS
         {
             for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
             {
-                if (((CombatAbilityRef)FAbilities[I]).Ability == AbilityID)
+                if ((FAbilities[I]).Ability == AbilityID)
                 {
                     Index = I;
                 }
@@ -759,7 +759,7 @@ public partial class TacticalCombatUnitHS : UnitHS
         for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
         {
             var ability = FAbilities[I];
-            Names.AddObject(AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(FUnit.FUnit), IntToObject(((CombatAbilityRef)FAbilities[I]).Ability));
+            Names.AddObject(AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(FUnit.FUnit), IntToObject((FAbilities[I]).Ability));
             if (Types != null)
             {
                 var ability2 = FAbilities[I];

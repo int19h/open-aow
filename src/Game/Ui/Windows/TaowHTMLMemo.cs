@@ -16,7 +16,7 @@ namespace Aow.Game.Ui.Windows;
 public partial class TaowHTMLMemo : AOWBaseWindow
 {
     public DelphiList F1EC;
-    public DelphiList FChanges;
+    public List<ChangeInfo> FChanges;
     public StringList FLines;
     public StringList FItems;
     public AOWVScrollBar FVScrollBar;
@@ -25,7 +25,7 @@ public partial class TaowHTMLMemo : AOWBaseWindow
     public bool FBackDrawn;
     public InterfaceIL FImages;
     public int FTopItem;
-    public DelphiList FFonts;
+    public List<ImageLibraryFont> FFonts;
     public AOWBaseWindow FAOWWindow;
     public int FTextWidth;
     public int FTextHeight;
@@ -36,9 +36,9 @@ public partial class TaowHTMLMemo : AOWBaseWindow
         FLines = new StringList();
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
-        FChanges = new DelphiList();
+        FChanges = new List<ChangeInfo>();
         F1EC = new DelphiList();
-        FFonts = new DelphiList();
+        FFonts = new List<ImageLibraryFont>();
         FImages = new InterfaceIL(this);
     }
 
@@ -54,11 +54,11 @@ public partial class TaowHTMLMemo : AOWBaseWindow
 
         for (int I = 0, last = FFonts.Count - 1; I <= last; I++)
         {
-            ((ImageLibraryFont)FFonts[I])?.Dispose();
+            (FFonts[I])?.Dispose();
         }
 
-        FFonts?.Dispose();
-        FChanges?.Dispose();
+        FFonts?.Clear();
+        FChanges?.Clear();
         FImages?.Dispose();
         base.Dispose();
     }
@@ -704,7 +704,7 @@ public partial class TaowHTMLMemo : AOWBaseWindow
                     }
 
                     Line = 1;
-                    CI = (ChangeInfo)FChanges[0];
+                    CI = FChanges[0];
                     Align = TaowTextAlign.Left;
                     FontName = "";
                     X = FBorderWidth;
@@ -785,7 +785,7 @@ public partial class TaowHTMLMemo : AOWBaseWindow
                             Align = CI.FAlign;
                             if (Line < FChanges.Count)
                             {
-                                CI = (ChangeInfo)FChanges[Line];
+                                CI = FChanges[Line];
                             }
 
                             Line += 1;
@@ -838,7 +838,7 @@ public partial class TaowHTMLMemo : AOWBaseWindow
                 {
                     for (int I = 0, last = FDrawCount - 1; I <= last; I++)
                     {
-                        R = (TaowRect)FDrawList[I];
+                        R = FDrawList[I];
                         if (FAOWOwner.FWinLeft + FWinLeft > R.R.Left)
                         {
                             R.R.Left = FAOWOwner.FWinLeft + FWinLeft;
@@ -958,9 +958,9 @@ public partial class TaowHTMLMemo : AOWBaseWindow
         I = 0;
         while (I < FFonts.Count && Font == null)
         {
-            if (((CustomImageLibrary)FFonts[I]).FileName == FileName)
+            if ((FFonts[I]).FileName == FileName)
             {
-                Font = (ImageLibraryFont)FFonts[I];
+                Font = FFonts[I];
             }
 
             I += 1;

@@ -36,7 +36,7 @@ public sealed class ImageClassTests
         using var baselineStream = typeof(ImageClassTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.ImageClassSnapshot.json")!;
         var baseline = JsonSerializer.Deserialize<Baseline[]>(baselineStream)!;
         var previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         var source = new ImageLibrary(null!);
         var loaded = new ImageLibrary(null!);
         var stream = new MemoryStream();
@@ -90,7 +90,7 @@ public sealed class ImageClassTests
             stream.Dispose();
             loaded.Dispose();
             source.Dispose();
-            ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }
@@ -141,7 +141,7 @@ public sealed class ImageClassTests
         var library = new ImageLibrary(null!);
         var surface = new DataSurface(2, 3, PixelFormats.pfRGB555, null!);
         var previousClasses = ImageLibraries.LibraryImageClasses;
-        ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         SurfaceDesc sd = default;
         Assert.Equal(0, surface.Lock(ref sd));
@@ -160,7 +160,7 @@ public sealed class ImageClassTests
             surface.Unlock();
             surface.Dispose();
             library.Dispose();
-            ImageLibraries.LibraryImageClasses.Dispose();
+            ImageLibraries.LibraryImageClasses.Clear();
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }
