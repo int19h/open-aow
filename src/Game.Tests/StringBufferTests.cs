@@ -40,17 +40,24 @@ public sealed class StringBufferTests
         Assert.Equal(stream.Length, stream.Position);
     }
 
+    [Fact]
+    public void ShortStringFromStreamKeepsTheResizedTail()
+    {
+        using var stream = Input(0, 6, [0, 0x80, 0xFF]);
+        string text = "seedtail";
+        GameEngine.StringFromStream(ref text, stream);
+        Assert.Equal(new byte[] { 0, 0x80, 0xFF, 100, 116, 97 }, Cp1252.Encode(text).ToArray());
+    }
+
     [Theory]
-    [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
-    public void ShortReadsKeepTheResizedTail(int shape)
+    public void ShortStringBodiesThrowAndKeepTheResize(int shape)
     {
         using var stream = Input(shape, 6, [0, 0x80, 0xFF]);
         string text = "seedtail";
-        Read(shape, ref text, stream);
-        Assert.Equal(shape == 1 ? new byte[] { 0, 0x80, 0xFF, 0, 0, 0 }
-            : new byte[] { 0, 0x80, 0xFF, 100, 116, 97 }, Cp1252.Encode(text).ToArray());
+        Assert.Throws<EndOfStreamException>(() => Read(shape, ref text, stream));
+        Assert.Equal(shape == 1 ? new byte[6] : "seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
     }
 
     [Theory]

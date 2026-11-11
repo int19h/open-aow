@@ -146,11 +146,11 @@ public partial class EStorageStream : IDisposable
     public ProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
 
     // Delphi var parameters alias a descendant reference through a base-class cast.
-    public void rwCreateEObject<T>(ref T value, ECustomNode owner, int id) where T : class
+    public void rwCreateEObject<T>(ref T value, ECustomNode owner, int id) where T : EObject
     {
-        EObject result = (EObject)(object)value;
+        EObject result = value;
         try { rwCreateEObject(ref result, owner, id); }
-        finally { value = (T)(object)result; }
+        finally { value = (T)result; }
     }
 
     public virtual void Dispose()

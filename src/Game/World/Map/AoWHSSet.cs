@@ -275,11 +275,11 @@ public partial class AoWHSSet : HSSet
             if (AtEnd)
             {
                 FileStream.Position = FileStream.Length - 4;
-                FileStream.ReadBytes(Bytes.Of(ref Result, 4));
+                FileStream.ReadExactly(Bytes.Of(ref Result, 4));
             }
             else
             {
-                FileStream.ReadBytes(Bytes.Of(ref Result, 4));
+                FileStream.ReadExactly(Bytes.Of(ref Result, 4));
             }
         }
         finally

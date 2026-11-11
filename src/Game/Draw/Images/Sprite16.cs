@@ -125,11 +125,11 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     public override void ReadImageData(Stream Stream)
     {
         base.ReadImageData(Stream);
-        Stream.ReadBytes(Bytes.Of(ref FSpriteWidth, 4));
-        Stream.ReadBytes(Bytes.Of(ref FSpriteHeight, 4));
-        Stream.ReadBytes(Bytes.Of(ref FSpriteX, 4));
-        Stream.ReadBytes(Bytes.Of(ref FSpriteY, 4));
-        Stream.ReadBytes(Bytes.Of(ref FTransparentColor, 4));
+        Stream.ReadExactly(Bytes.Of(ref FSpriteWidth, 4));
+        Stream.ReadExactly(Bytes.Of(ref FSpriteHeight, 4));
+        Stream.ReadExactly(Bytes.Of(ref FSpriteX, 4));
+        Stream.ReadExactly(Bytes.Of(ref FSpriteY, 4));
+        Stream.ReadExactly(Bytes.Of(ref FTransparentColor, 4));
     }
 
     // ImageLib.pas:4334
@@ -150,7 +150,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
         AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
         for (int Y = 0, last = FSpriteHeight - 1; Y <= last; Y++)
         {
-            Stream.ReadBytes(FBuffer.AsSpan(Y * FPitch, FSpriteWidth * 2));
+            Stream.ReadExactly(FBuffer.AsSpan(Y * FPitch, FSpriteWidth * 2));
         }
 
         FColorKey = FTransparentColor;

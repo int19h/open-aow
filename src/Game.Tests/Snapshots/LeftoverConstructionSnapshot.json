@@ -13706,8 +13706,7 @@
                     "Player.FPlayerType": 4,
                     "Player.FProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "DelphiList.count": 0,
-                      "DelphiList.items": "$ref:$.AoWHSMap.FAIGroupManager.ENode.FChildren.DelphiList.items"
+                      "ProductionControlList.FItems": []
                     },
                     "Player.FSettings": "",
                     "Player.FSingleProcessCycle": false,
@@ -14305,8 +14304,7 @@
                     "Player.FPlayerType": 0,
                     "Player.FProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "DelphiList.count": 0,
-                      "DelphiList.items": "$ref:$.AoWHSMap.FAIGroupManager.ENode.FChildren.DelphiList.items"
+                      "ProductionControlList.FItems": []
                     },
                     "Player.FSettings": "",
                     "Player.FSingleProcessCycle": false,
@@ -14904,8 +14902,7 @@
                     "Player.FPlayerType": 0,
                     "Player.FProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "DelphiList.count": 0,
-                      "DelphiList.items": "$ref:$.AoWHSMap.FAIGroupManager.ENode.FChildren.DelphiList.items"
+                      "ProductionControlList.FItems": []
                     },
                     "Player.FSettings": "",
                     "Player.FSingleProcessCycle": false,
@@ -17226,8 +17223,7 @@
                     "Player.FPlayerType": 4,
                     "Player.FProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "DelphiList.count": 0,
-                      "DelphiList.items": "$ref:$.AoWHSMap.FAIGroupManager.ENode.FChildren.DelphiList.items"
+                      "ProductionControlList.FItems": []
                     },
                     "Player.FSettings": "",
                     "Player.FSingleProcessCycle": false,
@@ -17825,8 +17821,7 @@
                     "Player.FPlayerType": 0,
                     "Player.FProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "DelphiList.count": 0,
-                      "DelphiList.items": "$ref:$.AoWHSMap.FAIGroupManager.ENode.FChildren.DelphiList.items"
+                      "ProductionControlList.FItems": []
                     },
                     "Player.FSettings": "",
                     "Player.FSingleProcessCycle": false,
@@ -18424,8 +18419,7 @@
                     "Player.FPlayerType": 0,
                     "Player.FProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "DelphiList.count": 0,
-                      "DelphiList.items": "$ref:$.AoWHSMap.FAIGroupManager.ENode.FChildren.DelphiList.items"
+                      "ProductionControlList.FItems": []
                     },
                     "Player.FSettings": "",
                     "Player.FSingleProcessCycle": false,

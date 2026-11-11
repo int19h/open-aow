@@ -301,15 +301,15 @@ public partial class ShortIntList : Persistent
         sbyte Item = default;
         int Count = default;
         Clear();
-        Stream.ReadBytes(Bytes.Of(ref FDefault, 1));
-        Stream.ReadBytes(Bytes.Of(ref Count, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDefault, 1));
+        Stream.ReadExactly(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.ReadBytes(Bytes.Of(ref Item, 1));
+            Stream.ReadExactly(Bytes.Of(ref Item, 1));
             if (Item == FDefault)
             {
-                Stream.ReadBytes(Bytes.Of(ref Run, 1));
+                Stream.ReadExactly(Bytes.Of(ref Run, 1));
                 SetCount(FCount + Run);
             }
             else

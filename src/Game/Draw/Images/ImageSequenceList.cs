@@ -105,10 +105,10 @@ public partial class ImageSequenceList : DelphiList
         bool IsNil = default;
         ImageSequence Sequence;
         DestroyItems();
-        Stream.ReadBytes(Bytes.Of(ref N, 4));
+        Stream.ReadExactly(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
-            Stream.ReadBytes(Bytes.Of(ref IsNil, 1));
+            Stream.ReadExactly(Bytes.Of(ref IsNil, 1));
             if (!IsNil)
             {
                 Sequence = new ImageSequence(this);

@@ -14,8 +14,8 @@ public partial class GFXEPalette
     // GFXE.pas:11050
     public void LoadFromStream(Stream Stream)
     {
-        Stream.ReadBytes(Bytes.Of(ref PixelFormatID, 4));
-        Stream.ReadBytes(MemoryMarshal.AsBytes((Span<PaletteEntry>)Entries).Slice(0, 1024));
+        Stream.ReadExactly(Bytes.Of(ref PixelFormatID, 4));
+        Stream.ReadExactly(MemoryMarshal.AsBytes((Span<PaletteEntry>)Entries).Slice(0, 1024));
     }
 
     // GFXE.pas:11056

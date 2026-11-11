@@ -301,15 +301,15 @@ public partial class WordList : Persistent
         ushort Run = default;
         int Count = default;
         Clear();
-        Stream.ReadBytes(Bytes.Of(ref FDefault, 2));
-        Stream.ReadBytes(Bytes.Of(ref Count, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDefault, 2));
+        Stream.ReadExactly(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.ReadBytes(Bytes.Of(ref Item, 2));
+            Stream.ReadExactly(Bytes.Of(ref Item, 2));
             if (Item == FDefault)
             {
-                Stream.ReadBytes(Bytes.Of(ref Run, 2));
+                Stream.ReadExactly(Bytes.Of(ref Run, 2));
                 SetCount(FCount + Run);
             }
             else

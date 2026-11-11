@@ -160,11 +160,11 @@ public partial class PropertyTable : IDisposable
         int Offset = default;
         byte ShortCount = default;
         ushort Pair = default;
-        Stream.ReadBytes(Bytes.Of(ref ShortCount, 1));
+        Stream.ReadExactly(Bytes.Of(ref ShortCount, 1));
         if ((ShortCount & 128) != 0)
         {
             ShortCount = (byte)(ShortCount & 127);
-            Stream.ReadBytes(Bytes.Of(ref LongCount, 4));
+            Stream.ReadExactly(Bytes.Of(ref LongCount, 4));
         }
         else
         {
@@ -175,7 +175,7 @@ public partial class PropertyTable : IDisposable
         {
             for (int ordinal = 0, last = ShortCount - 1; ordinal <= last; ordinal++)
             {
-                Stream.ReadBytes(Bytes.Of(ref Pair, 2));
+                Stream.ReadExactly(Bytes.Of(ref Pair, 2));
                 Add(Pair & 255, (int)(((uint)Pair) >> 8));
             }
         }
@@ -184,8 +184,8 @@ public partial class PropertyTable : IDisposable
         {
             for (int ordinal = 0, last = LongCount - 1; ordinal <= last; ordinal++)
             {
-                Stream.ReadBytes(Bytes.Of(ref ID, 4));
-                Stream.ReadBytes(Bytes.Of(ref Offset, 4));
+                Stream.ReadExactly(Bytes.Of(ref ID, 4));
+                Stream.ReadExactly(Bytes.Of(ref Offset, 4));
                 Add(ID, Offset);
             }
         }

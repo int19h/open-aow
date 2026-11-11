@@ -11,7 +11,7 @@ public static class ImageStreams
         LibraryImage Result;
         int ID = default;
         LibraryImageClass ImageClass;
-        Stream.ReadBytes(Bytes.Of(ref ID, 4));
+        Stream.ReadExactly(Bytes.Of(ref ID, 4));
         ImageClass = LibraryCatalog.FindLibraryImageClass(ID);
         if (ImageClass != null)
         {
@@ -31,7 +31,7 @@ public static class ImageStreams
         LibraryImage Result;
         int ID = default;
         LibraryImageClass ImageClass;
-        Stream.ReadBytes(Bytes.Of(ref ID, 4));
+        Stream.ReadExactly(Bytes.Of(ref ID, 4));
         ImageClass = LibraryCatalog.FindLibraryImageClass(ID);
         if (ImageClass != null)
         {

@@ -16,11 +16,11 @@ public partial class GrabInfo
     // ImageLib.pas:9634
     public virtual void LoadFromStream(Stream Stream)
     {
-        Stream.ReadBytes(Bytes.Of(ref TransparentColor, 4));
-        Stream.ReadBytes(Bytes.Of(ref FindRectangles, 1));
-        Stream.ReadBytes(Bytes.Of(ref TransparentPixel, 4));
+        Stream.ReadExactly(Bytes.Of(ref TransparentColor, 4));
+        Stream.ReadExactly(Bytes.Of(ref FindRectangles, 1));
+        Stream.ReadExactly(Bytes.Of(ref TransparentPixel, 4));
         LibraryDrawing.ReadStringFromStream(ref FileName, Stream);
-        Stream.ReadBytes(Bytes.Of(ref FileIndex, 4));
+        Stream.ReadExactly(Bytes.Of(ref FileIndex, 4));
     }
 
     // ImageLib.pas:9643

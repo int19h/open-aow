@@ -81,10 +81,10 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public override void ReadImageData(Stream Stream)
     {
         base.ReadImageData(Stream);
-        Stream.ReadBytes(Bytes.Of(ref FMaskWidth, 4));
-        Stream.ReadBytes(Bytes.Of(ref FMaskHeight, 4));
-        Stream.ReadBytes(Bytes.Of(ref FMaskLeft, 4));
-        Stream.ReadBytes(Bytes.Of(ref FMaskTop, 4));
+        Stream.ReadExactly(Bytes.Of(ref FMaskWidth, 4));
+        Stream.ReadExactly(Bytes.Of(ref FMaskHeight, 4));
+        Stream.ReadExactly(Bytes.Of(ref FMaskLeft, 4));
+        Stream.ReadExactly(Bytes.Of(ref FMaskTop, 4));
     }
 
     // ImageLib.pas:4703
@@ -109,7 +109,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     {
         base.ReadDiscardableImageData(Stream);
         AllocateMaskData(FMaskWidth, FMaskHeight);
-        Stream.ReadBytes(FMaskData.AsSpan(0, FDataSize));
+        Stream.ReadExactly(FMaskData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:4734
@@ -366,7 +366,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         public override void LoadFromStream(Stream Stream)
         {
             base.LoadFromStream(Stream);
-            Stream.ReadBytes(Bytes.Of(ref Inverse, 1));
+            Stream.ReadExactly(Bytes.Of(ref Inverse, 1));
         }
 
         // ImageLib.pas:4644

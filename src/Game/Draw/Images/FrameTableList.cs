@@ -292,10 +292,10 @@ public partial class FrameTableList : Persistent
     {
         int N = default;
         Clear();
-        Stream.ReadBytes(Bytes.Of(ref FDefaultValue, 4));
-        Stream.ReadBytes(Bytes.Of(ref N, 4));
+        Stream.ReadExactly(Bytes.Of(ref FDefaultValue, 4));
+        Stream.ReadExactly(Bytes.Of(ref N, 4));
         SetCapacity(N);
-        Stream.ReadBytes(MemoryMarshal.AsBytes(FList.AsSpan(0, N)));
+        Stream.ReadExactly(MemoryMarshal.AsBytes(FList.AsSpan(0, N)));
         FCount = N;
     }
 
