@@ -157,8 +157,6 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Events.EventLogList",
         "Aow.Game.Events.EventLogbook",
         "Aow.Game.World.Structures.DefendersArmy",
-        "Aow.Engine.Hash.StringHashList",
-        "Aow.Engine.Hash.StringHashTable256",
         "Aow.Game.Ai.Groups.GuardAG",
         "Aow.Game.Ai.Groups.GuardAGC",
         "Aow.Game.Ai.Groups.GuardAreaAG",

@@ -1,5 +1,5 @@
 // Translated from ImageLib.pas.
-using Aow.Engine.Hash;
+using Aow.Engine.Collections;
 
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -10,14 +10,14 @@ namespace Aow.Game.Draw.Images;
 // FHashTable (the objects by name), FOwner
 public partial class ILManagerList : StringList
 {
-    internal StringHashTable256 FHashTable;
+    internal Dictionary<string, ILManagerObject> FHashTable;
     internal ImageLibraryManager FOwner;
 
     // ImageLib.pas:8093
     public ILManagerList(ImageLibraryManager owner)
     {
         FOwner = owner;
-        FHashTable = new StringHashTable256();
+        FHashTable = new Dictionary<string, ILManagerObject>(AnsiCompareComparer.Instance);
     }
 
     // ImageLib.pas:8102
@@ -26,7 +26,6 @@ public partial class ILManagerList : StringList
     public override void Dispose()
     {
         base.Dispose();
-        FHashTable?.Dispose();
     }
 
     // ImageLib.pas:8108
@@ -53,7 +52,7 @@ public partial class ILManagerList : StringList
         Obj = new ILManagerObject();
         FileName = UpperCase(FileName);
         AddObject(FileName, Obj);
-        FHashTable.Add(Obj, FileName);
+        HashTables.Add(FHashTable, key: FileName, value: Obj);
         return Obj;
     }
 
@@ -68,7 +67,7 @@ public partial class ILManagerList : StringList
         Obj = new ILManagerObject();
         Obj.FImageLibrary = ImageLibrary;
         AddObject(S, Obj);
-        FHashTable.Delete(S);
+        FHashTable.Remove(S);
         return Obj;
     }
 
@@ -83,7 +82,7 @@ public partial class ILManagerList : StringList
         }
 
         var item = Strings[Index];
-        FHashTable.Delete(item);
+        FHashTable.Remove(item);
         base.Delete(Index);
     }
 
@@ -112,7 +111,7 @@ public partial class ILManagerList : StringList
         CustomImageLibrary Result;
         ILManagerObject Obj;
         FileName = UpperCase(FileName);
-        Obj = (ILManagerObject)FHashTable.Find(FileName);
+        FHashTable.TryGetValue(FileName, out Obj);
         if (Obj != null)
         {
             Obj.FRefCount += 1;
@@ -146,7 +145,7 @@ public partial class ILManagerList : StringList
         bool Result;
         ILManagerObject Obj;
         FileName = UpperCase(FileName);
-        Obj = (ILManagerObject)FHashTable.Find(FileName);
+        FHashTable.TryGetValue(FileName, out Obj);
         if (Obj != null)
         {
             Obj.FRefCount -= 1;

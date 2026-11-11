@@ -8149,16 +8149,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8172,16 +8175,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8276,16 +8280,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8299,16 +8306,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8494,16 +8502,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8517,16 +8528,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8623,16 +8635,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8646,16 +8661,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8780,16 +8796,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8803,16 +8822,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8908,16 +8928,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -8931,16 +8954,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9063,16 +9087,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9086,16 +9113,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9199,16 +9227,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9222,16 +9253,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9364,16 +9396,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9387,16 +9422,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9492,16 +9528,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9515,16 +9554,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Ability.FImageSequences.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9778,16 +9818,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9801,16 +9844,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9914,16 +9958,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -9937,16 +9984,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -10082,16 +10130,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -10105,16 +10156,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -10215,16 +10267,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -10238,16 +10293,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -10445,16 +10501,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -10468,16 +10527,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -10582,16 +10642,19 @@
                 "ImageLibraryManager.FDiskList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": {
+                      "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                    },
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -10605,16 +10668,17 @@
                 "ImageLibraryManager.FOwnedList": {
                   "$type": "Aow.Game.Draw.Images.ILManagerList",
                   "ILManagerList.FHashTable": {
-                    "$type": "Aow.Engine.Hash.StringHashTable256",
-                    "StringHashTable256.FLists": {
-                      "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                      "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                        "$type": "Aow.Engine.Hash.StringHashList",
-                        "HashList.FCapacity": 0,
-                        "HashList.FCount": 0,
-                        "HashList.FItems": null
-                      }
-                    }
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                    "Dictionary`2._buckets": null,
+                    "Dictionary`2._comparer": "$ref:$.Spell.FCastImages.ImageSequenceList.FILManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                    "Dictionary`2._count": 0,
+                    "Dictionary`2._entries": null,
+                    "Dictionary`2._fastModMultiplier": 0,
+                    "Dictionary`2._freeCount": 0,
+                    "Dictionary`2._freeList": 0,
+                    "Dictionary`2._keys": null,
+                    "Dictionary`2._values": null,
+                    "Dictionary`2._version": 0
                   },
                   "ILManagerList.FOwner": "$owner",
                   "StringCollection.UpdateCount": 0,
@@ -15417,16 +15481,17 @@
               "EObject.FOwner": null,
               "UnitControl.FNextUnitID": 1,
               "UnitControl.FUnitTable": {
-                "$type": "Aow.Engine.Collections.IntegerHashTable256",
-                "IntegerHashTable256.FLists": {
-                  "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_Engine_TIntegerHashList_256",
-                  "FixedArray_Aow_Units_Engine_TIntegerHashList_256.element0": {
-                    "$type": "Aow.Engine.Collections.IntegerHashList",
-                    "HashList.FCapacity": 0,
-                    "HashList.FCount": 0,
-                    "HashList.FItems": []
-                  }
-                }
+                "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Magic.Abilities.AbstractUnit, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "Dictionary`2._buckets": null,
+                "Dictionary`2._comparer": null,
+                "Dictionary`2._count": 0,
+                "Dictionary`2._entries": null,
+                "Dictionary`2._fastModMultiplier": 0,
+                "Dictionary`2._freeCount": 0,
+                "Dictionary`2._freeList": 0,
+                "Dictionary`2._keys": null,
+                "Dictionary`2._values": null,
+                "Dictionary`2._version": 0
               },
               "UnitControl.FUnits": []
             },
@@ -18934,16 +18999,17 @@
               "EObject.FOwner": null,
               "UnitControl.FNextUnitID": 1,
               "UnitControl.FUnitTable": {
-                "$type": "Aow.Engine.Collections.IntegerHashTable256",
-                "IntegerHashTable256.FLists": {
-                  "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_Engine_TIntegerHashList_256",
-                  "FixedArray_Aow_Units_Engine_TIntegerHashList_256.element0": {
-                    "$type": "Aow.Engine.Collections.IntegerHashList",
-                    "HashList.FCapacity": 0,
-                    "HashList.FCount": 0,
-                    "HashList.FItems": []
-                  }
-                }
+                "$type": "System.Collections.Generic.Dictionary`2[[System.Int32, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Magic.Abilities.AbstractUnit, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "Dictionary`2._buckets": null,
+                "Dictionary`2._comparer": null,
+                "Dictionary`2._count": 0,
+                "Dictionary`2._entries": null,
+                "Dictionary`2._fastModMultiplier": 0,
+                "Dictionary`2._freeCount": 0,
+                "Dictionary`2._freeList": 0,
+                "Dictionary`2._keys": null,
+                "Dictionary`2._values": null,
+                "Dictionary`2._version": 0
               },
               "UnitControl.FUnits": []
             },
@@ -19502,16 +19568,19 @@
               "ImageLibraryManager.FDiskList": {
                 "$type": "Aow.Game.Draw.Images.ILManagerList",
                 "ILManagerList.FHashTable": {
-                  "$type": "Aow.Engine.Hash.StringHashTable256",
-                  "StringHashTable256.FLists": {
-                    "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                    "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                      "$type": "Aow.Engine.Hash.StringHashList",
-                      "HashList.FCapacity": 0,
-                      "HashList.FCount": 0,
-                      "HashList.FItems": null
-                    }
-                  }
+                  "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                  "Dictionary`2._buckets": null,
+                  "Dictionary`2._comparer": {
+                    "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                  },
+                  "Dictionary`2._count": 0,
+                  "Dictionary`2._entries": null,
+                  "Dictionary`2._fastModMultiplier": 0,
+                  "Dictionary`2._freeCount": 0,
+                  "Dictionary`2._freeList": 0,
+                  "Dictionary`2._keys": null,
+                  "Dictionary`2._values": null,
+                  "Dictionary`2._version": 0
                 },
                 "ILManagerList.FOwner": "$owner",
                 "StringCollection.UpdateCount": 0,
@@ -19525,16 +19594,17 @@
               "ImageLibraryManager.FOwnedList": {
                 "$type": "Aow.Game.Draw.Images.ILManagerList",
                 "ILManagerList.FHashTable": {
-                  "$type": "Aow.Engine.Hash.StringHashTable256",
-                  "StringHashTable256.FLists": {
-                    "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                    "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                      "$type": "Aow.Engine.Hash.StringHashList",
-                      "HashList.FCapacity": 0,
-                      "HashList.FCount": 0,
-                      "HashList.FItems": null
-                    }
-                  }
+                  "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                  "Dictionary`2._buckets": null,
+                  "Dictionary`2._comparer": "$ref:$.HSSet.FImageLibraryManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                  "Dictionary`2._count": 0,
+                  "Dictionary`2._entries": null,
+                  "Dictionary`2._fastModMultiplier": 0,
+                  "Dictionary`2._freeCount": 0,
+                  "Dictionary`2._freeList": 0,
+                  "Dictionary`2._keys": null,
+                  "Dictionary`2._values": null,
+                  "Dictionary`2._version": 0
                 },
                 "ILManagerList.FOwner": "$owner",
                 "StringCollection.UpdateCount": 0,
@@ -19761,16 +19831,19 @@
               "ImageLibraryManager.FDiskList": {
                 "$type": "Aow.Game.Draw.Images.ILManagerList",
                 "ILManagerList.FHashTable": {
-                  "$type": "Aow.Engine.Hash.StringHashTable256",
-                  "StringHashTable256.FLists": {
-                    "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                    "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                      "$type": "Aow.Engine.Hash.StringHashList",
-                      "HashList.FCapacity": 0,
-                      "HashList.FCount": 0,
-                      "HashList.FItems": null
-                    }
-                  }
+                  "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                  "Dictionary`2._buckets": null,
+                  "Dictionary`2._comparer": {
+                    "$type": "Aow.Game.Draw.Images.AnsiCompareComparer"
+                  },
+                  "Dictionary`2._count": 0,
+                  "Dictionary`2._entries": null,
+                  "Dictionary`2._fastModMultiplier": 0,
+                  "Dictionary`2._freeCount": 0,
+                  "Dictionary`2._freeList": 0,
+                  "Dictionary`2._keys": null,
+                  "Dictionary`2._values": null,
+                  "Dictionary`2._version": 0
                 },
                 "ILManagerList.FOwner": "$owner",
                 "StringCollection.UpdateCount": 0,
@@ -19784,16 +19857,17 @@
               "ImageLibraryManager.FOwnedList": {
                 "$type": "Aow.Game.Draw.Images.ILManagerList",
                 "ILManagerList.FHashTable": {
-                  "$type": "Aow.Engine.Hash.StringHashTable256",
-                  "StringHashTable256.FLists": {
-                    "$type": "Aow.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256",
-                    "FixedArray_Aow_Units_HashTabU_TStringHashList_256.element0": {
-                      "$type": "Aow.Engine.Hash.StringHashList",
-                      "HashList.FCapacity": 0,
-                      "HashList.FCount": 0,
-                      "HashList.FItems": null
-                    }
-                  }
+                  "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ILManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                  "Dictionary`2._buckets": null,
+                  "Dictionary`2._comparer": "$ref:$.HSSet.FImageLibraryManager.ImageLibraryManager.FDiskList.ILManagerList.FHashTable.Dictionary`2._comparer",
+                  "Dictionary`2._count": 0,
+                  "Dictionary`2._entries": null,
+                  "Dictionary`2._fastModMultiplier": 0,
+                  "Dictionary`2._freeCount": 0,
+                  "Dictionary`2._freeList": 0,
+                  "Dictionary`2._keys": null,
+                  "Dictionary`2._values": null,
+                  "Dictionary`2._version": 0
                 },
                 "ILManagerList.FOwner": "$owner",
                 "StringCollection.UpdateCount": 0,

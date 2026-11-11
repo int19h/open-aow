@@ -49,8 +49,8 @@ public sealed class MapNetSoundConstructionTests
         var owner = new MapOwner();
         ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : owner : null!;
         var meta = EClass.Of(type);
-        var previous = (EClass?)engine.FClassTable.Find(meta.ClassID);
-        if (previous is not null) engine.UnregisterEClasses([previous]);
+        if (engine.FClassTable.TryGetValue(meta.ClassID, out EClass? previous) && previous is not null)
+            engine.UnregisterEClasses([previous]);
         engine.RegisterEClasses([EClass.Of(type)]);
         var direct = type == typeof(MapLevel) ? new MapLevel(argument)
             : (EObject)Activator.CreateInstance(type, [argument])!;

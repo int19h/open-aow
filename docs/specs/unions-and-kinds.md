@@ -73,7 +73,7 @@ remains in screen code.
 | `TVarRec` | yes, the cases of `Format` | custom union `FormatArg` (3.1) |
 | `EMsg` and `MapFieldMsg` slots | yes, int or reference | custom union `MsgArg` (3.2) |
 | `ShowInfo` blend slot | yes, percentage or table | custom union `BlendValue` (3.3) |
-| `HashItem.Key` | | stays `IntOrRef` until the collections pass gives each hash list a typed key |
+| `HashItem.Key` | | became typed `Dictionary` keys in issue 150 |
 | message kinds | no | stay. 73 bare literal ids. A message hierarchy needs named ids first, a follow-up |
 | event logs | no, mods add events | virtual `View` and `ExecuteAI` (3.4) |
 | structures | no, the first thing a mod adds | virtual panel, actions and tactical map name (3.5) |
