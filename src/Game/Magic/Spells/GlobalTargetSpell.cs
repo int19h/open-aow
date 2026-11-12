@@ -41,7 +41,7 @@ public partial class GlobalTargetSpell : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result && AboveGroundOnly)
         {
-            source.GetLocation(ref X, ref Y, ref layer);
+            source.GetLocation(out X, out Y, out layer);
             if (layer != 0)
             {
                 result = false;
@@ -110,7 +110,7 @@ public partial class GlobalTargetSpell : Spell
         sbyte unitLayer = default;
         targetSelection.Initialize(source);
         targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-        source.GetLocation(ref unitX, ref unitY, ref unitLayer);
+        source.GetLocation(out unitX, out unitY, out unitLayer);
         targetSelection.SourceX = unitX;
         targetSelection.SourceY = unitY;
         targetSelection.SourceL = unitLayer;
@@ -172,7 +172,7 @@ public partial class GlobalTargetSpell : Spell
         bool result = spell.CanActivateStatic(caster, ref messageText);
         if (result && spell.AboveGroundOnly)
         {
-            caster.GetLocation(ref X, ref Y, ref layer);
+            caster.GetLocation(out X, out Y, out layer);
             if (layer != 0)
             {
                 result = false;

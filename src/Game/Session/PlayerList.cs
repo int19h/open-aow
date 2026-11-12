@@ -34,7 +34,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
 
     public ByteList ActivePlayers { get; }
 
-    private ByteList _localControlledPlayers;
+    private readonly ByteList _localControlledPlayers;
 
     public ByteList LocalPlayers { get; }
     public ByteList LocalHumanPlayers { get; init; }

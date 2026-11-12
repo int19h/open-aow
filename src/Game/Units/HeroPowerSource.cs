@@ -26,9 +26,9 @@ public partial class HeroPowerSource : PowerSource
     public override int Power() => Hero.GetPowerGeneration();
 
     // Hero.PAS:610
-    public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
-        Hero.GetLocation(ref X, ref Y, ref L);
+        Hero.GetLocation(out X, out Y, out L);
     }
 
     // Hero.PAS:597
@@ -38,7 +38,7 @@ public partial class HeroPowerSource : PowerSource
         sbyte Y = default;
         sbyte L = default;
         ArmyHexSprite armyHexSprite;
-        GetLocation(ref X, ref Y, ref L);
+        GetLocation(out X, out Y, out L);
         if (X != -1)
         {
             armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();

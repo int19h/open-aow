@@ -10,7 +10,7 @@ namespace Aow.Game.Audio;
 public partial class SfxManager : Component
 {
     private string _searchPath = "";
-    private SfxList _sfx;
+    private readonly SfxList _sfx;
 
     // Sound.pas:407
     public SfxManager(Component owner) : base(owner)

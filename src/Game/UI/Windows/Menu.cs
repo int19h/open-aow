@@ -30,8 +30,8 @@ public partial class Menu : GenericWindow
     public int SelectedItem { get; set; }
 
     private InterfaceImageLibrary _imageLibraryTextureSelected;
-    private StringList _items;
-    private StringList _itemTypes;
+    private readonly StringList _items;
+    private readonly StringList _itemTypes;
     [Published]
     public event NotifyEvent<Menu> OnDrawItem;
 

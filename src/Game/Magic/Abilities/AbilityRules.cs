@@ -595,7 +595,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static void PolarToCartesian(int degrees, int radius, ref int X, ref int Y)
+    internal static void PolarToCartesian(int degrees, int radius, out int X, out int Y)
     {
         float radians;
         radians = (float)((double)((double)degrees * Math.PI) / 180);
@@ -653,7 +653,7 @@ public static class AbilityRules
                 I = movePath.Count - targetRange;
             }
 
-            BattleFieldInfo.SetupBattleFieldInfo(ref info, player, independentRelation, Set<BattleFieldInfoRequestsElement>.Of(), s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+            BattleFieldInfo.SetupBattleFieldInfo(out info, player, independentRelation, Set<BattleFieldInfoRequestsElement>.Of(), s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
             if (step > 0)
@@ -663,7 +663,7 @@ public static class AbilityRules
                 level = StrategicMap.Current.MapContainer.MapLevels[item.MapLevel];
                 var movePathItem = movePath[movePath.Count - 1];
                 var item2 = movePath[movePath.Count - 1];
-                HexNumberWalkData.InitializeHexNumberWalk(ref walk, item2.X, movePathItem.Y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, item2.X, movePathItem.Y, 0);
                 while (walk.Radius <= step)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -769,7 +769,7 @@ public static class AbilityRules
 
     internal static ReadOnlySpan<int> RaceColors => [14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224];
 
-    internal static Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
+    internal static readonly Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
 
     internal static ImmutableArray<string> ExplosionSfx { get; } = ["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"];
 
@@ -819,7 +819,7 @@ public static class AbilityRules
     }
 
     public static void RetrieveStormDamageInfo(sbyte player, StormType storm, sbyte x, sbyte y,
-                sbyte level, sbyte innerRadius, sbyte outerRadius, ref StormDamageInfo info)
+                sbyte level, sbyte innerRadius, sbyte outerRadius, out StormDamageInfo info)
     {
         var query = new StormDamageQuery
         {
@@ -835,7 +835,7 @@ public static class AbilityRules
         message.Param[0] = (int)storm;
         message.Param[2] = query;
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, innerRadius);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, innerRadius);
         try
         {
             while (walk.Radius <= outerRadius)
@@ -864,7 +864,7 @@ public static class AbilityRules
         message.MessageId = 4432;
         message.Param[0] = (int)storm;
         message.Param[2] = player;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, innerRadius);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, innerRadius);
         while (walk.Radius <= outerRadius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

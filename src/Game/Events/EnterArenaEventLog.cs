@@ -59,7 +59,7 @@ public partial class EnterArenaEventLog : EventLog
     }
 
     // Arena.pas:284
-    public bool Train(ref string errorText)
+    public bool Train(out string errorText)
     {
         Int32List units;
         units = new Int32List();
@@ -71,7 +71,7 @@ public partial class EnterArenaEventLog : EventLog
             }
         }
 
-        bool result = Arena.TrainUnits(StrategicMap.Current.SeatedPlayer, units, ref errorText);
+        bool result = Arena.TrainUnits(StrategicMap.Current.SeatedPlayer, units, out errorText);
         units?.Dispose();
         return result;
     }

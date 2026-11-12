@@ -44,7 +44,7 @@ public partial class CampaignTransferSettings : EngineObject
     public UnitList Units { get; }
 
     private int _researchPercentage;
-    private Int32List _spells;
+    private readonly Int32List _spells;
     private int _researchSpellId;
     private int _researchPointsLeft;
 
@@ -582,7 +582,7 @@ public partial class CampaignTransferSettings : EngineObject
             var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
             leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
-            leader.GetLocation(ref X, ref Y, ref L);
+            leader.GetLocation(out X, out Y, out L);
             if (Leader != null)
             {
                 leader.Deactivate();

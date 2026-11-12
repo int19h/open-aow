@@ -115,7 +115,7 @@ public partial class TacticalBattleUnit : CombatUnit
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = 106;
                         var hexY = UnitHexSprite.GetHexY();
-                        HexGeometry.HexToPixel(UnitHexSprite.GetHexX(), hexY, ref X, ref Y);
+                        HexGeometry.HexToPixel(UnitHexSprite.GetHexX(), hexY, out X, out Y);
                         var xyz = new Point3D();
                         effect.Path.Add(xyz);
                         effect.Path[0].X = X + 16;
@@ -282,7 +282,7 @@ public partial class TacticalBattleUnit : CombatUnit
         }
 
         var hexY = unitObject.UnitHexSprite.HexY;
-        HexGeometry.HexToPixel(unitObject.UnitHexSprite.HexX, hexY, ref point.X, ref point.Y);
+        HexGeometry.HexToPixel(unitObject.UnitHexSprite.HexX, hexY, out point.X, out point.Y);
         point.X = Random(10) + point.X + 11;
         var unitSize = unitObject.Troop.GetUnitSize();
         point.Y = Random(10) + point.Y + 9 - (int)unitSize * 10;

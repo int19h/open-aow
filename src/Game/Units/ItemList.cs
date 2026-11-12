@@ -139,7 +139,7 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
     }
 
     // Army.PAS:4596
-    public virtual void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public virtual void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = -1;
         Y = -1;

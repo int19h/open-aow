@@ -30,7 +30,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     public WatcherEnchantment Enchantment { get; }
 
     private int _animationFrame;
-    private Int32List _unexplored;
+    private readonly Int32List _unexplored;
     private bool _visibleForSeatedPlayer;
 
     // GlobalTargetSpells.pas:1213
@@ -105,7 +105,7 @@ public partial class WatcherHexSprite : SingleHexSprite
         if (condition)
         {
             var hexY = HexY;
-            HexGeometry.HexToPixel(HexX, hexY, ref X, ref Y);
+            HexGeometry.HexToPixel(HexX, hexY, out X, out Y);
             X = X - pixelXSurface + 16;
             Y = Y - pixelYSurface + 16;
             if (GamePack.Current.SpellControl.GetSpell(57).CastImages != null)
@@ -122,7 +122,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                 {
                     intensity = 100 - _animationFrame;
                     var hexY2 = HexY;
-                    HexGeometry.HexToPixel(HexX, hexY2, ref X, ref Y);
+                    HexGeometry.HexToPixel(HexX, hexY2, out X, out Y);
                     X = X - pixelXSurface - 8;
                     Y = Y - pixelYSurface;
                     for (int I = _unexplored.Count - 1; I >= 0; I--)
@@ -143,7 +143,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                     delay = Random(80);
                     if (_animationFrame - delay >= 0)
                     {
-                        AbilityRules.PolarToCartesian(angle, radius, ref deltaX, ref deltaY);
+                        AbilityRules.PolarToCartesian(angle, radius, out deltaX, out deltaY);
                         GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, X + deltaX, Y + deltaY, _animationFrame - delay, lockedSurface);
                     }
                 }
@@ -275,7 +275,7 @@ public partial class WatcherHexSprite : SingleHexSprite
         _unexplored.Clear();
         if (StrategicMap.Current.ExplorationEnabled)
         {
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             level = StrategicMap.Current.MapContainer.MapLevels[layer];
             while (true)
             {

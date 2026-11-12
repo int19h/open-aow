@@ -33,7 +33,7 @@ public partial class PlayerControl : EngineObject
     private ExitGameCallBack _exitCallback;
     private ExitGameMode _exitMode;
     private string _password = "";
-    private DoubleItemList _disconnectedPlayers;
+    private readonly DoubleItemList _disconnectedPlayers;
     private bool _outOfSyncShown;
 
     // PlayerC.PAS:7
@@ -100,7 +100,7 @@ public partial class PlayerControl : EngineObject
 
         try
         {
-            EngineMessage.InitializeMessage(ref message, 537001985, this);
+            EngineMessage.InitializeMessage(out message, 537001985, this);
             StrategicMap.Current.SendMessage(ref message, this);
         }
         catch
@@ -168,11 +168,11 @@ public partial class PlayerControl : EngineObject
         var players3 = StrategicMap.Current.Players.GetPlayers(player);
         players3.Day += 1;
         StrategicMap.Current.LockUpdateVisibility();
-        EngineMessage.InitializeMessage(ref message, 537001986, this);
+        EngineMessage.InitializeMessage(out message, 537001986, this);
         message.Payload = player;
         StrategicMap.Current.SendMessage(ref message, this);
         StrategicMap.Current.NewTurnEventsStore.Raise(player);
-        EngineMessage.InitializeMessage(ref message, 537001987, this);
+        EngineMessage.InitializeMessage(out message, 537001987, this);
         message.Payload = player;
         StrategicMap.Current.SendMessage(ref message, this);
         StrategicMap.Current.UnLockUpdateVisibility();
@@ -488,14 +488,14 @@ public partial class PlayerControl : EngineObject
             P.SetEndTurn(true);
             if (P != null)
             {
-                StrategicMap.Current.GetViewCenter(ref X, ref Y, ref L);
+                StrategicMap.Current.GetViewCenter(out X, out Y, out L);
                 P.ViewX = (byte)X;
                 P.ViewY = (byte)Y;
                 P.ViewL = (byte)L;
             }
         }
 
-        EngineMessage.InitializeMessage(ref message, 537001991, this);
+        EngineMessage.InitializeMessage(out message, 537001991, this);
         message.Payload = player;
         StrategicMap.Current.SendMessage(ref message, this);
         StrategicMap.Current.UnlockRelationsChanged();
@@ -564,7 +564,7 @@ public partial class PlayerControl : EngineObject
     public virtual bool LockAI() => StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && !StrategicMap.Current.RequestCombatType && StrategicMap.Current.AILockCount != 0;
 
     // PlayerC.PAS:49
-    public void GetSyncValue(ref int value)
+    public void GetSyncValue(out int value)
     {
         value = StrategicMap.Current.DefendersSeed;
     }

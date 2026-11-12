@@ -133,7 +133,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
     }
 
     // Unit.PAS:2356
-    public virtual void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
+    public virtual void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
     {
         hexX = -1;
         hexY = -1;

@@ -174,7 +174,7 @@ public partial class PoisonCloud : MultiHexMapObject
         int hexNumber;
         if (_resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+            HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
             result = hexNumber < _resource.TerrainList.Count && _resource.TerrainList.Terrain[hexNumber] >= -1;
         }
@@ -192,7 +192,7 @@ public partial class PoisonCloud : MultiHexMapObject
         HexNumberWalkData walk = default;
         int count;
         count = _resource.TerrainList.Count;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber != count)
         {
             if (GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -239,7 +239,7 @@ public partial class PoisonCloud : MultiHexMapObject
         level = Owner.Owner;
         var hexY = GetHexY();
         var hexX = GetHexX();
-        HexNumberWalkData.InitializeHexNumberWalk(ref Walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out Walk, hexX, hexY, 0);
         message.MessageId = 4432;
         message.Param[0] = (int)StormType.Pestilence;
         message.Param[2] = Player;

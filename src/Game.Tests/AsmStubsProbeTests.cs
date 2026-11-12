@@ -448,10 +448,10 @@ public sealed class AsmStubsProbeTests
                 AddNumber(lines, "HSEngine.HXtoH_" + tag, HexGeometry.HexToH(i, j));
                 int x = 0;
                 int y = 0;
-                HexGeometry.HVtoHex(i, j, ref x, ref y);
+                HexGeometry.HVtoHex(i, j, out x, out y);
                 AddNumber(lines, "HSEngine.HVtoHX_X_" + tag, x);
                 AddNumber(lines, "HSEngine.HVtoHX_Y_" + tag, y);
-                HexGeometry.PixelToHex(i, j, ref x, ref y);
+                HexGeometry.PixelToHex(i, j, out x, out y);
                 AddNumber(lines, "HSEngine.HPtoHX_X_" + tag, x);
                 AddNumber(lines, "HSEngine.HPtoHX_Y_" + tag, y);
                 small.AsSpan().Fill(0xA5);
@@ -471,7 +471,7 @@ public sealed class AsmStubsProbeTests
             AddNumber(lines, "HSEngine.HXtoH_extreme_" + Decrement(i), HexGeometry.HexToH(s_values[i], 0));
             int x = 0;
             int y = 0;
-            HexGeometry.PixelToHex(s_values[i], s_values[i], ref x, ref y);
+            HexGeometry.PixelToHex(s_values[i], s_values[i], out x, out y);
             AddNumber(lines, "HSEngine.HPtoHX_extreme_X_" + Decrement(i), x);
             AddNumber(lines, "HSEngine.HPtoHX_extreme_Y_" + Decrement(i), y);
         }

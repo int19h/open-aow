@@ -339,7 +339,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
         MoveControlSettings.ArmyHexSprite = unitHexSprite;
         MoveControlSettings.Selection = 0;
         MoveControlSettings.SetDestinationPosition(X, Y, L);
-        unitHexSprite.Unit.Troop.CreateMovePointTable(ref MoveControlSettings.MovePointTable);
+        unitHexSprite.Unit.Troop.CreateMovePointTable(out MoveControlSettings.MovePointTable);
         CombatMap.Current.MoveControl.ProcessMove(MoveControlSettings);
         MoveSettingsList.GetMoveSettings(index).Path.Assign(MoveControlSettings.Path);
         MoveSettingsList.GetMoveSettings(index).MovePoints = unitHexSprite.Unit.MovePoints;
@@ -647,7 +647,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 {
                     var path = MoveSettingsList.GetMoveSettings(0).Path[1];
                     HexGeometry.CenterHexNumberToHex(MoveSettingsList.GetMoveSettings(0).Path[1].X, path.Y, I, ref X, ref Y);
-                    HexGeometry.HexToPixel(X, Y, ref pixelX, ref pixelY);
+                    HexGeometry.HexToPixel(X, Y, out pixelX, out pixelY);
                     TargetImages[0].Show(pixelX - CombatMap.Current.ViewPixelX - 8, pixelY - CombatMap.Current.ViewPixelY + 2, surface);
                 }
             }
@@ -713,13 +713,13 @@ public partial class CombatUnitSelectionControl : MoveSelector
         units = new DelphiList<TacticalBattleUnitHexSprite>();
         R = sender.SelectionRectangle;
         level = CombatMap.Current.MapContainer.MapLevels[CombatMap.Current.ViewL];
-        HexGeometry.PixelToHex(R.Left, R.Top, ref x1, ref y1);
-        HexGeometry.PixelToHex(R.Right, R.Bottom, ref x2, ref y2);
+        HexGeometry.PixelToHex(R.Left, R.Top, out x1, out y1);
+        HexGeometry.PixelToHex(R.Right, R.Bottom, out x2, out y2);
         for (int X = x1 - 1, last = x2 + 1; X <= last; X++)
         {
             for (int Y = y1 - 1, lastY = y2 + 1; Y <= lastY; Y++)
             {
-                HexGeometry.HexToPixel(X, Y, ref pixelX, ref pixelY);
+                HexGeometry.HexToPixel(X, Y, out pixelX, out pixelY);
                 pixelX += 16;
                 pixelY += 8;
                 if (X >= 0 && X < level.Width && Y > 0 && Y < level.Height && pixelX >= R.Left && pixelX < R.Right && pixelY >= R.Top && pixelY < R.Bottom)
@@ -1319,7 +1319,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
     {
         if (GetTacticalBattleUnitHexSprite() != null)
         {
-            GetTacticalBattleUnitHexSprite().Unit.Troop.CreateMovePointTable(ref MoveControlSettings.MovePointTable);
+            GetTacticalBattleUnitHexSprite().Unit.Troop.CreateMovePointTable(out MoveControlSettings.MovePointTable);
         }
 
         _pathInvalid = Set<PathKind>.Of(PathKind.Ranged);

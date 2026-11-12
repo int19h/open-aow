@@ -25,7 +25,7 @@ public partial class HeroControl : EngineObject
         _heroes = new HeroList(null);
     }
 
-    private EventStore<HeroControl> _onChangedStore;
+    private readonly EventStore<HeroControl> _onChangedStore;
 
     public event NotifyEvent<HeroControl> Changed
     {
@@ -35,7 +35,7 @@ public partial class HeroControl : EngineObject
 
     private int _updateCount;
 
-    private EventStore<Hero> _onHeroChangedStore;
+    private readonly EventStore<Hero> _onHeroChangedStore;
 
     public event NotifyEvent<Hero> HeroChanged
     {
@@ -43,7 +43,7 @@ public partial class HeroControl : EngineObject
         remove => _onHeroChangedStore.Remove(value);
     }
 
-    private HeroList _heroes;
+    private readonly HeroList _heroes;
 
     // Hero.PAS:2421
     public override void Dispose()

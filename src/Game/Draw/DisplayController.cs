@@ -66,10 +66,10 @@ public partial class DisplayController : Component
                         if (M.GetValue((byte)I, (byte)J) != 0)
                         {
                             GetInverseBlockSize(I, J, M, ref bw, ref bh);
-                            GetPixelPositionOfBlock(I, J, clipR, ref sourceR.Left, ref sourceR.Top, ref blockWidth, ref blockHeight);
+                            GetPixelPositionOfBlock(I, J, clipR, out sourceR.Left, out sourceR.Top, out blockWidth, out blockHeight);
                             if (bw > 1 || bh > 1)
                             {
-                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, clipR, ref pixelX2, ref pixelY2, ref blockWidth, ref blockHeight);
+                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, clipR, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
                                 sourceR.Right = pixelX2 + blockWidth;
                                 sourceR.Bottom = pixelY2 + blockHeight;
                             }
@@ -80,7 +80,7 @@ public partial class DisplayController : Component
                             }
 
                             var primarySurfaceRegion = GetPrimarySurfaceRegion();
-                            GetPixelPositionOfBlock(I, J, primarySurfaceRegion.Value, ref destinationR.Left, ref destinationR.Top, ref blockWidth, ref blockHeight);
+                            GetPixelPositionOfBlock(I, J, primarySurfaceRegion.Value, out destinationR.Left, out destinationR.Top, out blockWidth, out blockHeight);
                             var primarySurfaceRegion2 = GetPrimarySurfaceRegion();
                             destinationR.Left += primarySurfaceRegion2.Value.Left;
                             var primarySurfaceRegion3 = GetPrimarySurfaceRegion();
@@ -88,7 +88,7 @@ public partial class DisplayController : Component
                             if (bw > 1 || bh > 1)
                             {
                                 var primarySurfaceRegion4 = GetPrimarySurfaceRegion();
-                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, primarySurfaceRegion4.Value, ref pixelX2, ref pixelY2, ref blockWidth, ref blockHeight);
+                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, primarySurfaceRegion4.Value, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
                                 var primarySurfaceRegion5 = GetPrimarySurfaceRegion();
                                 destinationR.Right = pixelX2 + blockWidth + primarySurfaceRegion5.Value.Left;
                                 var primarySurfaceRegion6 = GetPrimarySurfaceRegion();
@@ -460,7 +460,7 @@ public partial class DisplayController : Component
     }
 
     // DisplayC.pas:964
-    public virtual void GetPixelPositionOfBlock(int bx, int by, Rect R, ref int pixelX, ref int pixelY, ref int bw, ref int bh)
+    public virtual void GetPixelPositionOfBlock(int bx, int by, Rect R, out int pixelX, out int pixelY, out int bw, out int bh)
     {
         int W;
         int H;
@@ -473,7 +473,7 @@ public partial class DisplayController : Component
     }
 
     // DisplayC.pas:976
-    public virtual void GetBlockPositionOfPixel(int pixelX, int pixelY, Rect R, ref int bx, ref int by)
+    public virtual void GetBlockPositionOfPixel(int pixelX, int pixelY, Rect R, out int bx, out int by)
     {
         int W;
         int H;
@@ -501,8 +501,8 @@ public partial class DisplayController : Component
             R.Right = GetSurface(1).Width;
             R.Top = 0;
             R.Bottom = GetSurface(1).Height;
-            GetBlockPositionOfPixel(X, Y, R, ref bx1, ref by1);
-            GetBlockPositionOfPixel(X + W, Y + H, R, ref bx2, ref by2);
+            GetBlockPositionOfPixel(X, Y, R, out bx1, out by1);
+            GetBlockPositionOfPixel(X + W, Y + H, R, out bx2, out by2);
             if (M.Width > bx1 && M.Height > by1 && by2 >= 0 && by1 >= 0)
             {
                 if (bx1 < 0)

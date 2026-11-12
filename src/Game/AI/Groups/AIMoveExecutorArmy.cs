@@ -51,7 +51,7 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     public bool CanAdd(AIMoveExecutorUnit unitEntry) => Unsafe.As<MapCoordinate, int>(ref Location) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Location) && Unsafe.As<MapCoordinate, int>(ref _destination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Destination) && TransportStatus == unitEntry.TransportStatus && (TransportStatus == AIMoveExecutorTransportStatus.Done || (Unsafe.As<MapCoordinate, int>(ref BoardingPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.BoardingPoint) && Unsafe.As<MapCoordinate, int>(ref ArrivalPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.ArrivalPoint) && Unsafe.As<MapCoordinate, int>(ref TransportSource) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportSource) && Unsafe.As<MapCoordinate, int>(ref TransportDestination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportDestination)));
 
     // AIGroup.pas:4559
-    public void RetrieveArmy(byte selection, ref ArmyHexSprite army, ref byte armySelection)
+    public void RetrieveArmy(byte selection, out ArmyHexSprite army, out byte armySelection)
     {
         int index;
         army = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();

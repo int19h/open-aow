@@ -9,7 +9,7 @@ namespace Aow.Game.UI.Grids;
 
 public partial class PageTurnControl
 {
-    private float _scale;
+    private readonly float _scale;
     private float _shade;
     private float _halfWidth;
 

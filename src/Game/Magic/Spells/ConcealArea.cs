@@ -43,7 +43,7 @@ public partial class ConcealArea : Spell
         ConcealAreaHexSprite conceal;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
-        source.GetLocation(ref X, ref Y, ref layer);
+        source.GetLocation(out X, out Y, out layer);
         if (source.Player == StrategicMap.Current.SeatedPlayer)
         {
             conceal = new ConcealAreaHexSprite(null);
@@ -56,7 +56,7 @@ public partial class ConcealArea : Spell
             if (StrategicMap.Current.Players.GetDiplomaticRelation(source.Player, (sbyte)player) == DiplomaticRelation.War && player != source.Player)
             {
                 log = null;
-                HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
                 while (walk.Radius <= 14)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

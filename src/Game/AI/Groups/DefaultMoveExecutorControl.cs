@@ -37,7 +37,7 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
                         mode = Set<CreateMoveModeElement>.Of();
                     }
 
-                    move = CreateMove(armies.GetArmies(0), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, ref moveResult);
+                    move = CreateMove(armies.GetArmies(0), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
                     if (move != null)
                     {
                         if (!Executor.Mode.Contains(AIMoveExecutorModeElement.Simultaneous) || (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack) && moveResult == 2))
@@ -86,7 +86,7 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                 while (cannotMove && I != armies.Count)
                 {
-                    move = CreateMove(armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), ref moveResult);
+                    move = CreateMove(armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
                     cannotMove = moveResult != 0;
                     if (move != null)
                     {
@@ -102,7 +102,7 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
                     move = null;
                     while (move == null && I != armies.Count)
                     {
-                        move = CreateMove(armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), ref moveResult);
+                        move = CreateMove(armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out moveResult);
                         if (move != null)
                         {
                             Executor.ExecuteMoves();

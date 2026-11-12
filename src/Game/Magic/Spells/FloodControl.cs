@@ -97,7 +97,7 @@ public partial class FloodControl : EngineObject
             {
                 if (mapLevel.GetField(X, Y).TerrainType == 0)
                 {
-                    HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 1);
+                    HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 1);
                     while (walk.Radius == 1)
                     {
                         mapField = mapLevel.GetField(walk.X, walk.Y);

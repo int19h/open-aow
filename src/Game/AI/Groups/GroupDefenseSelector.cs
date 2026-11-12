@@ -124,14 +124,14 @@ public partial class GroupDefenseSelector : IDisposable
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         DefenseLocation.Packed = 16777215;
         candidates = new UnitUserList(null);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= 1 && Defenders.Count != group.Count)
         {
             mapField = level.GetField(walk.X, walk.Y);
             if (mapField.GetPlayer() == group.Player)
             {
                 candidates.Clear();
-                mapField.GetDefenseRequirements(group.Player, ref strengths);
+                mapField.GetDefenseRequirements(group.Player, out strengths);
                 if (!EnoughStrength(strengths.DamageStrengths))
                 {
                     UpdateDefenseLocation(mapField);

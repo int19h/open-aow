@@ -187,11 +187,11 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         transparentColor = grabInfo.TransparentPixel;
         if (!((GrabInfo)grabInfo).Inverse)
         {
-            LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, transparentColor, ref minRectangle);
+            LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, transparentColor, out minRectangle);
         }
         else
         {
-            MinimizeInverseTransparentRectangle(lockedSurface, R, transparentColor, ref minRectangle);
+            MinimizeInverseTransparentRectangle(lockedSurface, R, transparentColor, out minRectangle);
         }
 
         left = minRectangle.Left;
@@ -268,7 +268,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         }
     }
 
-    internal static void MinimizeInverseTransparentRectangle(in LockedSurface lockedSurface, in Rect R, int transparentColor, ref Rect result)
+    internal static void MinimizeInverseTransparentRectangle(in LockedSurface lockedSurface, in Rect R, int transparentColor, out Rect result)
     {
         LockedSurface lockedSurfaceValue = lockedSurface;
         Rect value = R;

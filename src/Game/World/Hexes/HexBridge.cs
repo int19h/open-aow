@@ -27,8 +27,8 @@ public partial class HexBridge : AbstractRoad
 
     public sbyte Direction { get; private set; }
 
-    private ByteList _sideA;
-    private ByteList _sideB;
+    private readonly ByteList _sideA;
+    private readonly ByteList _sideB;
 
     // HxBridge.pas:77
     public override void Dispose()
@@ -77,7 +77,7 @@ public partial class HexBridge : AbstractRoad
         HexNumberWalkData walk = default;
         MapLevel level;
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, Owner.HexX, Owner.HexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, Owner.HexX, Owner.HexY, 1);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -97,7 +97,7 @@ public partial class HexBridge : AbstractRoad
         HexNumberWalkData walk = default;
         MapLevel level;
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, Owner.HexX, Owner.HexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, Owner.HexX, Owner.HexY, 1);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -132,7 +132,7 @@ public partial class HexBridge : AbstractRoad
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         _resource.ImageLibrary[Direction].Show(pixelX - pixelXSurface - 23, pixelY - pixelYSurface - 20, lockedSurface);
     }
 

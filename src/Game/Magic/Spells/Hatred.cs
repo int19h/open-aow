@@ -30,7 +30,7 @@ public partial class Hatred : GlobalEnchantmentSpell
         sbyte Y = default;
         sbyte L = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         StrategicMap.Current.AddEffect(WorldEffectType.Hatred);
         CastSounds.Play(0);

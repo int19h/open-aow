@@ -196,18 +196,18 @@ public partial class Ability : EngineObject
     }
 
     // Ability.PAS:1624
-    public virtual bool CanActivateCombat(AbilityOwner owner, ref string reason)
+    public virtual bool CanActivateCombat(AbilityOwner owner, out string reason)
     {
         reason = "";
         return GetControlType(owner).Contains(AbilityControlTypeElement.CombatAction);
     }
 
     // Ability.PAS:1637
-    public virtual bool ActivateCombat(AbilityOwner owner, ref string reason)
+    public virtual bool ActivateCombat(AbilityOwner owner, out string reason)
     {
         bool result;
         AbilityActivation info;
-        if (this.CanActivateCombat(owner, ref reason))
+        if (this.CanActivateCombat(owner, out reason))
         {
             info = new AbilityActivation(null);
             info.AbilityId = AbilityId;
@@ -453,8 +453,8 @@ public partial class Ability : EngineObject
 
     private static readonly ImmutableArray<string> s_combatModeTexts = ["", "", "", "", "", ""];
     private static readonly ImmutableArray<string> s_damageTypeTexts = ["", "", "", "", "", "", "", "", "", ""];
-    private static Set<MoveType> s_emptyMoveTypes = Set<MoveType>.FromMask(0uL);
-    private static Set<DamageType> s_emptyDamageTypes = Set<DamageType>.FromMask(0uL);
-    private static Set<WallCombatFeaturesElement> s_emptyWallFeatures = Set<WallCombatFeaturesElement>.FromMask(0uL);
-    private static Set<AbilityControlTypeElement> s_emptyControlType = Set<AbilityControlTypeElement>.FromMask(0uL);
+    private static readonly Set<MoveType> s_emptyMoveTypes = Set<MoveType>.FromMask(0uL);
+    private static readonly Set<DamageType> s_emptyDamageTypes = Set<DamageType>.FromMask(0uL);
+    private static readonly Set<WallCombatFeaturesElement> s_emptyWallFeatures = Set<WallCombatFeaturesElement>.FromMask(0uL);
+    private static readonly Set<AbilityControlTypeElement> s_emptyControlType = Set<AbilityControlTypeElement>.FromMask(0uL);
 }

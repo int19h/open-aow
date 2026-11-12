@@ -72,7 +72,7 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1513
-    public void GetMeleeStrike(int index, ref Strike strike)
+    public void GetMeleeStrike(int index, out Strike strike)
     {
         strike = _strikes[index];
     }

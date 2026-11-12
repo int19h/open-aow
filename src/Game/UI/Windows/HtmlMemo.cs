@@ -16,15 +16,15 @@ public partial class HtmlMemo : BaseWindow
 {
     public List<ChangeInfo> Changes { get; }
 
-    private StringList _lines;
-    private StringList _items;
+    private readonly StringList _lines;
+    private readonly StringList _items;
     private VerticalScrollBar _verticalScrollBar;
     private string _fileName = "";
     private int _scrollWidth;
     private bool _backDrawn;
-    private InterfaceImageLibrary _images;
+    private readonly InterfaceImageLibrary _images;
     private int _topItem;
-    private List<ImageLibraryFont> _fonts;
+    private readonly List<ImageLibraryFont> _fonts;
     private BaseWindow _window;
     private int _textWidth;
     private int _textHeight;

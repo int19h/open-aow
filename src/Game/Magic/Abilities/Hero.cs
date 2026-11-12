@@ -1055,7 +1055,7 @@ public partial class Hero : Troop
         bool placed;
         level = message.Param[0].As<MapLevel>();
         L = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref X, ref Y);
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out X, out Y);
         if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
             if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
@@ -1646,7 +1646,7 @@ public partial class Hero : Troop
         int level;
         int oldLevel;
         HeroUpgradeEventLog log;
-        GetLocation(ref X, ref Y, ref L);
+        GetLocation(out X, out Y, out L);
         if (Player != 0 && X != -1)
         {
             UpgradePending = false;
@@ -1929,8 +1929,8 @@ public partial class Hero : Troop
         item = StrategicMap.Current.ItemControl.FindItem(itemId);
         if (item != null)
         {
-            GetLocation(ref X, ref Y, ref L);
-            item.GetLocation(ref ix, ref iy, ref imageLibrary);
+            GetLocation(out X, out Y, out L);
+            item.GetLocation(out ix, out iy, out imageLibrary);
             if (StrategicMap.Current.CombatMap != null || (X == ix && Y == iy && L == imageLibrary))
             {
                 if (Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(position))

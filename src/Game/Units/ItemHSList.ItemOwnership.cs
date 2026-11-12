@@ -9,7 +9,7 @@ public partial class ItemHSList
 
     public override GameEngine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
 
-    public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level)
+    public override void GetLocation(out sbyte x, out sbyte y, out sbyte level)
     {
         x = Sprite.GetHexX();
         y = Sprite.GetHexY();

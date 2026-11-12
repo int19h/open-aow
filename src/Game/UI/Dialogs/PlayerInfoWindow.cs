@@ -154,7 +154,7 @@ public partial class PlayerInfoWindow : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(ref X, ref Y, ref L);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out X, out Y, out L);
             if (X > -1)
             {
                 StrategicMap.Current.CenterViewTo(X, Y, L);
@@ -191,7 +191,7 @@ public partial class PlayerInfoWindow : DataModule
         sbyte hexLevel = default;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(ref hexX, ref hexY, ref hexLevel);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out hexX, out hexY, out hexLevel);
             if (hexX > -1)
             {
                 var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);

@@ -16,7 +16,7 @@ public partial class StructureControl : EngineObject
         _nextId = 0;
     }
 
-    private ENode _structures;
+    private readonly ENode _structures;
     private int _nextId;
     public int CityCount;
 

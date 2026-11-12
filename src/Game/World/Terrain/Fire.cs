@@ -116,7 +116,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
             frame = StrategicMap.Current.Frame - _explosionFrame;
             if (frame >= 0 && frame < _resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
-                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
                 _resource.ImageSequenceList.Show(20, X - pixelXSurface, Y - pixelYSurface, frame, lockedSurface);
             }
             else
@@ -260,7 +260,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         }
 
         counts.Clear();
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber < terrains.Count)
         {
             if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -296,7 +296,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         int X = default;
         int Y = default;
         HexSprite hexSprite;
-        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out X, out Y);
         hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1744830464 + ((Y + 36) << 13) + (X + 16);
         if (hexSprite != this && hexSprite != null)
@@ -374,7 +374,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
             mapLevel = Owner.Owner;
             var hexY = GetHexY();
             var hexX = GetHexX();
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 1);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 1);
             while (walk.Radius == 1)
             {
                 // { Original excludes the top row when spreading fire. }

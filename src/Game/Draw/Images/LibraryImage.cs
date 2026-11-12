@@ -123,7 +123,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1640
-    public virtual void GetVisualDimensions(ref Rect R)
+    public virtual void GetVisualDimensions(out Rect R)
     {
         R.Left = 0;
         R.Right = _width;
@@ -587,7 +587,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1648
-    public void GetDimensions(ref Rect R)
+    public void GetDimensions(out Rect R)
     {
         R.Left = 0;
         R.Right = _width;

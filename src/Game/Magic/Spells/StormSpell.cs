@@ -60,9 +60,9 @@ public partial class StormSpell : Spell
             AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
             if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                source.GetLocation(ref X, ref Y, ref L);
+                source.GetLocation(out X, out Y, out L);
                 storm = CreateStorm();
-                if (storm.GetBestTarget(source.Player, X, Y, L, 12, ref target, ref info))
+                if (storm.GetBestTarget(source.Player, X, Y, L, 12, ref target, out info))
                 {
                     ExecuteStormSpell(source, target.X, target.Y, target.MapLevel);
                     result = true;
@@ -104,7 +104,7 @@ public partial class StormSpell : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(out X, out Y, out L);
             if (L != 0)
             {
                 result = false;
@@ -128,7 +128,7 @@ public partial class StormSpell : Spell
         if (CanActivate(source, ref reason))
         {
             _source = source;
-            source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(out X, out Y, out L);
             selection = StrategicMap.Current.TargetSelection;
             _targetStorm = CreateStorm();
             selection.Initialize(this);
@@ -204,11 +204,11 @@ public partial class StormSpell : Spell
         if (CanActivate(source, ref reason))
         {
             result = -1;
-            source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(out X, out Y, out L);
             if (L == 0)
             {
                 storm = CreateStorm();
-                if (storm.GetBestTarget(source.Player, X, Y, L, 12, ref target, ref info))
+                if (storm.GetBestTarget(source.Player, X, Y, L, 12, ref target, out info))
                 {
                     damage = info.EnemyDamage - info.FriendlyDamage;
                     if ((double)((double)BaseManaCost * 0.75) < damage)

@@ -130,7 +130,7 @@ public partial class AIMoveExecutor : EngineObject
             throw new InvalidOperationException("Unit already exists! (TAIMoveExecuter)");
         }
 
-        troop.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+        troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
         unitEntry = new AIMoveExecutorUnit(null);
         unitEntry.Initialize(troop, location.X, location.Y, location.MapLevel);
         unitEntry.Owner = Units;
@@ -176,7 +176,7 @@ public partial class AIMoveExecutor : EngineObject
             Units.GetUnits(index)?.Dispose();
         }
 
-        troop.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+        troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
         Transporter = new AIMoveExecutorUnit(null);
         Transporter.Initialize(troop, location.X, location.Y, location.MapLevel);
     }
@@ -351,7 +351,7 @@ public partial class AIMoveExecutor : EngineObject
                 multiMove.Simultaneous = false;
                 for (int I = Moves.Count - 1; I >= 0; I--)
                 {
-                    if (Moves.GetMoves(I).RetrieveArmy(ref army, ref selection))
+                    if (Moves.GetMoves(I).RetrieveArmy(out army, out selection))
                     {
                         move = new ArmyDefaultMoveTokenEvent(null);
                         var moves = Moves.GetMoves(I);
@@ -372,7 +372,7 @@ public partial class AIMoveExecutor : EngineObject
             }
             else
             {
-                if (Moves.GetMoves(0).RetrieveArmy(ref army, ref selection))
+                if (Moves.GetMoves(0).RetrieveArmy(out army, out selection))
                 {
                     var moves = Moves.GetMoves(0);
                     if (!ArmyHexSprite.MoveArmy(army, selection, moves.Path))

@@ -23,7 +23,7 @@ public partial class WaterHex
         ImageSequence sequence;
         int image;
         bool showing;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         // { Original uses the shared engine settings and the Flood enchantment. }

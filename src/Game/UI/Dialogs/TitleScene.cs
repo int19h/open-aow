@@ -457,7 +457,7 @@ public partial class TitleScene : DataModule
     }
 
     // AoWTitleScene.pas:315
-    public void WindowDrawSurfaceEx(Surface surface, ref bool drawn)
+    public void WindowDrawSurfaceEx(Surface surface, out bool drawn)
     {
         LockedSurface lockedSurface = default;
         try

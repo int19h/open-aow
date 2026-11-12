@@ -1722,14 +1722,14 @@ public partial class SetupControl : Component
         return true;
     }
 
-    private static SetupPlayerBehavior s_cpuBehavior = new SetupPlayerBehavior
+    private static readonly SetupPlayerBehavior s_cpuBehavior = new SetupPlayerBehavior
     {
         PlayerType = 1,
         Reserved = default,
         Flags = 0
     };
 
-    private static SetupPlayerBehavior s_freeBehavior = new SetupPlayerBehavior
+    private static readonly SetupPlayerBehavior s_freeBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
         Reserved = default,

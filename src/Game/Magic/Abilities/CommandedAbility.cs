@@ -52,6 +52,6 @@ public partial class CommandedAbility : AdjustableAbility
     // AoWAb.PAS:5019
     public override EngineClass AbilityDataClass() => s_commandedDataClass;
 
-    private static EngineClass s_commandedDataClass = EngineClass.Of<CommandedAbilityData>();
+    private static readonly EngineClass s_commandedDataClass = EngineClass.Of<CommandedAbilityData>();
 
 }

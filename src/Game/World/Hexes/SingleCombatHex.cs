@@ -21,7 +21,7 @@ public partial class SingleCombatHex : AbstractHexagon
         int X = default;
         int Y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
         X = X - pixelXSurface - 8;
         Y = Y - pixelYSurface;
         sequence = _resource.ImageSequenceList.GetImageSequence(0);

@@ -51,7 +51,7 @@ public class IvCustomTranslator : Component
 
     public string DictionaryName { get; set; } = "AoW";
     public IList<TranslationTarget> TargetsData { get; } = new List<TranslationTarget>();
-    public MldDictionary? Dictionary { get; set; }
+    public MldDictionary? Dictionary { get; init; }
     public int? Language { get; set; }
 
     public virtual void Translate()

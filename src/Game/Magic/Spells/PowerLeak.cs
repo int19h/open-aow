@@ -36,7 +36,7 @@ public partial class PowerLeak : GlobalEnchantmentSpell
         sbyte L = default;
         TwinkleAnimation animation;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         animation = new TwinkleAnimation(null);
         animation.Setup(GamePack.Current.SpellControl.GetSpell(48).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);

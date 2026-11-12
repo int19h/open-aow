@@ -38,7 +38,7 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4738
-    public virtual AIMoveExecutorMove CreateMove(AIMoveExecutorArmy army, byte selection, sbyte X, sbyte Y, sbyte L, Set<CreateMoveModeElement> mode, ref byte moveResult)
+    public virtual AIMoveExecutorMove CreateMove(AIMoveExecutorArmy army, byte selection, sbyte X, sbyte Y, sbyte L, Set<CreateMoveModeElement> mode, out byte moveResult)
     {
         MoveControlSettings settings;
         AIMoveExecutorMove move;
@@ -51,7 +51,7 @@ public partial class AIMoveExecutorControl : EngineObject
         MapLevel level;
         HexNumberWalkData walk = default;
         move = null;
-        army.RetrieveArmy(selection, ref armyHexSprite, ref armySelection);
+        army.RetrieveArmy(selection, out armyHexSprite, out armySelection);
         settings = new MoveControlSettings(null);
         if (mode.Contains(CreateMoveModeElement.SurroundNearest))
         {
@@ -60,7 +60,7 @@ public partial class AIMoveExecutorControl : EngineObject
             StrategicMap.Current.MoveControl.ProcessMove(settings);
             level = StrategicMap.Current.MapContainer.GetMapLevel(L);
             candidates = new DoubleItemList();
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 1);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 1);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

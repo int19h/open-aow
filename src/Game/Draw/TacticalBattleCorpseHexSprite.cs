@@ -44,7 +44,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
         int X = default;
         int Y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
         pixelXSurface = X - pixelXSurface - 15;
         pixelYSurface = Y - pixelYSurface - 25;
         if (SequenceIndex > -1)
@@ -104,7 +104,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                     var hexX2 = GetHexX();
                     CombatMap.Current.MakeVisible(hexX2, hexY2, 0, 5);
                     var hexY3 = GetHexY();
-                    HexGeometry.HexToPixel(GetHexX(), hexY3, ref X, ref Y);
+                    HexGeometry.HexToPixel(GetHexX(), hexY3, out X, out Y);
                     for (int ring = 1; ring <= 3; ring++)
                     {
                         N = Random(5);
@@ -149,7 +149,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) == null)
                 {
                     var hexY2 = GetHexY();
-                    HexGeometry.HexToPixel(GetHexX(), hexY2, ref X, ref Y);
+                    HexGeometry.HexToPixel(GetHexX(), hexY2, out X, out Y);
                     N = Random(6) + 25;
                     for (int I = 1; I <= N - 1; I++)
                     {

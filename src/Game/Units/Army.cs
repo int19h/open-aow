@@ -260,7 +260,7 @@ public partial class Army : UnitList
     public override sbyte GetPlayer() => Player;
 
     // Army.PAS:1874
-    public override void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
+    public override void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
     {
         if (Status.Contains(ArmyStatusElement.Activated))
         {
@@ -369,7 +369,7 @@ public partial class Army : UnitList
             message.MessageId = 4363;
             message.Result = 0;
             message.Param[1] = player;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (result && walk.Radius < 8)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -799,7 +799,7 @@ public partial class Army : UnitList
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        GetLocation(ref X, ref Y, ref L);
+        GetLocation(out X, out Y, out L);
         if (X != -1)
         {
             result = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
@@ -1668,7 +1668,7 @@ public partial class Army : UnitList
         transport = Transporter(selection);
         if (transport != null)
         {
-            transport.CreateMovePointTable(ref table);
+            transport.CreateMovePointTable(out table);
         }
         else
         {
@@ -1676,7 +1676,7 @@ public partial class Army : UnitList
             {
                 if ((selection & 1) != 0)
                 {
-                    this[I].CreateMovePointTable(ref unitTable);
+                    this[I].CreateMovePointTable(out unitTable);
                     AbilityRules.MaximizeMovePointTable(Bytes.Of(ref table), Bytes.Of(ref unitTable));
                 }
 
@@ -1698,7 +1698,7 @@ public partial class Army : UnitList
         transport = Transporter(selection);
         if (transport != null)
         {
-            transport.CreateMovePointTable(ref MemoryMarshal.Cast<byte, MovePointTable>(table)[0]);
+            transport.CreateMovePointTable(out MemoryMarshal.Cast<byte, MovePointTable>(table)[0]);
             count += 1;
         }
         else
@@ -1707,7 +1707,7 @@ public partial class Army : UnitList
             {
                 if ((selection & 1) != 0)
                 {
-                    this[I].CreateMovePointTable(ref unitTable);
+                    this[I].CreateMovePointTable(out unitTable);
                     AbilityRules.MaximizeMovePointTable(table, Bytes.Of(ref unitTable));
                     count += 1;
                 }
@@ -3339,7 +3339,7 @@ public partial class Army : UnitList
                 troop = GetUnit(I);
                 if (troop.Player != 0 || troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive)
                 {
-                    troop.RetrieveDamageInfo((sbyte)attack, (sbyte)damage, Set<DamageType>.Of(StormDamageType[(int)storm]), ref value, ref amount);
+                    troop.RetrieveDamageInfo((sbyte)attack, (sbyte)damage, Set<DamageType>.Of(StormDamageType[(int)storm]), out value, out amount);
                     if (info.FriendlyRelations.Contains(relation))
                     {
                         info.FriendlyDamage += amount;

@@ -15,7 +15,7 @@ public partial class FireControl : IDisposable
         _resources = new List<Fire.Resource>();
     }
 
-    private List<Fire.Resource> _resources;
+    private readonly List<Fire.Resource> _resources;
 
     // Structur.PAS:3726
     public virtual void Dispose()

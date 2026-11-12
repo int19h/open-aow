@@ -15,7 +15,7 @@ public partial class ResourceEditSettings : ControlStyleObject
     // Engine.pas:8662
     public new const int ClassId = 1026;
 
-    private StringList _editors;
+    private readonly StringList _editors;
 
     // Engine.pas:8677
     internal int GetUniqueEditId()

@@ -28,7 +28,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     public new const int ClassId = 135424;
 
     public Set<ArmyMoveModeElement> Mode;
-    private Int32List _unitIds;
+    private readonly Int32List _unitIds;
     public byte Selection;
     public ArmyHexSprite ArmyHexSprite;
     private sbyte _player;

@@ -22,7 +22,7 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     }
 
     private AIGroupControl _control;
-    private AIMoveTargetSelector _selector;
+    private readonly AIMoveTargetSelector _selector;
     private int _range;
     private int _step;
     private int _targetRange;

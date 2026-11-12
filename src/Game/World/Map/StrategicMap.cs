@@ -62,7 +62,7 @@ public partial class StrategicMap : GameMap
     public StructureControl StructureControl { get; private set; }
 
     private StrategicMapIndependentAIMode _independentAIMode;
-    private StringList _objectives;
+    private readonly StringList _objectives;
     public sbyte HeroCountMax;
 
     public StartupSongList StartupSongs { get; }
@@ -127,7 +127,7 @@ public partial class StrategicMap : GameMap
     public bool ShowAllPlayers;
     private int _relationsChangedLockCount;
 
-    private EventStore<StrategicMap> _playerChangedEventsStore;
+    private readonly EventStore<StrategicMap> _playerChangedEventsStore;
 
     public event NotifyEvent<StrategicMap> PlayerChanged
     {
@@ -151,7 +151,7 @@ public partial class StrategicMap : GameMap
         remove => NewTurnEventsStore.Remove(value);
     }
 
-    private EventStore<sbyte> _endTurnEventsStore;
+    private readonly EventStore<sbyte> _endTurnEventsStore;
 
     public event NotifyEvent<sbyte> TurnEnded
     {
@@ -159,7 +159,7 @@ public partial class StrategicMap : GameMap
         remove => _endTurnEventsStore.Remove(value);
     }
 
-    private EventStore<StrategicMap> _currentPlayerChangedEventsStore;
+    private readonly EventStore<StrategicMap> _currentPlayerChangedEventsStore;
 
     public event NotifyEvent<StrategicMap> CurrentPlayerChanged
     {
@@ -167,7 +167,7 @@ public partial class StrategicMap : GameMap
         remove => _currentPlayerChangedEventsStore.Remove(value);
     }
 
-    private EventStore<StrategicMap> _seatedPlayerChangedEventsStore;
+    private readonly EventStore<StrategicMap> _seatedPlayerChangedEventsStore;
 
     public event NotifyEvent<StrategicMap> SeatedPlayerChanged
     {
@@ -175,7 +175,7 @@ public partial class StrategicMap : GameMap
         remove => _seatedPlayerChangedEventsStore.Remove(value);
     }
 
-    private EventStore<Battle> _combatEventsStore;
+    private readonly EventStore<Battle> _combatEventsStore;
 
     public event NotifyEvent<Battle> CombatTriggered
     {
@@ -183,7 +183,7 @@ public partial class StrategicMap : GameMap
         remove => _combatEventsStore.Remove(value);
     }
 
-    private EventStore<sbyte> _playerTerminatedEventsStore;
+    private readonly EventStore<sbyte> _playerTerminatedEventsStore;
 
     public event NotifyEvent<sbyte> PlayerTerminated
     {
@@ -191,7 +191,7 @@ public partial class StrategicMap : GameMap
         remove => _playerTerminatedEventsStore.Remove(value);
     }
 
-    private EventStore<StrategicMap> _gameOverEventsStore;
+    private readonly EventStore<StrategicMap> _gameOverEventsStore;
 
     public event NotifyEvent<StrategicMap> GameEnded
     {
@@ -199,7 +199,7 @@ public partial class StrategicMap : GameMap
         remove => _gameOverEventsStore.Remove(value);
     }
 
-    private EventStore<StrategicMap> _gameTerminatedEventsStore;
+    private readonly EventStore<StrategicMap> _gameTerminatedEventsStore;
 
     public event NotifyEvent<StrategicMap> GameTerminated
     {
@@ -209,7 +209,7 @@ public partial class StrategicMap : GameMap
 
     public bool ExitPending { get; private set; }
 
-    private EventStore<StrategicMap> _exitEventsStore;
+    private readonly EventStore<StrategicMap> _exitEventsStore;
 
     public event NotifyEvent<StrategicMap> ExitingGame
     {
@@ -218,9 +218,9 @@ public partial class StrategicMap : GameMap
     }
 
     private int _gameOverLockCount;
-    private EventLogList _executeEventLogBuffer;
+    private readonly EventLogList _executeEventLogBuffer;
 
-    private EventStore<ExecuteEventLogNotification> _executeEventLogEventsStore;
+    private readonly EventStore<ExecuteEventLogNotification> _executeEventLogEventsStore;
 
     public event NotifyEvent<ExecuteEventLogNotification> ExecutingEventLog
     {
@@ -228,7 +228,7 @@ public partial class StrategicMap : GameMap
         remove => _executeEventLogEventsStore.Remove(value);
     }
 
-    private ExecuteEventLogCallbackList _executeEventLogCallBacks;
+    private readonly ExecuteEventLogCallbackList _executeEventLogCallBacks;
 
     public int AILockCount { get; private set; }
 
@@ -258,7 +258,7 @@ public partial class StrategicMap : GameMap
         remove => DiplomaticRelationsChangedEventsStore.Remove(value);
     }
 
-    private EventStore<StrategicMap> _updateVisibilityEventsStore;
+    private readonly EventStore<StrategicMap> _updateVisibilityEventsStore;
 
     public event NotifyEvent<StrategicMap> VisibilityUpdated
     {
@@ -274,7 +274,7 @@ public partial class StrategicMap : GameMap
     private int _structureUpdateCount;
     private int _unitUpdateCount;
 
-    private EventStore<Troop> _unitChangedEventsStore;
+    private readonly EventStore<Troop> _unitChangedEventsStore;
 
     public event NotifyEvent<Troop> UnitChanged
     {
@@ -282,7 +282,7 @@ public partial class StrategicMap : GameMap
         remove => _unitChangedEventsStore.Remove(value);
     }
 
-    private EventStore<Army> _armyChangedEventsStore;
+    private readonly EventStore<Army> _armyChangedEventsStore;
 
     public event NotifyEvent<Army> ArmyChanged
     {
@@ -290,7 +290,7 @@ public partial class StrategicMap : GameMap
         remove => _armyChangedEventsStore.Remove(value);
     }
 
-    private EventStore<Structure> _structureChangedEventsStore;
+    private readonly EventStore<Structure> _structureChangedEventsStore;
 
     public event NotifyEvent<Structure> StructureChanged
     {
@@ -298,7 +298,7 @@ public partial class StrategicMap : GameMap
         remove => _structureChangedEventsStore.Remove(value);
     }
 
-    private EventStore<Troop> _unitDestroyedEventsStore;
+    private readonly EventStore<Troop> _unitDestroyedEventsStore;
 
     public event NotifyEvent<Troop> UnitDestroyed
     {
@@ -306,7 +306,7 @@ public partial class StrategicMap : GameMap
         remove => _unitDestroyedEventsStore.Remove(value);
     }
 
-    private EventStore<Army> _armyDestroyedEventsStore;
+    private readonly EventStore<Army> _armyDestroyedEventsStore;
 
     public event NotifyEvent<Army> ArmyDestroyed
     {
@@ -314,7 +314,7 @@ public partial class StrategicMap : GameMap
         remove => _armyDestroyedEventsStore.Remove(value);
     }
 
-    private EventStore<Structure> _structureDestroyedEventsStore;
+    private readonly EventStore<Structure> _structureDestroyedEventsStore;
 
     public event NotifyEvent<Structure> StructureDestroyed
     {
@@ -322,7 +322,7 @@ public partial class StrategicMap : GameMap
         remove => _structureDestroyedEventsStore.Remove(value);
     }
 
-    private EventStore<StrategicMap> _tokenControlActivatedEventsStore;
+    private readonly EventStore<StrategicMap> _tokenControlActivatedEventsStore;
 
     public event NotifyEvent<StrategicMap> TokenControlActivated
     {
@@ -1219,7 +1219,7 @@ public partial class StrategicMap : GameMap
         // { Original returns true immediately when exploration is enabled. }
         bool result = Current.ExplorationEnabled;
         mapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= radius && !result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1245,7 +1245,7 @@ public partial class StrategicMap : GameMap
         HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= radius && !result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1271,7 +1271,7 @@ public partial class StrategicMap : GameMap
         HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= radius && !result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1297,7 +1297,7 @@ public partial class StrategicMap : GameMap
         HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= radius && !result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1327,7 +1327,7 @@ public partial class StrategicMap : GameMap
         {
             result = false;
             mapLevel = MapContainer.GetMapLevel(L);
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (walk.Radius <= radius && !result)
             {
                 wx = walk.X;
@@ -1399,7 +1399,7 @@ public partial class StrategicMap : GameMap
                 army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
                 CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HexToPixel(army.X, army.Y, ref pixelX, ref pixelY);
+                HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
                 Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
                 player.HeroJoinDay = I;
             }
@@ -1449,7 +1449,7 @@ public partial class StrategicMap : GameMap
                 army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
                 CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HexToPixel(army.X, army.Y, ref pixelX, ref pixelY);
+                HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
                 Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
                 player.BaseHeroJoinDay = I;
             }
@@ -1499,7 +1499,7 @@ public partial class StrategicMap : GameMap
                 army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
                 CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HexToPixel(army.X, army.Y, ref pixelX, ref pixelY);
+                HexGeometry.HexToPixel(army.X, army.Y, out pixelX, out pixelY);
                 Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
                 player.BaseHeroJoinDay = I;
             }
@@ -1517,9 +1517,9 @@ public partial class StrategicMap : GameMap
     {
         EngineMessage message = default;
         Selection.UnselectAll();
-        EngineMessage.InitializeMessage(ref message, 537001990, this);
+        EngineMessage.InitializeMessage(out message, 537001990, this);
         MapContainer.SendMessage(ref message, this);
-        EngineMessage.InitializeMessage(ref message, 537001993, this);
+        EngineMessage.InitializeMessage(out message, 537001993, this);
         MapContainer.SendMessage(ref message, this);
         _seatedPlayerChangedEventsStore.Raise(Current);
         ShowMessage("");
@@ -1846,7 +1846,7 @@ public partial class StrategicMap : GameMap
     public bool ValidateMap(StringCollection messages)
     {
         EngineMessage message = default;
-        EngineMessage.InitializeMessage(ref message, 537002243, this);
+        EngineMessage.InitializeMessage(out message, 537002243, this);
         message.Payload = messages;
         message.Data[0] = 0;
         Current.SendMessage(ref message, this);
@@ -1926,7 +1926,7 @@ public partial class StrategicMap : GameMap
         mapLevel = MapContainer.GetMapLevel(L);
         message.MessageId = 4365;
         message.Result = 1;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1953,7 +1953,7 @@ public partial class StrategicMap : GameMap
         mapLevel = MapContainer.GetMapLevel(L);
         message.MessageId = 4400;
         message.Param[0] = player;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= sightRadius || walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -2007,7 +2007,7 @@ public partial class StrategicMap : GameMap
             message.MessageId = 4362;
             message.Result = 0;
             message.Param[1] = player;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (message.Result.Int == 0 && walk.Radius <= 12)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -2051,7 +2051,7 @@ public partial class StrategicMap : GameMap
                     message.MessageId = 4362;
                     message.Result = 0;
                     message.Param[1] = player;
-                    HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+                    HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
                     while (message.Result.Int == 0 && walk.Radius <= 12)
                     {
                         if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -2159,7 +2159,7 @@ public partial class StrategicMap : GameMap
             }
             else
             {
-                player.GetLeaderLocation(ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo), ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi), ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo));
+                player.GetLeaderLocation(out Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo), out Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi), out Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo));
                 if ((sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo == -1)
                 {
                     if (player.Armies.Count == 0)
@@ -2390,7 +2390,7 @@ public partial class StrategicMap : GameMap
             if (!Status.Contains(HexSpriteMapStatusElement.Destroying))
             {
                 LockMapChangedEvent();
-                EngineMessage.InitializeMessage(ref message, 537001992, this);
+                EngineMessage.InitializeMessage(out message, 537001992, this);
                 Current.SendMessage(ref message, this);
                 UnlockMapChangedEvent();
                 Current.InvalidateMap();
@@ -2433,7 +2433,7 @@ public partial class StrategicMap : GameMap
             if (SeatedPlayer != -1)
             {
                 player = Players.GetPlayers(SeatedPlayer);
-                GetViewCenter(ref X, ref Y, ref L);
+                GetViewCenter(out X, out Y, out L);
                 player.ViewX = (byte)X;
                 player.ViewY = (byte)Y;
                 player.ViewL = (byte)L;
@@ -2684,7 +2684,7 @@ public partial class StrategicMap : GameMap
         ArmyHexSprite army;
         if (Current.Players.GetPlayers(player).Leader != null)
         {
-            Current.Players.GetPlayers(player).Leader.GetLocation(ref X, ref Y, ref L);
+            Current.Players.GetPlayers(player).Leader.GetLocation(out X, out Y, out L);
             // { Original excludes X = 0. }
             if (X > 0)
             {
@@ -2780,7 +2780,7 @@ public partial class StrategicMap : GameMap
     {
         if (!ShowIndependentMoves || player == Current.SeatedPlayer) return false;
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         MapLevel mapLevel = null;
         bool result = false;
         while (walk.Radius <= radius && !result)

@@ -132,8 +132,8 @@ public sealed class SysUtilsTests
             int dos = DateTimeToFileDate(date + time);
             Assert.Equal(date + EncodeTime(12, 34, 56, 0), FileDateToDateTime(dos));
             ushort yearWord = 0, monthWord = 0, dayWord = 0, hourWord = 0, minuteWord = 0, secondWord = 0, millisecondsWord = 0;
-            DecodeDate(date, ref yearWord, ref monthWord, ref dayWord);
-            DecodeTime(time, ref hourWord, ref minuteWord, ref secondWord, ref millisecondsWord);
+            DecodeDate(date, out yearWord, out monthWord, out dayWord);
+            DecodeTime(time, out hourWord, out minuteWord, out secondWord, out millisecondsWord);
             Assert.Equal((2024, 2, 29), ((int)yearWord, (int)monthWord, (int)dayWord));
             Assert.Equal((12, 34, 56, 789), ((int)hourWord, (int)minuteWord, (int)secondWord, (int)millisecondsWord));
             Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));

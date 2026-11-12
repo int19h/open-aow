@@ -70,7 +70,7 @@ public partial class CombatHex : AbstractHexagon
         CustomImageLibrary images;
         if (Owner.OverlayType != 4)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface;
             images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;

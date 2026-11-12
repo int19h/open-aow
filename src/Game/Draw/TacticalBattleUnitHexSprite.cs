@@ -611,7 +611,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 {
                     if (Unit.Troop.GetMoves() == Unit.MovePoints)
                     {
-                        GamePack.Current.AbilityControl.GetAbility(abilityId).ActivateCombat(Unit.Troop, ref reason);
+                        GamePack.Current.AbilityControl.GetAbility(abilityId).ActivateCombat(Unit.Troop, out reason);
                         SelectedSpell = -1;
                         SelectedAbility = abilityId;
                         result = index;

@@ -12,7 +12,7 @@ public partial class SpellList : IDisposable
         _spells = new DelphiList<Spell>();
     }
 
-    private DelphiList<Spell> _spells;
+    private readonly DelphiList<Spell> _spells;
 
     // Spells.PAS:700
     public virtual void Dispose()

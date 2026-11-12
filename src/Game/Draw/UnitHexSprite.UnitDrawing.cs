@@ -21,7 +21,7 @@ public partial class UnitHexSprite
         int deltaY = default;
         float progress;
         Assert(Direction < UnitGraphicsResource.Sequences.Count, "Invalid Unit Index", "UnitHS.PAS", 853);
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (MoveStep != -1)
@@ -82,7 +82,7 @@ public partial class UnitHexSprite
         int pixelY = default;
         int deltaX = default;
         int deltaY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         X = pixelX - X;
         Y = pixelY - Y;
         if (MoveStep != -1)

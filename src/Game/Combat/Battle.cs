@@ -56,7 +56,7 @@ public partial class Battle : EngineObject
 
     public CombatSide[] Sides { get; } = new CombatSide[2];
 
-    private EventStore<Battle> _executedEventsStore;
+    private readonly EventStore<Battle> _executedEventsStore;
 
     public event NotifyEvent<Battle> Executed
     {
@@ -638,7 +638,7 @@ public partial class Battle : EngineObject
         CombatSideIndex side;
         data = CombatData;
         level = StrategicMap.Current.MapContainer.GetMapLevel(data.MapLevel);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, data.X, data.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, data.X, data.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

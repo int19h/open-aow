@@ -27,10 +27,10 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     }
 
     private int _state;
-    private Int32List _castingHeroes;
-    private Int32List _idleHeroes;
-    private Int32List _pendingHeroes;
-    private AICastSpellActionList _castSpellActions;
+    private readonly Int32List _castingHeroes;
+    private readonly Int32List _idleHeroes;
+    private readonly Int32List _pendingHeroes;
+    private readonly AICastSpellActionList _castSpellActions;
 
     // Spells.PAS:1551
     public override void Dispose()

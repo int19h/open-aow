@@ -173,7 +173,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
         ((StructureResource)_resource).Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, this);
     }
 
@@ -327,7 +327,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         int hexNumber;
         if (!StrategicMap.Current.FogEnabled || !Fogged)
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
+            HexGeometry.PixelToHex(pixelX, pixelY, out X, out Y);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, X, Y);
             if (hexNumber >= _resource.TerrainList.Count || _resource.TerrainList.Terrain[hexNumber] < 0 && _resource.TerrainList.Overlay[hexNumber] < 0)
             {
@@ -771,7 +771,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
         _resource.ImageSequenceList.Show(90, pixelX - pixelXSurface, pixelY - pixelYSurface, 0, lockedSurface);
     }
 
@@ -814,7 +814,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         string reason = "";
         if (CanRebuild(troop, ref reason))
         {
-            GetRebuildInfo(ref cost, ref time);
+            GetRebuildInfo(out cost, out time);
             var players = StrategicMap.Current.Players.GetPlayers(troop.Player);
             StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - cost);
             BuildingDays = (byte)time;
@@ -1024,7 +1024,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         bool result = false;
         if (player >= 0)
         {
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
             while (true)
             {
                 var terrainCount = GetTerrainCount();
@@ -1056,7 +1056,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         int result = 0;
         count = GetTerrainCount();
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count)
         {
             if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -1086,7 +1086,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         int result = 0;
         count = GetTerrainCount();
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count)
         {
             if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -1107,7 +1107,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1430
-    public virtual void GetRebuildInfo(ref int cost, ref int time)
+    public virtual void GetRebuildInfo(out int cost, out int time)
     {
         cost = ((StructureResource)_resource).RebuildGold;
         time = ((StructureResource)_resource).RebuildDays;
@@ -1123,7 +1123,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (!GetBuilding())
             {
-                GetRebuildInfo(ref cost, ref time);
+                GetRebuildInfo(out cost, out time);
                 if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems >= cost)
                 {
                     result = true;
@@ -1309,7 +1309,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             count = GetTerrainCount();
             level = Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
             while (walk.HexNumber < count && Fogged)
             {
                 if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -1330,7 +1330,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         MapLevel level;
         bool result = false;
         level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
         while (true)
         {
             var terrainCount = GetTerrainCount();

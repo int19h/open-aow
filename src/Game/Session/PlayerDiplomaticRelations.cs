@@ -22,8 +22,8 @@ public partial class PlayerDiplomaticRelations : EngineObject
 
     public Player Player { get; set; }
 
-    private ByteList _relations;
-    private ENode _history;
+    private readonly ByteList _relations;
+    private readonly ENode _history;
 
     // Player.PAS:85
     public override void Dispose()

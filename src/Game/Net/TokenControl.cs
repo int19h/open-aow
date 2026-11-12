@@ -6,9 +6,9 @@ namespace Aow.Game.Net;
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
 public partial class TokenControl : IDisposable
 {
-    private TokenEventList _events;
-    private TokenManager _tokenManager;
-    private int _player;
+    private readonly TokenEventList _events;
+    private readonly TokenManager _tokenManager;
+    private readonly int _player;
     private bool _active;
 
     // NetworkE.pas:1189

@@ -19,7 +19,7 @@ public struct EngineMessage
 
     public int Result { get; set; }
 
-    internal static void InitializeMessage(ref EngineMessage message, int messageId, EngineObject sender)
+    internal static void InitializeMessage(out EngineMessage message, int messageId, EngineObject sender)
     {
         message = default;
         message.MessageId = messageId;

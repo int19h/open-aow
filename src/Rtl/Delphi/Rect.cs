@@ -24,7 +24,7 @@ public static partial class RtlUnit
 
     public static bool EqualRect(in Rect left, in Rect right) => left.Left == right.Left && left.Top == right.Top && left.Right == right.Right && left.Bottom == right.Bottom;
 
-    public static bool IntersectRect(ref Rect result, in Rect left, in Rect right)
+    public static bool IntersectRect(out Rect result, in Rect left, in Rect right)
     {
         var intersection = new Rect { Left = Math.Max(left.Left, right.Left), Top = Math.Max(left.Top, right.Top), Right = Math.Min(left.Right, right.Right), Bottom = Math.Min(left.Bottom, right.Bottom) };
         bool nonempty = intersection.Right > intersection.Left && intersection.Bottom > intersection.Top;
@@ -32,7 +32,7 @@ public static partial class RtlUnit
         return nonempty;
     }
 
-    public static bool UnionRect(ref Rect result, in Rect left, in Rect right)
+    public static bool UnionRect(out Rect result, in Rect left, in Rect right)
     {
         bool a = left.Right > left.Left && left.Bottom > left.Top, b = right.Right > right.Left && right.Bottom > right.Top;
         result = !a ? b ? right : default : !b ? left : new Rect { Left = Math.Min(left.Left, right.Left), Top = Math.Min(left.Top, right.Top), Right = Math.Max(left.Right, right.Right), Bottom = Math.Max(left.Bottom, right.Bottom) };

@@ -8,5 +8,5 @@ public partial class HeroInventory
     internal Hero Hero { get; set; }
 
     public override GameEngine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
-    public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
+    public override void GetLocation(out sbyte x, out sbyte y, out sbyte level) => Hero.GetLocation(out x, out y, out level);
 }

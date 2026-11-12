@@ -46,7 +46,7 @@ public partial class BorderHex : AbstractBorderHexagon
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         _resource.ImageLibrary[0].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
     }
 

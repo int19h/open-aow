@@ -243,7 +243,7 @@ public partial class HeroJoinDialog : DataModule
         {
             dialog._units.Clear();
             dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
-            dialog._joinEvent.ListJoinUnits(dialog._units, ref dialog._selection);
+            dialog._joinEvent.ListJoinUnits(dialog._units, out dialog._selection);
             var level = ((Hero)dialog._faceUnit).GetLevel();
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
             dialog.HeroLevelLabel.Text = format;

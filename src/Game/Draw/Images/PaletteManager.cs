@@ -6,7 +6,7 @@ namespace Aow.Game.Draw.Images;
 
 public partial class PaletteManager : IDisposable
 {
-    internal List<LibraryImagePalette> _palettes;
+    internal readonly List<LibraryImagePalette> _palettes;
 
     // ImageLib.pas:6984
     internal int GetCount() => _palettes.Count;

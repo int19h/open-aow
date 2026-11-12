@@ -29,7 +29,7 @@ public partial class AbstractRoadResource : MapObjectResource
         int pixelX = default;
         int pixelY = default;
         MapObject result = (MapObject)CreateResourceUser();
-        HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
         pixelX += 16;
         pixelY += 16;
         if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))

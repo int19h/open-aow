@@ -33,7 +33,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
         int index;
         int frame;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(City._hexX, City._hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(City._hexX, City._hexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (City.EnchantmentsVisible)

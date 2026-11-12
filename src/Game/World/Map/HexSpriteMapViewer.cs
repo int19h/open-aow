@@ -137,7 +137,7 @@ public partial class HexSpriteMapViewer : Component
         int pixelY = default;
         if (_hexSpriteMap != null)
         {
-            HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
             SetSceneX(pixelX + 16 - (int)(((uint)_sceneWidth) >> 1));
             SetSceneY(pixelY + 16 - (int)(((uint)_sceneHeight) >> 1));
             SetSceneL(hexLevel);

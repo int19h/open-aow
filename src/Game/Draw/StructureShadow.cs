@@ -59,7 +59,7 @@ public partial class StructureShadow : HexSprite
             ShadowStatus = ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
             count = Structure.GetTerrainCount();
             level = Structure.Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, Structure._hexX, Structure._hexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, Structure._hexX, Structure._hexY, 0);
             while (walk.HexNumber < count)
             {
                 if ((Structure.GetTerrain(walk.HexNumber) >= -1 || Structure.GetOverlay(walk.HexNumber) >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -83,7 +83,7 @@ public partial class StructureShadow : HexSprite
             count = Structure.GetTerrainCount();
             ShadowStatus = ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
             level = Structure.Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, Structure._hexX, Structure._hexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, Structure._hexX, Structure._hexY, 0);
             while (walk.HexNumber < count)
             {
                 if ((Structure.GetTerrain(walk.HexNumber) >= -1 || Structure.GetOverlay(walk.HexNumber) >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

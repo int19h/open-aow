@@ -29,7 +29,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     private int _state;
     private int _goldUpkeep;
     private int _manaUpkeep;
-    private QuadItemList<ProductionControl> _productions;
+    private readonly QuadItemList<ProductionControl> _productions;
 
     // AI.pas:1208
     public override void Dispose()
@@ -308,7 +308,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                 var unitResearchGold = control.UnitResearchGold(J);
                                 if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
                                 {
-                                    control.GetLocation(ref X, ref Y, ref L);
+                                    control.GetLocation(out X, out Y, out L);
                                     structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                                     priority = TransporterPriority(control.UnitProductions.GetItem(J).UnitIndex);
                                     if (priority != -1)
@@ -401,7 +401,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                     var controlUnitProductionGold = control.UnitProductionGold(J);
                                     if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
                                     {
-                                        control.GetLocation(ref X, ref Y, ref L);
+                                        control.GetLocation(out X, out Y, out L);
                                         structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                                         priority = TransporterPriority(control.UnitProductions.GetItem(J).UnitIndex);
                                         if (priority != -1)

@@ -134,7 +134,7 @@ public partial class Animation : HexSprite
     {
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
         return (AnimationLevel << 26) + ((Y + Dimensions.Bottom) << 13) + X;
     }
 
@@ -145,7 +145,7 @@ public partial class Animation : HexSprite
         int Y = default;
         if (!_state.Contains(StateElement.Placed))
         {
-            HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+            HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
             {
                 PlaceOnMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
@@ -166,7 +166,7 @@ public partial class Animation : HexSprite
         int Y = default;
         if (_state.Contains(StateElement.Placed))
         {
-            HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+            HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
             {
                 RemoveFromMap(X + Dimensions.Left, Y + Dimensions.Top, X + Dimensions.Right, Y + Dimensions.Bottom);
@@ -194,7 +194,7 @@ public partial class Animation : HexSprite
     {
         int X = default;
         int Y = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
+        HexGeometry.PixelToHex(pixelX, pixelY, out X, out Y);
         return PlaceHex(map, (sbyte)X, (sbyte)Y, (sbyte)hexLevel);
     }
 

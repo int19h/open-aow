@@ -44,8 +44,8 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:291
     public new const int ClassId = 132026;
 
-    private PlayerStructurePowerSource _powerSource;
-    private PlayerStructureIncomeSource _incomeSource;
+    private readonly PlayerStructurePowerSource _powerSource;
+    private readonly PlayerStructureIncomeSource _incomeSource;
 
     public ProductionPlaceControl ProductionControl { get; }
 

@@ -141,7 +141,7 @@ public partial class MapObject : HexSprite
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         return _resource._showPriorityOffset + (pixelY << 13) + pixelX;
     }
 
@@ -163,7 +163,7 @@ public partial class MapObject : HexSprite
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         if (_resource.ImageSequenceList == null)
         {
             _resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
@@ -239,7 +239,7 @@ public partial class MapObject : HexSprite
         int hexY = default;
         if (!_status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+            HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
             if (GetEditMode() || CanPlace(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel))
             {
                 result = PlaceHex(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
@@ -289,7 +289,7 @@ public partial class MapObject : HexSprite
     {
         int hexX = default;
         int hexY = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+        HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
         return PlaceHex(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
     }
 

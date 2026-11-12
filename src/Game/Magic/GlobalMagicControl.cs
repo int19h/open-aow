@@ -37,7 +37,7 @@ public partial class GlobalMagicControl : EngineObject
 
     public int[] DoubleSphereManaCount { get; } = new int[9];
 
-    private EventStore<GlobalMagicControl> _changedEventsStore;
+    private readonly EventStore<GlobalMagicControl> _changedEventsStore;
 
     public event NotifyEvent<GlobalMagicControl> Changed
     {

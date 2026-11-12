@@ -34,7 +34,7 @@ public partial class BloodShrine : Structure
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
         pixelX -= pixelXSurface;
         pixelY -= pixelYSurface;
         _resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);

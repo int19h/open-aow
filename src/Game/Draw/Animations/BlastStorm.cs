@@ -31,7 +31,7 @@ public partial class BlastStorm : Storm
         int frame;
         frame = FrameCounter % _stormImages.Count;
         var hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(GetHexX(), hexY, out X, out Y);
         var stormImageWidth = _stormImages[frame];
         X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
         var stormImageHeight = _stormImages[frame];
@@ -42,7 +42,7 @@ public partial class BlastStorm : Storm
     // Storms.pas:358
     public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(player, StormType(), X, Y, L, 0, 4, ref info);
+        AbilityRules.RetrieveStormDamageInfo(player, StormType(), X, Y, L, 0, 4, out info);
     }
 
     // Storms.pas:349

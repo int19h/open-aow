@@ -839,7 +839,7 @@ public partial class CityScreen : DataModule
         if (_preview.CenterViewLocation != null)
         {
             var mapObjectHexY = mapObject.GetHexY();
-            HexGeometry.HexToPixel(mapObject.GetHexX(), mapObjectHexY, ref _viewX, ref _viewY);
+            HexGeometry.HexToPixel(mapObject.GetHexX(), mapObjectHexY, out _viewX, out _viewY);
             _viewX = _viewX + 16 - MapView.WinWidth / 2;
             _viewY = _viewY + 16 - MapView.WinHeight / 2;
         }
@@ -1423,7 +1423,7 @@ public partial class CityScreen : DataModule
                 _viewY = 16;
             }
 
-            LockedSurface.CreateFrom(lockedSurface, R, ref viewSurfaceDescription);
+            LockedSurface.CreateFrom(lockedSurface, R, out viewSurfaceDescription);
             _preview.SetExplorationEnabled(false);
             _preview.SetFogEnabled(false);
             _preview.SetViewPort(_viewX, _viewY, 0, width, R.Bottom - R.Top);

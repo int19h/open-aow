@@ -62,12 +62,12 @@ public sealed class TacticalBattleWallCastTests
             sbyte x = 0;
             sbyte y = 0;
             sbyte l = 0;
-            map.GetUnitLocation(hero, ref x, ref y, ref l);
+            map.GetUnitLocation(hero, out x, ref y, ref l);
             Assert.Equal((sbyte)4, x);
             Assert.Equal((sbyte)9, y);
             Assert.Equal((sbyte)0, l);
             var other = new Troop(null!);
-            map.GetUnitLocation(other, ref x, ref y, ref l);
+            map.GetUnitLocation(other, out x, ref y, ref l);
             Assert.Equal((sbyte)-1, x);
         }
         finally

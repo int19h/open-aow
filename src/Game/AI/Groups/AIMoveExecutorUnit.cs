@@ -64,7 +64,7 @@ public partial class AIMoveExecutorUnit : EngineObject
         {
             if (Status == AIMoveExecutorUnitStatus.Moving)
             {
-                Troop.GetLocation(ref Location.X, ref Location.Y, ref Location.MapLevel);
+                Troop.GetLocation(out Location.X, out Location.Y, out Location.MapLevel);
                 Status = AIMoveExecutorUnitStatus.Ready;
             }
         }

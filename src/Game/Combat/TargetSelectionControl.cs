@@ -223,7 +223,7 @@ public partial class TargetSelectionControl : IDisposable
         int ys;
         if (Status.Contains(TargetSelectionStatusElement.Activated) && TargetX != -1 && Status.Contains(TargetSelectionStatusElement.Visible))
         {
-            HexGeometry.HexToPixel(TargetX, TargetY, ref X, ref Y);
+            HexGeometry.HexToPixel(TargetX, TargetY, out X, out Y);
             X -= pixelXSurface;
             Y -= pixelYSurface;
             for (int I = 0, last = HexNumbers.Count - 1; I <= last; I++)

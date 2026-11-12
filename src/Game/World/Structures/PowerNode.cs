@@ -27,7 +27,7 @@ public partial class PowerNode : PlayerStructure
     public new const int ClassId = 131482;
 
     public Set<StateElement> State;
-    private PlayerStructurePowerSource _powerSource;
+    private readonly PlayerStructurePowerSource _powerSource;
 
     // PowerNode.pas:58
     public override void Dispose()

@@ -13,8 +13,8 @@ namespace Aow.Engine;
 public partial class Plugin : IDisposable
 {
     private int _refCount;
-    private List<GameEngine> _engines;
-    private Int32List _counts;
+    private readonly List<GameEngine> _engines;
+    private readonly Int32List _counts;
 
     // Engine.pas:9144
     public Plugin()

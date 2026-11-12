@@ -94,7 +94,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
         if (this._resource.ImageSequenceList == null)
         {
             this._resource.ImageLibrary[_imageIndex].Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)this._resource).ImageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)this._resource).ImageOffsetY, lockedSurface);
@@ -141,7 +141,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
         canPlaceHere = true;
         count = _resource.TerrainList.Count;
         _terrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (canPlaceHere && walk.HexNumber < count)
         {
             terrainType = GetTerrain(walk.HexNumber);

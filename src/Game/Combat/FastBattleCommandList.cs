@@ -28,7 +28,7 @@ public partial class FastBattleCommandList : IDisposable
     public CombatSide TargetSide { get; }
     public FastBattle Combat { get; }
 
-    private DelphiList<FastBattleCommand> _commands;
+    private readonly DelphiList<FastBattleCommand> _commands;
 
     // AIGroup.pas:6727
     public virtual void Dispose()

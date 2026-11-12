@@ -42,16 +42,16 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public AIGroupTargetingStatus TargetStatus { get; private set; }
 
     private AIGroupTask _aiGroupTask;
-    private AIGroupRecruitControl _recruitment;
-    private AIGroupProductionControl _production;
-    private AIGroupCooperationControl _cooperation;
+    private readonly AIGroupRecruitControl _recruitment;
+    private readonly AIGroupProductionControl _production;
+    private readonly AIGroupCooperationControl _cooperation;
 
     public Set<AIGroupTargetingModes> Mode { get; set; }
 
     private int _movesMin;
     private AIGroupControlTarget _target;
     private int _priority;
-    private UnitUserList _spareUnits;
+    private readonly UnitUserList _spareUnits;
     private AIGroupControlTarget _nextTarget;
 
     public float BattleFieldFactor { get; set; }
@@ -611,7 +611,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     {
                         if (GroupControl.Group.Productions.Count != 0)
                         {
-                            GroupControl.Group.Productions.GetProductions(0).Control.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+                            GroupControl.Group.Productions.GetProductions(0).Control.GetLocation(out location.X, out location.Y, out location.MapLevel);
                             GroupControl.SetupME();
                             GroupControl.ExecuteME(location.X, location.Y, location.MapLevel);
                             result = true;
@@ -1005,11 +1005,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
         BattleFieldInfo info = default;
         if (target.Data.TargetType != AITargetType.Negotiate)
         {
-            BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
+            BattleFieldInfo.SetupBattleFieldInfo(out info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, 1, ref info);
             result = Round((double)GetRequiredSuperiority(target) * info.Strength);
-            StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetDefenseRequirements(GroupControl.Group.Player, ref strengths);
+            StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetDefenseRequirements(GroupControl.Group.Player, out strengths);
             result += StrengthInfoMax(Bytes.Of(ref strengths)) / 2;
         }
         else
@@ -1044,7 +1044,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         int pathStrength;
         if (((double)BattleFieldFactor > 0 || (double)CurrentBattleFieldFactor > 0) && target.Data.TargetType != AITargetType.Negotiate)
         {
-            BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
+            BattleFieldInfo.SetupBattleFieldInfo(out info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.Units = GroupControl.Group;
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
             StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, _battleFieldRadius, ref info);
@@ -1193,7 +1193,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         for (int I = 0, last = GroupControl.Targets.Count - 1; I <= last; I++)
         {
             target = GroupControl.Targets.GetTargets(I);
-            target.GetDebugInfo(ref text);
+            target.GetDebugInfo(out text);
             text = text + "/TS_Prio:" + IntToStr(target.DataA);
             text = text + "/MPBFS:" + IntToStr(target.PathStrength);
             text = text + "/TG:" + IntToStr(target.GetTargetGold());

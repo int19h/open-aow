@@ -22,7 +22,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
 
     public Int32List TargetUnitIds { get; }
 
-    private UnitUserList _targetUnits;
+    private readonly UnitUserList _targetUnits;
     public byte TargetPlayer;
 
     public int[] SpellData { get; } = new int[2];
@@ -63,7 +63,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         sbyte targetY = default;
         sbyte targetL = default;
         bool result = base.Validate(source);
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         I = TargetUnitIds.Count;
         while (result && I != 0)
         {
@@ -72,7 +72,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             target = StrategicMap.Current.UnitControl.FindUnit(item);
             if (target != null)
             {
-                target.GetLocation(ref targetX, ref targetY, ref targetL);
+                target.GetLocation(out targetX, out targetY, out targetL);
                 result = target.GetHitPoints() != 0 && (byte)target.Player == TargetPlayer;
                 if (result)
                 {
@@ -103,7 +103,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         base.Process(source, value);
         if (_targetUnits.GetCount() != 0)
         {
-            _targetUnits.GetUnit(0).GetLocation(ref X, ref Y, ref L);
+            _targetUnits.GetUnit(0).GetLocation(out X, out Y, out L);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, X, Y, L);
             for (int I = 0, last = _targetUnits.GetCount() - 1; I <= last; I++)
             {

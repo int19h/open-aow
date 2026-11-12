@@ -65,7 +65,7 @@ public partial class WizardsTowerDialog : DataModule
     {
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (!_event.Tower.Buy(StrategicMap.Current.SeatedPlayer, ref reason))
+        if (!_event.Tower.Buy(StrategicMap.Current.SeatedPlayer, out reason))
         {
             StrategicMap.Current.ShowWarning(reason);
         }

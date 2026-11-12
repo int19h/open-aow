@@ -22,7 +22,7 @@ public partial class ProductionPlaceControl : ProductionControl
     public ProductionPlace ProductionPlace { get; set; }
 
     // PrdPlace.pas:169
-    public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = this.ProductionPlace.HexX;
         Y = this.ProductionPlace.HexY;

@@ -9,7 +9,7 @@ public partial class MapLevel
     private IEnumerable<MapField> Area(int x, int y, int radius)
     {
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < Width && walk.Y < Height)

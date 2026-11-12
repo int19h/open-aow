@@ -110,7 +110,7 @@ public partial class StrikeAbility : AdjustableAbility
             if (action != null)
             {
                 source.Combat.ExecuteCombatAction(action);
-                round.GetMeleeStrike(I, ref strike);
+                round.GetMeleeStrike(I, out strike);
                 switch (strike.Side)
                 {
                     case CombatSideIndex.Attacker:

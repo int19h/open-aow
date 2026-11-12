@@ -21,7 +21,7 @@ public partial class TutorialMessageEvent : FlagEvent
     // FlagEvents.pas:245
     public new const int ClassId = 132459;
 
-    private StringList _message;
+    private readonly StringList _message;
 
     // FlagEvents.pas:239
     public override void Dispose()

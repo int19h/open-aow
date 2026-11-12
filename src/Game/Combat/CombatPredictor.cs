@@ -31,8 +31,8 @@ public partial class CombatPredictor : IDisposable
         Sides[1] = combatPredictorSide2;
     }
 
-    private CombatPredictorUnitList _allUnits;
-    private CombatPredictorUnitList _activeUnits;
+    private readonly CombatPredictorUnitList _allUnits;
+    private readonly CombatPredictorUnitList _activeUnits;
 
     public CombatPredictorSide[] Sides { get; } = new CombatPredictorSide[2];
 
@@ -514,7 +514,7 @@ public partial class CombatPredictor : IDisposable
                 AddWall((WallType)message.Result.Int);
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -575,7 +575,7 @@ public partial class CombatPredictor : IDisposable
                 AddWall((WallType)message.Result.Int);
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

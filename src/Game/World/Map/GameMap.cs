@@ -66,15 +66,15 @@ public partial class GameMap : ENode
         FPS = 30;
     }
 
-    private HexSpriteMapMouse _mouse;
+    private readonly HexSpriteMapMouse _mouse;
     private MapContainer _mapContainer;
     private GameEngine _engine;
-    private HexSpriteSelection _selection;
-    private VisibilityList _staticVisibleHexSprite;
-    private VisibilityList _dynamicVisibleHexSprite;
-    private VisibilityList _staticFixedVisibleHexSprite;
-    private VisibilityList _dynamicFixedVisibleHexSprite;
-    private ETimerNode _timer;
+    private readonly HexSpriteSelection _selection;
+    private readonly VisibilityList _staticVisibleHexSprite;
+    private readonly VisibilityList _dynamicVisibleHexSprite;
+    private readonly VisibilityList _staticFixedVisibleHexSprite;
+    private readonly VisibilityList _dynamicFixedVisibleHexSprite;
+    private readonly ETimerNode _timer;
     private bool _staticSceneInvalid;
     private bool _dynamicSceneInvalid;
     private int _version;
@@ -189,7 +189,7 @@ public partial class GameMap : ENode
         _dynamicVisibleHexSprite.QuickClear();
         _staticFixedVisibleHexSprite.QuickClear();
         _dynamicFixedVisibleHexSprite.QuickClear();
-        EngineMessage.InitializeMessage(ref message, 536936471, this);
+        EngineMessage.InitializeMessage(out message, 536936471, this);
         SendMessage(ref message, this);
         NewFrameEventsStore.Clear();
         base.Dispose();
@@ -406,9 +406,9 @@ public partial class GameMap : ENode
     }
 
     // HSMAP.PAS:579
-    public virtual void GetViewCenter(ref int hexX, ref int hexY, ref int hexLevel)
+    public virtual void GetViewCenter(out int hexX, out int hexY, out int hexLevel)
     {
-        HexGeometry.PixelToHex(_viewPixelX + (int)(((uint)_viewWidth) >> 1), _viewPixelY + (int)(((uint)_viewHeight) >> 1), ref hexX, ref hexY);
+        HexGeometry.PixelToHex(_viewPixelX + (int)(((uint)_viewWidth) >> 1), _viewPixelY + (int)(((uint)_viewHeight) >> 1), out hexX, out hexY);
         hexLevel = _viewL;
     }
 
@@ -461,7 +461,7 @@ public partial class GameMap : ENode
         list = new SByteList();
         mapLevel = _mapContainer.GetMapLevel(L);
         count = 0;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -474,7 +474,7 @@ public partial class GameMap : ENode
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -490,7 +490,7 @@ public partial class GameMap : ENode
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
             if (list[walk.HexNumber] != -127 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -559,7 +559,7 @@ public partial class GameMap : ENode
             changed = new BitList();
             mapLevel = _mapContainer.GetMapLevel(L);
             count = 0;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (walk.Radius <= radius)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -579,7 +579,7 @@ public partial class GameMap : ENode
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (walk.Radius <= radius)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -600,7 +600,7 @@ public partial class GameMap : ENode
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (walk.Radius <= radius)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -914,7 +914,7 @@ public partial class GameMap : ENode
     {
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(this._mapContainer.Width - 1, this._mapContainer.Height - 1, ref X, ref Y);
+        HexGeometry.HexToPixel(this._mapContainer.Width - 1, this._mapContainer.Height - 1, out X, out Y);
 
         X += 40;
         return X;
@@ -927,11 +927,11 @@ public partial class GameMap : ENode
         int X = default;
         if (this._mapContainer.Height > 1)
         {
-            HexGeometry.HexToPixel(1, this._mapContainer.Height - 1, ref X, ref Y);
+            HexGeometry.HexToPixel(1, this._mapContainer.Height - 1, out X, out Y);
         }
         else
         {
-            HexGeometry.HexToPixel(0, this._mapContainer.Height - 1, ref X, ref Y);
+            HexGeometry.HexToPixel(0, this._mapContainer.Height - 1, out X, out Y);
         }
 
         Y += 32;
@@ -954,7 +954,7 @@ public partial class GameMap : ENode
         Rect R = default;
         LockTerrainChangedEvent();
         mapLevel = _mapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         message.MessageId = 16;
         while (walk.Radius <= radius)
         {
@@ -1004,7 +1004,7 @@ public partial class GameMap : ENode
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
         return hexSprite.MainPlace(_mapContainer, pixelX, pixelY, L);
     }
 
@@ -1033,8 +1033,8 @@ public partial class GameMap : ENode
             _viewWidth = width;
             _viewPixelY = pixelY;
             _viewHeight = height;
-            HexGeometry.PixelToHex(_viewPixelX - 8, _viewPixelY - 16, ref x1, ref y1);
-            HexGeometry.PixelToHex(_viewPixelX + width - 1 + 8, _viewPixelY + height - 1 + 16, ref x2, ref y2);
+            HexGeometry.PixelToHex(_viewPixelX - 8, _viewPixelY - 16, out x1, out y1);
+            HexGeometry.PixelToHex(_viewPixelX + width - 1 + 8, _viewPixelY + height - 1 + 16, out x2, out y2);
             if (x2 >= _mapContainer.Width)
             {
                 x2 = _mapContainer.Width - 1;
@@ -1200,7 +1200,7 @@ public partial class GameMap : ENode
 
     public sbyte SeatedPlayer { get; set; }
 
-    private EventStore<ShowMessageNotification> _showMessageEventsStore;
+    private readonly EventStore<ShowMessageNotification> _showMessageEventsStore;
 
     public event NotifyEvent<ShowMessageNotification> ShowingMessage
     {
@@ -1214,7 +1214,7 @@ public partial class GameMap : ENode
     public int FPS { get; private set; }
     public int MapChangedLockCount { get; private set; }
 
-    private EventStore<MapChangedNotification> _mapChangedEventsStore;
+    private readonly EventStore<MapChangedNotification> _mapChangedEventsStore;
 
     public event NotifyEvent<MapChangedNotification> MapChanged
     {
@@ -1222,7 +1222,7 @@ public partial class GameMap : ENode
         remove => _mapChangedEventsStore.Remove(value);
     }
 
-    private EventStore<MapChangedNotification> _scannerIconsChangedEventsStore;
+    private readonly EventStore<MapChangedNotification> _scannerIconsChangedEventsStore;
 
     public event NotifyEvent<MapChangedNotification> ScannerIconsChanged
     {
@@ -1236,8 +1236,8 @@ public partial class GameMap : ENode
 
     public bool ShowGrid { get; set; }
 
-    private CustomFixedVisibleHexSprite _backHexSelector;
-    private CustomFixedVisibleHexSprite _frontHexSelector;
+    private readonly CustomFixedVisibleHexSprite _backHexSelector;
+    private readonly CustomFixedVisibleHexSprite _frontHexSelector;
     private sbyte _selectorX;
     private sbyte _selectorY;
     private bool _hexSelectorVisible;
@@ -1249,7 +1249,7 @@ public partial class GameMap : ENode
         int pixelY = default;
         if (_selectorX != -1 && _selectorY != -1 && StrategicMap.Current.Mouse.Capture == StrategicMap.Current.SelectedArmy)
         {
-            HexGeometry.HexToPixel(_selectorX, _selectorY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(_selectorX, _selectorY, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface - 32 + 2;
             GamePack.Current.GeneralImages[7].Show(pixelX, pixelY, lockedSurface);
@@ -1263,7 +1263,7 @@ public partial class GameMap : ENode
         int pixelY = default;
         if (_selectorX != -1 && _selectorY != -1 && StrategicMap.Current.Mouse.Capture == StrategicMap.Current.SelectedArmy)
         {
-            HexGeometry.HexToPixel(_selectorX, _selectorY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(_selectorX, _selectorY, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface - 32 + 2;
             GamePack.Current.GeneralImages[6].Show(pixelX, pixelY, lockedSurface);
@@ -1282,7 +1282,7 @@ public partial class GameMap : ENode
             _selectorY = (sbyte)Mouse.HexY;
             if (_selectorX != -1 && _selectorY != -1)
             {
-                HexGeometry.HexToPixel(_selectorX, _selectorY, ref pixelX, ref pixelY);
+                HexGeometry.HexToPixel(_selectorX, _selectorY, out pixelX, out pixelY);
                 hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewL).GetMaxLevelNoneTransparentHexSprite();
                 if (hexSprite != null)
                 {
@@ -1349,7 +1349,7 @@ public partial class GameMap : ENode
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        hero.GetLocation(ref X, ref Y, ref L);
+        hero.GetLocation(out X, out Y, out L);
         item.PlaceOnMap(this, X, Y, L);
     }
 
@@ -1361,7 +1361,7 @@ public partial class GameMap : ENode
         sbyte L = default;
         ItemHexSprite items;
         ItemList result = null;
-        hero.GetLocation(ref X, ref Y, ref L);
+        hero.GetLocation(out X, out Y, out L);
         if (X != -1)
         {
             items = (ItemHexSprite)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
@@ -1757,7 +1757,7 @@ public partial class GameMap : ENode
         for (int x = ViewHexX; x < ViewHexX + ViewWidthHex; x++)
         {
             int pixelX = 0, pixelY = 0;
-            HexGeometry.HexToPixel(x, ViewHexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(x, ViewHexY, out pixelX, out pixelY);
             pixelX -= ViewPixelX + 8;
             pixelY -= ViewPixelY + 4;
             for (int y = ViewHexY; y < ViewHexY + ViewHeightHex; y++, pixelY += 32)
@@ -1778,7 +1778,7 @@ public partial class GameMap : ENode
         for (int x = ViewHexX; x <= maxX; x++)
         {
             int pixelX = 0, pixelY = 0;
-            HexGeometry.HexToPixel(x, ViewHexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(x, ViewHexY, out pixelX, out pixelY);
             pixelX = pixelX - ViewPixelX - 8;
             pixelY = pixelY - ViewPixelY - 4 + 4;
             for (int y = ViewHexY; y <= maxY; y++, pixelY += 32)

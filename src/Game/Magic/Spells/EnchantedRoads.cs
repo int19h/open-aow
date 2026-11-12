@@ -37,7 +37,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         Animation animation = default;
         TwinkleAnimation twinkle = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         animation = new Animation(null);
         animation.AnimationLevel = 27;
@@ -63,7 +63,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         for (int x = map.ViewHexX; x <= maxX; x++)
         {
             int pixelX = 0, pixelY = 0;
-            HexGeometry.HexToPixel(x, map.ViewHexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(x, map.ViewHexY, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface + 16;
             pixelY = pixelY - pixelYSurface + 16;
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)

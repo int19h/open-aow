@@ -54,7 +54,7 @@ public partial class SingleHexSprite : HexSprite
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
         return (GetLevel() << 26) + ((pixelY + 32) << 13) + (pixelX + 16);
     }
 
@@ -74,7 +74,7 @@ public partial class SingleHexSprite : HexSprite
     {
         int hexX = default;
         int hexY = default;
-        HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+        HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
         return PlaceHex(map, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
     }
 

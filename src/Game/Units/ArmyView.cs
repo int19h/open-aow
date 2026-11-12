@@ -66,7 +66,7 @@ public partial class ArmyView : Army
     }
 
     // Army.PAS:138
-    public override void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
+    public override void GetLocation(out sbyte hexX, out sbyte hexY, out sbyte hexLevel)
     {
         hexX = X;
         hexY = Y;

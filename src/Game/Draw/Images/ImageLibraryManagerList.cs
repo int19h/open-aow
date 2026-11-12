@@ -12,7 +12,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
 {
     internal Dictionary<string, ImageLibraryManagerObject> HashTable { get; }
 
-    private ImageLibraryManager _owner;
+    private readonly ImageLibraryManager _owner;
 
     // ImageLib.pas:8093
     public ImageLibraryManagerList(ImageLibraryManager owner)

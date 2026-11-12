@@ -19,8 +19,8 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroupDefendTargetSelector : AIGroupTask
 {
     private AIGroupControl _control;
-    private AIMoveTargetSelector _selector;
-    private AIGroupControlTargetList _targets;
+    private readonly AIMoveTargetSelector _selector;
+    private readonly AIGroupControlTargetList _targets;
     private Set<ModeElement> _mode;
     private int _pathStep;
     private int _battleFieldRadius;
@@ -144,7 +144,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         {
             result = 0;
             I = _pathStep;
-            BattleFieldInfo.SetupBattleFieldInfo(ref info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
+            BattleFieldInfo.SetupBattleFieldInfo(out info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
             while (I < path.Count)

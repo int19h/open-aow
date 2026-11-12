@@ -33,7 +33,7 @@ public partial class TacticalBattleBloodHexSprite : SingleHexSprite
         int X = default;
         int Y = default;
         sequence = GamePack.Current.ImageSequences.ImageSequences[4];
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
         if (sequence != null)
         {
             frame = sequence.GetUnloopedFrameIndex(Frame);

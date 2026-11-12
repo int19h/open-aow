@@ -15,7 +15,7 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
     { }
 
     // Shipyard.pas:93
-    public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
+    public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
         var shipyard = AbilityRules.TranslateResourceString(GameText.ShipyardText);
         text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.BuildFormat), [shipyard]);
@@ -35,9 +35,9 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         if (result)
         {
             result = false;
-            troop.GetLocation(ref X, ref Y, ref L);
+            troop.GetLocation(out X, out Y, out L);
             mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(L);
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
             while (walk.HexNumber < 7 && !result)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -65,7 +65,7 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        troop.GetLocation(ref X, ref Y, ref L);
+        troop.GetLocation(out X, out Y, out L);
         if (L == 0)
         {
             result = (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(60);

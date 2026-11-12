@@ -234,7 +234,7 @@ public partial class TerrainMapObject : MultiHexMapObject
         bool result = true;
         level = Owner.Owner;
         count = GetTerrainCount();
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count && result)
         {
             if (walk.HexNumber != hexNumber && GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

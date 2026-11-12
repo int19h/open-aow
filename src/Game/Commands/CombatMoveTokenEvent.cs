@@ -198,7 +198,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                                 }
 
                                 var hexY = Unit.UnitHexSprite.HexY;
-                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, ref X, ref Y);
+                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out X, out Y);
                                 if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
                                 {
                                     CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes.Value - Strike.Effects.Value, false);

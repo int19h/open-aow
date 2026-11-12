@@ -43,9 +43,9 @@ public partial class Crusade : Spell
         Unit newUnit;
         if (executeCount == 0)
         {
-            source.GetLocation(ref X, ref Y, ref layer);
+            source.GetLocation(out X, out Y, out layer);
             StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
-            HexGeometry.HexToPixel(X, Y, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(X, Y, out pixelX, out pixelY);
             var worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
             worldEffectHexSprite.X = pixelX + 16;
             worldEffectHexSprite.Y = pixelY + 16;
@@ -158,7 +158,7 @@ public partial class Crusade : Spell
         sbyte Y = default;
         sbyte layer = default;
         ImageSequenceAnimation animation;
-        source.GetLocation(ref X, ref Y, ref layer);
+        source.GetLocation(out X, out Y, out layer);
         var radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         var random = StrategicMap.Current.Random(radiusToHexNumber);
         HexGeometry.CenterHexNumberToHex(X, Y, random, ref targetX, ref targetY);

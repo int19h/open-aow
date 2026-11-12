@@ -20,7 +20,7 @@ namespace Aow.Game.UI.Controls;
 public partial class Memo : Control
 {
 
-    private StringList _items;
+    private readonly StringList _items;
 
     public List<ColorChange> ColorList { get; }
 

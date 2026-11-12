@@ -31,7 +31,7 @@ public struct LongRec
 
 public struct Message { public int Msg, WParam, LParam, Result; }
 
-public struct CreateParams { public int Style, ExStyle, X, Y, Width, Height, WndParent, Param; }
+public struct CreateParams { public readonly int Style, ExStyle, X, Y, Width, Height, WndParent, Param; }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct WaveFormatEx

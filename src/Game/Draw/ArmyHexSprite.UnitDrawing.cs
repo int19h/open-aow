@@ -31,7 +31,7 @@ public partial class ArmyHexSprite
                 throw new NotImplementedException();
             }
 
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
             if (MoveStep != -1)
@@ -216,7 +216,7 @@ public partial class ArmyHexSprite
         int frame;
         if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0 || !StrategicMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
             X = pixelX - X;
             Y = pixelY - Y;
             if (MoveStep != -1)

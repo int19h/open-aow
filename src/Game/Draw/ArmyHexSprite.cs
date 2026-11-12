@@ -840,7 +840,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         int player;
         bool result = false;
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (!result && (walk.Radius == 0 || mode.Contains(ArmyPlaceModeElement.ScanArea)) && walk.Radius < 30)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

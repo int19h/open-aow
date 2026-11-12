@@ -168,7 +168,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     // A hero whose wish to join the seated player the test sets.
     private sealed class JoiningHero : Hero
     {
-        private bool _joins;
+        private readonly bool _joins;
 
         internal JoiningHero(bool joins) : base(null!)
         {

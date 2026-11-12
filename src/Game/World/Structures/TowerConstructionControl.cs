@@ -14,7 +14,7 @@ public partial class TowerConstructionControl : StructureConstructionControl
     { }
 
     // Tower.pas:139
-    public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
+    public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
         var tower = AbilityRules.TranslateResourceString(GameText.TowerText);
         text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.BuildFormat), [tower]);
@@ -29,7 +29,7 @@ public partial class TowerConstructionControl : StructureConstructionControl
         sbyte hexX = default;
         sbyte hexY = default;
         sbyte hexLevel = default;
-        troop.GetLocation(ref hexX, ref hexY, ref hexLevel);
+        troop.GetLocation(out hexX, out hexY, out hexLevel);
         if (hexLevel == 0)
         {
             result = base.CanConstruct(troop, ref reason);

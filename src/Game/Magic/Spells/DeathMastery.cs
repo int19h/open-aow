@@ -37,7 +37,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         sbyte L = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Death);
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         var animation = new Animation(null);
         animation.AnimationLevel = 28;

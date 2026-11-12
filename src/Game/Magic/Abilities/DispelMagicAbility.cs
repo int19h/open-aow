@@ -443,6 +443,6 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4092
     public override EngineClass AbilityDataClass() => s_dispelMagicDataClass;
 
-    private static EngineClass s_dispelMagicDataClass = EngineClass.Of<DispelMagicAbilityData>();
+    private static readonly EngineClass s_dispelMagicDataClass = EngineClass.Of<DispelMagicAbilityData>();
 
 }

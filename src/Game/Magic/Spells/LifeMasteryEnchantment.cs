@@ -36,7 +36,7 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Death);
         var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
-        EngineMessage.InitializeMessage(ref message, 537002240, this);
+        EngineMessage.InitializeMessage(out message, 537002240, this);
         StrategicMap.Current.SendMessage(ref message, this);
         return true;
     }

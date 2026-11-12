@@ -42,7 +42,7 @@ public partial class CallHero : Spell
         ArmyHexSprite army;
         ImageSequenceAnimation animation;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
-        source.GetLocation(ref X, ref Y, ref layer);
+        source.GetLocation(out X, out Y, out layer);
         hero = FindCallHero(source);
         if (hero != null)
         {

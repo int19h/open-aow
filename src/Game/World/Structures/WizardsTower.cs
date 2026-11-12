@@ -264,7 +264,7 @@ public partial class WizardsTower : Structure
     }
 
     // WizardsTower.pas:243
-    public bool Buy(sbyte player, ref string reason)
+    public bool Buy(sbyte player, out string reason)
     {
         bool result;
         StructureTokenEvent tokenEvent;
@@ -289,7 +289,7 @@ public partial class WizardsTower : Structure
 
     private static readonly string s_spellIsAlreadyResearchedText = "Spell already researched";
     private static readonly string s_theyTaughtYouSpellFormat = "They taught you the spell %s";
-    private static Set<MagicSphere> s_allMagicSpheres = Set<MagicSphere>.FromMask(255uL);
+    private static readonly Set<MagicSphere> s_allMagicSpheres = Set<MagicSphere>.FromMask(255uL);
 
     public new partial class Resource : StructureResource
     {

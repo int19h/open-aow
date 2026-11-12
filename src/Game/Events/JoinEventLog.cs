@@ -85,7 +85,7 @@ public partial class JoinEventLog : EventLog
             // { Original behavior: missing and dead units do not invalidate the offer. }
             if (troop != null && troop.Player == 0)
             {
-                troop.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+                troop.GetLocation(out location.X, out location.Y, out location.MapLevel);
                 result = _location.X == location.X && _location.Y == location.Y && _location.MapLevel == location.MapLevel;
             }
         }
@@ -94,7 +94,7 @@ public partial class JoinEventLog : EventLog
     }
 
     // Diplomacy.pas:80
-    public virtual void ListJoinUnits(UnitList units, ref byte selection)
+    public virtual void ListJoinUnits(UnitList units, out byte selection)
     {
         Troop troop;
         for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)

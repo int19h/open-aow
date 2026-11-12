@@ -12,7 +12,7 @@ namespace Aow.Game.Draw.Images;
 // smRndFrameTable), _offsetX, _offsetY, _lastFrame, _speedCount, _frameCounter
 public partial class ImageSequence : IDisposable
 {
-    private ImageSequenceList _owner;
+    private readonly ImageSequenceList _owner;
     internal byte _layer;
     private ImageSequence _next;
     private CustomImageLibrary _imageLibrary;
@@ -124,7 +124,7 @@ public partial class ImageSequence : IDisposable
     }
 
     // ImageLib.pas:8620
-    public void GetDimensions(ref Rect R)
+    public void GetDimensions(out Rect R)
     {
         LibraryImage image;
         Rect ir = default;
@@ -145,8 +145,8 @@ public partial class ImageSequence : IDisposable
                             image = _imageLibrary.GetSafe(item);
                             if (image != null)
                             {
-                                image.GetVisualDimensions(ref ir);
-                                UnionRect(ref R, R, ir);
+                                image.GetVisualDimensions(out ir);
+                                UnionRect(out R, R, ir);
                             }
                         }
                     }
@@ -161,8 +161,8 @@ public partial class ImageSequence : IDisposable
                             image = _imageLibrary.GetSafe(I);
                             if (image != null)
                             {
-                                image.GetVisualDimensions(ref ir);
-                                UnionRect(ref R, R, ir);
+                                image.GetVisualDimensions(out ir);
+                                UnionRect(out R, R, ir);
                             }
                         }
                     }
@@ -172,7 +172,7 @@ public partial class ImageSequence : IDisposable
                     image = _imageLibrary.GetSafe(_imageIndex);
                     if (image != null)
                     {
-                        image.GetVisualDimensions(ref R);
+                        image.GetVisualDimensions(out R);
                     }
 
                     break;

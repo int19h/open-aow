@@ -36,7 +36,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
         sbyte L = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Earth);
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         StrategicMap.Current.AddEffect(WorldEffectType.EarthMastery);
         CastSounds.Play(0);
@@ -61,7 +61,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
         maxY = StrategicMap.Current.ViewHexY + StrategicMap.Current.ViewHeightHex - 1;
         for (int X = StrategicMap.Current.ViewHexX; X <= maxX; X++)
         {
-            HexGeometry.HexToPixel(X, StrategicMap.Current.ViewHexY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(X, StrategicMap.Current.ViewHexY, out pixelX, out pixelY);
             pixelX = pixelX - pixelXSurface + 16;
             pixelY = pixelY - pixelYSurface + 16;
             mapField = mapLevel.GetField(X, StrategicMap.Current.ViewHexY);

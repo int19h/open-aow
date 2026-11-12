@@ -184,7 +184,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                 _effect.AbilityIndex = AbilityId;
                                 point = new Point3D();
                                 var hexY = PreviousUnit.UnitHexSprite.HexY;
-                                HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, ref point.X, ref point.Y);
+                                HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out point.X, out point.Y);
                                 point.X += 16;
                                 _effect.Path.Add(point);
                                 Step = TokenStep.ExecuteStrike;
@@ -209,7 +209,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         _effect.AbilityIndex = AbilityId;
                                         point = new Point3D();
                                         var path = Path[1];
-                                        HexGeometry.HexToPixel(Path[1].X, path.Y, ref point.X, ref point.Y);
+                                        HexGeometry.HexToPixel(Path[1].X, path.Y, out point.X, out point.Y);
                                         point.X += 16;
                                         _effect.Path.Add(point);
                                         Step = TokenStep.ExecuteStrike;
@@ -451,7 +451,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                             }
 
                             var hexY = Unit.UnitHexSprite.HexY;
-                            HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, ref I, ref X);
+                            HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out I, out X);
                             if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
                             {
                                 CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes.Value - Strike.Effects.Value, false);

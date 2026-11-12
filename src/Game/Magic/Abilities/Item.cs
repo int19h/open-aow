@@ -59,7 +59,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     public string Name = "";
     public ItemType ItemType;
     private int _spellId;
-    private StringList _description;
+    private readonly StringList _description;
     private int _itemGraphicsIndex;
     private bool _hidden;
     public ItemAvailability Availability;
@@ -375,11 +375,11 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     }
 
     // Army.PAS:4320
-    public void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         if (Owner != null)
         {
-            Owner.GetLocation(ref X, ref Y, ref L);
+            Owner.GetLocation(out X, out Y, out L);
         }
         else
         {

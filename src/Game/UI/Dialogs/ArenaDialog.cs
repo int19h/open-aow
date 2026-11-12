@@ -109,7 +109,7 @@ public partial class ArenaDialog : DataModule
     {
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (_event.Train(ref reason))
+        if (_event.Train(out reason))
         {
             Window.Visible = false;
         }
@@ -197,7 +197,7 @@ public partial class ArenaDialog : DataModule
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         var hexY = _event.Arena.GetHexY();
-        HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, out X, out Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -210,7 +210,7 @@ public partial class ArenaDialog : DataModule
             Y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, R, ref mapSurfaceDescription);
+        LockedSurface.CreateFrom(lockedSurface, R, out mapSurfaceDescription);
         var hexLevel = _event.Arena.GetHexLevel();
         StrategicMap.Current.SetViewPort(X, Y, hexLevel, R.Right - R.Left, R.Bottom - R.Top);
         StrategicMap.Current.UpdateStaticScene();

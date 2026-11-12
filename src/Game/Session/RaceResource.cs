@@ -50,7 +50,7 @@ public partial class RaceResource : EngineResource
 
     public UnitIndexList SpecialUnitIndexes { get; }
 
-    private StringList _heroNames;
+    private readonly StringList _heroNames;
 
     // PlayerC.PAS:1740
     public override void Dispose()
@@ -324,6 +324,6 @@ public partial class RaceResource : EngineResource
     // PlayerC.PAS:1815
     public override string ResourceEditName() => "Race";
 
-    private static Set<Alignment> s_pureNeutralAlignments = Set<Alignment>.FromMask(72uL);
+    private static readonly Set<Alignment> s_pureNeutralAlignments = Set<Alignment>.FromMask(72uL);
 
 }

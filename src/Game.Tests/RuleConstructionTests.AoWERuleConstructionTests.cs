@@ -29,7 +29,7 @@ public sealed partial class RuleConstructionTests
     {
 
         private readonly List<string> _observations = [];
-        private bool _reject = false;
+        private readonly bool _reject = false;
 
         public override int AddChild(EngineObject child)
         {

@@ -22,7 +22,7 @@ public partial class FlagMessageEvent : FlagEvent
     public new const int ClassId = 132461;
 
     private string _helpFileName = "";
-    private StringList _message;
+    private readonly StringList _message;
 
     // FlagEvents.pas:186
     public override void Dispose()

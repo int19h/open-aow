@@ -62,7 +62,7 @@ public partial class City : PlayerCropStructure
 
     public Set<CityEnchantmentId> Enchantments { get; private set; }
 
-    public CityOverlayHexSprite _overlay;
+    public readonly CityOverlayHexSprite _overlay;
 
     public bool EnchantmentsVisible { get; private set; }
     public LibraryImage WallBackImage { get; private set; }
@@ -138,7 +138,7 @@ public partial class City : PlayerCropStructure
     {
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
         pixelXSurface = X - pixelXSurface;
         pixelYSurface = Y - pixelYSurface;
         if (!Mode.Contains(ModeElement.Razed) || GetBuilding())
@@ -565,7 +565,7 @@ public partial class City : PlayerCropStructure
         Status relation;
         if ((Mode & Set<ModeElement>.Of(ModeElement.WarMode, ModeElement.Razed)) == Set<ModeElement>.Of())
         {
-            BattleFieldInfo.SetupBattleFieldInfo(ref info, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+            BattleFieldInfo.SetupBattleFieldInfo(out info, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
@@ -912,7 +912,7 @@ public partial class City : PlayerCropStructure
     public override bool CanDoubleClick() => StrategicMap.Current.SeatedPlayer == Player && !GetRazed() && !GetBuilding();
 
     // City.pas:1639
-    public override void GetRebuildInfo(ref int cost, ref int time)
+    public override void GetRebuildInfo(out int cost, out int time)
     {
         cost = GetSize() * 25;
         time = GetSize() + 1;
@@ -1090,7 +1090,7 @@ public partial class City : PlayerCropStructure
             player = -1;
             count = GetTerrainCount();
             mapLevel = Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
             while (walk.HexNumber < count && !multiplePlayers)
             {
                 if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1603,7 +1603,7 @@ public partial class City : PlayerCropStructure
         count = GetTerrainCount();
         mapLevel = Owner.Owner;
         // { This eliminated copy preserves the original saved registers. }
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count && result)
         {
             if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1638,7 +1638,7 @@ public partial class City : PlayerCropStructure
         mapLevel = Owner.Owner;
         var hexY = GetHexY();
         var hexX = GetHexX();
-        HexNumberWalkData.InitializeHexNumberWalk(ref Walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out Walk, hexX, hexY, 0);
         while (walk.HexNumber < count)
         {
             if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -1897,7 +1897,7 @@ public partial class City : PlayerCropStructure
             {
                 radius = -1;
                 mapLevel = Owner.Owner;
-                HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 1);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, _hexX, _hexY, 1);
                 while (walk.Radius <= 20 && radius == -1)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)

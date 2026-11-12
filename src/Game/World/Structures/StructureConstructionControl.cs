@@ -58,9 +58,9 @@ public partial class StructureConstructionControl : ConstructionControl
         HexNumberWalkData walk = default;
         bool result = true;
         resource = StructureResource(troop);
-        troop.GetLocation(ref X, ref Y, ref L);
+        troop.GetLocation(out X, out Y, out L);
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (resource.TerrainList.Count > walk.HexNumber && result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

@@ -263,9 +263,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         private readonly UIGraphics? _previousGraphics = DialogHosts.UIGraphics;
         private readonly UIFonts? _previousFont = DialogHosts.UIFonts;
         private readonly General? _previousGeneral = DialogHosts.General;
-        private UIGraphics _graphics = null!;
-        private UIFonts _font = null!;
-        private General _general = null!;
+        private readonly UIGraphics _graphics = null!;
+        private readonly UIFonts _font = null!;
+        private readonly General _general = null!;
 
         internal EmailGameSettingsDialog Dialog { get; } = null!;
 

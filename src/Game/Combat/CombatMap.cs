@@ -54,7 +54,7 @@ public partial class CombatMap : GameMap
         remove => ChangeTurnEventsStore.Remove(value);
     }
 
-    private EventStore<CombatMap> _playerChangedEventsStore;
+    private readonly EventStore<CombatMap> _playerChangedEventsStore;
 
     public event NotifyEvent<CombatMap> PlayerChanged
     {
@@ -62,7 +62,7 @@ public partial class CombatMap : GameMap
         remove => _playerChangedEventsStore.Remove(value);
     }
 
-    private EventStore<sbyte> _seatedPlayerChangedEventsStore;
+    private readonly EventStore<sbyte> _seatedPlayerChangedEventsStore;
 
     public event NotifyEvent<sbyte> SeatedPlayerChanged
     {
@@ -367,7 +367,7 @@ public partial class CombatMap : GameMap
         sbyte Y = default;
         sbyte L = default;
         ItemList result = null;
-        GetUnitLocation(hero, ref X, ref Y, ref L);
+        GetUnitLocation(hero, out X, ref Y, ref L);
         if (X > -1)
         {
             hexSprite = (ItemHexSprite)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
@@ -491,7 +491,7 @@ public partial class CombatMap : GameMap
         }
 
         AudioPlayback.PlaySample("Sfx\\Events\\NewEvent.wav");
-        EngineMessage.InitializeMessage(ref message, 537006081, this);
+        EngineMessage.InitializeMessage(out message, 537006081, this);
         SendMessage(ref message, this);
         if (ExplorationEnabled)
         {
@@ -704,7 +704,7 @@ public partial class CombatMap : GameMap
                     CenterViewTo(U.UnitHexSprite.GetHexX(), hexY, 0);
                     Selection.UnselectLocation();
                     var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
-                    HexGeometry.HexToPixel(U.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, ref X, ref Y);
+                    HexGeometry.HexToPixel(U.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, out X, out Y);
                     Selection.SelectLocation(X, Y, 0);
                 }
             }
@@ -716,7 +716,7 @@ public partial class CombatMap : GameMap
     // TTacticalCombatUnit and reads FUnit. On a wall that offset is FWallType, FHitPoints and FLocked,
     // a small integer, so the unit comparison fails and the search continues. The port skips objects
     // that are not tactical units, which has the same result.
-    public void GetUnitLocation(Troop U, ref sbyte X, ref sbyte Y, ref sbyte L)
+    public void GetUnitLocation(Troop U, out sbyte X, ref sbyte Y, ref sbyte L)
     {
         int I;
         X = -1;

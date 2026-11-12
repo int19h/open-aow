@@ -93,7 +93,7 @@ public partial class TroopResource : EngineResource
         int hexY = default;
         map = message.Param[0].As<MapContainer>();
         hexLevel = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref hexX, ref hexY);
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out hexX, out hexY);
         if (hexX >= 0 && hexY >= 0 && hexX < map.Width && hexY < map.Height && DropUnit(hexX, hexY, hexLevel))
         {
             message.Result = 0;

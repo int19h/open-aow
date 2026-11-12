@@ -79,7 +79,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(_hexX, _hexY, out pixelX, out pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));

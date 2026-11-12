@@ -34,7 +34,7 @@ public partial class TacticalBattleOozeHexSprite : SingleHexSprite
         int X = default;
         int Y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out X, out Y);
         pixelXSurface = X - pixelXSurface - 16;
         pixelYSurface = Y - 48 - pixelYSurface;
         switch (Owner.TerrainType)

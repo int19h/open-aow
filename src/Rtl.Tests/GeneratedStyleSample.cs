@@ -70,8 +70,8 @@ public sealed class FailingSample : Sample
 
 public static class GeneratedStyleSample
 {
-    private static int s_typedConstant = 7;
-    private static Func<int, Sample> s_classConstant = static value => new SampleChild(value);
+    private static readonly int s_typedConstant = 7;
+    private static readonly Func<int, Sample> s_classConstant = static value => new SampleChild(value);
 
     public static SampleRecord Run()
     {

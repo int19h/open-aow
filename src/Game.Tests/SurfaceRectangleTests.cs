@@ -164,7 +164,7 @@ public sealed class SurfaceRectangleTests
             Assert.Equal((3, 2), (part.Width, part.Height));
             Assert.Equal(Source(1, 1), part.View().UInt16(0));
             Assert.Equal(Source(3, 2), part.View().UInt16(part.Pitch + 4));
-            LockedSurface.CreateFrom(full, new Rect(2, 1, 4, 3), ref sub);
+            LockedSurface.CreateFrom(full, new Rect(2, 1, 4, 3), out sub);
             Assert.Same(full.Data, sub.Data);
             Assert.Equal(full.Pitch + 4, sub.DataIndex);
             Assert.Equal(new Rect(0, 0, 2, 2), sub.ClipRectangle);

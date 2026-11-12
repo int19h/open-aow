@@ -67,7 +67,7 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
         base.Process(source, value);
         index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
         enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
-        source.GetLocation(ref X, ref Y, ref layer);
+        source.GetLocation(out X, out Y, out layer);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
         twinkle = new TwinkleAnimation(null);
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);

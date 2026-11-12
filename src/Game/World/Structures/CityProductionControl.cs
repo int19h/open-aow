@@ -24,7 +24,7 @@ public partial class CityProductionControl : ProductionControl
     public City City { get; set; }
 
     // City.pas:645
-    public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
+    public override void GetLocation(out sbyte X, out sbyte Y, out sbyte L)
     {
         X = City.GetHexX();
         Y = City.GetHexY();
@@ -49,7 +49,7 @@ public partial class CityProductionControl : ProductionControl
         level = city.Owner.Owner;
         var hexY = city.GetHexY();
         var hexX = city.GetHexX();
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (walk.HexNumber < count && !valid)
         {
             if (city._resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

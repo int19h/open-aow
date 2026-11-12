@@ -5,7 +5,7 @@ namespace Aow.Game.Draw;
 // FTables, Lookup (101 tables, indexed by percentage)
 public partial class LookupBlendTableCollection100 : IDisposable
 {
-    private BlendTableList _tables;
+    private readonly BlendTableList _tables;
 
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
     public BlendTable[] Lookup { get; } = new BlendTable[101];

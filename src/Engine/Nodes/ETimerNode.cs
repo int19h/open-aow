@@ -14,7 +14,7 @@ public partial class ETimerNode : ECustomNode
 
     private int _tick;
     private int _count;
-    private ListArray10 _timerLists;
+    private readonly ListArray10 _timerLists;
 
     // Engine.pas:1856
     internal int FindTimerList(EngineObject child)

@@ -9,7 +9,7 @@ public partial class SampleData : IDisposable
 {
     public static SampleDataClass Descriptor { get; } = new("SampleData", Create, Create);
 
-    private string _name = "";
+    private readonly string _name = "";
     private int _refCount;
 
     // Sound.pas:674

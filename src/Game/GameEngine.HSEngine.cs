@@ -44,7 +44,7 @@ public partial class GameEngine : ENode
         remove => OnHsmCloseStore.Remove(value);
     }
 
-    private EventStore<GameEngine> _onHssLoadedStore;
+    private readonly EventStore<GameEngine> _onHssLoadedStore;
 
     internal event NotifyEvent<GameEngine> HexSpriteSetLoaded
     {
@@ -52,7 +52,7 @@ public partial class GameEngine : ENode
         remove => _onHssLoadedStore.Remove(value);
     }
 
-    private EventStore<GameEngine> _onHssCloseStore;
+    private readonly EventStore<GameEngine> _onHssCloseStore;
 
     internal event NotifyEvent<GameEngine> HexSpriteSetClosing
     {
@@ -296,7 +296,7 @@ public partial class GameEngine : ENode
 
             ReadEngineObject(memory, _hexSpriteSet, progress);
             ActivateEngineObject(_hexSpriteSet);
-            EngineMessage.InitializeMessage(ref message, 65556, this);
+            EngineMessage.InitializeMessage(out message, 65556, this);
             _hexSpriteSet.MessageProc(ref message, this);
             ControlNode.MessageProc(ref message, this);
             _onHssLoadedStore.Raise(this);
@@ -553,7 +553,7 @@ public partial class GameEngine : ENode
         }
         else
         {
-            EngineMessage.InitializeMessage(ref message, 65557, this);
+            EngineMessage.InitializeMessage(out message, 65557, this);
             _hexSpriteSet.MessageProc(ref message, this);
         }
     }

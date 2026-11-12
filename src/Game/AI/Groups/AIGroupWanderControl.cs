@@ -16,7 +16,7 @@ public partial class AIGroupWanderControl : AIGroupTask
 {
     public int MovePointsMax { get; set; }
 
-    private MoveControlSettings _moveSettings;
+    private readonly MoveControlSettings _moveSettings;
     private AIGroupControl _control;
 
     // AGCPlugins.pas:303

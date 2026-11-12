@@ -191,7 +191,7 @@ public partial class SmokeCloud : MultiHexMapObject
         int hexNumber;
         if (_resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+            HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
             result = hexNumber < _resource.TerrainList.Count && _resource.TerrainList.Terrain[hexNumber] >= -1;
         }
@@ -211,7 +211,7 @@ public partial class SmokeCloud : MultiHexMapObject
         MapField mapField;
         ArmyHexSprite armyHexSprite;
         level = StrategicMap.Current.MapContainer.MapLevels[hexLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 0);
         while (_resource.TerrainList.Count > walk.HexNumber)
         {
             if (_resource.TerrainList.Terrain[walk.HexNumber] >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)

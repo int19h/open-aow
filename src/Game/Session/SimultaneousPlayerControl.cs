@@ -242,7 +242,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
                     log.Release();
                 }
 
-                EngineMessage.InitializeMessage(ref message, 537001991, this);
+                EngineMessage.InitializeMessage(out message, 537001991, this);
                 message.Payload = I;
                 StrategicMap.Current.SendMessage(ref message, this);
             }

@@ -19,7 +19,7 @@ public partial class RebuildConstructionControl : ConstructionControl
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        troop.GetLocation(ref X, ref Y, ref L);
+        troop.GetLocation(out X, out Y, out L);
         Structure result = (Structure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(Structure));
         if (result != null)
         {
@@ -33,7 +33,7 @@ public partial class RebuildConstructionControl : ConstructionControl
     }
 
     // AoWAb.PAS:5413
-    public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
+    public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
         Structure structure;
         structure = GetStructure(troop);
@@ -41,7 +41,7 @@ public partial class RebuildConstructionControl : ConstructionControl
         {
             var editName = structure.EditName();
             text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_rebuildFormat), [editName]);
-            structure.GetRebuildInfo(ref gold, ref days);
+            structure.GetRebuildInfo(out gold, out days);
         }
         else
         {

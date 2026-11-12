@@ -21,11 +21,11 @@ public partial class AIGroupDefenseControl : AIGroupTask
         State = 0;
     }
 
-    private GroupDefenseSelector _selector;
+    private readonly GroupDefenseSelector _selector;
 
     public int CustomState { get; set; }
 
-    private Set<ModeElement> _mode;
+    private readonly Set<ModeElement> _mode;
 
     public GroupDefendMode DefendMode { get; set; }
 

@@ -56,7 +56,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
         ImageSequenceAnimation animation;
         base.Process(source, value);
         done = false;
-        source.GetLocation(ref X, ref Y, ref L);
+        source.GetLocation(out X, out Y, out L);
         for (int I = 0, last = UnitIndices.Count - 1; I <= last; I++)
         {
             U = new Unit(null);

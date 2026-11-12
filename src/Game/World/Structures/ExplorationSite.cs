@@ -31,7 +31,7 @@ public partial class ExplorationSite : Structure
     public new const int ClassId = 132033;
 
     private ExplorationSiteDefendersMode _defendersMode;
-    private DefendersArmy _defenders;
+    private readonly DefendersArmy _defenders;
 
     // ExploreS.pas:84
     public override void Dispose()
@@ -79,7 +79,7 @@ public partial class ExplorationSite : Structure
         int hexY = default;
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+            HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
             if (Owner.HexX == hexX && Owner.HexY == hexY)
             {
                 result = base.CanSelect(pixelX, pixelY);

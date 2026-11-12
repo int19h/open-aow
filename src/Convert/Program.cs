@@ -77,7 +77,7 @@ public sealed class UsageException(string message) : System.Exception(message);
 /// <summary>The parsed command line.</summary>
 public sealed class Options
 {
-    public string Command { get; private set; } = "";
+    public string Command { get; private init; } = "";
     public List<string> Positional { get; } = [];
     public string? Kind { get; private set; }
     public string? Profile { get; private set; }

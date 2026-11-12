@@ -9,7 +9,7 @@ namespace Aow.Game.UI.Controls;
 // _toolTip
 public partial class Control : UIComponent
 {
-    private StringList _toolTipText;
+    private readonly StringList _toolTipText;
     private int _toolTipShown;
     private BaseWindow _window;
     private ToolTip _toolTip;

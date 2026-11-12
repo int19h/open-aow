@@ -27,7 +27,7 @@ public partial class Mine : PlayerStructure
     public new const int ClassId = 131962;
 
     public byte State;
-    private PlayerStructureIncomeSource _incomeSource;
+    private readonly PlayerStructureIncomeSource _incomeSource;
 
     // Mine.pas:76
     public override void Dispose()

@@ -35,7 +35,7 @@ public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
         MapLevel level;
         MapField mapField;
         level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
