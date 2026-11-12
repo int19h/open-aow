@@ -1,6 +1,7 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
 using Aow.Game.Layout;
+using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl.Localize;
@@ -2601,7 +2602,7 @@ public partial class RelationWindow : ILayoutModule
         SelectActionButton.WinWidth = 91;
         SelectActionButton.OnClick = _ => Layout_ASelectClick_8();
         session.EndRead(SelectActionButton);
-        ActionsList = new ListBox(this);
+        ActionsList = new ListBox<DiplomaticAction>(this);
         session.BeginRead(ActionsList);
         ActionsList.Name = "ActionsLB";
         ActionsList.Priority = 0;

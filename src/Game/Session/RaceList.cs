@@ -63,20 +63,20 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
     public sbyte GetRandomRace()
     {
         sbyte result;
-        DelphiList races;
-        races = new DelphiList();
+        DelphiList<Race> races;
+        races = new DelphiList<Race>();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if (GetChild(I) != null && this[I].Enabled)
             {
-                races.Add(GetChild(I));
+                races.Add(this[I]);
             }
         }
 
         if (races.Count != 0)
         {
             var random = Random(races.Count);
-            result = ((Race)races.List[random]).RaceIndex;
+            result = races.List[random].RaceIndex;
         }
         else
         {

@@ -106,12 +106,12 @@ public partial class AIMoveExecutorArmyList : ENode, IChildList<AIMoveExecutorAr
     // AIGroup.pas:4721
     public void SortOnMovePoints()
     {
-        SortChildren(CompareExecutorArmies);
+        SortChildren<AIMoveExecutorArmy>(CompareExecutorArmies);
     }
 
-    private static int CompareExecutorArmies(object item1, object item2)
+    private static int CompareExecutorArmies(AIMoveExecutorArmy item1, AIMoveExecutorArmy item2)
     {
-        return ((AIMoveExecutorArmy)item1).MovePoints(255) - ((AIMoveExecutorArmy)item2).MovePoints(255);
+        return item1.MovePoints(255) - item2.MovePoints(255);
     }
 
     // Engine.pas:631

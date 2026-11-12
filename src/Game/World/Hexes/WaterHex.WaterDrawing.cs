@@ -69,7 +69,7 @@ public partial class WaterHex
 
                 if (_animationIndex < _resource.ImageSequenceList.Count)
                 {
-                    sequence = (ImageSequence)_resource.ImageSequenceList.List[_animationIndex];
+                    sequence = _resource.ImageSequenceList.List[_animationIndex];
                     while (sequence != null)
                     {
                         image = sequence.GetUnloopedFrameIndex(_animationFrame);

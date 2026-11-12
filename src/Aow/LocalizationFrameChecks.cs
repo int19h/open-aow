@@ -56,7 +56,7 @@ internal static class LocalizationFrameChecks
                 if (module.Components[index] is not Game.UI.Controls.Control control ||
                     !control.Visible || control.Window is not { Visible: true } || control._font is not { } font) continue;
                 var texts = new List<string> { control._text };
-                if (control.GetType().GetProperty("Items")?.GetValue(control) is StringCollection items)
+                if (ItemsOf(control) is StringCollection items)
                     for (int item = 0; item < items.Count; item++) texts.Add(items[item]);
                 foreach (var text in texts)
                 {
@@ -121,5 +121,15 @@ internal static class LocalizationFrameChecks
             finally { left?.Dispose(); right?.Dispose(); }
         }
         Console.WriteLine($"Localization frames: language {language}, Undead(plural) = {undead}, {germanBytes.Count} German extended bytes scanned across {fonts.Length} fonts");
+    }
+
+    // A typed list box redeclares Items, so the nearest declaration wins.
+    private static object? ItemsOf(Game.UI.Controls.Control control)
+    {
+        for (var type = control.GetType(); type is not null; type = type.BaseType)
+            if (type.GetProperty("Items", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance
+                    | System.Reflection.BindingFlags.DeclaredOnly) is { } property)
+                return property.GetValue(control);
+        return null;
     }
 }

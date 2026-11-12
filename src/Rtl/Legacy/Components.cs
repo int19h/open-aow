@@ -49,7 +49,7 @@ public class Component : Persistent
     // CLASSES.PAS TComponent.GetComponent uses TList's range error.
     public IndexedProperty<int, Component> Components => new(i =>
     {
-        if (i < 0 || i >= children.Count) DelphiList.Error("List index out of bounds (%d)", i);
+        if (i < 0 || i >= children.Count) DelphiListCore.Error("List index out of bounds (%d)", i);
         return children[i];
     });
 

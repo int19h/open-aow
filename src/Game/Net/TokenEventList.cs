@@ -92,7 +92,7 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:1056
     public void SortOnTokenCounter()
     {
-        List.SortChildren(CompareTokenCounter);
+        List.SortChildren<TokenEvent>(CompareTokenCounter);
     }
 
     // NetworkE.pas:1061
@@ -132,9 +132,9 @@ public partial class TokenEventList : EngineObject
 
     private const short ClassIdTokenEventList = 1362;
 
-    private static int CompareTokenCounter(object item1, object item2)
+    private static int CompareTokenCounter(TokenEvent item1, TokenEvent item2)
     {
-        return ((TokenEvent)item1)._tokenCounter - ((TokenEvent)item2)._tokenCounter;
+        return item1._tokenCounter - item2._tokenCounter;
     }
 
 }

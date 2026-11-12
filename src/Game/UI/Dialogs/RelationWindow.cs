@@ -96,7 +96,7 @@ public partial class RelationWindow : DataModule
     public Image PlayerGlow;
     public Label NoContactLabel;
     public Button SelectActionButton;
-    public ListBox ActionsList;
+    public ListBox<DiplomaticAction> ActionsList;
     public Image PlayerTypeIcon;
     public Label PlayerTypeLabel;
     public Image PlayerStatusIcon;
@@ -789,7 +789,7 @@ public partial class RelationWindow : DataModule
             action = _action;
             if (action == null && NewActionPanel.Visible && ActionsList.Selected != -1)
             {
-                action = (DiplomaticAction)ActionsList.Items.Objects[ActionsList.Selected];
+                action = ActionsList.Items.Objects[ActionsList.Selected];
             }
 
             if (action != null)
@@ -1010,7 +1010,7 @@ public partial class RelationWindow : DataModule
         string reason = "";
         if (ActionsList.Selected != -1)
         {
-            SetAction((DiplomaticAction)ActionsList.Items.Objects[ActionsList.Selected]);
+            SetAction(ActionsList.Items.Objects[ActionsList.Selected]);
             var view = _action.Proposal.View;
             if (view == ProposalView.Notice || view == ProposalView.Threat)
             {

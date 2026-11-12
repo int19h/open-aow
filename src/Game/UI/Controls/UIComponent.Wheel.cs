@@ -51,7 +51,7 @@ public partial class UIComponent
     {
         for (int I = Children.Count - 1; I >= 0; I--)
         {
-            var child = (UIComponent)Children[I];
+            var child = Children[I];
             if (child.WantsMouseWheel && child.ContainsPoint(X, Y)) return child;
         }
 

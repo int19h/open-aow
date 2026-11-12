@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Game.World.Structures;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -264,7 +265,7 @@ public partial class ConstructDialog : ILayoutModule
         constructPnl.MinWidth = 0;
         constructPnl.MinHeight = 0;
         session.EndRead(constructPnl);
-        ConstructionList = new ListBox(this);
+        ConstructionList = new ListBox<ConstructionControl>(this);
         session.BeginRead(ConstructionList);
         ConstructionList.Name = "ConstructionList";
         ConstructionList.Priority = 60;

@@ -160,7 +160,7 @@ public partial class CombatSpell : Spell
         CombatObject other;
         int distance;
         CombatObject target;
-        DelphiList targets;
+        DelphiList<CombatObject> targets;
         Combat.Battle combat;
         target = command.Target;
         for (int I = 0, last = CombatInfo.RepeatCount - 1; I <= last; I++)
@@ -176,7 +176,7 @@ public partial class CombatSpell : Spell
         if (CombatInfo.Radius > 1)
         {
             combat = source.Combat;
-            targets = new DelphiList();
+            targets = new DelphiList<CombatObject>();
             distance = combat.GetRoundDistance();
             if (CombatInfo.Range == -1)
             {
@@ -218,7 +218,7 @@ public partial class CombatSpell : Spell
             count = (int)(((uint)AoWHSMap.Current.Random(4)) >> 2) + CombatInfo.Radius;
             while (count != 0 && targets.Count != 0)
             {
-                other = (CombatObject)targets[AoWHSMap.Current.Random(targets.Count)];
+                other = targets[AoWHSMap.Current.Random(targets.Count)];
                 for (int J = 0, last = CombatInfo.RepeatCount - 1; J <= last; J++)
                 {
                     if (!other.Status.Contains(CombatObjectStatusElement.Destroyed))

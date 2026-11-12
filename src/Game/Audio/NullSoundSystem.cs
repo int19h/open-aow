@@ -72,7 +72,7 @@ public sealed class NullSoundSystem : SoundSystem
         string name = classValue.Name;
         if (AudioHost.SoundSystems.Find(name) == null)
         {
-            ((DelphiList)AudioHost.SoundSystems).Add((object)classValue);
+            AudioHost.SoundSystems.Add(classValue);
             return;
         }
         throw new InvalidOperationException("Sound System with name: " + classValue.Name + " already registered");

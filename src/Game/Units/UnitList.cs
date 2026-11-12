@@ -145,7 +145,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
     {
         BeginUpdate();
         PackChildren();
-        SortChildren(CompareUnits);
+        SortChildren<Troop>(CompareUnits);
         EndUpdate();
     }
 
@@ -154,7 +154,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
     {
         BeginUpdate();
         PackChildren();
-        SortChildren(CompareUnitMoves);
+        SortChildren<Troop>(CompareUnitMoves);
         EndUpdate();
     }
 
@@ -323,37 +323,37 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
         }
     }
 
-    private static int CompareUnits(object item1, object item2)
+    private static int CompareUnits(Troop item1, Troop item2)
     {
         int s1;
         int s2;
-        var troop = (Troop)item1;
+        var troop = item1;
         s1 = troop.GetUnitLevel();
         if (troop.GetTransporter())
         {
             s1 += 500;
         }
 
-        if ((Troop)item1 is Hero)
+        if (item1 is Hero)
         {
             s1 += 50;
-            if ((Troop)item1 is Leader)
+            if (item1 is Leader)
             {
                 s1 += 100;
             }
         }
 
-        var troop2 = (Troop)item2;
+        var troop2 = item2;
         s2 = troop2.GetUnitLevel();
         if (troop2.GetTransporter())
         {
             s2 += 500;
         }
 
-        if ((Troop)item2 is Hero)
+        if (item2 is Hero)
         {
             s2 += 50;
-            if ((Troop)item2 is Leader)
+            if (item2 is Leader)
             {
                 s2 += 100;
             }
@@ -362,7 +362,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
         int result = s2 - s1;
         if (result == 0)
         {
-            if (((Troop)item1).UnitStatus.Contains(UnitStatusElement.Enchanted))
+            if (item1.UnitStatus.Contains(UnitStatusElement.Enchanted))
             {
                 s1 = 1;
             }
@@ -371,7 +371,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
                 s1 = 0;
             }
 
-            if (((Troop)item2).UnitStatus.Contains(UnitStatusElement.Enchanted))
+            if (item2.UnitStatus.Contains(UnitStatusElement.Enchanted))
             {
                 s2 = 1;
             }
@@ -385,17 +385,17 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
 
         if (result == 0)
         {
-            result = ((Troop)item2).GetUnitGraphicsResourceIndex() - ((Troop)item1).GetUnitGraphicsResourceIndex();
+            result = item2.GetUnitGraphicsResourceIndex() - item1.GetUnitGraphicsResourceIndex();
             if (result == 0)
             {
-                result = ((Troop)item2).UnitId - ((Troop)item1).UnitId;
+                result = item2.UnitId - item1.UnitId;
             }
         }
 
         return result;
     }
 
-    private static int CompareUnitMoves(object item1, object item2) => ((Troop)item2).GetMoves() - ((Troop)item1).GetMoves();
+    private static int CompareUnitMoves(Troop item1, Troop item2) => item2.GetMoves() - item1.GetMoves();
 
     internal static sbyte UnitsToIndependentRelation(UnitList units, sbyte defaultRelation)
     {

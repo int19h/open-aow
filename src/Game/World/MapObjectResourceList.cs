@@ -24,7 +24,7 @@ public partial class MapObjectResourceList : EResourceList, IChildList<MapObject
     public MapObjectResource GetMapObjectResource(int index) => this[index];
 
     // MAPOBJ.PAS:646
-    public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, ref DelphiList list)
+    public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, ref DelphiList<MapObjectResource> list)
     {
         MapObjectResource R;
         int[] iCell = new int[1];

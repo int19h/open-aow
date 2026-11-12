@@ -194,10 +194,10 @@ public partial class TerrainMapObject : MultiHexMapObject
     public virtual TerrainMapObjectResource FindDecorationResource(byte decorationType)
     {
         TerrainMapObjectResource result;
-        DelphiList candidates;
+        DelphiList<TerrainMapObjectResource> candidates;
         MapObjectResourceList resources;
         TerrainMapObjectResource R;
-        candidates = new DelphiList();
+        candidates = new DelphiList<TerrainMapObjectResource>();
         resources = GetResourceList(_resource.Engine);
         for (int I = 0, last = resources.Count - 1; I <= last; I++)
         {
@@ -214,7 +214,7 @@ public partial class TerrainMapObject : MultiHexMapObject
         if (candidates.Count != 0)
         {
             var random = Random(candidates.Count);
-            result = (TerrainMapObjectResource)candidates.List[random];
+            result = candidates.List[random];
         }
         else
         {

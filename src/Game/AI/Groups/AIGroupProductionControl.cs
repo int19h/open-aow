@@ -546,12 +546,12 @@ public partial class AIGroupProductionControl : AIGroupTask
             }
         }
 
-        _producibleUnits.SortChildren(CompareProducibleUnits);
+        _producibleUnits.SortChildren<AIGroupUnitProduction>(CompareProducibleUnits);
     }
 
-    private static int CompareProducibleUnits(object item1, object item2)
+    private static int CompareProducibleUnits(AIGroupUnitProduction item1, AIGroupUnitProduction item2)
     {
-        return ((AIGroupUnitProduction)item2).Priority - ((AIGroupUnitProduction)item1).Priority;
+        return item2.Priority - item1.Priority;
     }
 
     // intf_P5_07.inc:537

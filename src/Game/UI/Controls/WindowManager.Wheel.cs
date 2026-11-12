@@ -12,7 +12,7 @@ public partial class WindowManager
         if (steps == 0) return false;
         for (int I = Children.Count - 1; I >= 0; I--)
         {
-            var C = (UIComponent)Children[I];
+            var C = Children[I];
             if (C.Priority < _overlayPriority || !C.Visible) continue;
             if (!C.ContainsPoint(X, Y)) continue;
             C.CheckMouseWheel(steps, shift, X, Y);

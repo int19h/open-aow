@@ -319,3 +319,25 @@ public class StringList : StringCollection
     // CLASSES.PAS TStringList.Destroy does not destroy associated objects.
     public override void Dispose() { OnChange = null; OnChanging = null; base.Dispose(); count = 0; Capacity = 0; }
 }
+
+// A string list whose object slots hold a T each. A write of anything else, through the untyped
+// Objects or AddObject of the base, throws, so the typed reads below need no check.
+public class StringList<T> : StringList
+    where T : class
+{
+    public new IndexedProperty<int, T?> Objects => new(GetItem, (index, item) => PutObject(index, item));
+
+    public int AddObject(string value, T? item) => base.AddObject(value, item);
+
+    public void InsertObject(int index, string value, T? item) => base.InsertObject(index, value, item);
+
+    public int IndexOfObject(T? item) => base.IndexOfObject(item);
+
+    protected override void PutObject(int index, object? value)
+    {
+        if (value is not (null or T)) throw new ArgumentException($"A {typeof(T).Name} string list does not hold a {value.GetType().Name}.", nameof(value));
+        base.PutObject(index, value);
+    }
+
+    private T? GetItem(int index) => GetObject(index) as T;
+}

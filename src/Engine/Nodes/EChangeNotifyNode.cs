@@ -1077,6 +1077,13 @@ public partial class EChangeNotifyNode : ECustomNode
     // Keeps the order of equal children.
     public void SortChildrenStable(ListSortCompare<EngineObject> compare) => _children.SortStable(compare);
 
+    // The same sorts with a comparer of the child type a typed list admits. Each slot is a T or empty.
+    public void SortChildren<T>(ListSortCompare<T> compare)
+        where T : EngineObject => _children.Sort(compare);
+
+    public void SortChildrenStable<T>(ListSortCompare<T> compare)
+        where T : EngineObject => _children.SortStable(compare);
+
     public void MoveChild(int current, int target) => _children.Move(current, target: target);
 
     public void ExchangeChildren(int first, int second) => _children.Exchange(first, second: second);

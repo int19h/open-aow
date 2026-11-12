@@ -727,9 +727,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -890,9 +890,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -1103,9 +1103,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -1228,9 +1228,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -1447,9 +1447,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -1573,9 +1573,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -1793,9 +1793,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -1919,9 +1919,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -2165,9 +2165,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -2317,9 +2317,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -2542,9 +2542,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -2658,9 +2658,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -2872,9 +2872,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -3002,9 +3002,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -3224,9 +3224,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -3348,9 +3348,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -3566,9 +3566,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -3692,9 +3692,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -3930,9 +3930,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -4074,9 +4074,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -4309,9 +4309,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -4432,9 +4432,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -4639,9 +4639,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -4755,9 +4755,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -4994,9 +4994,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -5149,9 +5149,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -5430,9 +5430,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -5599,9 +5599,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -5851,9 +5851,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -5986,9 +5986,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -6222,9 +6222,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -6366,9 +6366,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -6612,9 +6612,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -6746,9 +6746,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -6940,9 +6940,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -7043,9 +7043,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -7239,9 +7239,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -7355,9 +7355,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -7583,9 +7583,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -7727,9 +7727,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -7942,9 +7942,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -8092,9 +8092,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -8369,9 +8369,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -8486,9 +8486,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -20839,9 +20839,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -20984,9 +20984,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -21223,9 +21223,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -21349,9 +21349,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -21551,9 +21551,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -21706,9 +21706,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -22574,9 +22574,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -23310,9 +23310,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -23604,9 +23604,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -23759,9 +23759,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -24116,20 +24116,15 @@
             "HtmlMemo._textHeight": 0,
             "HtmlMemo._textWidth": 0,
             "HtmlMemo._topItem": 0,
-            "HtmlMemo._unusedList": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
-            },
             "HtmlMemo._verticalScrollBar": null,
             "HtmlMemo._window": null,
             "UIComponent.Aligned": false,
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.HtmlMemo._unusedList.DelphiList.items"
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -24352,20 +24347,15 @@
             "HtmlMemo._textHeight": 0,
             "HtmlMemo._textWidth": 0,
             "HtmlMemo._topItem": 0,
-            "HtmlMemo._unusedList": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
-            },
             "HtmlMemo._verticalScrollBar": null,
             "HtmlMemo._window": null,
             "UIComponent.Aligned": false,
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.HtmlMemo._unusedList.DelphiList.items"
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -24520,7 +24510,6 @@
               "HtmlMemo._textHeight": 0,
               "HtmlMemo._textWidth": 0,
               "HtmlMemo._topItem": 0,
-              "HtmlMemo._unusedList": null,
               "HtmlMemo._verticalScrollBar": null,
               "HtmlMemo._window": null,
               "UIComponent.Aligned": false,
@@ -24701,9 +24690,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -24893,9 +24882,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -25210,9 +25199,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -25369,9 +25358,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -25698,9 +25687,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -25891,9 +25880,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -26239,9 +26228,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -26428,9 +26417,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -26729,9 +26718,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -26885,9 +26874,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -27174,9 +27163,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,
@@ -27329,9 +27318,9 @@
             "UIComponent.BlitCount": 0,
             "UIComponent.BlitList": [],
             "UIComponent.Children": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.UI.Controls.UIComponent, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "UIComponent.Color": 0,
             "UIComponent.DrawCount": 0,

@@ -23,7 +23,7 @@ internal static class StringSorting
 
     internal static void SortStrings(StringCollection strings, StringsSortCompare compare, ReadOnlySpan<StringCollection> linkedStrings)
     {
-        DelphiList lists = default;
+        DelphiList<StringCollection> lists = default;
         SortStringsContext context = default;
         if (strings.Count != 0)
         {
@@ -33,7 +33,7 @@ internal static class StringSorting
             // { Original unsigned test also takes an empty array. }
             if ((uint)(linkedStrings.Length - 1) >= 0)
             {
-                lists = new DelphiList();
+                lists = new DelphiList<StringCollection>();
                 for (int I = 0, last = linkedStrings.Length - 1; I <= last; I++)
                 {
                     linkedStrings[I].BeginUpdate();

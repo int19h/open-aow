@@ -146,8 +146,8 @@ public partial class AbilityControl : EngineObject
     // Ability.PAS:2148
     public void ListAbilityInfo(StringCollection text, bool sortByName, Set<AbilityInfoModeElement> mode)
     {
-        DelphiList list = default;
-        list = new DelphiList();
+        DelphiList<Ability> list = default;
+        list = new DelphiList<Ability>();
         for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
         {
             if (Abilities[I] != null)
@@ -164,7 +164,7 @@ public partial class AbilityControl : EngineObject
         // { Original frees the temporary list only after all ability callbacks succeed. }
         for (int I = 0, last = list.Count - 1; I <= last; I++)
         {
-            ((Ability)list[I]).ListInfo(text, mode);
+            list[I].ListInfo(text, mode);
             text.Add("-------------------------------------------------");
             text.Add("");
         }
@@ -184,10 +184,10 @@ public partial class AbilityControl : EngineObject
         return index < Abilities.Count ? Abilities[index] : null;
     }
 
-    public static int CompareAbilityNames(object item1, object item2)
+    public static int CompareAbilityNames(Ability item1, Ability item2)
     {
-        var name = ((Ability)item2).GetName(null);
-        return CompareStr(((Ability)item1).GetName(null), name);
+        var name = item2.GetName(null);
+        return CompareStr(item1.GetName(null), name);
     }
 
     internal static void UnregisterPassiveAbilities(AbilityControl control)

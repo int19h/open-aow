@@ -97,7 +97,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     {
                         if ((I & 3) == 3)
                         {
-                            field = (AoWMapField)settings.ProcessedMapFields[I];
+                            field = settings.ProcessedMapFields[I];
                             if (_moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
                             {
                                 var movePoints = _moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
@@ -111,7 +111,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     I = settings.ProcessedMapFields.Count - 1;
                     for (; I >= 0; I -= 1)
                     {
-                        field = (AoWMapField)settings.ProcessedMapFields[I];
+                        field = settings.ProcessedMapFields[I];
                         if (_moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
                         {
                             var movePoints = _moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);

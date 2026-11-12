@@ -66,7 +66,7 @@ public partial class UIComponent : Rtl.Component
     private AoWOnDebugEvent _onDebugMessage;
     private UIComponent _ownerComponent;
 
-    public DelphiList Children { get; init; }
+    public DelphiList<UIComponent> Children { get; init; }
 
     private Alignment _alignment;
     private bool _masked;
@@ -91,7 +91,7 @@ public partial class UIComponent : Rtl.Component
         _visible = true;
         FirstDraw = true;
         _alignment = new Alignment();
-        Children = new DelphiList();
+        Children = new DelphiList<UIComponent>();
         BlitList = new List<DirtyRectangle>();
         DrawList = new List<DirtyRectangle>();
     }
@@ -102,7 +102,7 @@ public partial class UIComponent : Rtl.Component
         SetOwner(null);
         while (Children.Count > 0)
         {
-            ((UIComponent)Children[0]).SetOwner(null);
+            Children[0].SetOwner(null);
         }
 
         Children?.Dispose();
@@ -133,7 +133,7 @@ public partial class UIComponent : Rtl.Component
         Aligned = false;
         for (int I = 0, last = Children.Count - 1; I <= last; I++)
         {
-            ((UIComponent)Children[I]).Valid = false;
+            Children[I].Valid = false;
         }
     }
 
@@ -146,7 +146,7 @@ public partial class UIComponent : Rtl.Component
         DrawCount = 0;
         for (int I = 0, last = Children.Count - 1; I <= last; I++)
         {
-            ((UIComponent)Children[I]).Aligned = false;
+            Children[I].Aligned = false;
         }
     }
 
@@ -214,7 +214,7 @@ public partial class UIComponent : Rtl.Component
         Sized = false;
         for (int I = 0, last = Children.Count - 1; I <= last; I++)
         {
-            ((UIComponent)Children[I]).Aligned = false;
+            Children[I].Aligned = false;
         }
     }
 
@@ -279,9 +279,9 @@ public partial class UIComponent : Rtl.Component
                 {
                     for (int I = 0, last = Children.Count - 1; I <= last; I++)
                     {
-                        if (((UIComponent)Children[I])._visible)
+                        if (Children[I]._visible)
                         {
-                            ((UIComponent)Children[I]).Setup();
+                            Children[I].Setup();
                         }
                     }
                 }
@@ -307,7 +307,7 @@ public partial class UIComponent : Rtl.Component
 
                 for (int I = Children.Count - 1; I >= 0; I--)
                 {
-                    ((UIComponent)Children[I]).Update();
+                    Children[I].Update();
                 }
 
                 if (!Valid || !Aligned || !Sized)
@@ -328,9 +328,9 @@ public partial class UIComponent : Rtl.Component
         DrawCount = 0;
         for (int I = 0, last = Children.Count - 1; I <= last; I++)
         {
-            if (((UIComponent)Children[I])._visible)
+            if (Children[I]._visible)
             {
-                ((UIComponent)Children[I]).ClearDrawList();
+                Children[I].ClearDrawList();
             }
         }
     }
@@ -341,9 +341,9 @@ public partial class UIComponent : Rtl.Component
         BlitCount = 0;
         for (int I = 0, last = Children.Count - 1; I <= last; I++)
         {
-            if (((UIComponent)Children[I])._visible)
+            if (Children[I]._visible)
             {
-                ((UIComponent)Children[I]).ClearBlitList();
+                Children[I].ClearBlitList();
             }
         }
     }
@@ -817,7 +817,7 @@ public partial class UIComponent : Rtl.Component
             I = 0;
             while (I < _ownerComponent.Children.Count)
             {
-                if (((UIComponent)_ownerComponent.Children[I])._priority > _priority)
+                if (_ownerComponent.Children[I]._priority > _priority)
                 {
                     newIndex = I;
                     I = _ownerComponent.Children.Count;

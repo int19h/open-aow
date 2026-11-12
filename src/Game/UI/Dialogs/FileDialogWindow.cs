@@ -32,7 +32,7 @@ public partial class FileDialogWindow : DataModule
     public Window Window;
     public Button OpenButton;
     public Label TitleLabel;
-    public ListBox FileList;
+    public ListBox<FileTime> FileList;
     public Edit FileNameEdit;
     public ComboBox DriveComboBox;
     public Label SavedPlayersLabel;
@@ -43,10 +43,10 @@ public partial class FileDialogWindow : DataModule
     public Label ScenarioSizeLabel;
     public Label ScenarioTownsLabel;
     public Panel NewPanel;
-    public ListBox SaveList;
+    public ListBox<FileTime> SaveList;
     public Edit SaveFileNameEdit;
     public Panel SavePanel;
-    public ListBox DateList;
+    public ListBox<FileTime> DateList;
     public Edit PathEdit;
     public Panel SaveListFrame;
     public VerticalScrollBar SaveScrollBar;
@@ -256,7 +256,7 @@ public partial class FileDialogWindow : DataModule
 
         for (int I = 0, last = Files.Count - 1; I <= last; I++)
         {
-            var dateTimeToString = DateTimeToStr(((FileTime)Files.Objects[I]).Time);
+            var dateTimeToString = DateTimeToStr(Files.Objects[I].Time);
             var objectValue = Files.Objects[I];
             DateList.Items.AddObject(dateTimeToString, objectValue);
         }
@@ -269,7 +269,7 @@ public partial class FileDialogWindow : DataModule
     {
         Drives = new StringList();
         Directories = new StringList();
-        Files = new StringList();
+        Files = new StringList<FileTime>();
         Directory = GameTables.GameEngine.StartupDirectory + "Save\\";
         LastFileName = "";
     }
@@ -776,7 +776,7 @@ public partial class FileDialogWindow : DataModule
 
     internal static StringList Directories { get; set; }
 
-    internal static StringList Files { get; set; }
+    internal static StringList<FileTime> Files { get; set; }
 
     internal static int CompareFileDates(string s1, string s2, object o1, object o2)
     {

@@ -1,8 +1,10 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
 using Aow.Game.Layout;
+using Aow.Game.Magic;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Game.World.Structures;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -336,7 +338,7 @@ public partial class MagicWindow : ILayoutModule
         t2LBPnl.MinWidth = 0;
         t2LBPnl.MinHeight = 0;
         session.EndRead(t2LBPnl);
-        EnchantmentList = new ListBox(this);
+        EnchantmentList = new ListBox<Enchantment>(this);
         session.BeginRead(EnchantmentList);
         EnchantmentList.Name = "EnchantmentList";
         EnchantmentList.OnMouseDown = (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
@@ -692,7 +694,7 @@ public partial class MagicWindow : ILayoutModule
         t3LBPnl.MinWidth = 0;
         t3LBPnl.MinHeight = 0;
         session.EndRead(t3LBPnl);
-        GlobalEnchantmentList = new ListBox(this);
+        GlobalEnchantmentList = new ListBox<GlobalEnchantment>(this);
         session.BeginRead(GlobalEnchantmentList);
         GlobalEnchantmentList.Name = "GlobalEnchantmentList";
         GlobalEnchantmentList.OnMouseDown = (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
@@ -1505,7 +1507,7 @@ public partial class MagicWindow : ILayoutModule
         powerValueSortBtn.WinWidth = 78;
         powerValueSortBtn.OnClick = _ => Layout_PowerValueSortBtnClick_24();
         session.EndRead(powerValueSortBtn);
-        PowerSourceList = new ListBox(this);
+        PowerSourceList = new ListBox<PowerSource>(this);
         session.BeginRead(PowerSourceList);
         PowerSourceList.Name = "PowerSourceList";
         PowerSourceList.OnMouseDown = (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);

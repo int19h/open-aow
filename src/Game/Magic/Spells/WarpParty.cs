@@ -92,7 +92,7 @@ public partial class WarpParty : Spell
     // GlobalSpells.pas:660
     public int CalculateWarpLocation(ArmyHexSprite army)
     {
-        DelphiList candidates;
+        DelphiList<AoWMapField> candidates;
         MovePointTable table = default;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
@@ -100,7 +100,7 @@ public partial class WarpParty : Spell
         AoWMapField field;
         int I;
         bool found;
-        candidates = new DelphiList();
+        candidates = new DelphiList<AoWMapField>();
         army.Army.CreateMovePointTable(255, Bytes.Of(ref table));
         var hexY = army.HexY;
         var hexX = army.HexX;
@@ -149,7 +149,7 @@ public partial class WarpParty : Spell
         while (candidates.Count != 0 && !found)
         {
             I = Random(candidates.Count);
-            field = (AoWMapField)candidates[I];
+            field = candidates[I];
             if (field.GetArmyHexSprite() == null && field.GetPlayer() == -1)
             {
                 message.MessageId = 4384;

@@ -97,7 +97,7 @@ public partial class CityScreen : DataModule
     public Label UpgradeTurnsLabel;
     public Panel MigratePanel;
     public Label MigrateTurnsLabel;
-    public ListBox MigrationRaceList;
+    public ListBox<MigrationItem> MigrationRaceList;
     public ListBox MigrationRelationList;
     public ListBox MigrationTurnsList;
     public VerticalScrollBar MigrationScrollBar;
@@ -389,7 +389,7 @@ public partial class CityScreen : DataModule
         MigrationItem item;
         if (index >= 0 && index < MigrationRaceList.Items.Count)
         {
-            item = (MigrationItem)MigrationRaceList.Items.Objects[index];
+            item = MigrationRaceList.Items.Objects[index];
             MigrationRaceList.Selected = index;
             MigrationTurnsList.Selected = index;
             MigrationRelationList.Selected = index;
@@ -1027,7 +1027,7 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Migrate:
-                        race = ((MigrationItem)MigrationRaceList.Items.Objects[MigrationRaceList.Selected]).Race;
+                        race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
                         if (_city.CanMigrate(race, ref reason))
                         {
                             AoWHSMap.Current.TutorialControl.ShowMessage(66, true, true);

@@ -180,13 +180,13 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
     // Army.PAS:4609
     public void SortOnName()
     {
-        SortChildrenStable(CompareItemNames);
+        SortChildrenStable<Item>(CompareItemNames);
     }
 
     // Army.PAS:4619
     public void SortOnType()
     {
-        SortChildrenStable(CompareItemTypes);
+        SortChildrenStable<Item>(CompareItemTypes);
     }
 
     // Army.PAS:4622
@@ -215,18 +215,18 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
         base.UnlockChanged();
     }
 
-    public static int CompareItemNames(object item1, object item2)
+    public static int CompareItemNames(Item item1, Item item2)
     {
         if (item1 != null && item2 != null)
         {
-            return RtlUnit.CompareText(((Item)item1).OwnerName, ((Item)item2).OwnerName);
+            return RtlUnit.CompareText(item1.OwnerName, item2.OwnerName);
         }
         return 0;
     }
 
-    private static int CompareItemTypes(object item1, object item2)
+    private static int CompareItemTypes(Item item1, Item item2)
     {
-        return ((Item)item1).ItemType - ((Item)item2).ItemType;
+        return item1.ItemType - item2.ItemType;
     }
 
     // intf_P2_04.inc:118

@@ -1364,8 +1364,6 @@ type,TLightningStorm,Aow.Game.Draw.Animations.LightningStorm
 type,TLightningStormSpell,Aow.Game.Magic.Spells.LightningStormSpell
 type,TLiquidForm,Aow.Game.Magic.Spells.LiquidForm
 type,TLiquidFormEnchantment,Aow.Game.Magic.Abilities.Passive.LiquidFormEnchantment
-type,TList,Aow.Rtl.DelphiList
-type,TListSortCompare,Aow.Rtl.ListSortCompare
 type,TLoadMapEvent,Aow.Game.Session.SetupControl.LoadMapEvent
 type,TLoadMode,Aow.Game.Draw.Images.LoadMode
 type,TLocalPCC,Aow.Game.Net.LocalPlayerCommunicationControl

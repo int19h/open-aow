@@ -33,7 +33,7 @@ public partial class BaseWindow : WindowControl
         {
             for (int I = index, last = Children.Count - 1; I <= last; I++)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 if (C.Valid && C.Visible && rectangle.Right >= C.WinLeft && C.WinLeft + C.WinWidth >= rectangle.Left && rectangle.Bottom >= C.WinTop && C.WinTop + C.WinHeight >= rectangle.Top && C != sender)
                 {
                     if (C is BaseWindow)
@@ -216,7 +216,7 @@ public partial class BaseWindow : WindowControl
                         {
                             for (int I = 0, lastI = Children.Count - 1; I <= lastI; I++)
                             {
-                                C = (UIComponent)Children[I];
+                                C = Children[I];
                                 if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
                                 {
                                     if (!Drawn && C is BaseWindow)
@@ -313,7 +313,7 @@ public partial class BaseWindow : WindowControl
                     {
                         for (int I = 0, last = Children.Count - 1; I <= last; I++)
                         {
-                            C = (UIComponent)Children[I];
+                            C = Children[I];
                             if (!Drawn || !C.Drawn || C is BaseWindow)
                             {
                                 C.Draw(lockedSurface);
@@ -422,7 +422,7 @@ public partial class BaseWindow : WindowControl
                 Draw(lockedSurface);
                 for (int I = 0, last = Children.Count - 1; I <= last; I++)
                 {
-                    C = (UIComponent)Children[I];
+                    C = Children[I];
                     if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
                     {
                         C.Draw(lockedSurface);

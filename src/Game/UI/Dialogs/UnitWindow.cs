@@ -381,9 +381,9 @@ public partial class UnitWindow : DataModule
     // AoWUnitWindow.pas:620
     public void T1SortNameClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(AbilityAbilityList);
         lists.Add(AbilityTypeList);
         lists.Add(AbilitySourceList);
@@ -394,9 +394,9 @@ public partial class UnitWindow : DataModule
     // AoWUnitWindow.pas:631
     public void T1SortTypeClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(AbilityTypeList);
         lists.Add(AbilityAbilityList);
         lists.Add(AbilitySourceList);
@@ -407,9 +407,9 @@ public partial class UnitWindow : DataModule
     // AoWUnitWindow.pas:642
     public void T1SortSourceClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(AbilitySourceList);
         lists.Add(AbilityAbilityList);
         lists.Add(AbilityTypeList);

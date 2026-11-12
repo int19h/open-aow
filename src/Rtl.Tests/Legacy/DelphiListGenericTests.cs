@@ -2,11 +2,13 @@ namespace Aow.Rtl.Tests;
 
 public sealed class DelphiListGenericTests
 {
-    private sealed class Keyed(int id, int key)
+    private class Keyed(int id, int key)
     {
         public int Id { get; } = id;
         public int Key { get; } = key;
     }
+
+    private sealed class DerivedKeyed(int id, int key) : Keyed(id, key);
 
     private sealed class Identical
     {
@@ -14,172 +16,174 @@ public sealed class DelphiListGenericTests
         public override int GetHashCode() => 0;
     }
 
-    private static void AssertSame<T>(DelphiList plain, DelphiList<T> typed) where T : class
+    // CLASSES.PAS TList.QuickSort, written out on an array: the pivot is the stored middle
+    // element, and equal keys keep the swap order of the original.
+    private static void ReferenceQuickSort<T>(T[] items, int left, int right, Func<T, T, int> compare)
     {
-        Assert.Equal(plain.Count, typed.Count);
-        Assert.Equal(plain.Capacity, typed.Capacity);
-        for (int i = 0; i < plain.Capacity; i++) Assert.Same(plain.List[i], typed.List[i]);
+        int i;
+        do
+        {
+            i = left;
+            int j = right;
+            T pivot = items[(left + right) >> 1];
+            do
+            {
+                while (compare(items[i], pivot) < 0) i++;
+                while (compare(items[j], pivot) > 0) j--;
+                if (i <= j)
+                {
+                    (items[i], items[j]) = (items[j], items[i]);
+                    i++;
+                    j--;
+                }
+            }
+            while (i <= j);
+            if (left < j) ReferenceQuickSort(items, left, j, compare);
+            left = i;
+        }
+        while (i < right);
     }
 
     [Fact]
-    public void QuickSortTiesMatchAndStableSortKeepsOrder()
+    public void QuickSortFollowsTheOriginalAndStableSortKeepsOrder()
     {
         var first = new object();
         var second = new object();
         var third = new object();
-        var plain = new DelphiList();
-        var typed = new DelphiList<object>();
-        plain.Add(first);
-        plain.Add(second);
-        plain.Add(third);
-        typed.Add(first);
-        typed.Add(second);
-        typed.Add(third);
-        plain.Sort((_, _) => 0);
-        typed.Sort((_, _) => 0);
-        AssertSame(plain, typed);
-        Assert.False(ReferenceEquals(plain[0], first) && ReferenceEquals(plain[1], second) && ReferenceEquals(plain[2], third));
+        var list = new DelphiList<object>();
+        list.Add(first);
+        list.Add(second);
+        list.Add(third);
+        list.Sort((_, _) => 0);
+        Assert.False(ReferenceEquals(list[0], first) && ReferenceEquals(list[1], second) && ReferenceEquals(list[2], third));
 
-        plain.Clear();
-        typed.Clear();
-        plain.Add(first);
-        plain.Add(second);
-        plain.Add(third);
-        typed.Add(first);
-        typed.Add(second);
-        typed.Add(third);
-        plain.SortStable((_, _) => 0);
-        typed.SortStable((_, _) => 0);
-        Assert.Same(first, typed[0]);
-        Assert.Same(second, typed[1]);
-        Assert.Same(third, typed[2]);
-        AssertSame(plain, typed);
+        list.Clear();
+        list.Add(first);
+        list.Add(second);
+        list.Add(third);
+        list.SortStable((_, _) => 0);
+        Assert.Same(first, list[0]);
+        Assert.Same(second, list[1]);
+        Assert.Same(third, list[2]);
 
-        Keyed[] keys = Enumerable.Range(0, 32).Select(i => new Keyed(i, 0)).ToArray();
         foreach (int pattern in new[] { 0, 1, 2 })
         {
             foreach (int n in new[] { 1, 2, 3, 4, 5, 7, 8, 9, 16, 17, 32 })
             {
-                var untyped = new DelphiList();
-                var generic = new DelphiList<Keyed>();
-                for (int i = 0; i < n; i++)
-                {
-                    keys[i] = new Keyed(i, pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 });
-                    untyped.Add(keys[i]);
-                    generic.Add(keys[i]);
-                }
+                Keyed[] keys = [.. Enumerable.Range(0, n).Select(i => new Keyed(i, pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 }))];
+                var sorted = new DelphiList<Keyed>();
+                foreach (var key in keys) sorted.Add(key);
+                sorted.Sort((a, b) => a!.Key - b!.Key);
+                var expected = keys.ToArray();
+                ReferenceQuickSort(expected, left: 0, right: n - 1, (a, b) => a.Key - b.Key);
+                Assert.Equal(expected, sorted.List.Take(n));
 
-                untyped.Sort((a, b) => ((Keyed)a!).Key - ((Keyed)b!).Key);
-                generic.Sort((a, b) => a!.Key - b!.Key);
-                AssertSame(untyped, generic);
-                for (int i = 0; i < n; i++)
-                {
-                    untyped[i] = keys[i];
-                    generic[i] = keys[i];
-                }
-
-                untyped.SortStable((a, b) => ((Keyed)a!).Key - ((Keyed)b!).Key);
-                generic.SortStable((a, b) => a!.Key - b!.Key);
-                AssertSame(untyped, generic);
+                var stable = new DelphiList<Keyed>();
+                foreach (var key in keys) stable.Add(key);
+                stable.SortStable((a, b) => a!.Key - b!.Key);
+                Assert.Equal(keys.OrderBy(key => key.Key), stable.List.Take(n));
             }
         }
     }
 
     [Fact]
-    public void RemoveReturnsTheSameIndexAndLeavesTheSameSpareSlot()
+    public void NarrowedSortsMatchTheElementSortsAndTraceTheirComparer()
+    {
+        foreach (int n in new[] { 1, 2, 5, 9, 17, 32 })
+        {
+            Keyed[] keys = [.. Enumerable.Range(0, n).Select(i => new DerivedKeyed(i, (n - i) % 5))];
+            var plain = new DelphiList<Keyed>();
+            var narrowed = new DelphiList<Keyed>();
+            foreach (var key in keys)
+            {
+                plain.Add(key);
+                narrowed.Add(key);
+            }
+
+            plain.Sort((a, b) => a!.Key - b!.Key);
+            narrowed.Sort<DerivedKeyed>((a, b) => a!.Key - b!.Key);
+            Assert.Equal(plain.List, narrowed.List);
+            plain.SortStable((a, b) => b!.Key - a!.Key);
+            narrowed.SortStable<DerivedKeyed>((a, b) => b!.Key - a!.Key);
+            Assert.Equal(plain.List, narrowed.List);
+        }
+
+        Delegate? traced = null;
+        DelphiList<Keyed>.TraceSort = (_, compare) => traced = compare;
+        try
+        {
+            ListSortCompare<DerivedKeyed> compare = (a, b) => a!.Id - b!.Id;
+            var list = new DelphiList<Keyed>();
+            list.Add(new DerivedKeyed(id: 1, key: 0));
+            list.Sort(compare);
+            Assert.Same(compare, traced);
+        }
+        finally
+        {
+            DelphiList<Keyed>.TraceSort = null;
+        }
+    }
+
+    [Fact]
+    public void RemoveReturnsTheIndexAndLeavesTheSpareSlot()
     {
         var a = new object();
         var b = new object();
         var c = new object();
-        var plain = new DelphiList();
-        var typed = new DelphiList<object>();
-        plain.Add(a);
-        plain.Add(b);
-        plain.Add(c);
-        typed.Add(a);
-        typed.Add(b);
-        typed.Add(c);
-        int removed = plain.Remove(b);
-        Assert.Equal(1, removed);
-        Assert.Equal(removed, typed.Remove(b));
-        Assert.Same(c, plain.List[plain.Count]);
-        AssertSame(plain, typed);
-        plain.Add(null);
-        typed.Add(null);
-        Assert.Equal(plain.Remove(null), typed.Remove(null));
-        AssertSame(plain, typed);
-        Assert.Equal(-1, plain.Remove(b));
-        Assert.Equal(-1, typed.Remove(b));
-        Assert.Equal(plain.Remove(new object()), typed.Remove(new object()));
-        Assert.Equal(plain.Remove(a), typed.Remove(a));
-        Assert.Equal(plain.Remove(c), typed.Remove(c));
-        AssertSame(plain, typed);
+        var list = new DelphiList<object>();
+        list.Add(a);
+        list.Add(b);
+        list.Add(c);
+        Assert.Equal(1, list.Remove(b));
+        Assert.Same(c, list.List[list.Count]);
+        list.Add(null);
+        Assert.Equal(2, list.Remove(null));
+        Assert.Equal(-1, list.Remove(b));
+        Assert.Equal(-1, list.Remove(new object()));
+        Assert.Equal(0, list.Remove(a));
+        Assert.Equal(0, list.Remove(c));
+        Assert.Equal(0, list.Count);
 
-        plain.Add(a);
-        plain.Add(null);
-        plain.Add(b);
-        plain.Add(null);
-        typed.Add(a);
-        typed.Add(null);
-        typed.Add(b);
-        typed.Add(null);
-        plain.Pack();
-        typed.Pack();
-        AssertSame(plain, typed);
-        plain.Capacity = plain.Count;
-        typed.Capacity = typed.Count;
-        Assert.Same(plain, plain.Expand());
-        Assert.Same(typed, typed.Expand());
-        AssertSame(plain, typed);
-        plain.Expand();
-        typed.Expand();
-        AssertSame(plain, typed);
+        list.Add(a);
+        list.Add(null);
+        list.Add(b);
+        list.Add(null);
+        list.Pack();
+        Assert.Equal([a, b], list.List.Take(list.Count));
+        list.Capacity = list.Count;
+        Assert.Same(list, list.Expand());
+        Assert.Equal(6, list.Capacity);
+        list.Expand();
+        Assert.Equal(6, list.Capacity);
 
         var present = new Identical();
         var equal = new Identical();
-        var identities = new DelphiList();
-        var typedIdentities = new DelphiList<Identical>();
+        var identities = new DelphiList<Identical>();
         identities.Add(present);
-        typedIdentities.Add(present);
         Assert.Equal(-1, identities.IndexOf(equal));
-        Assert.Equal(-1, typedIdentities.IndexOf(equal));
         Assert.Equal(0, identities.IndexOf(present));
-        Assert.Equal(identities.Remove(present), typedIdentities.Remove(present));
-        AssertSame(identities, typedIdentities);
+        Assert.Equal(0, identities.Remove(present));
 
         var records = Ptr<int>.Alloc(2);
         var alias = new PtrBox<int>(records + 1);
         var sameAlias = new PtrBox<int>(records + 1);
         var other = new PtrBox<int>(records);
-        var boxes = new DelphiList();
-        var typedBoxes = new DelphiList<PtrBox<int>>();
+        var boxes = new DelphiList<PtrBox<int>>();
         boxes.Add(alias);
-        typedBoxes.Add(alias);
         Assert.Equal(0, boxes.IndexOf(sameAlias));
-        Assert.Equal(0, typedBoxes.IndexOf(sameAlias));
         Assert.Equal(-1, boxes.IndexOf(other));
-        Assert.Equal(-1, typedBoxes.IndexOf(other));
-        Assert.Equal(boxes.Remove(sameAlias), typedBoxes.Remove(sameAlias));
-        AssertSame(boxes, typedBoxes);
+        Assert.Equal(0, boxes.Remove(sameAlias));
+        Assert.Same(alias, boxes.List[0]);
 
-        var empty = new DelphiList();
-        var typedEmpty = new DelphiList<object>();
-        Assert.Equal(
-            Assert.Throws<ArgumentOutOfRangeException>(() => empty.Delete(0)).Message,
-            Assert.Throws<ArgumentOutOfRangeException>(() => typedEmpty.Delete(0)).Message);
+        var empty = new DelphiList<object>();
+        Assert.Equal("List index out of bounds (0)", Assert.Throws<ArgumentOutOfRangeException>(() => empty.Delete(0)).Message);
         empty.Add(a);
-        typedEmpty.Add(a);
         empty.Count = 3;
-        typedEmpty.Count = 3;
-        Assert.Null(typedEmpty[1]);
-        Assert.Null(typedEmpty[2]);
-        AssertSame(empty, typedEmpty);
+        Assert.Null(empty[1]);
+        Assert.Null(empty[2]);
         empty.Move(-1, -1);
-        typedEmpty.Move(-1, -1);
         empty.Exchange(0, 0);
-        typedEmpty.Exchange(0, 0);
         empty.Move(0, 2);
-        typedEmpty.Move(0, 2);
-        AssertSame(empty, typedEmpty);
+        Assert.Equal([null, null, a], empty.List.Take(3));
     }
 }

@@ -8,9 +8,9 @@
           "CombatUnitSelectionControl._cursorImage": 0,
           "CombatUnitSelectionControl.MouseOverTarget": null,
           "CombatUnitSelectionControl.Obstacles": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": []
+            "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList\u00601.count": 0,
+            "DelphiList\u00601.items": []
           },
           "CombatUnitSelectionControl._pathInvalid": {
             "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -443,9 +443,9 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "MoveControlSettings._refCount": 1,
             "MoveControlSettings._rowOffsets": [],

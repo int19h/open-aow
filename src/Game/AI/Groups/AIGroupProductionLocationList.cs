@@ -31,7 +31,7 @@ public partial class AIGroupProductionLocationList : EReferenceNode, IChildList<
     // AIGroup.pas:919
     public void SortOnMovePoints()
     {
-        SortChildren(CompareAIProductionLocationMovePoints);
+        SortChildren<AIGroupProductionLocation>(CompareAIProductionLocationMovePoints);
     }
 
     // AIGroup.pas:924
@@ -98,9 +98,9 @@ public partial class AIGroupProductionLocationList : EReferenceNode, IChildList<
         return result;
     }
 
-    private static int CompareAIProductionLocationMovePoints(object item1, object item2)
+    private static int CompareAIProductionLocationMovePoints(AIGroupProductionLocation item1, AIGroupProductionLocation item2)
     {
-        return ((AIGroupProductionLocation)item2).MovePoints - ((AIGroupProductionLocation)item1).MovePoints;
+        return item2.MovePoints - item1.MovePoints;
     }
 
     // Engine.pas:631

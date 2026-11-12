@@ -519,7 +519,7 @@ public partial class Menu : GenericWindow
         {
             for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 if (!Handled && C.CaptureInput)
                 {
                     C.CheckMouseDown(button, shift, X, Y);
@@ -617,7 +617,7 @@ public partial class Menu : GenericWindow
         {
             for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 if ((!Handled || C.Redraw == true) && C.CaptureInput)
                 {
                     C.CheckMouseUp(button, shift, X, Y);
@@ -659,7 +659,7 @@ public partial class Menu : GenericWindow
             I = Children.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C.CaptureInput)
                 {
                     C.CheckMouseMove(shift, X, Y);
@@ -751,7 +751,7 @@ public partial class Menu : GenericWindow
         Handled = false;
         for (int I = 0, last = Children.Count - 1; I <= last; I++)
         {
-            C = (UIComponent)Children[I];
+            C = Children[I];
             C.CheckKeyPress(ref key);
             if (C.Handled == true)
             {
@@ -772,7 +772,7 @@ public partial class Menu : GenericWindow
         Handled = false;
         for (int I = 0, last = Children.Count - 1; I <= last; I++)
         {
-            C = (UIComponent)Children[I];
+            C = Children[I];
             C.CheckKeyDown(ref key, shift);
             if (C.Handled == true)
             {

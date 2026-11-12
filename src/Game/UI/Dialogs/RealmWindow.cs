@@ -25,7 +25,7 @@ public partial class RealmWindow : DataModule
     public Panel CityListPanel;
     public Panel PartyPanel;
     public Panel PartyListPanel;
-    public ListBox CityNameList;
+    public ListBox<City> CityNameList;
     public ListBox CityRaceList;
     public ListBox CityIncomeList;
     public ListBox CityLevelList;
@@ -36,7 +36,7 @@ public partial class RealmWindow : DataModule
     public ListBox CityRelationList;
     public ListBox CityMoraleList;
     public VerticalScrollBar CityScrollBar;
-    public ListBox PlaceNameList;
+    public ListBox<PlayerStructure> PlaceNameList;
     public ListBox PlaceActionList;
     public VerticalScrollBar PlaceScrollBar;
     public Gauge UnitGauge;
@@ -50,8 +50,8 @@ public partial class RealmWindow : DataModule
     public ListBox Unit8List;
     private ListBox[] _partyLists;
     public VerticalScrollBar PartyScrollBar;
-    public ListBox HeroNameList;
-    public ListBox HeroHealthList;
+    public ListBox<Army> HeroNameList;
+    public ListBox<Hero> HeroHealthList;
     public ListBox HeroLevelList;
     public Panel HeroHeroInfoPanel;
     public VerticalScrollBar HeroScrollBar;
@@ -247,15 +247,15 @@ public partial class RealmWindow : DataModule
             for (int J = 0, lastJ = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(I).GetCount() - 1; J <= lastJ; J++)
             {
                 U = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(I).GetUnit(J);
-                if (U is Hero)
+                if (U is Hero hero)
                 {
                     var army = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Armies.GetArmy(I);
                     var name = U.GetName();
                     HeroNameList.Items.AddObject(name, army);
                     var hitPoints = U.GetHitPoints();
                     var hits = U.GetHits();
-                    HeroHealthList.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), U);
-                    var level = ((Hero)U).GetLevel();
+                    HeroHealthList.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), hero);
+                    var level = hero.GetLevel();
                     HeroLevelList.Items.Add(IntToStr(level));
                 }
             }
@@ -444,7 +444,7 @@ public partial class RealmWindow : DataModule
         HexSprite sprite;
         if (button == MouseButton.Right && sender.Selected != -1)
         {
-            sprite = (HexSprite)CityNameList.Items.Objects[sender.Selected];
+            sprite = CityNameList.Items.Objects[sender.Selected];
             var hexLevel = sprite.GetHexLevel();
             var hexY = sprite.GetHexY();
             var hexX = sprite.GetHexX();
@@ -478,7 +478,7 @@ public partial class RealmWindow : DataModule
         if (sender.Selected != -1)
         {
             var city = CityNameList.Items.Objects[sender.Selected];
-            DialogHosts.CityScreen.ShowCity((City)city);
+            DialogHosts.CityScreen.ShowCity(city);
         }
     }
 
@@ -495,7 +495,7 @@ public partial class RealmWindow : DataModule
             else
             {
                 var hexSprite = PlaceNameList.Items.Objects[sender.Selected];
-                AoWHSMap.Current.Select((HexSprite)hexSprite, true);
+                AoWHSMap.Current.Select(hexSprite, true);
             }
         }
     }
@@ -506,7 +506,7 @@ public partial class RealmWindow : DataModule
         HexSprite sprite;
         if (button == MouseButton.Right && sender.Selected != -1)
         {
-            sprite = (HexSprite)PlaceNameList.Items.Objects[sender.Selected];
+            sprite = PlaceNameList.Items.Objects[sender.Selected];
             var hexLevel = sprite.GetHexLevel();
             var hexY = sprite.GetHexY();
             var hexX = sprite.GetHexX();
@@ -524,7 +524,7 @@ public partial class RealmWindow : DataModule
         var listBox = sender;
         if (listBox.Selected != -1)
         {
-            var armyHexSprite = ((Army)HeroNameList.Items.Objects[listBox.Selected]).GetArmyHexSprite();
+            var armyHexSprite = HeroNameList.Items.Objects[listBox.Selected].GetArmyHexSprite();
             AoWHSMap.Current.Select(armyHexSprite, true);
         }
     }
@@ -537,7 +537,7 @@ public partial class RealmWindow : DataModule
         list = sender;
         if (list.Selected != -1)
         {
-            sprite = ((Army)HeroNameList.Items.Objects[list.Selected]).GetArmyHexSprite();
+            sprite = HeroNameList.Items.Objects[list.Selected].GetArmyHexSprite();
             var hexLevel = sprite.GetHexLevel();
             var hexY = sprite.GetHexY();
             var hexX = sprite.GetHexX();
@@ -559,7 +559,7 @@ public partial class RealmWindow : DataModule
         {
             // { evaluate the index before the receiver chain }
             var hero = HeroHealthList.Items.Objects[index << 0];
-            DialogHosts.General.SelectedUnit = (Hero)hero;
+            DialogHosts.General.SelectedUnit = hero;
             DialogHosts.UnitWindow.ShowUnit();
         }
     }
@@ -656,9 +656,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:630
     public void T2SNameClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
         lists.Add(CityIncomeList);
@@ -675,9 +675,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:649
     public void T2SRaceClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityRaceList);
         lists.Add(CityNameList);
         lists.Add(CityIncomeList);
@@ -694,9 +694,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:668
     public void T2SInClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityIncomeList);
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -713,9 +713,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:687
     public void T2SLvlClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityLevelList);
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -732,9 +732,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:706
     public void T2SWallClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityWallList);
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -751,9 +751,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:725
     public void T2SSizeClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CitySizeList);
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -770,9 +770,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:744
     public void T2SRelClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityRelationList);
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -789,9 +789,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:763
     public void T2SMorClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityMoraleList);
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -808,9 +808,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:782
     public void T2SActClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityActionList);
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -827,9 +827,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:801
     public void T2SEncClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(CityEnchantmentList);
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -846,9 +846,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:820
     public void T3SNameClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(PlaceNameList);
         lists.Add(PlaceActionList);
         DialogHosts.General.SortLists(ref lists, 0);
@@ -882,7 +882,7 @@ public partial class RealmWindow : DataModule
         index = HeroNameList.Selected;
         if (index > -1)
         {
-            hero = (Hero)HeroHealthList.Items.Objects[index << 0];
+            hero = HeroHealthList.Items.Objects[index << 0];
             R = new Rect(HeroHeroInfoPanel.WinLeft + 1, HeroHeroInfoPanel.WinTop + 1, HeroHeroInfoPanel.WinLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.WinTop + HeroHeroInfoPanel.WinHeight - 1);
             if (hero.GetFace() != null)
             {
@@ -905,9 +905,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:875
     public void T5SNameClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(HeroNameList);
         lists.Add(HeroHealthList);
         lists.Add(HeroLevelList);
@@ -917,9 +917,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:887
     public void T5SHealthClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(HeroHealthList);
         lists.Add(HeroNameList);
         lists.Add(HeroLevelList);
@@ -929,9 +929,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:899
     public void T5SLevelClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(HeroLevelList);
         lists.Add(HeroNameList);
         lists.Add(HeroHealthList);
@@ -997,9 +997,9 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:951
     public void T3ActivityClick(int button)
     {
-        DelphiList lists;
+        DelphiList<ListBox> lists;
         DialogHosts.General.PlayButtonSound(0);
-        lists = new DelphiList();
+        lists = new DelphiList<ListBox>();
         lists.Add(PlaceActionList);
         lists.Add(PlaceNameList);
         DialogHosts.General.SortLists(ref lists, 1);

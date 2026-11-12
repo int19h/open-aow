@@ -138,10 +138,10 @@ public partial class CampaignTransferSettings : EngineObject
         int index;
         int maxUnits;
         Span<int> levelCounts = stackalloc int[4];
-        DelphiList candidates;
+        DelphiList<Troop> candidates;
         Troop troop;
         Units.Clear();
-        candidates = new DelphiList();
+        candidates = new DelphiList<Troop>();
         maxUnits = 10;
         levelCounts[1 - 1] = 8;
         levelCounts[2 - 1] = 4;
@@ -174,7 +174,7 @@ public partial class CampaignTransferSettings : EngineObject
                 {
                     index = Random(candidates.Count);
                     var abstractUnit = candidates[index];
-                    Units.AddUnit((Troop)abstractUnit);
+                    Units.AddUnit(abstractUnit);
                     candidates.Delete(index);
                 }
             }

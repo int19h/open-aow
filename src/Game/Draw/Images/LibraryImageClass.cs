@@ -113,7 +113,7 @@ public sealed class LibraryImageClass
                     Rectangle rectangle = FindRectangle(x, number2);
                     if (rectangle != null)
                     {
-                        ((DelphiList)rectangleList).Add((object)rectangle);
+                        rectangleList.Add(rectangle);
                     }
                 }
             }
@@ -122,11 +122,11 @@ public sealed class LibraryImageClass
                 onProgress(null, RtlUnit.Round((double)(number2 * 100) / (double)(lockedSurface.Height - 1)), 0);
             }
         }
-        if (((DelphiList)rectangleList).Count == 0)
+        if (rectangleList.Count == 0)
         {
             if (rectangleList != null)
             {
-                ((DelphiList)rectangleList).Dispose();
+                rectangleList.Dispose();
             }
             return null;
         }

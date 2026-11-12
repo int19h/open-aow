@@ -297,7 +297,7 @@ public sealed class ObjectCastCrashTests
             window.SendBribePanel = new Panel(null!);
             window.ReceivedMessagePanel = new Panel(null!);
             window.IncomingInfoPanel = new Panel(null!);
-            window.ActionsList = new ListBox(null!);
+            window.ActionsList = new ListBox<DiplomaticAction>(null!);
             window.SendMessageMemo = new Memo(null!);
             window.IncomingMemo = new Memo(null!);
             window.SelectActionButton = new Button(null!);

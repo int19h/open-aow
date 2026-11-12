@@ -79,7 +79,7 @@ public partial class WindowManager : UIComponent
 
                 for (int I = 0, last = Children.Count - 1; I <= last; I++)
                 {
-                    C = (UIComponent)Children[I];
+                    C = Children[I];
                     if (C.Visible && C.Priority >= _overlayPriority)
                     {
                         C.Update();
@@ -109,11 +109,11 @@ public partial class WindowManager : UIComponent
         Rect R = default;
         if (Valid && Visible)
         {
-            if (sender == null || sender != null && sender is WindowControl && ((UIComponent)Children[index]).Priority >= _overlayPriority)
+            if (sender == null || sender != null && sender is WindowControl && Children[index].Priority >= _overlayPriority)
             {
                 for (int I = index, last = Children.Count - 1; I <= last; I++)
                 {
-                    C = (UIComponent)Children[I];
+                    C = Children[I];
                     if (C.Valid && C.Visible && WinLeft + C.WinLeft <= rectangle.Right && WinLeft + C.WinLeft + C.WinWidth >= rectangle.Left && WinTop + C.WinTop <= rectangle.Bottom && WinTop + C.WinTop + C.WinHeight >= rectangle.Top && rectangle.Left <= rectangle.Right && rectangle.Top <= rectangle.Bottom)
                     {
                         if (C._doubleBuffered)
@@ -415,7 +415,7 @@ public partial class WindowManager : UIComponent
         {
             for (int I = 0, last = Children.Count - 1; I <= last; I++)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 if (C.Priority >= _newOverlayPriority && C.Priority < _overlayPriority && C.Visible)
                 {
                     C.Drawn = false;
@@ -437,7 +437,7 @@ public partial class WindowManager : UIComponent
         Handled = false;
         for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (UIComponent)Children[I];
+            C = Children[I];
             if (C.Priority >= _overlayPriority)
             {
                 redraw = C.Redraw;
@@ -467,7 +467,7 @@ public partial class WindowManager : UIComponent
         Handled = false;
         for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (UIComponent)Children[I];
+            C = Children[I];
             if (C.Priority >= _overlayPriority)
             {
                 if (!Handled || C.Redraw == true)
@@ -598,7 +598,7 @@ public partial class WindowManager : UIComponent
         Handled = false;
         for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (UIComponent)Children[I];
+            C = Children[I];
             if (C.Priority >= _overlayPriority)
             {
                 C.CheckKeyPress(ref key);
@@ -622,7 +622,7 @@ public partial class WindowManager : UIComponent
         Handled = false;
         for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (UIComponent)Children[I];
+            C = Children[I];
             if (!Handled && C.Priority >= _overlayPriority && C.Visible)
             {
                 C.CheckKeyDown(ref key, shift);

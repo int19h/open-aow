@@ -953,7 +953,7 @@
         "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.GameSet.CombatHexes._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.CombatResources": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -965,7 +965,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.GameSet.CombatRoads._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.FaceResources": {
         "Type": "Aow.Game.Units.FaceResourceList"
@@ -1073,7 +1073,7 @@
         "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.GameSet._hexControl._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet._mapObjectResourceList": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -1100,7 +1100,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.GameSet._roadControl._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet._sfxManager": {
         "Type": "Aow.Game.Audio.SfxManager"
@@ -76818,7 +76818,7 @@
         "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.GameSet.CombatHexes._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.CombatResources": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -76830,7 +76830,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.GameSet.CombatRoads._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.FaceResources": {
         "Type": "Aow.Game.Units.FaceResourceList"
@@ -76938,7 +76938,7 @@
         "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine.GameSet._hexControl._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet._mapObjectResourceList": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -76965,7 +76965,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine.GameSet._roadControl._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet._sfxManager": {
         "Type": "Aow.Game.Audio.SfxManager"
@@ -77630,7 +77630,7 @@
         "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine._children[1].CombatHexes._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._children[1].CombatResources": {
         "Type": "Aow.Game.World.MapObjectResourceList"
@@ -77642,7 +77642,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine._children[1].CombatRoads._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._children[1]._decorationTypes": {
         "Type": "Aow.Rtl.StringList"
@@ -77651,7 +77651,7 @@
         "Type": "Aow.Game.World.Map.HexControl"
       },
       "Engine._children[1]._hexControl._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._children[1]._imageLibraryManager": {
         "Type": "Aow.Game.Draw.Images.ImageLibraryManager"
@@ -77693,7 +77693,7 @@
         "Type": "Aow.Game.World.Map.RoadControl"
       },
       "Engine._children[1]._roadControl._resources": {
-        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+        "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine._children[1]._sfxManager": {
         "Type": "Aow.Game.Audio.SfxManager"

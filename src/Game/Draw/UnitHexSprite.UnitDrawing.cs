@@ -37,7 +37,7 @@ public partial class UnitHexSprite
 
             if ((Status & 8) == 0)
             {
-                sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction + 5];
+                sequence = UnitGraphicsResource.Sequences.List[Direction + 5];
                 if (sequence != null && GetSelected())
                 {
                     index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
@@ -50,12 +50,12 @@ public partial class UnitHexSprite
             }
             else
             {
-                sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction - 1];
+                sequence = UnitGraphicsResource.Sequences.List[Direction - 1];
             }
         }
         else
         {
-            sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction - 1];
+            sequence = UnitGraphicsResource.Sequences.List[Direction - 1];
         }
 
         if (!GetSelected() || (AoWHSMap.Current.Frame & 6) != 6)

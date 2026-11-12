@@ -27,7 +27,7 @@ public partial class BreathAbility : RangedAttackAbility
     public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
         Combat.Battle combat;
-        DelphiList targets;
+        DelphiList<CombatObject> targets;
         CombatObject target;
         CombatObject other;
         int count;
@@ -36,7 +36,7 @@ public partial class BreathAbility : RangedAttackAbility
         if (result)
         {
             combat = source.Combat;
-            targets = new DelphiList();
+            targets = new DelphiList<CombatObject>();
             target = command.Target;
             for (int I = combat.Sides[(int)target.GetSide()].GetCount() - 1; I >= 0; I--)
             {
@@ -58,7 +58,7 @@ public partial class BreathAbility : RangedAttackAbility
             count = AoWHSMap.Current.Random(2) + 1;
             while (count != 0 && targets.Count != 0)
             {
-                other = (CombatObject)targets[AoWHSMap.Current.Random(targets.Count)];
+                other = targets[AoWHSMap.Current.Random(targets.Count)];
                 action = CreateRangedAttackCombatAction(source, other, 2);
                 source.Combat.ExecuteCombatAction(action);
                 action.Release();

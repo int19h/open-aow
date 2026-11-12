@@ -178,7 +178,7 @@ public partial class FileDialogWindow : ILayoutModule
         TitleLabel.Text = "Open";
         TitleLabel.TextColor = 0;
         session.EndRead(TitleLabel);
-        FileList = new ListBox(this);
+        FileList = new ListBox<FileTime>(this);
         session.BeginRead(FileList);
         FileList.Name = "FileLB";
         FileList.Priority = 0;
@@ -1118,7 +1118,7 @@ public partial class FileDialogWindow : ILayoutModule
         NewPanel.MinWidth = 0;
         NewPanel.MinHeight = 0;
         session.EndRead(NewPanel);
-        SaveList = new ListBox(this);
+        SaveList = new ListBox<FileTime>(this);
         session.BeginRead(SaveList);
         SaveList.Name = "SaveLB";
         SaveList.Priority = 30;
@@ -1238,7 +1238,7 @@ public partial class FileDialogWindow : ILayoutModule
         SavePanel.MinWidth = 0;
         SavePanel.MinHeight = 0;
         session.EndRead(SavePanel);
-        DateList = new ListBox(this);
+        DateList = new ListBox<FileTime>(this);
         session.BeginRead(DateList);
         DateList.Name = "DateLB";
         DateList.Priority = 20;

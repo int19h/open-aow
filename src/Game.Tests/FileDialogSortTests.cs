@@ -127,7 +127,7 @@ public sealed class FileDialogSortTests
             Runtime.Settings = new JsonSettingsStore(settingsDirectory);
             GameTables.GameEngine.Registry = new GameSettings();
             FileDialogWindow.Directories = new StringList();
-            FileDialogWindow.Files = new StringList();
+            FileDialogWindow.Files = new StringList<FileTime>();
             FileDialogWindow.Drives = new StringList();
             dialog = Dialog();
             body(dialog, settingsDirectory);
@@ -185,9 +185,9 @@ public sealed class FileDialogSortTests
     {
         var dialog = new FileDialogWindow(null);
         dialog.Mode = 0;
-        dialog.FileList = new ListBox(null);
-        dialog.SaveList = new ListBox(null);
-        dialog.DateList = new ListBox(null);
+        dialog.FileList = new ListBox<FileTime>(null);
+        dialog.SaveList = new ListBox<FileTime>(null);
+        dialog.DateList = new ListBox<FileTime>(null);
         dialog.PathEdit = new Edit(null);
         dialog.SaveFileNameEdit = new Edit(null);
         dialog.FileNameEdit = new Edit(null);

@@ -568,7 +568,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         message.Param[0] = query;
         for (int I = settings.ProcessedMapFields.Count - 1; I >= 0; I--)
         {
-            var mapField = (AoWMapField)settings.ProcessedMapFields[I];
+            var mapField = settings.ProcessedMapFields[I];
             if ((mapField.FieldFlags & 67108864) != 0)
             {
                 mapField.SendMapFieldMessage(ref message);
@@ -648,7 +648,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             units = new UnitUserList(null);
             passive = new UnitUserList(null);
             units.AddUnits(Group);
-            units.SortChildren(CompareFortifyUnits);
+            units.SortChildren<Troop>(CompareFortifyUnits);
             I = units.Count;
             while (I != 0 && excess > 0)
             {
@@ -693,10 +693,10 @@ public partial class FortifyAIGroupControl : AIGroupControl
         return result;
     }
 
-    private static int CompareFortifyUnits(object item1, object item2)
+    private static int CompareFortifyUnits(Troop item1, Troop item2)
     {
-        int number = ((Troop)item1).GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
-        int number2 = ((Troop)item2).GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
+        int number = item1.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
+        int number2 = item2.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
         if (item1 is Leader)
         {
             number = number2 + 16777215;

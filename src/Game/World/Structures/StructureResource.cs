@@ -95,7 +95,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
             offset = structure.Owner.HexX + structure.Owner.HexY * 16;
             if (ImageSequenceList != null)
             {
-                sequence = (ImageSequence)ImageSequenceList.List[index];
+                sequence = ImageSequenceList.List[index];
                 while (sequence != null)
                 {
                     frameIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, offset);

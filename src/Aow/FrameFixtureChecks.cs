@@ -65,7 +65,7 @@ internal static class FrameFixtureChecks
             menu.SetVisibleWithoutUpdate(true);
             var hidden = new Window(null) { _modal = true };
             hidden.SetVisibleWithoutUpdate(false);
-            var manager = new WindowManager(null) { Children = new DelphiList() };
+            var manager = new WindowManager(null) { Children = new DelphiList<UIComponent>() };
             manager.Children.Add(mapWindow);
             manager.Children.Add(menu);
             manager.Children.Add(hidden);

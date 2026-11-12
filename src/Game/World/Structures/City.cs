@@ -2463,7 +2463,7 @@ public partial class City : PlayerCropStructure
             }
 
             s_sortingCity = this;
-            Production.UnitProductions.SortChildren(CompareCityProductions);
+            Production.UnitProductions.SortChildren<UnitProduction>(CompareCityProductions);
         }
     }
 
@@ -2934,9 +2934,9 @@ public partial class City : PlayerCropStructure
         return level;
     }
 
-    private static int CompareCityProductions(object item1, object item2)
+    private static int CompareCityProductions(UnitProduction item1, UnitProduction item2)
     {
-        UnitProduction unitProduction = (UnitProduction)item1;
+        UnitProduction unitProduction = item1;
         int number;
         if (AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) != null)
         {
@@ -2950,7 +2950,7 @@ public partial class City : PlayerCropStructure
         {
             number = 0;
         }
-        UnitProduction unitProduction2 = (UnitProduction)item2;
+        UnitProduction unitProduction2 = item2;
         int number2;
         if (AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction2.UnitIndex) != null)
         {
@@ -2967,7 +2967,7 @@ public partial class City : PlayerCropStructure
         int number3 = number - number2;
         if (number3 == 0)
         {
-            number3 = ((UnitProduction)item1).UnitIndex - ((UnitProduction)item2).UnitIndex;
+            number3 = item1.UnitIndex - item2.UnitIndex;
         }
         return number3;
     }

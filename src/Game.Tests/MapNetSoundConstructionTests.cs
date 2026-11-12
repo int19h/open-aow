@@ -290,7 +290,7 @@ public sealed class MapNetSoundConstructionTests
                 case StringList strings: Assert.Equal(0, strings.Count); break;
                 case SampleList samples: Assert.Equal(0, samples.Count); break;
                 case SampleDataList data: Assert.Equal(0, data.Count); break;
-                case DelphiList list: Assert.Equal(0, list.Count); break;
+                case SoundSystemList list: Assert.Equal(0, list.Count); break;
             }
         }
         finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }

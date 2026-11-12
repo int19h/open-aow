@@ -797,7 +797,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
     // CombatTE.pas:1373
     public void NextStrike()
     {
-        DelphiList used;
+        DelphiList<CombatObject> used;
         TacticalBattleUnit target;
         BattleEffectSprite effect;
         BattleEffectSprite extraEffect;
@@ -818,7 +818,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         Point3D point;
         HexSprite hitObject;
         Point3DList Path;
-        DelphiList obstacles;
+        DelphiList<RangedObstacle> obstacles;
         RangedObstacle obstacle;
         bool found;
         TacticalBattleUnit FindTarget(int X, int Y)
@@ -863,9 +863,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             int index;
             int total;
             int distance;
-            DelphiList weights;
-            used = new DelphiList();
-            weights = new DelphiList();
+            List<int> weights;
+            used = new DelphiList<CombatObject>();
+            weights = new List<int>();
             total = 0;
             I = 0;
             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
@@ -881,7 +881,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         total = total + (13 - distance);
                         var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(I);
                         used.Add(combatObject);
-                        weights.Add(IntToObject(13 - distance));
+                        weights.Add(13 - distance);
                     }
                 }
             }
@@ -889,25 +889,24 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             if (target != null)
             {
                 used.Add(target);
-                weights.Add(IntToObject(total));
+                weights.Add(total);
                 total = total + total;
             }
 
             if (used.Count > 0)
             {
-                I = AoWHSMap.Current.Random(total) - ObjectToInt((object)weights[0]);
+                I = AoWHSMap.Current.Random(total) - weights[0];
                 index = 0;
                 while (index < used.Count - 1 && I > 0)
                 {
                     index = index + 1;
-                    I = I - ObjectToInt((object)weights[index]);
+                    I = I - weights[index];
                 }
 
                 target = (TacticalBattleUnit)used[index];
             }
 
             used?.Dispose();
-            weights?.Dispose();
         }
 
         if (_strikeIndex >= _strikeCount)
@@ -916,7 +915,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         }
 
         effect = CombatMap.Current.AddEffect(BattleEffectType.None);
-        obstacles = new DelphiList();
+        obstacles = new DelphiList<RangedObstacle>();
         switch (_effectType)
         {
             case BattleEffectType.Breath:
@@ -1220,7 +1219,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 var count20 = effect.Path.Count;
                 effect.Path[count20 - 1].Z = 16;
                 I = 3;
-                used = new DelphiList();
+                used = new DelphiList<CombatObject>();
                 used.Add(_unit);
                 hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
                 if (hexSprite != null)
@@ -1429,7 +1428,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 I = 0;
                 while (I < obstacles.Count)
                 {
-                    obstacle = (RangedObstacle)obstacles[I];
+                    obstacle = obstacles[I];
                     if (AoWHSMap.Current.Random(100) < obstacle.Chance)
                     {
                         var path = effect.Path[obstacle.PathIndex];

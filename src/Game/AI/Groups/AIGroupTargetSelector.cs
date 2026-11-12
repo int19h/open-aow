@@ -198,7 +198,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             }
         }
 
-        GroupControl.Targets.SortChildren(CompareTargetSetupPriority);
+        GroupControl.Targets.SortChildren<AIGroupControlTarget>(CompareTargetSetupPriority);
         for (int I = GroupControl.Targets.Count - 1, last = _targetLimit + 1; I >= last; I--)
         {
             GroupControl.Targets.Delete(I);
@@ -317,7 +317,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     }
                     else
                     {
-                        GroupControl.Targets.SortChildren(CompareTargetSetupPriority);
+                        GroupControl.Targets.SortChildren<AIGroupControlTarget>(CompareTargetSetupPriority);
                         State = 10;
                     }
 
@@ -1285,9 +1285,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
         return number;
     }
 
-    private static int CompareTargetSetupPriority(object item1, object item2)
+    private static int CompareTargetSetupPriority(AIGroupControlTarget item1, AIGroupControlTarget item2)
     {
-        return ((AIGroupControlTarget)item2).DataA - ((AIGroupControlTarget)item1).DataA;
+        return item2.DataA - item1.DataA;
     }
 
     // target factor, immediate bonus, transport penalty, overlap penalties, existing-target

@@ -197,14 +197,14 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                 for (int I = 0, last = Selection.Obstacles.Count - 1; I <= last; I++)
                 {
                     var obstacle = Selection.Obstacles[I];
-                    var rangedPath = Selection.RangedPath[((RangedObstacle)obstacle).PathIndex];
+                    var rangedPath = Selection.RangedPath[obstacle.PathIndex];
                     var obstacle2 = Selection.Obstacles[I];
-                    HexGeometry.PixelToHex(Selection.RangedPath[((RangedObstacle)obstacle2).PathIndex].X, rangedPath.Y, ref hexX, ref hexY);
+                    HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, rangedPath.Y, ref hexX, ref hexY);
                     HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
                     _miscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
                     GameTables.GameEngine.CombatFont.Color = 0;
                     var obstacle3 = Selection.Obstacles[I];
-                    GameTables.GameEngine.CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, IntToStr(((RangedObstacle)obstacle3).Chance), lockedSurface);
+                    GameTables.GameEngine.CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, IntToStr(obstacle3.Chance), lockedSurface);
                 }
             }
         }

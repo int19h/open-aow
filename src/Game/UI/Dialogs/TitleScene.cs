@@ -724,7 +724,7 @@ public partial class TitleScene : DataModule
             {
                 if (DialogHosts.General.Manager.Children[I] != DialogHosts.TaskBar.TaskWindow)
                 {
-                    ((UIComponent)DialogHosts.General.Manager.Children[I]).Visible = false;
+                    DialogHosts.General.Manager.Children[I].Visible = false;
                 }
             }
         }

@@ -2,7 +2,7 @@ namespace Aow.Rtl;
 
 public delegate int ListSortCompare<T>(T? left, T? right);
 
-// Typed TList. Storage and algorithms are DelphiListCore, shared with DelphiList.
+// CLASSES.PAS TList with a typed element. The algorithms are DelphiListCore.
 public class DelphiList<T> : IDisposable where T : class
 {
     private T?[] items = [];
@@ -90,8 +90,8 @@ public class DelphiList<T> : IDisposable where T : class
     }
 
     // CLASSES.PAS TList.Sort. Equal keys retain the Delphi swap order. The trace sees each sort
-    // of a list of this element type before it runs.
-    public static Action<DelphiList<T>, ListSortCompare<T>>? TraceSort { get; set; }
+    // of a list of this element type, and its comparer, before it runs.
+    public static Action<DelphiList<T>, Delegate>? TraceSort { get; set; }
 
     public void Sort(ListSortCompare<T> compare)
     {
@@ -99,11 +99,27 @@ public class DelphiList<T> : IDisposable where T : class
         DelphiListCore.Sort(items, count, compare);
     }
 
+    // The same sort with a comparer of a type derived from T, for a list whose owner admits only
+    // TItem. Each slot is a TItem or empty.
+    public void Sort<TItem>(ListSortCompare<TItem> compare)
+        where TItem : class, T
+    {
+        TraceSort?.Invoke(this, compare);
+        DelphiListCore.SortAs<T, TItem>(items, count, compare);
+    }
+
     // Keeps the order of equal items. The address tie-breaks call this, and every other sort keeps the quicksort.
     public void SortStable(ListSortCompare<T> compare)
     {
         TraceSort?.Invoke(this, compare);
         DelphiListCore.SortStable(items, count, compare);
+    }
+
+    public void SortStable<TItem>(ListSortCompare<TItem> compare)
+        where TItem : class, T
+    {
+        TraceSort?.Invoke(this, compare);
+        DelphiListCore.SortStableAs<T, TItem>(items, count, compare);
     }
 
     // CLASSES.PAS TList.Destroy.

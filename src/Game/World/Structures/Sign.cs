@@ -137,7 +137,7 @@ public partial class Sign : Structure
                 animate = AoWHSMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(AoWHSMap.Current.SeatedPlayer);
                 if (index < ImageSequenceList.Count)
                 {
-                    sequence = (ImageSequence)ImageSequenceList.List[index];
+                    sequence = ImageSequenceList.List[index];
                 }
                 else
                 {

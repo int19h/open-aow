@@ -23,7 +23,7 @@ public class GDPlay : Component
     public string TCPPort { get; set; } = "";
     // The service providers found by GetConnections: their names and their TGDConnection items.
     public StringList Connections { get; } = new();
-    public DelphiList ConnectionItems { get; } = new();
+    public DelphiList<GDConnection> ConnectionItems { get; } = new();
 
     public void CheckMessages() { }
 

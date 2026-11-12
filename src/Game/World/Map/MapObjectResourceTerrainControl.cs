@@ -15,7 +15,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
 {
     private GameEngine _hexSpriteEngine;
     private int _tries;
-    private List<DelphiList> _resources;
+    private List<DelphiList<MapObjectResource>> _resources;
     private Type _mapObjectClass;
 
     // HSEngine.pas:4522
@@ -24,7 +24,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         Clear();
         for (int I = 0, last = _hexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; I <= last; I++)
         {
-            var list = new DelphiList();
+            var list = new DelphiList<MapObjectResource>();
             _resources.Add(list);
         }
     }
@@ -44,7 +44,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     // HSEngine.pas:4489
     public MapObjectResourceTerrainControl(ECustomNode owner) : base(owner)
     {
-        _resources = new List<DelphiList>();
+        _resources = new List<DelphiList<MapObjectResource>>();
         _mapObjectClass = typeof(MapObject);
         _tries = 5;
     }
@@ -78,7 +78,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     {
         MapObject result;
         int I;
-        DelphiList list;
+        DelphiList<MapObjectResource> list;
         int count;
         MapObjectResource R;
         I = terrainType;
@@ -87,7 +87,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         if (count != 0)
         {
             var random = Random(count);
-            R = (MapObjectResource)list.List[random];
+            R = list.List[random];
             result = (MapObject)R.CreateResourceUser();
         }
         else
@@ -101,7 +101,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     // HSEngine.pas:4604
     public virtual MapObject Place(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType)
     {
-        DelphiList list;
+        DelphiList<MapObjectResource> list;
         MapObjectResource R;
         MapField mapField;
         MapObject mapObject;
@@ -126,7 +126,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
             if (R == null)
             {
                 var random = Random(list.Count);
-                R = (MapObjectResource)list.List[random];
+                R = list.List[random];
                 if (R != null)
                 {
                     result = R.PlaceResourceUser(container.Map, X, Y, L);
@@ -177,7 +177,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     public MapObjectResource GetRandomResource(int terrainType, int classId)
     {
         MapObjectResource result;
-        DelphiList list;
+        DelphiList<MapObjectResource> list;
         int I;
         list = _resources[terrainType];
         if (list.Count != 0)
@@ -187,7 +187,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
             while (I != _tries && result == null)
             {
                 var random = Random(list.Count);
-                result = (MapObjectResource)list.List[random];
+                result = list.List[random];
                 if (result.EngineClass.ClassId != classId)
                 {
                     result = null;
@@ -201,7 +201,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
                 I = 0;
                 while (I != list.Count && result == null)
                 {
-                    result = (MapObjectResource)list.List[I];
+                    result = list.List[I];
                     if (result.EngineClass.ClassId != classId)
                     {
                         result = null;
@@ -237,7 +237,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
 
     public GameEngine HexSpriteEngine { get => _hexSpriteEngine; }
     public int Tries { get => _tries; set => _tries = value; }
-    public List<DelphiList> Resources { get => _resources; }
+    public List<DelphiList<MapObjectResource>> Resources { get => _resources; }
     public Type MapObjectClass { get => _mapObjectClass; set => _mapObjectClass = value; }
 
 }
