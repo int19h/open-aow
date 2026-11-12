@@ -20,15 +20,9 @@ public partial class RealmWindow : DataModule
     { }
 
     public Window Dlg;
-    public Label OWTitle;
-    public Image OWTitleIc;
     public TabPanel HeaderTab;
-    public Panel T1Pnl;
     public Panel T2Pnl;
     public Panel T2LBPnl;
-    public Panel T3Pnl;
-    public Panel T3LBPnl;
-    public Button Minimize;
     public Panel T4Pnl;
     public Panel T4LBPnl;
     public ListBox T2NameLB;
@@ -38,26 +32,13 @@ public partial class RealmWindow : DataModule
     public ListBox T2WallLB;
     public ListBox T2SizeLB;
     public ListBox T2EncLB;
-    public Button T2SName;
-    public Button T2SRace;
-    public Button T2SIn;
-    public Button T2SWall;
-    public Button T2SLvl;
-    public Button T2SSize;
-    public Button T2SEnc;
     public ListBox T2ActLB;
-    public Button T2SAct;
     public ListBox T2RelLB;
-    public Button T2SRel;
     public ListBox T2MorLB;
-    public Button T2SMor;
     public VerticalScrollBar CitySB;
     public ListBox T3Name;
-    public Button T3SName;
     public ListBox T3ActLB;
-    public Button T3Activity;
     public VerticalScrollBar PlaceSB;
-    public Frame UnitFr;
     public Gauge UnitGg;
     public ListBox Unit1LB;
     public ListBox Unit2LB;
@@ -69,43 +50,20 @@ public partial class RealmWindow : DataModule
     public ListBox Unit8LB;
     private ListBox[] _partyLists;
     public VerticalScrollBar PartySb;
-    public Panel HeroPnl;
-    public Panel T5MainPnl;
     public ListBox T5Name;
     public ListBox T5Health;
     public ListBox T5Level;
-    public Button T5SName;
-    public Button T5SHealth;
-    public Button T5SLevel;
     public Panel T5HeroInf;
-    public Panel T5LBFr;
-    public Button HInfoBtn;
     public VerticalScrollBar HeroSB;
-    public Panel TotalPnl;
-    public Panel IncomePnl;
     public Memo IncomeMem;
-    public Panel IncomeBtm;
     public VerticalScrollBar IncomeSB;
-    public Label IncomeLbl;
     public Label Income;
-    public Panel UpkeepPnl;
-    public Memo UpkeepMem;
-    public Panel UpkeepBtm;
     public VerticalScrollBar UpkeepSB;
-    public Label UpkeepLbl;
     public Label Upkeep;
-    public Label Totallbl;
     public Label NetInc;
-    public Panel TotalBtm;
-    public Label TreasuryLbl;
     public Label Treasury;
-    public Panel TreasuryPnl;
     public Memo IncomeValue;
     public Memo UpkeepValue;
-    public Image GoldAnim;
-    public Panel PicPnl;
-    public Button Help;
-    public IvTranslator Translator;
 
     // AoWRealm.pas:238
     public void UpdateIncome()

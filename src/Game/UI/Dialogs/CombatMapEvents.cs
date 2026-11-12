@@ -21,7 +21,6 @@ public partial class CombatMapEvents : DataModule
     public CombatMapEvents(Component owner) : base(owner)
     { }
 
-    public CombatMapControl TCMap;
     private int _chatHeight;
 
     // aowTCMapEvents.pas:105

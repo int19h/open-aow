@@ -13,24 +13,9 @@ public partial class EmailSettingsDialog : DataModule
     { }
 
     public Window Dlg;
-    public Label TitleLbl;
-    public Frame BCeltL;
-    public Frame TCeltL;
-    public Image TCeltLineL;
-    public Image Image1;
-    public Image Image2;
-    public Panel OKCancelPnl;
-    public Button OKBtn;
-    public Button CancelBtn;
-    public Label LocalEmailAddressLbl;
     public Edit LocalEmailAddressEdit;
-    public Label SMTPServerLbl;
     public Edit SMTPServerEdit;
-    public Label AttachmentDirectoryLbl;
     public Edit AttachmentDirectoryEdit;
-    public Button Close;
-    public Image TitleIcon;
-    public IvTranslator Translator;
 
     // AoWEmailSettingsDlg.pas:49
     public void OKBtnClick()

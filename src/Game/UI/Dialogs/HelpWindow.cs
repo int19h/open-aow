@@ -15,19 +15,9 @@ public partial class HelpWindow : DataModule
     { }
 
     public Window HelpWin;
-    public Label Title;
-    public Button CloseBtn;
-    public Image TitleIcon;
-    public Image BBarEnd;
-    public Image BBarBegin;
-    public Button BCloseBut;
-    public Image CeltLineR;
-    public Image BBar;
-    public Image CeltLineL;
     public VerticalScrollBar HelpSB;
     public Memo HeaderMemo;
     public Memo HelpMemo;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _done;
     private HelpMessageEventLog _helpEvent;
 

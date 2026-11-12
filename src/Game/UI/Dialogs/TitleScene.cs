@@ -34,7 +34,6 @@ public partial class TitleScene : DataModule
     public Memo LegalNotice;
     public Label StrLbl;
     public Label NameLbl;
-    public Label Copyright;
     public Label Version;
     private int _frame;
     private int _totalFrame;

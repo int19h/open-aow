@@ -12,7 +12,6 @@ public partial class IntroScene : DataModule
     { }
 
     public UserWindow Window;
-    public VideoPlayer VideoPlayer;
 
     public IDirectSoundBuffer SoundBuffer { get; }
     public int BufferSize { get; }

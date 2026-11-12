@@ -12,7 +12,6 @@ public partial class InfoBanner : DataModule
     public Label HeaderLbl;
     public Memo InfoMemo;
     public Menu BannerPopup;
-    public VerticalScrollBar InfoMemoSB;
 
     // AoWInfoBanner.pas:35
     public void ShowInfo(string header, StringCollection description)

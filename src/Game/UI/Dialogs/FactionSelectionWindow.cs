@@ -31,7 +31,6 @@ public partial class FactionSelectionWindow : DataModule
     public Memo DText;
     public Label DName;
     public Image DSphere;
-    public IvTranslator Translator;
 
     public int Fade { get; set; }
     public int FadeImage { get; private set; }

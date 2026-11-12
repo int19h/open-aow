@@ -18,29 +18,13 @@ public partial class DisjunctionDialog : DataModule
     public DisjunctionDialog(Component owner) : base(owner)
     { }
 
-    public Image TitleIcon;
-    public Label Title;
-    public Frame BCeltL;
-    public Button CancelBtn;
-    public Button CastBtn;
     public Window Dlg;
     public Label DisjunctionChance;
-    public Label DisjunctionChanceLbl;
-    public Panel DisjunctionChancePnl;
     public Label DisjunctionMana;
-    public Label DisjunctionManaLbl;
-    public Panel DisjunctionManaPnl;
-    public Panel T4LBPnl;
     public ListBox OwnerList;
     public ListBox EnchantmentList;
-    public Button Sort;
-    public Button SortEnchantment;
     public VerticalScrollBar EnchantmentsScrollBar;
-    public Label Spell;
     public HorizontalScrollBar ChanceSlider;
-    public Button Close;
-    public IvTranslator Translator;
-    public Panel MapViewPnl;
     public UserDrawBox MapView;
     private DisjunctionSpellCaster _caster;
     private int _sortOrder;

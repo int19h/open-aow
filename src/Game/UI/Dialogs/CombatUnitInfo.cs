@@ -18,16 +18,7 @@ public partial class CombatUnitInfo : DataModule
     { }
 
     public Window TCUnitWin;
-    public Image SIcon;
-    public Button Min;
-    public Button Close;
-    public Label IWTitle;
-    public Image UAttackIcon;
-    public Image UDefenseIcon;
     public Image UMovesIcon;
-    public Image UDamageIcon;
-    public Image UResistanceIcon;
-    public Image UHitsIcon;
     public Label UAttack;
     public Label UDefense;
     public Label UMoves;
@@ -35,56 +26,27 @@ public partial class CombatUnitInfo : DataModule
     public Label UResistance;
     public Label UHits;
     public Memo UnitName;
-    public Panel UStatPnl;
     public ListBox UAbilLB;
     public Label AbilNameLbl;
     public Panel TCUnitPnl;
-    public Image Image1;
-    public Memo AUnitName;
     public ListBox USelAbilLb;
     public Panel TCAbilPnl;
-    public Image AbilAtt;
     public Label AbilAttLbl;
-    public Panel AbilStatBox;
     public ListBox AbilStat;
-    public Image AbilDam;
     public Label AbilDamLbl;
-    public Label TargetLbl;
     public Label TargetULbl;
     public Panel TargetSelPnl;
     public Panel NoTargetPnl;
-    public Memo TargetMessage;
     public Gauge UnitHits;
     public Gauge UnitMana;
-    public Image CelticCross;
-    public Panel UStatP1;
-    public Panel UStatP2;
-    public Image AAttackIcon;
-    public Image ADefenseIcon;
     public Image AMovesIcon;
-    public Image ADamageIcon;
-    public Image AResistanceIcon;
-    public Image AHitsIcons;
     public Label AAttack;
     public Label ADefense;
     public Label AMoves;
     public Label ADamage;
     public Label AResistance;
     public Label AHits;
-    public Panel AStatPnl;
-    public Panel AStatP1;
-    public Panel AStatP2;
-    public Button Center;
-    public VerticalScrollBar AbilSB;
-    public VerticalScrollBar UAbilSB;
-    public VerticalScrollBar VScrollBar1;
-    public Panel AbilFr;
-    public Panel ANameFr;
-    public Panel TargerFr;
-    public Panel TNamePnl;
     public Panel UnitFr;
-    public UserDrawBox UnitBox;
-    public IvTranslator Translator;
 
     // AoWTCUnit.pas:106
     public void TCUnitWinResize()

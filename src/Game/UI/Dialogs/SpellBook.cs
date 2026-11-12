@@ -88,7 +88,6 @@ public partial class SpellBook : DataModule
     public Button InfoBtn;
     public Button PrevBtn;
     public Button NextBtn;
-    public Button Cancel;
     public Button S2Btn;
     public Button S3Btn;
     public Button S4Btn;
@@ -102,26 +101,20 @@ public partial class SpellBook : DataModule
     public Label CastingClass;
     public Memo CastingMemo;
     public Label CastingCost;
-    public Image CastingIcn;
     public Panel LeftInfoPage;
     public Label CastingStatus;
     public Label CastingPointsLbl;
     public Button CastingBtn;
     public Button Sel4;
-    public Panel SelPnl;
     public Button Sel3;
     public Button Sel2;
     public Button Sel1;
     public Button Sel5;
     public Button Sel6;
     public Button Sel7;
-    public Label SelLbl;
     public Label SpellBookLbl;
     public Label NameLbl;
     public Label ManaPoolLbl;
-    public Label CastingLbl;
-    public Image FaceFrame;
-    public Image Face;
     public BookWindow Dlg;
     public Label NoneCastingLbl;
     public Panel ResearchPage;
@@ -129,22 +122,15 @@ public partial class SpellBook : DataModule
     public Label ResearchClass;
     public Memo ResearchMemo;
     public Label ResearchCost;
-    public Image ResearchIcn;
     public Label ResearchStatus;
     public Label ResearchNone;
     public Panel ResearchPnl;
     public Label ResearchLbl;
     public Panel RightInfoPage;
-    public Label ManaInfo;
-    public Image Sep;
     public Label ResearchPointsLbl;
     public Label ResearchManaPoolLbl;
-    public Label RManaInfo;
-    public Image Image1;
     public Label ResearchBookLbl;
     public Button CancelResearchBtn;
-    public Button CancelCastingBtn;
-    public IvTranslator Translator;
 
     public byte Mode { get; set; }
     // world casting, combat casting, research, researched

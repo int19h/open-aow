@@ -12,28 +12,11 @@ public partial class Pop3Dialog : DataModule
     { }
 
     public Window Dlg;
-    public Label TitleLbl;
-    public Frame BCeltL;
-    public Frame TCeltL;
-    public Image TCeltLineL;
-    public Image Image1;
-    public Image Image2;
-    public Label SearchingEmailGameLbl;
-    public Label EmailGameFoundLbl;
     public ListBox FoundEmailGames;
     public Panel ExitPnl;
-    public Button Exit2Btn;
     public Panel StartExitPnl;
-    public Button StartBtn;
-    public Button ExitBtn;
     public Edit LocalEmailAddressEdit;
     public Label AttachmentDirectoryLbl;
-    public Image TitleIcon;
-    public Panel EditPnl;
-    public Panel ModePnl;
-    public VerticalScrollBar EmailGamesSB;
-    public Button Close;
-    public IvTranslator Translator;
 
     public bool Searching { get; private set; }
 

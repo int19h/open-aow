@@ -16,7 +16,6 @@ public partial class UIGraphics : DataModule
     public InterfaceImageLibrary ScanTiles;
     public InterfaceImageLibrary ScanFog;
     public InterfaceImageLibrary ScanHighlights;
-    public InterfaceImageLibrary PyreAnim;
     public InterfaceImageLibrary UnitBGs;
     public InterfaceImageLibrary FCWin;
     public InterfaceImageLibrary Menus;
@@ -36,7 +35,6 @@ public partial class UIGraphics : DataModule
     public InterfaceImageLibrary TitleScreen;
     public InterfaceImageLibrary Shields;
     public InterfaceImageLibrary ProdWin;
-    public InterfaceImageLibrary FireLg;
     public InterfaceImageLibrary MiscArt;
     public InterfaceImageLibrary Units;
     public InterfaceImageLibrary SoundWin;

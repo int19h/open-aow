@@ -18,7 +18,6 @@ public partial class NewTurnDialog : DataModule
     { }
 
     public Window NewTDlg;
-    public Frame TCeltB;
     public Label ClickMsg;
     public Image LShield;
     public Label PlayerName;
@@ -26,10 +25,6 @@ public partial class NewTurnDialog : DataModule
     public Label PlayerRace;
     public Label Turn;
     public Image RShield;
-    public Frame BlueFr;
-    public Image TCeltLineL;
-    public Image TCeltLineR;
-    public Image FaceFrame;
     private ExecuteDoneEvent _done;
     private NewTurnEventLog _newTurn;
 

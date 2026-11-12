@@ -17,27 +17,14 @@ public partial class SmtpDialog : DataModule
     { }
 
     public Window Dlg;
-    public Frame BCeltL;
-    public Frame TCeltL;
-    public Image TCeltLineL;
-    public Image Image1;
-    public Image Image2;
     public Button ExitBtn;
     public Label SendingGameLbl;
     public Gauge ProgressBar;
     public Label RecipientLbl;
     public Panel SendPnl;
     public Panel FailedPnl;
-    public Memo FailedMemo;
-    public Button SettingsBtn;
-    public Button RetryBtn;
-    public Button ExitBtn2;
-    public Label TitleLbl;
-    public Button Close;
-    public Image TitleIcon;
     public MailMessage IMSMessage;
     public SmtpSender IMSSMTP;
-    public IvTranslator Translator;
     private IMSSendThread _thread;
 
     public ExecuteDoneEvent Done { get; private set; }

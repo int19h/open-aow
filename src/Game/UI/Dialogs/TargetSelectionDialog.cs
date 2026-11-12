@@ -12,21 +12,11 @@ public partial class TargetSelectionDialog : DataModule
     { }
 
     public Window Dlg;
-    public Frame CeltFrame;
-    public Button Close;
-    public Label Title;
-    public Image SIcon;
     public Button MainBtn;
     public Memo DefaultMemo;
-    public Panel DefaultPnl;
     public Label HeaderLbl;
-    public Panel HeaderPnl;
     public ArnoLine BorderImage;
-    public Panel SpellPnl;
-    public Memo SpellMemo;
-    public Label TargetRangeLabel;
     public Label TargetLbl;
-    public IvTranslator Translator;
 
     // AoWTargetSelection.pas:45
     public void CloseClick()

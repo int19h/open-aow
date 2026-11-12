@@ -18,56 +18,24 @@ public partial class SoundDialog : DataModule
     { }
 
     public Window Dlg;
-    public Button CloseBut;
-    public Image TCeltLL;
-    public Frame BCeltL;
-    public Label Title;
     public ListBox SongLB;
-    public Label SongLbl;
-    public Button Close;
     public Panel PlayListPnl;
-    public TabPanel SoundTab;
     public ListBox PlayLB;
     public Button AddBtn;
     public Button RemoveBtn;
     public Button PlayBtn;
-    public Label PlayLbl;
     public Label CurrentSongLbl;
-    public Image TCeltLR;
-    public Label MusicVolLbl;
-    public Label SFXVolLbl;
     public Panel MainPnl;
-    public Label SoundLbl;
-    public Panel SettingsPnl;
-    public Label SFXLbl;
-    public Panel SQPnl;
     public CheckBox SQCB1;
-    public Label SQLBL1;
     public CheckBox SQCB2;
-    public Label SQLBL2;
     public CheckBox SQCB3;
-    public Label SQLBL3;
     public CheckBox SQCB4;
-    public Label SQLBL4;
-    public Panel SFXPnl;
     public CheckBox MusicEnabledChk;
-    public Label SFXLBL2;
     public CheckBox SFXEnabledChk;
-    public Label SFXLBL3;
-    public Frame TopLine;
-    public Image Image4;
-    public Image HarpL;
-    public Image HarpR;
     public HorizontalScrollBar MusicVolume;
     public HorizontalScrollBar SFXVolume;
-    public Image TitleIcon;
     public VerticalScrollBar SongSB;
-    public VerticalScrollBar PlaySB;
     public CheckBox DirectSoundEnabledChk;
-    public Label UseDirectSoundLbl;
-    public Panel FolderPnl;
-    public Panel PlayPnl;
-    public IvTranslator Translator;
 
     public int SoundQuality { get; set; }
 

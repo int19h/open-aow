@@ -19,21 +19,7 @@ public partial class CastUnitSpellDialog : DataModule
     public CastUnitSpellDialog(Component owner) : base(owner)
     { }
 
-    public Gauge Unit1Gge;
-    public Gauge Unit2Gge;
-    public Gauge Unit3Gge;
-    public Gauge Unit4Gge;
-    public Gauge Unit5Gg;
-    public Gauge Unit6Gg;
-    public Gauge Unit7Gg;
-    public Gauge Unit8Gg;
-    public Button CastBut;
-    public Image TitleIcon;
-    public Button Close;
-    public Label Title;
-    public Button CancelBut;
     public Window Dlg;
-    public Label SelectLbl;
     public Panel UnitPnl;
     public Panel TopPnl;
     public Label SpellUpkeepLbl;
@@ -50,14 +36,9 @@ public partial class CastUnitSpellDialog : DataModule
     public CheckBox U6;
     public CheckBox U7;
     public CheckBox U8;
-    public Image DecoL;
-    public Image DecoR;
     public Image SpellFr;
     public Image FaceFrame;
-    public Frame Frame1;
-    public Panel SelectionInfoPnl;
     public Label SelectionInfoLbl;
-    public IvTranslator Translator;
 
     public UnitSpellCaster Caster { get; set; }
 

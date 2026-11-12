@@ -13,17 +13,12 @@ public partial class ScannerWindow : DataModule
     { }
 
     public Window MainWindow;
-    public Frame ScannerFrame;
     public TabPanel ScannerTab;
     public CheckBox BuildingCheck;
     public CheckBox ArmyCheck;
     public CheckBox NaturalCheck;
     public Scanner Scanner;
-    public Image STitleIcon;
     public Label STitleLabel;
-    public Button SMinIcon;
-    public Button Help;
-    public IvTranslator Translator;
 
     // AoWSWindow.pas:51
     public void ScannerTabChange()

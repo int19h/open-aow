@@ -21,29 +21,13 @@ public partial class PartyJoinDialog : DataModule
     { }
 
     public Panel UnitPnl;
-    public Frame U1;
-    public Frame U2;
-    public Frame U4;
-    public Frame U5;
-    public Frame U3;
-    public Frame U6;
-    public Frame U7;
-    public Frame U8;
     public Button MiddleBtn;
-    public Image TitleIcon;
     public Label Title;
-    public Frame BCeltL;
     public Button RightBtn;
     public Button LeftBtn;
     public Window Dlg;
-    public Frame UnitLine1;
-    public Frame UnitLine2;
     public Memo JoinMemo;
-    public Label Header;
     public Image FaceFrame;
-    public Label DetailsLbl;
-    public Button Close;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _done;
     private JoinEventLog _joinEvent;
     private bool _detailsOpen;

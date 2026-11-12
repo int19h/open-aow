@@ -17,23 +17,8 @@ public partial class VideoDialog : DataModule
     { }
 
     public Window Dlg;
-    public Button CloseBut;
-    public Frame BCeltL;
-    public Label Title;
-    public Button Close;
-    public Image TCeltLR;
-    public Frame TopLine;
-    public Label VideoLbl;
-    public Image TCeltPattern;
-    public Image TitleIcon;
-    public Image TCeltLL;
     public ListBox DisplayModesLB;
     public CheckBox ResCB;
-    public Label ResSwLbl;
-    public Button ApplyBtn;
-    public Panel T3LBPnl;
-    public VerticalScrollBar VideoSB;
-    public IvTranslator Translator;
     private DisplayModeList _displayModes;
     private ScreenMode _fullScreen;
 

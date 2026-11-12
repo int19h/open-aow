@@ -15,22 +15,9 @@ public partial class CampaignSettingsDialog : DataModule
     public CampaignSettingsDialog(Component owner) : base(owner)
     { }
 
-    public IvTranslator Translator;
     public Window Dlg;
-    public Button OKBtn;
-    public Frame BCeltL;
-    public Label Title;
-    public Button Close;
-    public Image TitleIcon;
-    public Label DifficultyLevelLbl;
     public ComboBox DifficultyLevelCB;
-    public VerticalScrollBar CombatResolveModeSB;
-    public Label TurnModeLbl;
     public ComboBox TurnModeCB;
-    public VerticalScrollBar VScrollBar1;
-    public Frame Frame1;
-    public Button CancelBtn;
-    public Image TCeltLineL;
 
     // AoWCampaignSettings.pas:45
     public void DlgShow()

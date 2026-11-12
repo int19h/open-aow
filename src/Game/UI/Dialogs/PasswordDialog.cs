@@ -14,15 +14,8 @@ public partial class PasswordDialog : DataModule
 
     public Window Dlg;
     public Label TitleLbl;
-    public Frame BCeltL;
-    public Frame TCeltL;
-    public Image TCeltLineL;
-    public Panel OKCancelPnl;
-    public Button OKBtn;
-    public Button CancelBtn;
     public Label PasswordLbl;
     public Edit PasswordEdit;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _done;
     private PasswordEventLog _passwordEvent;
 

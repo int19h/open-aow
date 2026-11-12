@@ -16,26 +16,10 @@ public partial class ConstructDialog : DataModule
     public ConstructDialog(Component owner) : base(owner)
     { }
 
-    public Image TitleIcon;
-    public Button Close;
-    public Label Title;
-    public Frame BCeltL;
-    public Button CancelBtn;
-    public Button ConstructBtn;
     public Window Dlg;
-    public Panel ConstructPnl;
     public ListBox ConstructionList;
-    public Button SortConstructionsBtn;
-    public Button SortConstructionCostBtn;
     public ListBox ConstructionCostList;
     public ListBox ConstructionTurnsList;
-    public Button SortConstructionTurnsBtn;
-    public Label Label1;
-    public VerticalScrollBar ConSB;
-    public Image CeltM;
-    public Button Button2;
-    public VerticalScrollBar T4VSB;
-    public IvTranslator Translator;
     private AbilityActivation _request;
 
     // AoWConstructDlg.pas:117

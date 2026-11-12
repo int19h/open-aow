@@ -18,17 +18,8 @@ public partial class EmailGameSettingsDialog : DataModule
     public EmailGameSettingsDialog(Component owner) : base(owner)
     { }
 
-    public Button OKBtn;
-    public Image TitleIcon;
-    public Label Title;
-    public Button CancelBut;
     public Window Dlg;
-    public Label LocalEmailAdressLbl;
-    public Image DecoL;
-    public Image DecoR;
-    public Frame Frame1;
     public Edit LocalEmailAddressEdit;
-    public Label PlayerEMailAddressesLbl;
     public Edit EmailAddressEdit1;
     public Panel PlayerPnl;
     public Label PlayerLbl1;
@@ -39,24 +30,11 @@ public partial class EmailGameSettingsDialog : DataModule
     public Edit EmailAddressEdit3;
     public Label PlayerLbl4;
     public Edit EmailAddressEdit4;
-    public Label EmailGameNameLbl;
     public Edit EmailGameNameEdit;
-    public Button SettingsBtn;
-    public Panel Player1Pnl;
-    public Panel PowePnl;
-    public Panel Player2Pnl;
-    public Panel Player3Pnl;
-    public Panel Player4Pnl;
     public Label PlayerLbl5;
     public Edit EmailAddressEdit5;
     public Label PlayerLbl6;
     public Edit EmailAddressEdit6;
-    public Panel Player5Pnl;
-    public Panel Player6Pnl;
-    public Panel NamePnl;
-    public Panel LocalPnl;
-    public Button CloseBtn;
-    public IvTranslator Translator;
 
     public StringList EmailAddresses { get; private set; }
 

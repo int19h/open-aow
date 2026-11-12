@@ -25,7 +25,6 @@ public partial class PyreScreen : DataModule
     { }
 
     public Panel DeadPnl;
-    public Image PyreTop;
     public Image LeaderFaceFr;
     public UserDrawBox PyreAnimation;
     private object _animation;

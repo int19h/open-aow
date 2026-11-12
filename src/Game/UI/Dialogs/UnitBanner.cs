@@ -15,12 +15,7 @@ public partial class UnitBanner : DataModule
     { }
 
     public Label UnitNameLbl;
-    public Image AttackIcon;
-    public Image DefenseIcon;
     public Image MovesIcon;
-    public Image DamageIcon;
-    public Image ResistanceIcon;
-    public Image HitsIcon;
     public Label Attack;
     public Label Defense;
     public Label Moves;
@@ -29,7 +24,6 @@ public partial class UnitBanner : DataModule
     public Label Hits;
     public Menu BannerPopup;
     public ListBox AbLB;
-    public VerticalScrollBar AbVSB;
 
     // AoWUnitBanner.pas:53
     public void BannerPopupShow()
